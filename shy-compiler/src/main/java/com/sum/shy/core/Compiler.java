@@ -1,4 +1,4 @@
-package com.sum.shy.compiler;
+package com.sum.shy.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,22 +48,22 @@ public class Compiler {
 	private static SClass readLines(List<String> lines) {
 		SClass clazz = new SClass();
 		// 快速读取文件的整体内容
-		readScopeLines(clazz, null, "static", lines);
+		readScopeLines("static", clazz, null, lines);
 		// 开始解析class结构
-		readScopeLines(clazz, null, "class", clazz.classLines);
+		readScopeLines("class", clazz, null, clazz.classLines);
 		// 静态方法
 		for (SMethod method : clazz.staticMethods) {
-			readScopeLines(clazz, method, "method", method.methodLines);
+			readScopeLines("method", clazz, method, method.methodLines);
 		}
 		// 成员方法
 		for (SMethod method : clazz.methods) {
-			readScopeLines(clazz, method, "method", method.methodLines);
+			readScopeLines("method", clazz, method, method.methodLines);
 		}
 		return clazz;
 
 	}
 
-	private static void readScopeLines(SClass clazz, SMethod method, String scope, List<String> lines) {
+	private static void readScopeLines(String scope, SClass clazz, SMethod method, List<String> lines) {
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中
 			String line = lines.get(i);
@@ -71,15 +71,19 @@ public class Compiler {
 			if (line.startsWith("//")) {
 				continue;
 			}
-			String newline = line.trim().replaceAll("=", " ");
-			String keyword = line.substring(0, newline.indexOf(" "));
+			// 根据一行字符串,生成对应的语句
+			Sentence sentence = new Sentence(line);
+			// 获取关键词
+			String keyword = sentence.getKeyword();
+			// 获取指令
 			Command command = Command.get(keyword);
-			if (command == null) {
-				command = Command.get("var");
+			if (command != null) {
+				// handle返回跳跃数
+				i = i + command.handle(scope, clazz, method, lines, i, sentence);
 			}
-			// handle返回跳跃数
-			i = i + command.handle(clazz, method, scope, lines, i, line);
+
 		}
+
 	}
 
 	private static void convertClass(SClass clazz) {

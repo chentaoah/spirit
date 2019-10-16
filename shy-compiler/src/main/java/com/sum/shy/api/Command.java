@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SMethod;
 
@@ -19,6 +20,6 @@ public interface Command {
 		commands.put(keyword, command);
 	}
 
-	int handle(SClass clazz, SMethod method, String scope, List<String> lines, int index, String line);
+	int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence);
 
 }
