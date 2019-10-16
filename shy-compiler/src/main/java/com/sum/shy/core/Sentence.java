@@ -69,6 +69,10 @@ public class Sentence {
 	}
 
 	private void splitString(String line) {
+		// 数字
+		String regex = "[a-zA-Z0-9]{1,128}[ ]{0,10}=[0-9]{1,128}";
+
+		// 布尔
 
 		List<Unit> list = new ArrayList<>();
 		// 使用贪婪的模式
