@@ -149,7 +149,7 @@ public class Sentence {
 
 	private void splitString(String line) {
 		for (String str : line.split(" ")) {
-			units.add(new Unit(str));
+			units.add(new Unit(line, str));
 		}
 	}
 

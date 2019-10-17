@@ -12,7 +12,7 @@ public class Unit {
 
 	public int priority;// 优先级
 
-	public Unit(String str) {
+	public Unit(String line, String str) {
 		this.str = str;
 	}
 
