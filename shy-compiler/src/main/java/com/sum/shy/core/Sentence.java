@@ -4,31 +4,47 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Sentence {
 
 	// 操作符
-	public static final String[] OPERATOR = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
-			"%", "<", ">" };
-	// 分隔符
-	public static final String[] SEPARATOR = new String[] { " ", ",", ":" };
+	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
+			"%", "<", ">", "{", "}" };
 
-	// 括号
-	public static final String[] BRACKETS = new String[] { "{", "}", "[", "]", "(", ")" };
+	// 数组正则
+	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[a-zA-Z0-9\",]+\\]$");
 
+	// 键值对正则
+	public static final Pattern MAP_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\{[a-zA-Z0-9\",:]+\\}$");
+
+	// 一行
 	public String line;
+
 	// 替换的字符串
-	public Map<String, String> replacedStrs;
+	public Map<String, String> replacedStrs = new HashMap<>();
+
 	// 拆分的语义单元
-	public List<Unit> units;
+	public List<Unit> units = new ArrayList<>();
 
 	public Sentence(String line) {
 		this.line = line;
-		// 1.排除字符串的影响
+		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		line = replaceString(line);
-		// 2.将多余的空格去掉
+		System.out.println(line);
+		line = replaceInvoke(line);
+		System.out.println(line);
+		line = replaceArray(line);
+		System.out.println(line);
+		line = replaceMap(line);
+		System.out.println(line);
+		// 2.处理操作符,添加空格,方便后面的拆分
+		line = processSymbols(line);
+		System.out.println(line);
+		// 3.将多余的空格去掉
 		line = removeSpace(line);
-		// 3.根据操作符,进行拆分
+		System.out.println(line);
+		// 4.根据操作符,进行拆分
 		splitString(line);
 
 	}
@@ -47,15 +63,78 @@ public class Sentence {
 				}
 			}
 		}
-		Map<String, String> map = new HashMap<>();
-		for (int i = 0, count = 0; i < list.size(); i++) {
+
+		// 这里必须逆序遍历
+		for (int i = list.size() - 1, count = list.size() - 1; i >= 0; i--) {
 			Pair pair = list.get(i);
 			// 截取字符串
 			String str = line.substring(pair.start, pair.end + 1);
-			map.put("$str" + count, str);
-			line = line.replace(str, "$str" + count++);
+			line = line.replace(str, "$str" + count);
+			replacedStrs.put("$str" + count--, str);
 		}
-		replacedStrs = map;
+
+		return line;
+	}
+
+	// 替换方法调用
+	private String replaceInvoke(String line) {
+
+		for (int i = 0, num = 0; i < line.length(); i++) {
+			if (line.charAt(i) == '(') {
+				int start = -1;
+				for (int j = i - 1; j >= 0; j--) {
+					if (!Character.isLetter(line.charAt(j))) {
+						start = j + 1;
+					}
+				}
+				int end = -1;
+				for (int j = i + 1, count = 1; j < line.length(); j++) {
+					if (line.charAt(j) == '(') {
+						count++;
+					} else if (line.charAt(j) == ')') {
+						count--;
+					}
+					if (count == 0) {
+						end = j;
+						break;
+					}
+				}
+				String str = line.substring(start, end + 1);
+				String str1 = "$invoke" + num++;
+				line = line.replace(str, str1);
+				replacedStrs.put(str1, str);
+				// 替换会影响索引,所以重新计算
+				i = end - (str.length() - str1.length());
+
+			}
+
+		}
+
+		return line;
+	}
+
+	private String replaceArray(String line) {
+		if (ARRAY_PATTERN.matcher(line).matches()) {
+			String str = line.substring(line.indexOf("["), line.indexOf("]") + 1);
+			line = line.replace(str, "$array0");
+			replacedStrs.put("$array0", str);
+		}
+		return line;
+	}
+
+	private String replaceMap(String line) {
+		if (MAP_PATTERN.matcher(line).matches()) {
+			String str = line.substring(line.indexOf("{"), line.indexOf("}") + 1);
+			line = line.replace(str, "$map0");
+			replacedStrs.put("$map0", str);
+		}
+		return line;
+	}
+
+	private String processSymbols(String line) {
+		for (String str : SYMBOLS) {
+			line = line.replaceAll(str, " " + str + " ");
+		}
 		return line;
 	}
 
@@ -69,100 +148,9 @@ public class Sentence {
 	}
 
 	private void splitString(String line) {
-		// 数字
-		String regex = "[a-zA-Z0-9]{1,128}[ ]{0,10}=[0-9]{1,128}";
-
-		// 布尔
-
-		List<Unit> list = new ArrayList<>();
-		// 使用贪婪的模式
-		int last = 0;
-		for (int i = 0; i < line.length(); i++) {
-			char c = line.charAt(i);
-			// 如果是字符则继续遍历下去
-			if (Character.isLetter(c)) {
-				continue;
-			} else {
-				// 将之前的字符串截取出来
-				// 如果是空格
-				if (c == ' ') {
-					String str = line.substring(last, i - 1);
-					list.add(new Unit(str));
-					last = i + 1;
-				} else if (c == '=') {
-					String str = line.substring(last, i - 1);
-					list.add(new Unit(str));
-					list.add(new Unit("=", "assignment"));
-					last = i + 1;
-				}
-
-			}
-
+		for (String str : line.split(" ")) {
+			units.add(new Unit(str));
 		}
-
-		// 1.先根据符号拆分
-//		List<Unit> list = new ArrayList<>();
-//		int last = 0;
-//		for (int i = 0; i < line.length(); i++) {
-//			char c = line.charAt(i);
-//			// 如果不是字母和数字
-//			if (!Character.isLetter(c) && !Character.isDigit(c)) {
-//				// 符号之间的空格,这样的空格是多余的
-//				if (c == ' ') {
-//					char left = line.charAt(i - 1);
-//					char right = line.charAt(i + 1);
-//					if (Character.isLetter(left) && Character.isLetter(right)) {
-//
-//					}
-//				}
-//				if (c == '(') {
-//					int start = -1;
-//					for (int j = i - 1; j >= 0; j--) {
-//						if (!Character.isLetter(line.charAt(j))) {
-//							start = j + 1;
-//						}
-//					}
-//					int end = -1;
-//					for (int j = i + 1, count = 1; j < line.length(); j++) {
-//						if (line.charAt(j) == '(') {
-//							count++;
-//						} else if (line.charAt(j) == ')') {
-//							count--;
-//						}
-//						if (count == 0) {
-//							end = j;
-//							break;
-//						}
-//					}
-//					list.add(new Unit(line.substring(start, end + 1), "invoke"));
-//					last
-//
-//				}
-//				// 这些开头的,可能是二目符号
-//				boolean flag = (c == '<' || c == '>' || c == '=' || c == '!' || c == '&' || c == '|')
-//						&& (i != line.length() - 1);
-//				// 普通符号,先比对二目符号
-//				for (int j = 0; j < OPERATOR.length; j++) {
-//					String symbol = OPERATOR[j];
-//					if (flag && symbol.length() == 2) {
-//						if (c == symbol.charAt(0) && line.charAt(i + 1) == symbol.charAt(1)) {
-//							list.add(new Unit(line.substring(last, i).trim()));
-//							list.add(new Unit(symbol));
-//							last = i + 2;
-//							break;
-//						}
-//					} else if (symbol.length() == 1) {
-//						if (c == symbol.charAt(0)) {
-//							list.add(new Unit(line.substring(last, i).trim()));
-//							list.add(new Unit(symbol));
-//							last = i + 1;
-//							break;
-//						}
-//					}
-//				}
-//			}
-//		}
-
 	}
 
 	// 获取单元的字符串
@@ -203,14 +191,6 @@ public class Sentence {
 
 	// 获取自动变量的类型
 	public String getVarType() {
-		// 如果第二个语义是"=",那么可以认为是赋值语句
-		String str = getUnitStr(1);
-		if (!"=".equals(str)) {
-			return null;
-		}
-		for (Unit unit : units) {
-
-		}
 
 		return null;
 	}

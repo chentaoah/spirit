@@ -14,11 +14,6 @@ public class Unit {
 
 	public Unit(String str) {
 		this.str = str;
-
-	}
-
-	public Unit(String str, String type) {
-		// TODO Auto-generated constructor stub
 	}
 
 }
