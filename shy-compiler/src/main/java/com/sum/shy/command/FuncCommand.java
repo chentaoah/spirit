@@ -14,7 +14,7 @@ import com.sum.shy.utils.LineUtils;
 public class FuncCommand extends AbstractCommand {
 
 	@Override
-	public int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, SClass clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 			return createMethod(clazz.staticMethods, lines, index, sentence);
@@ -43,7 +43,7 @@ public class FuncCommand extends AbstractCommand {
 		// 创建方法
 		SMethod method = new SMethod("var", name, params);
 
-		method.methodLines.addAll(LineUtils.getSubLines(lines, index));
+		method.methodLines = LineUtils.getSubLines(lines, index);
 
 		return method.methodLines.size() + 1;
 

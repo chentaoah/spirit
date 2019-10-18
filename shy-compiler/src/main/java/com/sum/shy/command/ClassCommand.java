@@ -5,13 +5,12 @@ import java.util.List;
 
 import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
-import com.sum.shy.entity.SMethod;
 import com.sum.shy.utils.LineUtils;
 
 public class ClassCommand extends AbstractCommand {
 
 	@Override
-	public int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, SClass clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 
@@ -27,7 +26,7 @@ public class ClassCommand extends AbstractCommand {
 			}
 
 			// 通过工具类来获取下面的所有行
-			clazz.classLines.addAll(LineUtils.getSubLines(lines, index));
+			clazz.classLines = LineUtils.getSubLines(lines, index);
 
 		}
 		return clazz.classLines.size() + 1;

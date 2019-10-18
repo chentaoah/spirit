@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SField;
-import com.sum.shy.entity.SMethod;
 
 public class FieldCommand extends AbstractCommand {
 
@@ -20,7 +19,7 @@ public class FieldCommand extends AbstractCommand {
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
 
 	@Override
-	public int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, SClass clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 			createField(clazz.staticFields, sentence);

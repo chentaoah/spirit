@@ -14,8 +14,7 @@ public class Sentence {
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
 			"%", "<", ">", "{", "}" };
 	// 关键字
-	public static final String[] KEYWORD = new String[] { "package", "import", "class", "ref", "func", "if", "for",
-			"return" };
+	public static final String[] KEYWORD = new String[] { "package", "import", "class", "func" };
 	// 数组正则
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[a-zA-Z0-9\",]+\\]$");
 	// 键值对正则
@@ -169,7 +168,7 @@ public class Sentence {
 		return index > units.size() - 1 ? null : replacedStrs.get(units.get(index));
 	}
 
-	public String getKeyword() {
+	public String getKeyword(String scope) {
 		// 判断首个单词是否关键字
 		String str = getUnit(0);
 		for (String keyword : KEYWORD) {
@@ -180,7 +179,7 @@ public class Sentence {
 		// 如果第二个语义是"=",那么可以认为是赋值语句
 		str = getUnit(1);
 		if ("=".equals(str)) {
-			return "var";
+			return "method".equals(scope) ? "var" : "field";
 		}
 		// 如果只有右值的话,则只能返回调用
 		return "invoke";
