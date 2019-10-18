@@ -9,13 +9,19 @@ public class JavaConverter {
 
 	public void convert(SClass clazz) {
 
+		System.out.println("");
+		System.out.println("========================java========================");
+
 		StringBuilder sb = new StringBuilder();
 		// package
 		sb.append("package " + clazz.packageStr + ";\n");
+
+		sb.append("\n");
 		// import
 		for (String importStr : clazz.importStrs) {
 			sb.append("import " + importStr + ";\n");
 		}
+		sb.append("\n");
 		// class
 		sb.append("public class " + clazz.className + " ");
 		if (clazz.superClass != null) {
@@ -23,41 +29,51 @@ public class JavaConverter {
 		}
 		if (clazz.interfaces.size() > 0) {
 			sb.append("implements ");
+			for (String inf : clazz.interfaces) {
+				sb.append(inf + ",");
+			}
+			sb.deleteCharAt(sb.lastIndexOf(","));
 		}
-		for (String inf : clazz.interfaces) {
-			sb.append(inf + ",");
-		}
-		sb.deleteCharAt(sb.lastIndexOf(","));
-		sb.append(" {\n");
+
+		sb.append("{\n");
 		for (SField field : clazz.staticFields) {
-			sb.append("public static" + field.type + " " + field.name + "=" + field.value + ";\n");
+			sb.append("\tpublic static " + field.type + " " + field.name + " = " + field.value + ";\n");
 		}
 		for (SField field : clazz.fields) {
-			sb.append("public " + field.type + " " + field.name + "=" + field.value + ";\n");
+			sb.append("\tpublic " + field.type + " " + field.name + " = " + field.value + ";\n");
 		}
+
+		sb.append("\n");
+
 		for (SMethod method : clazz.staticMethods) {
-			sb.append("public static" + method.returnType + " " + method.name + "(");
+			sb.append("\tpublic static " + method.returnType + " " + method.name + "(");
 			for (SParam param : method.params) {
 				sb.append(param.type + " " + param.name + ",");
 			}
-			sb.deleteCharAt(sb.lastIndexOf(","));
+			if (method.params.size() > 0) {
+				sb.deleteCharAt(sb.lastIndexOf(","));
+			}
 			sb.append("){\n");
 
 			convertMethod(sb, method);
 
-			sb.append("}");
+			sb.append("\t}\n");
+			sb.append("\n");
 		}
 		for (SMethod method : clazz.methods) {
-			sb.append("public " + method.returnType + " " + method.name + "(");
+			sb.append("\tpublic " + method.returnType + " " + method.name + "(");
 			for (SParam param : method.params) {
 				sb.append(param.type + " " + param.name + ",");
 			}
-			sb.deleteCharAt(sb.lastIndexOf(","));
+			if (method.params.size() > 0) {
+				sb.deleteCharAt(sb.lastIndexOf(","));
+			}
 			sb.append("){\n");
 
 			convertMethod(sb, method);
 
-			sb.append("}");
+			sb.append("\t}\n");
+			sb.append("\n");
 		}
 
 		sb.append("}");
@@ -68,7 +84,7 @@ public class JavaConverter {
 
 	private void convertMethod(StringBuilder sb, SMethod method) {
 		for (String line : method.methodLines) {
-			sb.append(line);
+			sb.append("\t\t" + line.trim() + "\n");
 		}
 	}
 

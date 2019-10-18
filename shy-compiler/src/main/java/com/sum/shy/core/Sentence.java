@@ -11,8 +11,8 @@ import com.sum.shy.utils.LineUtils;
 public class Sentence {
 
 	// 操作符
-	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
-			"%", "<", ">", "{", "}" };
+	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
+			"\\*", "/", "%", "<", ">", "\\{", "\\}" };
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "class", "func" };
 	// 数组正则
@@ -60,6 +60,8 @@ public class Sentence {
 
 		// 4.根据操作符,进行拆分
 		splitString(line);
+		System.out.println(units);
+		System.out.println(replacedStrs);
 
 	}
 
@@ -73,7 +75,7 @@ public class Sentence {
 				if (count % 2 != 0) {
 					list.add(new Pair(i));
 				} else {
-					list.get(count / 2).end = i;
+					list.get(count / 2 - 1).end = i;
 				}
 			}
 		}

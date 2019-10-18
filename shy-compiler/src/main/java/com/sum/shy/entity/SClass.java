@@ -8,13 +8,13 @@ public class SClass {
 	// 包名
 	public String packageStr;
 	// 引入
-	public List<String> importStrs;
+	public List<String> importStrs = new ArrayList<>();
 	// 类名
 	public String className;
 	// 父类
 	public String superClass;
 	// 接口
-	public List<String> interfaces;
+	public List<String> interfaces = new ArrayList<>();
 	// 静态字段
 	public List<SField> staticFields = new ArrayList<>();
 	// 静态方法

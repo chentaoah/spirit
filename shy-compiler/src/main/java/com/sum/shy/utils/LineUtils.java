@@ -24,7 +24,7 @@ public class LineUtils {
 			}
 			list.add(line);
 		}
-		return lines;
+		return list;
 	}
 
 	// 去掉多余的空格
@@ -32,7 +32,7 @@ public class LineUtils {
 		// 去掉首尾
 		line = line.trim();
 		while (line.contains("  ")) {
-			line.replaceAll("  ", "");
+			line = line.replaceAll("  ", " ");
 		}
 		return line;
 	}

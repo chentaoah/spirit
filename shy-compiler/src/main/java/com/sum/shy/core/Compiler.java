@@ -28,18 +28,25 @@ public class Compiler {
 	// 主方法
 	public static void main(String[] args) throws IOException {
 		// 1.读取文件
-		String path = "xxxx";
+		String path = "C:\\Users\\chentao26275\\Desktop\\User.shy";
 		File dir = new File(path);
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
 			for (File file : files) {
-				List<String> lines = Files.readLines(file, Charsets.UTF_8);
-				// 2.读取数据结构
-				SClass clazz = readLines(lines);
-				// 3.转换成对应代码
-				convertClass(clazz);
+				readFile(file);
 			}
+		} else if (dir.isFile()) {
+			readFile(dir);
 		}
+	}
+
+	private static void readFile(File file) throws IOException {
+		// 1.获取行
+		List<String> lines = Files.readLines(file, Charsets.UTF_8);
+		// 2.读取数据结构
+		SClass clazz = readLines(lines);
+		// 3.转换成对应代码
+		convertClass(clazz);
 	}
 
 	private static SClass readLines(List<String> lines) {
@@ -54,11 +61,15 @@ public class Compiler {
 	}
 
 	private static void readScopeLines(String scope, SClass clazz, List<String> lines) {
+		// 打印一下
+		for (String line : lines) {
+			System.out.println(line);
+		}
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中
 			String line = lines.get(i);
 			// 跳过注释
-			if (line.startsWith("//")) {
+			if (line.trim().startsWith("//") || line.length() == 0) {
 				continue;
 			}
 			// 根据一行字符串,生成对应的语句

@@ -42,6 +42,7 @@ public class FuncCommand extends AbstractCommand {
 		}
 		// 创建方法
 		SMethod method = new SMethod("var", name, params);
+		methods.add(method);
 
 		method.methodLines = LineUtils.getSubLines(lines, index);
 
