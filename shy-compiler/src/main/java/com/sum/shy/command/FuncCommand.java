@@ -8,7 +8,7 @@ import com.google.common.base.Splitter;
 import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SMethod;
-import com.sum.shy.entity.SVar;
+import com.sum.shy.entity.SParam;
 import com.sum.shy.utils.LineUtils;
 
 public class FuncCommand extends AbstractCommand {
@@ -32,12 +32,12 @@ public class FuncCommand extends AbstractCommand {
 		// 方法名
 		String name = list.get(0);
 		// 开始遍历参数
-		List<SVar> params = new ArrayList<>();
+		List<SParam> params = new ArrayList<>();
 		for (int i = 1; i < list.size(); i++) {
 			// 可能是user.say()无参数方法
 			if (list.get(i).length() > 0) {
 				String[] strs = list.get(i).split(" ");
-				params.add(new SVar(strs[0], strs[1], "var"));
+				params.add(new SParam(strs[0], strs[1], "var"));
 			}
 		}
 		// 创建方法

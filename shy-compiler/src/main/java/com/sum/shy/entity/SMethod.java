@@ -9,12 +9,12 @@ public class SMethod {
 	// 参数名
 	public String name;
 	// 初始值
-	public List<SVar> params;
+	public List<SParam> params;
 
 	// method域
 	public List<String> methodLines = new ArrayList<>();
 
-	public SMethod(String returnType, String name, List<SVar> params) {
+	public SMethod(String returnType, String name, List<SParam> params) {
 		this.returnType = returnType;
 		this.name = name;
 		this.params = params;

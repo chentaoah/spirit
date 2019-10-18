@@ -7,7 +7,6 @@ import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SField;
 import com.sum.shy.entity.SMethod;
-import com.sum.shy.entity.SVar;
 
 public class VarCommand extends AbstractCommand {
 
@@ -27,8 +26,6 @@ public class VarCommand extends AbstractCommand {
 			createField(clazz.staticFields, sentence);
 		} else if ("class".equals(scope)) {
 			createField(clazz.fields, sentence);
-		} else if ("method".equals(scope)) {
-			createVar(method.params, sentence);
 		}
 		return 0;
 	}
@@ -42,17 +39,6 @@ public class VarCommand extends AbstractCommand {
 		// 这里的value就是sentence的引用,因为求value可能非常复杂
 		// 所以这里只是保存一下语句,以后进行处理
 		fields.add(new SField(type, name, sentence));
-
-	}
-
-	private void createVar(List<SVar> params, Sentence sentence) {
-
-		// 变量名
-		String name = sentence.getUnit(0);
-		// 类型
-		String type = getType(sentence.getUnit(2));
-
-		params.add(new SVar(type, name, sentence));
 
 	}
 
