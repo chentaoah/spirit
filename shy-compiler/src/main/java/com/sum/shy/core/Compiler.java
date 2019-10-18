@@ -10,7 +10,7 @@ import com.sum.shy.api.Command;
 import com.sum.shy.command.ClassCommand;
 import com.sum.shy.command.FuncCommand;
 import com.sum.shy.command.ImportCommand;
-import com.sum.shy.command.VarCommand;
+import com.sum.shy.command.FieldCommand;
 import com.sum.shy.command.PackageCommand;
 import com.sum.shy.command.RefCommand;
 import com.sum.shy.entity.SClass;
@@ -22,7 +22,7 @@ public class Compiler {
 		Command.register("package", new PackageCommand());
 		Command.register("import", new ImportCommand());
 		Command.register("class", new ClassCommand());
-		Command.register("var", new VarCommand());
+		Command.register("var", new FieldCommand());
 		Command.register("func", new FuncCommand());
 		Command.register("ref", new RefCommand());
 

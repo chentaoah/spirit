@@ -8,7 +8,7 @@ import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SField;
 import com.sum.shy.entity.SMethod;
 
-public class VarCommand extends AbstractCommand {
+public class FieldCommand extends AbstractCommand {
 
 	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
