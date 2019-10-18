@@ -3,52 +3,48 @@ package com.sum.shy.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SMethod;
 import com.sum.shy.entity.SVar;
+import com.sum.shy.utils.LineUtils;
 
 public class FuncCommand extends AbstractCommand {
+
 	@Override
-	public int handle(SClass clazz, SMethod method, String scope, List<String> lines, int index, String line) {
+	public int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
-			return createMethod(clazz.staticMethods, lines, index, line);
+			return createMethod(clazz.staticMethods, lines, index, sentence);
 		} else if ("class".equals(scope)) {
-			return createMethod(clazz.methods, lines, index, line);
+			return createMethod(clazz.methods, lines, index, sentence);
 		}
 		return 0;
 	}
 
-	private int createMethod(List<SMethod> methods, List<String> lines, int index, String line) {
-		// 剔除关键字
-		String str = line.replace("func ", "").replace("{", "");
-		// 名称
-		String name = str.substring(0, str.indexOf("("));
-		// 参数
-		List<String> paramStrs = Splitter.on(",").trimResults()
-				.splitToList(str.substring(str.indexOf("(") + 1, str.indexOf(")")));
-		List<SVar> vars = new ArrayList<>();
-		for (String paramStr : paramStrs) {
-			List<String> list = Splitter.on(" ").trimResults().splitToList(paramStr);
-			vars.add(new SVar(list.get(0), list.get(1), ""));
+	private int createMethod(List<SMethod> methods, List<String> lines, int index, Sentence sentence) {
+
+		String str = sentence.getUnitStr(1);
+		// 这里一定要trim一下
+		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(str);
+		// 方法名
+		String name = list.get(0);
+		// 开始遍历参数
+		List<SVar> params = new ArrayList<>();
+		for (int i = 1; i < list.size(); i++) {
+			// 可能是user.say()无参数方法
+			if (list.get(i).length() > 0) {
+				String[] strs = list.get(i).split(" ");
+				params.add(new SVar(strs[0], strs[1], "var"));
+			}
 		}
 		// 创建方法
-		SMethod method = new SMethod("", name, vars);
-		// 找到子域的结束符"}"
-		for (int i = index + 1, count = 1; i < lines.size(); i++) {
-			String text = lines.get(i);
-			if (text.contains("{")) {
-				count++;
-			} else if (text.contains("}")) {
-				count--;
-			}
-			if (count == 0) {
-				break;
-			}
-			method.methodLines.add(text);
-		}
-		methods.add(method);
+		SMethod method = new SMethod("var", name, params);
+
+		method.methodLines.addAll(LineUtils.getSubLines(lines, index));
+
 		return method.methodLines.size() + 1;
 
 	}

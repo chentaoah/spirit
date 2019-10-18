@@ -6,15 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.sum.shy.utils.LineUtils;
+
 public class Sentence {
 
 	// 操作符
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
 			"%", "<", ">", "{", "}" };
-
+	// 关键字
+	public static final String[] KEYWORD = new String[] { "package", "import", "class", "ref", "func", "if", "for",
+			"return" };
 	// 数组正则
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[a-zA-Z0-9\",]+\\]$");
-
 	// 键值对正则
 	public static final Pattern MAP_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\{[a-zA-Z0-9\",:]+\\}$");
 
@@ -25,25 +28,37 @@ public class Sentence {
 	public Map<String, String> replacedStrs = new HashMap<>();
 
 	// 拆分的语义单元
-	public List<Unit> units = new ArrayList<>();
+	public List<String> units = new ArrayList<>();
 
 	public Sentence(String line) {
 		this.line = line;
+
+		// 去掉前后的空格
+		line = line.trim();
+
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		line = replaceString(line);
 		System.out.println(line);
+
+		// 2.将多余的空格去掉
+		line = LineUtils.removeSpace(line);
+		System.out.println(line);
+
 		line = replaceInvoke(line);
 		System.out.println(line);
 		line = replaceArray(line);
 		System.out.println(line);
 		line = replaceMap(line);
 		System.out.println(line);
-		// 2.处理操作符,添加空格,方便后面的拆分
+
+		// 3.处理操作符,添加空格,方便后面的拆分
 		line = processSymbols(line);
 		System.out.println(line);
-		// 3.将多余的空格去掉
-		line = removeSpace(line);
+
+		// 4.将多余的空格去掉
+		line = LineUtils.removeSpace(line);
 		System.out.println(line);
+
 		// 4.根据操作符,进行拆分
 		splitString(line);
 
@@ -83,7 +98,7 @@ public class Sentence {
 			if (line.charAt(i) == '(') {
 				int start = -1;
 				for (int j = i - 1; j >= 0; j--) {
-					if (!Character.isLetter(line.charAt(j))) {
+					if (!(Character.isLetter(line.charAt(j)) || line.charAt(j) == '.')) {
 						start = j + 1;
 					}
 				}
@@ -138,61 +153,38 @@ public class Sentence {
 		return line;
 	}
 
-	private String removeSpace(String line) {
-		// 去掉首尾
-		line = line.trim();
-		while (line.contains("  ")) {
-			line.replaceAll("  ", "");
-		}
-		return line;
-	}
-
 	private void splitString(String line) {
 		for (String str : line.split(" ")) {
-			units.add(new Unit(line, str));
+			units.add(str);
 		}
 	}
 
-	// 获取单元的字符串
+	// 获取单元
+	public String getUnit(int index) {
+		return index > units.size() - 1 ? null : units.get(index);
+	}
+
+	// 获取单元真正的字符串
 	public String getUnitStr(int index) {
-		return units.get(index).str;
+		return index > units.size() - 1 ? null : replacedStrs.get(units.get(index));
 	}
 
 	public String getKeyword() {
 		// 判断首个单词是否关键字
-		String str = getUnitStr(0);
-		if ("package".equals(str)) {
-			return "package";
-		} else if ("import".equals(str)) {
-			return "import";
-		} else if ("class".equals(str)) {
-			return "class";
-		} else if ("ref".equals(str)) {
-			return "ref";
-		} else if ("func".equals(str)) {
-			return "func";
-		} else if ("if".equals(str)) {
-			return "if";
-		} else if ("for".equals(str)) {
-			return "for";
-		} else if ("return".equals(str)) {
-			return "return";
-		} else {
-			// 如果第二个语义是"=",那么可以认为是赋值语句
-			str = getUnitStr(1);
-			if ("=".equals(str)) {
-				return "var";
+		String str = getUnit(0);
+		for (String keyword : KEYWORD) {
+			if (keyword.equals(str)) {
+				return keyword;
 			}
-			// 如果只有右值的话,则只能返回调用
-			return "invoke";
 		}
+		// 如果第二个语义是"=",那么可以认为是赋值语句
+		str = getUnit(1);
+		if ("=".equals(str)) {
+			return "var";
+		}
+		// 如果只有右值的话,则只能返回调用
+		return "invoke";
 
-	}
-
-	// 获取自动变量的类型
-	public String getVarType() {
-
-		return null;
 	}
 
 	public class Pair {

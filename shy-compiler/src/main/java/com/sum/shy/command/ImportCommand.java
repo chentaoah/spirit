@@ -12,7 +12,7 @@ public class ImportCommand extends AbstractCommand {
 	public int handle(String scope, SClass clazz, SMethod method, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
-			clazz.importStrs.add(sentence.units.get(1));
+			clazz.importStrs.add(sentence.getUnit(1));
 		}
 		return 0;
 	}

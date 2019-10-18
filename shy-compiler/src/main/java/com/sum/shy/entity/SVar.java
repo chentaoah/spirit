@@ -7,8 +7,6 @@ public class SVar {
 	public String name;
 
 	public Object value;
-	// 方法中的子域
-	public String scope;
 
 	public SVar(String type, String name, Object value) {
 		this.type = type;

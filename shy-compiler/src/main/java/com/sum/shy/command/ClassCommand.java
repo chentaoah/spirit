@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.Sentence;
 import com.sum.shy.entity.SClass;
 import com.sum.shy.entity.SMethod;
+import com.sum.shy.utils.LineUtils;
 
 public class ClassCommand extends AbstractCommand {
 
@@ -15,31 +16,20 @@ public class ClassCommand extends AbstractCommand {
 		if ("static".equals(scope)) {
 
 			// 解析类名
-			clazz.className = sentence.units.get(1).str;
-			if ("extends".equals(sentence.units.get(2).str)) {
-				clazz.superClass = sentence.units.get(3).str;
-			}
-			if ("impl".equals(sentence.units.get(4).str)) {
-				clazz.interfaces = Arrays.asList(sentence.units.get(5).str.split(","));
+			clazz.className = sentence.getUnit(1);
+
+			if ("extends".equals(sentence.getUnit(2))) {
+				clazz.superClass = sentence.getUnit(3);
 			}
 
-			// 找到子域的结束符"}"
-			for (int i = index + 1, count = 1; i < lines.size(); i++) {
-				String line = lines.get(i);
-				for (int j = 0; j < line.length(); j++) {
-					if (line.charAt(j) == '{') {
-						count++;
-					} else if (line.charAt(j) == '}') {
-						count--;
-					}
-				}
-				if (count == 0) {
-					break;
-				}
-				clazz.classLines.add(line);
+			if ("impl".equals(sentence.getUnit(4))) {
+				clazz.interfaces = Arrays.asList(sentence.getUnit(5).split(","));
 			}
-			return clazz.classLines.size() + 1;
+
+			// 通过工具类来获取下面的所有行
+			clazz.classLines.addAll(LineUtils.getSubLines(lines, index));
+
 		}
-		return 0;
+		return clazz.classLines.size() + 1;
 	}
 }
