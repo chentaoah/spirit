@@ -35,6 +35,8 @@ public class FieldCommand extends AbstractCommand {
 		String name = sentence.getUnit(0);
 		// 类型
 		String type = getType(sentence.getUnit(2));
+
+//		String value = getValue();
 		// 这里的value就是sentence的引用,因为求value可能非常复杂
 		// 所以这里只是保存一下语句,以后进行处理
 		fields.add(new SField(type, name, sentence));

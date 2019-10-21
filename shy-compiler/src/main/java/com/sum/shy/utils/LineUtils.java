@@ -2,6 +2,7 @@ package com.sum.shy.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LineUtils {
 
@@ -35,6 +36,59 @@ public class LineUtils {
 			line = line.replaceAll("  ", " ");
 		}
 		return line;
+	}
+
+	public static String replaceString(String line, char left, char right, String name, Map<String, String> map) {
+		// 先统计一下索引位置
+		List<Pair> list = new ArrayList<>();
+		for (int i = 0, start = -1, count = 0; i < line.length(); i++) {
+			if (line.charAt(i) == left) {
+				count++;
+				if (count == 0) {
+					start = i;// 让start尽量留在最左边
+				}
+			} else if (line.charAt(i) == right && line.charAt(i - 1 >= 0 ? i - 1 : i) != '\\') {// 排除转义的可能
+				count--;
+				if (count == 0) {
+					if (start >= 0 && i > start) {
+						list.add(new Pair(start, i));
+						start = -1;
+					}
+				}
+			}
+
+		}
+		// 把所有需要被替换的字符串截取出来
+		List<String> subStrs = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Pair pair = list.get(i);
+			// 截取字符串
+			String str = line.substring(pair.start, pair.end + 1);
+			subStrs.add(str);
+		}
+		// 开始替换字符串
+		int count = 0;
+		for (String str : subStrs) {
+			String key = "$" + name + count++;
+			line = line.replace(str, key);
+			if (map != null)
+				map.put(key, str);
+		}
+
+		return line;
+	}
+	
+	
+
+	public static class Pair {
+		public int start;
+		public int end;
+
+		public Pair(int start, int end) {
+			this.start = start;
+			this.end = end;
+		}
+
 	}
 
 }

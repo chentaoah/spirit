@@ -16,9 +16,9 @@ public class Sentence {
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "class", "func" };
 	// 数组正则
-	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[a-zA-Z0-9\",]+\\]$");
+	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[\\s\\S]+\\]$");
 	// 键值对正则
-	public static final Pattern MAP_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\{[a-zA-Z0-9\",:]+\\}$");
+	public static final Pattern MAP_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\{[\\s\\S]+\\}$");
 
 	// 一行
 	public String line;
@@ -36,7 +36,7 @@ public class Sentence {
 		line = line.trim();
 
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
-		line = replaceString(line);
+		line = LineUtils.replaceString(line, '"', '"', "str", replacedStrs);
 		System.out.println(line);
 
 		// 2.将多余的空格去掉
@@ -45,10 +45,16 @@ public class Sentence {
 
 		line = replaceInvoke(line);
 		System.out.println(line);
-		line = replaceArray(line);
-		System.out.println(line);
-		line = replaceMap(line);
-		System.out.println(line);
+
+		if (ARRAY_PATTERN.matcher(line).matches()) {
+			line = LineUtils.replaceString(line, '[', ']', "array", replacedStrs);
+			System.out.println(line);
+		}
+
+		if (MAP_PATTERN.matcher(line).matches()) {
+			line = LineUtils.replaceString(line, '{', '}', "map", replacedStrs);
+			System.out.println(line);
+		}
 
 		// 3.处理操作符,添加空格,方便后面的拆分
 		line = processSymbols(line);
@@ -58,38 +64,14 @@ public class Sentence {
 		line = LineUtils.removeSpace(line);
 		System.out.println(line);
 
-		// 4.根据操作符,进行拆分
+		// 5.根据操作符,进行拆分
 		splitString(line);
 		System.out.println(units);
 		System.out.println(replacedStrs);
 
-	}
+		// 6.分割之后,依次遍历,推断类型
+		inferenceType();
 
-	private String replaceString(String line) {
-		// 1.排除字符串带来的影响
-		List<Pair> list = new ArrayList<>();
-		for (int i = 0, count = 0; i < line.length(); i++) {
-			// 如果是字符串的边界,且没有被转义
-			if (line.charAt(i) == '"' && line.charAt(i - 1 >= 0 ? i - 1 : i) != '\\') {
-				count++;
-				if (count % 2 != 0) {
-					list.add(new Pair(i));
-				} else {
-					list.get(count / 2 - 1).end = i;
-				}
-			}
-		}
-
-		// 这里必须逆序遍历
-		for (int i = list.size() - 1, count = list.size() - 1; i >= 0; i--) {
-			Pair pair = list.get(i);
-			// 截取字符串
-			String str = line.substring(pair.start, pair.end + 1);
-			line = line.replace(str, "$str" + count);
-			replacedStrs.put("$str" + count--, str);
-		}
-
-		return line;
 	}
 
 	// 替换方法调用
@@ -129,15 +111,6 @@ public class Sentence {
 		return line;
 	}
 
-	private String replaceArray(String line) {
-		if (ARRAY_PATTERN.matcher(line).matches()) {
-			String str = line.substring(line.indexOf("["), line.indexOf("]") + 1);
-			line = line.replace(str, "$array0");
-			replacedStrs.put("$array0", str);
-		}
-		return line;
-	}
-
 	private String replaceMap(String line) {
 		if (MAP_PATTERN.matcher(line).matches()) {
 			String str = line.substring(line.indexOf("{"), line.indexOf("}") + 1);
@@ -158,6 +131,14 @@ public class Sentence {
 		for (String str : line.split(" ")) {
 			units.add(str);
 		}
+	}
+
+	// 推断类型
+	private void inferenceType() {
+		for (String unit : units) {
+
+		}
+
 	}
 
 	// 获取单元
@@ -186,6 +167,12 @@ public class Sentence {
 		// 如果只有右值的话,则只能返回调用
 		return "invoke";
 
+	}
+
+	// 获取推断的类型
+	public String getVarType() {
+
+		return null;
 	}
 
 	public class Pair {
