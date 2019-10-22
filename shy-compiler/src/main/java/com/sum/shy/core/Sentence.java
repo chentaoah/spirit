@@ -94,8 +94,13 @@ public class Sentence {
 	}
 
 	// 获取被替换的字符串
-	public String getUnitStr(int index) {
+	public String getReplacedStr(int index) {
 		return index > units.size() - 1 ? null : replacedStrs.get(units.get(index));
+	}
+
+	// 获取被替换的字符串
+	public String getReplacedStr(String str) {
+		return replacedStrs.get(str);
 	}
 
 	public String getKeyword(String scope) {

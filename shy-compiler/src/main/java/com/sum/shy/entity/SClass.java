@@ -1,7 +1,9 @@
 package com.sum.shy.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SClass {
 
@@ -9,6 +11,8 @@ public class SClass {
 	public String packageStr;
 	// 引入
 	public List<String> importStrs = new ArrayList<>();
+	// 预处理
+	public Map<String, String> defTypes = new HashMap<>();
 	// 类名
 	public String className;
 	// 父类
