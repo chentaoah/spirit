@@ -6,7 +6,7 @@ public class SParam {
 
 	public String name;
 
-	public SParam(String type, String name, Object value) {
+	public SParam(String type, String name) {
 		this.type = type;
 		this.name = name;
 	}

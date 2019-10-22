@@ -39,13 +39,26 @@ public class LineUtils {
 	}
 
 	public static String replaceString(String line, char left, char right, String name, Map<String, String> map) {
+		return replaceString(line, left, right, name, map, false);
+	}
+
+	public static String replaceString(String line, char left, char right, String name, Map<String, String> map,
+			boolean aleft) {
 		// 先统计一下索引位置
 		List<Pair> list = new ArrayList<>();
 		for (int i = 0, start = -1, count = 0; i < line.length(); i++) {
 			if (line.charAt(i) == left) {
 				count++;
-				if (count == 0) {
+				if (count == 1) {
 					start = i;// 让start尽量留在最左边
+				}
+				if (aleft) {
+					// what like user.say()
+					for (int j = i - 1; j >= 0; j--) {
+						if (!(Character.isLetter(line.charAt(j)) || line.charAt(j) == '.')) {
+							start = j + 1;
+						}
+					}
 				}
 			} else if (line.charAt(i) == right && line.charAt(i - 1 >= 0 ? i - 1 : i) != '\\') {// 排除转义的可能
 				count--;
@@ -77,8 +90,6 @@ public class LineUtils {
 
 		return line;
 	}
-	
-	
 
 	public static class Pair {
 		public int start;

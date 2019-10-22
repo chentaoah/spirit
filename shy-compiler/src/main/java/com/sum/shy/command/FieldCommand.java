@@ -35,15 +35,13 @@ public class FieldCommand extends AbstractCommand {
 		String name = sentence.getUnit(0);
 		// 类型
 		String type = getType(sentence.getUnit(2));
-
-//		String value = getValue();
-		// 这里的value就是sentence的引用,因为求value可能非常复杂
-		// 所以这里只是保存一下语句,以后进行处理
-		fields.add(new SField(type, name, sentence));
+		// 将所有的初始化的操作,放到构造函数里面去做,所以这里的字段的值都是null
+		fields.add(new SField(type, name, null));
 
 	}
 
 	private String getType(String str) {
+
 		if (BOOLEAN_PATTERN.matcher(str).matches()) {
 			return "boolean";
 		} else if (INT_PATTERN.matcher(str).matches()) {

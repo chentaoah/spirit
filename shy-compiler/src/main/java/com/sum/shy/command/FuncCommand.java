@@ -37,7 +37,7 @@ public class FuncCommand extends AbstractCommand {
 			// 可能是user.say()无参数方法
 			if (list.get(i).length() > 0) {
 				String[] strs = list.get(i).split(" ");
-				params.add(new SParam(strs[0], strs[1], "var"));
+				params.add(new SParam(strs[0], strs[1]));
 			}
 		}
 		// 创建方法
