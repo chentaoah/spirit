@@ -14,7 +14,7 @@ public class Sentence {
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
 			"\\*", "/", "%", "<", ">", "\\{", "\\}" };
 	// 关键字
-	public static final String[] KEYWORD = new String[] { "package", "import", "class", "func" };
+	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
 	// 数组正则
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[\\s\\S]+\\]$");
 	// 键值对正则

@@ -47,7 +47,8 @@ public class LineUtils {
 		// 先统计一下索引位置
 		List<Pair> list = new ArrayList<>();
 		for (int i = 0, start = -1, count = 0; i < line.length(); i++) {
-			if (line.charAt(i) == left) {
+			// 小心这里left和right是一样的
+			if (line.charAt(i) == left && count % 2 == 0) {
 				count++;
 				if (count == 1) {
 					start = i;// 让start尽量留在最左边
