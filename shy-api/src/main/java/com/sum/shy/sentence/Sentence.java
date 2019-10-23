@@ -1,4 +1,4 @@
-package com.sum.shy.entity;
+package com.sum.shy.sentence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,15 +22,15 @@ public class Sentence {
 
 	// 一行
 	public String line;
-
-	// 替换的字符串
-	public Map<String, String> replacedStrs = new HashMap<>();
-
-	// 拆分的语义单元
-	public List<String> units = new ArrayList<>();
+	// 语素
+	public List<Morpheme> morphemes = new ArrayList<>();
 
 	public Sentence(String line) {
 		this.line = line;
+
+		// 替换的字符串
+		Map<String, String> replacedStrs = new HashMap<>();
+		List<String> units = new ArrayList<>();
 
 		// 去掉前后的空格
 		line = line.trim();
@@ -45,6 +45,7 @@ public class Sentence {
 		line = LineUtils.removeSpace(line);
 		System.out.println(line);
 
+		// 3.进行整体替换
 		if (line.contains("(")) {
 			line = LineUtils.replaceString(line, '(', ')', "invoke", replacedStrs, true);
 			System.out.println(line);
@@ -60,18 +61,26 @@ public class Sentence {
 			System.out.println(line);
 		}
 
-		// 3.处理操作符,添加空格,方便后面的拆分
+		System.out.println(replacedStrs);
+
+		// 4.处理操作符,添加空格,方便后面的拆分
 		line = processSymbols(line);
 		System.out.println(line);
 
-		// 4.将多余的空格去掉
+		// 5.将多余的空格去掉
 		line = LineUtils.removeSpace(line);
 		System.out.println(line);
 
-		// 5.根据操作符,进行拆分
-		splitString(line);
+		// 6.根据操作符,进行拆分
+		splitString(line, units);
 		System.out.println(units);
-		System.out.println(replacedStrs);
+
+		// 7.重新将替换的字符串替换回来
+		rereplaceString(replacedStrs, units);
+		System.out.println(units);
+
+		// 8.将拆分的单元,转化成语素
+		createMorpheme(units);
 
 	}
 
@@ -82,37 +91,47 @@ public class Sentence {
 		return line;
 	}
 
-	private void splitString(String line) {
+	private void splitString(String line, List<String> units) {
 		for (String str : line.split(" ")) {
 			units.add(str);
 		}
 	}
 
+	private void rereplaceString(Map<String, String> replacedStrs, List<String> units) {
+		for (int i = 0; i < units.size(); i++) {
+			String str = replacedStrs.get(units.get(i));
+			if (str != null) {
+				units.set(i, str);
+			}
+		}
+	}
+
+	private void createMorpheme(List<String> units) {
+		for (int i = 0; i < units.size(); i++) {
+			morphemes.add(Morpheme.create(units.get(i)));
+		}
+	}
+
 	// 获取单元
-	public String getUnit(int index) {
-		return index > units.size() - 1 ? null : units.get(index);
+	public Morpheme getMorpheme(int index) {
+		return morphemes.get(index);
 	}
 
-	// 获取被替换的字符串
-	public String getReplacedStr(int index) {
-		return index > units.size() - 1 ? null : replacedStrs.get(units.get(index));
-	}
-
-	// 获取被替换的字符串
-	public String getReplacedStr(String str) {
-		return replacedStrs.get(str);
+	// 获取语素的字符串
+	public String getStr(int index) {
+		return getMorpheme(index).str;
 	}
 
 	public String getKeyword(String scope) {
 		// 判断首个单词是否关键字
-		String str = getUnit(0);
+		String str = getStr(0);
 		for (String keyword : KEYWORD) {
 			if (keyword.equals(str)) {
 				return keyword;
 			}
 		}
 		// 如果第二个语义是"=",那么可以认为是赋值语句
-		str = getUnit(1);
+		str = getStr(1);
 		if ("=".equals(str)) {
 			return "method".equals(scope) ? "var" : "field";
 		}

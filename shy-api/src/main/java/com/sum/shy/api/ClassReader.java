@@ -3,9 +3,9 @@ package com.sum.shy.api;
 import java.io.File;
 import java.io.IOException;
 
-import com.sum.shy.entity.Class;
+import com.sum.shy.clazz.Clazz;
 
 public interface ClassReader {
 
-	Class readFile(File file) throws IOException;
+	Clazz readFile(File file) throws IOException;
 }

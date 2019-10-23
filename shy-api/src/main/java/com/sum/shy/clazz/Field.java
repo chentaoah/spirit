@@ -1,4 +1,6 @@
-package com.sum.shy.entity;
+package com.sum.shy.clazz;
+
+import com.sum.shy.sentence.Sentence;
 
 public class Field {
 	// 类型

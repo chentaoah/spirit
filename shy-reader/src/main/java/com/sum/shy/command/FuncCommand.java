@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.entity.Class;
-import com.sum.shy.entity.Method;
-import com.sum.shy.entity.Param;
-import com.sum.shy.entity.Sentence;
+import com.sum.shy.clazz.Clazz;
+import com.sum.shy.clazz.Method;
+import com.sum.shy.clazz.Param;
+import com.sum.shy.sentence.Sentence;
 import com.sum.shy.utils.LineUtils;
 
 public class FuncCommand extends AbstractCommand {
 
 	@Override
-	public int handle(String scope, Class clazz, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 			return createMethod(clazz.staticMethods, lines, index, sentence);
@@ -26,7 +26,7 @@ public class FuncCommand extends AbstractCommand {
 
 	private int createMethod(List<Method> methods, List<String> lines, int index, Sentence sentence) {
 
-		String str = sentence.getReplacedStr(1);
+		String str = sentence.getStr(1);
 		// 这里一定要trim一下
 		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(str);
 		// 方法名

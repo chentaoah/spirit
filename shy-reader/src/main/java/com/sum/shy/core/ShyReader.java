@@ -8,13 +8,13 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.api.ClassReader;
 import com.sum.shy.api.Command;
+import com.sum.shy.clazz.Clazz;
 import com.sum.shy.command.ClassCommand;
 import com.sum.shy.command.FieldCommand;
 import com.sum.shy.command.FuncCommand;
 import com.sum.shy.command.ImportCommand;
 import com.sum.shy.command.PackageCommand;
-import com.sum.shy.entity.Class;
-import com.sum.shy.entity.Sentence;
+import com.sum.shy.sentence.Sentence;
 
 public class ShyReader implements ClassReader {
 
@@ -27,14 +27,14 @@ public class ShyReader implements ClassReader {
 	}
 
 	@Override
-	public Class readFile(File file) throws IOException {
+	public Clazz readFile(File file) throws IOException {
 		List<String> lines = Files.readLines(file, Charsets.UTF_8);
 		return readLines(lines);
 	}
 
-	private Class readLines(List<String> lines) {
+	private Clazz readLines(List<String> lines) {
 
-		Class clazz = new Class();
+		Clazz clazz = new Clazz();
 		// 快速读取文件的整体内容
 		readScopeLines("static", clazz, lines);
 		// 开始解析class结构
@@ -43,7 +43,7 @@ public class ShyReader implements ClassReader {
 		return clazz;
 	}
 
-	private void readScopeLines(String scope, Class clazz, List<String> lines) {
+	private void readScopeLines(String scope, Clazz clazz, List<String> lines) {
 		// 打印一下
 		for (String line : lines) {
 			System.out.println(line);

@@ -1,8 +1,8 @@
 package com.sum.shy.api;
 
-import com.sum.shy.entity.Class;
+import com.sum.shy.clazz.Clazz;
 
 public interface CodeBuilder {
 
-	String build(Class clazz);
+	String build(Clazz clazz);
 }

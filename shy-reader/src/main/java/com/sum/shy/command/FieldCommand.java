@@ -3,9 +3,9 @@ package com.sum.shy.command;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.shy.entity.Class;
-import com.sum.shy.entity.Field;
-import com.sum.shy.entity.Sentence;
+import com.sum.shy.clazz.Clazz;
+import com.sum.shy.clazz.Field;
+import com.sum.shy.sentence.Sentence;
 
 public class FieldCommand extends AbstractCommand {
 
@@ -17,10 +17,9 @@ public class FieldCommand extends AbstractCommand {
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\$array[0-9]+$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\$map[0-9]+$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
-	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-z0-9]*$");
 
 	@Override
-	public int handle(String scope, Class clazz, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 			createField(clazz, clazz.staticFields, sentence);
@@ -30,10 +29,10 @@ public class FieldCommand extends AbstractCommand {
 		return 0;
 	}
 
-	private void createField(Class clazz, List<Field> fields, Sentence sentence) {
+	private void createField(Clazz clazz, List<Field> fields, Sentence sentence) {
 
 		// 变量名
-		String name = sentence.getUnit(0);
+		String name = sentence.getStr(0);
 		// 类型
 		String type = getType(sentence);
 		// 尝试从上下文中获取
@@ -47,7 +46,7 @@ public class FieldCommand extends AbstractCommand {
 
 	private String getType(Sentence sentence) {
 		// 获取单元内容
-		String str = sentence.getUnit(2);
+		String str = sentence.getStr(2);
 		if (BOOLEAN_PATTERN.matcher(str).matches()) {
 			return "boolean";
 		} else if (INT_PATTERN.matcher(str).matches()) {
@@ -70,13 +69,7 @@ public class FieldCommand extends AbstractCommand {
 
 	// 如果是构造函数,很容易知道类型
 	private String processInvoke(Sentence sentence, String str) {
-		// 获取被替换的字符串
-		String value = sentence.getReplacedStr(str);
-		// 获取方法名
-		String methodName = value.substring(0, value.indexOf("("));
-		if (INIT_PATTERN.matcher(methodName).matches()) {
-			return methodName;
-		}
+
 		return "var";
 	}
 

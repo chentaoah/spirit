@@ -1,4 +1,4 @@
-package com.sum.shy.entity;
+package com.sum.shy.clazz;
 
 public class Param {
 

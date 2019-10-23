@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.sum.shy.api.ClassReader;
 import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.builder.JavaBuilder;
-import com.sum.shy.entity.Class;
+import com.sum.shy.clazz.Clazz;
 
 public class Compiler {
 
@@ -21,12 +21,12 @@ public class Compiler {
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
 			for (File file : files) {
-				Class clazz = reader.readFile(file);
+				Clazz clazz = reader.readFile(file);
 				String text = builder.build(clazz);
 				System.out.println(text);
 			}
 		} else if (dir.isFile()) {
-			Class clazz = reader.readFile(dir);
+			Clazz clazz = reader.readFile(dir);
 			String text = builder.build(clazz);
 			System.out.println(text);
 		}

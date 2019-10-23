@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sum.shy.entity.Class;
-import com.sum.shy.entity.Sentence;
+import com.sum.shy.clazz.Clazz;
+import com.sum.shy.sentence.Sentence;
 
 public interface Command {
 
@@ -19,6 +19,6 @@ public interface Command {
 		return commands.get(keyword);
 	}
 
-	int handle(String scope, Class clazz, List<String> lines, int index, Sentence sentence);
+	int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence);
 
 }

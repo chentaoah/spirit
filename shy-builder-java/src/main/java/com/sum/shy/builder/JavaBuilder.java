@@ -1,15 +1,15 @@
 package com.sum.shy.builder;
 
 import com.sum.shy.api.CodeBuilder;
-import com.sum.shy.entity.Class;
-import com.sum.shy.entity.Field;
-import com.sum.shy.entity.Method;
-import com.sum.shy.entity.Param;
-import com.sum.shy.entity.Sentence;
+import com.sum.shy.clazz.Clazz;
+import com.sum.shy.clazz.Field;
+import com.sum.shy.clazz.Method;
+import com.sum.shy.clazz.Param;
+import com.sum.shy.sentence.Sentence;
 
 public class JavaBuilder implements CodeBuilder {
 
-	public String build(Class clazz) {
+	public String build(Clazz clazz) {
 
 		System.out.println("");
 		System.out.println("========================java========================");
@@ -39,10 +39,11 @@ public class JavaBuilder implements CodeBuilder {
 
 		sb.append("{\n");
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + field.type + " " + field.name + " = " + field.sentence + ";\n");
+			sb.append("\tpublic static " + field.type + " " + field.name + " = " + convertRightValue(field.sentence)
+					+ ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + field.type + " " + field.name + " = " + field.sentence + ";\n");
+			sb.append("\tpublic " + field.type + " " + field.name + " = " + convertRightValue(field.sentence) + ";\n");
 		}
 
 		sb.append("\n");
@@ -87,7 +88,6 @@ public class JavaBuilder implements CodeBuilder {
 	}
 
 	private String convertRightValue(Sentence sentence) {
-
 		return null;
 	}
 

@@ -1,11 +1,11 @@
-package com.sum.shy.entity;
+package com.sum.shy.clazz;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Class {
+public class Clazz {
 
 	// 包名
 	public String packageStr;
