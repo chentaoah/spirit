@@ -18,7 +18,7 @@ public class ClassCommand extends AbstractCommand {
 			clazz.className = sentence.getUnit(1);
 
 			if ("extends".equals(sentence.getUnit(2))) {
-				clazz.superClass = sentence.getUnit(3);
+				clazz.superName = sentence.getUnit(3);
 			}
 
 			if ("impl".equals(sentence.getUnit(4))) {
