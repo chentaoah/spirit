@@ -26,8 +26,8 @@ public class JavaBuilder implements CodeBuilder {
 		sb.append("\n");
 		// class
 		sb.append("public class " + clazz.className + " ");
-		if (clazz.superClass != null) {
-			sb.append("extends " + clazz.superClass + " ");
+		if (clazz.superName != null) {
+			sb.append("extends " + clazz.superName + " ");
 		}
 		if (clazz.interfaces.size() > 0) {
 			sb.append("implements ");
