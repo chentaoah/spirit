@@ -16,7 +16,7 @@ public class Class {
 	// 类名
 	public String className;
 	// 父类
-	public String superClass;
+	public String superName;
 	// 接口
 	public List<String> interfaces = new ArrayList<>();
 	// 静态字段
