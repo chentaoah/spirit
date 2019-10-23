@@ -2,17 +2,17 @@ package com.sum.shy.entity;
 
 import java.util.List;
 
-public class SMethod {
+public class Method {
 	// 类型
 	public String returnType;
 	// 参数名
 	public String name;
 	// 初始值
-	public List<SParam> params;
+	public List<Param> params;
 	// method域
 	public List<String> methodLines;
 
-	public SMethod(String returnType, String name, List<SParam> params) {
+	public Method(String returnType, String name, List<Param> params) {
 		this.returnType = returnType;
 		this.name = name;
 		this.params = params;

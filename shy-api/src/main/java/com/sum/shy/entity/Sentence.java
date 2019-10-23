@@ -1,4 +1,4 @@
-package com.sum.shy.core;
+package com.sum.shy.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

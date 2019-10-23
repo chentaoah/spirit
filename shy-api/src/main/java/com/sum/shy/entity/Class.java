@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SClass {
+public class Class {
 
 	// 包名
 	public String packageStr;
@@ -20,13 +20,13 @@ public class SClass {
 	// 接口
 	public List<String> interfaces = new ArrayList<>();
 	// 静态字段
-	public List<SField> staticFields = new ArrayList<>();
+	public List<Field> staticFields = new ArrayList<>();
 	// 静态方法
-	public List<SMethod> staticMethods = new ArrayList<>();
+	public List<Method> staticMethods = new ArrayList<>();
 	// 字段
-	public List<SField> fields = new ArrayList<>();
+	public List<Field> fields = new ArrayList<>();
 	// 方法
-	public List<SMethod> methods = new ArrayList<>();
+	public List<Method> methods = new ArrayList<>();
 	// class域
 	public List<String> classLines;
 

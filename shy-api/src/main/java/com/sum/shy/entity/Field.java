@@ -1,17 +1,17 @@
 package com.sum.shy.entity;
 
-public class SField {
+public class Field {
 	// 类型
 	public String type;
 	// 参数名
 	public String name;
-	// 初始值
-	public Object value;
+	// 语句
+	public Sentence sentence;
 
-	public SField(String type, String name, Object value) {
+	public Field(String type, String name, Sentence sentence) {
 		this.type = type;
 		this.name = name;
-		this.value = value;
+		this.sentence = sentence;
 	}
 
 }

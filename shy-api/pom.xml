@@ -7,12 +7,5 @@
 		<artifactId>shy-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>shy-compiler</artifactId>
-	<dependencies>
-		<dependency>
-			<groupId>com.sum.shy</groupId>
-			<artifactId>shy-builder-java</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+	<artifactId>shy-api</artifactId>
 </project>

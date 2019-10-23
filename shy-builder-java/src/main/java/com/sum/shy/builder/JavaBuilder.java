@@ -1,13 +1,15 @@
-package com.sum.shy.converter;
+package com.sum.shy.builder;
 
-import com.sum.shy.entity.SClass;
-import com.sum.shy.entity.SField;
-import com.sum.shy.entity.SMethod;
-import com.sum.shy.entity.SParam;
+import com.sum.shy.api.CodeBuilder;
+import com.sum.shy.entity.Class;
+import com.sum.shy.entity.Field;
+import com.sum.shy.entity.Method;
+import com.sum.shy.entity.Param;
+import com.sum.shy.entity.Sentence;
 
-public class JavaConverter {
+public class JavaBuilder implements CodeBuilder {
 
-	public void convert(SClass clazz) {
+	public String build(Class clazz) {
 
 		System.out.println("");
 		System.out.println("========================java========================");
@@ -36,18 +38,18 @@ public class JavaConverter {
 		}
 
 		sb.append("{\n");
-		for (SField field : clazz.staticFields) {
-			sb.append("\tpublic static " + field.type + " " + field.name + " = " + field.value + ";\n");
+		for (Field field : clazz.staticFields) {
+			sb.append("\tpublic static " + field.type + " " + field.name + " = " + field.sentence + ";\n");
 		}
-		for (SField field : clazz.fields) {
-			sb.append("\tpublic " + field.type + " " + field.name + " = " + field.value + ";\n");
+		for (Field field : clazz.fields) {
+			sb.append("\tpublic " + field.type + " " + field.name + " = " + field.sentence + ";\n");
 		}
 
 		sb.append("\n");
 
-		for (SMethod method : clazz.staticMethods) {
+		for (Method method : clazz.staticMethods) {
 			sb.append("\tpublic static " + method.returnType + " " + method.name + "(");
-			for (SParam param : method.params) {
+			for (Param param : method.params) {
 				sb.append(param.type + " " + param.name + ",");
 			}
 			if (method.params.size() > 0) {
@@ -60,9 +62,9 @@ public class JavaConverter {
 			sb.append("\t}\n");
 			sb.append("\n");
 		}
-		for (SMethod method : clazz.methods) {
+		for (Method method : clazz.methods) {
 			sb.append("\tpublic " + method.returnType + " " + method.name + "(");
-			for (SParam param : method.params) {
+			for (Param param : method.params) {
 				sb.append(param.type + " " + param.name + ",");
 			}
 			if (method.params.size() > 0) {
@@ -80,9 +82,16 @@ public class JavaConverter {
 
 		System.out.println(sb.toString());
 
+		return null;
+
 	}
 
-	private void convertMethod(StringBuilder sb, SMethod method) {
+	private String convertRightValue(Sentence sentence) {
+
+		return null;
+	}
+
+	private void convertMethod(StringBuilder sb, Method method) {
 		for (String line : method.methodLines) {
 			sb.append("\t\t" + line.trim() + "\n");
 		}

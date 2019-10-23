@@ -3,9 +3,9 @@ package com.sum.shy.command;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.Sentence;
-import com.sum.shy.entity.SClass;
-import com.sum.shy.entity.SField;
+import com.sum.shy.entity.Class;
+import com.sum.shy.entity.Field;
+import com.sum.shy.entity.Sentence;
 
 public class FieldCommand extends AbstractCommand {
 
@@ -20,7 +20,7 @@ public class FieldCommand extends AbstractCommand {
 	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-z0-9]*$");
 
 	@Override
-	public int handle(String scope, SClass clazz, List<String> lines, int index, Sentence sentence) {
+	public int handle(String scope, Class clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
 			createField(clazz, clazz.staticFields, sentence);
@@ -30,25 +30,24 @@ public class FieldCommand extends AbstractCommand {
 		return 0;
 	}
 
-	private void createField(SClass clazz, List<SField> fields, Sentence sentence) {
+	private void createField(Class clazz, List<Field> fields, Sentence sentence) {
 
 		// 变量名
 		String name = sentence.getUnit(0);
-		// 获取单元内容
-		String str = sentence.getUnit(2);
 		// 类型
-		String type = getType(sentence, str);
+		String type = getType(sentence);
 		// 尝试从上下文中获取
 		if ("var".equals(type)) {
 			type = clazz.defTypes.get(name);
 		}
-		// 将所有的初始化的操作,放到构造函数里面去做,所以这里的字段的值都是null
-		fields.add(new SField(type, name, null));
+		// 这个field没有value,只有对应的语句,后面会去处理
+		fields.add(new Field(type, name, sentence));
 
 	}
 
-	private String getType(Sentence sentence, String str) {
-
+	private String getType(Sentence sentence) {
+		// 获取单元内容
+		String str = sentence.getUnit(2);
 		if (BOOLEAN_PATTERN.matcher(str).matches()) {
 			return "boolean";
 		} else if (INT_PATTERN.matcher(str).matches()) {
