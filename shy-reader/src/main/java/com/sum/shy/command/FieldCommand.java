@@ -24,14 +24,21 @@ public class FieldCommand extends AbstractCommand {
 
 		// 变量名
 		String name = sentence.getUnit(0);
+		// 右值
+		String value = sentence.getUnit(2);
 		// 类型
-		String type = Morpheme.getType(sentence.getUnit(2));
-		// 尝试从上下文中获取
+		String type = Morpheme.getType(clazz.defTypes, value);
+		// 如果还是返回还是未知的,则通过名称来获取类型
 		if ("var".equals(type)) {
-			type = clazz.defTypes.get(name);
+			if (clazz.defTypes.containsKey(name)) {
+				type = clazz.defTypes.get(name);
+			}
 		}
+		// 如果是集合类型
+		List<String> genericTypes = Morpheme.getGenericTypes(clazz.defTypes, type, value);
+
 		// 这个field没有value,只有对应的语句,后面会去处理
-		fields.add(new Field(type, name, sentence));
+		fields.add(new Field(type, genericTypes, name, sentence));
 
 	}
 

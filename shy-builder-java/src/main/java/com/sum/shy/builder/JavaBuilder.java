@@ -1,5 +1,8 @@
 package com.sum.shy.builder;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.clazz.Clazz;
 import com.sum.shy.clazz.Field;
@@ -46,12 +49,12 @@ public class JavaBuilder implements CodeBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + convertType(field.type) + " " + field.name + " = "
-					+ buildRightValue(field.sentence) + ";\n");
+			sb.append("\tpublic static " + convertType(field) + " " + field.name + " = "
+					+ convertRightValue(clazz.defTypes, field.sentence) + ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + convertType(field.type) + " " + field.name + " = " + buildRightValue(field.sentence)
-					+ ";\n");
+			sb.append("\tpublic " + convertType(field) + " " + field.name + " = "
+					+ convertRightValue(clazz.defTypes, field.sentence) + ";\n");
 		}
 		sb.append("\n");
 
@@ -94,26 +97,51 @@ public class JavaBuilder implements CodeBuilder {
 
 	}
 
-	private String convertType(String type) {
-		if ("str".equals(type)) {
+	private String convertType(Field field) {
+		if ("str".equals(field.type)) {
 			return "String";
-		} else if ("array".equals(type)) {
-			return "List<Object>";
-		} else if ("map".equals(type)) {
-			return "Map<Object,Object>";
+		} else if ("array".equals(field.type)) {
+			return "List<" + convertGenericType(field.genericTypes.get(0)) + ">";
+		} else if ("map".equals(field.type)) {
+			return "Map<" + convertGenericType(field.genericTypes.get(0)) + ","
+					+ convertGenericType(field.genericTypes.get(1)) + ">";
 		}
-		return type;
+		return field.type;
 	}
 
-	private String buildRightValue(Sentence sentence) {
+	private String convertGenericType(String str) {
+		if ("boolean".equals(str)) {
+			return "Boolean";
+		} else if ("int".equals(str)) {
+			return "Integer";
+		} else if ("double".equals(str)) {
+			return "Double";
+		} else if ("str".equals(str)) {
+			return "String";
+		} else {
+			return str;
+		}
+	}
+
+	private String convertRightValue(Map<String, String> defTypes, Sentence sentence) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 2; i < sentence.units.size(); i++) {
 			String str = sentence.getUnit(i);
 			if (Morpheme.isInitInvoke(str)) {
 				sb.append("new " + str);
 			} else {
-				sb.append(str);
+				String type = Morpheme.getType(defTypes, str);
+				if ("array".equals(type)) {
+					sb.append("Collection.newArrayList(" + str.substring(1, str.length() - 1) + ")");
+				} else if ("map".equals(type)) {
+					sb.append("Collection.newHashMap(" + str.substring(1, str.length() - 1).replaceAll(":", ",")
+							+ ")");
+				} else {
+					sb.append(str);
+				}
+
 			}
+
 		}
 		return sb.toString();
 	}

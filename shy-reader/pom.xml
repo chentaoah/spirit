@@ -8,18 +8,12 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>shy-reader</artifactId>
-
 	<dependencies>
 		<!-- api -->
 		<dependency>
 			<groupId>com.sum.shy</groupId>
 			<artifactId>shy-api</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>16.0.1</version>
 		</dependency>
 	</dependencies>
 </project>

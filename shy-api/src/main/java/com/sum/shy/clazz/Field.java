@@ -14,8 +14,9 @@ public class Field {
 	// 语句
 	public Sentence sentence;
 
-	public Field(String type, String name, Sentence sentence) {
+	public Field(String type, List<String> genericTypes, String name, Sentence sentence) {
 		this.type = type;
+		this.genericTypes = genericTypes;
 		this.name = name;
 		this.sentence = sentence;
 	}

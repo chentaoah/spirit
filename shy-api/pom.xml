@@ -8,4 +8,11 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>shy-api</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
+		</dependency>
+	</dependencies>
 </project>
