@@ -22,65 +22,52 @@ public class Sentence {
 
 	// 一行
 	public String line;
-	// 语素
-	public List<Morpheme> morphemes = new ArrayList<>();
+	// 单元
+	public List<String> units = new ArrayList<>();
 
 	public Sentence(String line) {
 		this.line = line;
 
+		System.out.println(line.trim());
+
 		// 替换的字符串
 		Map<String, String> replacedStrs = new HashMap<>();
-		List<String> units = new ArrayList<>();
 
 		// 去掉前后的空格
 		line = line.trim();
 
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
-		if (line.contains("\"")) {
-			line = LineUtils.replaceString(line, '"', '"', "str", replacedStrs);
-			System.out.println(line);
+		// 这里需要解决一个括号谁套谁的问题
+		for (int i = 0; i < line.length(); i++) {
+			if (line.charAt(i) == '"') {
+				line = LineUtils.replaceString(line, '"', '"', "str", replacedStrs);
+				System.out.println(line);
+			} else if (line.charAt(i) == '(') {
+				line = LineUtils.replaceString(line, '(', ')', "invoke", replacedStrs, true);
+				System.out.println(line);
+			} else if (line.charAt(i) == '[') {
+				line = LineUtils.replaceString(line, '[', ']', "array", replacedStrs);
+				System.out.println(line);
+			} else if (line.charAt(i) == '{') {
+				line = LineUtils.replaceString(line, '{', '}', "map", replacedStrs);
+				System.out.println(line);
+			}
 		}
 
-		// 2.将多余的空格去掉
-		line = LineUtils.removeSpace(line);
-		System.out.println(line);
-
-		// 3.进行整体替换
-		if (line.contains("(")) {
-			line = LineUtils.replaceString(line, '(', ')', "invoke", replacedStrs, true);
-			System.out.println(line);
-		}
-
-		if (ARRAY_PATTERN.matcher(line).matches()) {
-			line = LineUtils.replaceString(line, '[', ']', "array", replacedStrs);
-			System.out.println(line);
-		}
-
-		if (MAP_PATTERN.matcher(line).matches()) {
-			line = LineUtils.replaceString(line, '{', '}', "map", replacedStrs);
-			System.out.println(line);
-		}
-
-		System.out.println(replacedStrs);
-
-		// 4.处理操作符,添加空格,方便后面的拆分
+		// 2.处理操作符,添加空格,方便后面的拆分
 		line = processSymbols(line);
-		System.out.println(line);
 
-		// 5.将多余的空格去掉
+		// 3.将多余的空格去掉
 		line = LineUtils.removeSpace(line);
 		System.out.println(line);
 
-		// 6.根据操作符,进行拆分
-		splitString(line, units);
-		System.out.println(units);
+		// 4.根据操作符,进行拆分
+		splitString(line);
 
-		// 7.重新将替换的字符串替换回来
-		rereplaceString(replacedStrs, units);
+		// 5.重新将替换的字符串替换回来
+		rereplaceString(replacedStrs);
 		System.out.println(units);
-
-		// 8.将拆分的单元,转化成语素
-		createMorpheme(units);
+		System.out.println("");// 换行
 
 	}
 
@@ -91,13 +78,13 @@ public class Sentence {
 		return line;
 	}
 
-	private void splitString(String line, List<String> units) {
+	private void splitString(String line) {
 		for (String str : line.split(" ")) {
 			units.add(str);
 		}
 	}
 
-	private void rereplaceString(Map<String, String> replacedStrs, List<String> units) {
+	private void rereplaceString(Map<String, String> replacedStrs) {
 		for (int i = 0; i < units.size(); i++) {
 			String str = replacedStrs.get(units.get(i));
 			if (str != null) {
@@ -106,38 +93,33 @@ public class Sentence {
 		}
 	}
 
-	private void createMorpheme(List<String> units) {
-		for (int i = 0; i < units.size(); i++) {
-			morphemes.add(Morpheme.create(units.get(i)));
-		}
+	// 获取字符串
+	public String getUnit(int index) {
+		return units.get(index);
 	}
 
-	// 获取单元
-	public Morpheme getMorpheme(int index) {
-		return morphemes.get(index);
-	}
-
-	// 获取语素的字符串
-	public String getStr(int index) {
-		return getMorpheme(index).str;
-	}
-
-	public String getKeyword(String scope) {
+	// 这里的scope只有可能是static和class
+	public String getCommand(String scope) {
 		// 判断首个单词是否关键字
-		String str = getStr(0);
+		String str = getUnit(0);
 		for (String keyword : KEYWORD) {
 			if (keyword.equals(str)) {
 				return keyword;
 			}
 		}
 		// 如果第二个语义是"=",那么可以认为是赋值语句
-		str = getStr(1);
+		str = getUnit(1);
 		if ("=".equals(str)) {
-			return "method".equals(scope) ? "var" : "field";
+			return "field";
 		}
-		// 如果只有右值的话,则只能返回调用
-		return "invoke";
+		// 未知
+		return null;
 
+	}
+
+	@Override
+	public String toString() {
+		return "Sentence " + units;
 	}
 
 }

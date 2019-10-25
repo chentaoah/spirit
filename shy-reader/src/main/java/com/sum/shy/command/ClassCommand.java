@@ -15,14 +15,18 @@ public class ClassCommand extends AbstractCommand {
 		if ("static".equals(scope)) {
 
 			// 解析类名
-			clazz.className = sentence.getStr(1);
+			clazz.className = sentence.getUnit(1);
 
-			if ("extends".equals(sentence.getStr(2))) {
-				clazz.superName = sentence.getStr(3);
-			}
+			try {
+				if ("extends".equals(sentence.getUnit(2))) {
+					clazz.superName = sentence.getUnit(3);
+				}
+				if ("impl".equals(sentence.getUnit(4))) {
+					clazz.interfaces = Arrays.asList(sentence.getUnit(5).split(","));
+				}
 
-			if ("impl".equals(sentence.getStr(4))) {
-				clazz.interfaces = Arrays.asList(sentence.getStr(5).split(","));
+			} catch (Exception e) {
+				// ignore
 			}
 
 			// 通过工具类来获取下面的所有行

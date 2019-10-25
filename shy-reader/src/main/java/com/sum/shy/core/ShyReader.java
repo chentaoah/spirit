@@ -10,6 +10,7 @@ import com.sum.shy.api.ClassReader;
 import com.sum.shy.api.Command;
 import com.sum.shy.clazz.Clazz;
 import com.sum.shy.command.ClassCommand;
+import com.sum.shy.command.DefCommand;
 import com.sum.shy.command.FieldCommand;
 import com.sum.shy.command.FuncCommand;
 import com.sum.shy.command.ImportCommand;
@@ -21,6 +22,7 @@ public class ShyReader implements ClassReader {
 	static {
 		Command.register("package", new PackageCommand());
 		Command.register("import", new ImportCommand());
+		Command.register("def", new DefCommand());
 		Command.register("class", new ClassCommand());
 		Command.register("field", new FieldCommand());
 		Command.register("func", new FuncCommand());
@@ -34,9 +36,15 @@ public class ShyReader implements ClassReader {
 
 	private Clazz readLines(List<String> lines) {
 
+		// 打印一下
+		for (String line : lines) {
+			System.out.println(line);
+		}
+
 		Clazz clazz = new Clazz();
 		// 快速读取文件的整体内容
 		readScopeLines("static", clazz, lines);
+
 		// 开始解析class结构
 		readScopeLines("class", clazz, clazz.classLines);
 
@@ -44,10 +52,7 @@ public class ShyReader implements ClassReader {
 	}
 
 	private void readScopeLines(String scope, Clazz clazz, List<String> lines) {
-		// 打印一下
-		for (String line : lines) {
-			System.out.println(line);
-		}
+
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中
 			String line = lines.get(i);
@@ -58,12 +63,15 @@ public class ShyReader implements ClassReader {
 			// 根据一行字符串,生成对应的语句
 			Sentence sentence = new Sentence(line);
 			// 获取关键词
-			String keyword = sentence.getKeyword(scope);
+			String command = sentence.getCommand(scope);
+			if (command == null || command.length() == 0) {
+				continue;
+			}
 			// 获取指令
-			Command command = Command.get(keyword);
-			if (command != null) {
+			Command cmd = Command.get(command);
+			if (cmd != null) {
 				// handle返回跳跃数
-				i = i + command.handle(scope, clazz, lines, i, sentence);
+				i = i + cmd.handle(scope, clazz, lines, i, sentence);
 			}
 
 		}

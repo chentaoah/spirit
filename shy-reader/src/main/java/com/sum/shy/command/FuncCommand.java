@@ -26,7 +26,7 @@ public class FuncCommand extends AbstractCommand {
 
 	private int createMethod(List<Method> methods, List<String> lines, int index, Sentence sentence) {
 
-		String str = sentence.getStr(1);
+		String str = sentence.getUnit(1);
 		// 这里一定要trim一下
 		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(str);
 		// 方法名

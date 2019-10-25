@@ -39,14 +39,28 @@ public class LineUtils {
 	}
 
 	public static String replaceString(String line, char left, char right, String name, Map<String, String> map) {
-		return replaceString(line, left, right, name, map, false);
+		return replaceString(line, left, right, name, map, false, false);
 	}
 
 	public static String replaceString(String line, char left, char right, String name, Map<String, String> map,
 			boolean aleft) {
+		return replaceString(line, left, right, name, map, false, aleft);
+	}
+
+	public static String replaceString(String line, char left, char right, String name, Map<String, String> map,
+			boolean greed, boolean aleft) {
 		// 先统计一下索引位置
 		List<Pair> list = new ArrayList<>();
+		// 是否进入"符号的范围内
+		boolean flag = false;
 		for (int i = 0, start = -1, count = 0; i < line.length(); i++) {
+			// 如果进入了"符号的范围,并且left和right不是",则直接跳过
+			if (line.charAt(i) == '"' && line.charAt(i - 1 >= 0 ? i - 1 : i) != '\\') {
+				flag = flag ? false : true;
+			}
+			if (flag && left != '"' && right != '"') {
+				continue;
+			}
 			// 小心这里left和right是一样的
 			if (line.charAt(i) == left && count % 2 == 0) {
 				count++;
@@ -56,7 +70,11 @@ public class LineUtils {
 				if (aleft) {
 					// what like user.say()
 					for (int j = i - 1; j >= 0; j--) {
-						if (!(Character.isLetter(line.charAt(j)) || line.charAt(j) == '.')) {
+						if (line.charAt(j) == ' ') {
+							start = j + 1;
+							break;
+						}
+						if (!Character.isLetter(line.charAt(j)) && line.charAt(j) != '.') {
 							start = j + 1;
 						}
 					}
@@ -67,6 +85,9 @@ public class LineUtils {
 					if (start >= 0 && i > start) {
 						list.add(new Pair(start, i));
 						start = -1;
+						if (!greed) {
+							break;
+						}
 					}
 				}
 			}

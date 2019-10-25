@@ -11,7 +11,7 @@ public class PackageCommand extends AbstractCommand {
 	public int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
-			clazz.packageStr = sentence.getStr(1);
+			clazz.packageStr = sentence.getUnit(1);
 		}
 		return 0;
 	}

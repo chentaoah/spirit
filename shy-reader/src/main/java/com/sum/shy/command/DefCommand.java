@@ -11,8 +11,8 @@ public class DefCommand extends AbstractCommand {
 	public int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
-			String type = sentence.getStr(1);
-			String[] strs = sentence.getStr(2).split(",");
+			String type = sentence.getUnit(1);
+			String[] strs = sentence.getUnit(2).split(",");
 			for (String str : strs) {
 				clazz.defTypes.put(str, type);
 			}
