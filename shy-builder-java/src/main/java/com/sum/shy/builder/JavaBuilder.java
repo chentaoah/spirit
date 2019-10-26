@@ -2,7 +2,6 @@ package com.sum.shy.builder;
 
 import java.util.Map;
 
-import com.google.common.collect.Maps;
 import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.clazz.Clazz;
 import com.sum.shy.clazz.Field;
@@ -134,8 +133,7 @@ public class JavaBuilder implements CodeBuilder {
 				if ("array".equals(type)) {
 					sb.append("Collection.newArrayList(" + str.substring(1, str.length() - 1) + ")");
 				} else if ("map".equals(type)) {
-					sb.append("Collection.newHashMap(" + str.substring(1, str.length() - 1).replaceAll(":", ",")
-							+ ")");
+					sb.append("Collection.newHashMap(" + str.substring(1, str.length() - 1).replaceAll(":", ",") + ")");
 				} else {
 					sb.append(str);
 				}

@@ -1,0 +1,49 @@
+package com.sum.shy
+
+import com.sum.shy.Child
+
+def People People.getInstance()
+
+class User {
+	x=10
+	y=99.0
+	z="hello world"
+	c=Child(x,y)
+	d=People.getInstance()
+	b=["a","b","c","d{}[]"]
+	e={"chentao":1,"zjx":2}
+	
+	func getName(int x,int y){
+		return "chentao"
+	}
+	
+	func getAge(int x,int y){
+		return 28
+	}
+	
+	func getResult(int x,int y){
+		if x>0 && y<0 {
+			print "hello"
+		}else if x<0 && y>0{
+			print "hello"
+		}
+		list=[]
+		for item in list{
+			print item
+		}
+		
+	}
+	
+}
+
+a=101
+
+func main(){
+	user=User()
+	user.getName()
+	user.getAge()
+}
+
+func getNum(){
+	return 101
+}

@@ -57,7 +57,7 @@ public class ShyReader implements ClassReader {
 			// 取出第一个单词,判断是否在关键字中
 			String line = lines.get(i);
 			// 跳过注释
-			if (line.trim().startsWith("//") || line.length() == 0) {
+			if (line.trim().startsWith("//") || line.trim().length() == 0) {
 				continue;
 			}
 			// 根据一行字符串,生成对应的语句

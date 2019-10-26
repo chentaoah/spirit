@@ -16,7 +16,7 @@ public class Compiler {
 		ClassReader reader = new ShyReader();
 		CodeBuilder builder = new JavaBuilder();
 		// 1.读取文件
-		String path = "C:\\Users\\chentao26275\\Desktop\\User.shy";
+		String path = "/Users/chentao/Work/CloudSpace/Shy/shy-compiler/resource/User.shy";
 		File dir = new File(path);
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
