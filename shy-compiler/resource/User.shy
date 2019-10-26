@@ -12,6 +12,7 @@ class User {
 	d=People.getInstance()
 	b=["a","b","c","d{}[]"]
 	e={"chentao":1,"zjx":2}
+	f=[Child(x,y)]
 	
 	func getName(int x,int y){
 		return "chentao"

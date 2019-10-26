@@ -1,6 +1,6 @@
 package com.sum.shy.sentence;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ public class Sentence {
 
 	// 操作符
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
-			"\\*", "/", "%", "<", ">", "\\{", "\\}" };
+			"\\*", "/", "%", "<", ">", "\\{", "\\}", "\\:", "," };
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
 	// 数组正则
@@ -23,7 +23,7 @@ public class Sentence {
 	// 一行
 	public String line;
 	// 单元
-	public List<String> units = new ArrayList<>();
+	public List<String> units;
 
 	public Sentence(String line) {
 		this.line = line;
@@ -38,18 +38,19 @@ public class Sentence {
 
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		// 这里需要解决一个括号谁套谁的问题
+		int count = 0;
 		for (int i = 0; i < line.length(); i++) {
 			if (line.charAt(i) == '"') {
-				line = LineUtils.replaceString(line, '"', '"', "str", replacedStrs);
+				line = LineUtils.replaceString(line, '"', '"', "str", count++, replacedStrs);
 				System.out.println(line);
 			} else if (line.charAt(i) == '(') {
-				line = LineUtils.replaceString(line, '(', ')', "invoke", replacedStrs, true);
+				line = LineUtils.replaceString(line, '(', ')', "invoke", count++, replacedStrs, true);
 				System.out.println(line);
 			} else if (line.charAt(i) == '[') {
-				line = LineUtils.replaceString(line, '[', ']', "array", replacedStrs);
+				line = LineUtils.replaceString(line, '[', ']', "array", count++, replacedStrs);
 				System.out.println(line);
 			} else if (line.charAt(i) == '{') {
-				line = LineUtils.replaceString(line, '{', '}', "map", replacedStrs);
+				line = LineUtils.replaceString(line, '{', '}', "map", count++, replacedStrs);
 				System.out.println(line);
 			}
 		}
@@ -79,9 +80,7 @@ public class Sentence {
 	}
 
 	private void splitString(String line) {
-		for (String str : line.split(" ")) {
-			units.add(str);
-		}
+		units = Arrays.asList(line.split(" "));
 	}
 
 	private void rereplaceString(Map<String, String> replacedStrs) {

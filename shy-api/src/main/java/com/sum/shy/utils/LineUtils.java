@@ -38,17 +38,18 @@ public class LineUtils {
 		return line;
 	}
 
-	public static String replaceString(String line, char left, char right, String name, Map<String, String> map) {
-		return replaceString(line, left, right, name, map, false, false);
+	public static String replaceString(String line, char left, char right, String name, int number,
+			Map<String, String> map) {
+		return replaceString(line, left, right, name, number, map, false, false);
 	}
 
-	public static String replaceString(String line, char left, char right, String name, Map<String, String> map,
-			boolean aleft) {
-		return replaceString(line, left, right, name, map, false, aleft);
+	public static String replaceString(String line, char left, char right, String name, int number,
+			Map<String, String> map, boolean aleft) {
+		return replaceString(line, left, right, name, number, map, false, aleft);
 	}
 
-	public static String replaceString(String line, char left, char right, String name, Map<String, String> map,
-			boolean greed, boolean aleft) {
+	public static String replaceString(String line, char left, char right, String name, int number,
+			Map<String, String> map, boolean greed, boolean aleft) {
 		// 先统计一下索引位置
 		List<Pair> list = new ArrayList<>();
 		// 是否进入"符号的范围内
@@ -70,12 +71,17 @@ public class LineUtils {
 				if (aleft) {
 					// what like user.say()
 					for (int j = i - 1; j >= 0; j--) {
-						if (line.charAt(j) == ' ') {
+						char c = line.charAt(j);
+						if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.') {
+							// 符合条件，但是已经到最边界了，那么则以这个边界为准
+							if (j == 0) {
+								start = j;
+								break;
+							}
+							continue;
+						} else {
 							start = j + 1;
 							break;
-						}
-						if (!Character.isLetter(line.charAt(j)) && line.charAt(j) != '.') {
-							start = j + 1;
 						}
 					}
 				}
@@ -102,7 +108,7 @@ public class LineUtils {
 			subStrs.add(str);
 		}
 		// 开始替换字符串
-		int count = 0;
+		int count = number;
 		for (String str : subStrs) {
 			String key = "$" + name + count++;
 			line = line.replace(str, key);

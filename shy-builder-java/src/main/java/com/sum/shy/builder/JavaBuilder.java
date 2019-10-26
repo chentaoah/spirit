@@ -7,7 +7,7 @@ import com.sum.shy.clazz.Clazz;
 import com.sum.shy.clazz.Field;
 import com.sum.shy.clazz.Method;
 import com.sum.shy.clazz.Param;
-import com.sum.shy.sentence.Morpheme;
+import com.sum.shy.sentence.Analyzer;
 import com.sum.shy.sentence.Sentence;
 
 public class JavaBuilder implements CodeBuilder {
@@ -126,10 +126,10 @@ public class JavaBuilder implements CodeBuilder {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 2; i < sentence.units.size(); i++) {
 			String str = sentence.getUnit(i);
-			if (Morpheme.isInitInvoke(str)) {
+			if (Analyzer.isInitInvoke(str)) {
 				sb.append("new " + str);
 			} else {
-				String type = Morpheme.getType(defTypes, str);
+				String type = Analyzer.getType(defTypes, str);
 				if ("array".equals(type)) {
 					sb.append("Collection.newArrayList(" + str.substring(1, str.length() - 1) + ")");
 				} else if ("map".equals(type)) {

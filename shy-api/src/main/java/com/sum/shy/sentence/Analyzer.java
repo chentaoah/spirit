@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-
-//语素
-public class Morpheme {
+public class Analyzer {
 
 	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
@@ -20,6 +16,19 @@ public class Morpheme {
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
 	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+
+	public static String getType(Map<String, String> defTypes, Sentence sentence) {
+		String type = "var";
+		// 从头开始遍历，直接从参数名，开始分析
+		for (int i = 0; i < sentence.units.size(); i++) {
+			type = getType(defTypes, sentence.getUnit(i));
+			if (!"var".equals(type)) {
+				break;
+			}
+		}
+		return type;
+
+	}
 
 	public static String getType(Map<String, String> defTypes, String str) {
 		String type = "var";
@@ -40,14 +49,13 @@ public class Morpheme {
 		} else if (VAR_PATTERN.matcher(str).matches()) {// 变量
 			type = "var";
 		}
-		// 尝试从上下文中获取
+		// 如果还是返回还是未知的,则通过名称来获取类型
 		if ("var".equals(type)) {
 			if (defTypes.containsKey(str)) {
 				type = defTypes.get(str);
 			}
 		}
 		return type;
-
 	}
 
 	private static String getInvokeType(String str) {
@@ -66,36 +74,34 @@ public class Morpheme {
 		return str.substring(0, str.indexOf("("));
 	}
 
-	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, String value) {
+	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, Sentence sentence) {
 		List<String> genericTypes = new ArrayList<>();
 		if ("array".equals(type)) {
-			List<String> list = Splitter.on(CharMatcher.anyOf("[,]")).trimResults().splitToList(value);
-			for (int i = 1; i < list.size() - 1; i++) {
-				String elementType = getType(defTypes, list.get(i));
-				if (!"var".equals(elementType)) {
-					genericTypes.add(elementType);
-					break;
-				}
-			}
-			if (genericTypes.size() == 0) {
-				genericTypes.add("var");
-			}
+			String str = sentence.getUnit(2);
+			Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+			String genericType = getType(defTypes, subSentence);
+			genericTypes.add(genericType);
 		}
 		if ("map".equals(type)) {
-			List<String> list = Splitter.on(CharMatcher.anyOf("{,}")).trimResults().splitToList(value);
-			for (int i = 1; i < list.size() - 1; i++) {
-				String[] args = list.get(i).split(":");
-				String keyType = getType(defTypes, args[0]);
-				String valueType = getType(defTypes, args[1]);
-				if (!"var".equals(keyType) && !"var".equals(valueType)) {
-					genericTypes.add(keyType);
-					genericTypes.add(valueType);
-					break;
+			genericTypes.add("var");
+			genericTypes.add("var");
+			String str = sentence.getUnit(2);
+			Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+			boolean flag = true;
+			for (int i = 0; i < subSentence.units.size(); i++) {
+				String unit = subSentence.getUnit(i);
+				if (":".equals(unit)) {
+					flag = false;
+				} else if (",".equals(unit)) {
+					flag = true;
 				}
-			}
-			if (genericTypes.size() == 0) {
-				genericTypes.add("var");
-				genericTypes.add("var");
+				String genericType = getType(defTypes, unit);
+				if (!"var".equals(genericType)) {
+					genericTypes.set(flag ? 0 : 1, genericType);
+					if (!"var".equals(genericTypes.get(0)) && !"var".equals(genericTypes.get(1))) {
+						break;
+					}
+				}
 			}
 		}
 		return genericTypes;
