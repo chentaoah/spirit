@@ -1,5 +1,6 @@
 package com.sum.shy.sentence;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Sentence {
 
 	// 操作符
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
-			"\\*", "/", "%", "<", ">", "\\{", "\\}", "\\:", "," };
+			"\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", "," };
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
 	// 数组正则
@@ -24,6 +25,8 @@ public class Sentence {
 	public String line;
 	// 单元
 	public List<String> units;
+
+	public List<Object> structs;
 
 	public Sentence(String line) {
 		this.line = line;
@@ -70,6 +73,9 @@ public class Sentence {
 		System.out.println(units);
 		System.out.println("");// 换行
 
+		// 6.解析方法，数组和键值对之中的内容
+		processStructs();
+
 	}
 
 	private String processSymbols(String line) {
@@ -92,9 +98,33 @@ public class Sentence {
 		}
 	}
 
+	private void processStructs() {
+		structs = new ArrayList<>();
+		for (String str : units) {
+			// 下面这几种都是有子对象的
+			if (Analyzer.isInvoke(str)) {
+				Sentence subSentence = new Sentence(str.substring(str.indexOf("(") + 1, str.indexOf(")")));
+				structs.add(subSentence);
+			} else if (Analyzer.isArray(str)) {
+				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+				structs.add(subSentence);
+			} else if (Analyzer.isMap(str)) {
+				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+				structs.add(subSentence);
+			} else {
+				structs.add(str);
+			}
+		}
+	}
+
 	// 获取字符串
 	public String getUnit(int index) {
 		return units.get(index);
+	}
+
+	// 获取结构体
+	public Object getStruct(int index) {
+		return structs.get(index);
 	}
 
 	// 这里的scope只有可能是static和class

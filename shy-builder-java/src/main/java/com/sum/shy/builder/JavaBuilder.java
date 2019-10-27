@@ -48,12 +48,11 @@ public class JavaBuilder implements CodeBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + convertType(field) + " " + field.name + " = "
-					+ convertRightValue(clazz.defTypes, field.sentence) + ";\n");
+			sb.append("\tpublic static " + convertType(field) + " " + convertSentence(clazz.defTypes, field.sentence)
+					+ ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + convertType(field) + " " + field.name + " = "
-					+ convertRightValue(clazz.defTypes, field.sentence) + ";\n");
+			sb.append("\tpublic " + convertType(field) + " " + convertSentence(clazz.defTypes, field.sentence) + ";\n");
 		}
 		sb.append("\n");
 
@@ -122,18 +121,29 @@ public class JavaBuilder implements CodeBuilder {
 		}
 	}
 
-	private String convertRightValue(Map<String, String> defTypes, Sentence sentence) {
+	private String convertSentence(Map<String, String> defTypes, Sentence sentence) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 2; i < sentence.units.size(); i++) {
+		for (int i = 0; i < sentence.units.size(); i++) {
 			String str = sentence.getUnit(i);
-			if (Analyzer.isInitInvoke(str)) {
-				sb.append("new " + str);
+			if (":".equals(str)) {
+				sb.append(",");
+			} else if (Analyzer.isInvoke(str)) {
+				if (Analyzer.isInitInvoke(str)) {
+					sb.append("new ");
+				}
+				sb.append(str.substring(0, str.indexOf("(")) + "(");
+				sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+				sb.append(")");
 			} else {
 				String type = Analyzer.getType(defTypes, str);
 				if ("array".equals(type)) {
-					sb.append("Collection.newArrayList(" + str.substring(1, str.length() - 1) + ")");
+					sb.append("Collection.newArrayList(");
+					sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+					sb.append(")");
 				} else if ("map".equals(type)) {
-					sb.append("Collection.newHashMap(" + str.substring(1, str.length() - 1).replaceAll(":", ",") + ")");
+					sb.append("Collection.newHashMap(");
+					sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+					sb.append(")");
 				} else {
 					sb.append(str);
 				}

@@ -58,6 +58,18 @@ public class Analyzer {
 		return type;
 	}
 
+	public static boolean isInvoke(String str) {
+		return INVOKE_PATTERN.matcher(str).matches();
+	}
+	
+	public static boolean isArray(String str) {
+		return ARRAY_PATTERN.matcher(str).matches();
+	}
+	
+	public static boolean isMap(String str) {
+		return MAP_PATTERN.matcher(str).matches();
+	}
+
 	private static String getInvokeType(String str) {
 		// 构造函数
 		if (isInitInvoke(str)) {
