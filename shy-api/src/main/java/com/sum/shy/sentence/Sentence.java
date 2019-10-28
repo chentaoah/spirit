@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import com.sum.shy.utils.LineUtils;
 
@@ -16,16 +15,12 @@ public class Sentence {
 			"\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", "," };
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
-	// 数组正则
-	public static final Pattern ARRAY_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\[[\\s\\S]+\\]$");
-	// 键值对正则
-	public static final Pattern MAP_PATTERN = Pattern.compile("^[a-zA-Z0-9]+[ ]*=[ ]*\\{[\\s\\S]+\\}$");
 
 	// 一行
 	public String line;
 	// 单元
 	public List<String> units;
-
+	// 子语句
 	public List<Object> subSentences;
 
 	public Sentence(String line) {
