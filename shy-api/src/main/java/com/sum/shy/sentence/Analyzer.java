@@ -32,13 +32,13 @@ public class Analyzer {
 
 	public static String getType(Map<String, String> defTypes, String str) {
 		String type = "var";
-		if (BOOLEAN_PATTERN.matcher(str).matches()) {
+		if (isBoolean(str)) {
 			type = "boolean";
-		} else if (INT_PATTERN.matcher(str).matches()) {
+		} else if (isInt(str)) {
 			type = "int";
-		} else if (DOUBLE_PATTERN.matcher(str).matches()) {
+		} else if (isDouble(str)) {
 			type = "double";
-		} else if (STR_PATTERN.matcher(str).matches()) {
+		} else if (isStr(str)) {
 			type = "str";
 		} else if (isInvoke(str)) {
 			type = getInvokeType(str);
@@ -56,6 +56,22 @@ public class Analyzer {
 			}
 		}
 		return type;
+	}
+
+	public static boolean isBoolean(String str) {
+		return BOOLEAN_PATTERN.matcher(str).matches();
+	}
+
+	public static boolean isInt(String str) {
+		return INT_PATTERN.matcher(str).matches();
+	}
+
+	public static boolean isDouble(String str) {
+		return DOUBLE_PATTERN.matcher(str).matches();
+	}
+
+	public static boolean isStr(String str) {
+		return STR_PATTERN.matcher(str).matches();
 	}
 
 	public static boolean isInvoke(String str) {
