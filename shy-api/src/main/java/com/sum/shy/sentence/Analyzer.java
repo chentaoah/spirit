@@ -18,16 +18,13 @@ public class Analyzer {
 	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 
 	public static String getType(Map<String, String> defTypes, Sentence sentence) {
-		String type = "var";
-		// 从头开始遍历，直接从参数名，开始分析
-		for (int i = 0; i < sentence.units.size(); i++) {
-			type = getType(defTypes, sentence.getUnit(i));
+		for (String unit : sentence.units) {
+			String type = Analyzer.getType(defTypes, unit);
 			if (!"var".equals(type)) {
-				break;
+				return type;
 			}
 		}
-		return type;
-
+		return "var";
 	}
 
 	public static String getType(Map<String, String> defTypes, String str) {
@@ -56,6 +53,39 @@ public class Analyzer {
 			}
 		}
 		return type;
+	}
+
+	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, Sentence sentence) {
+		List<String> genericTypes = new ArrayList<>();
+		if ("array".equals(type)) {
+			Sentence subSentence = sentence.getSubSentence(2);
+			String genericType = getType(defTypes, subSentence);
+			genericTypes.add(genericType);
+			return genericTypes;
+		} else if ("map".equals(type)) {
+			genericTypes.add("var");
+			genericTypes.add("var");
+			Sentence subSentence = sentence.getSubSentence(2);
+			boolean flag = true;
+			for (int j = 0; j < subSentence.units.size(); j++) {
+				String unit = subSentence.getUnit(j);
+				if (":".equals(unit)) {
+					flag = false;
+				} else if (",".equals(unit)) {
+					flag = true;
+				}
+				String genericType = Analyzer.getType(defTypes, unit);
+				if (!"var".equals(genericType)) {
+					genericTypes.set(flag ? 0 : 1, genericType);
+					if (!"var".equals(genericTypes.get(0)) && !"var".equals(genericTypes.get(1))) {
+						return genericTypes;
+					}
+				}
+			}
+		}
+
+		return genericTypes;
+
 	}
 
 	public static boolean isBoolean(String str) {
@@ -100,36 +130,6 @@ public class Analyzer {
 
 	public static String getInitMethod(String str) {
 		return str.substring(0, str.indexOf("("));
-	}
-
-	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, Sentence sentence) {
-		List<String> genericTypes = new ArrayList<>();
-		if ("array".equals(type)) {
-			String genericType = getType(defTypes, (Sentence) sentence.getSubSentence(2));
-			genericTypes.add(genericType);
-		}
-		if ("map".equals(type)) {
-			genericTypes.add("var");
-			genericTypes.add("var");
-			Sentence subSentence = sentence.getSubSentence(2);
-			boolean flag = true;
-			for (int i = 0; i < subSentence.units.size(); i++) {
-				String unit = subSentence.getUnit(i);
-				if (":".equals(unit)) {
-					flag = false;
-				} else if (",".equals(unit)) {
-					flag = true;
-				}
-				String genericType = getType(defTypes, unit);
-				if (!"var".equals(genericType)) {
-					genericTypes.set(flag ? 0 : 1, genericType);
-					if (!"var".equals(genericTypes.get(0)) && !"var".equals(genericTypes.get(1))) {
-						break;
-					}
-				}
-			}
-		}
-		return genericTypes;
 	}
 
 }

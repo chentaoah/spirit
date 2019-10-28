@@ -63,7 +63,7 @@ public class ShyReader implements ClassReader {
 			// 根据一行字符串,生成对应的语句
 			Sentence sentence = new Sentence(line);
 			// 获取关键词
-			String command = sentence.getCommand(scope);
+			String command = sentence.getCommand();
 			if (command == null || command.length() == 0) {
 				continue;
 			}

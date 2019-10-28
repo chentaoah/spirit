@@ -8,6 +8,7 @@ import com.google.common.base.Splitter;
 import com.sum.shy.clazz.Clazz;
 import com.sum.shy.clazz.Method;
 import com.sum.shy.clazz.Param;
+import com.sum.shy.sentence.Analyzer;
 import com.sum.shy.sentence.Sentence;
 import com.sum.shy.utils.LineUtils;
 
@@ -17,14 +18,14 @@ public class FuncCommand extends AbstractCommand {
 	public int handle(String scope, Clazz clazz, List<String> lines, int index, Sentence sentence) {
 		// 如果是在根域下,则开始解析
 		if ("static".equals(scope)) {
-			return createMethod(clazz.staticMethods, lines, index, sentence);
+			return createMethod(clazz, clazz.staticMethods, lines, index, sentence);
 		} else if ("class".equals(scope)) {
-			return createMethod(clazz.methods, lines, index, sentence);
+			return createMethod(clazz, clazz.methods, lines, index, sentence);
 		}
 		return 0;
 	}
 
-	private int createMethod(List<Method> methods, List<String> lines, int index, Sentence sentence) {
+	private int createMethod(Clazz clazz, List<Method> methods, List<String> lines, int index, Sentence sentence) {
 
 		String str = sentence.getUnit(1);
 		// 这里一定要trim一下
@@ -41,10 +42,19 @@ public class FuncCommand extends AbstractCommand {
 			}
 		}
 		// 创建方法
-		Method method = new Method("var", name, params);
+		Method method = new Method(null, name, params);
 		methods.add(method);
-
 		method.methodLines = LineUtils.getSubLines(lines, index);
+
+		// 寻找return
+		String returnType = "var";
+		for (int i = 0; i < method.methodLines.size(); i++) {
+			Sentence methodSentence = new Sentence(method.methodLines.get(i));
+			if ("return".equals(methodSentence.getUnit(0))) {
+				returnType = Analyzer.getType(clazz.defTypes, methodSentence);
+			}
+		}
+		method.returnType = returnType;
 
 		return method.methodLines.size() + 1;
 

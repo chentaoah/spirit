@@ -24,6 +24,7 @@ public class Sentence {
 	public List<Object> subSentences;
 
 	public Sentence(String line) {
+
 		this.line = line;
 
 		System.out.println(line.trim());
@@ -68,8 +69,8 @@ public class Sentence {
 		System.out.println(units);
 		System.out.println("");// 换行
 
-		// 6.解析方法，数组和键值对之中的内容
-		processStructs();
+		// 6.解析子语句
+		processSubSentence();
 
 	}
 
@@ -93,18 +94,21 @@ public class Sentence {
 		}
 	}
 
-	private void processStructs() {
+	private void processSubSentence() {
 		subSentences = new ArrayList<>();
 		for (String str : units) {
 			// 下面这几种都是有子对象的
 			if (Analyzer.isInvoke(str)) {
-				Sentence subSentence = new Sentence(str.substring(str.indexOf("(") + 1, str.indexOf(")")));
+				String line = str.substring(str.indexOf("(") + 1, str.indexOf(")"));
+				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else if (Analyzer.isArray(str)) {
-				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+				String line = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else if (Analyzer.isMap(str)) {
-				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+				String line = str.substring(str.indexOf("{") + 1, str.indexOf("}"));
+				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else {
 				subSentences.add(str);
@@ -124,7 +128,7 @@ public class Sentence {
 	}
 
 	// 这里的scope只有可能是static和class
-	public String getCommand(String scope) {
+	public String getCommand() {
 		// 判断首个单词是否关键字
 		String str = getUnit(0);
 		for (String keyword : KEYWORD) {
