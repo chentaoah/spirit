@@ -99,15 +99,15 @@ public class Sentence {
 		for (String str : units) {
 			// 下面这几种都是有子对象的
 			if (Analyzer.isInvoke(str)) {
-				String line = str.substring(str.indexOf("(") + 1, str.indexOf(")"));
+				String line = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
 				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else if (Analyzer.isArray(str)) {
-				String line = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+				String line = str.substring(1, str.length() - 1);
 				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else if (Analyzer.isMap(str)) {
-				String line = str.substring(str.indexOf("{") + 1, str.indexOf("}"));
+				String line = str.substring(1, str.length() - 1);
 				Sentence subSentence = new Sentence(line);
 				subSentences.add(subSentence);
 			} else {

@@ -59,7 +59,7 @@ public class JavaBuilder implements CodeBuilder {
 		// ============================ method ================================
 
 		for (Method method : clazz.staticMethods) {
-			sb.append("\tpublic static " + method.returnType + " " + method.name + "(");
+			sb.append("\tpublic static " + convertReturnType(method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -74,7 +74,7 @@ public class JavaBuilder implements CodeBuilder {
 			sb.append("\n");
 		}
 		for (Method method : clazz.methods) {
-			sb.append("\tpublic " + method.returnType + " " + method.name + "(");
+			sb.append("\tpublic " + convertReturnType(method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -152,6 +152,14 @@ public class JavaBuilder implements CodeBuilder {
 
 		}
 		return sb.toString();
+	}
+
+	private String convertReturnType(String str) {
+		if ("var".equals(str)) {
+			return "void";
+		} else {
+			return str;
+		}
 	}
 
 	private void buildMethod(StringBuilder sb, Clazz clazz, Method method) {
