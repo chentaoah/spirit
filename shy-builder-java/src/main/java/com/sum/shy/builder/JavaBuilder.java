@@ -132,17 +132,17 @@ public class JavaBuilder implements CodeBuilder {
 					sb.append("new ");
 				}
 				sb.append(str.substring(0, str.indexOf("(")) + "(");
-				sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+				sb.append(convertSentence(defTypes, (Sentence) sentence.getSubSentence(i)));
 				sb.append(")");
 			} else {
 				String type = Analyzer.getType(defTypes, str);
 				if ("array".equals(type)) {
 					sb.append("Collection.newArrayList(");
-					sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+					sb.append(convertSentence(defTypes, (Sentence) sentence.getSubSentence(i)));
 					sb.append(")");
 				} else if ("map".equals(type)) {
 					sb.append("Collection.newHashMap(");
-					sb.append(convertSentence(defTypes, (Sentence) sentence.getStruct(i)));
+					sb.append(convertSentence(defTypes, (Sentence) sentence.getSubSentence(i)));
 					sb.append(")");
 				} else {
 					sb.append(str);

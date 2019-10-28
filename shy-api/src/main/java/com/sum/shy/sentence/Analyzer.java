@@ -40,11 +40,11 @@ public class Analyzer {
 			type = "double";
 		} else if (STR_PATTERN.matcher(str).matches()) {
 			type = "str";
-		} else if (INVOKE_PATTERN.matcher(str).matches()) {
+		} else if (isInvoke(str)) {
 			type = getInvokeType(str);
-		} else if (ARRAY_PATTERN.matcher(str).matches()) {
+		} else if (isArray(str)) {
 			type = "array";
-		} else if (MAP_PATTERN.matcher(str).matches()) {
+		} else if (isMap(str)) {
 			type = "map";
 		} else if (VAR_PATTERN.matcher(str).matches()) {// 变量
 			type = "var";
@@ -61,11 +61,11 @@ public class Analyzer {
 	public static boolean isInvoke(String str) {
 		return INVOKE_PATTERN.matcher(str).matches();
 	}
-	
+
 	public static boolean isArray(String str) {
 		return ARRAY_PATTERN.matcher(str).matches();
 	}
-	
+
 	public static boolean isMap(String str) {
 		return MAP_PATTERN.matcher(str).matches();
 	}
@@ -89,16 +89,13 @@ public class Analyzer {
 	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, Sentence sentence) {
 		List<String> genericTypes = new ArrayList<>();
 		if ("array".equals(type)) {
-			String str = sentence.getUnit(2);
-			Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
-			String genericType = getType(defTypes, subSentence);
+			String genericType = getType(defTypes, (Sentence) sentence.getSubSentence(2));
 			genericTypes.add(genericType);
 		}
 		if ("map".equals(type)) {
 			genericTypes.add("var");
 			genericTypes.add("var");
-			String str = sentence.getUnit(2);
-			Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
+			Sentence subSentence = sentence.getSubSentence(2);
 			boolean flag = true;
 			for (int i = 0; i < subSentence.units.size(); i++) {
 				String unit = subSentence.getUnit(i);

@@ -26,7 +26,7 @@ public class Sentence {
 	// 单元
 	public List<String> units;
 
-	public List<Object> structs;
+	public List<Object> subSentences;
 
 	public Sentence(String line) {
 		this.line = line;
@@ -99,20 +99,20 @@ public class Sentence {
 	}
 
 	private void processStructs() {
-		structs = new ArrayList<>();
+		subSentences = new ArrayList<>();
 		for (String str : units) {
 			// 下面这几种都是有子对象的
 			if (Analyzer.isInvoke(str)) {
 				Sentence subSentence = new Sentence(str.substring(str.indexOf("(") + 1, str.indexOf(")")));
-				structs.add(subSentence);
+				subSentences.add(subSentence);
 			} else if (Analyzer.isArray(str)) {
 				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
-				structs.add(subSentence);
+				subSentences.add(subSentence);
 			} else if (Analyzer.isMap(str)) {
 				Sentence subSentence = new Sentence(str.substring(1, str.length() - 1));
-				structs.add(subSentence);
+				subSentences.add(subSentence);
 			} else {
-				structs.add(str);
+				subSentences.add(str);
 			}
 		}
 	}
@@ -123,8 +123,9 @@ public class Sentence {
 	}
 
 	// 获取结构体
-	public Object getStruct(int index) {
-		return structs.get(index);
+	@SuppressWarnings("unchecked")
+	public <T> T getSubSentence(int index) {
+		return (T) subSentences.get(index);
 	}
 
 	// 这里的scope只有可能是static和class
