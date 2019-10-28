@@ -68,7 +68,7 @@ public class JavaBuilder implements CodeBuilder {
 			}
 			sb.append("){\n");
 
-			buildMethod(sb, clazz, method);
+			convertMethodLine(sb, clazz, method);
 
 			sb.append("\t}\n");
 			sb.append("\n");
@@ -83,7 +83,7 @@ public class JavaBuilder implements CodeBuilder {
 			}
 			sb.append("){\n");
 
-			buildMethod(sb, clazz, method);
+			convertMethodLine(sb, clazz, method);
 
 			sb.append("\t}\n");
 			sb.append("\n");
@@ -105,6 +105,13 @@ public class JavaBuilder implements CodeBuilder {
 					+ convertGenericType(field.genericTypes.get(1)) + ">";
 		}
 		return field.type;
+	}
+
+	private String convertType(String str) {
+		if ("str".equals(str)) {
+			return "String";
+		}
+		return str;
 	}
 
 	private String convertGenericType(String str) {
@@ -162,9 +169,33 @@ public class JavaBuilder implements CodeBuilder {
 		}
 	}
 
-	private void buildMethod(StringBuilder sb, Clazz clazz, Method method) {
+	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {
 		for (String line : method.methodLines) {
-			sb.append("\t\t" + line.trim() + "\n");
+			if (line.trim().startsWith("//") || line.trim().length() == 0) {
+				continue;
+			}
+			Sentence sentence = new Sentence(line);
+			try {
+				if ("if".equals(sentence.getUnit(0))) {
+					sentence.units.add(1, "(");
+					sentence.units.add(sentence.units.size() - 1, ")");
+					sb.append("\t\t" + sentence + "\n");
+				} else if ("else".equals(sentence.getUnit(1)) && "if".equals(sentence.getUnit(2))) {
+					sentence.units.add(3, "(");
+					sentence.units.add(sentence.units.size() - 1, ")");
+					sb.append("\t\t" + sentence + "\n");
+				} else if ("=".equals(sentence.getUnit(1))) {
+					sb.append("\t\t" + convertType(Analyzer.getType(clazz.defTypes, sentence)) + " "
+							+ convertSentence(clazz.defTypes, sentence) + ";\n");
+				} else if ("}".equals(sentence.getUnit(0))) {
+					sb.append("\t\t" + sentence + "\n");
+				} else {
+					sb.append("\t\t" + sentence + ";\n");
+				}
+			} catch (Exception e) {
+				// ignore
+			}
+
 		}
 	}
 

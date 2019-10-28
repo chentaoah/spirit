@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.utils.LineUtils;
 
 public class Sentence {
@@ -82,7 +83,7 @@ public class Sentence {
 	}
 
 	private void splitString(String line) {
-		units = Arrays.asList(line.split(" "));
+		units = new ArrayList<>(Arrays.asList(line.split(" ")));
 	}
 
 	private void rereplaceString(Map<String, String> replacedStrs) {
@@ -118,7 +119,7 @@ public class Sentence {
 
 	// 获取字符串
 	public String getUnit(int index) {
-		return units.get(index);
+		return index >= units.size() ? null : units.get(index);
 	}
 
 	// 获取结构体
@@ -148,7 +149,7 @@ public class Sentence {
 
 	@Override
 	public String toString() {
-		return "Sentence " + units;
+		return Joiner.on(" ").join(units);
 	}
 
 }
