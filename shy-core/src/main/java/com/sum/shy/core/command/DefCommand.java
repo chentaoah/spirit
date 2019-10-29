@@ -9,7 +9,7 @@ import com.sum.shy.core.entity.Result;
 public class DefCommand implements Command {
 
 	@Override
-	public Result analysis(List<String> lines, int index, String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> units) {
 		String type = units.get(1);
 		String[] strs = units.get(2).split(",");
 		for (String str : strs) {

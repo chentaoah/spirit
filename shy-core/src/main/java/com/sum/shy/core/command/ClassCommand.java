@@ -12,12 +12,12 @@ import com.sum.shy.core.utils.LineUtils;
 public class ClassCommand implements Command {
 
 	@Override
-	public Result analysis(List<String> lines, int index, String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> units) {
 
 		// 解析类名
 		Clazz clazz = Context.get().clazz;
-		clazz.className = units.get(1);
 
+		clazz.className = units.get(1);
 		try {
 			if ("extends".equals(units.get(2))) {
 				clazz.superName = units.get(3);
@@ -31,7 +31,7 @@ public class ClassCommand implements Command {
 		}
 
 		// 通过工具类来获取下面的所有行
-		clazz.classLines = LineUtils.getSubLines(lines, index);
+		clazz.classLines = LineUtils.getSubLines(Context.get().lines, Context.get().lineNumber);
 
 		return new Result(clazz.classLines.size() + 1, null);
 	}

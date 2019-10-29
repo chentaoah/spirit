@@ -9,7 +9,7 @@ import com.sum.shy.core.entity.Result;
 public class ImportCommand implements Command {
 
 	@Override
-	public Result analysis(List<String> lines, int index, String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> units)  {
 
 		String importStr = units.get(1);
 		// 设置上下文中的

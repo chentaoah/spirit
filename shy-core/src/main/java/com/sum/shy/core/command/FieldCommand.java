@@ -13,7 +13,7 @@ import com.sum.shy.core.entity.Token;
 public class FieldCommand implements Command {
 
 	@Override
-	public Result analysis(List<String> lines, int index, String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> units) {
 		// 变量名
 		String name = units.get(0);
 		// 将所有单元转换成带有类型的token
@@ -24,6 +24,13 @@ public class FieldCommand implements Command {
 		List<String> genericTypes = SemanticDelegate.getGenericTypes(tokens);
 		// 生成语句,以便后面使用
 		Stmt stmt = new Stmt(line, syntax, tokens);
+
+//		if ("var".equals(type)) {
+//			Map<String, String> defTypes = Context.get().clazz.defTypes;
+//			if (defTypes.containsKey(str)) {
+//				type = defTypes.get(str);
+//			}
+//		}
 
 		Context context = Context.get();
 		if ("static".equals(context.scope)) {

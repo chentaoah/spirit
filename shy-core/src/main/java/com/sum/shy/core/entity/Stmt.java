@@ -10,7 +10,7 @@ public class Stmt {
 	public String line;
 	// 语法
 	public String syntax;
-	// 单元
+	// 语义
 	public List<Token> tokens;
 
 	/**

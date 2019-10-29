@@ -45,37 +45,41 @@ public class ShyReader {
 		Context context = Context.get();
 		context.clazz = clazz;
 
-		// 快速读取文件的整体内容
 		context.scope = "static";
-		readScopeLines(lines);
+		context.lines = lines;
+		// 解析static域
+		readScopeLines();
 
-		// 开始解析class结构
 		context.scope = "class";
-		readScopeLines(clazz.classLines);
+		context.lines = clazz.classLines;
+		// 解析class域
+		readScopeLines();
 
 		return clazz;
 	}
 
-	private void readScopeLines(List<String> lines) {
-
+	private void readScopeLines() {
+		// 获取所有行
+		List<String> lines = Context.get().lines;
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中
 			String line = lines.get(i);
+			// 设置行号
+			Context.get().lineNumber = i;
+			Context.get().line = line;
 			// 跳过注释
 			if (line.trim().startsWith("//") || line.trim().length() == 0) {
 				continue;
 			}
-
 			// 1.词法分析,将语句拆分成多个单元
 			List<String> units = LexicalAnalyzer.analysis(line);
 			// 2.语法分析,分析语句的语法
 			String syntax = SyntacticParser.analysis(units);
 			// 3.语义分析,根据语法,进行每个单元语义的分析
 			Command command = Command.get(syntax);
-			Result result = command.analysis(lines, i, line, syntax, units);
+			Result result = command.analysis(line, syntax, units);
 			i = i + result.jump;
 		}
-
 	}
 
 }

@@ -16,7 +16,7 @@ import com.sum.shy.core.utils.LineUtils;
 public class FuncCommand implements Command {
 
 	@Override
-	public Result analysis(List<String> lines, int index, String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> units) {
 		// TODO Auto-generated method stub
 		return null;
 	}

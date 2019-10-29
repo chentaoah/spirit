@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.ShyReader;
+import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
 /**
@@ -19,6 +20,12 @@ import com.sum.shy.core.entity.Token;
  */
 public class SemanticDelegate {
 
+	// 操作符
+	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
+			"%", "<", ">" };
+	// 分隔符
+	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", "," };
+
 	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
@@ -29,14 +36,25 @@ public class SemanticDelegate {
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
 	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 
+	/**
+	 * 一般语句的处理方式
+	 * 
+	 * @param units
+	 * @return
+	 */
 	public static List<Token> getTokens(List<String> units) {
 		List<Token> tokens = new ArrayList<>();
 		for (String unit : units) {
-			String type = getType(unit);
-			Object value = getValue(unit);
-			tokens.add(new Token(type, value));
+			// 类型
+			String type = getTokenType(unit);
+			// 值
+			Object value = getTokenValue(type, unit);
+			// 附加信息
+			Map<String, String> attachments = getAttachments(unit, type, value);
+
+			tokens.add(new Token(type, value, attachments));
 		}
-		return null;
+		return tokens;
 	}
 
 	public static String getType(List<Token> tokens) {
@@ -49,74 +67,73 @@ public class SemanticDelegate {
 		return null;
 	}
 
-	public static String getType(String str) {
-		String type = "var";
-		if (isBoolean(str)) {
-			type = "boolean";
-		} else if (isInt(str)) {
-			type = "int";
-		} else if (isDouble(str)) {
-			type = "double";
-		} else if (isStr(str)) {
-			type = "str";
-		} else if (isInvoke(str)) {
-			type = getInvokeType(str);
-		} else if (isArray(str)) {
-			type = "array";
-		} else if (isMap(str)) {
-			type = "map";
-		} else if (VAR_PATTERN.matcher(str).matches()) {// 变量
-			type = "var";
-		}
-		// 如果还是返回还是未知的,则通过名称来获取类型
-		if ("var".equals(type)) {
-			Map<String, String> defTypes = Context.get().clazz.defTypes;
-			if (defTypes.containsKey(str)) {
-				type = defTypes.get(str);
+	public static String getTokenType(String str) {
+
+		if (isOperator(str)) {// 是否操作符
+			return "operator";
+		} else if (isSeparator(str)) {// 是否分隔符
+			return "separator";
+		} else {// 是否一些值
+			String type = "unknown";
+			if (isBoolean(str)) {
+				type = "boolean";
+			} else if (isInt(str)) {
+				type = "int";
+			} else if (isDouble(str)) {
+				type = "double";
+			} else if (isStr(str)) {
+				type = "str";
+			} else if (isInvoke(str)) {
+				type = getInvokeType(str);
+			} else if (isArray(str)) {
+				type = "array";
+			} else if (isMap(str)) {
+				type = "map";
+			} else if (isVariable(str)) {// 变量
+				type = "var";
 			}
+			return type;
 		}
-		return type;
+
 	}
 
-	private static Object getValue(String unit) {
+	private static Object getTokenValue(String type, String unit) {
+
+		if ("array".equals(type) || "map".equals(type) || type.startsWith("invoke_")) {// 如果是数组,则解析子语句
+			// 词法分析,将语句拆分成多个单元
+			List<String> units = LexicalAnalyzer.analysisUnit(type, unit);
+			// 获取tokens
+			List<Token> tokens = getTokens(units);
+			// 生成子语句
+			return new Stmt(unit, null, tokens);
+
+		}
+		return unit;
+	}
+
+	private static Map<String, String> getAttachments(String unit, String type, Object value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-//
-//	public static List<String> getGenericTypes(Map<String, String> defTypes, String type, Stmt stmt) {
-//		List<String> genericTypes = new ArrayList<>();
-//		if ("array".equals(type)) {
-//			Stmt subSentence = stmt.getSubSentence(2);
-//			String genericType = getType(defTypes, subSentence);
-//			genericTypes.add(genericType);
-//			return genericTypes;
-//		} else if ("map".equals(type)) {
-//			genericTypes.add("var");
-//			genericTypes.add("var");
-//			Stmt subSentence = stmt.getSubSentence(2);
-//			boolean flag = true;
-//			for (int j = 0; j < subSentence.units.size(); j++) {
-//				String unit = subSentence.getUnit(j);
-//				if (":".equals(unit)) {
-//					flag = false;
-//				} else if (",".equals(unit)) {
-//					flag = true;
-//				}
-//				String genericType = Analyzer.getType(defTypes, unit);
-//				if (!"var".equals(genericType)) {
-//					genericTypes.set(flag ? 0 : 1, genericType);
-//					if (!"var".equals(genericTypes.get(0)) && !"var".equals(genericTypes.get(1))) {
-//						return genericTypes;
-//					}
-//				}
-//			}
-//		}
-//
-//		return genericTypes;
-//
-//	}
-//
+	public static boolean isOperator(String str) {
+		for (String operator : OPERATORS) {
+			if (operator.equals(str)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isSeparator(String str) {
+		for (String separator : SEPARATORS) {
+			if (separator.equals(str)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static boolean isBoolean(String str) {
 		return BOOLEAN_PATTERN.matcher(str).matches();
 	}
@@ -145,16 +162,16 @@ public class SemanticDelegate {
 		return MAP_PATTERN.matcher(str).matches();
 	}
 
-	private static String getInvokeType(String str) {
-		// 构造函数
-		if (isInitInvoke(str)) {
-			return getInitMethod(str);
-		}
-		return "var";
+	public static boolean isVariable(String str) {
+		return VAR_PATTERN.matcher(str).matches();
 	}
 
-	public static boolean isInitInvoke(String str) {
-		return INIT_PATTERN.matcher(str).matches();
+	private static String getInvokeType(String str) {
+
+		if (INIT_PATTERN.matcher(str).matches()) {// 构造函数
+			return "invoke_init";
+		}
+		return "var";
 	}
 
 	public static String getInitMethod(String str) {
