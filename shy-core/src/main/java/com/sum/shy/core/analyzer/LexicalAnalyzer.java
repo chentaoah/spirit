@@ -84,39 +84,4 @@ public class LexicalAnalyzer {
 
 	}
 
-	/**
-	 * 将单元进行拆分
-	 * 
-	 * @param line
-	 * @param unit
-	 * @return
-	 */
-	public static List<String> analysisUnit(String type, String unit) {
-		if ("array".equals(type)) {// 如果是数组,则解析子语句
-			String str = unit.substring(1, unit.length() - 1);
-			List<String> units = analysis(str);
-			units.add(0, "[");
-			units.add(units.size() - 1, "]");
-			return units;
-
-		} else if ("map".equals(type)) {
-			String str = unit.substring(1, unit.length() - 1);
-			List<String> units = analysis(str);
-			units.add(0, "{");
-			units.add(units.size() - 1, "}");
-			return units;
-
-		} else if (type.startsWith("invoke_")) {
-			String name = unit.substring(0, unit.indexOf("("));
-			String str = unit.substring(unit.indexOf("(") + 1, unit.lastIndexOf(")"));
-			List<String> units = analysis(str);
-			units.add(0, name);
-			units.add(1, "(");
-			units.add(units.size() - 1, ")");
-			return units;
-
-		}
-		return null;
-	}
-
 }

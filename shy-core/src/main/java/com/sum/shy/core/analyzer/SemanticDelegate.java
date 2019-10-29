@@ -1,6 +1,7 @@
 package com.sum.shy.core.analyzer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -31,10 +32,13 @@ public class SemanticDelegate {
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
+			.compile("^[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
-	public static final Pattern INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 
 	/**
 	 * 一般语句的处理方式
@@ -99,21 +103,53 @@ public class SemanticDelegate {
 
 	private static Object getTokenValue(String type, String unit) {
 
-		if ("array".equals(type) || "map".equals(type) || type.startsWith("invoke_")) {// 如果是数组,则解析子语句
-			// 词法分析,将语句拆分成多个单元
-			List<String> units = LexicalAnalyzer.analysisUnit(type, unit);
+		if ("array".equals(type)) {// 如果是数组,则解析子语句
+			String str = unit.substring(1, unit.length() - 1);
+			List<String> units = LexicalAnalyzer.analysis(str);
+			units.add(0, "[");
+			units.add(units.size() - 1, "]");
 			// 获取tokens
 			List<Token> tokens = getTokens(units);
 			// 生成子语句
 			return new Stmt(unit, null, tokens);
 
+		} else if ("map".equals(type)) {
+			String str = unit.substring(1, unit.length() - 1);
+			List<String> units = LexicalAnalyzer.analysis(str);
+			units.add(0, "{");
+			units.add(units.size() - 1, "}");
+			// 获取tokens
+			List<Token> tokens = getTokens(units);
+			// 生成子语句
+			return new Stmt(unit, null, tokens);
+
+		} else if (type.startsWith("invoke_")) {
+			String name = unit.substring(0, unit.indexOf("("));
+			String str = unit.substring(unit.indexOf("(") + 1, unit.lastIndexOf(")"));
+			List<String> units = LexicalAnalyzer.analysis(str);
+			units.add(1, "(");
+			units.add(units.size() - 1, ")");
+			// 获取tokens
+			List<Token> tokens = getTokens(units);
+			// 追加一个元素在头部
+			tokens.add(0, new Token("invoke_name", name, null));
+			// 生成子语句
+			return new Stmt(unit, null, tokens);
 		}
+
 		return unit;
 	}
 
 	private static Map<String, String> getAttachments(String unit, String type, Object value) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, String> attachments = new HashMap<>();
+		if ("invoke_init".equals(type)) {
+			attachments.put("init_method_name", getInitMethod(unit));
+		} else if ("invoke_static".equals(type)) {
+			// TODO 静态方法附加参数
+		} else if ("invoke_member".equals(type)) {
+			// TODO 成员方法附加参数
+		}
+		return attachments;
 	}
 
 	public static boolean isOperator(String str) {
@@ -168,10 +204,16 @@ public class SemanticDelegate {
 
 	private static String getInvokeType(String str) {
 
-		if (INIT_PATTERN.matcher(str).matches()) {// 构造函数
+		if (INVOKE_INIT_PATTERN.matcher(str).matches()) {// 构造函数
 			return "invoke_init";
 		}
-		return "var";
+		if (INVOKE_STATIC_PATTERN.matcher(str).matches()) {
+			return "invoke_static";
+		}
+		if (INVOKE_MEMBER_PATTERN.matcher(str).matches()) {
+			return "invoke_member";
+		}
+		return "unknown";
 	}
 
 	public static String getInitMethod(String str) {
