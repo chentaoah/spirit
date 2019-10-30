@@ -6,12 +6,15 @@ import java.util.List;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
+import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Command;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Result;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
 
 public class FuncCommand implements Command {
@@ -37,15 +40,20 @@ public class FuncCommand implements Command {
 		List<String> subLines = LineUtils.getSubLines(Context.get().lines, Context.get().lineNumber);
 		// 寻找return
 		String returnType = "unknown";
+		// 如果是集合类型,还要获取泛型
+		List<String> genericTypes = null;
 		for (String subLine : subLines) {
 			if (subLine.startsWith("return ")) {
 				List<String> subWords = LexicalAnalyzer.analysis(subLine);
-				returnType = TypeDerivator.getTypeByWords(subWords);
+				List<Token> tokens = SemanticDelegate.getTokens(subWords);
+				Stmt stmt = new Stmt(line, syntax, tokens);
+				returnType = TypeDerivator.getTypeByStmt(stmt);
+				genericTypes = TypeDerivator.getGenericTypes(stmt);
 			}
 		}
 
 		// 添加方法
-		Method method = new Method(returnType, name, params);
+		Method method = new Method(returnType, genericTypes, name, params);
 		method.methodLines = subLines;
 		Context context = Context.get();
 		if ("static".equals(context.scope)) {
