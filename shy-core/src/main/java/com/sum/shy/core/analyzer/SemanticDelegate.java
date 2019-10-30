@@ -20,6 +20,9 @@ import com.sum.shy.core.entity.Token;
  */
 public class SemanticDelegate {
 
+	// 关键字
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return" };
+
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
 			"%", "<", ">" };
@@ -40,24 +43,13 @@ public class SemanticDelegate {
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
 
 	/**
-	 * 语义分析
+	 * 类型推断
 	 * 
-	 * @param words
+	 * @param stmt
 	 * @return
 	 */
-	public static List<Token> getTokens(List<String> words) {
-		List<Token> tokens = new ArrayList<>();
-		for (String word : words) {
-			// 类型
-			String type = getTokenType(word);
-			// 值
-			Object value = getTokenValue(type, word);
-			// 附加信息
-			Map<String, String> attachments = getAttachments(word, type, value);
-
-			tokens.add(new Token(type, value, attachments));
-		}
-		return tokens;
+	public static String getTypeByStmt(Stmt stmt) {
+		return getType(stmt.tokens);
 	}
 
 	/**
@@ -66,8 +58,18 @@ public class SemanticDelegate {
 	 * @param stmt
 	 * @return
 	 */
-	public static String getType(Stmt stmt) {
-		for (Token token : stmt.tokens) {
+	public static String getTypeByWords(List<String> words) {
+		return getType(getTokens(words));
+	}
+
+	/**
+	 * 类型推断
+	 * 
+	 * @param stmt
+	 * @return
+	 */
+	public static String getType(List<Token> tokens) {
+		for (Token token : tokens) {
 			String type = token.type;
 			if ("boolean".equals(type)) {
 				return "boolean";
@@ -152,9 +154,32 @@ public class SemanticDelegate {
 		return "unknown";
 	}
 
+	/**
+	 * 语义分析
+	 * 
+	 * @param words
+	 * @return
+	 */
+	public static List<Token> getTokens(List<String> words) {
+		List<Token> tokens = new ArrayList<>();
+		for (String word : words) {
+			// 类型
+			String type = getTokenType(word);
+			// 值
+			Object value = getTokenValue(type, word);
+			// 附加信息
+			Map<String, String> attachments = getAttachments(word, type, value);
+
+			tokens.add(new Token(type, value, attachments));
+		}
+		return tokens;
+	}
+
 	public static String getTokenType(String word) {
 
-		if (isOperator(word)) {// 是否操作符
+		if (isKeyword(word)) {// 关键字
+			return "keyword";
+		} else if (isOperator(word)) {// 是否操作符
 			return "operator";
 		} else if (isSeparator(word)) {// 是否分隔符
 			return "separator";
@@ -231,6 +256,15 @@ public class SemanticDelegate {
 			// TODO 成员方法附加参数
 		}
 		return attachments;
+	}
+
+	private static boolean isKeyword(String word) {
+		for (String keyword : KEYWORDS) {
+			if (keyword.equals(word)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean isOperator(String word) {

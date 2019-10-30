@@ -22,7 +22,7 @@ public class FieldCommand implements Command {
 		// 生成语句,以便后面使用
 		Stmt stmt = new Stmt(line, syntax, tokens);
 		// 类型
-		String type = SemanticDelegate.getType(stmt);
+		String type = SemanticDelegate.getTypeByStmt(stmt);
 		// 如果是集合类型,还要获取泛型
 		List<String> genericTypes = SemanticDelegate.getGenericTypes(stmt);
 

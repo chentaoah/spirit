@@ -16,12 +16,12 @@ import com.sum.shy.core.entity.Context;
 public class SyntacticParser {
 
 	// 关键字
-	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func" };
 
 	public static String analysis(List<String> words) {
 		// 判断首个单词是否关键字
 		String str = words.get(0);
-		for (String keyword : KEYWORD) {
+		for (String keyword : KEYWORDS) {
 			if (keyword.equals(str)) {
 				return keyword;
 			}
