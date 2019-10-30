@@ -72,9 +72,9 @@ public class ShyReader {
 				continue;
 			}
 			// 1.词法分析,将语句拆分成多个单元
-			List<String> words = LexicalAnalyzer.analysis(line);
+			List<String> words = LexicalAnalyzer.getWords(line);
 			// 2.语法分析,分析语句的语法
-			String syntax = SyntacticParser.analysis(words);
+			String syntax = SyntacticParser.getSyntax(words);
 			// 3.语义分析,根据语法,进行每个单元语义的分析
 			Command command = Command.get(syntax);
 			Result result = command.analysis(line, syntax, words);

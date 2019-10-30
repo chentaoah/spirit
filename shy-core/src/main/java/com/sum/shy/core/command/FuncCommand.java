@@ -44,10 +44,10 @@ public class FuncCommand implements Command {
 		List<String> genericTypes = null;
 		for (String subLine : subLines) {
 			if (subLine.trim().startsWith("return ")) {
-				List<String> subWords = LexicalAnalyzer.analysis(subLine);
+				List<String> subWords = LexicalAnalyzer.getWords(subLine);
 				List<Token> tokens = SemanticDelegate.getTokens(subWords);
 				Stmt stmt = new Stmt(line, syntax, tokens);
-				returnType = TypeDerivator.getTypeByStmt(stmt);
+				returnType = TypeDerivator.getType(stmt);
 				genericTypes = TypeDerivator.getGenericTypes(stmt);
 			}
 		}

@@ -14,7 +14,7 @@ public class TypeDerivator {
 	 * @param stmt
 	 * @return
 	 */
-	public static String getTypeByStmt(Stmt stmt) {
+	public static String getType(Stmt stmt) {
 		return getType(stmt.tokens);
 	}
 

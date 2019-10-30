@@ -99,7 +99,7 @@ public class SemanticDelegate {
 
 		if ("array".equals(type)) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
-			List<String> words = LexicalAnalyzer.analysis(str);
+			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "[");
 			words.add("]");
 			// 获取tokens
@@ -109,7 +109,7 @@ public class SemanticDelegate {
 
 		} else if ("map".equals(type)) {
 			String str = word.substring(1, word.length() - 1);
-			List<String> words = LexicalAnalyzer.analysis(str);
+			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "{");
 			words.add("}");
 			// 获取tokens
@@ -120,7 +120,7 @@ public class SemanticDelegate {
 		} else if (type.startsWith("invoke_")) {
 			String name = word.substring(0, word.indexOf("("));
 			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
-			List<String> words = LexicalAnalyzer.analysis(str);
+			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "(");
 			words.add(")");
 			// 获取tokens

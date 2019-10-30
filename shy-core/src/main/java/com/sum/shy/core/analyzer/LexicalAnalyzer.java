@@ -29,7 +29,7 @@ public class LexicalAnalyzer {
 	 * @param line
 	 * @return
 	 */
-	public static List<String> analysis(String line) {
+	public static List<String> getWords(String line) {
 
 		System.out.println(line.trim());
 		// 拆分的单元

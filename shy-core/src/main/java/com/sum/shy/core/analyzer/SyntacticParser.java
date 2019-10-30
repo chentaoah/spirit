@@ -18,7 +18,7 @@ public class SyntacticParser {
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func" };
 
-	public static String analysis(List<String> words) {
+	public static String getSyntax(List<String> words) {
 		// 判断首个单词是否关键字
 		String str = words.get(0);
 		for (String keyword : KEYWORDS) {
