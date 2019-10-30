@@ -5,25 +5,21 @@ import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.core.analyzer.LexicalAnalyzer;
-import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.analyzer.TypeDerivator;
-import com.sum.shy.core.api.Command;
+import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
-import com.sum.shy.core.entity.Result;
 import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
 
-public class FuncCommand implements Command {
+public class FuncParser implements Parser {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> words) {
+	public int parse(List<String> lines, int index, String line, Stmt stmt) {
 
 		// 这里一定要trim一下
-		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(words.get(1));
+		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(stmt.get(1));
 		// 方法名
 		String name = list.get(0);
 		// 开始遍历参数
@@ -37,18 +33,16 @@ public class FuncCommand implements Command {
 		}
 
 		// 获取子行
-		List<String> subLines = LineUtils.getSubLines(Context.get().lines, Context.get().lineNumber);
+		List<String> subLines = LineUtils.getSubLines(lines, index);
 		// 寻找return
 		String returnType = "unknown";
 		// 如果是集合类型,还要获取泛型
 		List<String> genericTypes = null;
 		for (String subLine : subLines) {
 			if (subLine.trim().startsWith("return ")) {
-				List<String> subWords = LexicalAnalyzer.getWords(subLine);
-				List<Token> tokens = SemanticDelegate.getTokens(subWords);
-				Stmt stmt = new Stmt(line, syntax, tokens);
-				returnType = TypeDerivator.getType(stmt);
-				genericTypes = TypeDerivator.getGenericTypes(stmt);
+				Stmt subStmt = Stmt.create(line);
+				returnType = TypeDerivator.getType(subStmt);
+				genericTypes = TypeDerivator.getGenericTypes(subStmt);
 			}
 		}
 
@@ -62,7 +56,7 @@ public class FuncCommand implements Command {
 			context.clazz.methods.add(method);
 		}
 
-		return new Result(method.methodLines.size() + 1, null);
+		return method.methodLines.size() + 1;
 
 	}
 

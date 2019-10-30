@@ -105,7 +105,7 @@ public class SemanticDelegate {
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
-			return new Stmt(word, null, tokens);
+			return new Stmt(word, words, null, tokens);
 
 		} else if ("map".equals(type)) {
 			String str = word.substring(1, word.length() - 1);
@@ -115,7 +115,7 @@ public class SemanticDelegate {
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
-			return new Stmt(word, null, tokens);
+			return new Stmt(word, words, null, tokens);
 
 		} else if (type.startsWith("invoke_")) {
 			String name = word.substring(0, word.indexOf("("));
@@ -128,7 +128,7 @@ public class SemanticDelegate {
 			// 追加一个元素在头部
 			tokens.add(0, new Token("invoke_name", name, null));
 			// 生成子语句
-			return new Stmt(word, null, tokens);
+			return new Stmt(word, words, null, tokens);
 		}
 
 		return word;
