@@ -42,7 +42,7 @@ public class FieldCommand implements Command {
 			context.clazz.fields.add(new Field(type, genericTypes, name, stmt));
 		}
 
-		return new Result(0, stmt);
+		return new Result(0, null);
 	}
 
 }
