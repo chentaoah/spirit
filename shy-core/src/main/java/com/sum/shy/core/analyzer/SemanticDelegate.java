@@ -61,7 +61,12 @@ public class SemanticDelegate {
 	}
 
 	public static String getType(List<Token> tokens) {
-		// TODO Auto-generated method stub
+		for (Token token : tokens) {
+			String type = token.type;
+			if ("boolean".equals(type)) {
+
+			}
+		}
 		return null;
 	}
 
@@ -70,29 +75,29 @@ public class SemanticDelegate {
 		return null;
 	}
 
-	public static String getTokenType(String str) {
+	public static String getTokenType(String word) {
 
-		if (isOperator(str)) {// 是否操作符
+		if (isOperator(word)) {// 是否操作符
 			return "operator";
-		} else if (isSeparator(str)) {// 是否分隔符
+		} else if (isSeparator(word)) {// 是否分隔符
 			return "separator";
 		} else {// 是否一些值
 			String type = "unknown";
-			if (isBoolean(str)) {
+			if (isBoolean(word)) {
 				type = "boolean";
-			} else if (isInt(str)) {
+			} else if (isInt(word)) {
 				type = "int";
-			} else if (isDouble(str)) {
+			} else if (isDouble(word)) {
 				type = "double";
-			} else if (isStr(str)) {
-				type = "str";
-			} else if (isInvoke(str)) {
-				type = getInvokeType(str);
-			} else if (isArray(str)) {
+			} else if (isStr(word)) {
+				type = "word";
+			} else if (isInvoke(word)) {
+				type = getInvokeType(word);
+			} else if (isArray(word)) {
 				type = "array";
-			} else if (isMap(str)) {
+			} else if (isMap(word)) {
 				type = "map";
-			} else if (isVariable(str)) {// 变量
+			} else if (isVariable(word)) {// 变量
 				type = "var";
 			}
 			return type;
@@ -151,72 +156,72 @@ public class SemanticDelegate {
 		return attachments;
 	}
 
-	public static boolean isOperator(String str) {
+	public static boolean isOperator(String word) {
 		for (String operator : OPERATORS) {
-			if (operator.equals(str)) {
+			if (operator.equals(word)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean isSeparator(String str) {
+	public static boolean isSeparator(String word) {
 		for (String separator : SEPARATORS) {
-			if (separator.equals(str)) {
+			if (separator.equals(word)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static boolean isBoolean(String str) {
-		return BOOLEAN_PATTERN.matcher(str).matches();
+	public static boolean isBoolean(String word) {
+		return BOOLEAN_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isInt(String str) {
-		return INT_PATTERN.matcher(str).matches();
+	public static boolean isInt(String word) {
+		return INT_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isDouble(String str) {
-		return DOUBLE_PATTERN.matcher(str).matches();
+	public static boolean isDouble(String word) {
+		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isStr(String str) {
-		return STR_PATTERN.matcher(str).matches();
+	public static boolean isStr(String word) {
+		return STR_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isInvoke(String str) {
-		return INVOKE_PATTERN.matcher(str).matches();
+	public static boolean isInvoke(String word) {
+		return INVOKE_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isArray(String str) {
-		return ARRAY_PATTERN.matcher(str).matches();
+	public static boolean isArray(String word) {
+		return ARRAY_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isMap(String str) {
-		return MAP_PATTERN.matcher(str).matches();
+	public static boolean isMap(String word) {
+		return MAP_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isVariable(String str) {
-		return VAR_PATTERN.matcher(str).matches();
+	public static boolean isVariable(String word) {
+		return VAR_PATTERN.matcher(word).matches();
 	}
 
-	private static String getInvokeType(String str) {
+	private static String getInvokeType(String word) {
 
-		if (INVOKE_INIT_PATTERN.matcher(str).matches()) {// 构造函数
+		if (INVOKE_INIT_PATTERN.matcher(word).matches()) {// 构造函数
 			return "invoke_init";
 		}
-		if (INVOKE_STATIC_PATTERN.matcher(str).matches()) {
+		if (INVOKE_STATIC_PATTERN.matcher(word).matches()) {
 			return "invoke_static";
 		}
-		if (INVOKE_MEMBER_PATTERN.matcher(str).matches()) {
+		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
 			return "invoke_member";
 		}
 		return "unknown";
 	}
 
-	public static String getInitMethod(String str) {
-		return str.substring(0, str.indexOf("("));
+	public static String getInitMethod(String word) {
+		return word.substring(0, word.indexOf("("));
 	}
 
 }

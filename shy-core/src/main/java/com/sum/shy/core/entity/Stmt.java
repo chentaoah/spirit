@@ -1,5 +1,6 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
@@ -28,7 +29,11 @@ public class Stmt {
 
 	@Override
 	public String toString() {
-		return Joiner.on(" ").join(tokens);
+		List<Object> values = new ArrayList<>();
+		for (Token token : tokens) {
+			values.add(token.value);
+		}
+		return Joiner.on(" ").join(values);
 	}
 
 }
