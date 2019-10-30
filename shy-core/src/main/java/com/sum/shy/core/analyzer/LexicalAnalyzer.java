@@ -79,6 +79,7 @@ public class LexicalAnalyzer {
 			}
 		}
 		System.out.println(words);
+		System.out.println();
 
 		return words;
 

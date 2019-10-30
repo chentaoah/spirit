@@ -43,7 +43,7 @@ public class FuncCommand implements Command {
 		// 如果是集合类型,还要获取泛型
 		List<String> genericTypes = null;
 		for (String subLine : subLines) {
-			if (subLine.startsWith("return ")) {
+			if (subLine.trim().startsWith("return ")) {
 				List<String> subWords = LexicalAnalyzer.analysis(subLine);
 				List<Token> tokens = SemanticDelegate.getTokens(subWords);
 				Stmt stmt = new Stmt(line, syntax, tokens);

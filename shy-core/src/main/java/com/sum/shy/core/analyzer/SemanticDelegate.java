@@ -101,7 +101,7 @@ public class SemanticDelegate {
 			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.analysis(str);
 			words.add(0, "[");
-			words.add(words.size() - 1, "]");
+			words.add("]");
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
@@ -111,7 +111,7 @@ public class SemanticDelegate {
 			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.analysis(str);
 			words.add(0, "{");
-			words.add(words.size() - 1, "}");
+			words.add("}");
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
@@ -121,8 +121,8 @@ public class SemanticDelegate {
 			String name = word.substring(0, word.indexOf("("));
 			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
 			List<String> words = LexicalAnalyzer.analysis(str);
-			words.add(1, "(");
-			words.add(words.size() - 1, ")");
+			words.add(0, "(");
+			words.add(")");
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 追加一个元素在头部

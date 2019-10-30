@@ -1,9 +1,6 @@
 package com.sum.shy.core.entity;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Joiner;
 
 public class Stmt {
 
@@ -29,11 +26,15 @@ public class Stmt {
 
 	@Override
 	public String toString() {
-		List<Object> values = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
 		for (Token token : tokens) {
-			values.add(token.value);
+			if ("keyword".equals(token.type)) {
+				sb.append(token.value.toString() + " ");
+			} else {
+				sb.append(token.value.toString());
+			}
 		}
-		return Joiner.on(" ").join(values);
+		return sb.toString();
 	}
 
 }

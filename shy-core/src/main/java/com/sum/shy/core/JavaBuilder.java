@@ -136,7 +136,7 @@ public class JavaBuilder {
 		// 在所有的构造函数前面都加个new
 		// 将所有的array和map都转换成方法调用
 		for (Token token : stmt.tokens) {
-			if ("operator".equals(token.type) && ":".equals(token.value)) {
+			if ("separator".equals(token.type) && ":".equals(token.value)) {
 				token.value = ",";
 			}
 			if ("array".equals(token.type)) {

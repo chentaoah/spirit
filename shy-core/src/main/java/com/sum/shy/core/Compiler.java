@@ -12,7 +12,7 @@ public class Compiler {
 
 		// 1.读取文件
 //		String path = "/Users/chentao/Work/CloudSpace/Shy/shy-compiler/resource/User.shy";
-		String path = "C:\\Users\\chentao26275\\Desktop\\User.shy";
+		String path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\User.shy";
 		File file = new File(path);
 		Clazz clazz = new ShyReader().read(file);
 		String text = new JavaBuilder().build(clazz);

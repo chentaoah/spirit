@@ -2,16 +2,17 @@ package com.sum.shy
 
 import com.sum.shy.Child
 
-def People People.getInstance()
+def People d
 
 class User {
+	e={"chentao":1,"zjx":2}
 	x=10
 	y=99.0
 	z="hello world"
 	c=Child(x,y)
 	d=People.getInstance()
 	b=["a","b","c","d{}[]"]
-	e={"chentao":1,"zjx":2}
+	
 	f=[Child(x,y),Child(x,y)]
 	
 	func getName(int x,int y){
