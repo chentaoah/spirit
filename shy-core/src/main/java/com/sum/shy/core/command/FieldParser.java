@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Parser;
+import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Stmt;
@@ -12,7 +13,7 @@ import com.sum.shy.core.entity.Stmt;
 public class FieldParser implements Parser {
 
 	@Override
-	public int parse(List<String> lines, int index, String line, Stmt stmt) {
+	public int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt) {
 		// 变量名
 		String name = stmt.get(0);
 		// 类型
@@ -28,11 +29,10 @@ public class FieldParser implements Parser {
 			}
 		}
 
-		Context context = Context.get();
-		if ("static".equals(context.scope)) {
-			context.clazz.staticFields.add(new Field(type, genericTypes, name, stmt));
-		} else if ("class".equals(context.scope)) {
-			context.clazz.fields.add(new Field(type, genericTypes, name, stmt));
+		if ("static".equals(scope)) {
+			clazz.staticFields.add(new Field(type, genericTypes, name, stmt));
+		} else if ("class".equals(scope)) {
+			clazz.fields.add(new Field(type, genericTypes, name, stmt));
 		}
 
 		return 0;

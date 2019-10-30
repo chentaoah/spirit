@@ -45,16 +45,16 @@ public class ShyReader {
 
 		context.scope = "static";
 		// 解析static域
-		readScopeLines(lines);
+		readScopeLines(clazz, "static", lines);
 
 		context.scope = "class";
 		// 解析class域
-		readScopeLines(clazz.classLines);
+		readScopeLines(clazz, "class", clazz.classLines);
 
 		return clazz;
 	}
 
-	private void readScopeLines(List<String> lines) {
+	private void readScopeLines(Clazz clazz, String scope, List<String> lines) {
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中
@@ -66,7 +66,7 @@ public class ShyReader {
 
 			Stmt stmt = Stmt.create(line);
 			Parser parser = Parser.get(stmt.syntax);
-			int jump = parser.parse(lines, i, line, stmt);
+			int jump = parser.parse(clazz, scope, lines, i, line, stmt);
 			i = i + jump;
 		}
 	}

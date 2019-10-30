@@ -7,7 +7,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Parser;
-import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
@@ -16,7 +16,7 @@ import com.sum.shy.core.utils.LineUtils;
 public class FuncParser implements Parser {
 
 	@Override
-	public int parse(List<String> lines, int index, String line, Stmt stmt) {
+	public int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt) {
 
 		// 这里一定要trim一下
 		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(stmt.get(1));
@@ -49,11 +49,10 @@ public class FuncParser implements Parser {
 		// 添加方法
 		Method method = new Method(returnType, genericTypes, name, params);
 		method.methodLines = subLines;
-		Context context = Context.get();
-		if ("static".equals(context.scope)) {
-			context.clazz.staticMethods.add(method);
-		} else if ("class".equals(context.scope)) {
-			context.clazz.methods.add(method);
+		if ("static".equals(scope)) {
+			clazz.staticMethods.add(method);
+		} else if ("class".equals(scope)) {
+			clazz.methods.add(method);
 		}
 
 		return method.methodLines.size() + 1;
