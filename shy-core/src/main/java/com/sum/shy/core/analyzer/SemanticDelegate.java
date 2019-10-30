@@ -47,13 +47,13 @@ public class SemanticDelegate {
 	 */
 	public static List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
-		for (String unit : words) {
+		for (String word : words) {
 			// 类型
-			String type = getTokenType(unit);
+			String type = getTokenType(word);
 			// 值
-			Object value = getTokenValue(type, unit);
+			Object value = getTokenValue(type, word);
 			// 附加信息
-			Map<String, String> attachments = getAttachments(unit, type, value);
+			Map<String, String> attachments = getAttachments(word, type, value);
 
 			tokens.add(new Token(type, value, attachments));
 		}
@@ -100,31 +100,31 @@ public class SemanticDelegate {
 
 	}
 
-	private static Object getTokenValue(String type, String unit) {
+	private static Object getTokenValue(String type, String word) {
 
 		if ("array".equals(type)) {// 如果是数组,则解析子语句
-			String str = unit.substring(1, unit.length() - 1);
+			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.analysis(str);
 			words.add(0, "[");
 			words.add(words.size() - 1, "]");
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
-			return new Stmt(unit, null, tokens);
+			return new Stmt(word, null, tokens);
 
 		} else if ("map".equals(type)) {
-			String str = unit.substring(1, unit.length() - 1);
+			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.analysis(str);
 			words.add(0, "{");
 			words.add(words.size() - 1, "}");
 			// 获取tokens
 			List<Token> tokens = getTokens(words);
 			// 生成子语句
-			return new Stmt(unit, null, tokens);
+			return new Stmt(word, null, tokens);
 
 		} else if (type.startsWith("invoke_")) {
-			String name = unit.substring(0, unit.indexOf("("));
-			String str = unit.substring(unit.indexOf("(") + 1, unit.lastIndexOf(")"));
+			String name = word.substring(0, word.indexOf("("));
+			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
 			List<String> words = LexicalAnalyzer.analysis(str);
 			words.add(1, "(");
 			words.add(words.size() - 1, ")");
@@ -133,16 +133,16 @@ public class SemanticDelegate {
 			// 追加一个元素在头部
 			tokens.add(0, new Token("invoke_name", name, null));
 			// 生成子语句
-			return new Stmt(unit, null, tokens);
+			return new Stmt(word, null, tokens);
 		}
 
-		return unit;
+		return word;
 	}
 
-	private static Map<String, String> getAttachments(String unit, String type, Object value) {
+	private static Map<String, String> getAttachments(String word, String type, Object value) {
 		Map<String, String> attachments = new HashMap<>();
 		if ("invoke_init".equals(type)) {
-			attachments.put("init_method_name", getInitMethod(unit));
+			attachments.put("init_method_name", getInitMethod(word));
 		} else if ("invoke_static".equals(type)) {
 			// TODO 静态方法附加参数
 		} else if ("invoke_member".equals(type)) {

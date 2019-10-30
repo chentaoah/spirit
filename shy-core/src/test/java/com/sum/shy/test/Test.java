@@ -15,13 +15,13 @@ public class Test {
 //			Stmt subSentence = stmt.getSubSentence(2);
 //			boolean flag = true;
 //			for (int j = 0; j < subSentence.words.size(); j++) {
-//				String unit = subSentence.getUnit(j);
-//				if (":".equals(unit)) {
+//				String word = subSentence.getUnit(j);
+//				if (":".equals(word)) {
 //					flag = false;
-//				} else if (",".equals(unit)) {
+//				} else if (",".equals(word)) {
 //					flag = true;
 //				}
-//				String genericType = Analyzer.getType(defTypes, unit);
+//				String genericType = Analyzer.getType(defTypes, word);
 //				if (!"var".equals(genericType)) {
 //					genericTypes.set(flag ? 0 : 1, genericType);
 //					if (!"var".equals(genericTypes.get(0)) && !"var".equals(genericTypes.get(1))) {
