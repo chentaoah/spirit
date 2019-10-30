@@ -18,16 +18,16 @@ public class SyntacticParser {
 	// 关键字
 	public static final String[] KEYWORD = new String[] { "package", "import", "def", "class", "func" };
 
-	public static String analysis(List<String> units) {
+	public static String analysis(List<String> words) {
 		// 判断首个单词是否关键字
-		String str = units.get(0);
+		String str = words.get(0);
 		for (String keyword : KEYWORD) {
 			if (keyword.equals(str)) {
 				return keyword;
 			}
 		}
 		// 如果第二个语义是"=",那么可以认为是赋值语句
-		str = units.get(1);
+		str = words.get(1);
 		if ("=".equals(str)) {
 			String scope = Context.get().scope;
 			switch (scope) {

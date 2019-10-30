@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.ShyReader;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
@@ -43,12 +42,12 @@ public class SemanticDelegate {
 	/**
 	 * 一般语句的处理方式
 	 * 
-	 * @param units
+	 * @param words
 	 * @return
 	 */
-	public static List<Token> getTokens(List<String> units) {
+	public static List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
-		for (String unit : units) {
+		for (String unit : words) {
 			// 类型
 			String type = getTokenType(unit);
 			// 值
@@ -105,32 +104,32 @@ public class SemanticDelegate {
 
 		if ("array".equals(type)) {// 如果是数组,则解析子语句
 			String str = unit.substring(1, unit.length() - 1);
-			List<String> units = LexicalAnalyzer.analysis(str);
-			units.add(0, "[");
-			units.add(units.size() - 1, "]");
+			List<String> words = LexicalAnalyzer.analysis(str);
+			words.add(0, "[");
+			words.add(words.size() - 1, "]");
 			// 获取tokens
-			List<Token> tokens = getTokens(units);
+			List<Token> tokens = getTokens(words);
 			// 生成子语句
 			return new Stmt(unit, null, tokens);
 
 		} else if ("map".equals(type)) {
 			String str = unit.substring(1, unit.length() - 1);
-			List<String> units = LexicalAnalyzer.analysis(str);
-			units.add(0, "{");
-			units.add(units.size() - 1, "}");
+			List<String> words = LexicalAnalyzer.analysis(str);
+			words.add(0, "{");
+			words.add(words.size() - 1, "}");
 			// 获取tokens
-			List<Token> tokens = getTokens(units);
+			List<Token> tokens = getTokens(words);
 			// 生成子语句
 			return new Stmt(unit, null, tokens);
 
 		} else if (type.startsWith("invoke_")) {
 			String name = unit.substring(0, unit.indexOf("("));
 			String str = unit.substring(unit.indexOf("(") + 1, unit.lastIndexOf(")"));
-			List<String> units = LexicalAnalyzer.analysis(str);
-			units.add(1, "(");
-			units.add(units.size() - 1, ")");
+			List<String> words = LexicalAnalyzer.analysis(str);
+			words.add(1, "(");
+			words.add(words.size() - 1, ")");
 			// 获取tokens
-			List<Token> tokens = getTokens(units);
+			List<Token> tokens = getTokens(words);
 			// 追加一个元素在头部
 			tokens.add(0, new Token("invoke_name", name, null));
 			// 生成子语句

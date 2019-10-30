@@ -27,6 +27,6 @@ public interface Command {
 		return commands.get(keyword);
 	}
 
-	Result analysis(String line, String syntax, List<String> units);
+	Result analysis(String line, String syntax, List<String> words);
 
 }

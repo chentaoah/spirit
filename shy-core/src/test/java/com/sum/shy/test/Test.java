@@ -14,7 +14,7 @@ public class Test {
 //			genericTypes.add("var");
 //			Stmt subSentence = stmt.getSubSentence(2);
 //			boolean flag = true;
-//			for (int j = 0; j < subSentence.units.size(); j++) {
+//			for (int j = 0; j < subSentence.words.size(); j++) {
 //				String unit = subSentence.getUnit(j);
 //				if (":".equals(unit)) {
 //					flag = false;

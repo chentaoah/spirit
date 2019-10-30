@@ -12,18 +12,18 @@ import com.sum.shy.core.utils.LineUtils;
 public class ClassCommand implements Command {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> words) {
 
 		// 解析类名
 		Clazz clazz = Context.get().clazz;
 
-		clazz.className = units.get(1);
+		clazz.className = words.get(1);
 		try {
-			if ("extends".equals(units.get(2))) {
-				clazz.superName = units.get(3);
+			if ("extends".equals(words.get(2))) {
+				clazz.superName = words.get(3);
 			}
-			if ("impl".equals(units.get(4))) {
-				clazz.interfaces = Arrays.asList(units.get(5).split(","));
+			if ("impl".equals(words.get(4))) {
+				clazz.interfaces = Arrays.asList(words.get(5).split(","));
 			}
 
 		} catch (Exception e) {

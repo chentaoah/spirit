@@ -9,9 +9,9 @@ import com.sum.shy.core.entity.Result;
 public class PackageCommand implements Command {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> words) {
 
-		String packageStr = units.get(1);
+		String packageStr = words.get(1);
 		// 设置上下文中的
 		Context.get().clazz.packageStr = packageStr;
 

@@ -33,7 +33,7 @@ public class LexicalAnalyzer {
 
 		System.out.println(line.trim());
 		// 拆分的单元
-		List<String> units = new ArrayList<>();
+		List<String> words = new ArrayList<>();
 		// 替换的字符串
 		Map<String, String> replacedStrs = new HashMap<>();
 
@@ -69,18 +69,18 @@ public class LexicalAnalyzer {
 		System.out.println(line);
 
 		// 4.根据操作符,进行拆分
-		units = new ArrayList<>(Arrays.asList(line.split(" ")));
+		words = new ArrayList<>(Arrays.asList(line.split(" ")));
 
 		// 5.重新将替换的字符串替换回来
-		for (int i = 0; i < units.size(); i++) {
-			String str = replacedStrs.get(units.get(i));
+		for (int i = 0; i < words.size(); i++) {
+			String str = replacedStrs.get(words.get(i));
 			if (str != null) {
-				units.set(i, str);
+				words.set(i, str);
 			}
 		}
-		System.out.println(units);
+		System.out.println(words);
 
-		return units;
+		return words;
 
 	}
 

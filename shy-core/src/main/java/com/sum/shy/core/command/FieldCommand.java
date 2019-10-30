@@ -13,11 +13,11 @@ import com.sum.shy.core.entity.Token;
 public class FieldCommand implements Command {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> units) {
+	public Result analysis(String line, String syntax, List<String> words) {
 		// 变量名
-		String name = units.get(0);
+		String name = words.get(0);
 		// 将所有单元转换成带有类型的token
-		List<Token> tokens = SemanticDelegate.getTokens(units);
+		List<Token> tokens = SemanticDelegate.getTokens(words);
 		// 类型
 		String type = SemanticDelegate.getType(tokens);
 		// 如果是集合类型,还要获取泛型

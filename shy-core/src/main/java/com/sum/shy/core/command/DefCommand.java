@@ -9,9 +9,9 @@ import com.sum.shy.core.entity.Result;
 public class DefCommand implements Command {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> units) {
-		String type = units.get(1);
-		String[] strs = units.get(2).split(",");
+	public Result analysis(String line, String syntax, List<String> words) {
+		String type = words.get(1);
+		String[] strs = words.get(2).split(",");
 		for (String str : strs) {
 			Context.get().clazz.defTypes.put(str, type);
 		}

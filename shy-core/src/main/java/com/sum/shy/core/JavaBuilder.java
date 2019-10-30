@@ -124,7 +124,7 @@ public class JavaBuilder {
 //
 //	private String convertSentence(Map<String, String> defTypes, Stmt stmt) {
 //		StringBuilder sb = new StringBuilder();
-//		for (int i = 0; i < stmt.units.size(); i++) {
+//		for (int i = 0; i < stmt.words.size(); i++) {
 //			String str = stmt.getUnit(i);
 //			if (":".equals(str)) {
 //				sb.append(",");
@@ -171,12 +171,12 @@ public class JavaBuilder {
 //			Stmt stmt = new Stmt(line);
 //			try {
 //				if ("if".equals(stmt.getUnit(0))) {
-//					stmt.units.add(1, "(");
-//					stmt.units.add(stmt.units.size() - 1, ")");
+//					stmt.words.add(1, "(");
+//					stmt.words.add(stmt.words.size() - 1, ")");
 //					sb.append("\t\t" + stmt + "\n");
 //				} else if ("else".equals(stmt.getUnit(1)) && "if".equals(stmt.getUnit(2))) {
-//					stmt.units.add(3, "(");
-//					stmt.units.add(stmt.units.size() - 1, ")");
+//					stmt.words.add(3, "(");
+//					stmt.words.add(stmt.words.size() - 1, ")");
 //					sb.append("\t\t" + stmt + "\n");
 //				} else if ("=".equals(stmt.getUnit(1))) {
 //					sb.append("\t\t" + convertType(Analyzer.getType(clazz.defTypes, stmt)) + " "

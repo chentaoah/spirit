@@ -1,39 +1,15 @@
 package com.sum.shy.core.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
 import com.sum.shy.core.api.Command;
-import com.sum.shy.core.entity.Clazz;
-import com.sum.shy.core.entity.Method;
-import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Result;
-import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.utils.LineUtils;
 
 public class FuncCommand implements Command {
 
 	@Override
-	public Result analysis(String line, String syntax, List<String> units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	@Override
-//	public int handle(String scope, Clazz clazz, List<String> lines, int index, Stmt stmt) {
-//		// 如果是在根域下,则开始解析
-//		if ("static".equals(scope)) {
-//			return createMethod(clazz, clazz.staticMethods, lines, index, stmt);
-//		} else if ("class".equals(scope)) {
-//			return createMethod(clazz, clazz.methods, lines, index, stmt);
-//		}
-//		return 0;
-//	}
-//
-//	private int createMethod(Clazz clazz, List<Method> methods, List<String> lines, int index, Stmt stmt) {
-//
-//		String str = stmt.getUnit(1);
+	public Result analysis(String line, String syntax, List<String> words) {
+
 //		// 这里一定要trim一下
 //		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(str);
 //		// 方法名
@@ -63,6 +39,7 @@ public class FuncCommand implements Command {
 //		method.returnType = returnType;
 //
 //		return method.methodLines.size() + 1;
-//
-//	}
+		return null;
+	}
+
 }
