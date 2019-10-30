@@ -1,6 +1,7 @@
 package com.sum.shy.core.command;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.api.Command;
@@ -18,19 +19,20 @@ public class FieldCommand implements Command {
 		String name = words.get(0);
 		// 将所有单元转换成带有类型的token
 		List<Token> tokens = SemanticDelegate.getTokens(words);
-		// 类型
-		String type = SemanticDelegate.getType(tokens);
-		// 如果是集合类型,还要获取泛型
-		List<String> genericTypes = SemanticDelegate.getGenericTypes(tokens);
 		// 生成语句,以便后面使用
 		Stmt stmt = new Stmt(line, syntax, tokens);
+		// 类型
+		String type = SemanticDelegate.getType(stmt);
+		// 如果是集合类型,还要获取泛型
+		List<String> genericTypes = SemanticDelegate.getGenericTypes(stmt);
 
-//		if ("var".equals(type)) {
-//			Map<String, String> defTypes = Context.get().clazz.defTypes;
-//			if (defTypes.containsKey(str)) {
-//				type = defTypes.get(str);
-//			}
-//		}
+		// 如果是变量,或者是不知类型的,则去全局配置里面找
+		if ("var".equals(type) || "unknown".equals(type)) {
+			Map<String, String> defTypes = Context.get().clazz.defTypes;
+			if (defTypes.containsKey(name)) {
+				type = defTypes.get(name);
+			}
+		}
 
 		Context context = Context.get();
 		if ("static".equals(context.scope)) {
