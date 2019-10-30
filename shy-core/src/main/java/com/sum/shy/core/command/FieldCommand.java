@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.SemanticDelegate;
+import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Command;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
@@ -22,9 +23,9 @@ public class FieldCommand implements Command {
 		// 生成语句,以便后面使用
 		Stmt stmt = new Stmt(line, syntax, tokens);
 		// 类型
-		String type = SemanticDelegate.getTypeByStmt(stmt);
+		String type = TypeDerivator.getTypeByStmt(stmt);
 		// 如果是集合类型,还要获取泛型
-		List<String> genericTypes = SemanticDelegate.getGenericTypes(stmt);
+		List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
 
 		// 如果是变量,或者是不知类型的,则去全局配置里面找
 		if ("var".equals(type) || "unknown".equals(type)) {

@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
-import com.sum.shy.core.analyzer.SemanticDelegate;
+import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Command;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Method;
@@ -40,7 +40,7 @@ public class FuncCommand implements Command {
 		for (String subLine : subLines) {
 			if (subLine.startsWith("return ")) {
 				List<String> subWords = LexicalAnalyzer.analysis(subLine);
-				returnType = SemanticDelegate.getTypeByWords(subWords);
+				returnType = TypeDerivator.getTypeByWords(subWords);
 			}
 		}
 
