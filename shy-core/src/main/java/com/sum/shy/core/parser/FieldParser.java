@@ -1,4 +1,4 @@
-package com.sum.shy.core.command;
+package com.sum.shy.core.parser;
 
 import java.util.List;
 import java.util.Map;

@@ -16,7 +16,9 @@ class User {
 	f=[Child(x,y),Child(x,y)]
 	
 	func getName(int x,int y){
-		return "chentao"
+		user=User()
+		user.getName()
+		user.getAge()
 	}
 	
 	func getAge(int x,int y){
@@ -25,14 +27,13 @@ class User {
 	
 	func getResult(int x,int y){
 		if x>0 && y<0 {
-			print "hello"
+			list=["a","b","c","d{}[]"]
 		}else if x<0 && y>0{
-			print "hello"
+			user.getName()
 		}
+
 		list=[]
-		for item in list{
-			print item
-		}
+		
 		
 	}
 	
@@ -41,11 +42,7 @@ class User {
 a=101
 
 func main(){
-	user=User()
-	user.getName()
-	user.getAge()
+	
 }
 
-func getNum(){
-	return 101
-}
+

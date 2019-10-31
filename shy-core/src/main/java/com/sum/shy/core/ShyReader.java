@@ -7,15 +7,15 @@ import java.util.List;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.api.Parser;
-import com.sum.shy.core.command.ClassParser;
-import com.sum.shy.core.command.DefParser;
-import com.sum.shy.core.command.FieldParser;
-import com.sum.shy.core.command.FuncParser;
-import com.sum.shy.core.command.ImportParser;
-import com.sum.shy.core.command.PackageParser;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.parser.ClassParser;
+import com.sum.shy.core.parser.DefParser;
+import com.sum.shy.core.parser.FieldParser;
+import com.sum.shy.core.parser.FuncParser;
+import com.sum.shy.core.parser.ImportParser;
+import com.sum.shy.core.parser.PackageParser;
 
 public class ShyReader {
 

@@ -21,7 +21,8 @@ import com.sum.shy.core.entity.Token;
 public class SemanticDelegate {
 
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
+			"else", "for", "while", "do" };
 
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",

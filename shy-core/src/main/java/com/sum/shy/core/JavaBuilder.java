@@ -1,6 +1,15 @@
 package com.sum.shy.core;
 
+import java.util.List;
+
+import com.sum.shy.core.api.Converter;
+import com.sum.shy.core.converter.InvokeConverter;
+import com.sum.shy.core.converter.ReturnConverter;
+import com.sum.shy.core.converter.AssignmentConverter;
+import com.sum.shy.core.converter.EndConverter;
+import com.sum.shy.core.converter.IfConverter;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
@@ -8,6 +17,15 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
 public class JavaBuilder {
+
+	static {
+		// 赋值语句和方法调用语句都使用一个转换器
+		Converter.register("return", new ReturnConverter());
+		Converter.register("assignment", new AssignmentConverter());
+		Converter.register("invoke", new InvokeConverter());
+		Converter.register("if", new IfConverter());
+		Converter.register("end", new EndConverter());// }结束符
+	}
 
 	public String build(Clazz clazz) {
 
@@ -166,12 +184,21 @@ public class JavaBuilder {
 	}
 
 	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {
-		for (String line : method.methodLines) {
+		Context.get().scope = "method";
+		List<String> lines = method.methodLines;
+		for (int i = 0; i < lines.size(); i++) {
+			String line = lines.get(i);
 			if (line.trim().startsWith("//") || line.trim().length() == 0) {
 				continue;
 			}
-			sb.append("\t\t" + line.trim() + "\n");
+			Stmt stmt = Stmt.create(line);
+			System.out.println(stmt.syntax);
+			Converter converter = Converter.get(stmt.syntax);
+			int jump = converter.convert(sb, "\t\t", clazz, method, lines, i, line, stmt);
+			i = i + jump;
+
 		}
+
 	}
 
 }

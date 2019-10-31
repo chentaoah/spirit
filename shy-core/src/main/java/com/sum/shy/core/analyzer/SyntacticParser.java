@@ -20,16 +20,23 @@ public class SyntacticParser {
 			"if" };
 
 	public static String getSyntax(List<String> words) {
-		// 判断首个单词是否关键字
-		String str = words.get(0);
-		for (String keyword : KEYWORDS) {
-			if (keyword.equals(str)) {
+
+		String first = words.get(0);
+		for (String keyword : KEYWORDS) {// 关键字语句
+			if (keyword.equals(first)) {
 				return keyword;
 			}
 		}
-		// 如果第二个语义是"=",那么可以认为是赋值语句
-		str = words.get(1);
-		if ("=".equals(str)) {
+
+		if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
+			return "end";
+		}
+		if (words.size() == 1 && SemanticDelegate.isInvoke(first)) {// 单纯方法调用语句
+			return "invoke";
+		}
+
+		String second = words.get(1);
+		if ("=".equals(second)) {// 字段定义或者赋值语句
 			String scope = Context.get().scope;
 			switch (scope) {
 			case "static":
@@ -37,11 +44,21 @@ public class SyntacticParser {
 			case "class":
 				return "field";
 			case "method":
-				return "var";
+				return "assignment";
 			default:
 				break;
 			}
 		}
+
+		String third = words.get(2);
+		if ("}".equals(first)) {// else if语句
+			if ("else".equals(second)) {
+				if ("if".equals(third)) {
+					return "elseif";
+				}
+			}
+		}
+
 		// 未知
 		return null;
 	}

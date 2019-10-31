@@ -1,4 +1,4 @@
-package com.sum.shy.core.command;
+package com.sum.shy.core.parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class FuncParser implements Parser {
 		List<String> genericTypes = null;
 		for (String subLine : subLines) {
 			if (subLine.trim().startsWith("return ")) {
-				Stmt subStmt = Stmt.create(line);
+				Stmt subStmt = Stmt.create(subLine);
 				returnType = TypeDerivator.getType(subStmt);
 				genericTypes = TypeDerivator.getGenericTypes(subStmt);
 			}
