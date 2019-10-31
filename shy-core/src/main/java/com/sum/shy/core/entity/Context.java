@@ -11,6 +11,8 @@ public class Context {
 		return local.get();
 	}
 
+	// 是否debug模式
+	public boolean debug;
 	// class实体
 	public Clazz clazz;
 	// 当前域
