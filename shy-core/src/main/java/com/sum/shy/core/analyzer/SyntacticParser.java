@@ -16,7 +16,8 @@ import com.sum.shy.core.entity.Context;
 public class SyntacticParser {
 
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return",
+			"if" };
 
 	public static String getSyntax(List<String> words) {
 		// 判断首个单词是否关键字

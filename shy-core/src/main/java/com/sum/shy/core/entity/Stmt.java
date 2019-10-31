@@ -13,7 +13,7 @@ public class Stmt {
 	// 词法
 	public List<String> words;
 	// 语法
-	public String syntax;
+	public String syntax;// 关键字keyword--赋值语句assignment--判断语句Judgement--执行语句execution
 	// 语义
 	public List<Token> tokens;
 
