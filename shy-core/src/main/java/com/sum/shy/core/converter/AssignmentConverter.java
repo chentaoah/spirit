@@ -14,7 +14,7 @@ public class AssignmentConverter implements Converter {
 	public int convert(StringBuilder sb, String indent, Clazz clazz, Method method, List<String> lines, int index,
 			String line, Stmt stmt) {
 		// 将语句进行一定的转换
-		sb.append("\t\t" + convertStmt(stmt) + ";\n");
+		sb.append(indent + convertStmt(stmt) + ";\n");
 
 		return 0;
 	}

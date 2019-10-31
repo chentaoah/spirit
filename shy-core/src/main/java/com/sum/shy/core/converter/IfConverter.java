@@ -31,14 +31,14 @@ public class IfConverter implements Converter {
 			if ("if".equals(currStmt.syntax)) {
 				currStmt.tokens.add(1, new Token("separator", "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token("separator", ")", null));
-				sb.append("\t\t" + currStmt + "\n");
+				sb.append(indent + currStmt + "\n");
 			} else if ("elseif".equals(currStmt.syntax)) {
 				currStmt.tokens.add(3, new Token("separator", "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token("separator", ")", null));
-				sb.append("\t\t" + currStmt + "\n");
+				sb.append(indent + currStmt + "\n");
 			} else {
 				Converter converter = Converter.get(currStmt.syntax);
-				converter.convert(sb, indent, clazz, method, lines, index, currLine, currStmt);
+				converter.convert(sb, indent + "\t", clazz, method, lines, index, currLine, currStmt);
 			}
 
 		}

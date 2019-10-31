@@ -15,7 +15,7 @@ public class ReturnConverter implements Converter {
 			String line, Stmt stmt) {
 
 		// 将语句进行一定的转换
-		sb.append("\t\t" + convertStmt(stmt) + ";\n");
+		sb.append(indent + convertStmt(stmt) + ";\n");
 
 		return 0;
 	}
