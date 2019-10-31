@@ -192,7 +192,7 @@ public class JavaBuilder {
 				continue;
 			}
 			Stmt stmt = Stmt.create(line);
-			System.out.println(stmt.syntax);
+//			System.out.println(stmt.syntax);
 			Converter converter = Converter.get(stmt.syntax);
 			int jump = converter.convert(sb, "\t\t", clazz, method, lines, i, line, stmt);
 			i = i + jump;
