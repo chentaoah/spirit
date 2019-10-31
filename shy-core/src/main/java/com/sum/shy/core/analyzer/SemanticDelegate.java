@@ -50,7 +50,9 @@ public class SemanticDelegate {
 	 * @return
 	 */
 	public static List<Token> getTokens(List<String> words) {
+
 		List<Token> tokens = new ArrayList<>();
+
 		for (String word : words) {
 			// 类型
 			String type = getTokenType(word);

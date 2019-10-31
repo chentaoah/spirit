@@ -65,4 +65,12 @@ public class Stmt {
 		return sb.toString();
 	}
 
+	public String debug() {
+		StringBuilder sb = new StringBuilder();
+		for (Token token : tokens) {
+			sb.append(token.toString() + " ");
+		}
+		return sb.toString();
+	}
+
 }
