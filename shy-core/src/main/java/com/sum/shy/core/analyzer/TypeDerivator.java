@@ -24,16 +24,6 @@ public class TypeDerivator {
 	 * @param stmt
 	 * @return
 	 */
-	public static String getTypeByWords(List<String> words) {
-		return getType(SemanticDelegate.getTokens(words));
-	}
-
-	/**
-	 * 类型推断
-	 * 
-	 * @param stmt
-	 * @return
-	 */
 	public static String getType(List<Token> tokens) {
 		for (Token token : tokens) {
 			String type = token.type;

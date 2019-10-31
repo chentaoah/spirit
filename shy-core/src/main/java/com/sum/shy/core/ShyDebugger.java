@@ -25,7 +25,7 @@ public class ShyDebugger {
 	}
 
 	private Clazz readLines(List<String> lines) {
-		
+
 		Context.get().scope = "method";
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {

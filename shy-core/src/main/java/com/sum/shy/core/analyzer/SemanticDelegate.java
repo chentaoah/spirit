@@ -20,6 +20,9 @@ import com.sum.shy.core.entity.Token;
  */
 public class SemanticDelegate {
 
+	// 某些句式,token需要特殊处理
+	public static final String[] SYNTAXS = new String[] { "package", "import", "def", "class", "func" };
+
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
 			"else", "for", "while", "do" };
@@ -41,29 +44,48 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
-	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+$");
+	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
 
 	/**
 	 * 语义分析
 	 * 
+	 * @param syntax
+	 * 
 	 * @param words
 	 * @return
 	 */
-	public static List<Token> getTokens(List<String> words) {
+	public static List<Token> getTokens(String syntax, List<String> words) {
 
 		List<Token> tokens = new ArrayList<>();
 
-		for (String word : words) {
-			// 类型
-			String type = getTokenType(word);
-			// 值
-			Object value = getTokenValue(type, word);
-			// 附加信息
-			Map<String, String> attachments = getAttachments(word, type, value);
-
-			tokens.add(new Token(type, value, attachments));
+		// 有些句式需要特殊处理
+		boolean isSyntax = isSpecialSyntax(syntax);
+		if (isSyntax) {
+			for (String word : words) {
+				String type = getSyntaxTokenType(word);
+				Object value = word;
+				tokens.add(new Token(type, value, null));
+			}
+		} else {
+			for (String word : words) {
+				String type = getTokenType(word);
+				Object value = getTokenValue(type, word);
+				Map<String, String> attachments = getAttachments(word, type, value);
+				tokens.add(new Token(type, value, attachments));
+			}
 		}
+
 		return tokens;
+	}
+
+	private static String getSyntaxTokenType(String word) {
+		if (isKeyword(word)) {
+			return "keyword";
+		} else if (isSeparator(word)) {
+			return "separator";
+		} else {
+			return "keyword_param";
+		}
 	}
 
 	public static String getTokenType(String word) {
@@ -106,7 +128,7 @@ public class SemanticDelegate {
 			words.add(0, "[");
 			words.add("]");
 			// 获取tokens
-			List<Token> tokens = getTokens(words);
+			List<Token> tokens = getTokens(null, words);
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 
@@ -116,7 +138,7 @@ public class SemanticDelegate {
 			words.add(0, "{");
 			words.add("}");
 			// 获取tokens
-			List<Token> tokens = getTokens(words);
+			List<Token> tokens = getTokens(null, words);
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 
@@ -127,7 +149,7 @@ public class SemanticDelegate {
 			words.add(0, "(");
 			words.add(")");
 			// 获取tokens
-			List<Token> tokens = getTokens(words);
+			List<Token> tokens = getTokens(null, words);
 			// 追加一个元素在头部
 			tokens.add(0, new Token("invoke_name", name, null));
 			// 生成子语句
@@ -147,6 +169,15 @@ public class SemanticDelegate {
 			// TODO 成员方法附加参数
 		}
 		return attachments;
+	}
+
+	private static boolean isSpecialSyntax(String word) {
+		for (String syntax : SYNTAXS) {
+			if (syntax.equals(word)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static boolean isKeyword(String word) {

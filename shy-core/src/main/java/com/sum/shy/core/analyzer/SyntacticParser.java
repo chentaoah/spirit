@@ -20,7 +20,7 @@ public class SyntacticParser {
 			"if" };
 
 	public static String getSyntax(List<String> words) {
-
+		
 		String first = words.get(0);
 		for (String keyword : KEYWORDS) {// 关键字语句
 			if (keyword.equals(first)) {

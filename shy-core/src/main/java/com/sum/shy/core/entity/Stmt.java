@@ -23,7 +23,7 @@ public class Stmt {
 		// 2.语法分析,分析语句的语法
 		String syntax = SyntacticParser.getSyntax(words);
 		// 3.语义分析
-		List<Token> tokens = SemanticDelegate.getTokens(words);
+		List<Token> tokens = SemanticDelegate.getTokens(syntax, words);
 		// 生成语句
 		return new Stmt(line, words, syntax, tokens);
 	}
