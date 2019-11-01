@@ -21,6 +21,7 @@ class User {
 		if x>0 && y<10 {
 			user=User()
 		}
+		User user
 		user.getName()
 		user.getAge()
 		user.x=10

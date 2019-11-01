@@ -54,7 +54,7 @@ public class IfConverter implements Converter {
 			}
 
 		}
-		return end - index + 1;
+		return end - index;
 	}
 
 }
