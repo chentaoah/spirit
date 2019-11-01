@@ -125,7 +125,7 @@ public class JavaBuilder {
 			if (line.trim().startsWith("//") || line.trim().length() == 0) {
 				continue;
 			}
-			System.out.println(line);
+//			System.out.println(line);
 			Stmt stmt = Stmt.create(line);
 			Converter converter = Converter.get(stmt.syntax);
 			int jump = converter.convert(sb, "1", "\t\t", clazz, method, lines, i, line, stmt);

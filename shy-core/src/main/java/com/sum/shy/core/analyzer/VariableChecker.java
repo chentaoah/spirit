@@ -37,7 +37,14 @@ public class VariableChecker {
 				if (!isDeclared(clazz, method, block, name)) {
 					throw new RuntimeException("Variable " + name + " must be declared in method " + method.name + "!");
 				}
+			} else if ("array".equals(token.type)) {
+				check(clazz, method, block, (Stmt) token.value);
+			} else if ("map".equals(token.type)) {
+				check(clazz, method, block, (Stmt) token.value);
+			} else if (token.type.startsWith("invoke_") && !"invoke_name".equals(token.type)) {
+				check(clazz, method, block, (Stmt) token.value);
 			}
+
 		}
 
 	}

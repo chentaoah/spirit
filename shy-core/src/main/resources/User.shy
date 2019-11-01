@@ -18,7 +18,7 @@ class User {
 	
 	func getName(int x,int y){
 		//User user
-		if x>0 && y<10 {
+		if a>0 && y<10 {
 			user=User()
 		}
 		User user
@@ -27,7 +27,7 @@ class User {
 		user.x=10
 	}
 	
-	func getAge(int x,int y){
+	func getAge(int bbb,int y){
 		return 28
 	}
 	
