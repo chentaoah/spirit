@@ -171,7 +171,11 @@ public class SemanticDelegate {
 		} else if ("invoke_static".equals(type)) {
 			// TODO 静态方法附加参数
 		} else if ("invoke_member".equals(type)) {
-			// TODO 成员方法附加参数
+			attachments.put("var_name", getVarName(word));
+			attachments.put("member_method_name", getMemberMethod(word));
+		} else if ("var_member".equals(type)) {
+			attachments.put("var_name", getVarName(word));
+			attachments.put("member_field_name", getMemberMethod(word));
 		}
 		return attachments;
 	}
@@ -276,6 +280,14 @@ public class SemanticDelegate {
 
 	public static String getInitMethod(String word) {
 		return word.substring(0, word.indexOf("("));
+	}
+
+	private static String getVarName(String word) {
+		return word.substring(0, word.indexOf("."));
+	}
+
+	private static String getMemberMethod(String word) {
+		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
 	}
 
 }
