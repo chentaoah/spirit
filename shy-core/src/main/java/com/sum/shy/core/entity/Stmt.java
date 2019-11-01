@@ -39,13 +39,16 @@ public class Stmt {
 		return words.get(index);
 	}
 
+	public Token getToken(int index) {
+		return tokens.get(index);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Token token : tokens) {
 			if ("keyword".equals(token.type)) {// 关键字一般后面加个空格
 				sb.append(token.value.toString() + " ");
-
 			} else if ("operator".equals(token.type)) {// 有些操作符两边加空格会好看些
 				if ("&&".equals(token.value)) {
 					sb.append(" " + token.value + " ");

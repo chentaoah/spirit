@@ -12,8 +12,8 @@ import com.sum.shy.core.utils.LineUtils;
 public class IfConverter implements Converter {
 
 	@Override
-	public int convert(StringBuilder sb, String indent, Clazz clazz, Method method, List<String> lines, int index,
-			String line, Stmt stmt) {
+	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
+			int index, String line, Stmt stmt) {
 		// 确认结束的行
 		int end = 0;
 		for (int i = index + 1; i < lines.size(); i++) {
@@ -24,7 +24,8 @@ public class IfConverter implements Converter {
 				end = i;
 			}
 		}
-		for (int i = index; i <= end; i++) {
+
+		for (int i = index, count = 0; i <= end; i++) {
 			String currLine = lines.get(i);
 			Stmt currStmt = Stmt.create(currLine);
 			// 如果是if,则添加括号
@@ -32,15 +33,20 @@ public class IfConverter implements Converter {
 				currStmt.tokens.add(1, new Token("separator", "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token("separator", ")", null));
 				sb.append(indent + currStmt + "\n");
+				count++;
 			} else if ("elseif".equals(currStmt.syntax)) {
 				currStmt.tokens.add(3, new Token("separator", "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token("separator", ")", null));
 				sb.append(indent + currStmt + "\n");
+				count++;
+			} else if ("else".equals(currStmt.syntax)) {
+				sb.append(indent + currStmt + "\n");
+				count++;
 			} else if ("end".equals(currStmt.syntax)) {
 				sb.append(indent + currStmt + "\n");
 			} else {
 				Converter converter = Converter.get(currStmt.syntax);
-				converter.convert(sb, indent + "\t", clazz, method, lines, index, currLine, currStmt);
+				converter.convert(sb, block + count, indent + "\t", clazz, method, lines, index, currLine, currStmt);
 			}
 
 		}

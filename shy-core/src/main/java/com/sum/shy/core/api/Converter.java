@@ -20,7 +20,7 @@ public interface Converter {
 		return converters.get(syntax);
 	}
 
-	public int convert(StringBuilder sb, String indent, Clazz clazz, Method method, List<String> lines, int index,
-			String line, Stmt stmt);
+	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
+			int index, String line, Stmt stmt);
 
 }

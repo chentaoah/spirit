@@ -11,7 +11,7 @@ import com.sum.shy.core.entity.Token;
 public abstract class AbstractConverter implements Converter {
 
 	@Override
-	public int convert(StringBuilder sb, String indent, Clazz clazz, Method method, List<String> lines, int index,
+	public int convert(StringBuilder sb,String block, String indent, Clazz clazz, Method method, List<String> lines, int index,
 			String line, Stmt stmt) {
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + ";\n");

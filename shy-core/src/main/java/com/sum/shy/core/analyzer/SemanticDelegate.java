@@ -99,7 +99,9 @@ public class SemanticDelegate {
 			return "separator";
 		} else {// 是否一些值
 			String type = "unknown";
-			if (isBoolean(word)) {
+			if (isNull(word)) {
+				type = "null";
+			} else if (isBoolean(word)) {
 				type = "boolean";
 			} else if (isInt(word)) {
 				type = "int";
@@ -206,6 +208,10 @@ public class SemanticDelegate {
 			}
 		}
 		return false;
+	}
+
+	private static boolean isNull(String word) {
+		return "null".equals(word);
 	}
 
 	public static boolean isBoolean(String word) {
