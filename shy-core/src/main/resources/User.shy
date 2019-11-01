@@ -19,6 +19,7 @@ class User {
 		user=User()
 		user.getName()
 		user.getAge()
+		user.x=10
 	}
 	
 	func getAge(int x,int y){
