@@ -5,6 +5,7 @@ import java.util.List;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
+import com.sum.shy.core.converter.AbstractConverter;
 import com.sum.shy.core.converter.AssignmentConverter;
 import com.sum.shy.core.converter.EndConverter;
 import com.sum.shy.core.converter.IfConverter;
@@ -14,7 +15,6 @@ import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Token;
 
 public class JavaBuilder {
 
@@ -63,17 +63,20 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + convertFieldType(field) + " " + convertStmt(field.stmt) + ";\n");
+			sb.append("\tpublic static " + convertType(field.type, field.genericTypes) + " "
+					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + convertFieldType(field) + " " + convertStmt(field.stmt) + ";\n");
+			sb.append("\tpublic " + convertType(field.type, field.genericTypes) + " "
+					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		sb.append("\n");
 
 		// ============================ method ================================
 
 		for (Method method : clazz.staticMethods) {
-			sb.append("\tpublic static " + convertMethodType(method) + " " + method.name + "(");
+			sb.append(
+					"\tpublic static " + convertType(method.returnType, method.genericTypes) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -87,8 +90,9 @@ public class JavaBuilder {
 			sb.append("\t}\n");
 			sb.append("\n");
 		}
+
 		for (Method method : clazz.methods) {
-			sb.append("\tpublic " + convertMethodType(method) + " " + method.name + "(");
+			sb.append("\tpublic " + convertType(method.returnType, method.genericTypes) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -109,30 +113,16 @@ public class JavaBuilder {
 
 	}
 
-	private String convertFieldType(Field field) {
-		if ("str".equals(field.type)) {
+	private String convertType(String type, List<String> genericTypes) {
+		if ("str".equals(type)) {
 			return "String";
-		} else if ("array".equals(field.type)) {
-			return "List<" + convertGenericType(field.genericTypes.get(0)) + ">";
-		} else if ("map".equals(field.type)) {
-			return "Map<" + convertGenericType(field.genericTypes.get(0)) + ","
-					+ convertGenericType(field.genericTypes.get(1)) + ">";
+		} else if ("array".equals(type)) {
+			return "List<" + convertGenericType(genericTypes.get(0)) + ">";
+		} else if ("map".equals(type)) {
+			return "Map<" + convertGenericType(genericTypes.get(0)) + "," + convertGenericType(genericTypes.get(1))
+					+ ">";
 		}
-		return field.type;
-	}
-
-	private String convertMethodType(Method method) {
-		if ("str".equals(method.returnType)) {
-			return "String";
-		} else if ("array".equals(method.returnType)) {
-			return "List<" + convertGenericType(method.genericTypes.get(0)) + ">";
-		} else if ("map".equals(method.returnType)) {
-			return "Map<" + convertGenericType(method.genericTypes.get(0)) + ","
-					+ convertGenericType(method.genericTypes.get(1)) + ">";
-		} else if ("unknown".equals(method.returnType)) {
-			return "void";
-		}
-		return method.returnType;
+		return type;
 	}
 
 	private String convertGenericType(String str) {
@@ -149,40 +139,6 @@ public class JavaBuilder {
 		}
 	}
 
-	private String convertStmt(Stmt stmt) {
-
-		// 在所有的构造函数前面都加个new
-		// 将所有的array和map都转换成方法调用
-		for (Token token : stmt.tokens) {
-			if ("separator".equals(token.type) && ":".equals(token.value)) {
-				token.value = ",";
-			}
-			if ("array".equals(token.type)) {
-				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
-				convertStmt(subStmt);
-				subStmt.tokens.get(0).value = "Collection.newArrayList(";
-				subStmt.tokens.get(subStmt.tokens.size() - 1).value = ")";
-
-			} else if ("map".equals(token.type)) {
-				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
-				convertStmt(subStmt);
-				subStmt.tokens.get(0).value = "Collection.newHashMap(";
-				subStmt.tokens.get(subStmt.tokens.size() - 1).value = ")";
-
-			} else if ("invoke_init".equals(token.type)) {
-				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
-				convertStmt(subStmt);
-				// 追加一个关键字
-				subStmt.tokens.add(0, new Token("keyword", "new", null));
-			}
-		}
-
-		return stmt.toString();
-	}
-
 	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {
 		Context.get().scope = "method";
 		List<String> lines = method.methodLines;
@@ -192,7 +148,6 @@ public class JavaBuilder {
 				continue;
 			}
 			Stmt stmt = Stmt.create(line);
-//			System.out.println(stmt.syntax);
 			Converter converter = Converter.get(stmt.syntax);
 			int jump = converter.convert(sb, "\t\t", clazz, method, lines, i, line, stmt);
 			i = i + jump;

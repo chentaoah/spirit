@@ -19,7 +19,7 @@ public abstract class AbstractConverter implements Converter {
 		return 0;
 	}
 
-	private String convertStmt(Stmt stmt) {
+	public static String convertStmt(Stmt stmt) {
 
 		// 在所有的构造函数前面都加个new
 		// 将所有的array和map都转换成方法调用
