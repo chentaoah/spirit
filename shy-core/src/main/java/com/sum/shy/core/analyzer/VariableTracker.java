@@ -17,7 +17,7 @@ import com.sum.shy.core.entity.Variable;
  * @author: chentao26275
  * @date: 2019年11月1日
  */
-public class VariableChecker {
+public class VariableTracker {
 
 	public static void check(Clazz clazz, Method method, String block, Stmt stmt) {
 

@@ -2,7 +2,7 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.VariableChecker;
+import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Method;
@@ -16,7 +16,7 @@ public class IfConverter implements Converter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
 			int index, String line, Stmt stmt) {
 
-		VariableChecker.check(clazz, method, block, stmt);
+		VariableTracker.check(clazz, method, block, stmt);
 
 		// 确认结束的行
 		int end = 0;

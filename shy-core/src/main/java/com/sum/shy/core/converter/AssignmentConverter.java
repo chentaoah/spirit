@@ -2,7 +2,7 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.VariableChecker;
+import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Method;
@@ -21,11 +21,11 @@ public class AssignmentConverter extends AbstractConverter {
 		String name = (String) stmt.getToken(0).value;
 
 		if ("var".equals(tokenType)) {
-			if (!VariableChecker.isDeclared(clazz, method, block, name)) {
+			if (!VariableTracker.isDeclared(clazz, method, block, name)) {
 				// 追加变量
 				method.addVariable(new Variable(block, name));
 				// 直接校验
-				VariableChecker.check(clazz, method, block, stmt);
+				VariableTracker.check(clazz, method, block, stmt);
 				// 如果没有,则在最前面追加类型
 				String type = TypeDerivator.getType(stmt);
 				List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
@@ -33,7 +33,7 @@ public class AssignmentConverter extends AbstractConverter {
 				stmt.tokens.add(0, new Token("type", str, null));
 			} else {
 				// 直接校验
-				VariableChecker.check(clazz, method, block, stmt);
+				VariableTracker.check(clazz, method, block, stmt);
 			}
 		}
 		// 将语句进行一定的转换
