@@ -21,6 +21,7 @@ public class AssignmentConverter extends AbstractConverter {
 		String name = (String) stmt.getToken(0).value;
 
 		if ("var".equals(tokenType)) {
+
 			if (!VariableChecker.seachInClass(clazz, method, block, name)) {
 				// 追加变量
 				method.addVariable(new Variable(block, name));
@@ -31,14 +32,14 @@ public class AssignmentConverter extends AbstractConverter {
 				List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
 				String str = convertType(type, genericTypes);
 				stmt.tokens.add(0, new Token("type", str, null));
-
+				// 将语句进行一定的转换
+				sb.append(indent + convertStmt(stmt) + ";\n");
 			}
-		} else {
-			// 直接校验
-			VariableChecker.check(clazz, method, block, stmt);
-		}
+			return 0;
 
-		return super.convert(sb, block, indent, clazz, method, lines, index, line, stmt);
+		} else {
+			return super.convert(sb, block, indent, clazz, method, lines, index, line, stmt);
+		}
 
 	}
 
