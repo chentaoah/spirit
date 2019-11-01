@@ -35,12 +35,12 @@ public class TypeDerivator {
 				return "double";
 			} else if ("str".equals(type)) {
 				return "str";
-			} else if (type.startsWith("invoke_init")) {
-				return token.attachments.get("init_method_name");
 			} else if ("array".equals(type)) {
 				return "array";
 			} else if ("map".equals(type)) {
 				return "map";
+			} else if (type.startsWith("invoke_init")) {
+				return token.attachments.get("init_method_name");
 			}
 		}
 		return "unknown";

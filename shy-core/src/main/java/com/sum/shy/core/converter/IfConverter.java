@@ -36,6 +36,8 @@ public class IfConverter implements Converter {
 				currStmt.tokens.add(3, new Token("separator", "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token("separator", ")", null));
 				sb.append(indent + currStmt + "\n");
+			} else if ("end".equals(currStmt.syntax)) {
+				sb.append(indent + currStmt + "\n");
 			} else {
 				Converter converter = Converter.get(currStmt.syntax);
 				converter.convert(sb, indent + "\t", clazz, method, lines, index, currLine, currStmt);

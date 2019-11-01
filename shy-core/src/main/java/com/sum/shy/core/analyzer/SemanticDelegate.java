@@ -37,14 +37,15 @@ public class SemanticDelegate {
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
+	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
+	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
 			.compile("^[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
-	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
+	private static final Pattern VAR_MEMBER_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$");
 
 	/**
 	 * 语义分析
@@ -106,14 +107,14 @@ public class SemanticDelegate {
 				type = "double";
 			} else if (isStr(word)) {
 				type = "str";
-			} else if (isInvoke(word)) {
-				type = getInvokeType(word);
 			} else if (isArray(word)) {
 				type = "array";
 			} else if (isMap(word)) {
 				type = "map";
+			} else if (isInvoke(word)) {
+				type = getInvokeType(word);
 			} else if (isVariable(word)) {// 变量
-				type = "var";
+				type = getVarType(word);
 			}
 			return type;
 		}
@@ -251,6 +252,14 @@ public class SemanticDelegate {
 			return "invoke_member";
 		}
 		return "unknown";
+	}
+
+	private static String getVarType(String word) {
+
+		if (VAR_MEMBER_PATTERN.matcher(word).matches()) {// 构造函数
+			return "var_member";
+		}
+		return "var";
 	}
 
 	public static String getInitMethod(String word) {
