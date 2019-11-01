@@ -24,7 +24,7 @@ public class ShyReader {
 		Parser.register("import", new ImportParser());
 		Parser.register("def", new DefParser());
 		Parser.register("class", new ClassParser());
-		Parser.register("field", new FieldParser());
+		Parser.register("assignment", new FieldParser());
 		Parser.register("func", new FuncParser());
 	}
 

@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.entity.Clazz;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Stmt;
 
 public class ShyDebugger {
@@ -26,7 +25,6 @@ public class ShyDebugger {
 
 	private Clazz readLines(List<String> lines) {
 
-		Context.get().scope = "method";
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中

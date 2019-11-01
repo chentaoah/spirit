@@ -2,8 +2,6 @@ package com.sum.shy.core.analyzer;
 
 import java.util.List;
 
-import com.sum.shy.core.entity.Context;
-
 /**
  * 语法分析器
  *
@@ -20,7 +18,7 @@ public class SyntacticParser {
 			"if" };
 
 	public static String getSyntax(List<String> words) {
-		
+
 		String first = words.get(0);
 		for (String keyword : KEYWORDS) {// 关键字语句
 			if (keyword.equals(first)) {
@@ -37,17 +35,7 @@ public class SyntacticParser {
 
 		String second = words.get(1);
 		if ("=".equals(second)) {// 字段定义或者赋值语句
-			String scope = Context.get().scope;
-			switch (scope) {
-			case "static":
-				return "field";
-			case "class":
-				return "field";
-			case "method":
-				return "assignment";
-			default:
-				break;
-			}
+			return "assignment";
 		}
 
 		String third = words.get(2);
