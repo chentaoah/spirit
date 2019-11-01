@@ -24,25 +24,25 @@ public class VariableChecker {
 		for (Token token : stmt.tokens) {
 			if ("invoke_member".equals(token.type)) {
 				String name = token.attachments.get("var_name");
-				if (!seachInClass(clazz, method, block, name)) {
-					throw new RuntimeException("Variable " + name + "must be declared in method " + method.name + "!");
+				if (!isDeclared(clazz, method, block, name)) {
+					throw new RuntimeException("Variable " + name + " must be declared in method " + method.name + "!");
 				}
 			} else if ("var_member".equals(token.type)) {
 				String name = token.attachments.get("var_name");
-				if (!seachInClass(clazz, method, block, name)) {
-					throw new RuntimeException("Variable " + name + "must be declared in method " + method.name + "!");
+				if (!isDeclared(clazz, method, block, name)) {
+					throw new RuntimeException("Variable " + name + " must be declared in method " + method.name + "!");
 				}
 			} else if ("var".equals(token.type)) {
 				String name = (String) token.value;
-				if (!seachInClass(clazz, method, block, name)) {
-					throw new RuntimeException("Variable " + name + "must be declared in method " + method.name + "!");
+				if (!isDeclared(clazz, method, block, name)) {
+					throw new RuntimeException("Variable " + name + " must be declared in method " + method.name + "!");
 				}
 			}
 		}
 
 	}
 
-	public static boolean seachInClass(Clazz clazz, Method method, String block, String name) {
+	public static boolean isDeclared(Clazz clazz, Method method, String block, String name) {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {

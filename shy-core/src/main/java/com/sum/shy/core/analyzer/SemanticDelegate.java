@@ -175,7 +175,7 @@ public class SemanticDelegate {
 			attachments.put("member_method_name", getMemberMethod(word));
 		} else if ("var_member".equals(type)) {
 			attachments.put("var_name", getVarName(word));
-			attachments.put("member_field_name", getMemberMethod(word));
+			attachments.put("member_field_name", getMemberName(word));
 		}
 		return attachments;
 	}
@@ -288,6 +288,10 @@ public class SemanticDelegate {
 
 	private static String getMemberMethod(String word) {
 		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
+	}
+
+	private static String getMemberName(String word) {
+		return word.substring(word.indexOf(".") + 1, word.length());
 	}
 
 }
