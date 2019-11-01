@@ -46,6 +46,7 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
 	private static final Pattern VAR_MEMBER_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$");
+	private static final Pattern CLASS_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
 
 	/**
 	 * 语义分析
@@ -59,14 +60,15 @@ public class SemanticDelegate {
 
 		List<Token> tokens = new ArrayList<>();
 
-		// 有些句式需要特殊处理
-		boolean isSyntax = isSpecialSyntax(syntax);
-		if (isSyntax) {
+		if (isKeywordSyntax(syntax)) {// 有些句式需要特殊处理
 			for (String word : words) {
-				String type = getSyntaxTokenType(word);
+				String type = getKeywordTokenType(word);
 				Object value = word;
 				tokens.add(new Token(type, value, null));
 			}
+		} else if ("declare".equals(syntax)) {// 类型声明
+			tokens.add(new Token("type", words.get(0), null));
+			tokens.add(new Token("var", words.get(1), null));
 		} else {
 			for (String word : words) {
 				String type = getTokenType(word);
@@ -79,7 +81,7 @@ public class SemanticDelegate {
 		return tokens;
 	}
 
-	private static String getSyntaxTokenType(String word) {
+	private static String getKeywordTokenType(String word) {
 		if (isKeyword(word)) {
 			return "keyword";
 		} else if (isSeparator(word)) {
@@ -174,7 +176,7 @@ public class SemanticDelegate {
 		return attachments;
 	}
 
-	private static boolean isSpecialSyntax(String word) {
+	private static boolean isKeywordSyntax(String word) {
 		for (String syntax : SYNTAXS) {
 			if (syntax.equals(word)) {
 				return true;
@@ -266,6 +268,10 @@ public class SemanticDelegate {
 			return "var_member";
 		}
 		return "var";
+	}
+
+	public static boolean isClass(String word) {
+		return CLASS_PATTERN.matcher(word).matches();
 	}
 
 	public static String getInitMethod(String word) {

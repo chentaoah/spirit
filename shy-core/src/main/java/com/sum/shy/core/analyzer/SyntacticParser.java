@@ -30,6 +30,10 @@ public class SyntacticParser {
 			}
 		}
 
+		if (SemanticDelegate.isClass(first)) {// 如果是类型,则是类型说明语句
+			return "declare";
+		}
+
 		if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
 			return "end";
 		}

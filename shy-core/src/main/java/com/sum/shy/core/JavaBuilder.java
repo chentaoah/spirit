@@ -7,6 +7,7 @@ import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
 import com.sum.shy.core.converter.AbstractConverter;
 import com.sum.shy.core.converter.AssignmentConverter;
+import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.converter.EndConverter;
 import com.sum.shy.core.converter.IfConverter;
 import com.sum.shy.core.entity.Clazz;
@@ -20,11 +21,13 @@ public class JavaBuilder {
 
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
-		Converter.register("return", new ReturnConverter());
+		Converter.register("declare", new DeclareConverter());
 		Converter.register("assignment", new AssignmentConverter());
 		Converter.register("invoke", new InvokeConverter());
 		Converter.register("if", new IfConverter());
+		Converter.register("return", new ReturnConverter());
 		Converter.register("end", new EndConverter());// }结束符
+
 	}
 
 	public String build(Clazz clazz) {
