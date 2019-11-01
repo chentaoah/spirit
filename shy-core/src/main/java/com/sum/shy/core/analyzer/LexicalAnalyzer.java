@@ -32,6 +32,10 @@ public class LexicalAnalyzer {
 	public static List<String> getWords(String line) {
 
 //		System.out.println(line.trim());
+		// 防止空字符串
+		if (line == null || line.length() == 0) {
+			return new ArrayList<>();
+		}
 		// 拆分的单元
 		List<String> words = new ArrayList<>();
 		// 替换的字符串

@@ -19,6 +19,10 @@ public class SyntacticParser {
 
 	public static String getSyntax(List<String> words) {
 
+		if (words.size() == 0) {// 添加空校验
+			return "unknown";
+		}
+
 		String first = words.get(0);
 		for (String keyword : KEYWORDS) {// 关键字语句
 			if (keyword.equals(first)) {
@@ -48,7 +52,7 @@ public class SyntacticParser {
 		}
 
 		// 未知
-		return null;
+		return "unknown";
 	}
 
 }

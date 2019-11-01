@@ -27,7 +27,7 @@ public abstract class AbstractConverter implements Converter {
 		} else if ("map".equals(type)) {
 			return "Map<" + convertGenericType(genericTypes.get(0)) + "," + convertGenericType(genericTypes.get(1))
 					+ ">";
-		} else if ("unknown".equals(type)) {
+		} else if ("none".equals(type)) {
 			return "void";
 		}
 		return type;
@@ -42,7 +42,7 @@ public abstract class AbstractConverter implements Converter {
 			return "Double";
 		} else if ("str".equals(str)) {
 			return "String";
-		} else if ("unknown".equals(str)) {
+		} else if ("none".equals(str)) {
 			return "Object";
 		} else {
 			return str;

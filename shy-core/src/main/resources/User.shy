@@ -12,6 +12,7 @@ class User {
 	c=Child(x,y)
 	d=People.getInstance()
 	b=["a","b","c","d{}[]"]
+	g=[]
 	
 	f=[Child(x,y),Child(x,y)]
 	

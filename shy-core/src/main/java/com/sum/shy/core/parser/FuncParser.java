@@ -37,15 +37,20 @@ public class FuncParser implements Parser {
 		// 寻找return
 		String returnType = "unknown";
 		// 如果是集合类型,还要获取泛型
-		List<String> genericTypes = null;
+		List<String> genericTypes = new ArrayList<>();
+		// 是否有返回值标志
+		boolean flag = false;
 		for (String subLine : subLines) {
 			if (subLine.trim().startsWith("return ")) {
 				Stmt subStmt = Stmt.create(subLine);
 				returnType = TypeDerivator.getType(subStmt);
 				genericTypes = TypeDerivator.getGenericTypes(subStmt);
+				flag = true;
 			}
 		}
-
+		if (!flag) {
+			returnType = "none";
+		}
 		// 添加方法
 		Method method = new Method(returnType, genericTypes, name, params);
 		method.methodLines = subLines;

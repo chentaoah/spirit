@@ -60,6 +60,11 @@ public class TypeDerivator {
 			if ("array".equals(type)) {
 				// 获取子语句
 				Stmt subStmt = (Stmt) token.value;
+				// 如果数组里面什么都没有,则返回null
+				if (subStmt.tokens.size() == 2) {
+					genericTypes.add("none");
+					return genericTypes;
+				}
 				genericTypes.add("unknown");
 				// 开始遍历里面的那层
 				for (Token subToken : subStmt.tokens) {
@@ -72,6 +77,12 @@ public class TypeDerivator {
 			} else if ("map".equals(type)) {
 				// 获取子语句
 				Stmt subStmt = (Stmt) token.value;
+				// 如果数组里面什么都没有,则返回null
+				if (subStmt.tokens.size() == 2) {
+					genericTypes.add("none");
+					genericTypes.add("none");
+					return genericTypes;
+				}
 				// 开始遍历里面的那层
 				boolean flag = true;
 				genericTypes.add("unknown");
