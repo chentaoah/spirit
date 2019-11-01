@@ -54,7 +54,6 @@ public class SemanticDelegate {
 	 * @param words
 	 * @return
 	 */
-
 	public static List<Token> getTokens(String syntax, List<String> words) {
 
 		List<Token> tokens = new ArrayList<>();
