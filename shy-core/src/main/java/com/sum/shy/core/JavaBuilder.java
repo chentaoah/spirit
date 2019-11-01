@@ -63,11 +63,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + convertType(field.type, field.genericTypes) + " "
+			sb.append("\tpublic static " + AbstractConverter.convertType(field.type, field.genericTypes) + " "
 					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + convertType(field.type, field.genericTypes) + " "
+			sb.append("\tpublic " + AbstractConverter.convertType(field.type, field.genericTypes) + " "
 					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		sb.append("\n");
@@ -75,8 +75,8 @@ public class JavaBuilder {
 		// ============================ method ================================
 
 		for (Method method : clazz.staticMethods) {
-			sb.append(
-					"\tpublic static " + convertType(method.returnType, method.genericTypes) + " " + method.name + "(");
+			sb.append("\tpublic static " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
+					+ method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -92,7 +92,8 @@ public class JavaBuilder {
 		}
 
 		for (Method method : clazz.methods) {
-			sb.append("\tpublic " + convertType(method.returnType, method.genericTypes) + " " + method.name + "(");
+			sb.append("\tpublic " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
+					+ method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -111,34 +112,6 @@ public class JavaBuilder {
 
 		return sb.toString();
 
-	}
-
-	private String convertType(String type, List<String> genericTypes) {
-		if ("str".equals(type)) {
-			return "String";
-		} else if ("array".equals(type)) {
-			return "List<" + convertGenericType(genericTypes.get(0)) + ">";
-		} else if ("map".equals(type)) {
-			return "Map<" + convertGenericType(genericTypes.get(0)) + "," + convertGenericType(genericTypes.get(1))
-					+ ">";
-		} else if ("unknown".equals(type)) {
-			return "void";
-		}
-		return type;
-	}
-
-	private String convertGenericType(String str) {
-		if ("boolean".equals(str)) {
-			return "Boolean";
-		} else if ("int".equals(str)) {
-			return "Integer";
-		} else if ("double".equals(str)) {
-			return "Double";
-		} else if ("str".equals(str)) {
-			return "String";
-		} else {
-			return str;
-		}
 	}
 
 	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {

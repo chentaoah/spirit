@@ -61,6 +61,8 @@ public class Stmt {
 				} else {
 					sb.append(token.value.toString());
 				}
+			} else if ("type".equals(token.type)) {// 类型声明后面加空格
+				sb.append(token.value.toString() + " ");
 			} else {
 				sb.append(token.value.toString());
 			}

@@ -60,11 +60,12 @@ public class TypeDerivator {
 			if ("array".equals(type)) {
 				// 获取子语句
 				Stmt subStmt = (Stmt) token.value;
+				genericTypes.add("unknown");
 				// 开始遍历里面的那层
 				for (Token subToken : subStmt.tokens) {
 					String subType = getGenericType(subToken);
 					if (!"unknown".equals(subType)) {
-						genericTypes.add(subType);
+						genericTypes.set(0, subType);
 						return genericTypes;
 					}
 				}

@@ -1,5 +1,6 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Method {
@@ -12,7 +13,7 @@ public class Method {
 	// 初始值
 	public List<Param> params;
 	// 变量
-	public List<Variable> variables;
+	public List<Variable> variables = new ArrayList<>();
 	// method域
 	public List<String> methodLines;
 
@@ -25,12 +26,16 @@ public class Method {
 	public Variable findVariable(String block, String name) {
 
 		for (Variable variable : variables) {
-			if (variable.name.equals(name) && block.startsWith(variable.block)) {
+			if (block.startsWith(variable.block) && variable.name.equals(name)) {
 				return variable;
 			}
 		}
 		return null;
 
+	}
+
+	public void addVariable(Variable variable) {
+		variables.add(variable);
 	}
 
 }
