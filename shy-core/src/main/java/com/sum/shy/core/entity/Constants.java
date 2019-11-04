@@ -43,7 +43,7 @@ public class Constants {
 	public static final String VAR_TOKEN = "var";
 	public static final String MEMBER_VAR_TOKEN = "member_var";
 	// 附加的token
-	public static final String METHOD_NAME_TOKEN = "method_name";
+	public static final String INVOKE_NAME_TOKEN = "invoke_name";
 	public static final String TYPE_TOKEN = "type";
 
 	public static final String TYPE_ATTACHMENT = "type";

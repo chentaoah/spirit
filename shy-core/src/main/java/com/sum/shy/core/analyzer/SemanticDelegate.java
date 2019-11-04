@@ -47,7 +47,7 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
 	private static final Pattern VAR_MEMBER_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$");
-	private static final Pattern CLASS_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
+	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
 
 	/**
 	 * 语义分析
@@ -119,13 +119,35 @@ public class SemanticDelegate {
 			} else if (isMap(word)) {
 				return Constants.MAP_TOKEN;
 			} else if (isInvoke(word)) {
-				return getInvokeType(word);
+				return getInvokeTokenType(word);
 			} else if (isVariable(word)) {
-				return getVarType(word);
+				return getVarTokenType(word);
 			}
 			return Constants.UNKNOWN;
 		}
 
+	}
+
+	private static String getInvokeTokenType(String word) {
+
+		if (INVOKE_INIT_PATTERN.matcher(word).matches()) {// 构造函数
+			return Constants.INVOKE_INIT_TOKEN;
+		}
+		if (INVOKE_STATIC_PATTERN.matcher(word).matches()) {
+			return Constants.INVOKE_STATIC_TOKEN;
+		}
+		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
+			return Constants.INVOKE_MEMBER_TOKEN;
+		}
+		return Constants.UNKNOWN;
+	}
+
+	private static String getVarTokenType(String word) {
+
+		if (VAR_MEMBER_PATTERN.matcher(word).matches()) {// 构造函数
+			return Constants.MEMBER_VAR_TOKEN;
+		}
+		return Constants.VAR_TOKEN;
 	}
 
 	private static Object getTokenValue(String type, String word) {
@@ -150,7 +172,7 @@ public class SemanticDelegate {
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 
-		} else if (type.startsWith("invoke_")) {
+		} else if (isInvokeTokenType(type)) {
 			String name = word.substring(0, word.indexOf("("));
 			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
 			List<String> words = LexicalAnalyzer.getWords(str);
@@ -159,7 +181,7 @@ public class SemanticDelegate {
 			// 获取tokens
 			List<Token> tokens = getTokens(null, words);
 			// 追加一个元素在头部
-			tokens.add(0, new Token("method_name", name, null));
+			tokens.add(0, new Token(Constants.INVOKE_NAME_TOKEN, name, null));
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 		}
@@ -171,20 +193,21 @@ public class SemanticDelegate {
 
 		Map<String, String> attachments = new HashMap<>();
 		if (Constants.INVOKE_INIT_TOKEN.equals(type)) {
-			attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, getInitMethod(word));
+			attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, getInitMethodName(word));
 
 		} else if (Constants.INVOKE_STATIC_TOKEN.equals(type)) {
 			attachments.put(Constants.TYPE_ATTACHMENT, getTypeName(word));
-			attachments.put(Constants.STATIC_METHOD_NAME_ATTACHMENT, getStaticMethod(word));
+			attachments.put(Constants.STATIC_METHOD_NAME_ATTACHMENT, getStaticMethodName(word));
 
 		} else if (Constants.INVOKE_MEMBER_TOKEN.equals(type)) {
 			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
-			attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, getMemberMethod(word));
+			attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, getMemberMethodName(word));
 
 		} else if (Constants.MEMBER_VAR_TOKEN.equals(type)) {
 			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
 			attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, getMemberVarName(word));
 		}
+
 		return attachments;
 	}
 
@@ -197,13 +220,17 @@ public class SemanticDelegate {
 		return false;
 	}
 
-	private static boolean isKeywordSyntax(String word) {
-		return contain(SYNTAXS, word);
+	private static boolean isKeywordSyntax(String syntax) {
+		return contain(SYNTAXS, syntax);
+	}
+
+	private static boolean isInvokeTokenType(String type) {
+		return Constants.INVOKE_INIT_TOKEN.equals(type) || Constants.INVOKE_STATIC_TOKEN.equals(type)
+				|| Constants.INVOKE_MEMBER_TOKEN.equals(type);
 	}
 
 	private static boolean isKeyword(String word) {
 		return contain(KEYWORDS, word);
-
 	}
 
 	public static boolean isOperator(String word) {
@@ -250,33 +277,11 @@ public class SemanticDelegate {
 		return VAR_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isClass(String word) {
-		return CLASS_PATTERN.matcher(word).matches();
+	public static boolean isType(String word) {
+		return TYPE_PATTERN.matcher(word).matches();
 	}
 
-	private static String getInvokeType(String word) {
-
-		if (INVOKE_INIT_PATTERN.matcher(word).matches()) {// 构造函数
-			return Constants.INVOKE_INIT_TOKEN;
-		}
-		if (INVOKE_STATIC_PATTERN.matcher(word).matches()) {
-			return Constants.INVOKE_STATIC_TOKEN;
-		}
-		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
-			return Constants.INVOKE_MEMBER_TOKEN;
-		}
-		return Constants.UNKNOWN;
-	}
-
-	private static String getVarType(String word) {
-
-		if (VAR_MEMBER_PATTERN.matcher(word).matches()) {// 构造函数
-			return Constants.MEMBER_VAR_TOKEN;
-		}
-		return Constants.VAR_TOKEN;
-	}
-
-	public static String getInitMethod(String word) {
+	public static String getInitMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
 	}
 
@@ -288,11 +293,11 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("."));
 	}
 
-	private static String getStaticMethod(String word) {
+	private static String getStaticMethodName(String word) {
 		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
 	}
 
-	private static String getMemberMethod(String word) {
+	private static String getMemberMethodName(String word) {
 		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
 	}
 
