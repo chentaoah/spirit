@@ -35,7 +35,7 @@ public class ShyReader {
 		List<Line> lines = new ArrayList<>();
 		for (int i = 0; i < fileLines.size(); i++) {
 			lines.add(new Line(i, fileLines.get(i)));
-			System.out.println(lines.get(i));
+			System.out.println(lines.get(i).text);
 		}
 		return readLines(lines);
 	}

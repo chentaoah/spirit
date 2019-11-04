@@ -59,6 +59,14 @@ public class LineUtils {
 		return line;
 	}
 
+	public static String getSpaceByNumber(int number) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < number; i++) {
+			sb.append(" ");
+		}
+		return sb.toString();
+	}
+
 	public static String replaceString(String line, char left, char right, String name, int number,
 			Map<String, String> map) {
 		return replaceString(line, left, right, name, number, map, false, false);

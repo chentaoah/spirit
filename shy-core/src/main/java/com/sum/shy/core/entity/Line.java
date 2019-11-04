@@ -1,5 +1,7 @@
 package com.sum.shy.core.entity;
 
+import com.sum.shy.core.utils.LineUtils;
+
 public class Line {
 
 	public Integer number;
@@ -17,7 +19,7 @@ public class Line {
 
 	@Override
 	public String toString() {
-		return number + ":" + text;
+		return number + ":" + LineUtils.getSpaceByNumber(6 - (number + ":").length()) + text;
 	}
 
 }

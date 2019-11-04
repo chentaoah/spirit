@@ -10,6 +10,7 @@ import com.google.common.io.Files;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.utils.LineUtils;
 
 public class ShyDebugger {
 
@@ -39,21 +40,13 @@ public class ShyDebugger {
 				System.out.println(line.text);
 			} else {
 				Stmt stmt = Stmt.create(line);
-				System.out.println(
-						line + getSpaceByNumber(45 - line.text.length()) + ">>> " + stmt.syntax + " " + stmt.debug());
+				System.out.println(line + LineUtils.getSpaceByNumber(45 - line.text.length()) + ">>> " + stmt.syntax
+						+ " " + stmt.debug());
 			}
 
 		}
 
 		return null;
-	}
-
-	private String getSpaceByNumber(int number) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < number; i++) {
-			sb.append(" ");
-		}
-		return sb.toString();
 	}
 
 }
