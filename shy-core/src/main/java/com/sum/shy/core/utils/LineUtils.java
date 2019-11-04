@@ -4,20 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.entity.Line;
+
 public class LineUtils {
 
-	public static List<String> getAllLines(List<String> lines, int index) {
-		List<String> list = new ArrayList<>();
+	public static List<Line> getAllLines(List<Line> lines, int index) {
+		List<Line> list = new ArrayList<>();
 		for (int i = index, count = 0; i < lines.size(); i++) {
-			String line = lines.get(i);
-			for (int j = 0; j < line.length(); j++) {
-				if (line.charAt(j) == '{') {
+			String text = lines.get(i).text;
+			for (int j = 0; j < text.length(); j++) {
+				if (text.charAt(j) == '{') {
 					count++;
-				} else if (line.charAt(j) == '}') {
+				} else if (text.charAt(j) == '}') {
 					count--;
 				}
 			}
-			list.add(line);
+			list.add(lines.get(i));
 			if (count == 0) {
 				break;
 			}
@@ -26,23 +28,23 @@ public class LineUtils {
 	}
 
 	// 返回子块
-	public static List<String> getSubLines(List<String> lines, int index) {
+	public static List<Line> getSubLines(List<Line> lines, int index) {
 		// 找到子域的结束符"}"
-		List<String> list = new ArrayList<>();
+		List<Line> list = new ArrayList<>();
 		for (int i = index + 1, count = 1; i < lines.size(); i++) {
-			String line = lines.get(i);
+			String text = lines.get(i).text;
 			// 遍历
-			for (int j = 0; j < line.length(); j++) {
-				if (line.charAt(j) == '{') {
+			for (int j = 0; j < text.length(); j++) {
+				if (text.charAt(j) == '{') {
 					count++;
-				} else if (line.charAt(j) == '}') {
+				} else if (text.charAt(j) == '}') {
 					count--;
 				}
 			}
 			if (count == 0) {
 				break;
 			}
-			list.add(line);
+			list.add(lines.get(i));
 		}
 		return list;
 	}

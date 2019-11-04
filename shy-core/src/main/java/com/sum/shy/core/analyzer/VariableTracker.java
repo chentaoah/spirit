@@ -2,6 +2,7 @@ package com.sum.shy.core.analyzer;
 
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Field;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
@@ -19,28 +20,29 @@ import com.sum.shy.core.entity.Variable;
  */
 public class VariableTracker {
 
-	public static void check(Clazz clazz, Method method, String block, Stmt stmt) {
+	public static void check(Clazz clazz, Method method, String block, Line line, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
-				String type = getType(clazz, method, block, stmt, i, (String) token.value);
+				String type = getType(clazz, method, block, line, stmt, i, (String) token.value);
 				if (type != null)
 					token.setTypeAttachment(type);
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, stmt, i, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, i, token.getVarNameAttachment());// 只校验
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, stmt, i, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, i, token.getVarNameAttachment());// 只校验
 			}
 			if (token.hasSubStmt()) {
-				check(clazz, method, block, (Stmt) token.value);
+				check(clazz, method, block, line, (Stmt) token.value);
 			}
 
 		}
 
 	}
 
-	public static String getType(Clazz clazz, Method method, String block, Stmt stmt, int index, String name) {
+	public static String getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, int index,
+			String name) {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
@@ -71,7 +73,7 @@ public class VariableTracker {
 			return null;
 		}
 
-		throw new RuntimeException("Variable must be declared!line:[" + stmt.line + "],var:[" + name + "]");
+		throw new RuntimeException("Variable must be declared!line:[" + line + "],var:[" + name + "]");
 
 	}
 

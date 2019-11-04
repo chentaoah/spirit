@@ -26,13 +26,13 @@ public class LexicalAnalyzer {
 	/**
 	 * 将语句拆分成一个一个单元
 	 * 
-	 * @param line
+	 * @param text
 	 * @return
 	 */
-	public static List<String> getWords(String line) {
+	public static List<String> getWords(String text) {
 
 		// 防止空字符串
-		if (line == null || line.length() == 0) {
+		if (text == null || text.length() == 0) {
 			return new ArrayList<>();
 		}
 		// 拆分的单元
@@ -41,33 +41,33 @@ public class LexicalAnalyzer {
 		Map<String, String> replacedStrs = new HashMap<>();
 
 		// 去掉前后的空格
-		line = line.trim();
+		text = text.trim();
 
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		// 这里需要解决一个括号谁套谁的问题
 		int count = 0;
-		for (int i = 0; i < line.length(); i++) {
-			if (line.charAt(i) == '"') {
-				line = LineUtils.replaceString(line, '"', '"', "str", count++, replacedStrs);
-			} else if (line.charAt(i) == '(') {
-				line = LineUtils.replaceString(line, '(', ')', "invoke", count++, replacedStrs, true);
-			} else if (line.charAt(i) == '[') {
-				line = LineUtils.replaceString(line, '[', ']', "array", count++, replacedStrs);
-			} else if (line.charAt(i) == '{') {
-				line = LineUtils.replaceString(line, '{', '}', "map", count++, replacedStrs);
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) == '"') {
+				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
+			} else if (text.charAt(i) == '(') {
+				text = LineUtils.replaceString(text, '(', ')', "invoke", count++, replacedStrs, true);
+			} else if (text.charAt(i) == '[') {
+				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
+			} else if (text.charAt(i) == '{') {
+				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
 			}
 		}
 
 		// 2.处理操作符,添加空格,方便后面的拆分
 		for (String str : SYMBOLS) {
-			line = line.replaceAll(str, " " + str + " ");
+			text = text.replaceAll(str, " " + str + " ");
 		}
 
 		// 3.将多余的空格去掉
-		line = LineUtils.removeSpace(line);
+		text = LineUtils.removeSpace(text);
 
 		// 4.根据操作符,进行拆分
-		words = new ArrayList<>(Arrays.asList(line.split(" ")));
+		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
 		// 5.重新将替换的字符串替换回来
 		for (int i = 0; i < words.size(); i++) {

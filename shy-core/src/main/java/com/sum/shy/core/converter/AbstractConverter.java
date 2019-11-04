@@ -5,6 +5,7 @@ import java.util.List;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -12,10 +13,10 @@ import com.sum.shy.core.entity.Token;
 public abstract class AbstractConverter implements Converter {
 
 	@Override
-	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
-			int index, String line, Stmt stmt) {
+	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
+			int index, Line line, Stmt stmt) {
 		// 直接校验
-		VariableTracker.check(clazz, method, block, stmt);
+		VariableTracker.check(clazz, method, block, line, stmt);
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + ";\n");
 

@@ -15,7 +15,7 @@ public class Method {
 	// 变量
 	public List<Variable> variables = new ArrayList<>();
 	// method域
-	public List<String> methodLines;
+	public List<Line> methodLines;
 
 	public Method(String returnType, List<String> genericTypes, String name, List<Param> params) {
 		this.returnType = returnType;

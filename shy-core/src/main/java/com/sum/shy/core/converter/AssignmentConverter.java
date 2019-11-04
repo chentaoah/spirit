@@ -6,6 +6,7 @@ import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -14,10 +15,10 @@ import com.sum.shy.core.entity.Variable;
 public class AssignmentConverter extends AbstractConverter {
 
 	@Override
-	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
-			int index, String line, Stmt stmt) {
+	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
+			int index, Line line, Stmt stmt) {
 		// 直接校验
-		VariableTracker.check(clazz, method, block, stmt);
+		VariableTracker.check(clazz, method, block, line, stmt);
 
 		// 如果是单纯的变量,而不是成员变量,则需要进行类型声明
 		Token token = stmt.getToken(0);

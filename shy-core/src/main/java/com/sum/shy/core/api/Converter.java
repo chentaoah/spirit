@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 
@@ -20,7 +21,7 @@ public interface Converter {
 		return converters.get(syntax);
 	}
 
-	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
-			int index, String line, Stmt stmt);
+	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
+			int index, Line line, Stmt stmt);
 
 }

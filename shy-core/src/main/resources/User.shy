@@ -9,7 +9,7 @@ class User {
 	x=10
 	y=99.0
 	z="hello world"
-	c=Child(x,y)
+	c=Child(z,y)
 	d=People.getInstance()
 	b=["a","b","c","d{}[]"]
 	g=[]

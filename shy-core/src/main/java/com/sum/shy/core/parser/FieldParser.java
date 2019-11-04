@@ -8,15 +8,16 @@ import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Field;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 
 public class FieldParser implements Parser {
 
 	@Override
-	public int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt) {
+	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt){
 
 		// 变量追踪
-		VariableTracker.check(clazz, null, null, stmt);
+		VariableTracker.check(clazz, null, null, line, stmt);
 		// 类型
 		String type = TypeDerivator.getType(stmt);
 		// 如果是集合类型,还要获取泛型

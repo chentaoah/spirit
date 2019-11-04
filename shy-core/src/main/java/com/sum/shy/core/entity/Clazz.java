@@ -28,6 +28,6 @@ public class Clazz {
 	// 方法
 	public List<Method> methods = new ArrayList<>();
 	// class域
-	public List<String> classLines;
+	public List<Line> classLines;
 
 }

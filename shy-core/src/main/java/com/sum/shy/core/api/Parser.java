@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 
 /**
@@ -28,6 +29,6 @@ public interface Parser {
 		return parsers.get(syntax);
 	}
 
-	int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt);
+	int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt);
 
 }

@@ -13,6 +13,7 @@ import com.sum.shy.core.converter.IfConverter;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
@@ -123,13 +124,12 @@ public class JavaBuilder {
 
 	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {
 		Context.get().scope = "method";
-		List<String> lines = method.methodLines;
+		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {
-			String line = lines.get(i);
-			if (line.trim().startsWith("//") || line.trim().length() == 0) {
+			Line line = lines.get(i);
+			if (line.isIgnore())
 				continue;
-			}
-//			System.out.println(line);
+			
 			Stmt stmt = Stmt.create(line);
 			Converter converter = Converter.get(stmt.syntax);
 			int jump = converter.convert(sb, "1", "\t\t", clazz, method, lines, i, line, stmt);

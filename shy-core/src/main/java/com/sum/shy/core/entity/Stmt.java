@@ -9,7 +9,7 @@ import com.sum.shy.core.analyzer.SyntacticParser;
 public class Stmt {
 
 	// 一行
-	public String line;
+	public Line line;
 	// 词法
 	public List<String> words;
 	// 语法
@@ -17,9 +17,9 @@ public class Stmt {
 	// 语义
 	public List<Token> tokens;
 
-	public static Stmt create(String line) {
+	public static Stmt create(Line line) {
 		// 1.词法分析,将语句拆分成多个单元
-		List<String> words = LexicalAnalyzer.getWords(line);
+		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.语法分析,分析语句的语法
 		String syntax = SyntacticParser.getSyntax(words);
 		// 3.语义分析
@@ -28,11 +28,17 @@ public class Stmt {
 		return new Stmt(line, words, syntax, tokens);
 	}
 
-	public Stmt(String line, List<String> words, String syntax, List<Token> tokens) {
+	public Stmt(Line line, List<String> words, String syntax, List<Token> tokens) {
 		this.line = line;
 		this.words = words;
 		this.syntax = syntax;
 		this.tokens = tokens;
+	}
+
+	public Stmt(String word, List<String> subWords, List<Token> subTokens) {
+		this.line = new Line(null, word);
+		this.words = subWords;
+		this.tokens = subTokens;
 	}
 
 	public String get(int index) {
