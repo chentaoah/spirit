@@ -19,6 +19,7 @@ public class Method {
 
 	public Method(String returnType, List<String> genericTypes, String name, List<Param> params) {
 		this.returnType = returnType;
+		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 		this.name = name;
 		this.params = params;
 	}

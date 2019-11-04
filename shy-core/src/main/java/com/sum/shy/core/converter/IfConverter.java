@@ -16,7 +16,7 @@ public class IfConverter implements Converter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
 			int index, String line, Stmt stmt) {
 
-		VariableTracker.check(clazz, method, block, stmt);
+//		VariableTracker.check(clazz, method, block, stmt);
 
 		// 确认结束的行
 		int end = 0;

@@ -43,6 +43,10 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
+	public int size() {
+		return tokens.size();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -76,6 +80,10 @@ public class Stmt {
 			sb.append(token.toString() + " ");
 		}
 		return sb.toString();
+	}
+
+	public boolean isAssignment() {
+		return Constants.ASSIGNMENT_SYNTAX.equals(syntax);
 	}
 
 }

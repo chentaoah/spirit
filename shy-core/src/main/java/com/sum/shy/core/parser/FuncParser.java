@@ -6,8 +6,10 @@ import java.util.List;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.TypeDerivator;
+import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
@@ -32,31 +34,31 @@ public class FuncParser implements Parser {
 			}
 		}
 
+		// 添加方法
+		Method method = new Method(Constants.NONE, null, name, params);
 		// 获取子行
-		List<String> subLines = LineUtils.getSubLines(lines, index);
-		// 寻找return
-		String returnType = "unknown";
-		// 如果是集合类型,还要获取泛型
-		List<String> genericTypes = new ArrayList<>();
+		method.methodLines = LineUtils.getSubLines(lines, index);
+
 		// 是否有返回值标志
-		boolean flag = false;
-		for (String subLine : subLines) {
+		for (String subLine : method.methodLines) {
+			// 创建语句
+			Stmt subStmt = Stmt.create(subLine);
+			// 变量追踪
+			VariableTracker.getVarType(clazz, method, "1", stmt);
+			if (subStmt.isAssignment()) {
+				String returnType = TypeDerivator.getType(subStmt);
+				List<String> genericTypes = TypeDerivator.getGenericTypes(subStmt);
+
+			}
+
 			if (subLine.trim().startsWith("return ")) {
-				Stmt subStmt = Stmt.create(subLine);
-				returnType = TypeDerivator.getType(subStmt);
-				genericTypes = TypeDerivator.getGenericTypes(subStmt);
-				flag = true;
+
 			}
 		}
-		if (!flag) {
-			returnType = "none";
-		}
-		// 添加方法
-		Method method = new Method(returnType, genericTypes, name, params);
-		method.methodLines = subLines;
-		if ("static".equals(scope)) {
+
+		if (Constants.STATIC_SCOPE.equals(scope)) {
 			clazz.staticMethods.add(method);
-		} else if ("class".equals(scope)) {
+		} else if (Constants.CLASS_SCOPE.equals(scope)) {
 			clazz.methods.add(method);
 		}
 

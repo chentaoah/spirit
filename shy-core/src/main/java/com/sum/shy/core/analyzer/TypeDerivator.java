@@ -3,6 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
@@ -26,24 +27,28 @@ public class TypeDerivator {
 	 */
 	public static String getType(List<Token> tokens) {
 		for (Token token : tokens) {
-			String type = token.type;
-			if ("boolean".equals(type)) {
-				return "boolean";
-			} else if ("int".equals(type)) {
-				return "int";
-			} else if ("double".equals(type)) {
-				return "double";
-			} else if ("str".equals(type)) {
-				return "str";
-			} else if ("array".equals(type)) {
-				return "array";
-			} else if ("map".equals(type)) {
-				return "map";
-			} else if (type.startsWith("invoke_init")) {
-				return token.attachments.get("init_method_name");
+			if (token.isBoolean()) {
+				return Constants.BOOLEAN_TYPE;
+			} else if (token.isInt()) {
+				return Constants.INT_TYPE;
+			} else if (token.isDouble()) {
+				return Constants.DOUBLE_TYPE;
+			} else if (token.isStr()) {
+				return Constants.STR_TYPE;
+			} else if (token.isArray()) {
+				return Constants.ARRAY_TYPE;
+			} else if (token.isMap()) {
+				return Constants.MAP_TYPE;
+			} else if (token.isInvokeInit()) {// 构造函数
+				return token.getInitMethodNameAttachment();
+			} else if (token.isVar()) {
+				String type = token.getTypeAttachment();
+				if (type != null) {
+					return type;
+				}
 			}
 		}
-		return "unknown";
+		return Constants.UNKNOWN;
 	}
 
 	/**
@@ -56,37 +61,36 @@ public class TypeDerivator {
 		List<String> genericTypes = new ArrayList<>();
 		// 开始遍历最外层,看下是否是array或者map
 		for (Token token : stmt.tokens) {
-			String type = token.type;
-			if ("array".equals(type)) {
+			if (token.isArray()) {
 				// 获取子语句
 				Stmt subStmt = (Stmt) token.value;
 				// 如果数组里面什么都没有,则返回null
-				if (subStmt.tokens.size() == 2) {
-					genericTypes.add("none");
+				if (subStmt.size() == 2) {
+					genericTypes.add(Constants.NONE);
 					return genericTypes;
 				}
-				genericTypes.add("unknown");
+				genericTypes.add(Constants.UNKNOWN);
 				// 开始遍历里面的那层
 				for (Token subToken : subStmt.tokens) {
 					String subType = getGenericType(subToken);
-					if (!"unknown".equals(subType)) {
+					if (!Constants.UNKNOWN.equals(subType)) {
 						genericTypes.set(0, subType);
 						return genericTypes;
 					}
 				}
-			} else if ("map".equals(type)) {
+			} else if (token.isMap()) {
 				// 获取子语句
 				Stmt subStmt = (Stmt) token.value;
 				// 如果数组里面什么都没有,则返回null
-				if (subStmt.tokens.size() == 2) {
-					genericTypes.add("none");
-					genericTypes.add("none");
+				if (subStmt.size() == 2) {
+					genericTypes.add(Constants.NONE);
+					genericTypes.add(Constants.NONE);
 					return genericTypes;
 				}
 				// 开始遍历里面的那层
 				boolean flag = true;
-				genericTypes.add("unknown");
-				genericTypes.add("unknown");
+				genericTypes.add(Constants.UNKNOWN);
+				genericTypes.add(Constants.UNKNOWN);
 				for (Token subToken : subStmt.tokens) {
 					if (":".equals(subToken.value)) {
 						flag = false;
@@ -94,9 +98,10 @@ public class TypeDerivator {
 						flag = true;
 					}
 					String subType = getGenericType(subToken);
-					if (!"unknown".equals(subType)) {
+					if (!Constants.UNKNOWN.equals(subType)) {
 						genericTypes.set(flag ? 0 : 1, subType);
-						if (!"unknown".equals(genericTypes.get(0)) && !"unknown".equals(genericTypes.get(1))) {
+						if (!Constants.UNKNOWN.equals(genericTypes.get(0))
+								&& !Constants.UNKNOWN.equals(genericTypes.get(1))) {
 							return genericTypes;
 						}
 					}
@@ -107,19 +112,24 @@ public class TypeDerivator {
 	}
 
 	public static String getGenericType(Token subToken) {
-		String subType = subToken.type;
-		if ("boolean".equals(subType)) {
-			return "boolean";
-		} else if ("int".equals(subType)) {
-			return "int";
-		} else if ("double".equals(subType)) {
-			return "double";
-		} else if ("str".equals(subType)) {
-			return "str";
-		} else if ("invoke_init".equals(subType)) {
-			return subToken.attachments.get("init_method_name");
+
+		if (subToken.isBoolean()) {
+			return Constants.BOOLEAN_TYPE;
+		} else if (subToken.isInt()) {
+			return Constants.INT_TYPE;
+		} else if (subToken.isDouble()) {
+			return Constants.DOUBLE_TYPE;
+		} else if (subToken.isStr()) {
+			return Constants.STR_TYPE;
+		} else if (subToken.isInvokeInit()) {
+			return subToken.getInitMethodNameAttachment();
+		} else if (subToken.isVar()) {
+			String type = subToken.getTypeAttachment();
+			if (type != null) {
+				return type;
+			}
 		}
-		return "unknown";
+		return Constants.UNKNOWN;
 	}
 
 }

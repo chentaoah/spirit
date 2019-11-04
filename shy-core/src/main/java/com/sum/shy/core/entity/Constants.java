@@ -11,6 +11,10 @@ package com.sum.shy.core.entity;
  */
 public class Constants {
 
+	public static final String STATIC_SCOPE = "static";
+	public static final String CLASS_SCOPE = "class";
+	public static final String METHOD_SCOPE = "method";
+
 	public static final String UNKNOWN = "unknown";
 	public static final String NONE = "none";
 
@@ -41,6 +45,7 @@ public class Constants {
 	public static final String INVOKE_STATIC_TOKEN = "invoke_static";
 	public static final String INVOKE_MEMBER_TOKEN = "invoke_member";
 	public static final String VAR_TOKEN = "var";
+	public static final String STATIC_VAR_TOKEN = "static_var";
 	public static final String MEMBER_VAR_TOKEN = "member_var";
 	// 附加的token
 	public static final String INVOKE_NAME_TOKEN = "invoke_name";
@@ -52,5 +57,13 @@ public class Constants {
 	public static final String INIT_METHOD_NAME_ATTACHMENT = "init_method_name";
 	public static final String MEMBER_METHOD_NAME_ATTACHMENT = "member_method_name";
 	public static final String STATIC_METHOD_NAME_ATTACHMENT = "static_method_name";
+	// 基本类型
+	public static final String NULL_TYPE = "null";
+	public static final String BOOLEAN_TYPE = "boolean";
+	public static final String INT_TYPE = "int";
+	public static final String DOUBLE_TYPE = "double";
+	public static final String STR_TYPE = "str";
+	public static final String ARRAY_TYPE = "array";
+	public static final String MAP_TYPE = "map";
 
 }
