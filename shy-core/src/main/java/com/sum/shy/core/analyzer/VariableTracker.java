@@ -19,6 +19,10 @@ import com.sum.shy.core.entity.Variable;
  */
 public class VariableTracker {
 
+	public static void getVarType(Clazz clazz, Stmt stmt) {
+
+	}
+
 	public static void check(Clazz clazz, Method method, String block, Stmt stmt) {
 
 		for (Token token : stmt.tokens) {

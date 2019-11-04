@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
@@ -66,9 +67,11 @@ public class SemanticDelegate {
 				Object value = word;
 				tokens.add(new Token(type, value, null));
 			}
-		} else if ("declare".equals(syntax)) {// 类型声明
-			tokens.add(new Token("type", words.get(0), null));
-			tokens.add(new Token("var", words.get(1), null));
+
+		} else if (Constants.DECLARE_SYNTAX.equals(syntax)) {// 类型声明
+			tokens.add(new Token(Constants.TYPE_TOKEN, words.get(0), null));
+			tokens.add(new Token(Constants.VAR_TOKEN, words.get(1), null));
+
 		} else {
 			for (String word : words) {
 				String type = getTokenType(word);
@@ -76,6 +79,7 @@ public class SemanticDelegate {
 				Map<String, String> attachments = getAttachments(word, type, value);
 				tokens.add(new Token(type, value, attachments));
 			}
+
 		}
 
 		return tokens;
@@ -83,51 +87,50 @@ public class SemanticDelegate {
 
 	private static String getKeywordTokenType(String word) {
 		if (isKeyword(word)) {
-			return "keyword";
+			return Constants.KEYWORD_TOKEN;
 		} else if (isSeparator(word)) {
-			return "separator";
+			return Constants.SEPARATOR_TOKEN;
 		} else {
-			return "keyword_param";
+			return Constants.KEYWORD_PARAM_TOKEN;
 		}
 	}
 
 	public static String getTokenType(String word) {
 
 		if (isKeyword(word)) {// 关键字
-			return "keyword";
+			return Constants.KEYWORD_TOKEN;
 		} else if (isOperator(word)) {// 是否操作符
-			return "operator";
+			return Constants.OPERATOR_TOKEN;
 		} else if (isSeparator(word)) {// 是否分隔符
-			return "separator";
+			return Constants.SEPARATOR_TOKEN;
 		} else {// 是否一些值
-			String type = "unknown";
 			if (isNull(word)) {
-				type = "null";
+				return Constants.NULL_TOKEN;
 			} else if (isBoolean(word)) {
-				type = "boolean";
+				return Constants.BOOLEAN_TOKEN;
 			} else if (isInt(word)) {
-				type = "int";
+				return Constants.INT_TOKEN;
 			} else if (isDouble(word)) {
-				type = "double";
+				return Constants.DOUBLE_TOKEN;
 			} else if (isStr(word)) {
-				type = "str";
+				return Constants.STR_TOKEN;
 			} else if (isArray(word)) {
-				type = "array";
+				return Constants.ARRAY_TOKEN;
 			} else if (isMap(word)) {
-				type = "map";
+				return Constants.MAP_TOKEN;
 			} else if (isInvoke(word)) {
-				type = getInvokeType(word);
-			} else if (isVariable(word)) {// 变量
-				type = getVarType(word);
+				return getInvokeType(word);
+			} else if (isVariable(word)) {
+				return getVarType(word);
 			}
-			return type;
+			return Constants.UNKNOWN;
 		}
 
 	}
 
 	private static Object getTokenValue(String type, String word) {
 
-		if ("array".equals(type)) {// 如果是数组,则解析子语句
+		if (Constants.ARRAY_TOKEN.equals(type)) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "[");
@@ -137,7 +140,7 @@ public class SemanticDelegate {
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 
-		} else if ("map".equals(type)) {
+		} else if (Constants.MAP_TOKEN.equals(type)) {
 			String str = word.substring(1, word.length() - 1);
 			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "{");
@@ -156,7 +159,7 @@ public class SemanticDelegate {
 			// 获取tokens
 			List<Token> tokens = getTokens(null, words);
 			// 追加一个元素在头部
-			tokens.add(0, new Token("invoke_name", name, null));
+			tokens.add(0, new Token("method_name", name, null));
 			// 生成子语句
 			return new Stmt(word, words, null, tokens);
 		}
@@ -165,55 +168,50 @@ public class SemanticDelegate {
 	}
 
 	private static Map<String, String> getAttachments(String word, String type, Object value) {
+
 		Map<String, String> attachments = new HashMap<>();
-		if ("invoke_init".equals(type)) {
-			attachments.put("init_method_name", getInitMethod(word));
-		} else if ("invoke_static".equals(type)) {
-			// TODO 静态方法附加参数
-		} else if ("invoke_member".equals(type)) {
-			attachments.put("var_name", getVarName(word));
-			attachments.put("member_method_name", getMemberMethod(word));
-		} else if ("var_member".equals(type)) {
-			attachments.put("var_name", getVarName(word));
-			attachments.put("member_field_name", getMemberName(word));
+		if (Constants.INVOKE_INIT_TOKEN.equals(type)) {
+			attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, getInitMethod(word));
+
+		} else if (Constants.INVOKE_STATIC_TOKEN.equals(type)) {
+			attachments.put(Constants.TYPE_ATTACHMENT, getTypeName(word));
+			attachments.put(Constants.STATIC_METHOD_NAME_ATTACHMENT, getStaticMethod(word));
+
+		} else if (Constants.INVOKE_MEMBER_TOKEN.equals(type)) {
+			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
+			attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, getMemberMethod(word));
+
+		} else if (Constants.MEMBER_VAR_TOKEN.equals(type)) {
+			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
+			attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, getMemberVarName(word));
 		}
 		return attachments;
 	}
 
-	private static boolean isKeywordSyntax(String word) {
-		for (String syntax : SYNTAXS) {
-			if (syntax.equals(word)) {
+	private static boolean contain(String[] strs, String word) {
+		for (String str : strs) {
+			if (str.equals(word)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	private static boolean isKeywordSyntax(String word) {
+		return contain(SYNTAXS, word);
 	}
 
 	private static boolean isKeyword(String word) {
-		for (String keyword : KEYWORDS) {
-			if (keyword.equals(word)) {
-				return true;
-			}
-		}
-		return false;
+		return contain(KEYWORDS, word);
+
 	}
 
 	public static boolean isOperator(String word) {
-		for (String operator : OPERATORS) {
-			if (operator.equals(word)) {
-				return true;
-			}
-		}
-		return false;
+		return contain(OPERATORS, word);
 	}
 
 	public static boolean isSeparator(String word) {
-		for (String separator : SEPARATORS) {
-			if (separator.equals(word)) {
-				return true;
-			}
-		}
-		return false;
+		return contain(SEPARATORS, word);
 	}
 
 	private static boolean isNull(String word) {
@@ -252,45 +250,53 @@ public class SemanticDelegate {
 		return VAR_PATTERN.matcher(word).matches();
 	}
 
+	public static boolean isClass(String word) {
+		return CLASS_PATTERN.matcher(word).matches();
+	}
+
 	private static String getInvokeType(String word) {
 
 		if (INVOKE_INIT_PATTERN.matcher(word).matches()) {// 构造函数
-			return "invoke_init";
+			return Constants.INVOKE_INIT_TOKEN;
 		}
 		if (INVOKE_STATIC_PATTERN.matcher(word).matches()) {
-			return "invoke_static";
+			return Constants.INVOKE_STATIC_TOKEN;
 		}
 		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
-			return "invoke_member";
+			return Constants.INVOKE_MEMBER_TOKEN;
 		}
-		return "unknown";
+		return Constants.UNKNOWN;
 	}
 
 	private static String getVarType(String word) {
 
 		if (VAR_MEMBER_PATTERN.matcher(word).matches()) {// 构造函数
-			return "var_member";
+			return Constants.MEMBER_VAR_TOKEN;
 		}
-		return "var";
-	}
-
-	public static boolean isClass(String word) {
-		return CLASS_PATTERN.matcher(word).matches();
+		return Constants.VAR_TOKEN;
 	}
 
 	public static String getInitMethod(String word) {
 		return word.substring(0, word.indexOf("("));
 	}
 
+	private static String getTypeName(String word) {
+		return word.substring(0, word.indexOf("."));
+	}
+
 	private static String getVarName(String word) {
 		return word.substring(0, word.indexOf("."));
+	}
+
+	private static String getStaticMethod(String word) {
+		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
 	}
 
 	private static String getMemberMethod(String word) {
 		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
 	}
 
-	private static String getMemberName(String word) {
+	private static String getMemberVarName(String word) {
 		return word.substring(word.indexOf(".") + 1, word.length());
 	}
 

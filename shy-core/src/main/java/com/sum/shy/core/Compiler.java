@@ -10,7 +10,7 @@ public class Compiler {
 	// 主方法
 	public static void main(String[] args) throws IOException {
 
-		boolean debug = false;
+		boolean debug = true;
 		String path = null;
 
 		String OSName = System.getProperty("os.name");

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.TypeDerivator;
+import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
@@ -14,6 +15,9 @@ public class FieldParser implements Parser {
 
 	@Override
 	public int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt) {
+
+		// 变量追踪
+		VariableTracker.getVarType(clazz, stmt);
 		// 变量名
 		String name = stmt.get(0);
 		// 类型

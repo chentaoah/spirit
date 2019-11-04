@@ -31,7 +31,6 @@ public class LexicalAnalyzer {
 	 */
 	public static List<String> getWords(String line) {
 
-//		System.out.println(line.trim());
 		// 防止空字符串
 		if (line == null || line.length() == 0) {
 			return new ArrayList<>();
@@ -50,16 +49,12 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < line.length(); i++) {
 			if (line.charAt(i) == '"') {
 				line = LineUtils.replaceString(line, '"', '"', "str", count++, replacedStrs);
-//				System.out.println(line);
 			} else if (line.charAt(i) == '(') {
 				line = LineUtils.replaceString(line, '(', ')', "invoke", count++, replacedStrs, true);
-//				System.out.println(line);
 			} else if (line.charAt(i) == '[') {
 				line = LineUtils.replaceString(line, '[', ']', "array", count++, replacedStrs);
-//				System.out.println(line);
 			} else if (line.charAt(i) == '{') {
 				line = LineUtils.replaceString(line, '{', '}', "map", count++, replacedStrs);
-//				System.out.println(line);
 			}
 		}
 
@@ -70,7 +65,6 @@ public class LexicalAnalyzer {
 
 		// 3.将多余的空格去掉
 		line = LineUtils.removeSpace(line);
-//		System.out.println(line);
 
 		// 4.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(line.split(" ")));
@@ -82,8 +76,6 @@ public class LexicalAnalyzer {
 				words.set(i, str);
 			}
 		}
-//		System.out.println(words);
-//		System.out.println();
 
 		return words;
 
