@@ -57,7 +57,7 @@ public abstract class AbstractConverter implements Converter {
 		// 在所有的构造函数前面都加个new
 		// 将所有的array和map都转换成方法调用
 		for (Token token : stmt.tokens) {
-			if ("separator".equals(token.type) && ":".equals(token.value)) {
+			if (token.isSeparator() && ":".equals(token.value)) {
 				token.value = ",";
 			}
 			if (token.isArray()) {

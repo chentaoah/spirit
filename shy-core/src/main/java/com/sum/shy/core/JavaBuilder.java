@@ -78,6 +78,10 @@ public class JavaBuilder {
 		// ============================ method ================================
 
 		for (Method method : clazz.staticMethods) {
+			// 先尝试拼接方法内容
+			StringBuilder methodContent = new StringBuilder();
+			convertMethodLine(methodContent, clazz, method);
+
 			sb.append("\tpublic static " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
 					+ method.name + "(");
 			if (method.params.size() > 0) {
@@ -87,14 +91,16 @@ public class JavaBuilder {
 				sb.deleteCharAt(sb.lastIndexOf(","));
 			}
 			sb.append("){\n");
-
-			convertMethodLine(sb, clazz, method);
-
+			sb.append(methodContent);
 			sb.append("\t}\n");
 			sb.append("\n");
 		}
 
 		for (Method method : clazz.methods) {
+			// 先尝试拼接方法内容
+			StringBuilder methodContent = new StringBuilder();
+			convertMethodLine(methodContent, clazz, method);
+
 			sb.append("\tpublic " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
 					+ method.name + "(");
 			if (method.params.size() > 0) {
@@ -104,9 +110,7 @@ public class JavaBuilder {
 				sb.deleteCharAt(sb.lastIndexOf(","));
 			}
 			sb.append("){\n");
-
-			convertMethodLine(sb, clazz, method);
-
+			sb.append(methodContent);
 			sb.append("\t}\n");
 			sb.append("\n");
 		}
