@@ -17,11 +17,11 @@ class User {
 	f=[Child(x,y),Child(x,y)]
 	
 	func getName(int x,int y){
-		//User user
+		User user
 		if a>0 && y<10 {
 			user=User()
 		}
-		User user
+		//User user
 		user.getName()
 		user.getAge()
 		user.x=10

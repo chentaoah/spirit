@@ -19,28 +19,28 @@ import com.sum.shy.core.entity.Variable;
  */
 public class VariableTracker {
 
-	public static void getVarType(Clazz clazz, Method method, String block, Stmt stmt) {
+	public static void check(Clazz clazz, Method method, String block, Stmt stmt) {
 
-		int start = stmt.isAssignment() ? 2 : 0;
-		for (int i = start; i < stmt.size(); i++) {
+		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
-				String type = getType(clazz, method, block, stmt, (String) token.value);
-				token.setTypeAttachment(type);
+				String type = getType(clazz, method, block, stmt, i, (String) token.value);
+				if (type != null)
+					token.setTypeAttachment(type);
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, stmt, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, stmt, i, token.getVarNameAttachment());// 只校验
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, stmt, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, stmt, i, token.getVarNameAttachment());// 只校验
 			}
 			if (token.hasSubStmt()) {
-				getVarType(clazz, method, block, (Stmt) token.value);
+				check(clazz, method, block, (Stmt) token.value);
 			}
 
 		}
 
 	}
 
-	public static String getType(Clazz clazz, Method method, String block, Stmt stmt, String name) {
+	public static String getType(Clazz clazz, Method method, String block, Stmt stmt, int index, String name) {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
@@ -65,6 +65,10 @@ public class VariableTracker {
 			if (variable != null) {
 				return variable.type;
 			}
+		}
+		// 如果是赋值语句，并且是第一个，可以不用校验
+		if (stmt.isAssignment() && index == 0) {
+			return null;
 		}
 
 		throw new RuntimeException("Variable must be declared!line:[" + stmt.line + "],var:[" + name + "]");

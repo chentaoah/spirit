@@ -15,7 +15,7 @@ public abstract class AbstractConverter implements Converter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<String> lines,
 			int index, String line, Stmt stmt) {
 		// 直接校验
-//		VariableTracker.check(clazz, method, block, stmt);
+		VariableTracker.check(clazz, method, block, stmt);
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + ";\n");
 
@@ -60,21 +60,21 @@ public abstract class AbstractConverter implements Converter {
 			if ("separator".equals(token.type) && ":".equals(token.value)) {
 				token.value = ",";
 			}
-			if ("array".equals(token.type)) {
+			if (token.isArray()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
 				convertStmt(subStmt);
-				subStmt.tokens.get(0).value = "Collection.newArrayList(";
-				subStmt.tokens.get(subStmt.tokens.size() - 1).value = ")";
+				subStmt.getToken(0).value = "Collection.newArrayList(";
+				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
 
-			} else if ("map".equals(token.type)) {
+			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
 				convertStmt(subStmt);
-				subStmt.tokens.get(0).value = "Collection.newHashMap(";
-				subStmt.tokens.get(subStmt.tokens.size() - 1).value = ")";
+				subStmt.getToken(0).value = "Collection.newHashMap(";
+				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
 
-			} else if ("invoke_init".equals(token.type)) {
+			} else if (token.isInvokeInit()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
 				convertStmt(subStmt);

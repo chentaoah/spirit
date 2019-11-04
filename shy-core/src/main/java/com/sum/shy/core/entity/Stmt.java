@@ -86,4 +86,20 @@ public class Stmt {
 		return Constants.ASSIGNMENT_SYNTAX.equals(syntax);
 	}
 
+	public boolean isIf() {
+		return Constants.IF_SYNTAX.equals(syntax);
+	}
+
+	public boolean isElseIf() {
+		return Constants.ELSEIF_SYNTAX.equals(syntax);
+	}
+
+	public boolean isElse() {
+		return Constants.ELSE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isEnd() {
+		return Constants.END_SYNTAX.equals(syntax);
+	}
+
 }

@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.core.analyzer.TypeDerivator;
-import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
@@ -36,25 +34,8 @@ public class FuncParser implements Parser {
 
 		// 添加方法
 		Method method = new Method(Constants.NONE, null, name, params);
-		// 获取子行
+		// 这里简化了，不再尝试获取返回类型
 		method.methodLines = LineUtils.getSubLines(lines, index);
-
-		// 是否有返回值标志
-		for (String subLine : method.methodLines) {
-			// 创建语句
-			Stmt subStmt = Stmt.create(subLine);
-			// 变量追踪
-			VariableTracker.getVarType(clazz, method, "1", stmt);
-			if (subStmt.isAssignment()) {
-				String returnType = TypeDerivator.getType(subStmt);
-				List<String> genericTypes = TypeDerivator.getGenericTypes(subStmt);
-
-			}
-
-			if (subLine.trim().startsWith("return ")) {
-
-			}
-		}
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {
 			clazz.staticMethods.add(method);

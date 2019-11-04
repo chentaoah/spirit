@@ -16,7 +16,7 @@ public class FieldParser implements Parser {
 	public int parse(Clazz clazz, String scope, List<String> lines, int index, String line, Stmt stmt) {
 
 		// 变量追踪
-		VariableTracker.getVarType(clazz, null, null, stmt);
+		VariableTracker.check(clazz, null, null, stmt);
 		// 类型
 		String type = TypeDerivator.getType(stmt);
 		// 如果是集合类型,还要获取泛型

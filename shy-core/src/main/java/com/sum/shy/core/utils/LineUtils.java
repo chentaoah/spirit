@@ -6,6 +6,25 @@ import java.util.Map;
 
 public class LineUtils {
 
+	public static List<String> getAllLines(List<String> lines, int index) {
+		List<String> list = new ArrayList<>();
+		for (int i = index, count = 0; i < lines.size(); i++) {
+			String line = lines.get(i);
+			for (int j = 0; j < line.length(); j++) {
+				if (line.charAt(j) == '{') {
+					count++;
+				} else if (line.charAt(j) == '}') {
+					count--;
+				}
+			}
+			list.add(line);
+			if (count == 0) {
+				break;
+			}
+		}
+		return list;
+	}
+
 	// 返回子块
 	public static List<String> getSubLines(List<String> lines, int index) {
 		// 找到子域的结束符"}"
