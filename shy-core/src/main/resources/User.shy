@@ -5,6 +5,8 @@ import com.sum.shy.Child
 def People d
 
 class User {
+	a=11
+	b=a
 	e={"chentao":1,"zjx":2}
 	x=10
 	y=99.0
@@ -28,7 +30,8 @@ class User {
 	}
 	
 	func getAge(int bbb,int y){
-		return 28
+		zzz=bbb
+		return zzz
 	}
 	
 	func getResult(int x,int y){
