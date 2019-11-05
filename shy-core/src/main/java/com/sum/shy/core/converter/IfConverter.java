@@ -22,12 +22,11 @@ public class IfConverter implements Converter {
 
 		// 这里的算法是能够截取到所有的块的
 		List<Line> blockLines = LineUtils.getAllLines(lines, index);
-
 		for (int i = 0, count = 0; i < blockLines.size(); i++) {
 			Line currLine = blockLines.get(i);
 			if (currLine.isIgnore())
 				continue;
-			
+
 			Stmt currStmt = Stmt.create(currLine);
 			// 如果是if,则添加括号
 			if (currStmt.isIf()) {

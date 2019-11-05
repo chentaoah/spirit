@@ -20,6 +20,7 @@ public class ReturnConverter extends AbstractConverter {
 		// 如果没有,则在最前面追加类型
 		String type = TypeDerivator.getType(stmt);
 		List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
+		// 这个时候给方法追加返回类型
 		method.returnType = type;
 		method.genericTypes = genericTypes;
 		// 将语句进行一定的转换
