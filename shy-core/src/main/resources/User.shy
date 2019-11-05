@@ -51,7 +51,13 @@ class User {
 		
 
 		list=[]
-		list.get(0).say()
+		//list<<u
+		//list<<w
+		//list.get(0).say()
+		zzz=(User)list.get(212).get(124)
+		
+		getName(1,2)
+		
 		
 		
 		

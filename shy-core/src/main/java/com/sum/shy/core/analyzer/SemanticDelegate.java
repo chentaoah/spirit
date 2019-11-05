@@ -40,11 +40,14 @@ public class SemanticDelegate {
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]*\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
 			.compile("^[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
 	private static final Pattern VAR_MEMBER_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$");
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
@@ -97,6 +100,10 @@ public class SemanticDelegate {
 
 	public static String getTokenType(String word) {
 
+//		if ("(User)".equals(word)) {
+//			System.out.println(10);
+//		}
+
 		if (isKeyword(word)) {// 关键字
 			return Constants.KEYWORD_TOKEN;
 		} else if (isOperator(word)) {// 是否操作符
@@ -139,6 +146,16 @@ public class SemanticDelegate {
 		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
 			return Constants.INVOKE_MEMBER_TOKEN;
 		}
+		if (INVOKE_LOCAL_PATTERN.matcher(word).matches()) {
+			return Constants.INVOKE_LOCAL_TOKEN;
+		}
+		if (INVOKE_FLUENT_PATTERN.matcher(word).matches()) {
+			return Constants.INVOKE_FLUENT_TOKEN;
+		}
+		if (CAST_PATTERN.matcher(word).matches()) {
+			return Constants.CAST_TOKEN;
+		}
+
 		return Constants.UNKNOWN;
 	}
 
@@ -202,6 +219,9 @@ public class SemanticDelegate {
 		} else if (Constants.INVOKE_MEMBER_TOKEN.equals(type)) {
 			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
 			attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, getMemberMethodName(word));
+
+		} else if (Constants.INVOKE_LOCAL_TOKEN.equals(type)) {
+			attachments.put(Constants.LOCAL_METHOD_NAME_ATTACHMENT, getLocalMethodName(word));
 
 		} else if (Constants.MEMBER_VAR_TOKEN.equals(type)) {
 			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
@@ -299,6 +319,10 @@ public class SemanticDelegate {
 
 	private static String getMemberMethodName(String word) {
 		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
+	}
+
+	private static Object getLocalMethodName(String word) {
+		return word.substring(0, word.indexOf("("));
 	}
 
 	private static String getMemberVarName(String word) {

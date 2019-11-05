@@ -66,6 +66,7 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
+		text = text.replaceAll("[$]{1}", " \\$");
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
