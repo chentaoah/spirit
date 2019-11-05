@@ -8,12 +8,13 @@ class User {
 	a=11
 	b=a
 	e={"chentao":1,"zjx":2}
-	x=10
+	x=e
 	y=99.0
 	z="hello world"
 	c=Child(z,y)
 	d=People.getInstance()
-	b=["a","b","c","d{}[]"]
+	zzzzzzz="hello"
+	b=["a",zzzzzzz,"c","d{}[]"]
 	g=[]
 	
 	f=[Child(x,y),Child(x,y)]
@@ -36,7 +37,7 @@ class User {
 	
 	func getResult(int x,int y){
 		User user
-		if x>0 && zzz<0 {
+		if x>0 && b<0 {
 			list=["a","b","c","d{}[]"]
 		}else if x<0 && y>0{
 			user.getName()

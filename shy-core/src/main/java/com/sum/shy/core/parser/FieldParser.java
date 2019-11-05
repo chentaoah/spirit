@@ -14,7 +14,7 @@ import com.sum.shy.core.entity.Stmt;
 public class FieldParser implements Parser {
 
 	@Override
-	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt){
+	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		// 变量追踪
 		VariableTracker.check(clazz, null, null, line, stmt);
