@@ -45,7 +45,7 @@ class User {
 		}
 		
 		z="hello"
-		if !z {
+		if !z || z=="hell"{
 			user.getName()	
 		}
 

@@ -62,6 +62,8 @@ public class Stmt {
 			} else if ("operator".equals(token.type)) {// 有些操作符两边加空格会好看些
 				if ("&&".equals(token.value)) {
 					sb.append(" " + token.value + " ");
+				} else if ("||".equals(token.value)) {
+					sb.append(" " + token.value + " ");
 				} else if ("=".equals(token.value)) {
 					sb.append(" " + token.value + " ");
 				} else if ("==".equals(token.value)) {

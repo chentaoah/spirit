@@ -67,9 +67,15 @@ public class ShyReader {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
-			Parser parser = Parser.get(stmt.syntax);
-			int jump = parser.parse(clazz, scope, lines, i, line, stmt);
-			i = i + jump;
+			try {
+				Parser parser = Parser.get(stmt.syntax);
+				int jump = parser.parse(clazz, scope, lines, i, line, stmt);
+				i = i + jump;
+			} catch (Exception e) {
+				System.out.println(stmt);
+				throw e;
+			}
+
 		}
 	}
 

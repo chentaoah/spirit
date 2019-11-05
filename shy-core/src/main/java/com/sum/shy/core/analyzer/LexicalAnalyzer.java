@@ -19,11 +19,12 @@ import com.sum.shy.core.utils.LineUtils;
  */
 public class LexicalAnalyzer {
 
-	// 操作符
-	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
-			"\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", "\\!" };
+	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "\\!", "=",
+			"\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", "," };
 
-	// 操作符
+	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "!", "=", "+", "-", "*",
+			"/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", "," };
+
 	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =" };
 
 	/**
@@ -62,8 +63,8 @@ public class LexicalAnalyzer {
 		}
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (String str : SYMBOLS) {
-			text = text.replaceAll(str, " " + str + " ");
+		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
+			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
 
 		// 3.将多余的空格去掉
