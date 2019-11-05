@@ -226,6 +226,8 @@ public class SemanticDelegate {
 		} else if (Constants.MEMBER_VAR_TOKEN.equals(type)) {
 			attachments.put(Constants.VAR_NAME_ATTACHMENT, getVarName(word));
 			attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, getMemberVarName(word));
+		} else if (Constants.CAST_TOKEN.equals(type)) {
+			attachments.put(Constants.TYPE_ATTACHMENT, getCastType(word));
 		}
 
 		return attachments;
@@ -327,6 +329,10 @@ public class SemanticDelegate {
 
 	private static String getMemberVarName(String word) {
 		return word.substring(word.indexOf(".") + 1, word.length());
+	}
+
+	private static String getCastType(String word) {
+		return word.substring(1, word.length() - 1);
 	}
 
 }

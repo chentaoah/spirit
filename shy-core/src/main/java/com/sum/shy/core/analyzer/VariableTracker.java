@@ -30,20 +30,17 @@ public class VariableTracker {
 				} catch (Exception e) {
 					// 赋值语句的第一个变量是可以容忍报错的
 					if (stmt.isAssignment() && i == 0) {
-//						String type = TypeDerivator.getType(stmt);
-//						List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
-//						token.setTypeAttachment(type);
-//						token.setGenericTypesAttachment(genericTypes);
+						
 					} else {
 						throw e;
 					}
 				}
 
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());// 只校验
 
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());// 只校验
 
 			}
 			if (token.hasSubStmt()) {
@@ -59,16 +56,16 @@ public class VariableTracker {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
-				token.setTypeAttachment(field.type);
-				token.setGenericTypesAttachment(field.genericTypes);
+				token.setTypeAtt(field.type);
+				token.setGenericTypesAtt(field.genericTypes);
 				return;
 			}
 		}
 		// 成员变量
 		for (Field field : clazz.fields) {
 			if (field.name.equals(name)) {
-				token.setTypeAttachment(field.type);
-				token.setGenericTypesAttachment(field.genericTypes);
+				token.setTypeAtt(field.type);
+				token.setGenericTypesAtt(field.genericTypes);
 				return;
 			}
 		}
@@ -76,16 +73,16 @@ public class VariableTracker {
 			// 如果在成员变量中没有声明,则查看方法内是否声明
 			for (Param param : method.params) {
 				if (param.name.equals(name)) {
-					token.setTypeAttachment(param.type);
-					token.setGenericTypesAttachment(param.genericTypes);
+					token.setTypeAtt(param.type);
+					token.setGenericTypesAtt(param.genericTypes);
 					return;
 				}
 			}
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			Variable variable = method.findVariable(block, name);
 			if (variable != null) {
-				token.setTypeAttachment(variable.type);
-				token.setGenericTypesAttachment(variable.genericTypes);
+				token.setTypeAtt(variable.type);
+				token.setGenericTypesAtt(variable.genericTypes);
 				return;
 			}
 		}

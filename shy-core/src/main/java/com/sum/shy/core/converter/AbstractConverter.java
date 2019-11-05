@@ -5,6 +5,7 @@ import java.util.List;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
@@ -24,33 +25,35 @@ public abstract class AbstractConverter implements Converter {
 	}
 
 	public static String convertType(String type, List<String> genericTypes) {
-		if ("str".equals(type)) {
+		if (Constants.STR_TYPE.equals(type)) {
 			return "String";
-		} else if ("array".equals(type)) {
+		} else if (Constants.ARRAY_TYPE.equals(type)) {
 			return "List<" + convertGenericType(genericTypes.get(0)) + ">";
-		} else if ("map".equals(type)) {
+		} else if (Constants.MAP_TYPE.equals(type)) {
 			return "Map<" + convertGenericType(genericTypes.get(0)) + "," + convertGenericType(genericTypes.get(1))
 					+ ">";
-		} else if ("none".equals(type)) {
+		} else if (Constants.OBJ_TYPE.equals(type)) {
+			return "Object";
+		} else if (Constants.NONE.equals(type)) {
 			return "void";
 		}
 		return type;
 	}
 
 	public static String convertGenericType(String type) {
-		if ("boolean".equals(type)) {
+		if (Constants.BOOLEAN_TYPE.equals(type)) {
 			return "Boolean";
-		} else if ("int".equals(type)) {
+		} else if (Constants.INT_TYPE.equals(type)) {
 			return "Integer";
-		} else if ("double".equals(type)) {
+		} else if (Constants.DOUBLE_TYPE.equals(type)) {
 			return "Double";
-		} else if ("str".equals(type)) {
+		} else if (Constants.STR_TYPE.equals(type)) {
 			return "String";
-		} else if ("none".equals(type)) {
+		} else if (Constants.OBJ_TYPE.equals(type)) {
 			return "Object";
-		} else {
-			return type;
 		}
+		return type;
+
 	}
 
 	public static String convertStmt(Stmt stmt) {

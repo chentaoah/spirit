@@ -40,11 +40,29 @@ public class TypeDerivator {
 			} else if (token.isMap()) {
 				return Constants.MAP_TYPE;
 			} else if (token.isInvokeInit()) {// 构造函数
-				return token.getInitMethodNameAttachment();
+				return token.getInitMethodNameAtt();
+			} else if (token.isCast()) {
+				return token.getTypeAtt();
 			} else if (token.isVar()) {
-				String type = token.getTypeAttachment();
+				String type = token.getTypeAtt();
 				if (type != null) {
 					return type;
+				}
+			} else if (token.isInvokeMember()) {
+				// 如果是数组的get方法，则返回泛型
+				String type = token.getTypeAtt();
+				if (Constants.ARRAY_TYPE.equals(type)) {
+					String method = token.getMemberMethodNameAtt();
+					if ("get".equals(method)) {
+						List<String> genericTypes = token.getGenericTypesAtt();
+						return genericTypes.get(0);
+					}
+				} else if (Constants.MAP_TYPE.equals(type)) {
+					String method = token.getMemberMethodNameAtt();
+					if ("get".equals(method)) {
+						List<String> genericTypes = token.getGenericTypesAtt();
+						return genericTypes.get(1);
+					}
 				}
 			}
 		}
@@ -66,7 +84,7 @@ public class TypeDerivator {
 				Stmt subStmt = (Stmt) token.value;
 				// 如果数组里面什么都没有,则返回null
 				if (subStmt.size() == 2) {
-					genericTypes.add(Constants.NONE);
+					genericTypes.add(Constants.OBJ_TYPE);
 					return genericTypes;
 				}
 				genericTypes.add(Constants.UNKNOWN);
@@ -83,8 +101,8 @@ public class TypeDerivator {
 				Stmt subStmt = (Stmt) token.value;
 				// 如果数组里面什么都没有,则返回null
 				if (subStmt.size() == 2) {
-					genericTypes.add(Constants.NONE);
-					genericTypes.add(Constants.NONE);
+					genericTypes.add(Constants.OBJ_TYPE);
+					genericTypes.add(Constants.OBJ_TYPE);
 					return genericTypes;
 				}
 				// 开始遍历里面的那层
@@ -108,7 +126,7 @@ public class TypeDerivator {
 				}
 			} else if (token.isVar()) {
 				// 从变量的附加参数里面取
-				List<String> genericTypesAttachment = token.getGenericTypesAttachment();
+				List<String> genericTypesAttachment = token.getGenericTypesAtt();
 				if (genericTypesAttachment != null && genericTypesAttachment.size() > 0) {
 					return genericTypesAttachment;
 				}
@@ -128,9 +146,9 @@ public class TypeDerivator {
 		} else if (subToken.isStr()) {
 			return Constants.STR_TYPE;
 		} else if (subToken.isInvokeInit()) {
-			return subToken.getInitMethodNameAttachment();
+			return subToken.getInitMethodNameAtt();
 		} else if (subToken.isVar()) {
-			String type = subToken.getTypeAttachment();
+			String type = subToken.getTypeAtt();
 			if (type != null) {
 				return type;
 			}

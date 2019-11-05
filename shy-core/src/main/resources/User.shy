@@ -51,14 +51,11 @@ class User {
 		
 
 		list=[]
-		//list<<u
-		//list<<w
-		//list.get(0).say()
-		zzz=(User)list.get(212).get(124)
+		zzz=list.get(212)
+		zzz.getName(1,2)
 		
-		getName(1,2)
-		
-		
+		map={}
+		qqq=(User)map.get("chentao")
 		
 		
 		list2=list

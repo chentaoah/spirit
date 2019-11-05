@@ -22,12 +22,12 @@ public class AssignmentConverter extends AbstractConverter {
 
 		// 如果是单纯的变量,而不是成员变量,则需要进行类型声明
 		Token token = stmt.getToken(0);
-		if (token.isVar() && token.getTypeAttachment() == null) {
+		if (token.isVar() && token.getTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
 			String type = TypeDerivator.getType(stmt);
 			List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
-			token.setTypeAttachment(type);
-			token.setGenericTypesAttachment(genericTypes);
+			token.setTypeAtt(type);
+			token.setGenericTypesAtt(genericTypes);
 			method.addVariable(new Variable(block, type, genericTypes, (String) token.value));
 
 			String convertType = convertType(type, genericTypes);

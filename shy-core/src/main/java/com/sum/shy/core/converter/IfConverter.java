@@ -58,7 +58,7 @@ public class IfConverter extends AbstractConverter {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
 				// 如果是str类型
-				if (Constants.STR_TYPE.equals(token.getTypeAttachment())) {
+				if (Constants.STR_TYPE.equals(token.getTypeAtt())) {
 					try {
 						Token nextToken = stmt.getToken(i + 1);
 						if (nextToken.isOperator() && "==".equals(nextToken.value)) {

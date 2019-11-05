@@ -95,6 +95,10 @@ public class Token {
 		return Constants.MEMBER_VAR_TOKEN.equals(type);
 	}
 
+	public boolean isCast() {
+		return Constants.CAST_TOKEN.equals(type);
+	}
+
 	public boolean isPrefix() {
 		return Constants.PREFIX_TOKEN.equals(type);
 	}
@@ -111,29 +115,33 @@ public class Token {
 		return isArray() || isMap() || isInvoke();
 	}
 
-	public String getTypeAttachment() {
+	public String getTypeAtt() {
 		return (String) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
-	public void setTypeAttachment(String type) {
+	public void setTypeAtt(String type) {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> getGenericTypesAttachment() {
+	public List<String> getGenericTypesAtt() {
 		return (List<String>) attachments.get(Constants.GENERIC_TYPES_ATTACHMENT);
 	}
 
-	public void setGenericTypesAttachment(List<String> genericTypes) {
+	public void setGenericTypesAtt(List<String> genericTypes) {
 		attachments.put(Constants.GENERIC_TYPES_ATTACHMENT, genericTypes);
 	}
 
-	public String getInitMethodNameAttachment() {
+	public String getInitMethodNameAtt() {
 		return (String) attachments.get(Constants.INIT_METHOD_NAME_ATTACHMENT);
 	}
 
-	public String getVarNameAttachment() {
+	public String getVarNameAtt() {
 		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
+	}
+
+	public String getMemberMethodNameAtt() {
+		return (String) attachments.get(Constants.MEMBER_METHOD_NAME_ATTACHMENT);
 	}
 
 }
