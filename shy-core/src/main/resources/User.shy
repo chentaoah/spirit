@@ -48,8 +48,13 @@ class User {
 		if !z || z=="hell"{
 			user.getName()	
 		}
+		
 
-		list=[""]
+		list=[]
+		list.get(0).say()
+		
+		
+		
 		list2=list
 		return list2
 		
