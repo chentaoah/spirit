@@ -1,6 +1,7 @@
 package com.sum.shy.core.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Token {
@@ -9,9 +10,9 @@ public class Token {
 
 	public Object value;
 
-	public Map<String, String> attachments;// 解析获得的其他信息
+	public Map<String, Object> attachments;// 解析获得的其他信息
 
-	public Token(String type, Object value, Map<String, String> attachments) {
+	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;
 		this.attachments = attachments == null ? new HashMap<>() : attachments;
@@ -111,19 +112,28 @@ public class Token {
 	}
 
 	public String getTypeAttachment() {
-		return attachments.get(Constants.TYPE_ATTACHMENT);
+		return (String) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
 	public void setTypeAttachment(String type) {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<String> getGenericTypesAttachment() {
+		return (List<String>) attachments.get(Constants.GENERIC_TYPES_ATTACHMENT);
+	}
+
+	public void setGenericTypesAttachment(List<String> genericTypes) {
+		attachments.put(Constants.GENERIC_TYPES_ATTACHMENT, genericTypes);
+	}
+
 	public String getInitMethodNameAttachment() {
-		return attachments.get(Constants.INIT_METHOD_NAME_ATTACHMENT);
+		return (String) attachments.get(Constants.INIT_METHOD_NAME_ATTACHMENT);
 	}
 
 	public String getVarNameAttachment() {
-		return attachments.get(Constants.VAR_NAME_ATTACHMENT);
+		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
 	}
 
 }

@@ -76,7 +76,7 @@ public class SemanticDelegate {
 			for (String word : words) {
 				String type = getTokenType(word);
 				Object value = getTokenValue(type, word);
-				Map<String, String> attachments = getAttachments(word, type, value);
+				Map<String, Object> attachments = getAttachments(word, type, value);
 				tokens.add(new Token(type, value, attachments));
 			}
 
@@ -189,9 +189,9 @@ public class SemanticDelegate {
 		return word;
 	}
 
-	private static Map<String, String> getAttachments(String word, String type, Object value) {
+	private static Map<String, Object> getAttachments(String word, String type, Object value) {
 
-		Map<String, String> attachments = new HashMap<>();
+		Map<String, Object> attachments = new HashMap<>();
 		if (Constants.INVOKE_INIT_TOKEN.equals(type)) {
 			attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, getInitMethodName(word));
 

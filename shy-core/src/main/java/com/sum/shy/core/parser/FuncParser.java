@@ -24,6 +24,7 @@ public class FuncParser implements Parser {
 		// 方法名
 		String name = list.get(0);
 		// 开始遍历参数
+		// TODO 这里参数还需要泛型
 		List<Param> params = new ArrayList<>();
 		for (int i = 1; i < list.size(); i++) {
 			// 可能是user.say()无参数方法

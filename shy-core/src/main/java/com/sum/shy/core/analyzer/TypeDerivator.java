@@ -106,6 +106,12 @@ public class TypeDerivator {
 						}
 					}
 				}
+			} else if (token.isVar()) {
+				// 从变量的附加参数里面取
+				List<String> genericTypesAttachment = token.getGenericTypesAttachment();
+				if (genericTypesAttachment != null && genericTypesAttachment.size() > 0) {
+					return genericTypesAttachment;
+				}
 			}
 		}
 		return genericTypes;

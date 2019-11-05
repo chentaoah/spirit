@@ -13,7 +13,8 @@ public class DeclareConverter extends AbstractConverter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
 		// 追加一个参数声明到方法中
-		method.addVariable(new Variable(block, stmt.get(0), stmt.get(1)));
+		// TODO 这里还需要考虑泛型是如何声明的
+		method.addVariable(new Variable(block, stmt.get(0), null, stmt.get(1)));
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + " = null;\n");
 

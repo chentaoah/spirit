@@ -18,9 +18,8 @@ public class FieldParser implements Parser {
 
 		// 变量追踪
 		VariableTracker.check(clazz, null, null, line, stmt);
-		// 类型
+
 		String type = TypeDerivator.getType(stmt);
-		// 如果是集合类型,还要获取泛型
 		List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
 		// 变量名
 		String name = stmt.get(0);

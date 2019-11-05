@@ -19,6 +19,12 @@ class User {
 	
 	f=[Child(x,y),Child(x,y)]
 	
+//java:
+//	public void getName(){
+//		System.out.println("hello");
+//	}
+//end:
+	
 	func getName(int x,int y){
 		User user
 		if a>0 && y<10 {

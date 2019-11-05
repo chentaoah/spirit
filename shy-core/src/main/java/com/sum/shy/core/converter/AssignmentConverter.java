@@ -26,10 +26,13 @@ public class AssignmentConverter extends AbstractConverter {
 			// 如果没有,则在最前面追加类型
 			String type = TypeDerivator.getType(stmt);
 			List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
+			token.setTypeAttachment(type);
+			token.setGenericTypesAttachment(genericTypes);
+			method.addVariable(new Variable(block, type, genericTypes, (String) token.value));
+
 			String convertType = convertType(type, genericTypes);
-			token.setTypeAttachment(convertType);
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, convertType, null));
-			method.addVariable(new Variable(block, convertType, (String) token.value));
+
 		}
 
 		// 将语句进行一定的转换

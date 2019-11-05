@@ -26,19 +26,25 @@ public class VariableTracker {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
 				try {
-					String type = getType(clazz, method, block, line, stmt, (String) token.value);
-					token.setTypeAttachment(type);
+					getType(clazz, method, block, line, stmt, token, (String) token.value);
 				} catch (Exception e) {
 					// 赋值语句的第一个变量是可以容忍报错的
-					if (!(stmt.isAssignment() && i == 0)) {
+					if (stmt.isAssignment() && i == 0) {
+//						String type = TypeDerivator.getType(stmt);
+//						List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
+//						token.setTypeAttachment(type);
+//						token.setGenericTypesAttachment(genericTypes);
+					} else {
 						throw e;
 					}
 				}
 
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, line, stmt, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAttachment());// 只校验
+
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, line, stmt, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAttachment());// 只校验
+
 			}
 			if (token.hasSubStmt()) {
 				check(clazz, method, block, line, (Stmt) token.value);
@@ -48,30 +54,39 @@ public class VariableTracker {
 
 	}
 
-	public static String getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, String name) {
+	public static void getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, Token token,
+			String name) {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
-				return field.type;
+				token.setTypeAttachment(field.type);
+				token.setGenericTypesAttachment(field.genericTypes);
+				return;
 			}
 		}
 		// 成员变量
 		for (Field field : clazz.fields) {
 			if (field.name.equals(name)) {
-				return field.type;
+				token.setTypeAttachment(field.type);
+				token.setGenericTypesAttachment(field.genericTypes);
+				return;
 			}
 		}
 		if (method != null) {
 			// 如果在成员变量中没有声明,则查看方法内是否声明
 			for (Param param : method.params) {
 				if (param.name.equals(name)) {
-					return param.type;
+					token.setTypeAttachment(param.type);
+					token.setGenericTypesAttachment(param.genericTypes);
+					return;
 				}
 			}
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			Variable variable = method.findVariable(block, name);
 			if (variable != null) {
-				return variable.type;
+				token.setTypeAttachment(variable.type);
+				token.setGenericTypesAttachment(variable.genericTypes);
+				return;
 			}
 		}
 

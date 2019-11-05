@@ -53,6 +53,7 @@ public class Constants {
 	public static final String TYPE_TOKEN = "type";
 
 	public static final String TYPE_ATTACHMENT = "type";
+	public static final String GENERIC_TYPES_ATTACHMENT = "generic_types";
 	public static final String VAR_NAME_ATTACHMENT = "var_name";
 	public static final String MEMBER_VAR_NAME_ATTACHMENT = "member_var_name";
 	public static final String INIT_METHOD_NAME_ATTACHMENT = "init_method_name";
