@@ -49,7 +49,7 @@ public class Constants {
 	public static final String STATIC_VAR_TOKEN = "static_var";
 	public static final String MEMBER_VAR_TOKEN = "member_var";
 	// 附加的token
-	public static final String INVOKE_NAME_TOKEN = "invoke_name";
+	public static final String PREFIX_TOKEN = "prefix";// 分隔符前面的一串字符，统一称为前缀
 	public static final String TYPE_TOKEN = "type";
 
 	public static final String TYPE_ATTACHMENT = "type";

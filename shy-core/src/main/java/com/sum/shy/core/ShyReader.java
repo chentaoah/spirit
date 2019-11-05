@@ -33,9 +33,10 @@ public class ShyReader {
 	public Clazz read(File file) throws IOException {
 		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 		List<Line> lines = new ArrayList<>();
-		for (int i = 0; i < fileLines.size(); i++) {
-			lines.add(new Line(i, fileLines.get(i)));
-			System.out.println(lines.get(i).text);
+		// 生成line
+		for (int number = 0; number < fileLines.size(); number++) {
+			lines.add(new Line(number, fileLines.get(number)));
+			System.out.println(lines.get(number).text);
 		}
 		return readLines(lines);
 	}

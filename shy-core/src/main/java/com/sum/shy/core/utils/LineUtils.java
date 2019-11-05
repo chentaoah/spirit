@@ -8,25 +8,6 @@ import com.sum.shy.core.entity.Line;
 
 public class LineUtils {
 
-	public static List<Line> getAllLines(List<Line> lines, int index) {
-		List<Line> list = new ArrayList<>();
-		for (int i = index, count = 0; i < lines.size(); i++) {
-			String text = lines.get(i).text;
-			for (int j = 0; j < text.length(); j++) {
-				if (text.charAt(j) == '{') {
-					count++;
-				} else if (text.charAt(j) == '}') {
-					count--;
-				}
-			}
-			list.add(lines.get(i));
-			if (count == 0) {
-				break;
-			}
-		}
-		return list;
-	}
-
 	// 返回子块
 	public static List<Line> getSubLines(List<Line> lines, int index) {
 		// 找到子域的结束符"}"
@@ -45,6 +26,25 @@ public class LineUtils {
 				break;
 			}
 			list.add(lines.get(i));
+		}
+		return list;
+	}
+
+	public static List<Line> getAllLines(List<Line> lines, int index) {
+		List<Line> list = new ArrayList<>();
+		for (int i = index, count = 0; i < lines.size(); i++) {
+			String text = lines.get(i).text;
+			for (int j = 0; j < text.length(); j++) {
+				if (text.charAt(j) == '{') {
+					count++;
+				} else if (text.charAt(j) == '}') {
+					count--;
+				}
+			}
+			list.add(lines.get(i));
+			if (count == 0) {
+				break;
+			}
 		}
 		return list;
 	}

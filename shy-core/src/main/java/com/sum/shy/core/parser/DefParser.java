@@ -11,14 +11,12 @@ public class DefParser implements Parser {
 
 	@Override
 	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
-
 		String type = stmt.get(1);
-		String[] strs = stmt.get(2).split(",");
-		for (String str : strs) {
-			clazz.defTypes.put(str, type);
+		String[] variables = stmt.get(2).split(",");
+		for (String variable : variables) {
+			clazz.defTypes.put(variable, type);
 		}
 		return 0;
-
 	}
 
 }

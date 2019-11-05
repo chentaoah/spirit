@@ -25,13 +25,20 @@ public class VariableTracker {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
-				String type = getType(clazz, method, block, line, stmt, i, (String) token.value);
-				if (type != null)
+				try {
+					String type = getType(clazz, method, block, line, stmt, (String) token.value);
 					token.setTypeAttachment(type);
+				} catch (Exception e) {
+					// 赋值语句的第一个变量是可以容忍报错的
+					if (!(stmt.isAssignment() && i == 0)) {
+						throw e;
+					}
+				}
+
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, line, stmt, i, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token.getVarNameAttachment());// 只校验
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, line, stmt, i, token.getVarNameAttachment());// 只校验
+				getType(clazz, method, block, line, stmt, token.getVarNameAttachment());// 只校验
 			}
 			if (token.hasSubStmt()) {
 				check(clazz, method, block, line, (Stmt) token.value);
@@ -41,8 +48,7 @@ public class VariableTracker {
 
 	}
 
-	public static String getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, int index,
-			String name) {
+	public static String getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, String name) {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
@@ -67,10 +73,6 @@ public class VariableTracker {
 			if (variable != null) {
 				return variable.type;
 			}
-		}
-		// 如果是赋值语句，并且是第一个，可以不用校验
-		if (stmt.isAssignment() && index == 0) {
-			return null;
 		}
 
 		throw new RuntimeException("Variable must be declared!number:[" + line.number + "],text:[" + line.text.trim()

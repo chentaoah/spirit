@@ -173,7 +173,7 @@ public class SemanticDelegate {
 			return new Stmt(word, words, tokens);
 
 		} else if (isInvokeTokenType(type)) {
-			String name = word.substring(0, word.indexOf("("));
+			String prefix = word.substring(0, word.indexOf("("));
 			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
 			List<String> words = LexicalAnalyzer.getWords(str);
 			words.add(0, "(");
@@ -181,7 +181,7 @@ public class SemanticDelegate {
 			// 获取tokens
 			List<Token> tokens = getTokens(null, words);
 			// 追加一个元素在头部
-			tokens.add(0, new Token(Constants.INVOKE_NAME_TOKEN, name, null));
+			tokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
 			// 生成子语句
 			return new Stmt(word, words, tokens);
 		}

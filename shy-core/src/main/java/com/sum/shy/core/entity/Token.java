@@ -94,8 +94,8 @@ public class Token {
 		return Constants.MEMBER_VAR_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeName() {
-		return Constants.INVOKE_NAME_TOKEN.equals(type);
+	public boolean isPrefix() {
+		return Constants.PREFIX_TOKEN.equals(type);
 	}
 
 	public boolean isType() {
