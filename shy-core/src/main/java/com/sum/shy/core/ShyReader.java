@@ -34,9 +34,9 @@ public class ShyReader {
 		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 		List<Line> lines = new ArrayList<>();
 		// 生成line
-		for (int number = 0; number < fileLines.size(); number++) {
-			lines.add(new Line(number, fileLines.get(number)));
-			System.out.println(lines.get(number).text);
+		for (int index = 0; index < fileLines.size(); index++) {
+			lines.add(new Line(index + 1, fileLines.get(index)));
+			System.out.println(lines.get(index).text);
 		}
 		return readLines(lines);
 	}

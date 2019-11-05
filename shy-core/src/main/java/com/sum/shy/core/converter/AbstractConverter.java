@@ -37,19 +37,19 @@ public abstract class AbstractConverter implements Converter {
 		return type;
 	}
 
-	public static String convertGenericType(String str) {
-		if ("boolean".equals(str)) {
+	public static String convertGenericType(String type) {
+		if ("boolean".equals(type)) {
 			return "Boolean";
-		} else if ("int".equals(str)) {
+		} else if ("int".equals(type)) {
 			return "Integer";
-		} else if ("double".equals(str)) {
+		} else if ("double".equals(type)) {
 			return "Double";
-		} else if ("str".equals(str)) {
+		} else if ("str".equals(type)) {
 			return "String";
-		} else if ("none".equals(str)) {
+		} else if ("none".equals(type)) {
 			return "Object";
 		} else {
-			return str;
+			return type;
 		}
 	}
 

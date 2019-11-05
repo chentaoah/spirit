@@ -75,8 +75,8 @@ public class VariableTracker {
 			}
 		}
 
-		throw new RuntimeException("Variable must be declared!number:[" + line.number + "],text:[" + line.text.trim()
-				+ "],var:[" + name + "]");
+		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
+				+ " ], var:[" + name + "]");
 
 	}
 

@@ -36,14 +36,14 @@ class User {
 	
 	func getResult(int x,int y){
 		User user
-		if x>0 && y<0 {
+		if x>0 && zzz<0 {
 			list=["a","b","c","d{}[]"]
 		}else if x<0 && y>0{
 			user.getName()
 		}
 
 		list=[]
-		
+		return list
 		
 	}
 	

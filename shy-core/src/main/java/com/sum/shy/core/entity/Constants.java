@@ -66,5 +66,6 @@ public class Constants {
 	public static final String STR_TYPE = "str";
 	public static final String ARRAY_TYPE = "array";
 	public static final String MAP_TYPE = "map";
+	public static final String OBJ_TYPE = "obj";
 
 }
