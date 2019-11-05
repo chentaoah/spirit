@@ -40,8 +40,8 @@ public class ShyDebugger {
 				System.out.println(line.text);
 			} else {
 				Stmt stmt = Stmt.create(line);
-				System.out.println(line + LineUtils.getSpaceByNumber(45 - line.text.length()) + ">>> " + stmt.syntax
-						+ " " + stmt.debug());
+				System.out.println(line.text + LineUtils.getSpaceByNumber(45 - line.text.length()) + ">>> "
+						+ stmt.syntax + " " + stmt.debug());
 			}
 
 		}

@@ -21,7 +21,10 @@ public class LexicalAnalyzer {
 
 	// 操作符
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "=", "\\+", "-",
-			"\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", "," };
+			"\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", "\\!" };
+
+	// 操作符
+	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =" };
 
 	/**
 	 * 将语句拆分成一个一个单元
@@ -66,10 +69,15 @@ public class LexicalAnalyzer {
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
-		// 4.根据操作符,进行拆分
+		// 4.将那些被分离的符号,紧贴在一起
+		for (String str : BAD_SYMBOLS) {
+			text = text.replaceAll(str, str.replaceAll(" ", ""));
+		}
+
+		// 5.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
-		// 5.重新将替换的字符串替换回来
+		// 6.重新将替换的字符串替换回来
 		for (int i = 0; i < words.size(); i++) {
 			String str = replacedStrs.get(words.get(i));
 			if (str != null) {

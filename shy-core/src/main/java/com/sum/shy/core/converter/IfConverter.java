@@ -12,13 +12,11 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
 
-public class IfConverter implements Converter {
+public class IfConverter extends AbstractConverter {
 
 	@Override
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
-
-		VariableTracker.check(clazz, method, block, line, stmt);
 
 		// 这里的算法是能够截取到所有的块的
 		List<Line> blockLines = LineUtils.getAllLines(lines, index);
@@ -28,16 +26,18 @@ public class IfConverter implements Converter {
 				continue;
 
 			Stmt currStmt = Stmt.create(currLine);
+			// 变量追踪
+			VariableTracker.check(clazz, method, block, line, currStmt);
 			// 如果是if,则添加括号
 			if (currStmt.isIf()) {
 				currStmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
-				sb.append(indent + currStmt + "\n");
+				sb.append(indent + convertJudgeStmt(currStmt) + "\n");
 				count++;
 			} else if (currStmt.isElseIf()) {
 				currStmt.tokens.add(3, new Token(Constants.SEPARATOR_TOKEN, "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
-				sb.append(indent + currStmt + "\n");
+				sb.append(indent + convertJudgeStmt(currStmt) + "\n");
 				count++;
 			} else if (currStmt.isElse()) {
 				sb.append(indent + currStmt + "\n");
@@ -51,6 +51,39 @@ public class IfConverter implements Converter {
 		}
 
 		return blockLines.size() - 1;
+	}
+
+	private String convertJudgeStmt(Stmt stmt) {
+		for (int i = 0; i < stmt.tokens.size(); i++) {
+			Token token = stmt.getToken(i);
+			if (token.isVar()) {
+				// 如果是str类型
+				if (Constants.STR_TYPE.equals(token.getTypeAttachment())) {
+					try {
+						Token nextToken = stmt.getToken(i + 1);
+						if (nextToken.isOperator() && "==".equals(nextToken.value)) {
+							Token paramToken = stmt.getToken(i + 2);
+							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN, "(" + token.value + " != null && "
+									+ token.value + ".equals(" + paramToken.value + "))", null));
+							stmt.tokens.remove(i + 2);
+							stmt.tokens.remove(i + 1);
+						} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
+							Token paramToken = stmt.getToken(i + 2);
+							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN, "!(" + token.value + " != null && "
+									+ token.value + ".equals(" + paramToken.value + "))", null));
+							stmt.tokens.remove(i + 2);
+							stmt.tokens.remove(i + 1);
+						} else {
+							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+									"(" + token.value + " != null && " + token.value + ".length != 0)", null));
+						}
+					} catch (Exception e) {
+						// ignore
+					}
+				}
+			}
+		}
+		return stmt.toString();
 	}
 
 }
