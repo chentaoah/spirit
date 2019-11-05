@@ -16,9 +16,8 @@ public class FieldParser implements Parser {
 	@Override
 	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		// 变量追踪
+		// 类型推导
 		VariableTracker.check(clazz, null, null, line, stmt);
-
 		String type = TypeDerivator.getType(stmt);
 		List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
 		// 变量名
@@ -32,9 +31,9 @@ public class FieldParser implements Parser {
 		}
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.staticFields.add(new Field(type, genericTypes, name, stmt));
+			clazz.addStaticField(new Field(type, genericTypes, name, stmt));
 		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.fields.add(new Field(type, genericTypes, name, stmt));
+			clazz.addField(new Field(type, genericTypes, name, stmt));
 		}
 
 		return 0;

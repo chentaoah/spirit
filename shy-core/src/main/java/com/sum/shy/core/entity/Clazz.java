@@ -30,4 +30,31 @@ public class Clazz {
 	// class域
 	public List<Line> classLines;
 
+	public void addStaticField(Field field) {
+		checkField(field);
+		staticFields.add(field);
+	}
+
+	public void addField(Field field) {
+		checkField(field);
+		fields.add(field);
+	}
+
+	public void checkField(Field field) {
+		boolean flag = false;
+		for (Field f : staticFields) {
+			if (f.name.equals(field.name)) {
+				flag = true;
+			}
+		}
+		for (Field f : fields) {
+			if (f.name.equals(field.name)) {
+				flag = true;
+			}
+		}
+		if (flag)
+			throw new RuntimeException("Cannot have duplicate fields!number:[" + field.stmt.line.number + "], text:[ "
+					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
+	}
+
 }

@@ -2,28 +2,22 @@ package com.sum.shy
 
 import com.sum.shy.Child
 
-def People d
+def People i
 
 class User {
-	a=11
-	b=a
-	e={"chentao":1,"zjx":2}
-	x=e
-	y=99.0
-	z="hello world"
-	c=Child(z,y)
-	d=People.getInstance()
+	b=11
+	c=a
+	d={"chentao":1,"zjx":2}
+	e=d
+	f=99.0
+	g="hello world"
+	h=Child(a,b)
+	i=People.getInstance()
 	zzzzzzz="hello"
-	b=["a",zzzzzzz,"c","d{}[]"]
-	g=[]
+	j=["a",zzzzzzz,"c","d{}[]"]
+	k=[]
 	
-	f=[Child(x,y),Child(x,y)]
-	
-//java:
-//	public void getName(){
-//		System.out.println("hello");
-//	}
-//end:
+	l=[Child(a,b),Child(a,b)]
 	
 	func getName(int x,int y){
 		User user
@@ -49,8 +43,9 @@ class User {
 			user.getName()
 		}
 
-		list=[]
-		return list
+		list=[""]
+		list2=list
+		return list2
 		
 	}
 	
