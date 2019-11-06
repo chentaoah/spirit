@@ -46,11 +46,11 @@ public class Constants {
 	public static final String INVOKE_STATIC_TOKEN = "invoke_static";
 	public static final String INVOKE_MEMBER_TOKEN = "invoke_member";
 	public static final String INVOKE_LOCAL_TOKEN = "invoke_local";
+	public static final String INVOKE_FLUENT_TOKEN = "invoke_fluent";// 流式调用 what like ".say()" in "list.get(0).say()"
 	public static final String VAR_TOKEN = "var";
 	public static final String STATIC_VAR_TOKEN = "static_var";
 	public static final String MEMBER_VAR_TOKEN = "member_var";
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
-	public static final String INVOKE_FLUENT_TOKEN = "invoke_fluent";// 流式调用 what like ".say()" in "list.get(0).say()"
 
 	// 附加的token
 	public static final String PREFIX_TOKEN = "prefix";// 分隔符前面的一串字符，统一称为前缀
@@ -58,9 +58,12 @@ public class Constants {
 	public static final String EXPRESS_TOKEN = "express";// 表达式
 	public static final String TYPE_TOKEN = "type";
 
-	public static final String TYPE_ATTACHMENT = "type";
-	public static final String GENERIC_TYPES_ATTACHMENT = "generic_types";
+	public static final String TYPE_ATTACHMENT = "type";// 变量类型
+//	public static final String GENERIC_TYPES_ATTACHMENT = "generic_types";// 泛型类型
+	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
+//	public static final String RETURN_GENERIC_TYPES_ATTACHMENT = "return_generic_types";// 泛型类型
 	public static final String VAR_NAME_ATTACHMENT = "var_name";
+	public static final String CLASS_NAME_ATTACHMENT = "class_name";
 	public static final String MEMBER_VAR_NAME_ATTACHMENT = "member_var_name";
 	public static final String INIT_METHOD_NAME_ATTACHMENT = "init_method_name";
 	public static final String STATIC_METHOD_NAME_ATTACHMENT = "static_method_name";

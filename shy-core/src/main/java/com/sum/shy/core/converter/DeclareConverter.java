@@ -14,7 +14,7 @@ public class DeclareConverter extends AbstractConverter {
 			int index, Line line, Stmt stmt) {
 		// 追加一个参数声明到方法中
 		// TODO 这里还需要考虑泛型是如何声明的
-		method.addVariable(new Variable(block, stmt.get(0), null, stmt.get(1)));
+		method.addVariable(new Variable(block, stmt.get(0), stmt.get(1)));
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + " = null;\n");
 

@@ -10,6 +10,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Type;
 import com.sum.shy.core.entity.Variable;
 
 public class AssignmentConverter extends AbstractConverter {
@@ -24,13 +25,11 @@ public class AssignmentConverter extends AbstractConverter {
 		Token token = stmt.getToken(0);
 		if (token.isVar() && token.getTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
-			String type = TypeDerivator.getType(stmt);
-			List<String> genericTypes = TypeDerivator.getGenericTypes(stmt);
+			Type type = TypeDerivator.getType(stmt);
 			token.setTypeAtt(type);
-			token.setGenericTypesAtt(genericTypes);
-			method.addVariable(new Variable(block, type, genericTypes, (String) token.value));
+			method.addVariable(new Variable(block, type, (String) token.value));
 
-			String convertType = convertType(type, genericTypes);
+			String convertType = convertType(type);
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, convertType, null));
 
 		}

@@ -1,21 +1,22 @@
 package com.sum.shy.core.entity;
 
-import java.util.List;
-
 public class Variable {
 
 	public String block;
 
-	public String type;
-	// 泛型参数
-	public List<String> genericTypes;
+	public Type type;
 
 	public String name;
 
-	public Variable(String block, String type, List<String> genericTypes, String name) {
+	public Variable(String block, Type type, String name) {
 		this.block = block;
 		this.type = type;
-		this.genericTypes = genericTypes;
+		this.name = name;
+	}
+
+	public Variable(String block, String type, String name) {
+		this.block = block;
+		this.type = new Type(type);
 		this.name = name;
 	}
 

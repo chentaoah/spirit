@@ -30,7 +30,7 @@ public class VariableTracker {
 				} catch (Exception e) {
 					// 赋值语句的第一个变量是可以容忍报错的
 					if (stmt.isAssignment() && i == 0) {
-
+						// ignore
 					} else {
 						throw e;
 					}
@@ -57,7 +57,6 @@ public class VariableTracker {
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
 				token.setTypeAtt(field.type);
-				token.setGenericTypesAtt(field.genericTypes);
 				return;
 			}
 		}
@@ -65,7 +64,6 @@ public class VariableTracker {
 		for (Field field : clazz.fields) {
 			if (field.name.equals(name)) {
 				token.setTypeAtt(field.type);
-				token.setGenericTypesAtt(field.genericTypes);
 				return;
 			}
 		}
@@ -74,7 +72,6 @@ public class VariableTracker {
 			for (Param param : method.params) {
 				if (param.name.equals(name)) {
 					token.setTypeAtt(param.type);
-					token.setGenericTypesAtt(param.genericTypes);
 					return;
 				}
 			}
@@ -82,7 +79,6 @@ public class VariableTracker {
 			Variable variable = method.findVariable(block, name);
 			if (variable != null) {
 				token.setTypeAtt(variable.type);
-				token.setGenericTypesAtt(variable.genericTypes);
 				return;
 			}
 		}

@@ -35,7 +35,7 @@ public class FuncParser implements Parser {
 		}
 
 		// 添加方法
-		Method method = new Method(Constants.NONE, null, name, params);
+		Method method = new Method(Constants.NONE, name, params);
 		// 这里简化了，不再尝试获取返回类型
 		method.methodLines = LineUtils.getSubLines(lines, index);
 

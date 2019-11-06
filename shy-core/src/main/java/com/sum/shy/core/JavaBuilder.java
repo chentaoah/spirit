@@ -67,11 +67,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + AbstractConverter.convertType(field.type, field.genericTypes) + " "
+			sb.append("\tpublic static " + AbstractConverter.convertType(field.type) + " "
 					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + AbstractConverter.convertType(field.type, field.genericTypes) + " "
+			sb.append("\tpublic " + AbstractConverter.convertType(field.type) + " "
 					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		sb.append("\n");
@@ -83,8 +83,7 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic static " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
-					+ method.name + "(");
+			sb.append("\tpublic static " + AbstractConverter.convertType(method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");
@@ -102,8 +101,7 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic " + AbstractConverter.convertType(method.returnType, method.genericTypes) + " "
-					+ method.name + "(");
+			sb.append("\tpublic " + AbstractConverter.convertType(method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					sb.append(param.type + " " + param.name + ",");

@@ -57,4 +57,13 @@ public class Clazz {
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
+	public String findImport(String type) {
+		for (String importStr : importStrs) {
+			if (importStr.endsWith("." + type)) {
+				return importStr;
+			}
+		}
+		throw new RuntimeException("Import information not found!type:[" + type + "]");
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.sum.shy.core.entity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Token {
@@ -11,6 +10,10 @@ public class Token {
 	public Object value;
 
 	public Map<String, Object> attachments;// 解析获得的其他信息
+
+	public Token() {
+		attachments = new HashMap<>();
+	}
 
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
@@ -83,6 +86,10 @@ public class Token {
 		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
 	}
 
+	public boolean isInvokeLocal() {
+		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
+	}
+
 	public boolean isVar() {
 		return Constants.VAR_TOKEN.equals(type);
 	}
@@ -115,33 +122,79 @@ public class Token {
 		return isArray() || isMap() || isInvoke();
 	}
 
-	public String getTypeAtt() {
-		return (String) attachments.get(Constants.TYPE_ATTACHMENT);
+	// =================== get/set方法 =====================
+
+	public Type getTypeAtt() {
+		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
-	public void setTypeAtt(String type) {
+	public void setTypeAtt(Type type) {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<String> getGenericTypesAtt() {
-		return (List<String>) attachments.get(Constants.GENERIC_TYPES_ATTACHMENT);
+	public Type getReturnTypeAtt() {
+		return (Type) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
 	}
 
-	public void setGenericTypesAtt(List<String> genericTypes) {
-		attachments.put(Constants.GENERIC_TYPES_ATTACHMENT, genericTypes);
+	public void setReturnTypeAtt(Type type) {
+		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, type);
 	}
 
 	public String getInitMethodNameAtt() {
 		return (String) attachments.get(Constants.INIT_METHOD_NAME_ATTACHMENT);
 	}
 
+	public void setInitMethodNameAtt(String str) {
+		attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, str);
+	}
+
+	public String getClassNameAtt() {
+		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
+	}
+
+	public void setClassNameAtt(String str) {
+		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
+	}
+
 	public String getVarNameAtt() {
 		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
 	}
 
+	public void setVarNameAtt(String str) {
+		attachments.put(Constants.VAR_NAME_ATTACHMENT, str);
+	}
+
+	public String getStaticMethodNameAtt() {
+		return (String) attachments.get(Constants.STATIC_METHOD_NAME_ATTACHMENT);
+	}
+
+	public void setStaticMethodNameAtt(String str) {
+		attachments.put(Constants.STATIC_METHOD_NAME_ATTACHMENT, str);
+	}
+
 	public String getMemberMethodNameAtt() {
 		return (String) attachments.get(Constants.MEMBER_METHOD_NAME_ATTACHMENT);
+	}
+
+	public void setMemberMethodNameAtt(String str) {
+		attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, str);
+	}
+
+	public String getLocalMethodNameAtt() {
+		return (String) attachments.get(Constants.LOCAL_METHOD_NAME_ATTACHMENT);
+	}
+
+	public void setLocalMethodNameAtt(Object str) {
+		attachments.put(Constants.LOCAL_METHOD_NAME_ATTACHMENT, str);
+	}
+
+	public String getMemberVarNameAtt() {
+		return (String) attachments.get(Constants.MEMBER_VAR_NAME_ATTACHMENT);
+	}
+
+	public void setMemberVarNameAtt(String str) {
+		attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, str);
+
 	}
 
 }

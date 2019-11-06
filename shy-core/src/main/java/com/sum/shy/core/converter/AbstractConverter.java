@@ -10,6 +10,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Type;
 
 public abstract class AbstractConverter implements Converter {
 
@@ -24,35 +25,36 @@ public abstract class AbstractConverter implements Converter {
 		return 0;
 	}
 
-	public static String convertType(String type, List<String> genericTypes) {
-		if (Constants.STR_TYPE.equals(type)) {
+	public static String convertType(Type type) {
+
+		if (Constants.STR_TYPE.equals(type.type)) {
 			return "String";
-		} else if (Constants.ARRAY_TYPE.equals(type)) {
-			return "List<" + convertGenericType(genericTypes.get(0)) + ">";
-		} else if (Constants.MAP_TYPE.equals(type)) {
-			return "Map<" + convertGenericType(genericTypes.get(0)) + "," + convertGenericType(genericTypes.get(1))
-					+ ">";
-		} else if (Constants.OBJ_TYPE.equals(type)) {
+		} else if (Constants.ARRAY_TYPE.equals(type.type)) {
+			return "List<" + convertGenericType(type.genericTypes.get(0)) + ">";
+		} else if (Constants.MAP_TYPE.equals(type.type)) {
+			return "Map<" + convertGenericType(type.genericTypes.get(0)) + ","
+					+ convertGenericType(type.genericTypes.get(1)) + ">";
+		} else if (Constants.OBJ_TYPE.equals(type.type)) {
 			return "Object";
-		} else if (Constants.NONE.equals(type)) {
+		} else if (Constants.NONE.equals(type.type)) {
 			return "void";
 		}
-		return type;
+		return type.type;
 	}
 
-	public static String convertGenericType(String type) {
-		if (Constants.BOOLEAN_TYPE.equals(type)) {
+	public static String convertGenericType(Type type) {
+		if (Constants.BOOLEAN_TYPE.equals(type.type)) {
 			return "Boolean";
-		} else if (Constants.INT_TYPE.equals(type)) {
+		} else if (Constants.INT_TYPE.equals(type.type)) {
 			return "Integer";
-		} else if (Constants.DOUBLE_TYPE.equals(type)) {
+		} else if (Constants.DOUBLE_TYPE.equals(type.type)) {
 			return "Double";
-		} else if (Constants.STR_TYPE.equals(type)) {
+		} else if (Constants.STR_TYPE.equals(type.type)) {
 			return "String";
-		} else if (Constants.OBJ_TYPE.equals(type)) {
+		} else if (Constants.OBJ_TYPE.equals(type.type)) {
 			return "Object";
 		}
-		return type;
+		return type.type;
 
 	}
 
