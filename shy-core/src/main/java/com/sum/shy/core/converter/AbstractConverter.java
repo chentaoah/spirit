@@ -2,7 +2,7 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.InvokeVisitor;
+import com.sum.shy.core.analyzer.InvocationVisitor;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.entity.Clazz;
@@ -21,7 +21,7 @@ public abstract class AbstractConverter implements Converter {
 		// 直接校验
 		VariableTracker.check(clazz, method, block, line, stmt);
 		// 方法返回值推算
-		InvokeVisitor.check(clazz, stmt);
+		InvocationVisitor.check(clazz, stmt);
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + ";\n");
 

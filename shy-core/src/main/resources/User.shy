@@ -22,14 +22,14 @@ class User {
 	m=false
 	
 	func getName(int x,int y){
-		User user
+		//User user
 		if a>0 && y<10 {
 			user=User()
 		}
 		//User user
-		user.getName()
-		user.getAge()
-		user.x=10
+		//user.getName()
+		//user.getAge()
+		//user.x=10
 	}
 	
 	func getAge(int bbb,int y){
@@ -38,22 +38,22 @@ class User {
 	}
 	
 	func getResult(int x,int y){
-		User user
-		if x>0 && b<0 {
-			list=["a","b","c","d{}[]"]
-		}else if x<0 && y>0{
-			user.getName()
-		}
+		//User user
+		//if x>0 && b<0 {
+		//	list=["a","b","c","d{}[]"]
+		//}else if x<0 && y>0{
+		//	user.getName()
+		//}
 		
 		z="hello"
 		if !z || z=="hell"{
-			user.getName()	
+			//user.getName()	
 		}
 		
 
 		list=[]
 		zzz=list.get(212)
-		zzz.getName(1,2)
+		//zzz.getName(1,2)
 		
 		map={}
 		qqq=(User)map.get("chentao")

@@ -34,7 +34,7 @@ public class JavaBuilder {
 	public String build(Clazz clazz) {
 
 		System.out.println(
-				"=================================== java ========================================");
+				"=================================== Java ========================================");
 
 		StringBuilder sb = new StringBuilder();
 
