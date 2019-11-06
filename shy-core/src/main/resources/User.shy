@@ -1,8 +1,9 @@
 package com.sum.shy
 
 import com.sum.shy.Child
+import com.sum.shy.core.People
 
-def People i
+//def People i
 
 class User {
 	b=11

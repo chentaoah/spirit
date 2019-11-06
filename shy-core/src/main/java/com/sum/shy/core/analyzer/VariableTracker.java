@@ -30,7 +30,7 @@ public class VariableTracker {
 				} catch (Exception e) {
 					// 赋值语句的第一个变量是可以容忍报错的
 					if (stmt.isAssignment() && i == 0) {
-						
+
 					} else {
 						throw e;
 					}
