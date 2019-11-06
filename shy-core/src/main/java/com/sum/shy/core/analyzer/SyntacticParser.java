@@ -16,12 +16,12 @@ import com.sum.shy.core.entity.Constants;
 public class SyntacticParser {
 
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return",
-			"if" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
+			"for", "while", "try" };
 
 	public static String getSyntax(List<String> words) {
 
-		if (words.size() == 0) {// 添加空校验
+		if (words == null || words.size() == 0) {// 添加空校验
 			return Constants.UNKNOWN;
 		}
 
@@ -52,6 +52,8 @@ public class SyntacticParser {
 			if ("else".equals(second)) {
 				if ("if".equals(third)) {
 					return Constants.ELSEIF_SYNTAX;
+				} else {
+					return Constants.ELSE_SYNTAX;
 				}
 			}
 		}

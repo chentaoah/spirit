@@ -2,9 +2,10 @@ package com.sum.shy.test;
 
 import java.util.List;
 import java.util.Map;
+
+import com.sum.shy.core.People;
 import com.sum.shy.library.Collection;
 import com.sum.shy.library.StringUtils;
-import com.sum.shy.core.People;
 
 public class User {
 	public static int a = 101;

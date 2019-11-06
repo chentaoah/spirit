@@ -3,6 +3,7 @@ package com.sum.shy.core.converter;
 import java.util.List;
 
 import com.sum.shy.core.analyzer.VariableTracker;
+import com.sum.shy.core.analyzer.InvokeVisitor;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
@@ -20,6 +21,8 @@ public class AssignmentConverter extends AbstractConverter {
 			int index, Line line, Stmt stmt) {
 		// 直接校验
 		VariableTracker.check(clazz, method, block, line, stmt);
+		// 方法返回值推算
+		InvokeVisitor.check(clazz, stmt);
 
 		// 如果是单纯的变量,而不是成员变量,则需要进行类型声明
 		Token token = stmt.getToken(0);

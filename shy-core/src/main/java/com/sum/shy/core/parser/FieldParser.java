@@ -2,7 +2,7 @@ package com.sum.shy.core.parser;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.InvokationResolver;
+import com.sum.shy.core.analyzer.InvokeVisitor;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
@@ -21,7 +21,7 @@ public class FieldParser implements Parser {
 		// 变量追踪
 		VariableTracker.check(clazz, null, null, line, stmt);
 		// 方法返回值推算
-		InvokationResolver.check(clazz, stmt);
+		InvokeVisitor.check(clazz, stmt);
 		// 类型推导
 		Type type = TypeDerivator.getType(stmt);
 		// 变量名
