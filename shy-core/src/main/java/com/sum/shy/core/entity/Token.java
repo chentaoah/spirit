@@ -71,7 +71,7 @@ public class Token {
 	}
 
 	public boolean isInvoke() {
-		return isInvokeInit() || isInvokeStatic() || isInvokeMember();
+		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
 	}
 
 	public boolean isInvokeInit() {
@@ -88,6 +88,10 @@ public class Token {
 
 	public boolean isInvokeLocal() {
 		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
+	}
+
+	public boolean isInvokeFluent() {
+		return Constants.INVOKE_FLUENT_TOKEN.equals(type);
 	}
 
 	public boolean isVar() {

@@ -9,4 +9,9 @@ public class ReflectUtils {
 		return null;
 	}
 
+	public static Type getReturnType(Type typeAtt, String clazzName, String methodName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
