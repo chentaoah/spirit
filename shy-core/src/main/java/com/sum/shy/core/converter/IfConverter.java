@@ -60,22 +60,23 @@ public class IfConverter extends AbstractConverter {
 				// 如果是str类型
 				if (Constants.STR_TYPE.equals(token.getTypeAtt().type)) {
 					try {
+
 						Token nextToken = stmt.getToken(i + 1);
 						if (nextToken.isOperator() && "==".equals(nextToken.value)) {
 							Token paramToken = stmt.getToken(i + 2);
-							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN, "(" + token.value + " != null && "
-									+ token.value + ".equals(" + paramToken.value + "))", null));
+							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+									"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
 							stmt.tokens.remove(i + 2);
 							stmt.tokens.remove(i + 1);
 						} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
 							Token paramToken = stmt.getToken(i + 2);
-							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN, "!(" + token.value + " != null && "
-									+ token.value + ".equals(" + paramToken.value + "))", null));
+							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+									"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
 							stmt.tokens.remove(i + 2);
 							stmt.tokens.remove(i + 1);
 						} else {
 							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-									"(" + token.value + " != null && " + token.value + ".length != 0)", null));
+									"StringUtils.isNotEmpty(" + token.value + ")", null));
 						}
 					} catch (Exception e) {
 						// ignore

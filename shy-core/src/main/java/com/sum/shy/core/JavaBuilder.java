@@ -33,7 +33,8 @@ public class JavaBuilder {
 
 	public String build(Clazz clazz) {
 
-		System.out.println("========================java========================");
+		System.out.println(
+				"=================================== java ========================================");
 
 		StringBuilder sb = new StringBuilder();
 
@@ -42,10 +43,15 @@ public class JavaBuilder {
 		// package
 		sb.append("package " + clazz.packageStr + ";\n");
 		sb.append("\n");
+		sb.append("import java.util.List;\n");
+		sb.append("import java.util.Map;\n");
+		sb.append("import com.sum.shy.library.Collection;\n");
+		sb.append("import com.sum.shy.library.StringUtils;\n");
 		// import
 		for (String importStr : clazz.importStrs) {
 			sb.append("import " + importStr + ";\n");
 		}
+
 		sb.append("\n");
 
 		// ============================ class ================================

@@ -52,7 +52,7 @@ class User {
 		
 
 		list=[]
-		zzz=list.get(212)
+		zzz=(User)list.get(212)
 		zzz.getName(1,2)
 		
 		map={}
