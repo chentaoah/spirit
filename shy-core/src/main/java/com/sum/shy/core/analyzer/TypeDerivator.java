@@ -53,11 +53,9 @@ public class TypeDerivator {
 			return token.getTypeAtt();
 
 		} else if (token.isVar()) {
-			Type type = token.getTypeAtt();
-			if (type != null) {
-				return type;
-			}
-		} else if (token.isInvokeMember()) {
+			return token.getTypeAtt();// 这个返回可能是null,比如赋值语句的第一个变量
+
+		} else if (token.isInvoke()) {// 如果是方法调用,则直接返回返回类型
 			return token.getReturnTypeAtt();
 		}
 		return null;
