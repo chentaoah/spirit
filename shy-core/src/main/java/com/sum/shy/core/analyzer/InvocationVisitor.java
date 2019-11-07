@@ -1,5 +1,7 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.List;
+
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
@@ -26,12 +28,10 @@ public class InvocationVisitor {
 						String methodName = token.getMemberMethodNameAtt();
 						if ("get".equals(methodName))
 							token.setReturnTypeAtt(token.getTypeAtt().genericTypes.get(0));
-
 					} else if (Constants.MAP_TYPE.equals(simpleName)) {
 						String methodName = token.getMemberMethodNameAtt();
 						if ("get".equals(methodName))
 							token.setReturnTypeAtt(token.getTypeAtt().genericTypes.get(1));
-
 					} else {
 						try {
 							String className = clazz.findImport(simpleName);
@@ -44,13 +44,15 @@ public class InvocationVisitor {
 									+ stmt.line.text.trim() + " ], type:[" + simpleName + "]");
 							throw e;
 						}
-
 					}
-
-				} else if (token.isMemberVar()) {
-
 				}
 
+			} else if (token.isMemberVar()) {
+				String simpleName = token.getTypeAtt().name;
+				String className = clazz.findImport(simpleName);
+				List<String> memberVarNames = token.getMemberVarNameAtt();
+				Type returnType = ReflectUtils.getFieldType(className, memberVarNames);
+				token.setReturnTypeAtt(returnType);
 			}
 
 		}

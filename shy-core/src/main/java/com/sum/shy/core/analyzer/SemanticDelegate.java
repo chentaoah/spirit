@@ -39,16 +39,20 @@ public class SemanticDelegate {
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
+
 	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]*\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
 			.compile("^[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
+	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
+			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
-	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$");
+	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+
+	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
 
 	/**
@@ -235,6 +239,7 @@ public class SemanticDelegate {
 
 		} else if (token.isInvokeMember()) {// 成员方法调用
 			token.setVarNameAtt(getVarName(word));
+			token.setMemberVarNameAtt(getMemberVarName(word));// 中间可能有很多的成员变量访问
 			token.setMemberMethodNameAtt(getMemberMethodName(word));
 
 		} else if (token.isInvokeLocal()) {// 本地方法调用
@@ -328,19 +333,31 @@ public class SemanticDelegate {
 	}
 
 	private static String getStaticMethodName(String word) {
-		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
+		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
 	}
 
 	private static String getMemberMethodName(String word) {
-		return word.substring(word.indexOf(".") + 1, word.indexOf("("));
+		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
 	}
 
 	private static Object getLocalMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
 	}
 
-	private static String getMemberVarName(String word) {
-		return word.substring(word.indexOf(".") + 1, word.length());
+	private static List<String> getMemberVarName(String word) {
+		List<String> list = new ArrayList<>();
+		if (word.contains("(") && word.contains(")")) {
+			String[] strs = word.substring(0, word.indexOf("(")).split(",");
+			for (int i = 1; i < strs.length - 1; i++) {
+				list.add(strs[i]);
+			}
+		} else {
+			String[] strs = word.split(",");
+			for (int i = 1; i < strs.length; i++) {
+				list.add(strs[i]);
+			}
+		}
+		return list;
 	}
 
 	private static String getCastType(String word) {

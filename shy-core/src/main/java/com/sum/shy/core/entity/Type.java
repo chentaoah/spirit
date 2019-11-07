@@ -9,13 +9,13 @@ public class Type {
 
 	public List<Type> genericTypes;
 
-	public Type(String type, List<Type> genericTypes) {
-		this.name = type;
+	public Type(String name, List<Type> genericTypes) {
+		this.name = name;
 		this.genericTypes = genericTypes;
 	}
 
-	public Type(String type) {
-		this.name = type;
+	public Type(String name) {
+		this.name = name;
 		this.genericTypes = new ArrayList<>();
 	}
 

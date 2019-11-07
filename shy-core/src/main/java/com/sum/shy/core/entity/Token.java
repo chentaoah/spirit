@@ -1,6 +1,7 @@
 package com.sum.shy.core.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Token {
@@ -192,12 +193,13 @@ public class Token {
 		attachments.put(Constants.LOCAL_METHOD_NAME_ATTACHMENT, str);
 	}
 
-	public String getMemberVarNameAtt() {
-		return (String) attachments.get(Constants.MEMBER_VAR_NAME_ATTACHMENT);
+	@SuppressWarnings("unchecked")
+	public List<String> getMemberVarNameAtt() {
+		return (List<String>) attachments.get(Constants.MEMBER_VAR_NAME_ATTACHMENT);
 	}
 
-	public void setMemberVarNameAtt(String str) {
-		attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, str);
+	public void setMemberVarNameAtt(List<String> list) {
+		attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, list);
 
 	}
 

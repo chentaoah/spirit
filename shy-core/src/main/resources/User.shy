@@ -1,75 +1,26 @@
 package com.sum.shy
 
-import com.sum.shy.Child
 import com.sum.shy.core.People
 
-//def People i
-
-class User {
-	b=11
-	c=a
-	d={"chentao":1,"zjx":2}
-	e=d
-	f=99.0
-	g="hello world"
-	h=Child(a,b)
-	i=People.getInstance()
-	zzzzzzz="hello"
-	j=["a",zzzzzzz,"c","d{}[]"]
-	k=[]
-	
-	l=[Child(a,b),Child(a,b)]
-	m=false
-	
-	func getName(int x,int y){
-		//User user
-		if a>0 && y<10 {
-			user=User()
-		}
-		//User user
-		//user.getName()
-		//user.getAge()
-		//user.x=10
-	}
-	
-	func getAge(int bbb,int y){
-		zzz=bbb
-		return zzz
-	}
-	
-	func getResult(int x,int y){
-		//User user
-		//if x>0 && b<0 {
-		//	list=["a","b","c","d{}[]"]
-		//}else if x<0 && y>0{
-		//	user.getName()
-		//}
-		
-		z="hello"
-		if !z || z=="hell"{
-			//user.getName()	
-		}
-		
-
-		list=[]
-		zzz=list.get(212)
-		//zzz.getName(1,2)
-		
-		map={}
-		qqq=(User)map.get("chentao")
-		
-		
-		list2=list
-		return list2
-		
-	}
-	
-}
 
 a=101
 
 func main(){
 	
 }
+
+class User {
+
+	people=People.getInstance()
+
+	func getName(int x,int y){
+		return people.age
+	}
+	
+	
+	
+}
+
+
 
 
