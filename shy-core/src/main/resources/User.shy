@@ -2,9 +2,6 @@ package com.sum.shy
 
 import com.sum.shy.core.People
 
-
-a=101
-
 func main(){
 	
 }
@@ -14,7 +11,7 @@ class User {
 	people=People.getInstance()
 
 	func getName(int x,int y){
-		return people.age
+		return people.child.age
 	}
 	
 	

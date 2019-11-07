@@ -2,7 +2,7 @@ package com.sum.shy.core;
 
 public class People {
 	
-	public static int age;
+	public Child child;
 
 	public static People getInstance() {
 		return new People();

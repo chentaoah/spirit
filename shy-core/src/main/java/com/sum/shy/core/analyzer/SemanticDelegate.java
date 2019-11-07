@@ -347,12 +347,12 @@ public class SemanticDelegate {
 	private static List<String> getMemberVarName(String word) {
 		List<String> list = new ArrayList<>();
 		if (word.contains("(") && word.contains(")")) {
-			String[] strs = word.substring(0, word.indexOf("(")).split(",");
+			String[] strs = word.substring(0, word.indexOf("(")).split("\\.");
 			for (int i = 1; i < strs.length - 1; i++) {
 				list.add(strs[i]);
 			}
 		} else {
-			String[] strs = word.split(",");
+			String[] strs = word.split("\\.");
 			for (int i = 1; i < strs.length; i++) {
 				list.add(strs[i]);
 			}

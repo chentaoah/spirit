@@ -1,5 +1,6 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Clazz;
@@ -20,7 +21,7 @@ public class InvocationVisitor {
 					String className = clazz.findImport(simpleName);
 					String methodName = token.getStaticMethodNameAtt();
 					// 暂不支持方法重载
-					Type returnType = ReflectUtils.getReturnType(className, methodName);
+					Type returnType = ReflectUtils.getReturnType(className, new ArrayList<>(), methodName);
 					token.setReturnTypeAtt(returnType);
 				} else if (token.isInvokeMember()) {// 成员方法调用
 					String simpleName = token.getTypeAtt().name;
@@ -35,9 +36,10 @@ public class InvocationVisitor {
 					} else {
 						try {
 							String className = clazz.findImport(simpleName);
+							List<String> memberVarNames = token.getMemberVarNameAtt();
 							String methodName = token.getMemberMethodNameAtt();
 							// 暂不支持方法重载
-							Type returnType = ReflectUtils.getReturnType(className, methodName);
+							Type returnType = ReflectUtils.getReturnType(className, memberVarNames, methodName);
 							token.setReturnTypeAtt(returnType);
 						} catch (Exception e) {
 							System.out.println("Cannot get the class name!number:[" + stmt.line.number + "], text:[ "
