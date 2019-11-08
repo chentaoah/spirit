@@ -11,7 +11,7 @@ class User {
 	people=People.getInstance()
 
 	func getName(int x,int y){
-		return people.child.age
+		return people.child.getName()
 	}
 	
 	
