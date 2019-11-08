@@ -23,6 +23,7 @@ public class InvocationVisitor {
 					// 暂不支持方法重载
 					Type returnType = ReflectUtils.getReturnType(className, new ArrayList<>(), methodName);
 					token.setReturnTypeAtt(returnType);
+
 				} else if (token.isInvokeMember()) {// 成员方法调用
 					String simpleName = token.getTypeAtt().name;
 					if (Constants.ARRAY_TYPE.equals(simpleName)) {
