@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Method {
 	// 类型
-	public Type returnType;
+	public NativeType returnType;
 	// 参数名
 	public String name;
 	// 初始值
@@ -15,14 +15,8 @@ public class Method {
 	// method域
 	public List<Line> methodLines;
 
-	public Method(Type returnType, String name, List<Param> params) {
+	public Method(NativeType returnType, String name, List<Param> params) {
 		this.returnType = returnType;
-		this.name = name;
-		this.params = params;
-	}
-
-	public Method(String type, String name, List<Param> params) {
-		this.returnType = new Type(type);
 		this.name = name;
 		this.params = params;
 	}

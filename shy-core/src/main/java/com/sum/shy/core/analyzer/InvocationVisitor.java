@@ -1,13 +1,11 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Clazz;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Type;
+import com.sum.shy.core.entity.NativeType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class InvocationVisitor {
@@ -16,46 +14,35 @@ public class InvocationVisitor {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isInvoke()) {
-				if (token.isInvokeStatic()) {// 静态调用
+				if (token.isInvokeInit()) {// 构造方法
+					String simpleName = token.getInitMethodNameAtt();
+					String className = clazz.findImport(simpleName);
+					NativeType returnType = ReflectUtils.getReturnType(className);
+					token.setReturnNativeTypeAtt(returnType);
+
+				} else if (token.isInvokeStatic()) {// 静态调用
 					String simpleName = token.getClassNameAtt();
 					String className = clazz.findImport(simpleName);
 					String methodName = token.getStaticMethodNameAtt();
 					// 暂不支持方法重载
-					Type returnType = ReflectUtils.getReturnType(className, new ArrayList<>(), methodName);
-					token.setReturnTypeAtt(returnType);
+					NativeType returnType = ReflectUtils.getReturnType(className, methodName);
+					token.setReturnNativeTypeAtt(returnType);
 
 				} else if (token.isInvokeMember()) {// 成员方法调用
-					String simpleName = token.getTypeAtt().name;
-					if (Constants.ARRAY_TYPE.equals(simpleName)) {
-						String methodName = token.getMemberMethodNameAtt();
-						if ("get".equals(methodName))
-							token.setReturnTypeAtt(token.getTypeAtt().genericTypes.get(0));
-					} else if (Constants.MAP_TYPE.equals(simpleName)) {
-						String methodName = token.getMemberMethodNameAtt();
-						if ("get".equals(methodName))
-							token.setReturnTypeAtt(token.getTypeAtt().genericTypes.get(1));
-					} else {
-						try {
-							String className = clazz.findImport(simpleName);
-							List<String> memberVarNames = token.getMemberVarNameAtt();
-							String methodName = token.getMemberMethodNameAtt();
-							// 暂不支持方法重载
-							Type returnType = ReflectUtils.getReturnType(className, memberVarNames, methodName);
-							token.setReturnTypeAtt(returnType);
-						} catch (Exception e) {
-							System.out.println("Cannot get the class name!number:[" + stmt.line.number + "], text:[ "
-									+ stmt.line.text.trim() + " ], type:[" + simpleName + "]");
-							throw e;
-						}
-					}
+					NativeType nativeType = token.getNativeTypeAtt();
+					List<String> memberVarNames = token.getMemberVarNameAtt();
+					String methodName = token.getMemberMethodNameAtt();
+					// 暂不支持方法重载
+					NativeType returnType = ReflectUtils.getReturnType(nativeType, memberVarNames, methodName);
+					token.setReturnNativeTypeAtt(returnType);
+
 				}
 
 			} else if (token.isMemberVar()) {
-				String simpleName = token.getTypeAtt().name;
-				String className = clazz.findImport(simpleName);
+				NativeType nativeType = token.getNativeTypeAtt();
 				List<String> memberVarNames = token.getMemberVarNameAtt();
-				Type returnType = ReflectUtils.getFieldType(className, memberVarNames);
-				token.setReturnTypeAtt(returnType);
+				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
+				token.setReturnNativeTypeAtt(returnType);
 			}
 
 		}

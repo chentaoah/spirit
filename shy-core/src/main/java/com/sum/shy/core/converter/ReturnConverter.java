@@ -9,7 +9,7 @@ import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Type;
+import com.sum.shy.core.entity.NativeType;
 
 public class ReturnConverter extends AbstractConverter {
 
@@ -21,7 +21,7 @@ public class ReturnConverter extends AbstractConverter {
 		// 方法返回值推算
 		InvocationVisitor.check(clazz, stmt);
 		// 如果没有,则在最前面追加类型
-		Type type = TypeDerivator.getType(stmt);
+		NativeType type = TypeDerivator.getNativeType(stmt);
 		// 这个时候给方法追加返回类型
 		method.returnType = type;
 		// 将语句进行一定的转换

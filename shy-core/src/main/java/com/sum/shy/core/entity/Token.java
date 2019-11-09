@@ -129,19 +129,19 @@ public class Token {
 
 	// =================== get/set方法 =====================
 
-	public Type getTypeAtt() {
-		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);
+	public NativeType getNativeTypeAtt() {
+		return (NativeType) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
-	public void setTypeAtt(Type type) {
+	public void setNativeTypeAtt(NativeType type) {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	public Type getReturnTypeAtt() {
-		return (Type) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
+	public NativeType getReturnNativeTypeAtt() {
+		return (NativeType) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
 	}
 
-	public void setReturnTypeAtt(Type type) {
+	public void setReturnNativeTypeAtt(NativeType type) {
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, type);
 	}
 
@@ -200,7 +200,14 @@ public class Token {
 
 	public void setMemberVarNameAtt(List<String> list) {
 		attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, list);
+	}
 
+	public String getCastTypeAtt() {
+		return (String) attachments.get(Constants.CAST_TYPE_ATTACHMENT);
+	}
+
+	public void setCastTypeAtt(String castType) {
+		attachments.put(Constants.CAST_TYPE_ATTACHMENT, castType);
 	}
 
 }

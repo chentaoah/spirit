@@ -10,9 +10,11 @@ import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.NativeType;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.utils.LineUtils;
+import com.sum.shy.core.utils.ReflectUtils;
 
 public class FuncParser implements Parser {
 
@@ -30,12 +32,13 @@ public class FuncParser implements Parser {
 			// 可能是user.say()无参数方法
 			if (list.get(i).length() > 0) {
 				String[] strs = list.get(i).split(" ");
-				params.add(new Param(strs[0], strs[1]));
+				NativeType nativeType = ReflectUtils.getNativeType(clazz, strs[0]);
+				params.add(new Param(nativeType, strs[1]));
 			}
 		}
 
 		// 添加方法
-		Method method = new Method(Constants.NONE, name, params);
+		Method method = new Method(new NativeType(void.class), name, params);
 		// 这里简化了，不再尝试获取返回类型
 		method.methodLines = LineUtils.getSubLines(lines, index);
 

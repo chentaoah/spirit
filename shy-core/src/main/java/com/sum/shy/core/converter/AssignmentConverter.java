@@ -11,7 +11,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Type;
+import com.sum.shy.core.entity.NativeType;
 import com.sum.shy.core.entity.Variable;
 
 public class AssignmentConverter extends AbstractConverter {
@@ -26,15 +26,13 @@ public class AssignmentConverter extends AbstractConverter {
 
 		// 如果是单纯的变量,而不是成员变量,则需要进行类型声明
 		Token token = stmt.getToken(0);
-		if (token.isVar() && token.getTypeAtt() == null) {
+		if (token.isVar() && token.getNativeTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
-			Type type = TypeDerivator.getType(stmt);
-			token.setTypeAtt(type);
-			method.addVariable(new Variable(block, type, (String) token.value));
+			NativeType nativeType = TypeDerivator.getNativeType(stmt);
+			token.setNativeTypeAtt(nativeType);
+			method.addVariable(new Variable(block, nativeType, (String) token.value));
 
-			String convertType = convertType(type);
-			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, convertType, null));
-
+			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, nativeType.toString(), null));
 		}
 
 		// 将语句进行一定的转换

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Type;
 
 /**
  * 语义分析器
@@ -250,7 +249,7 @@ public class SemanticDelegate {
 			token.setMemberVarNameAtt(getMemberVarName(word));
 
 		} else if (token.isCast()) {// 强制类型转换
-			token.setTypeAtt(new Type(getCastType(word)));
+			token.setCastTypeAtt(getCastType(word));
 		}
 
 	}

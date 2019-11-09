@@ -11,7 +11,6 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Type;
 
 public abstract class AbstractConverter implements Converter {
 
@@ -26,39 +25,6 @@ public abstract class AbstractConverter implements Converter {
 		sb.append(indent + convertStmt(stmt) + ";\n");
 
 		return 0;
-	}
-
-	public static String convertType(Type type) {
-
-		if (Constants.STR_TYPE.equals(type.name)) {
-			return "String";
-		} else if (Constants.ARRAY_TYPE.equals(type.name)) {
-			return "List<" + convertGenericType(type.genericTypes.get(0)) + ">";
-		} else if (Constants.MAP_TYPE.equals(type.name)) {
-			return "Map<" + convertGenericType(type.genericTypes.get(0)) + ","
-					+ convertGenericType(type.genericTypes.get(1)) + ">";
-		} else if (Constants.OBJ_TYPE.equals(type.name)) {
-			return "Object";
-		} else if (Constants.NONE.equals(type.name)) {
-			return "void";
-		}
-		return type.name;
-	}
-
-	public static String convertGenericType(Type type) {
-		if (Constants.BOOLEAN_TYPE.equals(type.name)) {
-			return "Boolean";
-		} else if (Constants.INT_TYPE.equals(type.name)) {
-			return "Integer";
-		} else if (Constants.DOUBLE_TYPE.equals(type.name)) {
-			return "Double";
-		} else if (Constants.STR_TYPE.equals(type.name)) {
-			return "String";
-		} else if (Constants.OBJ_TYPE.equals(type.name)) {
-			return "Object";
-		}
-		return type.name;
-
 	}
 
 	public static String convertStmt(Stmt stmt) {

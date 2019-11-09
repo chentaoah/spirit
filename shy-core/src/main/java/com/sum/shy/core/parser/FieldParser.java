@@ -11,7 +11,7 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Type;
+import com.sum.shy.core.entity.NativeType;
 
 public class FieldParser implements Parser {
 
@@ -23,7 +23,7 @@ public class FieldParser implements Parser {
 		// 方法返回值推算
 		InvocationVisitor.check(clazz, stmt);
 		// 类型推导
-		Type type = TypeDerivator.getType(stmt);
+		NativeType type = TypeDerivator.getNativeType(stmt);
 		// 变量名
 		String name = stmt.get(0);
 

@@ -33,8 +33,7 @@ public class JavaBuilder {
 
 	public String build(Clazz clazz) {
 
-		System.out.println(
-				"=================================== Java ========================================");
+		System.out.println("=================================== Java ========================================");
 
 		StringBuilder sb = new StringBuilder();
 
@@ -73,12 +72,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + AbstractConverter.convertType(field.type) + " "
-					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
+			sb.append("\tpublic static " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt)
+					+ ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + AbstractConverter.convertType(field.type) + " "
-					+ AbstractConverter.convertStmt(field.stmt) + ";\n");
+			sb.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
 		sb.append("\n");
 
@@ -89,10 +87,10 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic static " + AbstractConverter.convertType(method.returnType) + " " + method.name + "(");
+			sb.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					sb.append(param.type.name + " " + param.name + ",");
+					sb.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
 				}
 				sb.deleteCharAt(sb.lastIndexOf(","));
 			}
@@ -107,10 +105,10 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic " + AbstractConverter.convertType(method.returnType) + " " + method.name + "(");
+			sb.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					sb.append(param.type.name + " " + param.name + ",");
+					sb.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
 				}
 				sb.deleteCharAt(sb.lastIndexOf(","));
 			}

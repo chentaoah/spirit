@@ -59,9 +59,9 @@ public class Constants {
 	public static final String TYPE_TOKEN = "type";
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
-//	public static final String GENERIC_TYPES_ATTACHMENT = "generic_types";// 泛型类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
-//	public static final String RETURN_GENERIC_TYPES_ATTACHMENT = "return_generic_types";// 泛型类型
+
+	public static final String CAST_TYPE_ATTACHMENT = "cast_type";// 强转类型
 	public static final String VAR_NAME_ATTACHMENT = "var_name";
 	public static final String CLASS_NAME_ATTACHMENT = "class_name";
 	public static final String MEMBER_VAR_NAME_ATTACHMENT = "member_var_name";
@@ -69,14 +69,5 @@ public class Constants {
 	public static final String STATIC_METHOD_NAME_ATTACHMENT = "static_method_name";
 	public static final String MEMBER_METHOD_NAME_ATTACHMENT = "member_method_name";
 	public static final String LOCAL_METHOD_NAME_ATTACHMENT = "local_method_name";
-	// 基本类型
-	public static final String NULL_TYPE = "null";
-	public static final String BOOLEAN_TYPE = "boolean";
-	public static final String INT_TYPE = "int";
-	public static final String DOUBLE_TYPE = "double";
-	public static final String STR_TYPE = "str";
-	public static final String ARRAY_TYPE = "array";
-	public static final String MAP_TYPE = "map";
-	public static final String OBJ_TYPE = "obj";
 
 }
