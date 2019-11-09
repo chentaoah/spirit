@@ -7,9 +7,6 @@ import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.Child;
-import com.sum.shy.core.People;
-
 public class Test {
 
 	public static void main(String[] args) {

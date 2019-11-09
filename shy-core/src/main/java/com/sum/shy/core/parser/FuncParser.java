@@ -22,7 +22,8 @@ public class FuncParser implements Parser {
 	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		// 这里一定要trim一下
-		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).trimResults().splitToList(stmt.get(1));
+		List<String> list = Splitter.on(CharMatcher.anyOf("(,)")).omitEmptyStrings().trimResults()
+				.splitToList(stmt.get(1));
 		// 方法名
 		String name = list.get(0);
 		// 开始遍历参数

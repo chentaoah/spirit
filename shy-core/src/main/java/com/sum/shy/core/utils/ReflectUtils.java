@@ -16,6 +16,15 @@ import com.sum.shy.core.entity.NativeType;
 public class ReflectUtils {
 
 	public static NativeType getNativeType(Clazz clazz, String type) {
+		// 基本类型
+		if ("boolean".equals(type)) {
+			return new NativeType(boolean.class);
+		} else if ("int".equals(type)) {
+			return new NativeType(int.class);
+		} else if ("double".equals(type)) {
+			return new NativeType(double.class);
+		}
+		// 复杂类型
 		String className = clazz.findImport(type);
 		return new NativeType(ReflectUtils.getClass(className));
 	}
@@ -81,7 +90,7 @@ public class ReflectUtils {
 		String first = list.get(0);
 		// 如果是一个简单类型
 		if (first.startsWith("class ")) {
-			clazz = getClass(first.substring(first.indexOf(" ")));
+			clazz = getClass(first.substring(first.indexOf(" ") + 1));
 			return new NativeType(clazz);
 		}
 		// 如果整个就是个泛型
@@ -89,9 +98,9 @@ public class ReflectUtils {
 			clazz = nativeType == null ? Object.class : nativeType.genericTypes.get(first).clazz;
 			return new NativeType(clazz);
 		}
+		clazz = getClass(first);
 		Map<String, NativeType> genericTypes = new HashMap<>();
 		// 获取泛型参数名
-		@SuppressWarnings("null")
 		TypeVariable<?>[] params = clazz.getTypeParameters();
 		// 如果是带泛型的
 		if (params.length > 0 && list.size() > 1) {

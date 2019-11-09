@@ -30,14 +30,14 @@ public class NativeType {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getName());
-		sb.append("<");
-		for (NativeType nativeType : genericTypes.values()) {
-			sb.append(nativeType.getName() + ",");
-		}
 		if (genericTypes.size() > 0) {
+			sb.append("<");
+			for (NativeType nativeType : genericTypes.values()) {
+				sb.append(nativeType.getName() + ",");
+			}
 			sb.deleteCharAt(sb.length() - 1);
+			sb.append(">");
 		}
-		sb.append(">");
 		return sb.toString();
 	}
 
