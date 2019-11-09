@@ -1,7 +1,6 @@
 package com.sum.shy
 
 import com.sum.shy.test.People
-import java.uttt.List
 
 func main(){
 	
@@ -13,10 +12,8 @@ class User {
 	child=people.child
 
 	func getName(int x,int y){
-		return people.child.getName()
+		return people.list.get(0)
 	}
-	
-	
 	
 }
 
