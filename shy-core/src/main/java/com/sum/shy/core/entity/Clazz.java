@@ -63,7 +63,30 @@ public class Clazz {
 				return importStr;
 			}
 		}
-		throw new RuntimeException("Import information not found!type:[" + type + "]");
+		throw new RuntimeException("No import information found!type:[" + type + "]");
+	}
+
+	public void addImport(NativeType nativeType) {
+		nativeType.forceFullName = !addImport(nativeType.getName());
+		for (NativeType subNativeType : nativeType.genericTypes.values()) {
+			addImport(subNativeType);
+		}
+	}
+
+	public boolean addImport(String className) {
+		if (!importStrs.contains(className)) {
+			// .xxxx
+			String lastName = className.substring(className.lastIndexOf("."));
+			for (String importStr : importStrs) {
+				if (importStr.endsWith(lastName)) {
+					return false;
+				}
+			}
+			importStrs.add(className);
+			return true;
+		}
+		// 重复添加也认为是添加成功了
+		return true;
 	}
 
 }

@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class NativeType {
 
+	public boolean forceFullName = false;// 是否强制使用全名，因为命名可能冲突了
+
 	public Class<?> clazz;// 类名
 
 	public Map<String, NativeType> genericTypes;// List<E> E-String
@@ -29,11 +31,12 @@ public class NativeType {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getName());
+		sb.append(getSimpleName());
 		if (genericTypes.size() > 0) {
 			sb.append("<");
 			for (NativeType nativeType : genericTypes.values()) {
-				sb.append(nativeType.getName() + ",");
+				// 集合里面必须是包装类
+				sb.append(nativeType.getWrapper().getSimpleName() + ",");
 			}
 			sb.deleteCharAt(sb.length() - 1);
 			sb.append(">");
@@ -41,15 +44,27 @@ public class NativeType {
 		return sb.toString();
 	}
 
+	public String getSimpleName() {
+		return forceFullName ? clazz.getName() : clazz.getSimpleName();
+	}
+
 	public String getName() {
+		return clazz.getName();
+	}
+
+	public Class<?> getWrapper() {
 		if (isBoolean()) {
-			return Boolean.class.getSimpleName();
+			return Boolean.class;
 		} else if (isInt()) {
-			return Integer.class.getSimpleName();
+			return Boolean.class;
 		} else if (isDouble()) {
-			return Double.class.getSimpleName();
+			return Double.class;
 		}
-		return clazz.getSimpleName();
+		return clazz;
+	}
+
+	public boolean isPrimitive() {
+		return isBoolean() || isInt() || isDouble();
 	}
 
 	public boolean isBoolean() {

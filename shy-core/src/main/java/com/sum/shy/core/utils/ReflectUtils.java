@@ -34,16 +34,14 @@ public class ReflectUtils {
 	}
 
 	public static NativeType getReturnType(String className, String methodName) {
-		try {
-			Class<?> clazz = getClass(className);
-			for (Method method : clazz.getMethods()) {
-				if (method.getName().equals(methodName)) {
-					return getNativeType(null, method.getGenericReturnType());
-				}
+
+		Class<?> clazz = getClass(className);
+		for (Method method : clazz.getMethods()) {
+			if (method.getName().equals(methodName)) {
+				return getNativeType(null, method.getGenericReturnType());
 			}
-		} catch (SecurityException e) {
-			e.printStackTrace();
 		}
+
 		return null;
 	}
 

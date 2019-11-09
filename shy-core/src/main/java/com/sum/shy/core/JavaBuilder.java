@@ -35,50 +35,34 @@ public class JavaBuilder {
 
 		System.out.println("=================================== Java ========================================");
 
-		StringBuilder sb = new StringBuilder();
-
-		// ============================ head ================================
-
-		// package
-		sb.append("package " + clazz.packageStr + ";\n");
-		sb.append("\n");
-		sb.append("import java.util.List;\n");
-		sb.append("import java.util.Map;\n");
-		sb.append("import com.sum.shy.library.Collection;\n");
-		sb.append("import com.sum.shy.library.StringUtils;\n");
-		// import
-		for (String importStr : clazz.importStrs) {
-			sb.append("import " + importStr + ";\n");
-		}
-
-		sb.append("\n");
-
 		// ============================ class ================================
 
+		StringBuilder body = new StringBuilder();
+
 		// class
-		sb.append("public class " + clazz.className + " ");
+		body.append("public class " + clazz.className + " ");
 		if (clazz.superName != null) {
-			sb.append("extends " + clazz.superName + " ");
+			body.append("extends " + clazz.superName + " ");
 		}
 		if (clazz.interfaces.size() > 0) {
-			sb.append("implements ");
+			body.append("implements ");
 			for (String inf : clazz.interfaces) {
-				sb.append(inf + ",");
+				body.append(inf + ",");
 			}
-			sb.deleteCharAt(sb.lastIndexOf(","));
+			body.deleteCharAt(body.lastIndexOf(","));
 		}
-		sb.append("{\n");
+		body.append("{\n");
 
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			sb.append("\tpublic static " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt)
+			body.append("\tpublic static " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt)
 					+ ";\n");
 		}
 		for (Field field : clazz.fields) {
-			sb.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt) + ";\n");
+			body.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt) + ";\n");
 		}
-		sb.append("\n");
+		body.append("\n");
 
 		// ============================ method ================================
 
@@ -87,17 +71,17 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
+			body.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					sb.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
+					body.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
 				}
-				sb.deleteCharAt(sb.lastIndexOf(","));
+				body.deleteCharAt(body.lastIndexOf(","));
 			}
-			sb.append("){\n");
-			sb.append(methodContent);
-			sb.append("\t}\n");
-			sb.append("\n");
+			body.append("){\n");
+			body.append(methodContent);
+			body.append("\t}\n");
+			body.append("\n");
 		}
 
 		for (Method method : clazz.methods) {
@@ -105,22 +89,40 @@ public class JavaBuilder {
 			StringBuilder methodContent = new StringBuilder();
 			convertMethodLine(methodContent, clazz, method);
 
-			sb.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
+			body.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					sb.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
+					body.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
 				}
-				sb.deleteCharAt(sb.lastIndexOf(","));
+				body.deleteCharAt(body.lastIndexOf(","));
 			}
-			sb.append("){\n");
-			sb.append(methodContent);
-			sb.append("\t}\n");
-			sb.append("\n");
+			body.append("){\n");
+			body.append(methodContent);
+			body.append("\t}\n");
+			body.append("\n");
 		}
 
-		sb.append("}");
+		body.append("}");
 
-		return sb.toString();
+		// ============================ head ================================
+
+		StringBuilder head = new StringBuilder();
+
+		// package
+		head.append("package " + clazz.packageStr + ";\n");
+		head.append("\n");
+//		sb.append("import java.util.List;\n");
+//		sb.append("import java.util.Map;\n");
+//		sb.append("import com.sum.shy.library.Collection;\n");
+//		sb.append("import com.sum.shy.library.StringUtils;\n");
+		// import
+		for (String importStr : clazz.importStrs) {
+			head.append("import " + importStr + ";\n");
+		}
+
+		head.append("\n");
+
+		return head.append(body).toString();
 
 	}
 

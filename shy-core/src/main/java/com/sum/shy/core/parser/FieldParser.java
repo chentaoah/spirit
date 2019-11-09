@@ -23,14 +23,16 @@ public class FieldParser implements Parser {
 		// 方法返回值推算
 		InvocationVisitor.check(clazz, stmt);
 		// 类型推导
-		NativeType type = TypeDerivator.getNativeType(stmt);
+		NativeType nativeType = TypeDerivator.getNativeType(stmt);
+		// 添加到头部类型引入(可以重复添加)
+		clazz.addImport(nativeType);
 		// 变量名
 		String name = stmt.get(0);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.addStaticField(new Field(type, name, stmt));
+			clazz.addStaticField(new Field(nativeType, name, stmt));
 		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.addField(new Field(type, name, stmt));
+			clazz.addField(new Field(nativeType, name, stmt));
 		}
 
 		return 0;

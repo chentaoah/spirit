@@ -9,9 +9,10 @@ func main(){
 class User {
 
 	people=People.getInstance()
+	child=people.child
 
 	func getName(int x,int y){
-		return people.list.get()
+		return people.child.getName()
 	}
 	
 	

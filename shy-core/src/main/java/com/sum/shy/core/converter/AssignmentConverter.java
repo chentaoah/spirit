@@ -29,6 +29,8 @@ public class AssignmentConverter extends AbstractConverter {
 		if (token.isVar() && token.getNativeTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
 			NativeType nativeType = TypeDerivator.getNativeType(stmt);
+			// 添加到头部类型引入(可以重复添加)
+			clazz.addImport(nativeType);
 			token.setNativeTypeAtt(nativeType);
 			method.addVariable(new Variable(block, nativeType, (String) token.value));
 
