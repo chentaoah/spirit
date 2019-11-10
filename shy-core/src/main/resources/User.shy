@@ -17,9 +17,9 @@ class User {
 	
 		s="hello"
 		if s {
-			
+			return x.get(0)
 		}else if s!="yes"{
-		
+			//return "test"
 		}
 		
 		return people.getChild().age

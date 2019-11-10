@@ -73,6 +73,8 @@ public class Clazz {
 	}
 
 	public void addImport(NativeType nativeType) {
+		if (nativeType == null)
+			return;
 		nativeType.forceFullName = !addImport(nativeType.getName());
 		for (NativeType subNativeType : nativeType.genericTypes.values()) {
 			addImport(subNativeType);

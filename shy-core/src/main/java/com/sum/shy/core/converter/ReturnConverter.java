@@ -25,7 +25,9 @@ public class ReturnConverter extends AbstractConverter {
 		// 添加到头部类型引入(可以重复添加)
 		clazz.addImport(nativeType);
 		// 这个时候给方法追加返回类型
-		method.returnType = nativeType;
+		if (method.returnType.isVoid() && nativeType != null) {
+			method.returnType = nativeType;
+		}
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(stmt) + ";\n");
 
