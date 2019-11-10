@@ -15,14 +15,9 @@ class User {
 
 	func getName(List<String> x,int y){
 	
-		s="hello"
-		if s {
-			return x.get(0)
-		}else if s!="yes"{
-			//return "test"
-		}
+		list=[x]
+		return list.get(0)
 		
-		return people.getChild().age
 	}
 	
 }

@@ -117,8 +117,7 @@ public class ReflectUtils {
 		}
 		// 如果整个就是个泛型
 		if (!first.contains(".")) {
-			clazz = nativeType == null ? Object.class : nativeType.genericTypes.get(first).clazz;
-			return new NativeType(clazz);
+			return nativeType == null ? new NativeType(Object.class) : nativeType.genericTypes.get(first);
 		}
 		clazz = getClass(first);
 		Map<String, NativeType> genericTypes = new HashMap<>();
