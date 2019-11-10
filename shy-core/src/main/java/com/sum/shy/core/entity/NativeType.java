@@ -36,7 +36,12 @@ public class NativeType {
 			sb.append("<");
 			for (NativeType nativeType : genericTypes.values()) {
 				// 集合里面必须是包装类
-				sb.append(nativeType.getWrapper().getSimpleName() + ",");
+				if (nativeType.isPrimitive()) {
+					sb.append(nativeType.getWrapper().getSimpleName() + ",");
+				} else {
+					sb.append(nativeType.toString() + ",");
+				}
+
 			}
 			sb.deleteCharAt(sb.length() - 1);
 			sb.append(">");

@@ -60,6 +60,10 @@ public class Clazz {
 	}
 
 	public String findImport(String type) {
+		// 如果本身传入的就是一个全名的话，直接返回
+		if (type.contains(".")) {
+			return type;
+		}
 		for (String importStr : importStrs) {
 			if (importStr.endsWith("." + type)) {
 				return importStr;

@@ -74,7 +74,7 @@ public class JavaBuilder {
 			body.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
+					body.append(param.type.toString() + " " + param.name + ",");
 				}
 				body.deleteCharAt(body.lastIndexOf(","));
 			}
@@ -92,7 +92,7 @@ public class JavaBuilder {
 			body.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(param.type.clazz.getSimpleName() + " " + param.name + ",");
+					body.append(param.type.toString() + " " + param.name + ",");
 				}
 				body.deleteCharAt(body.lastIndexOf(","));
 			}

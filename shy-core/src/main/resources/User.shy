@@ -1,6 +1,8 @@
 package com.sum.shy
 
 import com.sum.shy.test.People
+import java.util.List
+import java.lang.String
 
 func main(){
 	
@@ -11,7 +13,15 @@ class User {
 	people=People.getInstance()
 	child=people.child
 
-	func getName(int x,int y){
+	func getName(List<String> x,int y){
+	
+		s="hello"
+		if s {
+			
+		}else if s!="yes"{
+		
+		}
+		
 		return people.getChild().age
 	}
 	

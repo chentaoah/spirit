@@ -11,6 +11,7 @@ import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
+import com.sum.shy.library.StringUtils;
 
 public class IfConverter extends AbstractConverter {
 
@@ -32,12 +33,12 @@ public class IfConverter extends AbstractConverter {
 			if (currStmt.isIf()) {
 				currStmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
-				sb.append(indent + convertJudgeStmt(currStmt) + "\n");
+				sb.append(indent + convertJudgeStmt(clazz, currStmt) + "\n");
 				count++;
 			} else if (currStmt.isElseIf()) {
 				currStmt.tokens.add(3, new Token(Constants.SEPARATOR_TOKEN, "(", null));
 				currStmt.tokens.add(currStmt.tokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
-				sb.append(indent + convertJudgeStmt(currStmt) + "\n");
+				sb.append(indent + convertJudgeStmt(clazz, currStmt) + "\n");
 				count++;
 			} else if (currStmt.isElse()) {
 				sb.append(indent + currStmt + "\n");
@@ -53,12 +54,14 @@ public class IfConverter extends AbstractConverter {
 		return blockLines.size() - 1;
 	}
 
-	private String convertJudgeStmt(Stmt stmt) {
+	private String convertJudgeStmt(Clazz clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.tokens.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
 				// 如果是str类型
 				if (token.getNativeTypeAtt().isStr()) {
+					// 添加依赖
+					clazz.addImport(StringUtils.class.getName());
 					try {
 						Token nextToken = stmt.getToken(i + 1);
 						if (nextToken.isOperator() && "==".equals(nextToken.value)) {

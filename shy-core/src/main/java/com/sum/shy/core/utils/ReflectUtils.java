@@ -20,9 +20,33 @@ public class ReflectUtils {
 		if (isPrimitive(type)) {
 			return new NativeType(getPrimitive(type));
 		}
+		// 泛型 Map<xxx,xxx>
+		if (isGeneric(type)) {
+			List<String> list = getGeneric(type);
+			return getNativeType(clazz, list);
+		}
 		// 复杂类型
 		String className = clazz.findImport(type);
 		return new NativeType(ReflectUtils.getClass(className));
+	}
+
+	private static NativeType getNativeType(Clazz clazz, List<String> list) {
+		String first = list.get(0);
+		Class<?> class1 = getClass(clazz.findImport(first));
+		// 获取泛型参数名
+		TypeVariable<?>[] params = class1.getTypeParameters();
+		// 如果是带泛型的
+		Map<String, NativeType> genericTypes = new HashMap<>();
+		if (params.length > 0 && list.size() > 1) {
+			Class<?> genericClazz = null;
+			for (int i = 1; i < list.size(); i++) {
+				String str = list.get(i);
+				String className = clazz.findImport(str);
+				genericClazz = getClass(className);
+				genericTypes.put(params[i - 1].toString(), new NativeType(genericClazz));
+			}
+		}
+		return new NativeType(class1, genericTypes);
 	}
 
 	public static NativeType getReturnType(String className) {
@@ -134,6 +158,10 @@ public class ReflectUtils {
 		return "boolean".equals(type) || "int".equals(type) || "double".equals(type);
 	}
 
+	private static boolean isGeneric(String type) {
+		return type.contains("<") && type.contains(">");
+	}
+
 	public static Class<?> getPrimitive(String type) {
 		switch (type) {
 		case "boolean":
@@ -145,6 +173,10 @@ public class ReflectUtils {
 		default:
 			return null;
 		}
+	}
+
+	public static List<String> getGeneric(String type) {
+		return Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults().splitToList(type);
 	}
 
 }
