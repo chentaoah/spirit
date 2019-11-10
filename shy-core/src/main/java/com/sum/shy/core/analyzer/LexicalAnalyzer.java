@@ -52,19 +52,25 @@ public class LexicalAnalyzer {
 		int count = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '"') {
-				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
+				text = LineUtils.replaceString(text, i, '"', '"', "str", count++, replacedStrs);
 			} else if (text.charAt(i) == '(') {
-				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
+				text = LineUtils.replaceString(text, i, '(', ')', "invoke", count, replacedStrs, true);
 				i = text.indexOf("$invoke" + count++);
 			} else if (text.charAt(i) == '[') {
-				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
+				text = LineUtils.replaceString(text, i, '[', ']', "array", count++, replacedStrs);
 			} else if (text.charAt(i) == '{') {
-				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
+				text = LineUtils.replaceString(text, i, '{', '}', "map", count++, replacedStrs);
+			} else if (text.charAt(i) == '<') {
+				// 如果左边是个类名
+				text = LineUtils.replaceString(text, i, '<', '>', "generic", count, replacedStrs, true);
+				i = text.indexOf("$generic" + count++);
 			}
 		}
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
+		for (
+
+				int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
 //		text = text.replaceAll("[$]{1}", " \\$");

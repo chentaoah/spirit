@@ -67,23 +67,23 @@ public class LineUtils {
 		return sb.toString();
 	}
 
-	public static String replaceString(String line, char left, char right, String name, int number,
+	public static String replaceString(String line, int index, char left, char right, String name, int number,
 			Map<String, String> map) {
-		return replaceString(line, left, right, name, number, map, false, false);
+		return replaceString(line, index, left, right, name, number, map, false, false);
 	}
 
-	public static String replaceString(String line, char left, char right, String name, int number,
+	public static String replaceString(String line, int index, char left, char right, String name, int number,
 			Map<String, String> map, boolean aleft) {
-		return replaceString(line, left, right, name, number, map, false, aleft);
+		return replaceString(line, index, left, right, name, number, map, false, aleft);
 	}
 
-	public static String replaceString(String line, char left, char right, String name, int number,
+	public static String replaceString(String line, int index, char left, char right, String name, int number,
 			Map<String, String> map, boolean greed, boolean aleft) {
 		// 先统计一下索引位置
 		List<Pair> list = new ArrayList<>();
 		// 是否进入"符号的范围内
 		boolean flag = false;
-		for (int i = 0, start = -1, count = 0; i < line.length(); i++) {
+		for (int i = index, start = -1, count = 0; i < line.length(); i++) {
 			// 如果进入了"符号的范围,并且left和right不是",则直接跳过
 			if (line.charAt(i) == '"' && line.charAt(i - 1 >= 0 ? i - 1 : i) != '\\') {
 				flag = flag ? false : true;
@@ -111,6 +111,16 @@ public class LineUtils {
 						} else {
 							start = j + 1;
 							break;
+						}
+					}
+					// 如果可能是泛型声明的话
+					if (left == '<') {
+						String str = line.substring(start, i);
+						String[] strs = str.split("\\.");
+						str = strs[strs.length - 1];
+						char c = str.charAt(0);
+						if (!(c >= 'A' && c <= 'Z')) {
+							return line;
 						}
 					}
 				}
