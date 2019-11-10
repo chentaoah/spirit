@@ -75,6 +75,10 @@ public class Token {
 		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
 	}
 
+	public boolean isFluent() {
+		return isInvokeFluent() || isMemberVarFluent();
+	}
+
 	public boolean isInvokeInit() {
 		return Constants.INVOKE_INIT_TOKEN.equals(type);
 	}
@@ -105,6 +109,10 @@ public class Token {
 
 	public boolean isMemberVar() {
 		return Constants.MEMBER_VAR_TOKEN.equals(type);
+	}
+
+	public boolean isMemberVarFluent() {
+		return Constants.MEMBER_VAR_FLUENT_TOKEN.equals(type);
 	}
 
 	public boolean isCast() {
@@ -194,12 +202,12 @@ public class Token {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> getMemberVarNameAtt() {
-		return (List<String>) attachments.get(Constants.MEMBER_VAR_NAME_ATTACHMENT);
+	public List<String> getMemberVarNamesAtt() {
+		return (List<String>) attachments.get(Constants.MEMBER_VAR_NAMES_ATTACHMENT);
 	}
 
-	public void setMemberVarNameAtt(List<String> list) {
-		attachments.put(Constants.MEMBER_VAR_NAME_ATTACHMENT, list);
+	public void setMemberVarNamesAtt(List<String> list) {
+		attachments.put(Constants.MEMBER_VAR_NAMES_ATTACHMENT, list);
 	}
 
 	public String getCastTypeAtt() {
@@ -208,6 +216,14 @@ public class Token {
 
 	public void setCastTypeAtt(String castType) {
 		attachments.put(Constants.CAST_TYPE_ATTACHMENT, castType);
+	}
+
+	public Token getNextTokenAtt() {
+		return (Token) attachments.get(Constants.NEXT_TOKEN_ATTACHMENT);
+	}
+
+	public void setNextTokenAtt(Token nextToken) {
+		attachments.put(Constants.NEXT_TOKEN_ATTACHMENT, nextToken);
 	}
 
 }

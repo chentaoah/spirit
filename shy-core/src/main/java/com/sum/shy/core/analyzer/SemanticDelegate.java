@@ -50,6 +50,7 @@ public class SemanticDelegate {
 
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
 	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");
@@ -85,6 +86,15 @@ public class SemanticDelegate {
 				getTokenValue(token, word);
 				getAttachments(token, word);
 				tokens.add(token);
+			}
+
+			// 为fluent组建一条链，方便后面调用
+			Token lastToken = null;
+			for (Token token : tokens) {
+				if (token.isFluent()) {
+					lastToken.setNextTokenAtt(token);
+				}
+				lastToken = token;
 			}
 
 		}
@@ -180,6 +190,9 @@ public class SemanticDelegate {
 		if (MEMBER_VAR_PATTERN.matcher(word).matches()) {// 构造函数
 			return Constants.MEMBER_VAR_TOKEN;
 		}
+		if (MEMBER_VAR_FLUENT_PATTERN.matcher(word).matches()) {
+			return Constants.MEMBER_VAR_FLUENT_TOKEN;
+		}
 		return Constants.VAR_TOKEN;
 	}
 
@@ -231,25 +244,33 @@ public class SemanticDelegate {
 
 		if (token.isInvokeInit()) {// 构造方法
 			token.setInitMethodNameAtt(getInitMethodName(word));
-
+			return;
 		} else if (token.isInvokeStatic()) {// 静态方法调用
 			token.setClassNameAtt(getClassName(word));
 			token.setStaticMethodNameAtt(getStaticMethodName(word));
-
+			return;
 		} else if (token.isInvokeMember()) {// 成员方法调用
 			token.setVarNameAtt(getVarName(word));
-			token.setMemberVarNameAtt(getMemberVarName(word));// 中间可能有很多的成员变量访问
+			token.setMemberVarNamesAtt(getMemberVarNames(word));// 中间可能有很多的成员变量访问
 			token.setMemberMethodNameAtt(getMemberMethodName(word));
-
+			return;
 		} else if (token.isInvokeLocal()) {// 本地方法调用
 			token.setLocalMethodNameAtt(getLocalMethodName(word));
-
+			return;
+		} else if (token.isInvokeFluent()) {// 流式调用
+			token.setMemberVarNamesAtt(getMemberVarNames(word));// 中间可能有很多的成员变量访问
+			token.setMemberMethodNameAtt(getMemberMethodName(word));
+			return;
 		} else if (token.isMemberVar()) {// 成员变量
 			token.setVarNameAtt(getVarName(word));
-			token.setMemberVarNameAtt(getMemberVarName(word));
-
+			token.setMemberVarNamesAtt(getMemberVarNames(word));
+			return;
+		} else if (token.isMemberVarFluent()) {// 流式成员变量
+			token.setMemberVarNamesAtt(getMemberVarNames(word));
+			return;
 		} else if (token.isCast()) {// 强制类型转换
 			token.setCastTypeAtt(getCastType(word));
+			return;
 		}
 
 	}
@@ -343,7 +364,7 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("("));
 	}
 
-	private static List<String> getMemberVarName(String word) {
+	private static List<String> getMemberVarNames(String word) {
 		List<String> list = new ArrayList<>();
 		if (word.contains("(") && word.contains(")")) {
 			String[] strs = word.substring(0, word.indexOf("(")).split("\\.");

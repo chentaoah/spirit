@@ -18,10 +18,13 @@ public class TypeDerivator {
 	 */
 	public static NativeType getNativeType(Stmt stmt) {
 
-		for (Token token : stmt.tokens) {
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
 			NativeType type = getType(token);
-			if (type != null)
+			if (type != null) {
 				return type;
+			}
+
 		}
 		return null;
 	}
@@ -53,7 +56,7 @@ public class TypeDerivator {
 			return token.getNativeTypeAtt();// 这个返回可能是null,比如赋值语句的第一个变量
 
 		} else if (token.isInvoke()) {// 如果是方法调用,则直接返回返回类型
-			return token.getReturnNativeTypeAtt();
+			return getFluentReturnType(token);// 如果是fluent调用，则返回最终的返回类型
 
 		} else if (token.isMemberVar()) {
 			return token.getReturnNativeTypeAtt();
@@ -103,6 +106,19 @@ public class TypeDerivator {
 		}
 
 		return genericTypes;
+	}
+
+	private static NativeType getFluentReturnType(Token token) {
+		NativeType nativeType = token.getReturnNativeTypeAtt();
+		Token nextToken = token;
+		do {
+			nextToken = nextToken.getNextTokenAtt();
+			if (nextToken != null && nextToken.isFluent()) {
+				nativeType = nextToken.getReturnNativeTypeAtt();
+			}
+
+		} while (nextToken != null);
+		return nativeType;
 	}
 
 }

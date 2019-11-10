@@ -30,7 +30,16 @@ public class InvocationVisitor {
 
 				} else if (token.isInvokeMember()) {// 成员方法调用
 					NativeType nativeType = token.getNativeTypeAtt();
-					List<String> memberVarNames = token.getMemberVarNameAtt();
+					List<String> memberVarNames = token.getMemberVarNamesAtt();
+					String methodName = token.getMemberMethodNameAtt();
+					// 暂不支持方法重载
+					NativeType returnType = ReflectUtils.getReturnType(nativeType, memberVarNames, methodName);
+					token.setReturnNativeTypeAtt(returnType);
+
+				} else if (token.isInvokeFluent()) {// 流式方法调用
+					Token lastToken = stmt.getToken(i - 1);
+					NativeType nativeType = lastToken.getReturnNativeTypeAtt();
+					List<String> memberVarNames = token.getMemberVarNamesAtt();
 					String methodName = token.getMemberMethodNameAtt();
 					// 暂不支持方法重载
 					NativeType returnType = ReflectUtils.getReturnType(nativeType, memberVarNames, methodName);
@@ -40,7 +49,7 @@ public class InvocationVisitor {
 
 			} else if (token.isMemberVar()) {
 				NativeType nativeType = token.getNativeTypeAtt();
-				List<String> memberVarNames = token.getMemberVarNameAtt();
+				List<String> memberVarNames = token.getMemberVarNamesAtt();
 				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
 				token.setReturnNativeTypeAtt(returnType);
 			}

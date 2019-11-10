@@ -139,10 +139,10 @@ public class LineUtils {
 		// 开始替换字符串
 		int count = number;
 		for (String str : subStrs) {
-			String key = "$" + name + count++;
+			String key = "$" + name + count++ + " ";
 			line = line.replace(str, key);
 			if (map != null)
-				map.put(key, str);
+				map.put(key.trim(), str);
 		}
 
 		return line;

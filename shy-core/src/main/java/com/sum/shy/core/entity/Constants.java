@@ -50,6 +50,7 @@ public class Constants {
 	public static final String VAR_TOKEN = "var";
 	public static final String STATIC_VAR_TOKEN = "static_var";
 	public static final String MEMBER_VAR_TOKEN = "member_var";
+	public static final String MEMBER_VAR_FLUENT_TOKEN = "member_var_fluent";
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
 
 	// 附加的token
@@ -64,10 +65,12 @@ public class Constants {
 	public static final String CAST_TYPE_ATTACHMENT = "cast_type";// 强转类型
 	public static final String VAR_NAME_ATTACHMENT = "var_name";
 	public static final String CLASS_NAME_ATTACHMENT = "class_name";
-	public static final String MEMBER_VAR_NAME_ATTACHMENT = "member_var_name";
+	public static final String MEMBER_VAR_NAMES_ATTACHMENT = "member_var_names";
 	public static final String INIT_METHOD_NAME_ATTACHMENT = "init_method_name";
 	public static final String STATIC_METHOD_NAME_ATTACHMENT = "static_method_name";
 	public static final String MEMBER_METHOD_NAME_ATTACHMENT = "member_method_name";
 	public static final String LOCAL_METHOD_NAME_ATTACHMENT = "local_method_name";
+
+	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 
 }

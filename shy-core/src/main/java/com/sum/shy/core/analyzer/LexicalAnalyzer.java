@@ -54,7 +54,8 @@ public class LexicalAnalyzer {
 			if (text.charAt(i) == '"') {
 				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
 			} else if (text.charAt(i) == '(') {
-				text = LineUtils.replaceString(text, '(', ')', "invoke", count++, replacedStrs, true);
+				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
+				i = text.indexOf("$invoke" + count++);
 			} else if (text.charAt(i) == '[') {
 				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
 			} else if (text.charAt(i) == '{') {
@@ -66,7 +67,7 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
-		text = text.replaceAll("[$]{1}", " \\$");
+//		text = text.replaceAll("[$]{1}", " \\$");
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);

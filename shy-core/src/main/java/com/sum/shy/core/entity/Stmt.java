@@ -18,6 +18,10 @@ public class Stmt {
 	public List<Token> tokens;
 
 	public static Stmt create(Line line) {
+
+//		if (line.number == 15) {
+//			System.out.println("debug on line!number:" + line.number);
+//		}
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.语法分析,分析语句的语法

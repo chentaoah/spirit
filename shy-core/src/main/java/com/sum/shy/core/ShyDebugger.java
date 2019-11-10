@@ -25,7 +25,7 @@ public class ShyDebugger {
 		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 		List<Line> lines = new ArrayList<>();
 		for (int i = 0; i < fileLines.size(); i++) {
-			lines.add(new Line(i, fileLines.get(i)));
+			lines.add(new Line(i + 1, fileLines.get(i)));
 		}
 		return readLines(lines);
 	}
