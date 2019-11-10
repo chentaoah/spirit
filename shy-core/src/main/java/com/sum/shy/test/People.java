@@ -12,11 +12,11 @@ public class People {
 		return new People();
 	}
 
-	public void say(int x, int y) {
-		System.out.println(x + y);
+	public List<String> getName() {
+		return null;
 	}
 
-	public List<String> getName() {
+	public Child getChild() {
 		return null;
 	}
 }

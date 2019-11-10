@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.utils.ReflectUtils;
+
 public class Clazz {
 
 	// 包名
@@ -74,6 +76,9 @@ public class Clazz {
 	}
 
 	public boolean addImport(String className) {
+		if (ReflectUtils.isPrimitive(className)) {
+			return true;
+		}
 		if (!importStrs.contains(className)) {
 			// .xxxx
 			String lastName = className.substring(className.lastIndexOf("."));

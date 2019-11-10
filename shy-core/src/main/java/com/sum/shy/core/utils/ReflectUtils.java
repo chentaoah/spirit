@@ -17,12 +17,8 @@ public class ReflectUtils {
 
 	public static NativeType getNativeType(Clazz clazz, String type) {
 		// 基本类型
-		if ("boolean".equals(type)) {
-			return new NativeType(boolean.class);
-		} else if ("int".equals(type)) {
-			return new NativeType(int.class);
-		} else if ("double".equals(type)) {
-			return new NativeType(double.class);
+		if (isPrimitive(type)) {
+			return new NativeType(getPrimitive(type));
 		}
 		// 复杂类型
 		String className = clazz.findImport(type);
@@ -86,6 +82,10 @@ public class ReflectUtils {
 		List<String> list = Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults().splitToList(text);
 		Class<?> clazz = null;
 		String first = list.get(0);
+		// 基本类型
+		if (isPrimitive(first)) {
+			return new NativeType(getPrimitive(first));
+		}
 		// 如果是一个简单类型
 		if (first.startsWith("class ")) {
 			clazz = getClass(first.substring(first.indexOf(" ") + 1));
@@ -128,6 +128,23 @@ public class ReflectUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static boolean isPrimitive(String type) {
+		return "boolean".equals(type) || "int".equals(type) || "double".equals(type);
+	}
+
+	public static Class<?> getPrimitive(String type) {
+		switch (type) {
+		case "boolean":
+			return boolean.class;
+		case "int":
+			return int.class;
+		case "double":
+			return double.class;
+		default:
+			return null;
+		}
 	}
 
 }

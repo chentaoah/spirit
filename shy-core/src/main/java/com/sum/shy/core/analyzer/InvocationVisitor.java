@@ -52,6 +52,13 @@ public class InvocationVisitor {
 				List<String> memberVarNames = token.getMemberVarNamesAtt();
 				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
 				token.setReturnNativeTypeAtt(returnType);
+
+			} else if (token.isMemberVarFluent()) {// 流式成员变量
+				Token lastToken = stmt.getToken(i - 1);
+				NativeType nativeType = lastToken.getReturnNativeTypeAtt();
+				List<String> memberVarNames = token.getMemberVarNamesAtt();
+				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
+				token.setReturnNativeTypeAtt(returnType);
 			}
 
 		}
