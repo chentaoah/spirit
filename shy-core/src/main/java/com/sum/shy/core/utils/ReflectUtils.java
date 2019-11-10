@@ -119,22 +119,22 @@ public class ReflectUtils {
 		if (!first.contains(".")) {
 			return nativeType == null ? new NativeType(Object.class) : nativeType.genericTypes.get(first);
 		}
+		// 创建一个新的类型，但是这个类型里面包含了上个类型的泛型
 		clazz = getClass(first);
 		Map<String, NativeType> genericTypes = new HashMap<>();
 		// 获取泛型参数名
 		TypeVariable<?>[] params = clazz.getTypeParameters();
 		// 如果是带泛型的
 		if (params.length > 0 && list.size() > 1) {
-			Class<?> genericClazz = null;
 			for (int i = 1; i < list.size(); i++) {
 				String str = list.get(i);
 				// 如果是一个泛型
 				if (!str.contains(".")) {
-					genericClazz = nativeType == null ? Object.class : nativeType.genericTypes.get(str).clazz;
+					genericTypes.put(params[i - 1].toString(),
+							nativeType == null ? new NativeType(Object.class) : nativeType.genericTypes.get(str));
 				} else {
-					genericClazz = getClass(str);
+					genericTypes.put(params[i - 1].toString(), new NativeType(getClass(str)));
 				}
-				genericTypes.put(params[i - 1].toString(), new NativeType(genericClazz));
 
 			}
 
