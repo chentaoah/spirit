@@ -49,8 +49,7 @@ public class LexicalAnalyzer {
 
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		// 这里需要解决一个括号谁套谁的问题
-		int count = 0;
-		for (int i = 0; i < text.length(); i++) {
+		for (int i = 0, count = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '"') {
 				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
 			} else if (text.charAt(i) == '[') {
