@@ -17,7 +17,12 @@ public class ImportParser implements Parser {
 		String name = fullName.substring(fullName.lastIndexOf(".") + 1);
 		// 别名
 		String alias = stmt.size() == 3 ? stmt.get(2) : null;
-		clazz.importStrs.put(alias == null ? alias : name, fullName);
+		// 根据是否有别名分别添加到不同容器中
+		if (alias == null) {
+			clazz.importStrs.put(name, fullName);
+		} else {
+			clazz.importAliases.put(alias, fullName);
+		}
 		return 0;
 	}
 

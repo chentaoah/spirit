@@ -1,7 +1,6 @@
 package com.sum.shy
 
 import com.sum.shy.test.People GooPeople
-import java.lang.String
 
 func main(){
 	
@@ -12,14 +11,9 @@ class User {
 	people=GooPeople.getInstance()
 	child=GooPeople.child
 
-	func getName(List<String> x,int y){
-		List<String> list
-		if y<0 && y>0 {
-			
-		}
+	func getName(int x,int y){
 		list=[x]
 		return list.get(0)
-		
 	}
 	
 }

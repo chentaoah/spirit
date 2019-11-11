@@ -61,7 +61,7 @@ public class NativeType {
 		if (isBoolean()) {
 			return Boolean.class;
 		} else if (isInt()) {
-			return Boolean.class;
+			return Integer.class;
 		} else if (isDouble()) {
 			return Double.class;
 		}

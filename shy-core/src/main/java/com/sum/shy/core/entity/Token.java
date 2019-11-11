@@ -187,7 +187,7 @@ public class Token {
 	// =================== 方法名 =====================
 
 	public String getMethodNameAtt() {
-		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
+		return (String) attachments.get(Constants.METHOD_NAME_ATTACHMENT);
 	}
 
 	public void setMethodNameAtt(String str) {

@@ -1,7 +1,7 @@
 package com.sum.shy.core.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +12,11 @@ public class Clazz {
 	// 包名
 	public String packageStr;
 	// 引入
-	public Map<String, String> importStrs = new HashMap<>();
+	public Map<String, String> importStrs = new LinkedHashMap<>();
 	// 别名引入
-	public Map<String, String> importAliases = new HashMap<>();
+	public Map<String, String> importAliases = new LinkedHashMap<>();
 	// 预处理
-	public Map<String, String> defTypes = new HashMap<>();
+	public Map<String, String> defTypes = new LinkedHashMap<>();
 	// 类名
 	public String className;
 	// 父类
@@ -77,6 +77,10 @@ public class Clazz {
 		}
 		return importStr;
 
+	}
+
+	public boolean isAlias(String type) {
+		return importAliases.containsKey(type);
 	}
 
 	public void addImport(NativeType nativeType) {

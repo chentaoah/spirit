@@ -58,6 +58,9 @@ public class TypeDerivator {
 		} else if (token.isInvoke()) {// 如果是方法调用,则直接返回返回类型
 			return getFluentReturnType(token);// 如果是fluent调用，则返回最终的返回类型
 
+		} else if (token.isStaticVar()) {
+			return token.getReturnNativeTypeAtt();
+
 		} else if (token.isMemberVar()) {
 			return token.getReturnNativeTypeAtt();
 		}

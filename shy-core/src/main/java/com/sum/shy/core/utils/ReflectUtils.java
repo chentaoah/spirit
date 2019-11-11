@@ -78,6 +78,11 @@ public class ReflectUtils {
 		return null;
 	}
 
+	public static NativeType getFieldType(String className, List<String> memberVarNames) {
+		NativeType nativeType = new NativeType(getClass(className));
+		return getFieldType(nativeType, memberVarNames);
+	}
+
 	public static NativeType getFieldType(NativeType nativeType, List<String> memberVarNames) {
 		try {
 			for (String memberVarName : memberVarNames) {

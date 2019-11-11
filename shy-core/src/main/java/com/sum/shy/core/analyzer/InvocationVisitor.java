@@ -47,7 +47,14 @@ public class InvocationVisitor {
 
 				}
 
-			} else if (token.isMemberVar()) {
+			} else if (token.isStaticVar()) {// 静态变量
+				String simpleName = token.getClassNameAtt();
+				String className = clazz.findImport(simpleName);
+				List<String> memberVarNames = token.getVarNamesAtt();
+				NativeType returnType = ReflectUtils.getFieldType(className, memberVarNames);
+				token.setReturnNativeTypeAtt(returnType);
+
+			} else if (token.isMemberVar()) {// 成员变量
 				NativeType nativeType = token.getNativeTypeAtt();
 				List<String> memberVarNames = token.getVarNamesAtt();
 				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);

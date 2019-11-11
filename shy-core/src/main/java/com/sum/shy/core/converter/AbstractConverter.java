@@ -54,10 +54,43 @@ public abstract class AbstractConverter implements Converter {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
 				convertStmt(clazz, subStmt);
+				// 如果是别名,则将类名替换一下
+				String type = token.getMethodNameAtt();
+				if (clazz.isAlias(type)) {
+					subStmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, clazz.findImport(type), null));
+				}
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
 
+			} else if (token.isInvokeStatic()) {
+				Stmt subStmt = (Stmt) token.value;
+				// 先将子语句转换
+				convertStmt(clazz, subStmt);
+				// 如果是别名,则将类名替换一下
+				String type = token.getClassNameAtt();
+				if (clazz.isAlias(type)) {
+					String className = clazz.findImport(type);
+					String value = (String) subStmt.getToken(0).value;
+					value = className + value.substring(value.indexOf("."));
+					subStmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, value, null));
+				}
+
 			} else if (token.isStaticVar()) {
+				// 如果是别名,则将类名替换一下
+				String type = token.getClassNameAtt();
+				if (clazz.isAlias(type)) {
+					String className = clazz.findImport(type);
+					String value = (String) token.value;
+					token.value = className + value.substring(value.indexOf("."));
+				}
+
+			} else if (token.isCast()) {
+				// 如果是别名,则将类名替换一下
+				String type = token.getCastTypeAtt();
+				if (clazz.isAlias(type)) {
+					String className = clazz.findImport(type);
+					token.value = "(" + className + ")";
+				}
 
 			}
 

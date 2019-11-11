@@ -65,7 +65,6 @@ public class Constants {
 	public static final String CLASS_NAME_ATTACHMENT = "class_name";
 	public static final String VAR_NAME_ATTACHMENT = "var_name";
 	public static final String VAR_NAMES_ATTACHMENT = "var_names";
-	public static final String INIT_METHOD_NAME_ATTACHMENT = "init_method_name";
 	public static final String METHOD_NAME_ATTACHMENT = "method_name";
 	public static final String CAST_TYPE_ATTACHMENT = "cast_type";// 强转类型
 

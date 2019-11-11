@@ -59,10 +59,12 @@ public class JavaBuilder {
 			body.append("\tpublic static " + field.type.toString() + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
+
 		for (Field field : clazz.fields) {
 			body.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(clazz, field.stmt)
 					+ ";\n");
 		}
+
 		body.append("\n");
 
 		// ============================ method ================================
