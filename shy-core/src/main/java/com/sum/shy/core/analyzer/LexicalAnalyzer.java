@@ -52,18 +52,21 @@ public class LexicalAnalyzer {
 		int count = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '"') {
-				text = LineUtils.replaceString(text, i, '"', '"', "str", count++, replacedStrs);
+				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
 			} else if (text.charAt(i) == '(') {
-				text = LineUtils.replaceString(text, i, '(', ')', "invoke", count, replacedStrs, true);
+				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
 				i = text.indexOf("$invoke" + count++);
 			} else if (text.charAt(i) == '[') {
-				text = LineUtils.replaceString(text, i, '[', ']', "array", count++, replacedStrs);
+				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
 			} else if (text.charAt(i) == '{') {
-				text = LineUtils.replaceString(text, i, '{', '}', "map", count++, replacedStrs);
+				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
 			} else if (text.charAt(i) == '<') {
-				// 如果左边是个类名
-				text = LineUtils.replaceString(text, i, '<', '>', "generic", count, replacedStrs, true);
-				i = text.indexOf("$generic" + count++);
+				String newText = LineUtils.replaceString(text, '<', '>', "generic", count, replacedStrs, true);
+				// 如果两边一样,则根本没替换,则继续向下遍历
+				if (!text.equals(newText)) {
+					text = newText;
+					i = text.indexOf("$generic" + count++);
+				}
 			}
 		}
 
