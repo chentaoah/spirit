@@ -53,13 +53,13 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '"') {
 				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
-			} else if (text.charAt(i) == '(') {
-				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
-				i = text.indexOf("$invoke" + count++);
 			} else if (text.charAt(i) == '[') {
 				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
 			} else if (text.charAt(i) == '{') {
 				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
+			} else if (text.charAt(i) == '(') {
+				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
+				i = text.indexOf("$invoke" + count++);
 			} else if (text.charAt(i) == '<') {
 				String newText = LineUtils.replaceString(text, '<', '>', "generic", count, replacedStrs, true);
 				// 如果两边一样,则根本没替换,则继续向下遍历
@@ -71,12 +71,9 @@ public class LexicalAnalyzer {
 		}
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (
-
-				int i = 0; i < REGEX_SYMBOLS.length; i++) {
+		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
-//		text = text.replaceAll("[$]{1}", " \\$");
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
