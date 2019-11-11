@@ -19,7 +19,7 @@ public class DeclareConverter extends AbstractConverter {
 		NativeType nativeType = ReflectUtils.getNativeType(clazz, stmt.get(0));
 		method.addVariable(new Variable(block, nativeType, stmt.get(1)));
 		// 将语句进行一定的转换
-		sb.append(indent + convertStmt(stmt) + " = null;\n");
+		sb.append(indent + convertStmt(clazz, stmt) + " = null;\n");
 
 		return 0;
 	}

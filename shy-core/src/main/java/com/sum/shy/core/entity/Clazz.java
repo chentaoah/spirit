@@ -12,7 +12,9 @@ public class Clazz {
 	// 包名
 	public String packageStr;
 	// 引入
-	public List<String> importStrs = new ArrayList<>();
+	public Map<String, String> importStrs = new HashMap<>();
+	// 别名引入
+	public Map<String, String> importAliases = new HashMap<>();
 	// 预处理
 	public Map<String, String> defTypes = new HashMap<>();
 	// 类名
@@ -64,12 +66,17 @@ public class Clazz {
 		if (type.contains(".")) {
 			return type;
 		}
-		for (String importStr : importStrs) {
-			if (importStr.endsWith("." + type)) {
-				return importStr;
-			}
+
+		String importStr = importStrs.get(type);
+		// 如果不存在,则可能是在别名中
+		if (importStr == null) {
+			importStr = importAliases.get(type);
 		}
-		throw new RuntimeException("No import information found!type:[" + type + "]");
+		if (importStr == null) {
+			throw new RuntimeException("No import information found!type:[" + type + "]");
+		}
+		return importStr;
+
 	}
 
 	public void addImport(NativeType nativeType) {
@@ -82,18 +89,17 @@ public class Clazz {
 	}
 
 	public boolean addImport(String className) {
+		// 如果是基本类型,就不必添加了
 		if (ReflectUtils.isPrimitive(className)) {
 			return true;
 		}
-		if (!importStrs.contains(className)) {
-			// .xxxx
-			String lastName = className.substring(className.lastIndexOf("."));
-			for (String importStr : importStrs) {
-				if (importStr.endsWith(lastName)) {
-					return false;
-				}
+		if (!importStrs.containsValue(className)) {
+			String lastName = className.substring(className.lastIndexOf(".") + 1);
+			// 如果不存在该类,但是出现了类名重复的,则返回false,表示添加失败
+			if (importStrs.containsKey(lastName)) {
+				return false;
 			}
-			importStrs.add(className);
+			importStrs.put(lastName, className);
 			return true;
 		}
 		// 重复添加也认为是添加成功了

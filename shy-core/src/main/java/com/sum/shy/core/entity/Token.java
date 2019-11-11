@@ -153,13 +153,7 @@ public class Token {
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, type);
 	}
 
-	public String getInitMethodNameAtt() {
-		return (String) attachments.get(Constants.INIT_METHOD_NAME_ATTACHMENT);
-	}
-
-	public void setInitMethodNameAtt(String str) {
-		attachments.put(Constants.INIT_METHOD_NAME_ATTACHMENT, str);
-	}
+	// =================== 类名 =====================
 
 	public String getClassNameAtt() {
 		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
@@ -169,6 +163,8 @@ public class Token {
 		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
 	}
 
+	// =================== 变量名 =====================
+
 	public String getVarNameAtt() {
 		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
 	}
@@ -177,38 +173,28 @@ public class Token {
 		attachments.put(Constants.VAR_NAME_ATTACHMENT, str);
 	}
 
-	public String getStaticMethodNameAtt() {
-		return (String) attachments.get(Constants.STATIC_METHOD_NAME_ATTACHMENT);
-	}
-
-	public void setStaticMethodNameAtt(String str) {
-		attachments.put(Constants.STATIC_METHOD_NAME_ATTACHMENT, str);
-	}
-
-	public String getMemberMethodNameAtt() {
-		return (String) attachments.get(Constants.MEMBER_METHOD_NAME_ATTACHMENT);
-	}
-
-	public void setMemberMethodNameAtt(String str) {
-		attachments.put(Constants.MEMBER_METHOD_NAME_ATTACHMENT, str);
-	}
-
-	public String getLocalMethodNameAtt() {
-		return (String) attachments.get(Constants.LOCAL_METHOD_NAME_ATTACHMENT);
-	}
-
-	public void setLocalMethodNameAtt(Object str) {
-		attachments.put(Constants.LOCAL_METHOD_NAME_ATTACHMENT, str);
-	}
+	// =================== 后缀名 =====================
 
 	@SuppressWarnings("unchecked")
-	public List<String> getMemberVarNamesAtt() {
-		return (List<String>) attachments.get(Constants.MEMBER_VAR_NAMES_ATTACHMENT);
+	public List<String> getVarNamesAtt() {
+		return (List<String>) attachments.get(Constants.VAR_NAMES_ATTACHMENT);
 	}
 
-	public void setMemberVarNamesAtt(List<String> list) {
-		attachments.put(Constants.MEMBER_VAR_NAMES_ATTACHMENT, list);
+	public void setVarNamesAtt(List<String> list) {
+		attachments.put(Constants.VAR_NAMES_ATTACHMENT, list);
 	}
+
+	// =================== 方法名 =====================
+
+	public String getMethodNameAtt() {
+		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
+	}
+
+	public void setMethodNameAtt(String str) {
+		attachments.put(Constants.METHOD_NAME_ATTACHMENT, str);
+	}
+
+	// =================== 类型转换 =====================
 
 	public String getCastTypeAtt() {
 		return (String) attachments.get(Constants.CAST_TYPE_ATTACHMENT);
@@ -217,6 +203,8 @@ public class Token {
 	public void setCastTypeAtt(String castType) {
 		attachments.put(Constants.CAST_TYPE_ATTACHMENT, castType);
 	}
+
+	// =================== 下一个的引用 =====================
 
 	public Token getNextTokenAtt() {
 		return (Token) attachments.get(Constants.NEXT_TOKEN_ATTACHMENT);

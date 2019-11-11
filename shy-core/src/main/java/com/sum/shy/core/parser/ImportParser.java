@@ -11,8 +11,13 @@ public class ImportParser implements Parser {
 
 	@Override
 	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
-		// 设置上下文中的
-		clazz.importStrs.add(stmt.get(1));
+		// 类全名
+		String fullName = stmt.get(1);
+		// 类名
+		String name = fullName.substring(fullName.lastIndexOf(".") + 1);
+		// 别名
+		String alias = stmt.size() == 3 ? stmt.get(2) : null;
+		clazz.importStrs.put(alias == null ? alias : name, fullName);
 		return 0;
 	}
 

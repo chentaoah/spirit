@@ -29,7 +29,7 @@ public class ReturnConverter extends AbstractConverter {
 			method.returnType = nativeType;
 		}
 		// 将语句进行一定的转换
-		sb.append(indent + convertStmt(stmt) + ";\n");
+		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
 		return 0;
 	}

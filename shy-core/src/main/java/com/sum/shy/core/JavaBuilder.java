@@ -56,11 +56,12 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			body.append("\tpublic static " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt)
-					+ ";\n");
+			body.append("\tpublic static " + field.type.toString() + " "
+					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 		for (Field field : clazz.fields) {
-			body.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(field.stmt) + ";\n");
+			body.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(clazz, field.stmt)
+					+ ";\n");
 		}
 		body.append("\n");
 
@@ -116,7 +117,7 @@ public class JavaBuilder {
 //		sb.append("import com.sum.shy.library.Collection;\n");
 //		sb.append("import com.sum.shy.library.StringUtils;\n");
 		// import
-		for (String importStr : clazz.importStrs) {
+		for (String importStr : clazz.importStrs.values()) {
 			head.append("import " + importStr + ";\n");
 		}
 

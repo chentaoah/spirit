@@ -22,12 +22,12 @@ public abstract class AbstractConverter implements Converter {
 		// 方法返回值推算
 		InvocationVisitor.check(clazz, stmt);
 		// 将语句进行一定的转换
-		sb.append(indent + convertStmt(stmt) + ";\n");
+		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
 		return 0;
 	}
 
-	public static String convertStmt(Stmt stmt) {
+	public static String convertStmt(Clazz clazz, Stmt stmt) {
 
 		// 在所有的构造函数前面都加个new
 		// 将所有的array和map都转换成方法调用
@@ -39,24 +39,28 @@ public abstract class AbstractConverter implements Converter {
 			if (token.isArray()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
-				convertStmt(subStmt);
+				convertStmt(clazz, subStmt);
 				subStmt.getToken(0).value = "Collection.newArrayList(";
 				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
 
 			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
-				convertStmt(subStmt);
+				convertStmt(clazz, subStmt);
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
 
 			} else if (token.isInvokeInit()) {
 				Stmt subStmt = (Stmt) token.value;
 				// 先将子语句转换
-				convertStmt(subStmt);
+				convertStmt(clazz, subStmt);
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+
+			} else if (token.isStaticVar()) {
+
 			}
+
 		}
 
 		return stmt.toString();

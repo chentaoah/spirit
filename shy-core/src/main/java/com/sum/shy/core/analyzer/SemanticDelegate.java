@@ -49,6 +49,8 @@ public class SemanticDelegate {
 			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
+	private static final Pattern STATIC_VAR_PATTERN = Pattern
+			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
 	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
 	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
@@ -187,7 +189,10 @@ public class SemanticDelegate {
 
 	private static String getVarTokenType(String word) {
 
-		if (MEMBER_VAR_PATTERN.matcher(word).matches()) {// 构造函数
+		if (STATIC_VAR_PATTERN.matcher(word).matches()) {
+			return Constants.STATIC_VAR_TOKEN;
+		}
+		if (MEMBER_VAR_PATTERN.matcher(word).matches()) {
 			return Constants.MEMBER_VAR_TOKEN;
 		}
 		if (MEMBER_VAR_FLUENT_PATTERN.matcher(word).matches()) {
@@ -243,34 +248,48 @@ public class SemanticDelegate {
 	private static void getAttachments(Token token, String word) {
 
 		if (token.isInvokeInit()) {// 构造方法
-			token.setInitMethodNameAtt(getInitMethodName(word));
+			token.setMethodNameAtt(getInitMethodName(word));
 			return;
+
 		} else if (token.isInvokeStatic()) {// 静态方法调用
 			token.setClassNameAtt(getClassName(word));
-			token.setStaticMethodNameAtt(getStaticMethodName(word));
+			token.setVarNamesAtt(getVarNames(word));// 中间可能有很多的成员变量访问
+			token.setMethodNameAtt(getMethodName(word));
 			return;
+
 		} else if (token.isInvokeMember()) {// 成员方法调用
 			token.setVarNameAtt(getVarName(word));
-			token.setMemberVarNamesAtt(getMemberVarNames(word));// 中间可能有很多的成员变量访问
-			token.setMemberMethodNameAtt(getMemberMethodName(word));
+			token.setVarNamesAtt(getVarNames(word));// 中间可能有很多的成员变量访问
+			token.setMethodNameAtt(getMethodName(word));
 			return;
+
 		} else if (token.isInvokeLocal()) {// 本地方法调用
-			token.setLocalMethodNameAtt(getLocalMethodName(word));
+			token.setMethodNameAtt(getLocalMethodName(word));
 			return;
+
 		} else if (token.isInvokeFluent()) {// 流式调用
-			token.setMemberVarNamesAtt(getMemberVarNames(word));// 中间可能有很多的成员变量访问
-			token.setMemberMethodNameAtt(getMemberMethodName(word));
+			token.setVarNamesAtt(getVarNames(word));// 中间可能有很多的成员变量访问
+			token.setMethodNameAtt(getMethodName(word));
 			return;
+
+		} else if (token.isStaticVar()) {// 静态变量
+			token.setClassNameAtt(getClassName(word));
+			token.setVarNamesAtt(getVarNames(word));
+			return;
+
 		} else if (token.isMemberVar()) {// 成员变量
 			token.setVarNameAtt(getVarName(word));
-			token.setMemberVarNamesAtt(getMemberVarNames(word));
+			token.setVarNamesAtt(getVarNames(word));
 			return;
+
 		} else if (token.isMemberVarFluent()) {// 流式成员变量
-			token.setMemberVarNamesAtt(getMemberVarNames(word));
+			token.setVarNamesAtt(getVarNames(word));
 			return;
+
 		} else if (token.isCast()) {// 强制类型转换
 			token.setCastTypeAtt(getCastType(word));
 			return;
+
 		}
 
 	}
@@ -352,19 +371,7 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("."));
 	}
 
-	private static String getStaticMethodName(String word) {
-		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
-	}
-
-	private static String getMemberMethodName(String word) {
-		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
-	}
-
-	private static Object getLocalMethodName(String word) {
-		return word.substring(0, word.indexOf("("));
-	}
-
-	private static List<String> getMemberVarNames(String word) {
+	private static List<String> getVarNames(String word) {
 		List<String> list = new ArrayList<>();
 		if (word.contains("(") && word.contains(")")) {
 			String[] strs = word.substring(0, word.indexOf("(")).split("\\.");
@@ -378,6 +385,14 @@ public class SemanticDelegate {
 			}
 		}
 		return list;
+	}
+
+	private static String getMethodName(String word) {
+		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
+	}
+
+	private static String getLocalMethodName(String word) {
+		return word.substring(0, word.indexOf("("));
 	}
 
 	private static String getCastType(String word) {
