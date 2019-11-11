@@ -39,18 +39,18 @@ public class SemanticDelegate {
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]*\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]*\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
 			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 
-	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9\\.]+$");
+	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");
 	private static final Pattern STATIC_VAR_PATTERN = Pattern
-			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
 	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
 	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 

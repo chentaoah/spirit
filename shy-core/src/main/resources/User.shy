@@ -1,6 +1,6 @@
 package com.sum.shy
 
-import com.sum.shy.test.People GooPeople
+import com.sum.shy.test.People G_People
 
 func main(){
 	
@@ -8,8 +8,9 @@ func main(){
 
 class User {
 
-	people=GooPeople.getInstance()
-	child=GooPeople.child
+	people=G_People.getInstance()
+	child=G_People.child
+	peo=G_People()
 
 	func getName(int x,int y){
 		list=[x]

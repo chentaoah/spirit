@@ -101,7 +101,7 @@ public class LineUtils {
 					// what like user.say()
 					for (int j = i - 1; j >= 0; j--) {
 						char c = line.charAt(j);
-						if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.') {
+						if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.' || c == '_') {
 							// 符合条件，但是已经到最边界了，那么则以这个边界为准
 							if (j == 0) {
 								start = j;
