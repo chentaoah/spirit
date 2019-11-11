@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.sum.shy.core.entity.Clazz;
 
-public class Compiler {
+public class ShyCompiler {
 
 	// 主方法
 	public static void main(String[] args) throws IOException {
