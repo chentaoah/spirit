@@ -13,7 +13,7 @@ class User {
 	peo=People()
 
 	func getName(int x,int y){
-		String[] strs
+		String[]      strs
 		return strs
 	}
 	

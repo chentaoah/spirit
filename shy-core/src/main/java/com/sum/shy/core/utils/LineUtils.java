@@ -77,11 +77,11 @@ public class LineUtils {
 			if (c == '"' && chars.get(i - 1 >= 0 ? i - 1 : i) != '\\') {// 判断是否进入了字符串中
 				flag = !flag;
 			}
-			// 如果是字符串
-			if (!flag && c == '"') {
-				replaceString(chars, index, i, name, number, replacedStrs);
-			}
 			if (!flag) {
+				if (c == '"') {// 如果是字符串
+					replaceString(chars, index, i, name, number, replacedStrs);
+					return;
+				}
 				if (c == left) {
 					count++;
 				} else if (c == right) {
@@ -89,13 +89,9 @@ public class LineUtils {
 					if (count == 0) {
 						replaceString(chars, index, i, name, number, replacedStrs);
 					}
-
 				}
-
 			}
-
 		}
-
 	}
 
 	private static void replaceString(List<Character> chars, int start, int end, String name, int number,
