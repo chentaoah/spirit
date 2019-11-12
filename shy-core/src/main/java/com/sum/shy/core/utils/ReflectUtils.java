@@ -136,14 +136,14 @@ public class ReflectUtils {
 		Class<?> class1 = getClassByStr(clazz, (String) firstToken.value);
 		TypeVariable<?>[] params = class1.getTypeParameters();// 泛型参数名
 		Map<String, NativeType> genericTypes = new LinkedHashMap<>();// 泛型
-		for (int i = 1; i < subStmt.tokens.size(); i++) {
+		for (int i = 1, count = 0; i < subStmt.tokens.size(); i++) {
 			Token subToken = subStmt.getToken(i);
 			if (!subToken.isSeparator()) {
 				if (subToken.value instanceof String) {
 					NativeType nativeType = new NativeType(getClassByStr(clazz, (String) subToken.value));
-					genericTypes.put(params[i - 1].toString(), nativeType);
+					genericTypes.put(params[count++].toString(), nativeType);
 				} else if (subToken.value instanceof Stmt) {
-					genericTypes.put(params[i - 1].toString(), getNativeTypeByStmt(clazz, (Stmt) subToken.value));
+					genericTypes.put(params[count++].toString(), getNativeTypeByStmt(clazz, (Stmt) subToken.value));
 				}
 			}
 		}

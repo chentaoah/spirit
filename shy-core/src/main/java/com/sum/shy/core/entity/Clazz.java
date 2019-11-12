@@ -93,6 +93,10 @@ public class Clazz {
 	}
 
 	public boolean addImport(String className) {
+		// 如果是数组
+		if (className.startsWith("[L") && className.endsWith(";")) {
+			className = className.substring(2, className.length() - 1);
+		}
 		// 如果是基本类型,就不必添加了
 		if (ReflectUtils.isPrimitiveType(className)) {
 			return true;
