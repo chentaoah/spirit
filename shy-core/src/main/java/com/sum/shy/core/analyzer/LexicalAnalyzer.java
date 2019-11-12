@@ -28,9 +28,10 @@ public class LexicalAnalyzer {
 	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =" };
 
 	/**
-	 * 将语句拆分成一个一个单元
+	 * 词法拆分
 	 * 
 	 * @param text
+	 * @param ignore
 	 * @return
 	 */
 	public static List<String> getWords(String text) {
@@ -50,15 +51,20 @@ public class LexicalAnalyzer {
 		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
 		// 这里需要解决一个括号谁套谁的问题
 		for (int i = 0, count = 0; i < text.length(); i++) {
-			if (text.charAt(i) == '"') {
+			char c = text.charAt(i);
+			if (c == '"') {
 				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
-			} else if (text.charAt(i) == '[') {
+
+			} else if (c == '[') {
 				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
-			} else if (text.charAt(i) == '{') {
+
+			} else if (c == '{') {
 				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
-			} else if (text.charAt(i) == '(') {
+
+			} else if (c == '(') {
 				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
 				i = text.indexOf("$invoke" + count++);
+
 			} else if (text.charAt(i) == '<') {
 				String newText = LineUtils.replaceString(text, '<', '>', "generic", count, replacedStrs, true);
 				// 如果两边一样,则根本没替换,则继续向下遍历
@@ -66,6 +72,7 @@ public class LexicalAnalyzer {
 					text = newText;
 					i = text.indexOf("$generic" + count++);
 				}
+
 			}
 		}
 
@@ -96,5 +103,14 @@ public class LexicalAnalyzer {
 		return words;
 
 	}
+
+//	private static boolean isIgnore(char c, char[] ignoreChars) {
+//		for (char ignoreChar : ignoreChars) {
+//			if (c == ignoreChar) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 }

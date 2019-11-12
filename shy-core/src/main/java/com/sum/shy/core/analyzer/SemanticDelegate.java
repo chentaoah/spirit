@@ -55,7 +55,7 @@ public class SemanticDelegate {
 	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
-	private static final Pattern TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]*[A-Z]+[a-zA-Z0-9<>\\.]+$");
+	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9<>]+$");
 
 	/**
 	 * 语义分析
@@ -204,21 +204,26 @@ public class SemanticDelegate {
 
 	private static void getTokenValue(Token token, String word) {
 
-		if (token.isType()) {
-			String prefix = word.substring(0, word.indexOf("<"));
-			String str = word.substring(word.indexOf("<") + 1, word.lastIndexOf(">"));
-			List<String> subWords = LexicalAnalyzer.getWords(str);
-			subWords.add(0, "<");
-			subWords.add(">");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 追加一个元素在头部
-			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
+		/*if (token.isType()) {
+			if (word.contains("<") && word.contains(">")) {
+				String prefix = word.substring(0, word.indexOf("<"));
+				String str = word.substring(word.indexOf("<") + 1, word.lastIndexOf(">"));
+				List<String> subWords = LexicalAnalyzer.getWords(str);
+				subWords.add(0, "<");
+				subWords.add(">");
+				// 获取tokens
+				List<Token> subTokens = getTokens(null, subWords);
+				// 追加一个元素在头部
+				subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
+				// 生成子语句
+				token.value = new Stmt(word, subWords, subTokens);
+				return;
+
+			}
+			token.value = word;
 			return;
 
-		} else if (token.isArray()) {// 如果是数组,则解析子语句
+		} else*/ if (token.isArray()) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
 			List<String> subWords = LexicalAnalyzer.getWords(str);
 			subWords.add(0, "[");
