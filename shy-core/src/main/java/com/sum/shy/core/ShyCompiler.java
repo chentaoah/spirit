@@ -10,7 +10,7 @@ public class ShyCompiler {
 	// 主方法
 	public static void main(String[] args) throws IOException {
 
-		boolean debug = true;
+		boolean debug = false;
 		String path = null;
 
 		String OSName = System.getProperty("os.name");

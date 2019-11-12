@@ -55,7 +55,7 @@ public class SemanticDelegate {
 	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
-	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9<>]+$");
+	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9<>\\[\\]]+$");
 
 	/**
 	 * 语义分析

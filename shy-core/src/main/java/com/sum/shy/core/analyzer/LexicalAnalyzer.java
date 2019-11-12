@@ -49,9 +49,7 @@ public class LexicalAnalyzer {
 		List<Character> chars = getChars(text);
 
 		// 1.整体替换
-		int count = 0;
-		int start = -1;
-		for (int i = 0; i < chars.size(); i++) {// i为游标
+		for (int i = 0, count = 0, start = -1; i < chars.size(); i++) {// i为游标
 			char c = chars.get(i);
 			// 如果是字符,则记下该位置
 			if (start < 0) {
@@ -59,27 +57,33 @@ public class LexicalAnalyzer {
 					start = i;
 				}
 			}
-			// 如果是感兴趣的字符,则直接进行相应处理
-			if (c == '"') {
+			if (c == '"') {// 字符串
 				LineUtils.replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
 
-			} else if (c == '[') {
+			} else if (c == '[') {// array
 				// 如果没有前缀的话
-				if (start == -1)
+				if (start == -1) {
 					LineUtils.replaceString(chars, i, '[', ']', "$array", count++, replacedStrs);
+				} else {
+					char e = chars.get(start);
+					if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
+						LineUtils.replaceString(chars, start, '[', ']', "$declare", count++, replacedStrs);
+						i = start;// 索引倒退一些
+					}
+				}
 
-			} else if (c == '{') {
+			} else if (c == '{') {// map
 				LineUtils.replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
 
-			} else if (c == '(') {
+			} else if (c == '(') {// 方法调用
 				LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
 				i = start;// 索引倒退一些
 
-			} else if (c == '<') {
-				// 如果前缀是大写的话,才进行处理
+			} else if (c == '<') {// 泛型声明
 				char e = chars.get(start);
-				if (e >= 'A' && e <= 'Z') {
-					LineUtils.replaceString(chars, i, '<', '>', "$generic", count++, replacedStrs);
+				if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
+					LineUtils.replaceString(chars, start, '<', '>', "$generic", count++, replacedStrs);
+					i = start;// 索引倒退一些
 				}
 
 			}

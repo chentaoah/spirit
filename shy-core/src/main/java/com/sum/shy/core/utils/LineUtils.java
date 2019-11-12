@@ -78,7 +78,7 @@ public class LineUtils {
 				flag = !flag;
 			}
 			// 如果是字符串
-			if (flag && c == '"') {
+			if (!flag && c == '"') {
 				replaceString(chars, index, i, name, number, replacedStrs);
 			}
 			if (!flag) {
