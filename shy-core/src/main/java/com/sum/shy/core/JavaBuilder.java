@@ -35,6 +35,9 @@ public class JavaBuilder {
 
 		System.out.println("=================================== Java ========================================");
 
+		clazz.addImport("java.util.List");
+		clazz.addImport("java.util.Map");
+
 		// ============================ class ================================
 
 		StringBuilder body = new StringBuilder();
@@ -114,10 +117,6 @@ public class JavaBuilder {
 		// package
 		head.append("package " + clazz.packageStr + ";\n");
 		head.append("\n");
-//		sb.append("import java.util.List;\n");
-//		sb.append("import java.util.Map;\n");
-//		sb.append("import com.sum.shy.library.Collection;\n");
-//		sb.append("import com.sum.shy.library.StringUtils;\n");
 		// import
 		for (String importStr : clazz.importStrs.values()) {
 			head.append("import " + importStr + ";\n");

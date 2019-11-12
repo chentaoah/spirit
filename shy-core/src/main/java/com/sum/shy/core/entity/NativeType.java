@@ -1,6 +1,6 @@
 package com.sum.shy.core.entity;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +20,12 @@ public class NativeType {
 
 	public NativeType(Class<?> clazz, Map<String, NativeType> genericTypes) {
 		this.clazz = clazz;
-		this.genericTypes = genericTypes == null ? new HashMap<>() : genericTypes;
+		this.genericTypes = genericTypes == null ? new LinkedHashMap<>() : genericTypes;
 	}
 
 	public NativeType(Class<?> clazz) {
 		this.clazz = clazz;
-		this.genericTypes = new HashMap<>();
+		this.genericTypes = new LinkedHashMap<>();
 	}
 
 	@Override

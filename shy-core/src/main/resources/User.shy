@@ -1,9 +1,6 @@
 package com.sum.shy
 
 import com.sum.shy.test.People
-import java.util.List
-import java.util.Map
-import java.lang.String
 
 func main(){
 	
@@ -16,7 +13,7 @@ class User {
 	peo=People()
 
 	func getName(int x,int y){
-		String[] strs
+		List<String> strs
 		return strs
 	}
 	
