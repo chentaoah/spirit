@@ -259,6 +259,7 @@ public class SemanticDelegate {
 			// 生成子语句
 			token.value = new Stmt(word, subWords, subTokens);
 			return;
+
 		}
 
 		token.value = word;

@@ -94,7 +94,7 @@ public class Clazz {
 
 	public boolean addImport(String className) {
 		// 如果是基本类型,就不必添加了
-		if (ReflectUtils.isPrimitive(className)) {
+		if (ReflectUtils.isPrimitiveType(className)) {
 			return true;
 		}
 		if (!importStrs.containsValue(className)) {

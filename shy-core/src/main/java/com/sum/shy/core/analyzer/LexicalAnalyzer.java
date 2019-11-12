@@ -65,11 +65,9 @@ public class LexicalAnalyzer {
 				if (start == -1) {
 					LineUtils.replaceString(chars, i, '[', ']', "$array", count++, replacedStrs);
 				} else {
-					char e = chars.get(start);
-					if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
-						LineUtils.replaceString(chars, start, '[', ']', "$declare", count++, replacedStrs);
-						i = start;// 索引倒退一些
-					}
+					// 不管大小写，都截取
+					LineUtils.replaceString(chars, start, '[', ']', "$declare", count++, replacedStrs);
+					i = start;// 索引倒退一些
 				}
 
 			} else if (c == '{') {// map

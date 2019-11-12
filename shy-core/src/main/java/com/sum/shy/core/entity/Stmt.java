@@ -18,7 +18,6 @@ public class Stmt {
 	public List<Token> tokens;
 
 	public static Stmt create(Line line) {
-
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.语法分析,分析语句的语法
@@ -27,6 +26,10 @@ public class Stmt {
 		List<Token> tokens = SemanticDelegate.getTokens(syntax, words);
 		// 生成语句
 		return new Stmt(line, words, syntax, tokens);
+	}
+
+	public static Stmt create(String text) {
+		return create(new Line(null, text));
 	}
 
 	public Stmt(Line line, List<String> words, String syntax, List<Token> tokens) {
