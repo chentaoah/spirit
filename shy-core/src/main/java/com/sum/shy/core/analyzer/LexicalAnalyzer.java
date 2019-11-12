@@ -3,9 +3,11 @@ package com.sum.shy.core.analyzer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.core.utils.LineUtils;
 
 /**
@@ -27,54 +29,68 @@ public class LexicalAnalyzer {
 
 	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =" };
 
-	/**
-	 * 词法拆分
-	 * 
-	 * @param text
-	 * @param ignore
-	 * @return
-	 */
+	public static final char[] CHAR_SYMBOLS = new char[] { ' ', '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '!',
+			'(', ')', '[', ']', '{', '}', ':', ',' };
+
 	public static List<String> getWords(String text) {
 
 		// 防止空字符串
 		if (text == null || text.length() == 0) {
 			return new ArrayList<>();
 		}
+
 		// 拆分的单元
 		List<String> words = new ArrayList<>();
 		// 替换的字符串
 		Map<String, String> replacedStrs = new HashMap<>();
 
-		// 去掉前后的空格
 		text = text.trim();
+		// 将text字符化
+		List<Character> chars = getChars(text);
 
-		// 1.将字符串,方法调用,数组,键值对,都当做一个整体来对待
-		// 这里需要解决一个括号谁套谁的问题
-		for (int i = 0, count = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
+		// 1.整体替换
+		int count = 0;
+		int start = -1;
+		for (int i = 0; i < chars.size(); i++) {// i为游标
+			char c = chars.get(i);
+			// 如果是字符,则记下该位置
+			if (start < 0) {
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.') {
+					start = i;
+				}
+			}
+			// 如果是感兴趣的字符,则直接进行相应处理
 			if (c == '"') {
-				text = LineUtils.replaceString(text, '"', '"', "str", count++, replacedStrs);
+				LineUtils.replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
 
 			} else if (c == '[') {
-				text = LineUtils.replaceString(text, '[', ']', "array", count++, replacedStrs);
+				// 如果没有前缀的话
+				if (start == -1)
+					LineUtils.replaceString(chars, i, '[', ']', "$array", count++, replacedStrs);
 
 			} else if (c == '{') {
-				text = LineUtils.replaceString(text, '{', '}', "map", count++, replacedStrs);
+				LineUtils.replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
 
 			} else if (c == '(') {
-				text = LineUtils.replaceString(text, '(', ')', "invoke", count, replacedStrs, true);
-				i = text.indexOf("$invoke" + count++);
+				LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
+				i = start;// 索引倒退一些
 
-			} else if (text.charAt(i) == '<') {
-				String newText = LineUtils.replaceString(text, '<', '>', "generic", count, replacedStrs, true);
-				// 如果两边一样,则根本没替换,则继续向下遍历
-				if (!text.equals(newText)) {
-					text = newText;
-					i = text.indexOf("$generic" + count++);
+			} else if (c == '<') {
+				// 如果前缀是大写的话,才进行处理
+				char e = chars.get(start);
+				if (e >= 'A' && e <= 'Z') {
+					LineUtils.replaceString(chars, i, '<', '>', "$generic", count++, replacedStrs);
 				}
 
 			}
+			// 如果是其他东西的话,则结束标记
+			if (isSymbols(c)) {
+				start = -1;
+			}
+
 		}
+
+		text = Joiner.on("").join(chars);
 
 		// 2.处理操作符,添加空格,方便后面的拆分
 		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
@@ -104,13 +120,21 @@ public class LexicalAnalyzer {
 
 	}
 
-//	private static boolean isIgnore(char c, char[] ignoreChars) {
-//		for (char ignoreChar : ignoreChars) {
-//			if (c == ignoreChar) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	private static List<Character> getChars(String text) {
+		List<Character> list = new LinkedList<>();
+		for (char c : text.toCharArray()) {
+			list.add(c);
+		}
+		return list;
+	}
+
+	private static boolean isSymbols(char c) {
+		for (char cs : CHAR_SYMBOLS) {
+			if (c == cs) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

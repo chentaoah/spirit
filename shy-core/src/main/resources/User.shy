@@ -14,6 +14,9 @@ class User {
 
 	func getName(int x,int y){
 		List<String> list
+		if x>0 && y<0 {
+		
+		}
 		return list.get(0)
 	}
 	

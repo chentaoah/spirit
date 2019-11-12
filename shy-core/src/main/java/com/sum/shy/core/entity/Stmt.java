@@ -61,9 +61,9 @@ public class Stmt {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Token token : tokens) {
-			if ("keyword".equals(token.type)) {// 关键字一般后面加个空格
+			if (token.isKeyword()) {// 关键字一般后面加个空格
 				sb.append(token.value.toString() + " ");
-			} else if ("operator".equals(token.type)) {// 有些操作符两边加空格会好看些
+			} else if (token.isOperator()) {// 有些操作符两边加空格会好看些
 				if ("&&".equals(token.value)) {
 					sb.append(" " + token.value + " ");
 				} else if ("||".equals(token.value)) {
@@ -81,8 +81,13 @@ public class Stmt {
 				} else {
 					sb.append(token.value.toString());
 				}
-			} else if ("type".equals(token.type)) {// 类型声明后面加空格
-				sb.append(token.value.toString() + " ");
+			} else if (token.isType()) {// 类型声明后面加空格
+				// 根语句类型后面加个空格,子语句不用加
+				if (syntax != null) {
+					sb.append(token.value.toString() + " ");
+				} else {
+					sb.append(token.value.toString());
+				}
 			} else {
 				sb.append(token.value.toString());
 			}
