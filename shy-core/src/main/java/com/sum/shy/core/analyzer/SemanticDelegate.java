@@ -70,6 +70,7 @@ public class SemanticDelegate {
 		List<Token> tokens = new ArrayList<>();
 
 		if (isKeywordSyntax(syntax)) {// 有些句式需要特殊处理
+
 			for (String word : words) {
 				Token token = new Token();
 				getKeywordTokenType(token, word);
@@ -77,11 +78,8 @@ public class SemanticDelegate {
 				tokens.add(token);
 			}
 
-		} else if (Constants.DECLARE_SYNTAX.equals(syntax)) {// 类型声明
-			tokens.add(new Token(Constants.TYPE_TOKEN, words.get(0), null));
-			tokens.add(new Token(Constants.VAR_TOKEN, words.get(1), null));
-
 		} else {
+
 			for (String word : words) {
 				Token token = new Token();
 				getTokenType(token, word);
@@ -128,32 +126,35 @@ public class SemanticDelegate {
 		} else if (isSeparator(word)) {// 是否分隔符
 			token.type = Constants.SEPARATOR_TOKEN;
 			return;
-		} else {// 是否一些值
-			if (isNull(word)) {
+		} else {
+			if (isType(word)) {// 是否类型说明
+				token.type = Constants.TYPE_TOKEN;
+				return;
+			} else if (isNull(word)) {// 空
 				token.type = Constants.NULL_TOKEN;
 				return;
-			} else if (isBoolean(word)) {
+			} else if (isBoolean(word)) {// 布尔值
 				token.type = Constants.BOOLEAN_TOKEN;
 				return;
-			} else if (isInt(word)) {
+			} else if (isInt(word)) {// 整数
 				token.type = Constants.INT_TOKEN;
 				return;
-			} else if (isDouble(word)) {
+			} else if (isDouble(word)) {// 浮点数
 				token.type = Constants.DOUBLE_TOKEN;
 				return;
-			} else if (isStr(word)) {
+			} else if (isStr(word)) {// 字符串
 				token.type = Constants.STR_TOKEN;
 				return;
-			} else if (isArray(word)) {
+			} else if (isArray(word)) {// 数组
 				token.type = Constants.ARRAY_TOKEN;
 				return;
-			} else if (isMap(word)) {
+			} else if (isMap(word)) {// 键值对
 				token.type = Constants.MAP_TOKEN;
 				return;
-			} else if (isInvoke(word)) {
+			} else if (isInvoke(word)) {// 方法调用
 				token.type = getInvokeTokenType(word);
 				return;
-			} else if (isVariable(word)) {
+			} else if (isVariable(word)) {// 变量
 				token.type = getVarTokenType(word);
 				return;
 			}
@@ -203,7 +204,21 @@ public class SemanticDelegate {
 
 	private static void getTokenValue(Token token, String word) {
 
-		if (token.isArray()) {// 如果是数组,则解析子语句
+		if (token.isType()) {
+			String prefix = word.substring(0, word.indexOf("<"));
+			String str = word.substring(word.indexOf("<") + 1, word.lastIndexOf(">"));
+			List<String> subWords = LexicalAnalyzer.getWords(str);
+			subWords.add(0, "<");
+			subWords.add(">");
+			// 获取tokens
+			List<Token> subTokens = getTokens(null, subWords);
+			// 追加一个元素在头部
+			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
+			// 生成子语句
+			token.value = new Stmt(word, subWords, subTokens);
+			return;
+
+		} else if (token.isArray()) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
 			List<String> subWords = LexicalAnalyzer.getWords(str);
 			subWords.add(0, "[");

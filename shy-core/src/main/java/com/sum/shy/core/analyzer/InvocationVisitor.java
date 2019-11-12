@@ -30,19 +30,19 @@ public class InvocationVisitor {
 
 				} else if (token.isInvokeMember()) {// 成员方法调用
 					NativeType nativeType = token.getNativeTypeAtt();
-					List<String> memberVarNames = token.getVarNamesAtt();
+					List<String> varNames = token.getVarNamesAtt();
 					String methodName = token.getMethodNameAtt();
 					// 暂不支持方法重载
-					NativeType returnType = ReflectUtils.getReturnType(nativeType, memberVarNames, methodName);
+					NativeType returnType = ReflectUtils.getReturnType(nativeType, varNames, methodName);
 					token.setReturnNativeTypeAtt(returnType);
 
 				} else if (token.isInvokeFluent()) {// 流式方法调用
 					Token lastToken = stmt.getToken(i - 1);
 					NativeType nativeType = lastToken.getReturnNativeTypeAtt();
-					List<String> memberVarNames = token.getVarNamesAtt();
+					List<String> varNames = token.getVarNamesAtt();
 					String methodName = token.getMethodNameAtt();
 					// 暂不支持方法重载
-					NativeType returnType = ReflectUtils.getReturnType(nativeType, memberVarNames, methodName);
+					NativeType returnType = ReflectUtils.getReturnType(nativeType, varNames, methodName);
 					token.setReturnNativeTypeAtt(returnType);
 
 				}
@@ -50,21 +50,21 @@ public class InvocationVisitor {
 			} else if (token.isStaticVar()) {// 静态变量
 				String simpleName = token.getClassNameAtt();
 				String className = clazz.findImport(simpleName);
-				List<String> memberVarNames = token.getVarNamesAtt();
-				NativeType returnType = ReflectUtils.getFieldType(className, memberVarNames);
+				List<String> varNames = token.getVarNamesAtt();
+				NativeType returnType = ReflectUtils.getFieldType(className, varNames);
 				token.setReturnNativeTypeAtt(returnType);
 
 			} else if (token.isMemberVar()) {// 成员变量
 				NativeType nativeType = token.getNativeTypeAtt();
-				List<String> memberVarNames = token.getVarNamesAtt();
-				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
+				List<String> varNames = token.getVarNamesAtt();
+				NativeType returnType = ReflectUtils.getFieldType(nativeType, varNames);
 				token.setReturnNativeTypeAtt(returnType);
 
 			} else if (token.isMemberVarFluent()) {// 流式成员变量
 				Token lastToken = stmt.getToken(i - 1);
 				NativeType nativeType = lastToken.getReturnNativeTypeAtt();
-				List<String> memberVarNames = token.getVarNamesAtt();
-				NativeType returnType = ReflectUtils.getFieldType(nativeType, memberVarNames);
+				List<String> varNames = token.getVarNamesAtt();
+				NativeType returnType = ReflectUtils.getFieldType(nativeType, varNames);
 				token.setReturnNativeTypeAtt(returnType);
 			}
 

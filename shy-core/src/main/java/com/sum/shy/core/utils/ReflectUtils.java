@@ -16,18 +16,75 @@ import com.sum.shy.core.entity.NativeType;
 public class ReflectUtils {
 
 	public static NativeType getNativeType(Clazz clazz, String type) {
+
 		// 基本类型
-		if (isPrimitive(type)) {
-			return new NativeType(getPrimitive(type));
-		}
-		// 泛型 Map<xxx,xxx>
-		if (isGeneric(type)) {
-			List<String> list = getGeneric(type);
-			return getNativeType(clazz, list);
-		}
-		// 复杂类型
+		Class<?> class1 = getClassByStr(type);
+		if (class1 != null)
+			return new NativeType(class1);
+
+		// 泛型
+		NativeType nativeType = getNativeTypeByStr(type);
+		if (nativeType != null)
+			return nativeType;
+
+		// 简单类型
 		String className = clazz.findImport(type);
 		return new NativeType(ReflectUtils.getClass(className));
+	}
+
+	private static Class<?> getClassByStr(String type) {
+		switch (type) {
+		case "boolean":
+			return boolean.class;
+		case "int":
+			return int.class;
+		case "long":
+			return long.class;
+		case "double":
+			return double.class;
+		case "Boolean":
+			return Boolean.class;
+		case "Integer":
+			return Integer.class;
+		case "Long":
+			return Long.class;
+		case "Double":
+			return Double.class;
+		case "Object":
+			return Object.class;
+		case "String":
+			return String.class;
+		case "boolean[]":
+			return boolean[].class;
+		case "int[]":
+			return int[].class;
+		case "long[]":
+			return long[].class;
+		case "double[]":
+			return double[].class;
+		case "Boolean[]":
+			return Boolean[].class;
+		case "Integer[]":
+			return Integer[].class;
+		case "Long[]":
+			return Long[].class;
+		case "Double[]":
+			return Double[].class;
+		case "Object[]":
+			return Object[].class;
+		case "String[]":
+			return String[].class;
+		default:
+			return null;
+		}
+
+	}
+
+	private static NativeType getNativeTypeByStr(String type) {
+		if (type.contains("<") && type.contains(">")) {
+
+		}
+		return null;
 	}
 
 	private static NativeType getNativeType(Clazz clazz, List<String> list) {
@@ -65,9 +122,9 @@ public class ReflectUtils {
 		return null;
 	}
 
-	public static NativeType getReturnType(NativeType nativeType, List<String> memberVarNames, String methodName) {
+	public static NativeType getReturnType(NativeType nativeType, List<String> varNames, String methodName) {
 
-		nativeType = getFieldType(nativeType, memberVarNames);
+		nativeType = getFieldType(nativeType, varNames);
 		// 不支持重载
 		for (Method method : nativeType.clazz.getMethods()) {
 			if (method.getName().equals(methodName)) {
@@ -78,15 +135,15 @@ public class ReflectUtils {
 		return null;
 	}
 
-	public static NativeType getFieldType(String className, List<String> memberVarNames) {
+	public static NativeType getFieldType(String className, List<String> varNames) {
 		NativeType nativeType = new NativeType(getClass(className));
-		return getFieldType(nativeType, memberVarNames);
+		return getFieldType(nativeType, varNames);
 	}
 
-	public static NativeType getFieldType(NativeType nativeType, List<String> memberVarNames) {
+	public static NativeType getFieldType(NativeType nativeType, List<String> varNames) {
 		try {
-			for (String memberVarName : memberVarNames) {
-				Field field = nativeType.clazz.getField(memberVarName);
+			for (String varName : varNames) {
+				Field field = nativeType.clazz.getField(varName);
 				nativeType = getNativeType(nativeType, field.getGenericType());
 			}
 			return nativeType;
@@ -112,9 +169,9 @@ public class ReflectUtils {
 		Class<?> clazz = null;
 		String first = list.get(0);
 		// 基本类型
-		if (isPrimitive(first)) {
-			return new NativeType(getPrimitive(first));
-		}
+//		if (isPrimitive(first)) {
+//			return new NativeType(getPrimitive(first));
+//		}
 		// 如果是一个简单类型
 		if (first.startsWith("class ")) {
 			clazz = getClass(first.substring(first.indexOf(" ") + 1));
@@ -158,29 +215,9 @@ public class ReflectUtils {
 		return null;
 	}
 
-	public static boolean isPrimitive(String type) {
-		return "boolean".equals(type) || "int".equals(type) || "double".equals(type);
-	}
-
-	private static boolean isGeneric(String type) {
-		return type.contains("<") && type.contains(">");
-	}
-
-	public static Class<?> getPrimitive(String type) {
-		switch (type) {
-		case "boolean":
-			return boolean.class;
-		case "int":
-			return int.class;
-		case "double":
-			return double.class;
-		default:
-			return null;
-		}
-	}
-
-	public static List<String> getGeneric(String type) {
-		return Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults().splitToList(type);
+	public static boolean isPrimitive(String className) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
