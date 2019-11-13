@@ -1,6 +1,7 @@
 package com.sum.shy
 
 import com.sum.shy.test.People
+import com.sum.shy.Father
 
 func main(String[] args){
 	return args
@@ -8,18 +9,10 @@ func main(String[] args){
 
 class User {
 
-	people = getName()
-	child = People.child
-	peo = People()
+	father=Father()
 
 	func getName(int x,int y){
-		List<String> strs
-		Object x
-		return getSubName(10,20)
-	}
-	
-	func getSubName(int x,int y){
-		return 12345
+		father.getName(x)
 	}
 	
 }

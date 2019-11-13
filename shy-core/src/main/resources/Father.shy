@@ -1,0 +1,15 @@
+package com.sum.shy
+
+class Father {
+
+	name="chenyunhui"
+	age=60
+	
+	func getName(int x){
+		return name	
+	}
+	
+}
+
+
+
