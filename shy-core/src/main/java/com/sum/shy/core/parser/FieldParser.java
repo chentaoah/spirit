@@ -18,12 +18,6 @@ public class FieldParser implements Parser {
 
 		// 变量追踪
 		VariableTracker.check(clazz, null, null, line, stmt);
-		// 方法返回值推算
-//		InvocationVisitor.check(clazz, stmt);
-		// 类型推导
-//		NativeType nativeType = TypeDerivator.getNativeType(stmt);
-		// 添加到头部类型引入(可以重复添加)
-//		clazz.addImport(nativeType);
 		// 变量名
 		String name = stmt.get(0);
 
