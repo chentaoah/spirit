@@ -21,6 +21,9 @@ import com.sum.shy.core.utils.LineUtils;
  */
 public class LexicalAnalyzer {
 
+	public static final char[] CHAR_SYMBOLS = new char[] { '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '!', '(',
+			')', '[', ']', '{', '}', ':', ',' };
+
 	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "\\!", "=",
 			"\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", "," };
 
@@ -28,9 +31,6 @@ public class LexicalAnalyzer {
 			"/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", "," };
 
 	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =" };
-
-	public static final char[] CHAR_SYMBOLS = new char[] { ' ', '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '!',
-			'(', ')', '[', ']', '{', '}', ':', ',' };
 
 	public static List<String> getWords(String text) {
 
@@ -86,7 +86,7 @@ public class LexicalAnalyzer {
 
 			}
 			// 如果是其他东西的话,则结束标记
-			if (isSymbols(c)) {
+			if (c == ' ' || isSymbols(c)) {
 				start = -1;
 			}
 

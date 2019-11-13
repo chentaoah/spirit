@@ -45,6 +45,9 @@ public class InvocationVisitor {
 					NativeType returnType = ReflectUtils.getReturnType(nativeType, varNames, methodName);
 					token.setReturnNativeTypeAtt(returnType);
 
+				} else if (token.isInvokeLocal()) {
+					String methodName = token.getMethodNameAtt();
+					
 				}
 
 			} else if (token.isStaticVar()) {// 静态变量

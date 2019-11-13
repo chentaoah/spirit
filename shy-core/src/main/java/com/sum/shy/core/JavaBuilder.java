@@ -75,7 +75,7 @@ public class JavaBuilder {
 		for (Method method : clazz.staticMethods) {
 			// 先尝试拼接方法内容
 			StringBuilder methodContent = new StringBuilder();
-			convertMethodLine(methodContent, clazz, method);
+			convertMethod(methodContent, clazz, method);
 
 			body.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
@@ -93,7 +93,7 @@ public class JavaBuilder {
 		for (Method method : clazz.methods) {
 			// 先尝试拼接方法内容
 			StringBuilder methodContent = new StringBuilder();
-			convertMethodLine(methodContent, clazz, method);
+			convertMethod(methodContent, clazz, method);
 
 			body.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
@@ -128,7 +128,7 @@ public class JavaBuilder {
 
 	}
 
-	private void convertMethodLine(StringBuilder sb, Clazz clazz, Method method) {
+	public static void convertMethod(StringBuilder sb, Clazz clazz, Method method) {
 		Context.get().scope = "method";
 		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {

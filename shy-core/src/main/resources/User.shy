@@ -2,8 +2,8 @@ package com.sum.shy
 
 import com.sum.shy.test.People
 
-func main(){
-	
+func main(String[] args){
+	return args
 }
 
 class User {
@@ -14,11 +14,13 @@ class User {
 
 	func getName(int x,int y){
 		List<String> strs
+		Object x
 		return strs
 	}
 	
+	func get
+	
 }
-
 
 
 

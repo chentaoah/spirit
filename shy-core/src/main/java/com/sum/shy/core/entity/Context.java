@@ -1,5 +1,8 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Context {
 
 	public static ThreadLocal<Context> local = new ThreadLocal<>();
@@ -17,5 +20,7 @@ public class Context {
 	public Clazz clazz;
 	// 当前域
 	public String scope;
+	// 方法解析链,不能相互嵌套依赖
+	public List<String> nodes = new ArrayList<>();
 
 }

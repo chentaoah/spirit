@@ -114,4 +114,19 @@ public class Clazz {
 		return true;
 	}
 
+	public Method findMethod(String methodName) {
+		for (Method method : staticMethods) {
+			if (method.name.equals(methodName)) {
+				return method;
+			}
+		}
+		for (Method method : methods) {
+			if (method.name.equals(methodName)) {
+				return method;
+			}
+		}
+		throw new RuntimeException("No method information found!methodName:[" + methodName + "]");
+
+	}
+
 }
