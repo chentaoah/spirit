@@ -2,7 +2,9 @@ package com.sum.shy.core.analyzer;
 
 import java.util.List;
 
+import com.sum.shy.core.JavaBuilder;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.NativeType;
@@ -45,9 +47,11 @@ public class InvocationVisitor {
 					NativeType returnType = ReflectUtils.getReturnType(nativeType, varNames, methodName);
 					token.setReturnNativeTypeAtt(returnType);
 
-				} else if (token.isInvokeLocal()) {
+				} else if (token.isInvokeLocal()) {// 本地方法调用
 					String methodName = token.getMethodNameAtt();
-					
+					Method method = clazz.findMethod(methodName);
+					JavaBuilder.convertMethod(new StringBuilder(), clazz, method);// 尝试解析一下
+					token.setReturnNativeTypeAtt(method.returnType);
 				}
 
 			} else if (token.isStaticVar()) {// 静态变量
