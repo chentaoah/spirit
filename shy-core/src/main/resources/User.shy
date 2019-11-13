@@ -8,9 +8,9 @@ func main(String[] args){
 
 class User {
 
-	people=People.getInstance()
-	child=People.child
-	peo=People()
+	people = getName()
+	child = People.child
+	peo = People()
 
 	func getName(int x,int y){
 		List<String> strs

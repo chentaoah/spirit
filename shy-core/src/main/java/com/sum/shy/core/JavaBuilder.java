@@ -2,6 +2,8 @@ package com.sum.shy.core;
 
 import java.util.List;
 
+import com.sum.shy.core.analyzer.InvocationVisitor;
+import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
@@ -15,6 +17,7 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.NativeType;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 
@@ -59,11 +62,17 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
+
+			convertField(clazz, field);
+
 			body.append("\tpublic static " + field.type.toString() + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
 		for (Field field : clazz.fields) {
+
+			convertField(clazz, field);
+
 			body.append("\tpublic " + field.type.toString() + " " + AbstractConverter.convertStmt(clazz, field.stmt)
 					+ ";\n");
 		}
@@ -125,6 +134,18 @@ public class JavaBuilder {
 		head.append("\n");
 
 		return head.append(body).toString();
+
+	}
+
+	private void convertField(Clazz clazz, Field field) {
+		// 方法返回值推算
+		InvocationVisitor.check(clazz, field.stmt);
+		// 类型推导
+		NativeType nativeType = TypeDerivator.getNativeType(field.stmt);
+		// 添加到头部类型引入(可以重复添加)
+		clazz.addImport(nativeType);
+
+		field.type = nativeType;
 
 	}
 
