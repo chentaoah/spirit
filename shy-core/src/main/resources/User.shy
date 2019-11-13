@@ -19,7 +19,7 @@ class User {
 	}
 	
 	func getSubName(int x,int y){
-		return ""
+		return 12345
 	}
 	
 }
