@@ -15,10 +15,12 @@ class User {
 	func getName(int x,int y){
 		List<String> strs
 		Object x
-		return strs
+		return getSubName(10,20)
 	}
 	
-	func get
+	func getSubName(int x,int y){
+		return ""
+	}
 	
 }
 

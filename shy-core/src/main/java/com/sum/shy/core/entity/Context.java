@@ -21,6 +21,17 @@ public class Context {
 	// 当前域
 	public String scope;
 	// 方法解析链,不能相互嵌套依赖
-	public List<String> nodes = new ArrayList<>();
+	public List<String> dependencies = new ArrayList<>();
+
+	public void addDependency(String dependency) {
+		if (dependencies.contains(dependency)) {
+			throw new RuntimeException("The current dependency is circular!dependency:" + dependency);
+		}
+		dependencies.add(dependency);
+	}
+
+	public void removeDependency(String dependency) {
+		dependencies.remove(dependency);
+	}
 
 }
