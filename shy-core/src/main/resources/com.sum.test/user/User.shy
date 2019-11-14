@@ -1,7 +1,3 @@
-package com.sum.shy
-
-import com.sum.shy.test.People
-import com.sum.shy.Father
 
 func main(String[] args){
 	return args

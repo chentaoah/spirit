@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.utils.LineUtils;
@@ -21,16 +20,21 @@ public class ShyDebugger {
 	 * @return
 	 * @throws IOException
 	 */
-	public Clazz read(File file) throws IOException {
-		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-		List<Line> lines = new ArrayList<>();
-		for (int i = 0; i < fileLines.size(); i++) {
-			lines.add(new Line(i + 1, fileLines.get(i)));
+	public void read(File file) {
+		try {
+			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
+			List<Line> lines = new ArrayList<>();
+			for (int i = 0; i < fileLines.size(); i++) {
+				lines.add(new Line(i + 1, fileLines.get(i)));
+			}
+			readLines(lines);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return readLines(lines);
+
 	}
 
-	private Clazz readLines(List<Line> lines) {
+	private void readLines(List<Line> lines) {
 
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {
@@ -46,7 +50,6 @@ public class ShyDebugger {
 
 		}
 
-		return null;
 	}
 
 }

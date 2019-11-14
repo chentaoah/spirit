@@ -1,7 +1,6 @@
 package com.sum.shy.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +29,20 @@ public class ShyReader {
 		Parser.register("func", new FuncParser());
 	}
 
-	public Clazz read(File file) throws IOException {
-		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-		List<Line> lines = new ArrayList<>();
-		// 生成line
-		for (int index = 0; index < fileLines.size(); index++) {
-			lines.add(new Line(index + 1, fileLines.get(index)));
-			System.out.println(lines.get(index).text);
+	public Clazz read(File file) {
+		try {
+			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
+			List<Line> lines = new ArrayList<>();
+			// 生成line
+			for (int index = 0; index < fileLines.size(); index++) {
+				lines.add(new Line(index + 1, fileLines.get(index)));
+				System.out.println(lines.get(index).text);
+			}
+			return readLines(lines);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return readLines(lines);
+		return null;
 	}
 
 	private Clazz readLines(List<Line> lines) {

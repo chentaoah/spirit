@@ -1,7 +1,9 @@
 package com.sum.shy.core.entity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Context {
 
@@ -16,6 +18,8 @@ public class Context {
 
 	// 是否debug模式
 	public boolean debug;
+	// 所有获取到的文件
+	public Map<String, File> files;
 	// class实体
 	public Clazz clazz;
 	// 当前域

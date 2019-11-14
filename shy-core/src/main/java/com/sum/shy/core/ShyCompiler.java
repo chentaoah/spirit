@@ -2,39 +2,83 @@ package com.sum.shy.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.Context;
 
 public class ShyCompiler {
 
 	// 主方法
 	public static void main(String[] args) throws IOException {
 
+		// 是否debug
 		boolean debug = false;
-		String path = null;
+		Context.get().debug = debug;
 
+		String path = null;
 		String OSName = System.getProperty("os.name");
 		switch (OSName) {
 		case "Windows 10":
-			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\User.shy";
+			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\com.sum.test";
 			break;
 		case "Mac OS X":
-			path = "/Users/chentao/Work/CloudSpace/Shy/shy-core/src/main/resources/User.shy";
+			path = "/Users/chentao/Work/CloudSpace/Shy/shy-core/src/main/resources/com.sum.test";
 			break;
 		default:
-			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\User.shy";
+			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\com.sum.test";
 			break;
 		}
 
-		File file = new File(path);
-		if (!debug) {
-			Clazz clazz = new ShyReader().read(file);
-			String text = new JavaBuilder().build(clazz);
-			System.out.println(text);
-		} else {
-			new ShyDebugger().read(file);
+		// 获取所有目录下的文件,并开始编译
+		Map<String, File> files = new LinkedHashMap<>();
+		recursiveFiles(files, "", path);
+		Context.get().files = files;
+
+		for (Map.Entry<String, File> entry : files.entrySet()) {
+			if (!debug) {
+				compile(entry.getKey(), entry.getValue());
+			} else {
+				debug(entry.getValue());
+			}
 		}
 
+	}
+
+	public static Clazz compile(String className, File file) {
+		// 读取类结构信息
+		Clazz clazz = new ShyReader().read(file);
+		// 追加包名
+		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
+		// 转换方法中的内容,并生成java代码
+		String text = new JavaBuilder().build(clazz);
+
+		System.out.println(text);
+
+		return clazz;
+	}
+
+	public static void debug(File file) {
+		new ShyDebugger().read(file);
+	}
+
+	public static void recursiveFiles(Map<String, File> files, String packageStr, String path) {
+
+		File dir = new File(path);
+		if (!dir.isDirectory()) {
+			return;
+		}
+		// 包名
+		packageStr = packageStr + ("".equals(packageStr) ? "" : ".") + dir.getName();
+
+		for (File f : dir.listFiles()) {
+			if (f.isDirectory()) {// 递归
+				recursiveFiles(files, packageStr, f.getAbsolutePath());
+			} else if (f.isFile()) {// 如果是文件就添加
+				files.put(packageStr + "." + f.getName().replace(".shy", ""), f);
+			}
+		}
 	}
 
 }
