@@ -15,7 +15,6 @@ public class ShyCompiler {
 
 		// 是否debug
 		boolean debug = false;
-		Context.get().debug = debug;
 
 		String path = null;
 		String OSName = System.getProperty("os.name");
@@ -31,36 +30,53 @@ public class ShyCompiler {
 			break;
 		}
 
+		// 1. 解析
+		Map<String, Clazz> classes = new LinkedHashMap<>();
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
 		recursiveFiles(files, "", path);
-		Context.get().files = files;
-
 		for (Map.Entry<String, File> entry : files.entrySet()) {
+			String className = entry.getKey();
+			File file = entry.getValue();
 			if (!debug) {
-				compile(entry.getKey(), entry.getValue());
+				Clazz clazz = resolve(className, file);
+				classes.put(className, clazz);
 			} else {
-				debug(entry.getValue());
+				debug(file);
 			}
+		}
+		// 设置到上下文中
+		Context.get().classes = classes;
+
+		// 2.构建java代码
+		for (Clazz clazz : classes.values()) {
+			compile(clazz);
 		}
 
 	}
 
-	public static Clazz compile(String className, File file) {
+	public static Clazz resolve(String className, File file) {
 		// 读取类结构信息
 		Clazz clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
-		// 转换方法中的内容,并生成java代码
-		String text = new JavaBuilder().build(clazz);
-
-		System.out.println(text);
 
 		return clazz;
 	}
 
 	public static void debug(File file) {
 		new ShyDebugger().read(file);
+	}
+
+	public static Class<?> compile(Clazz clazz) {
+
+		// 转换方法中的内容,并生成java代码
+		String text = new JavaBuilder().build(clazz);
+
+		System.out.println(text);
+
+		return null;
+
 	}
 
 	public static void recursiveFiles(Map<String, File> files, String packageStr, String path) {
