@@ -3,9 +3,11 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.api.Type;
+
 public class Method {
 	// 类型
-	public NativeType returnType;
+	public Type returnType;
 	// 参数名
 	public String name;
 	// 初始值
@@ -15,7 +17,7 @@ public class Method {
 	// method域
 	public List<Line> methodLines;
 
-	public Method(NativeType returnType, String name, List<Param> params) {
+	public Method(Type returnType, String name, List<Param> params) {
 		this.returnType = returnType;
 		this.name = name;
 		this.params = params;

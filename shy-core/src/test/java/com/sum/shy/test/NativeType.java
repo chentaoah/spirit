@@ -1,8 +1,10 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.test;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sum.shy.core.api.Type;
 
 /**
  * 本地类型
@@ -10,7 +12,7 @@ import java.util.Map;
  * @author chentao
  *
  */
-public class NativeType {
+public class NativeType implements Type {
 
 	public boolean forceFullName = false;// 是否强制使用全名，因为命名可能冲突了
 

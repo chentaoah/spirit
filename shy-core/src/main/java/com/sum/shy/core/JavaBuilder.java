@@ -5,6 +5,7 @@ import java.util.List;
 import com.sum.shy.core.analyzer.InvocationVisitor;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.api.Converter;
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
 import com.sum.shy.core.converter.AbstractConverter;
@@ -17,7 +18,6 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
-import com.sum.shy.core.entity.NativeType;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 
@@ -141,7 +141,7 @@ public class JavaBuilder {
 		// 方法返回值推算
 		InvocationVisitor.check(clazz, field.stmt);
 		// 类型推导
-		NativeType nativeType = TypeDerivator.getNativeType(field.stmt);
+		Type nativeType = TypeDerivator.getType(field.stmt);
 		// 添加到头部类型引入(可以重复添加)
 		clazz.addImport(nativeType);
 

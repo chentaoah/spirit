@@ -80,7 +80,7 @@ public class LexicalAnalyzer {
 			} else if (c == '<') {// 泛型声明
 				char e = chars.get(start);
 				if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
-					LineUtils.replaceString(chars, start, '<', '>', "$generic", count++, replacedStrs);
+					LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
 					i = start;// 索引倒退一些
 				}
 

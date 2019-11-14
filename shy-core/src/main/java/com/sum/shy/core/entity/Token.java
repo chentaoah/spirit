@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.api.Type;
+
 public class Token {
 
 	public String type;
@@ -137,19 +139,19 @@ public class Token {
 
 	// =================== get/set方法 =====================
 
-	public NativeType getNativeTypeAtt() {
-		return (NativeType) attachments.get(Constants.TYPE_ATTACHMENT);
+	public Type getTypeAtt() {
+		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
-	public void setNativeTypeAtt(NativeType type) {
+	public void setTypeAtt(Type type) {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	public NativeType getReturnNativeTypeAtt() {
-		return (NativeType) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
+	public Type getReturnTypeAtt() {
+		return (Type) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
 	}
 
-	public void setReturnNativeTypeAtt(NativeType type) {
+	public void setReturnTypeAtt(Type type) {
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, type);
 	}
 

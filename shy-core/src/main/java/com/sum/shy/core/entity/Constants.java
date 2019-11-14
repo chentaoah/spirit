@@ -70,4 +70,13 @@ public class Constants {
 
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 
+	// 基本类型
+	public static final String BOOLEAN_TYPE = "boolean";
+	public static final String INT_TYPE = "int";
+	public static final String LONG_TYPE = "long";
+	public static final String DOUBLE_TYPE = "double";
+	public static final String STR_TYPE = "str";
+	public static final String ARRAY_TYPE = "array";
+	public static final String MAP_TYPE = "map";
+
 }

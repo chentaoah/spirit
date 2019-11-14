@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class Clazz {
@@ -72,9 +73,9 @@ public class Clazz {
 		if (importStr == null) {
 			importStr = importAliases.get(type);
 		}
-		if (importStr == null) {
-			throw new RuntimeException("No import information found!type:[" + type + "]");
-		}
+//		if (importStr == null) {
+//			throw new RuntimeException("No import information found!type:[" + type + "]");
+//		}
 		return importStr;
 
 	}
@@ -83,13 +84,13 @@ public class Clazz {
 		return importAliases.containsKey(type);
 	}
 
-	public void addImport(NativeType nativeType) {
-		if (nativeType == null)
-			return;
-		nativeType.forceFullName = !addImport(nativeType.getName());
-		for (NativeType subNativeType : nativeType.genericTypes.values()) {
-			addImport(subNativeType);
-		}
+	public void addImport(Type type) {
+//		if (type == null)
+//			return;
+//		type.forceFullName = !addImport(type.getName());
+//		for (type subNativeType : type.genericTypes.values()) {
+//			addImport(subNativeType);
+//		}
 	}
 
 	public boolean addImport(String className) {

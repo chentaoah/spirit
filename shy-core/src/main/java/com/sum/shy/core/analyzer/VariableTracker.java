@@ -56,14 +56,14 @@ public class VariableTracker {
 		// 静态成员变量
 		for (Field field : clazz.staticFields) {
 			if (field.name.equals(name)) {
-				token.setNativeTypeAtt(field.type);
+				token.setTypeAtt(field.type);
 				return;
 			}
 		}
 		// 成员变量
 		for (Field field : clazz.fields) {
 			if (field.name.equals(name)) {
-				token.setNativeTypeAtt(field.type);
+				token.setTypeAtt(field.type);
 				return;
 			}
 		}
@@ -71,14 +71,14 @@ public class VariableTracker {
 			// 如果在成员变量中没有声明,则查看方法内是否声明
 			for (Param param : method.params) {
 				if (param.name.equals(name)) {
-					token.setNativeTypeAtt(param.type);
+					token.setTypeAtt(param.type);
 					return;
 				}
 			}
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			Variable variable = method.findVariable(block, name);
 			if (variable != null) {
-				token.setNativeTypeAtt(variable.type);
+				token.setTypeAtt(variable.type);
 				return;
 			}
 		}

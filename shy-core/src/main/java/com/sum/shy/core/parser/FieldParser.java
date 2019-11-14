@@ -6,10 +6,8 @@ import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Field;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.NativeType;
 
 public class FieldParser implements Parser {
 
@@ -22,9 +20,9 @@ public class FieldParser implements Parser {
 		String name = stmt.get(0);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.addStaticField(new Field(new NativeType(void.class), name, stmt));
+//			clazz.addStaticField(new Field(new NativeType(void.class), name, stmt));
 		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.addField(new Field(new NativeType(void.class), name, stmt));
+//			clazz.addField(new Field(new NativeType(void.class), name, stmt));
 		}
 
 		return 0;

@@ -24,6 +24,15 @@ public class Context {
 	// 方法解析链,不能相互嵌套依赖
 	public List<String> dependencies = new ArrayList<>();
 
+	public String findImport(String type) {
+		for (String className : classes.keySet()) {
+			if (className.substring(className.lastIndexOf(".") + 1).equals(type)) {
+				return className;
+			}
+		}
+		return null;
+	}
+
 	public void addDependency(String dependency) {
 		if (dependencies.contains(dependency)) {
 			throw new RuntimeException("The current dependency is circular!dependency:" + dependency);

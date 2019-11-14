@@ -70,6 +70,28 @@ public class LineUtils {
 
 	public static void replaceString(List<Character> chars, int index, char left, char right, String name, int number,
 			Map<String, String> replacedStrs) {
+
+		int end = findEnd(chars, index, left, right);
+		replaceString(chars, index, end, name, number, replacedStrs);
+
+	}
+
+	public static void replaceString(List<Character> chars, int index, char left, char right, char left1, char right1,
+			String name, int number, Map<String, String> replacedStrs) {
+
+		int end = findEnd(chars, index, left, right);
+		// 判断后面的符号是否连续
+		if (end + 1 < chars.size()) {
+			char c = chars.get(end + 1);
+			if (c == left1) {
+				end = findEnd(chars, end + 1, left1, right1);
+			}
+		}
+		replaceString(chars, index, end, name, number, replacedStrs);
+
+	}
+
+	private static int findEnd(List<Character> chars, int index, char left, char right) {
 		// 是否进入"符号的范围内
 		boolean flag = false;
 		for (int i = index, count = 0; i < chars.size(); i++) {
@@ -79,19 +101,20 @@ public class LineUtils {
 			}
 			if (!flag) {
 				if (c == '"') {// 如果是字符串
-					replaceString(chars, index, i, name, number, replacedStrs);
-					return;
+					return i;
 				}
 				if (c == left) {
 					count++;
 				} else if (c == right) {
 					count--;
 					if (count == 0) {
-						replaceString(chars, index, i, name, number, replacedStrs);
+						return i;
 					}
 				}
 			}
 		}
+		return -1;
+
 	}
 
 	private static void replaceString(List<Character> chars, int start, int end, String name, int number,

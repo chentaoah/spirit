@@ -59,31 +59,31 @@ public class IfConverter extends AbstractConverter {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
 				// 如果是str类型
-				if (token.getNativeTypeAtt().isStr()) {
-					// 添加依赖
-					clazz.addImport(StringUtils.class.getName());
-					try {
-						Token nextToken = stmt.getToken(i + 1);
-						if (nextToken.isOperator() && "==".equals(nextToken.value)) {
-							Token paramToken = stmt.getToken(i + 2);
-							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-									"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
-							stmt.tokens.remove(i + 2);
-							stmt.tokens.remove(i + 1);
-						} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
-							Token paramToken = stmt.getToken(i + 2);
-							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-									"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
-							stmt.tokens.remove(i + 2);
-							stmt.tokens.remove(i + 1);
-						} else {
-							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-									"StringUtils.isNotEmpty(" + token.value + ")", null));
-						}
-					} catch (Exception e) {
-						// ignore
-					}
-				}
+//				if (token.getTypeAtt().isStr()) {
+//					// 添加依赖
+//					clazz.addImport(StringUtils.class.getName());
+//					try {
+//						Token nextToken = stmt.getToken(i + 1);
+//						if (nextToken.isOperator() && "==".equals(nextToken.value)) {
+//							Token paramToken = stmt.getToken(i + 2);
+//							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+//									"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+//							stmt.tokens.remove(i + 2);
+//							stmt.tokens.remove(i + 1);
+//						} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
+//							Token paramToken = stmt.getToken(i + 2);
+//							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+//									"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+//							stmt.tokens.remove(i + 2);
+//							stmt.tokens.remove(i + 1);
+//						} else {
+//							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+//									"StringUtils.isNotEmpty(" + token.value + ")", null));
+//						}
+//					} catch (Exception e) {
+//						// ignore
+//					}
+//				}
 			}
 		}
 		return stmt.toString();
