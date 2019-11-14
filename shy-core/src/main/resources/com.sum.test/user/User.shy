@@ -7,7 +7,7 @@ class User {
 
 	father=Father()
 
-	func getName(int x,int y){
+	func getName(str name,int y){
 		father.getName(x)
 	}
 	

@@ -1,11 +1,17 @@
 
 class Father {
 
-	name="chenyunhui"
+	name="chentao"
 	age=60
 	
-	func getName(int x){
-		return name	
+	func getName(map<str,obj> m, obj[] a){
+		m << "haha" << 6
+		a << 8
+		a >> 1
+		a >> a
+		print m["haha"]
+		print a[0]	
+		return ary
 	}
 	
 }

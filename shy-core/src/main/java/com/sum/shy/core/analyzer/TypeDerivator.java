@@ -1,10 +1,10 @@
 package com.sum.shy.core.analyzer;
 
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.type.CodeType;
 
 public class TypeDerivator {
 
@@ -29,23 +29,23 @@ public class TypeDerivator {
 
 	public static Type getType(Token token) {
 
-		if (token.isBoolean()) {
-			return new CodeType(Constants.BOOLEAN_TYPE);
+		if (token.isBool()) {
+			return new CodeType("bool");
 
 		} else if (token.isInt()) {
-			return new CodeType(Constants.INT_TYPE);
+			return new CodeType("int");
 
 		} else if (token.isDouble()) {
-			return new CodeType(Constants.DOUBLE_TYPE);
+			return new CodeType("double");
 
 		} else if (token.isStr()) {
-			return new CodeType(Constants.STR_TYPE);
+			return new CodeType("str");
 
 		} else if (token.isArray()) {
-			return new CodeType(Constants.ARRAY_TYPE/* , getArrayGenericTypes(token) */);
+			return new CodeType(getArrayGenericType(token) + "[]");
 
 		} else if (token.isMap()) {
-			return new CodeType(Constants.MAP_TYPE/* , getMapGenericTypes(token) */);
+			return new CodeType("map<" + getMapGenericTypes(token) + ">");
 
 		} else if (token.isCast()) {
 			return token.getTypeAtt();
@@ -54,7 +54,7 @@ public class TypeDerivator {
 			return token.getTypeAtt();// 这个返回可能是null,比如赋值语句的第一个变量
 
 		} else if (token.isInvoke()) {// 如果是方法调用,则直接返回返回类型
-//			return getFluentReturnType(token);// 如果是fluent调用，则返回最终的返回类型
+			return getFluentReturnType(token);// 如果是fluent调用，则返回最终的返回类型
 
 		} else if (token.isStaticVar()) {
 			return token.getReturnTypeAtt();
@@ -65,17 +65,21 @@ public class TypeDerivator {
 		return null;
 	}
 
-//	private static Map<String, NativeType> getArrayGenericTypes(Token token) {
-//		Map<String, NativeType> genericTypes = new LinkedHashMap<>();
-//		Stmt subStmt = (Stmt) token.value;
-//		if (subStmt.size() == 2) {// 如果数组里面没有元素
-//			genericTypes.put("E", new NativeType(Object.class));
-//		} else {
-//			genericTypes.put("E", (NativeType) getType(subStmt));
-//		}
-//		return genericTypes;
-//	}
-//
+	private static String getArrayGenericType(Token token) {
+		Stmt subStmt = (Stmt) token.value;
+		Type type = getType(subStmt);
+		if (type == null) {
+			return "obj";
+		} else {
+			return type.getName();
+		}
+	}
+
+	private static String getMapGenericTypes(Token token) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	private static Map<String, NativeType> getMapGenericTypes(Token token) {
 //		Map<String, NativeType> genericTypes = new LinkedHashMap<>();
 //		Stmt subStmt = (Stmt) token.value;
@@ -109,17 +113,17 @@ public class TypeDerivator {
 //		return genericTypes;
 //	}
 //
-//	private static NativeType getFluentReturnType(Token token) {
-//		NativeType nativeType = (NativeType) token.getReturnTypeAtt();
-//		Token nextToken = token;
-//		do {
-//			nextToken = nextToken.getNextTokenAtt();
-//			if (nextToken != null && nextToken.isFluent()) {
-//				nativeType = (NativeType) nextToken.getReturnTypeAtt();
-//			}
-//
-//		} while (nextToken != null);
-//		return nativeType;
-//	}
+	private static Type getFluentReturnType(Token token) {
+		Type type = token.getReturnTypeAtt();
+		Token nextToken = token;
+		do {
+			nextToken = nextToken.getNextTokenAtt();
+			if (nextToken != null && nextToken.isFluent()) {
+				type = nextToken.getReturnTypeAtt();
+			}
+
+		} while (nextToken != null);
+		return type;
+	}
 
 }

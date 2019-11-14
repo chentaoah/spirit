@@ -49,8 +49,8 @@ public class Token {
 		return Constants.NULL_TOKEN.equals(type);
 	}
 
-	public boolean isBoolean() {
-		return Constants.BOOLEAN_TOKEN.equals(type);
+	public boolean isBool() {
+		return Constants.BOOL_TOKEN.equals(type);
 	}
 
 	public boolean isInt() {

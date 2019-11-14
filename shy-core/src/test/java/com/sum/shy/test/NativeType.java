@@ -4,15 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.api.Type;
-
 /**
  * 本地类型
  * 
  * @author chentao
  *
  */
-public class NativeType implements Type {
+public class NativeType {
 
 	public boolean forceFullName = false;// 是否强制使用全名，因为命名可能冲突了
 

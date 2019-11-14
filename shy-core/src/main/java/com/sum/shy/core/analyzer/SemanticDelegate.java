@@ -134,7 +134,7 @@ public class SemanticDelegate {
 				token.type = Constants.NULL_TOKEN;
 				return;
 			} else if (isBoolean(word)) {// 布尔值
-				token.type = Constants.BOOLEAN_TOKEN;
+				token.type = Constants.BOOL_TOKEN;
 				return;
 			} else if (isInt(word)) {// 整数
 				token.type = Constants.INT_TOKEN;
@@ -204,27 +204,7 @@ public class SemanticDelegate {
 
 	private static void getTokenValue(Token token, String word) {
 
-		if (token.isType()) {
-			if (word.contains("<") && word.contains(">")) {
-				String prefix = word.substring(0, word.indexOf("<"));
-				String str = word.substring(word.indexOf("<") + 1, word.lastIndexOf(">"));
-				List<String> subWords = LexicalAnalyzer.getWords(str);
-				// 获取tokens
-				List<Token> subTokens = getTokens(null, subWords);
-				// 追加一个元素在头部
-				subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-				subTokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "<", null));
-				subTokens.add(new Token(Constants.SEPARATOR_TOKEN, ">", null));
-				// 生成子语句
-				token.value = new Stmt(word, subWords, subTokens);
-				return;
-
-			}
-
-			token.value = word;
-			return;
-
-		} else if (token.isArray()) {// 如果是数组,则解析子语句
+		if (token.isArray()) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
 			List<String> subWords = LexicalAnalyzer.getWords(str);
 			subWords.add(0, "[");

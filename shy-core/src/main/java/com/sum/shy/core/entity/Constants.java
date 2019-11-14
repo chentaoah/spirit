@@ -36,8 +36,9 @@ public class Constants {
 	public static final String OPERATOR_TOKEN = "operator";
 	public static final String SEPARATOR_TOKEN = "separator";
 	public static final String NULL_TOKEN = "null";
-	public static final String BOOLEAN_TOKEN = "boolean";
+	public static final String BOOL_TOKEN = "bool";
 	public static final String INT_TOKEN = "int";
+	public static final String LONG_TOKEN = "long";
 	public static final String DOUBLE_TOKEN = "double";
 	public static final String STR_TOKEN = "str";
 	public static final String ARRAY_TOKEN = "array";
@@ -71,12 +72,15 @@ public class Constants {
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 
 	// 基本类型
-	public static final String BOOLEAN_TYPE = "boolean";
+	public static final String BOOL_TYPE = "bool";
 	public static final String INT_TYPE = "int";
 	public static final String LONG_TYPE = "long";
 	public static final String DOUBLE_TYPE = "double";
 	public static final String STR_TYPE = "str";
 	public static final String ARRAY_TYPE = "array";
 	public static final String MAP_TYPE = "map";
+	public static final String OBJ_TYPE = "obj";// 引用类型
+	public static final String CLASS_TYPE = "class";// 外部引入的复杂类型
+	public static final String GENERIC_CLASS_TYPE = "generic_class";// 外部引入的泛型类型
 
 }
