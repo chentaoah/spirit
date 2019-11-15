@@ -86,11 +86,11 @@ public abstract class AbstractConverter implements Converter {
 
 			} else if (token.isCast()) {
 				// 如果是别名,则将类名替换一下
-				String type = token.getCastTypeAtt();
-				if (clazz.isAlias(type)) {
-					String className = clazz.findImport(type);
-					token.value = "(" + className + ")";
-				}
+//				String type = token.getCastTypeAtt();
+//				if (clazz.isAlias(type)) {
+//					String className = clazz.findImport(type);
+//					token.value = "(" + className + ")";
+//				}
 
 			}
 

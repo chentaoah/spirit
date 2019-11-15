@@ -17,19 +17,19 @@ import com.sum.shy.core.entity.Token;
 
 public class ReflectUtils {
 
-//	public static NativeType getNativeType(Clazz clazz, String type) {
+//	public static NativeType getNativeType(Clazz clazz, String name) {
 //		// 泛型
-//		if (type.contains("<") && type.contains(">")) {
-//			return getNativeTypeByStmt(clazz, Stmt.create(type));
+//		if (name.contains("<") && name.contains(">")) {
+//			return getNativeTypeByStmt(clazz, Stmt.create(name));
 //		}
 //		// 基本类型和普通类型
-//		return new NativeType(getClassByStr(clazz, type));
+//		return new NativeType(getClassByStr(clazz, name));
 //	}
 
-//	private static Class<?> getClassByStr(Clazz clazz, String type) {
-//		Class<?> class1 = getPrimitiveType(type);
+//	private static Class<?> getClassByStr(Clazz clazz, String name) {
+//		Class<?> class1 = getPrimitiveType(name);
 //		if (class1 == null)
-//			class1 = getClass(clazz.findImport(type));
+//			class1 = getClass(clazz.findImport(name));
 //		return class1;
 //	}
 

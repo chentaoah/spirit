@@ -196,24 +196,4 @@ public class Token {
 		attachments.put(Constants.METHOD_NAME_ATTACHMENT, str);
 	}
 
-	// =================== 类型转换 =====================
-
-	public String getCastTypeAtt() {
-		return (String) attachments.get(Constants.CAST_TYPE_ATTACHMENT);
-	}
-
-	public void setCastTypeAtt(String castType) {
-		attachments.put(Constants.CAST_TYPE_ATTACHMENT, castType);
-	}
-
-	// =================== 下一个的引用 =====================
-
-	public Token getNextTokenAtt() {
-		return (Token) attachments.get(Constants.NEXT_TOKEN_ATTACHMENT);
-	}
-
-	public void setNextTokenAtt(Token nextToken) {
-		attachments.put(Constants.NEXT_TOKEN_ATTACHMENT, nextToken);
-	}
-
 }

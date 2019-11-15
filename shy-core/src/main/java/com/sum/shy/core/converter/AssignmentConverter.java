@@ -28,7 +28,7 @@ public class AssignmentConverter extends AbstractConverter {
 		Token token = stmt.getToken(0);
 		if (token.isVar() && token.getTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
-			Type type = TypeDerivator.getType(stmt);
+			Type type = null/* TypeDerivator.getType(stmt) */;
 			// 添加到头部类型引入(可以重复添加)
 			clazz.addImport(type);
 			token.setTypeAtt(type);

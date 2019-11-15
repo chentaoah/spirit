@@ -58,9 +58,9 @@ public class Constants {
 	public static final String PREFIX_TOKEN = "prefix";// 分隔符前面的一串字符，统一称为前缀
 	public static final String SUFFIX_TOKEN = "suffix";// 后缀
 	public static final String EXPRESS_TOKEN = "express";// 表达式
-	public static final String TYPE_TOKEN = "type";
+	public static final String TYPE_TOKEN = "name";
 
-	public static final String TYPE_ATTACHMENT = "type";// 变量类型
+	public static final String TYPE_ATTACHMENT = "name";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
 
 	public static final String CLASS_NAME_ATTACHMENT = "class_name";

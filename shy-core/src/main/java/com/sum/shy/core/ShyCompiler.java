@@ -72,9 +72,9 @@ public class ShyCompiler {
 	public static Class<?> compile(Clazz clazz) {
 
 		// 转换方法中的内容,并生成java代码
-		String text = new JavaBuilder().build(clazz);
+//		String text = new JavaBuilder().build(clazz);
 
-		System.out.println(text);
+//		System.out.println(text);
 
 		return null;
 

@@ -20,7 +20,7 @@ public class FieldParser implements Parser {
 		// 变量追踪
 		VariableTracker.check(clazz, null, null, line, stmt);
 		// 快速推导
-		Type type = FastDerivator.getType(stmt);
+		Type type = FastDerivator.getType(clazz, stmt);
 		// 变量名
 		String name = stmt.get(0);
 

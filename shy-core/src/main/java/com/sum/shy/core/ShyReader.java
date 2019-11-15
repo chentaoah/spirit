@@ -29,14 +29,15 @@ public class ShyReader {
 
 	public Clazz read(File file) {
 		try {
+
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 			List<Line> lines = new ArrayList<>();
-			// 生成line
 			for (int index = 0; index < fileLines.size(); index++) {
 				lines.add(new Line(index + 1, fileLines.get(index)));
 				System.out.println(lines.get(index).text);
 			}
 			return readLines(lines);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,11 +51,9 @@ public class ShyReader {
 		context.clazz = clazz;
 
 		context.scope = "static";
-		// 解析static域
 		readScopeLines(clazz, "static", lines);
 
 		context.scope = "class";
-		// 解析class域
 		readScopeLines(clazz, "class", clazz.classLines);
 
 		return clazz;

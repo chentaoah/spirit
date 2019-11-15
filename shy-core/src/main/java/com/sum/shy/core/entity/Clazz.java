@@ -16,8 +16,6 @@ public class Clazz {
 	public Map<String, String> importStrs = new LinkedHashMap<>();
 	// 别名引入
 	public Map<String, String> importAliases = new LinkedHashMap<>();
-	// 预处理
-	public Map<String, String> defTypes = new LinkedHashMap<>();
 	// 类名
 	public String className;
 	// 父类
@@ -34,6 +32,35 @@ public class Clazz {
 	public List<Method> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines;
+
+	public void show() {
+		System.out.println("=============================");
+
+		System.out.println("package --> " + packageStr);
+
+		for (String importStr : importStrs.values()) {
+			System.out.println("import --> " + importStr);
+		}
+		for (String importStr : importAliases.values()) {
+			System.out.println("import alias --> " + importStr);
+		}
+
+		System.out.println("className --> " + className);
+
+		for (Field field : staticFields) {
+			System.out.println("static field --> " + field);
+		}
+		for (Field field : fields) {
+			System.out.println("field --> " + field);
+		}
+		for (Method method : staticMethods) {
+			System.out.println("static method --> " + method);
+		}
+		for (Method method : methods) {
+			System.out.println("method --> " + method);
+		}
+
+	}
 
 	public void addStaticField(Field field) {
 		checkField(field);
@@ -73,9 +100,14 @@ public class Clazz {
 		if (importStr == null) {
 			importStr = importAliases.get(type);
 		}
-//		if (importStr == null) {
-//			throw new RuntimeException("No import information found!type:[" + type + "]");
-//		}
+
+		// 从上下文中获取
+		importStr = Context.get().findImport(type);
+
+		if (importStr == null) {
+			throw new RuntimeException("No import information found!name:[" + type + "]");
+		}
+
 		return importStr;
 
 	}
@@ -85,10 +117,10 @@ public class Clazz {
 	}
 
 	public void addImport(Type type) {
-//		if (type == null)
+//		if (name == null)
 //			return;
-//		type.forceFullName = !addImport(type.getName());
-//		for (type subNativeType : type.genericTypes.values()) {
+//		name.forceFullName = !addImport(name.getName());
+//		for (name subNativeType : name.genericTypes.values()) {
 //			addImport(subNativeType);
 //		}
 	}

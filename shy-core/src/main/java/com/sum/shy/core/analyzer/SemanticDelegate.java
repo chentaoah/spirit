@@ -88,17 +88,7 @@ public class SemanticDelegate {
 				tokens.add(token);
 			}
 
-			// 为fluent组建一条链，方便后面调用
-			Token lastToken = null;
-			for (Token token : tokens) {
-				if (token.isFluent()) {
-					lastToken.setNextTokenAtt(token);
-				}
-				lastToken = token;
-			}
-
 		}
-
 		return tokens;
 	}
 
@@ -289,7 +279,7 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
-			token.setCastTypeAtt(getCastType(word));
+			token.setClassNameAtt(getCastType(word));
 			return;
 
 		}

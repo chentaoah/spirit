@@ -30,7 +30,7 @@ public class FuncParser implements Parser {
 			String type = list.get(i);
 			String varName = list.get(i + 1);
 			// 根据字符串字面意思,获取类型
-			params.add(new Param(new CodeType(type), varName));
+			params.add(new Param(null/* new CodeType(type) */, varName));
 		}
 
 		// 添加方法
