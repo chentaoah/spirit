@@ -15,6 +15,7 @@ public class CodeType implements Type {
 	public String category;// 类别
 	public String type;// 类名
 	public Map<String, String> genericTypes = new LinkedHashMap<>();// 泛型参数
+	public CodeType next;// 链表
 
 	public CodeType(String type) {// 这里也不再支持多层嵌套的泛型了
 

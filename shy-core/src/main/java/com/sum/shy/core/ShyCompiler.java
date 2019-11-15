@@ -45,12 +45,13 @@ public class ShyCompiler {
 				debug(file);
 			}
 		}
-		// 设置到上下文中
-		Context.get().classes = classes;
-
-		// 2.构建java代码
-		for (Clazz clazz : classes.values()) {
-			compile(clazz);
+		if (!debug) {
+			// 设置到上下文中
+			Context.get().classes = classes;
+			// 2.构建java代码
+			for (Clazz clazz : classes.values()) {
+				compile(clazz);
+			}
 		}
 
 	}
