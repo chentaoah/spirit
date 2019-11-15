@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.utils.FileUtils;
 
 public class ShyCompiler {
 
@@ -30,13 +31,14 @@ public class ShyCompiler {
 			break;
 		}
 
-		// 1. 解析
-		Map<String, Clazz> classes = new LinkedHashMap<>();
-		// 设置到上下文中
-		Context.get().classes = classes;
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
-		recursiveFiles(files, "", path);
+		Map<String, Clazz> classes = new LinkedHashMap<>();
+		Context.get().files = files;
+		Context.get().classes = classes;
+
+		FileUtils.recursiveFiles(path, "", files);
+
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			String className = entry.getKey();
 			File file = entry.getValue();
@@ -47,6 +49,7 @@ public class ShyCompiler {
 				debug(file);
 			}
 		}
+
 //		if (!debug) {
 //			// 设置到上下文中
 //			Context.get().classes = classes;
@@ -83,7 +86,5 @@ public class ShyCompiler {
 		return null;
 
 	}
-
-	
 
 }
