@@ -12,12 +12,12 @@ public class InvokeUtils {
 		return null;
 	}
 
-	public static Type getReturnType(Clazz clazz, Type codeType, List<String> varNames, String methodName) {
+	public static Type getReturnType(Clazz clazz, Type type, List<String> varNames, String methodName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Type getFieldType(Clazz clazz, Type codeType, List<String> varNames) {
+	public static Type getFieldType(Clazz clazz, Type type, List<String> varNames) {
 		// TODO Auto-generated method stub
 		return null;
 	}

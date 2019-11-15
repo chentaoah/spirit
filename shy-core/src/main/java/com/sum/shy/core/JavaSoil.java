@@ -9,6 +9,6 @@ package com.sum.shy.core;
  * @author: chentao26275
  * @date: 2019年11月15日
  */
-public class JavaParking {
+public class JavaSoil {
 
 }
