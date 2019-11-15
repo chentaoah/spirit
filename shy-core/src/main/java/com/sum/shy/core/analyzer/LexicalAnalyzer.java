@@ -81,7 +81,10 @@ public class LexicalAnalyzer {
 				char e = chars.get(start);
 				if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
 					LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
-					i = start;// 索引倒退一些
+					i = start;
+				} else if ("map".equals(text.substring(start, i))) {// 如果是map类型也进行替换
+					LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
+					i = start;
 				}
 
 			}
