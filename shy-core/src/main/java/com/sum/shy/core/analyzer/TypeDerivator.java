@@ -2,7 +2,6 @@ package com.sum.shy.core.analyzer;
 
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
@@ -45,7 +44,7 @@ public class TypeDerivator {
 			return new CodeType(getArrayGenericType(token) + "[]");
 
 		} else if (token.isMap()) {
-			return new CodeType("map<" + getMapGenericTypes(token) + ">");
+			return new CodeType("map" + getMapGenericTypes(token));
 
 		} else if (token.isCast()) {
 			return token.getTypeAtt();
@@ -67,52 +66,43 @@ public class TypeDerivator {
 
 	private static String getArrayGenericType(Token token) {
 		Stmt subStmt = (Stmt) token.value;
-		Type type = getType(subStmt);
-		if (type == null) {
+		if (subStmt.size() == 2) {// 如果map里面没有元素
 			return "obj";
 		} else {
-			return type.getName();
+			Type subType = getType(subStmt);
+			return subType.getName();
 		}
 	}
 
 	private static String getMapGenericTypes(Token token) {
-		// TODO Auto-generated method stub
-		return null;
+		Stmt subStmt = (Stmt) token.value;
+		if (subStmt.size() == 2) {// 如果map里面没有元素
+			return "<obj,obj>";
+		} else {
+			// 开始遍历里面的那层
+			boolean flag = true;
+			String firstType = null;
+			String secondType = null;
+			for (Token subToken : subStmt.tokens) {
+				if (":".equals(subToken.value)) {
+					flag = false;
+				} else if (",".equals(subToken.value)) {
+					flag = true;
+				}
+				Type subType = getType(subToken);
+				if (subType != null) {
+					if (flag) {
+						firstType = subType.getName();
+					} else {
+						secondType = subType.getName();
+					}
+				}
+			}
+			return "<" + firstType + "," + secondType + ">";
+		}
+
 	}
 
-//	private static Map<String, NativeType> getMapGenericTypes(Token token) {
-//		Map<String, NativeType> genericTypes = new LinkedHashMap<>();
-//		Stmt subStmt = (Stmt) token.value;
-//		if (subStmt.size() == 2) {// 如果map里面没有元素
-//			genericTypes.put("K", new NativeType(Object.class));
-//			genericTypes.put("V", new NativeType(Object.class));
-//		} else {
-//			// 开始遍历里面的那层
-//			boolean flag = true;
-//			NativeType firstType = null;
-//			NativeType secondType = null;
-//			for (Token subToken : subStmt.tokens) {
-//				if (":".equals(subToken.value)) {
-//					flag = false;
-//				} else if (",".equals(subToken.value)) {
-//					flag = true;
-//				}
-//				NativeType subType = (NativeType) getType(subToken);
-//				if (subType != null) {
-//					if (flag) {
-//						firstType = subType;
-//					} else {
-//						secondType = subType;
-//					}
-//				}
-//			}
-//			genericTypes.put("K", firstType);
-//			genericTypes.put("V", secondType);
-//		}
-//
-//		return genericTypes;
-//	}
-//
 	private static Type getFluentReturnType(Token token) {
 		Type type = token.getReturnTypeAtt();
 		Token nextToken = token;
