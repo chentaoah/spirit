@@ -30,6 +30,7 @@ public class Constants {
 	public static final String ELSEIF_SYNTAX = "elseif";
 	public static final String ELSE_SYNTAX = "else";
 	public static final String END_SYNTAX = "end";
+	public static final String RETURN_SYNTAX = "return";
 
 	public static final String KEYWORD_TOKEN = "keyword";
 	public static final String KEYWORD_PARAM_TOKEN = "keyword_param";

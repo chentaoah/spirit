@@ -32,6 +32,8 @@ public class ShyCompiler {
 
 		// 1. 解析
 		Map<String, Clazz> classes = new LinkedHashMap<>();
+		// 设置到上下文中
+		Context.get().classes = classes;
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
 		recursiveFiles(files, "", path);

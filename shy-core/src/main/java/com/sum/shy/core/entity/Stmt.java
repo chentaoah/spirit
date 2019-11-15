@@ -123,4 +123,8 @@ public class Stmt {
 		return Constants.END_SYNTAX.equals(syntax);
 	}
 
+	public boolean isReturn() {
+		return Constants.RETURN_SYNTAX.equals(syntax);
+	}
+
 }

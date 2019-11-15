@@ -13,6 +13,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Variable;
 
 /**
  * 快速推导器
@@ -185,21 +186,26 @@ public class FastDerivator {
 	}
 
 	public static Type getReturnType(Clazz clazz, Method method) {
-
+		// 反推
+		Type type = null;
 		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {
 			Line line = lines.get(i);
 			if (line.isIgnore())
 				continue;
-			
-			
 
 			Stmt stmt = Stmt.create(line);
-			
+			VariableTracker.check(clazz, method, "0", line, stmt);
+			if (stmt.isAssignment()) {// 如果是赋值语句
+				type = getType(clazz, stmt);
+				method.addVariable(new Variable("0", type, stmt.get(0)));
 
+			} else if (stmt.isReturn()) {// 如果是返回语句
+				return getType(clazz, stmt);
+			}
 		}
 
-		return null;
+		return new CodeType("void", null, null, null, null, null);
 	}
 
 }

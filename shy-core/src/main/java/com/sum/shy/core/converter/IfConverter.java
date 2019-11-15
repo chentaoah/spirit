@@ -20,7 +20,7 @@ public class IfConverter extends AbstractConverter {
 
 		// 这里的算法是能够截取到所有的块的
 		List<Line> blockLines = LineUtils.getAllLines(lines, index);
-		for (int i = 0, count = 0; i < blockLines.size(); i++) {
+		for (int i = 0, count = -1; i < blockLines.size(); i++) {
 			Line currLine = blockLines.get(i);
 			if (currLine.isIgnore())
 				continue;
