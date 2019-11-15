@@ -2,7 +2,6 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.InvocationVisitor;
 import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Type;

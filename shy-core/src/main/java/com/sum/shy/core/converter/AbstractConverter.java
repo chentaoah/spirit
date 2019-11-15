@@ -2,7 +2,6 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.InvocationVisitor;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.entity.Clazz;
@@ -19,8 +18,6 @@ public abstract class AbstractConverter implements Converter {
 			int index, Line line, Stmt stmt) {
 		// 直接校验
 		VariableTracker.check(clazz, method, block, line, stmt);
-		// 方法返回值推算
-		InvocationVisitor.check(clazz, stmt);
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
