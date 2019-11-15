@@ -16,4 +16,9 @@ public class Field {
 		this.stmt = stmt;
 	}
 
+	@Override
+	public String toString() {
+		return type.toString();
+	}
+
 }

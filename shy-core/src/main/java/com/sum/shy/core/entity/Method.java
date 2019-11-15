@@ -23,6 +23,11 @@ public class Method {
 		this.params = params;
 	}
 
+	@Override
+	public String toString() {
+		return returnType.toString();
+	}
+
 	public Variable findVariable(String block, String name) {
 
 		for (Variable variable : variables) {

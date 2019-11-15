@@ -36,6 +36,20 @@ public class CodeType implements Type {
 		return type;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(className + "<");
+		if (genericTypes.size() > 0) {
+			for (CodeType type : genericTypes.values()) {
+				sb.append(type.toString() + ",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+		}
+		sb.append(">");
+		return sb.toString();
+	}
+
 //	public CodeType(String type) {// 这里也不再支持多层嵌套的泛型了
 //
 //		if ("bool".equals(type)) {
