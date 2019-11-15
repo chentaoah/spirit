@@ -45,14 +45,14 @@ public class ShyCompiler {
 				debug(file);
 			}
 		}
-		if (!debug) {
-			// 设置到上下文中
-			Context.get().classes = classes;
-			// 2.构建java代码
-			for (Clazz clazz : classes.values()) {
-				compile(clazz);
-			}
-		}
+//		if (!debug) {
+//			// 设置到上下文中
+//			Context.get().classes = classes;
+//			// 2.构建java代码
+//			for (Clazz clazz : classes.values()) {
+//				compile(clazz);
+//			}
+//		}
 
 	}
 
@@ -61,6 +61,8 @@ public class ShyCompiler {
 		Clazz clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
+		// 展示一下
+		clazz.show();
 
 		return clazz;
 	}

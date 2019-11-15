@@ -1,7 +1,4 @@
 
-func main(str[] args){
-	return args
-}
 
 class User {
 

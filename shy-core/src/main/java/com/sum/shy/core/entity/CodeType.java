@@ -39,14 +39,15 @@ public class CodeType implements Type {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(className + "<");
+		sb.append(className);
 		if (genericTypes.size() > 0) {
+			sb.append("<");
 			for (CodeType type : genericTypes.values()) {
 				sb.append(type.toString() + ",");
 			}
 			sb.deleteCharAt(sb.length() - 1);
+			sb.append(">");
 		}
-		sb.append(">");
 		return sb.toString();
 	}
 

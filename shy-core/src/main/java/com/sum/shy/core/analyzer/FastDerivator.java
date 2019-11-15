@@ -9,6 +9,7 @@ import com.google.common.base.Splitter;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -183,7 +184,21 @@ public class FastDerivator {
 
 	}
 
-	public static Type getReturnType(Method method) {
+	public static Type getReturnType(Clazz clazz, Method method) {
+
+		List<Line> lines = method.methodLines;
+		for (int i = 0; i < lines.size(); i++) {
+			Line line = lines.get(i);
+			if (line.isIgnore())
+				continue;
+			
+			
+
+			Stmt stmt = Stmt.create(line);
+			
+
+		}
+
 		return null;
 	}
 
