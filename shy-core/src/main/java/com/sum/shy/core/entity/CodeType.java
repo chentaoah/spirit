@@ -67,6 +67,9 @@ public class CodeType implements Type {
 			this.genericTypes.put("K", type.substring(type.indexOf("<") + 1, type.indexOf(",")));
 			this.genericTypes.put("V", type.substring(type.indexOf(",") + 1, type.indexOf(">")));
 
+		} else {
+			throw new RuntimeException("Type not currently supported!type:" + type);
+
 		}
 
 	}
