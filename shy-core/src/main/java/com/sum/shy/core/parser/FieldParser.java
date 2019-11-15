@@ -22,9 +22,9 @@ public class FieldParser implements Parser {
 		String name = stmt.get(0);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.addStaticField(new Field(new CodeType("var"), name, stmt));
+			clazz.addStaticField(new Field(new CodeType("obj"), name, stmt));
 		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.addField(new Field(new CodeType("var"), name, stmt));
+			clazz.addField(new Field(new CodeType("obj"), name, stmt));
 		}
 
 		return 0;

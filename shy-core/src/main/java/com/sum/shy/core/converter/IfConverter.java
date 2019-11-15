@@ -11,7 +11,6 @@ import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
-import com.sum.shy.library.StringUtils;
 
 public class IfConverter extends AbstractConverter {
 

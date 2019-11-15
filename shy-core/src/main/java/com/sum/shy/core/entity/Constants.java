@@ -72,7 +72,6 @@ public class Constants {
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 
 	// 基本类型
-	public static final String VAR_TYPE = "var";// 未知类型
 	public static final String VOID_TYPE = "void";// 无
 	public static final String BOOL_TYPE = "bool";
 	public static final String INT_TYPE = "int";

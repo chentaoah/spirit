@@ -16,6 +16,8 @@ public interface Type {
 
 	public boolean isObj();
 
+	public boolean isVoid();
+
 	public boolean isClass();
 
 	public boolean isArray();

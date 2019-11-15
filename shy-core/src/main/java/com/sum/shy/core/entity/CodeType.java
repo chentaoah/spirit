@@ -18,14 +18,7 @@ public class CodeType implements Type {
 
 	public CodeType(String type) {// 这里也不再支持多层嵌套的泛型了
 
-		if ("var".equals(type)) {
-			this.category = Constants.VAR_TYPE;
-
-		} else if ("void".equals(type)) {
-			this.category = Constants.VOID_TYPE;
-			this.type = "void";
-
-		} else if ("bool".equals(type)) {
+		if ("bool".equals(type)) {
 			this.category = Constants.BOOL_TYPE;
 			this.type = "bool";
 
@@ -48,6 +41,10 @@ public class CodeType implements Type {
 		} else if ("obj".equals(type)) {
 			this.category = Constants.OBJ_TYPE;
 			this.type = "obj";
+
+		} else if ("void".equals(type)) {
+			this.category = Constants.VOID_TYPE;
+			this.type = "void";
 
 		} else if (TYPE_PATTERN.matcher(type).matches()) {
 			this.category = Constants.CLASS_TYPE;
@@ -107,6 +104,11 @@ public class CodeType implements Type {
 	@Override
 	public boolean isObj() {
 		return Constants.OBJ_TYPE.equals(category);
+	}
+
+	@Override
+	public boolean isVoid() {
+		return Constants.VOID_TYPE.equals(category);
 	}
 
 	@Override
