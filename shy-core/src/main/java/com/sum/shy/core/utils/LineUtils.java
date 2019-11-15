@@ -119,6 +119,8 @@ public class LineUtils {
 
 	private static void replaceString(List<Character> chars, int start, int end, String name, int number,
 			Map<String, String> replacedStrs) {
+		if (end == -1)
+			return;
 		// 从字符串里面截取字符串
 		List<Character> subChars = chars.subList(start, end + 1);
 		String text = Joiner.on("").join(subChars);
