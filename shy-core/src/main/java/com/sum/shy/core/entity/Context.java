@@ -36,15 +36,4 @@ public class Context {
 		return null;
 	}
 
-	public void addDependency(String dependency) {
-		if (dependencies.contains(dependency)) {
-			throw new RuntimeException("The current dependency is circular!dependency:" + dependency);
-		}
-		dependencies.add(dependency);
-	}
-
-	public void removeDependency(String dependency) {
-		dependencies.remove(dependency);
-	}
-
 }

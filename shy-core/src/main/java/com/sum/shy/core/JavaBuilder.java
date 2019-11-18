@@ -149,8 +149,6 @@ public class JavaBuilder {
 //
 //	public static void convertMethod(StringBuilder sb, Clazz clazz, Method method) {
 //		Context.get().scope = "method";
-//		String dependency = clazz.packageStr + "." + clazz.className + "." + method.name;
-//		Context.get().addDependency(dependency);// 添加依赖
 //
 //		List<Line> lines = method.methodLines;
 //		for (int i = 0; i < lines.size(); i++) {
@@ -165,7 +163,6 @@ public class JavaBuilder {
 //
 //		}
 //
-//		Context.get().removeDependency(dependency);// 移除依赖
 //
 //	}
 
