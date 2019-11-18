@@ -18,7 +18,7 @@ public class AssignmentConverter extends AbstractConverter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
 		// 直接校验
-		VariableTracker.check(clazz, method, block, line, stmt);
+		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 如果是单纯的变量,而不是成员变量,则需要进行类型声明
 		Token token = stmt.getToken(0);

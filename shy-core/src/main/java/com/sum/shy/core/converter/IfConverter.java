@@ -27,7 +27,7 @@ public class IfConverter extends AbstractConverter {
 
 			Stmt currStmt = Stmt.create(currLine);
 			// 变量追踪
-			VariableTracker.check(clazz, method, block, currLine, currStmt);
+			VariableTracker.track(clazz, method, block, currLine, currStmt);
 			// 如果是if,则添加括号
 			if (currStmt.isIf()) {
 				currStmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));

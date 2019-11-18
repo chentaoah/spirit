@@ -18,7 +18,7 @@ public class FieldParser implements Parser {
 	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		// 变量追踪
-		VariableTracker.check(clazz, null, null, line, stmt);
+		VariableTracker.track(clazz, null, null, line, stmt);
 		// 快速推导
 		Type type = FastDerivator.getType(clazz, stmt);
 		// 变量名

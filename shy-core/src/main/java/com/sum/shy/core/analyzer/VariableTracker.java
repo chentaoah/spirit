@@ -20,7 +20,7 @@ import com.sum.shy.core.entity.Variable;
  */
 public class VariableTracker {
 
-	public static void check(Clazz clazz, Method method, String block, Line line, Stmt stmt) {
+	public static void track(Clazz clazz, Method method, String block, Line line, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -44,7 +44,7 @@ public class VariableTracker {
 
 			}
 			if (token.hasSubStmt()) {
-				check(clazz, method, block, line, (Stmt) token.value);
+				track(clazz, method, block, line, (Stmt) token.value);
 			}
 
 		}

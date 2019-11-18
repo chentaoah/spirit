@@ -60,7 +60,7 @@ public class FastDerivator {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
-			VariableTracker.check(clazz, method, "0", line, stmt);
+			VariableTracker.track(clazz, method, "0", line, stmt);
 
 			if (stmt.isAssignment()) {// 如果是赋值语句
 				Type type = getType(clazz, stmt);

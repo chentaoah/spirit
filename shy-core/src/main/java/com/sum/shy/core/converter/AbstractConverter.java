@@ -17,7 +17,7 @@ public abstract class AbstractConverter implements Converter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
 		// 直接校验
-		VariableTracker.check(clazz, method, block, line, stmt);
+		VariableTracker.track(clazz, method, block, line, stmt);
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
