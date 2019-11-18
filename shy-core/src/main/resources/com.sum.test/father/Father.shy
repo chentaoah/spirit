@@ -5,7 +5,7 @@ class Father {
 	age=60
 	
 	func getName(map<str,obj> m, obj[] a){
-		return "hello"
+		return m
 	}
 	
 }

@@ -60,6 +60,8 @@ public class Clazz {
 			System.out.println("method --> " + method);
 		}
 
+		System.out.println("=============================");
+
 	}
 
 	public void addStaticField(Field field) {

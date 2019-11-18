@@ -34,16 +34,22 @@ public class FastDerivator {
 
 	public static Type getType(Clazz clazz, Token token) {
 
-		if (token.isValue()) {
+		if (token.isValue()) {// 字面值
 			return new CodeType(token);
 
-		} else if (token.isInvoke()) {
+		} else if (token.isInvoke()) {// 方法调用
 			return new CodeType(token);
 
-		} else if (token.isType()) {
+		} else if (token.isVariable()) {// 变量
+			// 这个变量必须有类型才能够被返回
+			if (token.getTypeAtt() != null) {
+				return new CodeType(token);
+			}
+
+		} else if (token.isType()) {// 类型声明
 			return new CodeType(token);
 
-		} else if (token.isCast()) {
+		} else if (token.isCast()) {// 类型强制转换
 			return new CodeType(token);
 
 		}

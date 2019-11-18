@@ -109,16 +109,16 @@ public class Token {
 		return Constants.MEMBER_VAR_FLUENT_TOKEN.equals(type);
 	}
 
+	public boolean isType() {
+		return Constants.TYPE_TOKEN.equals(type);
+	}
+
 	public boolean isCast() {
 		return Constants.CAST_TOKEN.equals(type);
 	}
 
 	public boolean isPrefix() {
 		return Constants.PREFIX_TOKEN.equals(type);
-	}
-
-	public boolean isType() {
-		return Constants.TYPE_TOKEN.equals(type);
 	}
 
 	public boolean isUnknown() {
@@ -133,6 +133,10 @@ public class Token {
 
 	public boolean isInvoke() {
 		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
+	}
+
+	public boolean isVariable() {
+		return isVar() || isStaticVar() || isMemberVar() || isMemberVarFluent();
 	}
 
 	public boolean isFluent() {

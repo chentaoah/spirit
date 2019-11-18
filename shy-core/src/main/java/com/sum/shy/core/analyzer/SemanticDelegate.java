@@ -32,30 +32,35 @@ public class SemanticDelegate {
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", "," };
 
-	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");// √
-	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");// √
-	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");// √
-	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");// √
-	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");// √
-	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");// √
+	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");
+	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
+	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
+	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
+	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
+	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]*\\([\\s\\S]*\\)$");// √
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\([\\s\\S]*\\)$");// √
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]*\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// √
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// √
-	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// √
+			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
-			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// √
+			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 
-	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");// √
+	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");
 	private static final Pattern STATIC_VAR_PATTERN = Pattern
-			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");// √
-	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");// √
-	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");// √
+			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
+	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
-	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9<>\\[\\]]+$");
+
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(bool|int|long|double|str|obj)$");
+	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
+	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组,也可能是obj str之类的数组
+	private static final Pattern MAP_TYPE_PATTERN = Pattern.compile("^map<[\\s\\S]+>$");// map是特殊的泛型
+	private static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
 
 	/**
 	 * 语义分析
@@ -129,7 +134,7 @@ public class SemanticDelegate {
 				token.type = Constants.TYPE_TOKEN;
 				return;
 			} else if (isCast(word)) {// 类型强制转换
-				token.type = Constants.NULL_TOKEN;
+				token.type = Constants.CAST_TOKEN;
 				return;
 			} else if (isNull(word)) {// 空
 				token.type = Constants.NULL_TOKEN;
@@ -320,7 +325,9 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isType(String word) {
-		return TYPE_PATTERN.matcher(word).matches();
+		return BASIC_TYPE_PATTERN.matcher(word).matches() || TYPE_PATTERN.matcher(word).matches()
+				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || MAP_TYPE_PATTERN.matcher(word).matches()
+				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isCast(String word) {

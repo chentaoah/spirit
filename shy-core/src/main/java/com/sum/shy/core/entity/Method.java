@@ -25,7 +25,10 @@ public class Method {
 
 	@Override
 	public String toString() {
-		return returnType.toString();
+		if (returnType != null) {
+			return returnType.toString();
+		}
+		return null;
 	}
 
 	public Variable findVariable(String block, String name) {
