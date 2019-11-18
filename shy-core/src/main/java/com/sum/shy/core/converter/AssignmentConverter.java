@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.analyzer.TypeDerivator;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
