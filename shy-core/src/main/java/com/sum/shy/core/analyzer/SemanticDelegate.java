@@ -79,15 +79,25 @@ public class SemanticDelegate {
 
 		} else {
 			for (String word : words) {
-				Token token = new Token();
-				getTokenType(token, word);
-				getTokenValue(token, word);
-				getAttachments(token, word);
-				tokens.add(token);
+				tokens.add(getToken(word));
 			}
 
 		}
 		return tokens;
+	}
+
+	/**
+	 * 生成一个token
+	 * 
+	 * @param word
+	 * @return
+	 */
+	public static Token getToken(String word) {
+		Token token = new Token();
+		getTokenType(token, word);
+		getTokenValue(token, word);
+		getAttachments(token, word);
+		return token;
 	}
 
 	private static void getKeywordTokenType(Token token, String word) {
