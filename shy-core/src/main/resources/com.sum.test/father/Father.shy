@@ -4,8 +4,9 @@ class Father {
 	name="chentao"
 	age=60
 	
-	func getName(map<str,obj> m, obj[] a){
-		return m
+	func getName(User user, obj[] a){
+		
+		return user.getAge()
 	}
 	
 }

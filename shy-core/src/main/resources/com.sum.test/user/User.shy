@@ -8,6 +8,9 @@ class User {
 		return father.getName(y)
 	}
 	
+	func getAge(){
+		return 28
+	}
 	
 }
 

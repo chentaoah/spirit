@@ -43,6 +43,7 @@ public class ShyCompiler {
 			String className = entry.getKey();
 			File file = entry.getValue();
 			if (!debug) {
+				// 1.解析shy代码
 				Clazz clazz = resolve(className, file);
 				classes.put(className, clazz);
 			} else {
@@ -50,14 +51,12 @@ public class ShyCompiler {
 			}
 		}
 
-//		if (!debug) {
-//			// 设置到上下文中
-//			Context.get().classes = classes;
-//			// 2.构建java代码
-//			for (Clazz clazz : classes.values()) {
-//				compile(clazz);
-//			}
-//		}
+		if (!debug) {
+			// 2.构建java代码
+			for (Clazz clazz : classes.values()) {
+				compile(clazz);
+			}
+		}
 
 	}
 
@@ -77,14 +76,10 @@ public class ShyCompiler {
 	}
 
 	public static Class<?> compile(Clazz clazz) {
-
 		// 转换方法中的内容,并生成java代码
-//		String text = new JavaBuilder().build(clazz);
-
-//		System.out.println(text);
-
+		String text = new JavaBuilder().build(clazz);
+		System.out.println(text);
 		return null;
-
 	}
 
 }
