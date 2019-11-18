@@ -8,6 +8,7 @@ import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
@@ -28,7 +29,7 @@ public class FuncParser implements Parser {
 			String type = list.get(i);
 			String name = list.get(i + 1);
 			// 根据字符串字面意思,获取类型
-			params.add(new Param(null/* new CodeType(type) */, name));
+			params.add(new Param(new CodeType(type), name));
 		}
 
 		// 添加方法
