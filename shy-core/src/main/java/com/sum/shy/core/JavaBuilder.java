@@ -33,6 +33,7 @@ public class JavaBuilder {
 
 	public String build(Clazz clazz) {
 
+		System.out.println();
 		System.out.println("=================================== Java ========================================");
 
 //		clazz.addImport("java.util.List");
@@ -55,6 +56,7 @@ public class JavaBuilder {
 			body.deleteCharAt(body.lastIndexOf(","));
 		}
 		body.append("{\n");
+		body.append("\n");
 
 		// ============================ field ================================
 
@@ -73,8 +75,8 @@ public class JavaBuilder {
 		// ============================ method ================================
 
 		for (Method method : clazz.staticMethods) {
-
-			body.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
+			body.append("\tpublic static " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name
+					+ "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");
@@ -88,8 +90,8 @@ public class JavaBuilder {
 		}
 
 		for (Method method : clazz.methods) {
-
-			body.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
+			body.append(
+					"\tpublic " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");

@@ -6,6 +6,7 @@ import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
@@ -26,8 +27,48 @@ public abstract class AbstractConverter implements Converter {
 	}
 
 	public static String convertType(Clazz clazz, Type type) {
-		if (type != null) {
-			return type.toString();
+		if (type instanceof CodeType) {
+			CodeType codeType = (CodeType) type;
+			Token token = codeType.token;
+			if (token.isNull()) {
+				return "Object";
+
+			} else if (token.isBool()) {
+				return "boolean";
+
+			} else if (token.isInt()) {
+				return "int";
+
+			} else if (token.isDouble()) {
+				return "double";
+
+			} else if (token.isStr()) {
+				return "String";
+
+			} else if (token.isArray()) {
+				return "List";
+
+			} else if (token.isMap()) {
+				return "Map";
+
+			} else if (token.isType()) {
+				return (String) token.value;
+
+			} else if (token.isVariable()) {
+				return token.toString();
+
+			} else if (token.isInvoke()) {
+				if (token.isInvokeInit()) {// 构造方法
+					return token.getMethodNameAtt();
+				} else if (token.isInvokeMember()) {
+					Type lastType = token.getTypeAtt();
+					
+				}
+				return token.toString();
+
+			} else {
+				return token.toString();
+			}
 		}
 		return null;
 	}
