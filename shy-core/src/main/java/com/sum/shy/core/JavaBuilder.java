@@ -3,7 +3,6 @@ package com.sum.shy.core;
 import java.util.List;
 
 import com.sum.shy.core.api.Converter;
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
 import com.sum.shy.core.converter.AbstractConverter;
@@ -36,22 +35,8 @@ public class JavaBuilder {
 
 		System.out.println("=================================== Java ========================================");
 
-		clazz.addImport("java.util.List");
-		clazz.addImport("java.util.Map");
-
-		// ============================ head ================================
-
-		StringBuilder head = new StringBuilder();
-
-		// package
-		head.append("package " + clazz.packageStr + ";\n");
-		head.append("\n");
-		// import
-		for (String importStr : clazz.importStrs.values()) {
-			head.append("import " + importStr + ";\n");
-		}
-
-		head.append("\n");
+//		clazz.addImport("java.util.List");
+//		clazz.addImport("java.util.Map");
 
 		// ============================ class ================================
 
@@ -74,12 +59,12 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (Field field : clazz.staticFields) {
-			body.append("\tpublic static " + convertType(clazz, field.type) + " "
+			body.append("\tpublic static " + AbstractConverter.convertType(clazz, field.type) + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
 		for (Field field : clazz.fields) {
-			body.append("\tpublic " + convertType(clazz, field.type) + " "
+			body.append("\tpublic " + AbstractConverter.convertType(clazz, field.type) + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
@@ -92,7 +77,7 @@ public class JavaBuilder {
 			body.append("\tpublic static " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(convertType(clazz, param.type) + " " + param.name + ",");
+					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");
 				}
 				body.deleteCharAt(body.lastIndexOf(","));
 			}
@@ -107,7 +92,7 @@ public class JavaBuilder {
 			body.append("\tpublic " + method.returnType.toString() + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(convertType(clazz, param.type) + " " + param.name + ",");
+					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");
 				}
 				body.deleteCharAt(body.lastIndexOf(","));
 			}
@@ -119,15 +104,22 @@ public class JavaBuilder {
 
 		body.append("}");
 
+		// ============================ head ================================
+
+		StringBuilder head = new StringBuilder();
+
+		// package
+		head.append("package " + clazz.packageStr + ";\n");
+		head.append("\n");
+		// import
+		for (String importStr : clazz.importStrs.values()) {
+			head.append("import " + importStr + ";\n");
+		}
+
+		head.append("\n");
+
 		return head.append(body).toString();
 
-	}
-
-	private String convertType(Clazz clazz, Type type) {
-		if (type != null) {
-			return type.toString();
-		}
-		return null;
 	}
 
 	public static void convertMethod(StringBuilder sb, Clazz clazz, Method method) {

@@ -2,6 +2,7 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
+import com.sum.shy.core.analyzer.FastDerivator;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
@@ -24,12 +25,9 @@ public class AssignmentConverter extends AbstractConverter {
 		Token token = stmt.getToken(0);
 		if (token.isVar() && token.getTypeAtt() == null) {
 			// 如果没有,则在最前面追加类型
-			Type type = null/* TypeDerivator.getType(stmt) */;
-			// 添加到头部类型引入(可以重复添加)
-			clazz.addImport(type);
+			Type type = FastDerivator.getType(clazz, stmt);
 			token.setTypeAtt(type);
 			method.addVariable(new Variable(block, type, (String) token.value));
-
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, type.toString(), null));
 		}
 

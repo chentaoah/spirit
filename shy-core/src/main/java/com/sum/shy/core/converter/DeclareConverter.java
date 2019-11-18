@@ -14,7 +14,7 @@ public class DeclareConverter extends AbstractConverter {
 	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
 
-//		method.addVariable(new Variable(block, new CodeType(stmt.get(0)), stmt.get(1)));
+		method.addVariable(new Variable(block, new CodeType(stmt.get(0)), stmt.get(1)));
 		// 将语句进行一定的转换
 		sb.append(indent + convertStmt(clazz, stmt) + " = null;\n");
 

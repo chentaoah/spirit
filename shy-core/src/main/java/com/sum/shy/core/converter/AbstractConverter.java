@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
@@ -22,6 +23,13 @@ public abstract class AbstractConverter implements Converter {
 		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
 		return 0;
+	}
+
+	public static String convertType(Clazz clazz, Type type) {
+		if (type != null) {
+			return type.toString();
+		}
+		return null;
 	}
 
 	public static String convertStmt(Clazz clazz, Stmt stmt) {
