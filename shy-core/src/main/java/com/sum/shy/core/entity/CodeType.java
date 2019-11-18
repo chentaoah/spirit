@@ -15,4 +15,9 @@ public class CodeType implements Type {
 		this.token = SemanticDelegate.getToken(type);
 	}
 
+	@Override
+	public String toString() {
+		return token.toString();
+	}
+
 }
