@@ -64,10 +64,11 @@ public class Constants {
 	public static final String TYPE_ATTACHMENT = "name";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
 
-	public static final String CLASS_NAME_ATTACHMENT = "class_name";
-	public static final String VAR_NAME_ATTACHMENT = "var_name";
-	public static final String VAR_NAMES_ATTACHMENT = "var_names";
-	public static final String METHOD_NAME_ATTACHMENT = "method_name";
+	public static final String FULL_NAME_ATTACHMENT = "full_name";// 全名
+	public static final String CLASS_NAME_ATTACHMENT = "class_name";// 类名
+	public static final String VAR_NAME_ATTACHMENT = "var_name";// 变量名
+	public static final String PROPERTY_NAMES_ATTACHMENT = "property_names";// 属性名
+	public static final String METHOD_NAME_ATTACHMENT = "method_name";// 方法名
 	public static final String CAST_TYPE_ATTACHMENT = "cast_type";// 强转类型
 
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用

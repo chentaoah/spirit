@@ -73,14 +73,6 @@ public class Token {
 		return Constants.MAP_TOKEN.equals(type);
 	}
 
-	public boolean isInvoke() {
-		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
-	}
-
-	public boolean isFluent() {
-		return isInvokeFluent() || isMemberVarFluent();
-	}
-
 	public boolean isInvokeInit() {
 		return Constants.INVOKE_INIT_TOKEN.equals(type);
 	}
@@ -133,6 +125,20 @@ public class Token {
 		return Constants.UNKNOWN.equals(type);
 	}
 
+	// =================== 复合判断 =====================
+
+	public boolean isValue() {
+		return isNull() || isBool() || isInt() || isDouble() || isStr() || isArray() || isMap();
+	}
+
+	public boolean isInvoke() {
+		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
+	}
+
+	public boolean isFluent() {
+		return isInvokeFluent() || isMemberVarFluent();
+	}
+
 	public boolean hasSubStmt() {
 		return isArray() || isMap() || isInvoke();
 	}
@@ -153,6 +159,16 @@ public class Token {
 
 	public void setReturnTypeAtt(Type type) {
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, type);
+	}
+
+	// =================== 类名 =====================
+
+	public String getFullNameAtt() {
+		return (String) attachments.get(Constants.FULL_NAME_ATTACHMENT);
+	}
+
+	public void setFullNameAtt(String str) {
+		attachments.put(Constants.FULL_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 类名 =====================
@@ -178,12 +194,12 @@ public class Token {
 	// =================== 后缀名 =====================
 
 	@SuppressWarnings("unchecked")
-	public List<String> getVarNamesAtt() {
-		return (List<String>) attachments.get(Constants.VAR_NAMES_ATTACHMENT);
+	public List<String> getPropertyNamesAtt() {
+		return (List<String>) attachments.get(Constants.PROPERTY_NAMES_ATTACHMENT);
 	}
 
-	public void setVarNamesAtt(List<String> list) {
-		attachments.put(Constants.VAR_NAMES_ATTACHMENT, list);
+	public void setPropertyNamesAtt(List<String> list) {
+		attachments.put(Constants.PROPERTY_NAMES_ATTACHMENT, list);
 	}
 
 	// =================== 方法名 =====================
