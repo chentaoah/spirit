@@ -5,7 +5,9 @@ class Father {
 	age=60
 	
 	func getName(User user, obj[] a){
+		if x>100 {
 		
+		}
 		return user.getAge()
 	}
 	

@@ -160,21 +160,21 @@ public class Token {
 	// =================== 全名 =====================
 
 	public String getClassNameAtt() {
-		return (String) attachments.get(Constants.FULL_NAME_ATTACHMENT);
+		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
 	}
 
 	public void setClassNameAtt(String str) {
-		attachments.put(Constants.FULL_NAME_ATTACHMENT, str);
+		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 类名 =====================
 
 	public String getTypeNameAtt() {
-		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
+		return (String) attachments.get(Constants.TYPE_NAME_ATTACHMENT);
 	}
 
 	public void setTypeNameAtt(String str) {
-		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
+		attachments.put(Constants.TYPE_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 变量名 =====================
@@ -191,11 +191,11 @@ public class Token {
 
 	@SuppressWarnings("unchecked")
 	public List<String> getPropertiesAtt() {
-		return (List<String>) attachments.get(Constants.PROPERTY_NAMES_ATTACHMENT);
+		return (List<String>) attachments.get(Constants.PROPERTIES_ATTACHMENT);
 	}
 
 	public void setPropertiesAtt(List<String> list) {
-		attachments.put(Constants.PROPERTY_NAMES_ATTACHMENT, list);
+		attachments.put(Constants.PROPERTIES_ATTACHMENT, list);
 	}
 
 	// =================== 方法名 =====================

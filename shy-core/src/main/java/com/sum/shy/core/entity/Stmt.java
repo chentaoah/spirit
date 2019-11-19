@@ -57,6 +57,14 @@ public class Stmt {
 		return tokens.size();
 	}
 
+	public String frist() {
+		return tokens.get(0).value.toString();
+	}
+
+	public String last() {
+		return tokens.get(tokens.size() - 1).value.toString();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

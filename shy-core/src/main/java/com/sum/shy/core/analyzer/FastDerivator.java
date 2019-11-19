@@ -34,7 +34,13 @@ public class FastDerivator {
 
 	public static Type getType(Clazz clazz, Token token) {
 
-		if (token.isValue()) {// 字面值
+		if (token.isType()) {// 类型声明
+			return new CodeType(token);
+
+		} else if (token.isCast()) {// 类型强制转换
+			return new CodeType(token);
+
+		} else if (token.isValue()) {// 字面值
 			return new CodeType(token);
 
 		} else if (token.isInvoke()) {// 方法调用
@@ -46,12 +52,6 @@ public class FastDerivator {
 				return new CodeType(token);
 			}
 
-		} else if (token.isType()) {// 类型声明
-			return new CodeType(token);
-
-		} else if (token.isCast()) {// 类型强制转换
-			return new CodeType(token);
-
 		}
 
 		return null;
@@ -59,6 +59,7 @@ public class FastDerivator {
 
 	public static Type getReturnType(Clazz clazz, Method method) {
 
+		long count = 1;
 		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {
 			Line line = lines.get(i);
@@ -66,6 +67,12 @@ public class FastDerivator {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
+			// 判断是否进入子块
+			if ("{".equals(stmt.last())) {
+				count = count * 10 + 1;
+			} else if ("}".equals(stmt.frist())) {
+				count = count / 10;
+			}
 			VariableTracker.track(clazz, method, "0", line, stmt);
 
 			if (stmt.isAssignment()) {// 如果是赋值语句
