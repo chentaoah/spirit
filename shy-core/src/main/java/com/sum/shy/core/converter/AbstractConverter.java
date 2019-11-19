@@ -60,7 +60,7 @@ public abstract class AbstractConverter implements Converter {
 
 			} else if (token.isInvoke()) {
 				if (token.isInvokeInit()) {// 构造方法
-					return token.getMethodNameAtt();
+					return token.getTypeNameAtt();
 
 				} else if (token.isInvokeMember()) {
 					return InvokeVisiter.visit(clazz, codeType);
@@ -115,7 +115,7 @@ public abstract class AbstractConverter implements Converter {
 				// 先将子语句转换
 				convertStmt(clazz, subStmt);
 				// 如果是别名,则将类名替换一下
-				String type = token.getClassNameAtt();
+				String type = token.getTypeNameAtt();
 				if (clazz.isAlias(type)) {
 					String className = clazz.findImport(type);
 					String value = (String) subStmt.getToken(0).value;
@@ -125,7 +125,7 @@ public abstract class AbstractConverter implements Converter {
 
 			} else if (token.isStaticVar()) {
 				// 如果是别名,则将类名替换一下
-				String type = token.getClassNameAtt();
+				String type = token.getTypeNameAtt();
 				if (clazz.isAlias(type)) {
 					String className = clazz.findImport(type);
 					String value = (String) token.value;

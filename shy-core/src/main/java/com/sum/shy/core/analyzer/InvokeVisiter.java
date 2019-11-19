@@ -29,10 +29,10 @@ public class InvokeVisiter {
 		for (CodeType type : list) {
 			Token token = type.token;
 			if (token.isType()) {
-				returnType = clazz.findImport(token.getClassNameAtt());
+				returnType = clazz.findImport(token.getTypeNameAtt());
 
 			} else if (token.isInvokeInit()) {
-				returnType = clazz.findImport(token.getMethodNameAtt());
+				returnType = clazz.findImport(token.getTypeNameAtt());
 
 			} else if (token.isInvokeMember()) {
 				// 查找class

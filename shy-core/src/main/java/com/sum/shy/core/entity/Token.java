@@ -159,21 +159,21 @@ public class Token {
 
 	// =================== 全名 =====================
 
-	public String getFullNameAtt() {
+	public String getClassNameAtt() {
 		return (String) attachments.get(Constants.FULL_NAME_ATTACHMENT);
 	}
 
-	public void setFullNameAtt(String str) {
+	public void setClassNameAtt(String str) {
 		attachments.put(Constants.FULL_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 类名 =====================
 
-	public String getClassNameAtt() {
+	public String getTypeNameAtt() {
 		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
 	}
 
-	public void setClassNameAtt(String str) {
+	public void setTypeNameAtt(String str) {
 		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
 	}
 

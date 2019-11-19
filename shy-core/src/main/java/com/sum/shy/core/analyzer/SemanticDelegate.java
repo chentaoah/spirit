@@ -253,19 +253,19 @@ public class SemanticDelegate {
 	private static void getAttachments(Token token, String word) {
 
 		if (token.isType()) {
-			token.setClassNameAtt(word);
+			token.setTypeNameAtt(word);
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
-			token.setClassNameAtt(getCastType(word));
+			token.setTypeNameAtt(getCastType(word));
 			return;
 
 		} else if (token.isInvokeInit()) {// 构造方法
-			token.setMethodNameAtt(getInitMethodName(word));
+			token.setTypeNameAtt(getInitMethodName(word));
 			return;
 
 		} else if (token.isInvokeStatic()) {// 静态方法调用
-			token.setClassNameAtt(getClassName(word));
+			token.setTypeNameAtt(getClassName(word));
 			token.setPropertiesAtt(getPropertyNames(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
@@ -286,7 +286,7 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isStaticVar()) {// 静态变量
-			token.setClassNameAtt(getClassName(word));
+			token.setTypeNameAtt(getClassName(word));
 			token.setPropertiesAtt(getPropertyNames(word));
 			return;
 
