@@ -27,6 +27,22 @@ public class Context {
 	// 方法解析链,不能相互嵌套依赖
 	public List<String> dependencies = new ArrayList<>();
 
+	/**
+	 * 是否包含
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public boolean contains(String type) {
+		return findImport(type) != null;
+	}
+
+	/**
+	 * 查询引入的类型
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public String findImport(String type) {
 		for (String className : files.keySet()) {
 			if (className.substring(className.lastIndexOf(".") + 1).equals(type)) {

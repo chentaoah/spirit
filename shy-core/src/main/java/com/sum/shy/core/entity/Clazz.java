@@ -114,6 +114,16 @@ public class Clazz {
 
 	}
 
+	public boolean isNativeType(String type) {
+		// 如果是直接引入的,一般来说是本地的
+		if (importStrs.containsKey(type) || importAliases.containsKey(type)) {
+			return true;
+		} else if (Context.get().contains(type)) {// 如果只存在于
+			return false;
+		}
+		return false;
+	}
+
 	public boolean isAlias(String type) {
 		return importAliases.containsKey(type);
 	}
