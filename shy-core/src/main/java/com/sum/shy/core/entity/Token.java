@@ -45,6 +45,14 @@ public class Token {
 		return Constants.SEPARATOR_TOKEN.equals(type);
 	}
 
+	public boolean isType() {
+		return Constants.TYPE_TOKEN.equals(type);
+	}
+
+	public boolean isCast() {
+		return Constants.CAST_TOKEN.equals(type);
+	}
+
 	public boolean isNull() {
 		return Constants.NULL_TOKEN.equals(type);
 	}
@@ -107,14 +115,6 @@ public class Token {
 
 	public boolean isMemberVarFluent() {
 		return Constants.MEMBER_VAR_FLUENT_TOKEN.equals(type);
-	}
-
-	public boolean isType() {
-		return Constants.TYPE_TOKEN.equals(type);
-	}
-
-	public boolean isCast() {
-		return Constants.CAST_TOKEN.equals(type);
 	}
 
 	public boolean isPrefix() {
