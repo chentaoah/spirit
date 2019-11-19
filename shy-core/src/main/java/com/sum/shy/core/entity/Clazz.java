@@ -114,16 +114,6 @@ public class Clazz {
 
 	}
 
-	public boolean isNativeType(String type) {
-		// 如果是直接引入的,一般来说是本地的
-		if (importStrs.containsKey(type) || importAliases.containsKey(type)) {
-			return true;
-		} else if (Context.get().contains(type)) {// 如果只存在于
-			return false;
-		}
-		return false;
-	}
-
 	public boolean isAlias(String type) {
 		return importAliases.containsKey(type);
 	}
@@ -157,6 +147,21 @@ public class Clazz {
 		}
 		// 重复添加也认为是添加成功了
 		return true;
+	}
+
+	public Field findField(String fieldName) {
+		for (Field field : staticFields) {
+			if (field.name.equals(fieldName)) {
+				return field;
+			}
+		}
+		for (Field field : fields) {
+			if (field.name.equals(fieldName)) {
+				return field;
+			}
+		}
+		throw new RuntimeException("No field information found!fieldName:[" + fieldName + "]");
+
 	}
 
 	public Method findMethod(String methodName) {

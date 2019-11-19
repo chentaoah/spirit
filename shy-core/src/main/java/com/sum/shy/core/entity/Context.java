@@ -28,13 +28,12 @@ public class Context {
 	public List<String> dependencies = new ArrayList<>();
 
 	/**
-	 * 是否包含
+	 * 查询class
 	 * 
-	 * @param type
-	 * @return
+	 * @param fullName
 	 */
-	public boolean contains(String type) {
-		return findImport(type) != null;
+	public Clazz findClass(String fullName) {
+		return classes.get(fullName);
 	}
 
 	/**
@@ -50,6 +49,16 @@ public class Context {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 查询引入的类型
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public boolean isFriends(String fullName) {
+		return files.containsKey(fullName);
 	}
 
 }

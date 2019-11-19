@@ -190,11 +190,11 @@ public class Token {
 	// =================== 后缀名 =====================
 
 	@SuppressWarnings("unchecked")
-	public List<String> getPropertyNamesAtt() {
+	public List<String> getPropertiesAtt() {
 		return (List<String>) attachments.get(Constants.PROPERTY_NAMES_ATTACHMENT);
 	}
 
-	public void setPropertyNamesAtt(List<String> list) {
+	public void setPropertiesAtt(List<String> list) {
 		attachments.put(Constants.PROPERTY_NAMES_ATTACHMENT, list);
 	}
 

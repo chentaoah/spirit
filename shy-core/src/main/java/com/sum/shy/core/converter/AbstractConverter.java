@@ -63,7 +63,7 @@ public abstract class AbstractConverter implements Converter {
 				} else if (token.isInvokeMember()) {
 //					Type lastType = token.getTypeAtt();
 					// 向上推导
-					
+
 				}
 				return token.toString();
 
