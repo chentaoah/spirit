@@ -157,7 +157,7 @@ public class Token {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	// =================== 类名 =====================
+	// =================== 全名 =====================
 
 	public String getFullNameAtt() {
 		return (String) attachments.get(Constants.FULL_NAME_ATTACHMENT);

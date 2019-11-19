@@ -14,11 +14,12 @@ public class InvokeVisiter {
 
 	public static String visit(Clazz clazz, CodeType codeType) {
 		List<CodeType> list = new ArrayList<>();
+		list.add(codeType);
 		while (true) {
 			Token token = codeType.token;
 			CodeType lastCodeType = (CodeType) token.getTypeAtt();
 			if (lastCodeType != null) {
-				list.add(lastCodeType);
+				list.add(0, lastCodeType);
 				codeType = lastCodeType;
 			} else {
 				break;
@@ -26,8 +27,11 @@ public class InvokeVisiter {
 		}
 		String returnType = null;
 		for (CodeType type : list) {
-			Token token = codeType.token;
-			if (token.isInvokeInit()) {
+			Token token = type.token;
+			if (token.isType()) {
+				returnType = clazz.findImport(token.getClassNameAtt());
+
+			} else if (token.isInvokeInit()) {
 				returnType = clazz.findImport(token.getMethodNameAtt());
 
 			} else if (token.isInvokeMember()) {
@@ -47,7 +51,7 @@ public class InvokeVisiter {
 				returnType = visit(clazz1, (CodeType) field.type);
 
 			} else if (token.isValue()) {
-				returnType = (String) token.value;
+				returnType = token.type;
 			}
 
 		}

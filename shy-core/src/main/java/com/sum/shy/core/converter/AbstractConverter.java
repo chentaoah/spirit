@@ -2,6 +2,7 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
+import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Type;
@@ -60,11 +61,11 @@ public abstract class AbstractConverter implements Converter {
 			} else if (token.isInvoke()) {
 				if (token.isInvokeInit()) {// 构造方法
 					return token.getMethodNameAtt();
-				} else if (token.isInvokeMember()) {
-//					Type lastType = token.getTypeAtt();
-					// 向上推导
 
+				} else if (token.isInvokeMember()) {
+					return InvokeVisiter.visit(clazz, codeType);
 				}
+
 				return token.toString();
 
 			} else {

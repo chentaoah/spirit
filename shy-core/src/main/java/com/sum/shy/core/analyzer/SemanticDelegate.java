@@ -252,7 +252,11 @@ public class SemanticDelegate {
 
 	private static void getAttachments(Token token, String word) {
 
-		if (token.isCast()) {// 强制类型转换
+		if (token.isType()) {
+			token.setClassNameAtt(word);
+			return;
+
+		} else if (token.isCast()) {// 强制类型转换
 			token.setClassNameAtt(getCastType(word));
 			return;
 
