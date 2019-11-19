@@ -61,7 +61,8 @@ public abstract class AbstractConverter implements Converter {
 				if (token.isInvokeInit()) {// 构造方法
 					return token.getMethodNameAtt();
 				} else if (token.isInvokeMember()) {
-					Type lastType = token.getTypeAtt();
+//					Type lastType = token.getTypeAtt();
+					// 向上推导
 					
 				}
 				return token.toString();

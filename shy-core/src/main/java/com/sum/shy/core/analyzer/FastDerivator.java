@@ -1,5 +1,6 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
@@ -73,10 +74,39 @@ public class FastDerivator {
 				method.addVariable(new Variable("0", type, stmt.get(0)));
 
 			} else if (stmt.isReturn()) {// 如果是返回语句
+				method.variables.clear();// 返回前,清理掉所有的变量
 				return getType(clazz, stmt);
 			}
 		}
+		method.variables.clear();// 返回前,清理掉所有的变量
+		return null;
+	}
 
+	public static String getTraceType(Clazz clazz, CodeType codeType) {
+		// 无论如何先收集一下所有相关的type
+		List<CodeType> codeTypes = new ArrayList<>();
+		while (true) {
+			Token token = codeType.token;
+			CodeType lastCodeType = (CodeType) token.getTypeAtt();
+			if (lastCodeType != null) {
+				codeTypes.add(0, lastCodeType);
+				codeType = lastCodeType;
+			} else {
+				break;
+			}
+		}
+		// 开始遍历
+		String fullName = null;
+		for (CodeType type : codeTypes) {
+			Token token = codeType.token;
+			if (token.isInvokeInit()) {
+				String className = token.getMethodNameAtt();
+				fullName = clazz.findImport(className);
+
+			} else if (token.isInvokeMember()) {
+				
+			}
+		}
 		return null;
 	}
 
