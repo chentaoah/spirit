@@ -1,5 +1,6 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
@@ -59,7 +60,17 @@ public class FastDerivator {
 
 	public static Type getReturnType(Clazz clazz, Method method) {
 
-		long count = 1;
+		int depth = 0;
+		List<Integer> counts = new ArrayList<>();
+		counts.add(1);
+		counts.add(0);
+		counts.add(0);
+		counts.add(0);
+		counts.add(0);
+		counts.add(0);
+		counts.add(0);
+		counts.add(0);
+
 		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {
 			Line line = lines.get(i);
@@ -68,16 +79,25 @@ public class FastDerivator {
 
 			Stmt stmt = Stmt.create(line);
 			// 判断是否进入子块
-			if ("{".equals(stmt.last())) {
-				count = count * 10 + 1;
-			} else if ("}".equals(stmt.frist())) {
-				count = count / 10;
+			if ("}".equals(stmt.frist())) {
+				depth--;
 			}
-			VariableTracker.track(clazz, method, "0", line, stmt);
+			if ("{".equals(stmt.last())) {
+				depth++;
+				counts.set(depth, counts.get(depth) + 1);
+			}
+			StringBuilder sb = new StringBuilder();
+			for (Integer count : counts) {
+				if (count == 0)
+					break;
+				sb.append(count + "-");
+			}
+
+			VariableTracker.track(clazz, method, sb.toString(), line, stmt);
 
 			if (stmt.isAssignment()) {// 如果是赋值语句
 				Type type = getType(clazz, stmt);
-				method.addVariable(new Variable("0", type, stmt.get(0)));
+				method.addVariable(new Variable(sb.toString(), type, stmt.get(0)));
 
 			} else if (stmt.isReturn()) {// 如果是返回语句
 				method.variables.clear();// 返回前,清理掉所有的变量
