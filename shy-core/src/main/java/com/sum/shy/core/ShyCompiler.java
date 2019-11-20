@@ -52,7 +52,7 @@ public class ShyCompiler {
 				debug(file);
 			}
 		}
-		
+
 		TypeConverter.convert(classes);
 
 		if (!debug) {
@@ -69,8 +69,8 @@ public class ShyCompiler {
 		Clazz clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
-		//自动引入友元
-		AutoImporter.autoImport(clazz);
+		// 自动引入友元
+//		AutoImporter.autoImport(clazz);
 		// 展示一下
 		clazz.show();
 
