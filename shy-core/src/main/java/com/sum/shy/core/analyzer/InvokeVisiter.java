@@ -5,58 +5,61 @@ import java.util.List;
 
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.Field;
-import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Token;
 
 public class InvokeVisiter {
 
-	public static String visit(Clazz clazz, CodeType codeType) {
-		List<CodeType> list = new ArrayList<>();
-		list.add(codeType);
-		while (true) {
-			Token token = codeType.token;
-			CodeType lastCodeType = (CodeType) token.getTypeAtt();
-			if (lastCodeType != null) {
-				list.add(0, lastCodeType);
-				codeType = lastCodeType;
-			} else {
-				break;
-			}
-		}
-		String returnType = null;
-		for (CodeType type : list) {
-			Token token = type.token;
-			if (token.isType()) {
-				returnType = clazz.findImport(token.getTypeNameAtt());
+	public static CodeType visit(Clazz clazz, CodeType type) {
 
-			} else if (token.isInvokeInit()) {
-				returnType = clazz.findImport(token.getTypeNameAtt());
+		// 向上获取所有相关的codeType
+		List<CodeType> codeTypes = getRelevantType(type);
+		// type token
+		CodeType returnType = null;
+		// 开始遍历
+		for (CodeType codeType : codeTypes) {
+			Token token = codeType.token;
+			if (token.isType()) {// 如果是类型声明
+				returnType = codeType;
+
+			} else if (token.isInvokeInit()) {// 如果是构造方法
+				returnType = new CodeType(token.getTypeNameAtt());
 
 			} else if (token.isInvokeMember()) {
-				// 查找class
-				Clazz clazz1 = Context.get().findClass(returnType);
-				// 查找方法
-				Method method = clazz1.findMethod(token.getMethodNameAtt());
-				// 获取方法的返回值
-				returnType = visit(clazz1, (CodeType) method.returnType);
+				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), token.getMethodNameAtt());
 
 			} else if (token.isMemberVar()) {
-				// 查找class
-				Clazz clazz1 = Context.get().findClass(returnType);
-				// 查找方法
-				Field field = clazz1.findField(token.getPropertiesAtt().get(0));
-				// 获取方法的返回值
-				returnType = visit(clazz1, (CodeType) field.type);
+				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), null);
 
 			} else if (token.isValue()) {
-				returnType = token.type;
+				returnType = codeType;
+
 			}
 
 		}
 
 		return returnType;
+	}
+
+	private static List<CodeType> getRelevantType(CodeType codeType) {
+		List<CodeType> codeTypes = new ArrayList<>();
+		codeTypes.add(codeType);
+		while (true) {
+			Token token = codeType.token;
+			CodeType lastCodeType = (CodeType) token.getTypeAtt();
+			if (lastCodeType != null) {
+				codeTypes.add(0, lastCodeType);
+				codeType = lastCodeType;
+			} else {
+				break;
+			}
+		}
+		return codeTypes;
+	}
+
+	private static CodeType getReturnType(Clazz clazz, CodeType returnType, List<String> properties,
+			String methodName) {
+
+		return null;
 	}
 
 }

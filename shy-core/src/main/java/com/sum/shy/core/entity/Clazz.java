@@ -118,6 +118,10 @@ public class Clazz {
 		return importAliases.containsKey(type);
 	}
 
+	public boolean isFriends(String type) {
+		return Context.get().findImport(type) != null;
+	}
+
 	public void addImport(Type type) {
 //		if (name == null)
 //			return;

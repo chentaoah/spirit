@@ -63,7 +63,7 @@ public abstract class AbstractConverter implements Converter {
 					return token.getTypeNameAtt();
 
 				} else if (token.isInvokeMember()) {
-					return InvokeVisiter.visit(clazz, codeType);
+//					return InvokeVisiter.visit(clazz, codeType);
 				}
 
 				return token.toString();
