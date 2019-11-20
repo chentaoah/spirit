@@ -92,6 +92,12 @@ public class Clazz {
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
+	/**
+	 * 首先从import里面拿，如果没有，则从上下文中获取友元
+	 * 
+	 * @param typeName
+	 * @return
+	 */
 	public String findImport(String typeName) {
 		// 如果本身传入的就是一个全名的话，直接返回
 		if (typeName.contains(".")) {
@@ -115,26 +121,8 @@ public class Clazz {
 
 	}
 
-	public Clazz findImport(CodeType codeType) {
-		Token token = codeType.token;
-		if (token.isType()) {
-			String typeName = token.getTypeNameAtt();
-			String className = findImport(typeName);
-			return Context.get().findClass(className);
-		}
-		return null;
-	}
-
-	public boolean isNative(String typeName) {
-		return importStrs.containsKey(typeName);
-	}
-
 	public boolean isAlias(String typeName) {
 		return importAliases.containsKey(typeName);
-	}
-
-	public boolean isFriends(String typeName) {
-		return Context.get().findImport(typeName) != null;
 	}
 
 	public void addImport(Type type) {

@@ -26,25 +26,6 @@ public class Context {
 	/**
 	 * 查询引入的类型
 	 * 
-	 * @param type
-	 * @return
-	 */
-	public boolean isFriends(String className) {
-		return files.containsKey(className);
-	}
-
-	/**
-	 * 查询class
-	 * 
-	 * @param className
-	 */
-	public Clazz findClass(String className) {
-		return classes.get(className);
-	}
-
-	/**
-	 * 查询引入的类型
-	 * 
 	 * @param typeName
 	 * @return
 	 */
@@ -55,6 +36,19 @@ public class Context {
 			}
 		}
 		return null;
+	}
+
+	public boolean isFriend(String className) {
+		return classes.containsKey(className);
+	}
+
+	/**
+	 * 查询class
+	 * 
+	 * @param className
+	 */
+	public Clazz findClass(String className) {
+		return classes.get(className);
 	}
 
 }
