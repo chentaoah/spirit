@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
@@ -61,6 +62,7 @@ public class FastDerivator {
 	public static Type getReturnType(Clazz clazz, Method method) {
 
 		int depth = 0;
+		// 这里默认给了八级的深度
 		List<Integer> counts = new ArrayList<>();
 		counts.add(1);
 		counts.add(0);
@@ -78,27 +80,39 @@ public class FastDerivator {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
+
 			// 判断是否进入子块
+			boolean ignore = false;
 			if ("}".equals(stmt.frist())) {
 				depth--;
+				ignore = true;
 			}
 			if ("{".equals(stmt.last())) {
 				depth++;
 				counts.set(depth, counts.get(depth) + 1);
+				ignore = true;
 			}
+			if (ignore)
+				continue;
+
 			StringBuilder sb = new StringBuilder();
 			for (Integer count : counts) {
 				if (count == 0)
 					break;
 				sb.append(count + "-");
 			}
+			String block = sb.toString();
 
-			VariableTracker.track(clazz, method, sb.toString(), line, stmt);
-
-			if (stmt.isAssignment()) {// 如果是赋值语句
-				Type type = getType(clazz, stmt);
-				method.addVariable(new Variable(sb.toString(), type, stmt.get(0)));
-
+			VariableTracker.track(clazz, method, block, line, stmt);
+			// 如果是赋值语句
+			if (stmt.isAssignment()) {
+				// 判断变量追踪是否帮我们找到了该变量的类型
+				Token token = stmt.getToken(0);
+				// 如果没有找到,则进行推导
+				if (token.isVar() && token.getTypeAtt() == null) {
+					Type type = getType(clazz, stmt);
+					method.addVariable(new Variable(block, type, stmt.get(0)));
+				}
 			} else if (stmt.isReturn()) {// 如果是返回语句
 				method.variables.clear();// 返回前,清理掉所有的变量
 				return getType(clazz, stmt);
