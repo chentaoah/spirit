@@ -6,7 +6,6 @@ import java.util.List;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Method;
 import com.sum.shy.core.entity.Stmt;
