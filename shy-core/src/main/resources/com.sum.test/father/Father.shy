@@ -4,10 +4,8 @@ class Father {
 	name="chentao"
 	age=60
 	
-	func getName(User user, obj[] a, int x){
-		if x>100 {
-			user="test"
-		}
+	func getName(User user,String str,int x){
+		
 		return user.getAge()
 	}
 	
