@@ -139,7 +139,7 @@ public class FastDerivator {
 			}
 		}
 		method.variables.clear();// 返回前,清理掉所有的变量
-		return null;
+		return new CodeType("void");
 	}
 
 }

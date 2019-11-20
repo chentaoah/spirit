@@ -1,8 +1,9 @@
 package com.sum.shy.core.entity;
 
+import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
-public class Field {
+public class Field implements Element {
 
 	public Type type;
 	// 参数名
@@ -14,6 +15,16 @@ public class Field {
 		this.type = type;
 		this.name = name;
 		this.stmt = stmt;
+	}
+
+	@Override
+	public Type getType() {
+		return type;
+	}
+
+	@Override
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@Override

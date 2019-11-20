@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
@@ -181,6 +182,15 @@ public class Clazz {
 		}
 		throw new RuntimeException("No method information found!methodName:[" + methodName + "]");
 
+	}
+
+	public List<Element> getAllElement() {
+		List<Element> list = new ArrayList<>();
+		list.addAll(staticFields);
+		list.addAll(staticMethods);
+		list.addAll(fields);
+		list.addAll(methods);
+		return list;
 	}
 
 }

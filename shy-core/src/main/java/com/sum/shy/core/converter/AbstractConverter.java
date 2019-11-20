@@ -30,18 +30,7 @@ public abstract class AbstractConverter implements Converter {
 		if (type instanceof CodeType) {
 			CodeType codeType = (CodeType) type;
 			Token token = codeType.token;
-			if (token.isType()) {
-				return (String) token.value;
-
-			} else if (token.isVariable()) {
-				return token.toString();
-
-			} else if (token.isInvoke()) {
-				return token.toString();
-
-			} else {
-				return token.toString();
-			}
+			return token.value.toString();
 		}
 		return null;
 	}

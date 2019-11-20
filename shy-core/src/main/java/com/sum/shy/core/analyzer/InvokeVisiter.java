@@ -2,12 +2,31 @@ package com.sum.shy.core.analyzer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.sum.shy.core.api.Element;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Token;
 
 public class InvokeVisiter {
+	/**
+	 * 遍历所有的字段和方法,推导出最终的类型
+	 * 
+	 * @param classes
+	 */
+	public static void visit(Map<String, Clazz> classes) {
+		for (Clazz clazz : classes.values()) {
+			for (Element element : clazz.getAllElement()) {
+				CodeType codeType = (CodeType) element.getType();
+				Token token = codeType.token;
+				if (!token.isType()) {// 如果不是type token,则需要进行推导
+					CodeType returnType = visit(clazz, codeType);
+					element.setType(returnType);
+				}
+			}
+		}
+	}
 
 	public static CodeType visit(Clazz clazz, CodeType type) {
 
@@ -21,17 +40,11 @@ public class InvokeVisiter {
 			if (token.isType()) {// 如果是类型声明
 				returnType = codeType;
 
-			} else if (token.isInvokeInit()) {// 如果是构造方法
-				returnType = new CodeType(token.getTypeNameAtt());
-
 			} else if (token.isInvokeMember()) {
 				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), token.getMethodNameAtt());
 
 			} else if (token.isMemberVar()) {
 				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), null);
-
-			} else if (token.isValue()) {
-				returnType = codeType;
 
 			}
 
@@ -56,8 +69,7 @@ public class InvokeVisiter {
 		return codeTypes;
 	}
 
-	private static CodeType getReturnType(Clazz clazz, CodeType returnType, List<String> properties,
-			String methodName) {
+	private static CodeType getReturnType(Clazz clazz, CodeType codeType, List<String> properties, String methodName) {
 
 		return null;
 	}

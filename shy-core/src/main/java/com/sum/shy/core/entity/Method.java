@@ -3,9 +3,10 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
-public class Method {
+public class Method implements Element {
 	// 类型
 	public Type returnType;
 	// 参数名
@@ -21,6 +22,16 @@ public class Method {
 		this.returnType = returnType;
 		this.name = name;
 		this.params = params;
+	}
+
+	@Override
+	public Type getType() {
+		return returnType;
+	}
+
+	@Override
+	public void setType(Type type) {
+		this.returnType = type;
 	}
 
 	@Override
