@@ -36,7 +36,7 @@ public class FastDerivator {
 	public static Type getType(Clazz clazz, Token token) {
 
 		if (token.isType()) {// 类型声明
-			return new CodeType(token);
+			return new CodeType(token);// 转换成type token
 
 		} else if (token.isCast()) {// 类型强制转换
 			return new CodeType(token.getTypeNameAtt());// 转换成type token
@@ -44,17 +44,16 @@ public class FastDerivator {
 		} else if (token.isValue()) {// 字面值
 			return getValueCodeType(token);// 转换成type token
 
+		} else if (token.isVariable()) {// 变量
+			if (token.getTypeAtt() != null) {// 这个变量必须有类型才能够被返回
+				return new CodeType(token);
+			}
+
 		} else if (token.isInvoke()) {// 方法调用
 			if (token.isInvokeInit()) {// 构造方法
 				return new CodeType(token.getTypeNameAtt());// 转换成type token
 			}
 			return new CodeType(token);
-
-		} else if (token.isVariable()) {// 变量
-			// 这个变量必须有类型才能够被返回
-			if (token.getTypeAtt() != null) {
-				return new CodeType(token);
-			}
 
 		}
 

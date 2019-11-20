@@ -2,7 +2,6 @@ package com.sum.shy.core.converter;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Type;
@@ -31,41 +30,13 @@ public abstract class AbstractConverter implements Converter {
 		if (type instanceof CodeType) {
 			CodeType codeType = (CodeType) type;
 			Token token = codeType.token;
-			if (token.isNull()) {
-				return "Object";
-
-			} else if (token.isBool()) {
-				return "boolean";
-
-			} else if (token.isInt()) {
-				return "int";
-
-			} else if (token.isDouble()) {
-				return "double";
-
-			} else if (token.isStr()) {
-				return "String";
-
-			} else if (token.isArray()) {
-				return "List";
-
-			} else if (token.isMap()) {
-				return "Map";
-
-			} else if (token.isType()) {
+			if (token.isType()) {
 				return (String) token.value;
 
 			} else if (token.isVariable()) {
 				return token.toString();
 
 			} else if (token.isInvoke()) {
-				if (token.isInvokeInit()) {// 构造方法
-					return token.getTypeNameAtt();
-
-				} else if (token.isInvokeMember()) {
-//					return InvokeVisiter.visit(clazz, codeType);
-				}
-
 				return token.toString();
 
 			} else {
