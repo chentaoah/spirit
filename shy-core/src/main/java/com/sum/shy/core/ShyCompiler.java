@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.AutoImporter;
+import com.sum.shy.core.analyzer.TypeConverter;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.FileUtils;
@@ -51,6 +52,8 @@ public class ShyCompiler {
 				debug(file);
 			}
 		}
+		
+		TypeConverter.convert(classes);
 
 		if (!debug) {
 			// 2.构建java代码
