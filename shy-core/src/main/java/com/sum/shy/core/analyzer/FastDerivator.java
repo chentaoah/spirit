@@ -39,12 +39,15 @@ public class FastDerivator {
 			return new CodeType(token);
 
 		} else if (token.isCast()) {// 类型强制转换
-			return new CodeType(token);
+			return new CodeType(token.getTypeNameAtt());// 转换成type token
 
 		} else if (token.isValue()) {// 字面值
-			return new CodeType(token);
+			return getValueCodeType(token);// 转换成type token
 
 		} else if (token.isInvoke()) {// 方法调用
+			if (token.isInvokeInit()) {// 构造方法
+				return new CodeType(token.getTypeNameAtt());// 转换成type token
+			}
 			return new CodeType(token);
 
 		} else if (token.isVariable()) {// 变量
@@ -55,6 +58,25 @@ public class FastDerivator {
 
 		}
 
+		return null;
+	}
+
+	private static Type getValueCodeType(Token token) {
+		if (token.isNull()) {
+			return new CodeType("Object");
+		} else if (token.isBool()) {
+			return new CodeType("boolean");
+		} else if (token.isInt()) {
+			return new CodeType("int");
+		} else if (token.isDouble()) {
+			return new CodeType("double");
+		} else if (token.isStr()) {
+			return new CodeType("String");
+		} else if (token.isArray()) {
+			return new CodeType("List");
+		} else if (token.isMap()) {
+			return new CodeType("Map");
+		}
 		return null;
 	}
 
