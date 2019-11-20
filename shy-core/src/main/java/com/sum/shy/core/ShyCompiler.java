@@ -53,8 +53,6 @@ public class ShyCompiler {
 			}
 		}
 
-		TypeConverter.convert(classes);
-
 		if (!debug) {
 			// 2.构建java代码
 			for (Clazz clazz : classes.values()) {
