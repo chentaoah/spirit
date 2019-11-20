@@ -7,6 +7,7 @@ import java.util.Map;
 import com.sum.shy.core.api.Element;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Token;
 
 public class InvokeVisiter {
@@ -34,7 +35,6 @@ public class InvokeVisiter {
 		List<CodeType> codeTypes = getRelevantType(type);
 		// type token
 		CodeType returnType = null;
-		// 开始遍历
 		for (CodeType codeType : codeTypes) {
 			Token token = codeType.token;
 			if (token.isType()) {// 如果是类型声明
@@ -70,7 +70,32 @@ public class InvokeVisiter {
 	}
 
 	private static CodeType getReturnType(Clazz clazz, CodeType codeType, List<String> properties, String methodName) {
+		Token token = codeType.token;
+		if (token.isType()) {
+			String typeName = token.getTypeNameAtt();
+			String className = clazz.findImport(typeName);
+			if (clazz.isFriends(typeName)) {// 如果是友元，则字面意思进行推导
+				CodeType returnType = null;
+				for (String property : properties) {
+					returnType = getFieldType(clazz, properties);
+				}
+				Clazz returnClazz=clazz.findImport(returnType);
+				return getMethodType(anotherClazz, methodName);
 
+			} else if (clazz.isNative(typeName)) {// 如果是本地类型，则通过反射进行推导
+
+			}
+		}
+		return null;
+	}
+
+	private static CodeType getFieldType(Clazz clazz, List<String> properties) {
+
+		return null;
+	}
+
+	private static CodeType getMethodType(Clazz clazz, String methodName) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

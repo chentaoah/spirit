@@ -92,35 +92,49 @@ public class Clazz {
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
-	public String findImport(String type) {
+	public String findImport(String typeName) {
 		// 如果本身传入的就是一个全名的话，直接返回
-		if (type.contains(".")) {
-			return type;
+		if (typeName.contains(".")) {
+			return typeName;
 		}
 
-		String importStr = importStrs.get(type);
+		String importStr = importStrs.get(typeName);
 		// 如果不存在,则可能是在别名中
 		if (importStr == null) {
-			importStr = importAliases.get(type);
+			importStr = importAliases.get(typeName);
 		}
 
 		// 从上下文中获取
-		importStr = Context.get().findImport(type);
+		importStr = Context.get().findImport(typeName);
 
 		if (importStr == null) {
-			throw new RuntimeException("No import information found!name:[" + type + "]");
+			throw new RuntimeException("No import information found!name:[" + typeName + "]");
 		}
 
 		return importStr;
 
 	}
 
-	public boolean isAlias(String type) {
-		return importAliases.containsKey(type);
+	public Clazz findImport(CodeType codeType) {
+		Token token = codeType.token;
+		if (token.isType()) {
+			String typeName = token.getTypeNameAtt();
+			String className = findImport(typeName);
+			return Context.get().findClass(className);
+		}
+		return null;
 	}
 
-	public boolean isFriends(String type) {
-		return Context.get().findImport(type) != null;
+	public boolean isNative(String typeName) {
+		return importStrs.containsKey(typeName);
+	}
+
+	public boolean isAlias(String typeName) {
+		return importAliases.containsKey(typeName);
+	}
+
+	public boolean isFriends(String typeName) {
+		return Context.get().findImport(typeName) != null;
 	}
 
 	public void addImport(Type type) {
