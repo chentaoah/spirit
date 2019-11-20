@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sum.shy.core.analyzer.AutoImporter;
 import com.sum.shy.core.entity.Clazz;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.FileUtils;
@@ -65,6 +66,8 @@ public class ShyCompiler {
 		Clazz clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
+		//自动引入友元
+		AutoImporter.autoImport(clazz);
 		// 展示一下
 		clazz.show();
 
