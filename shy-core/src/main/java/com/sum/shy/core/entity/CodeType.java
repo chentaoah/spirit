@@ -19,6 +19,10 @@ public class CodeType implements Type {
 		return token.isType();
 	}
 
+	public String getTypeName() {
+		return token.isType() ? token.value.toString() : null;
+	}
+
 	@Override
 	public String toString() {
 		return token.isType() ? token.value.toString() : token.toString();
