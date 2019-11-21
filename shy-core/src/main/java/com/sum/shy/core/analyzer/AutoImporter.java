@@ -13,7 +13,6 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Variable;
 
 /**
  * 自动引入器
