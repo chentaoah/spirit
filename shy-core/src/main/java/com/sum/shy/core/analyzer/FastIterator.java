@@ -52,6 +52,7 @@ public class FastIterator {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
+			boolean inCondition = false;
 			// 判断进入的深度
 			if ("}".equals(stmt.frist())) {
 				depth--;
@@ -59,6 +60,7 @@ public class FastIterator {
 			if ("{".equals(stmt.last())) {
 				depth++;
 				counts.set(depth, counts.get(depth) + 1);
+				inCondition = true;
 			}
 			// 生成block
 			StringBuilder sb = new StringBuilder();
@@ -94,7 +96,8 @@ public class FastIterator {
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
 			}
-			String indent = LineUtils.getIndentByNumber(depth + 2);
+			// 条件语句没必要那么快增加缩进
+			String indent = LineUtils.getIndentByNumber(inCondition ? depth + 2 - 1 : depth + 2);
 
 			Object result = handler.handle(clazz, method, indent, block, line, stmt);
 			if (result != null) {

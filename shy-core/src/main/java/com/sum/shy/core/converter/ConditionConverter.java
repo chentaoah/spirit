@@ -9,7 +9,7 @@ public class ConditionConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-		
+
 		return stmt;
 	}
 

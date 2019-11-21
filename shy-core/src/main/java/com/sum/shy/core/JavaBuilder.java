@@ -58,11 +58,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (CtField field : clazz.staticFields) {
-			body.append("\tpublic static " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt));
+			body.append("\tpublic static " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt) + "\n");
 		}
 
 		for (CtField field : clazz.fields) {
-			body.append("\tpublic " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt));
+			body.append("\tpublic " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt) + "\n");
 		}
 
 		body.append("\n");
@@ -127,7 +127,7 @@ public class JavaBuilder {
 //				}
 				Converter converter = Converter.get(stmt.syntax);
 				stmt = converter.convert(clazz, method, indent, block, line, stmt);
-				sb.append(indent + stmt);
+				sb.append(indent + stmt + "\n");
 				return null;// 必须返回null,才能够持续进行下去
 			}
 		});

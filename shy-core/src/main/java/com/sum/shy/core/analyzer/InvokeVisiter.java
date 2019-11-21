@@ -84,7 +84,6 @@ public class InvokeVisiter {
 
 	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties,
 			String methodName) {
-
 		if (codeType.isAccurate()) {
 			String typeName = codeType.token.getTypeNameAtt();
 			String className = clazz.findImport(typeName);

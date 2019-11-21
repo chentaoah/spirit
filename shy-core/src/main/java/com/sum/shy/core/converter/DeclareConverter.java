@@ -11,7 +11,7 @@ public class DeclareConverter extends DefaultConverter {
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 		// 将语句进行一定的转换
-		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, " = null;\n", null));
+		stmt.tokens.add(new Token(Constants.EXPRESS_TOKEN, " = null;", null));
 		return stmt;
 	}
 }

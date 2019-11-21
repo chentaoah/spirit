@@ -19,7 +19,7 @@ public class DefaultConverter implements Converter {
 		// 将语句进行一定的转换
 		stmt = convertSubStmt(clazz, stmt);
 		// 添加一个后缀
-		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";\n", null));
+		stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";", null));
 
 		return stmt;
 

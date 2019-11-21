@@ -4,13 +4,11 @@ class Father {
 	name="chentao"
 	age=60
 	
-	func getName(User user,String  str,int x){
+	func getName(User user, String str, int x){
+		if x > 0 {
 		
+		}
 		return user.getAge()
-	}
-	
-	func getPeople(){
-		return People()
 	}
 	
 }
