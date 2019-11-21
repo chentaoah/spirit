@@ -42,16 +42,16 @@ public class InvokeVisiter {
 		return codeType;
 	}
 
-	public static CodeType visitCodeType(CtClass clazz, CodeType type) {
+	public static CodeType visitCodeType(CtClass clazz, CodeType codeType) {
 
 		// 向上获取所有相关的codeType
-		List<CodeType> codeTypes = getRelevantType(type);
+		List<CodeType> codeTypes = getRelevantType(codeType);
 		// type token
 		CodeType returnType = null;
-		for (CodeType codeType : codeTypes) {
-			Token token = codeType.token;
+		for (CodeType codeType1 : codeTypes) {
+			Token token = codeType1.token;
 			if (token.isType()) {// 如果是类型声明
-				returnType = codeType;
+				returnType = codeType1;
 
 			} else if (token.isInvokeMember()) {
 				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), token.getMethodNameAtt());
@@ -82,7 +82,8 @@ public class InvokeVisiter {
 		return codeTypes;
 	}
 
-	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties, String methodName) {
+	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties,
+			String methodName) {
 
 		if (codeType.isType()) {
 			String typeName = codeType.token.getTypeNameAtt();

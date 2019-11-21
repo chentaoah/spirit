@@ -1,9 +1,9 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
+import com.sum.shy.core.api.Listener;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
@@ -12,6 +12,8 @@ import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Variable;
 
 /**
  * 自动引入器
@@ -45,21 +47,31 @@ public class AutoImporter {
 			codeType = (CodeType) param.type;
 			importByTypeName(clazz, codeType.getTypeName());
 		}
-		// 开始遍历方法内容
-		List<Line> lines = method.methodLines;
-		for (int i = 0; i < lines.size(); i++) {
-			Line line = lines.get(i);
-			if (line.isIgnore())
-				continue;
-			Stmt stmt = Stmt.create(line);
-			if (stmt.isDeclare()) {// 追加类型
-				importByTypeName(clazz, stmt.get(0));
-			} else if (stmt.isAssign()) {
-				// 变量追踪
-				VariableTracker.track(clazz, method, block, line, stmt);
-				importByTypeName(clazz, stmt.get(0));
+
+		FastIterator.traver(clazz, method, new Listener() {
+			@Override
+			public Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt) {
+				if (stmt.isDeclare()) {
+					importByTypeName(clazz, stmt.get(0));
+
+				} else if (stmt.isAssign()) {
+					// 变量追踪
+					VariableTracker.track(clazz, method, block, line, stmt);
+					// 判断变量追踪是否帮我们找到了该变量的类型
+					Token token = stmt.getToken(0);
+					// 如果没有找到,则进行推导
+					if (token.isVar() && token.getTypeAtt() == null) {
+						CodeType codeType = (CodeType) FastDerivator.getType(clazz, stmt);
+						if (!codeType.isType()) {// 如果返回的不是一个type token,则进行深度推导
+							codeType = InvokeVisiter.visitCodeType(clazz, codeType);
+						}
+						method.addVariable(new Variable(block, codeType, stmt.get(0)));
+						importByTypeName(clazz, codeType.getTypeName());// 将变量追加到上下文之后,添加类型到import里
+					}
+				}
+				return null;
 			}
-		}
+		});
 
 	}
 

@@ -1,8 +1,6 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.sum.shy.core.api.Listener;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
@@ -84,67 +82,29 @@ public class FastDerivator {
 
 	public static Type getReturnType(CtClass clazz, CtMethod method) {
 
-		int depth = 0;
-		// 这里默认给了八级的深度
-		List<Integer> counts = new ArrayList<>();
-		counts.add(1);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-
-		List<Line> lines = method.methodLines;
-		for (int i = 0; i < lines.size(); i++) {
-			Line line = lines.get(i);
-			if (line.isIgnore())
-				continue;
-
-			Stmt stmt = Stmt.create(line);
-
-			// 判断是否进入子块
-			boolean ignore = false;
-			if ("}".equals(stmt.frist())) {
-				depth--;
-				ignore = true;
-			}
-			if ("{".equals(stmt.last())) {
-				depth++;
-				counts.set(depth, counts.get(depth) + 1);
-				ignore = true;
-			}
-			if (ignore)
-				continue;
-
-			StringBuilder sb = new StringBuilder();
-			for (Integer count : counts) {
-				if (count == 0)
-					break;
-				sb.append(count + "-");
-			}
-			String block = sb.toString();
-
-			// 如果是赋值语句
-			if (stmt.isAssign()) {
-				// 变量追踪
-				VariableTracker.track(clazz, method, block, line, stmt);
-				// 判断变量追踪是否帮我们找到了该变量的类型
-				Token token = stmt.getToken(0);
-				// 如果没有找到,则进行推导
-				if (token.isVar() && token.getTypeAtt() == null) {
-					Type type = getType(clazz, stmt);
-					method.addVariable(new Variable(block, type, stmt.get(0)));
+		Object result = FastIterator.traver(clazz, method, new Listener() {
+			@Override
+			public Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt) {
+				// 如果是赋值语句
+				if (stmt.isAssign()) {
+					// 变量追踪
+					VariableTracker.track(clazz, method, block, line, stmt);
+					// 判断变量追踪是否帮我们找到了该变量的类型
+					Token token = stmt.getToken(0);
+					// 如果没有找到,则进行推导
+					if (token.isVar() && token.getTypeAtt() == null) {
+						Type type = getType(clazz, stmt);
+						method.addVariable(new Variable(block, type, stmt.get(0)));
+					}
+				} else if (stmt.isReturn()) {// 如果是返回语句
+					VariableTracker.track(clazz, method, block, line, stmt);
+					return getType(clazz, stmt);
 				}
-			} else if (stmt.isReturn()) {// 如果是返回语句
-				VariableTracker.track(clazz, method, block, line, stmt);
-				method.variables.clear();// 返回前,清理掉所有的变量
-				return getType(clazz, stmt);
+				return null;
 			}
-		}
+		});
 		method.variables.clear();// 返回前,清理掉所有的变量
-		return new CodeType("void");
+		return result != null ? (CodeType) result : new CodeType("void");
 	}
 
 }
