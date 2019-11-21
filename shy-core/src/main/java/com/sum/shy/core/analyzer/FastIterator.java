@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Listener;
+import com.sum.shy.core.api.Type;
+import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Variable;
 
 /**
  * 快速遍历器,快速遍历一个方法里面的所有结构
@@ -64,6 +68,25 @@ public class FastIterator {
 			if (sb.length() > 0)
 				sb.deleteCharAt(sb.length() - 1);
 			String block = sb.toString();
+
+			// 变量追踪
+			VariableTracker.track(clazz, method, block, line, stmt);
+
+			if (stmt.isDeclare()) {
+				method.addVariable(new Variable(block, new CodeType(stmt.get(0)), stmt.get(1)));
+
+			} else if (stmt.isAssign()) {
+				// 判断变量追踪是否帮我们找到了该变量的类型
+				Token token = stmt.getToken(0);
+				if (token.isVar() && token.getTypeAtt() == null) {
+					// 这里使用了快速推导,但是返回的类型并不是最终类型
+					Type type = FastDerivator.getType(clazz, stmt);
+					// 设置到第一个token里
+					token.setTypeAtt(type);
+					// 添加到方法变量里
+					method.addVariable(new Variable(block, type, stmt.get(0)));
+				}
+			}
 
 			Object result = listener.handle(clazz, method, depth, block, line, stmt);
 			if (result != null)

@@ -23,7 +23,7 @@ import com.sum.shy.core.entity.Variable;
  */
 public class AutoImporter {
 
-	public static void autoImport(Map<String, CtClass> classes) {
+	public static void doImport(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
 			for (Element element : clazz.getAllElement()) {
 				if (element instanceof CtField) {
@@ -55,19 +55,13 @@ public class AutoImporter {
 					importByTypeName(clazz, stmt.get(0));
 
 				} else if (stmt.isAssign()) {
-					// 变量追踪
-					VariableTracker.track(clazz, method, block, line, stmt);
 					// 判断变量追踪是否帮我们找到了该变量的类型
 					Token token = stmt.getToken(0);
-					// 如果没有找到,则进行推导
-					if (token.isVar() && token.getTypeAtt() == null) {
-						CodeType codeType = (CodeType) FastDerivator.getType(clazz, stmt);
-						if (!codeType.isType()) {// 如果返回的不是一个type token,则进行深度推导
-							codeType = InvokeVisiter.visitCodeType(clazz, codeType);
-						}
-						method.addVariable(new Variable(block, codeType, stmt.get(0)));
-						importByTypeName(clazz, codeType.getTypeName());// 将变量追加到上下文之后,添加类型到import里
+					CodeType codeType = (CodeType) token.getTypeAtt();
+					if (!codeType.isType()) {// 如果返回的不是一个type token,则进行深度推导
+						codeType = InvokeVisiter.visitCodeType(clazz, codeType);
 					}
+					importByTypeName(clazz, codeType.getTypeName());// 将变量追加到上下文之后,添加类型到import里
 				}
 				return null;
 			}

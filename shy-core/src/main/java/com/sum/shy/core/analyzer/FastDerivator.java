@@ -8,7 +8,6 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Variable;
 
 /**
  * 快速推导器
@@ -85,19 +84,8 @@ public class FastDerivator {
 		Object result = FastIterator.traver(clazz, method, new Listener() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt) {
-				// 如果是赋值语句
-				if (stmt.isAssign()) {
-					// 变量追踪
-					VariableTracker.track(clazz, method, block, line, stmt);
-					// 判断变量追踪是否帮我们找到了该变量的类型
-					Token token = stmt.getToken(0);
-					// 如果没有找到,则进行推导
-					if (token.isVar() && token.getTypeAtt() == null) {
-						Type type = getType(clazz, stmt);
-						method.addVariable(new Variable(block, type, stmt.get(0)));
-					}
-				} else if (stmt.isReturn()) {// 如果是返回语句
-					VariableTracker.track(clazz, method, block, line, stmt);
+				// 如果是返回语句
+				if (stmt.isReturn()) {
 					return getType(clazz, stmt);
 				}
 				return null;

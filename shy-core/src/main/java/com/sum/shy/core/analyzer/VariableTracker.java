@@ -22,6 +22,10 @@ public class VariableTracker {
 
 	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 
+		// 声明语句,变量不进行追踪
+		if (stmt.isDeclare())
+			return;
+
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {
