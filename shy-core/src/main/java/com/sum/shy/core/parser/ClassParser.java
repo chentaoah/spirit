@@ -14,7 +14,7 @@ public class ClassParser implements Parser {
 	@Override
 	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		clazz.className = stmt.get(1);
+		clazz.typeName = stmt.get(1);
 		try {
 			if ("extends".equals(stmt.get(2))) {
 				clazz.superName = stmt.get(3);

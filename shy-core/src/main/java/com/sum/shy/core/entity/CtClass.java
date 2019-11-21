@@ -18,7 +18,7 @@ public class CtClass {
 	// 别名引入
 	public Map<String, String> importAliases = new LinkedHashMap<>();
 	// 类名
-	public String className;
+	public String typeName;
 	// 父类
 	public String superName;
 	// 接口
@@ -46,7 +46,7 @@ public class CtClass {
 			System.out.println("import alias --> " + importStr);
 		}
 
-		System.out.println("className --> " + className);
+		System.out.println("className --> " + typeName);
 
 		for (CtField field : staticFields) {
 			System.out.println("static field --> " + field);
@@ -121,19 +121,6 @@ public class CtClass {
 
 	}
 
-	public boolean isAlias(String typeName) {
-		return importAliases.containsKey(typeName);
-	}
-
-	public void addImport(Type type) {
-//		if (name == null)
-//			return;
-//		name.forceFullName = !addImport(name.getName());
-//		for (name subNativeType : name.genericTypes.values()) {
-//			addImport(subNativeType);
-//		}
-	}
-
 	public boolean addImport(String className) {
 		// 如果是数组
 		if (className.startsWith("[L") && className.endsWith(";")) {
@@ -141,6 +128,10 @@ public class CtClass {
 		}
 		// 如果是基本类型,就不必添加了
 		if (ReflectUtils.isPrimitiveType(className)) {
+			return true;
+		}
+		// 如果是自己本身，就不必添加了
+		if ((packageStr + "." + typeName).equals(className)) {
 			return true;
 		}
 		if (!importStrs.containsValue(className)) {

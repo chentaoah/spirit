@@ -41,7 +41,7 @@ public class JavaBuilder {
 		StringBuilder body = new StringBuilder();
 
 		// class
-		body.append("public class " + clazz.className + " ");
+		body.append("public class " + clazz.typeName + " ");
 		if (clazz.superName != null) {
 			body.append("extends " + clazz.superName + " ");
 		}
