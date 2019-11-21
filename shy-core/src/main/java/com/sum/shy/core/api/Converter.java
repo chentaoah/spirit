@@ -1,6 +1,5 @@
 package com.sum.shy.core.api;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +20,6 @@ public interface Converter {
 		return converters.get(syntax);
 	}
 
-	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,
-			int index, Line line, Stmt stmt);
+	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt);
 
 }

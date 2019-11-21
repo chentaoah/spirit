@@ -208,4 +208,15 @@ public class Token {
 		attachments.put(Constants.METHOD_NAME_ATTACHMENT, str);
 	}
 
+	// =================== 是否已经被声明 =====================
+
+	public boolean isDeclaredAtt() {
+		Object flag = attachments.get(Constants.IS_DECLARED_ATTACHMENT);
+		return flag != null ? (boolean) flag : true;// 默认返回true
+	}
+
+	public void setDeclaredAtt(boolean isDeclared) {
+		attachments.put(Constants.IS_DECLARED_ATTACHMENT, isDeclared);
+	}
+
 }

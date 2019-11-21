@@ -1,6 +1,6 @@
 package com.sum.shy.core.analyzer;
 
-import com.sum.shy.core.api.Listener;
+import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
@@ -81,9 +81,9 @@ public class FastDerivator {
 
 	public static Type getReturnType(CtClass clazz, CtMethod method) {
 
-		Object result = FastIterator.traver(clazz, method, new Listener() {
+		Object result = FastIterator.traver(clazz, method, new Handler() {
 			@Override
-			public Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt) {
+			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				// 如果是返回语句
 				if (stmt.isReturn()) {
 					return getType(clazz, stmt);
@@ -91,7 +91,6 @@ public class FastDerivator {
 				return null;
 			}
 		});
-		method.variables.clear();// 返回前,清理掉所有的变量
 		return result != null ? (CodeType) result : new CodeType("void");
 	}
 

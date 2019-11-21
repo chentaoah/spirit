@@ -3,7 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
-import com.sum.shy.core.api.Listener;
+import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
@@ -47,9 +47,9 @@ public class AutoImporter {
 			importByTypeName(clazz, codeType.getTypeName());
 		}
 
-		FastIterator.traver(clazz, method, new Listener() {
+		FastIterator.traver(clazz, method, new Handler() {
 			@Override
-			public Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt) {
+			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				if (stmt.isDeclare()) {
 					importByTypeName(clazz, stmt.get(0));
 

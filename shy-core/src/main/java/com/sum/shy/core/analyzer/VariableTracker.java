@@ -32,9 +32,8 @@ public class VariableTracker {
 				try {
 					getType(clazz, method, block, line, stmt, token, (String) token.value);
 				} catch (Exception e) {
-					// 赋值语句的第一个变量是可以容忍报错的
-					if (stmt.isAssign() && i == 0) {
-						// ignore
+					if (stmt.isAssign() && i == 0) {// 赋值语句的第一个变量是可以容忍报错的
+						token.setDeclaredAtt(false);// 设置为未被声明的
 					} else {
 						throw e;
 					}

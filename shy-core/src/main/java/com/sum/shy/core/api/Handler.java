@@ -5,8 +5,8 @@ import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 
-public interface Listener {
+public interface Handler {
 
-	Object handle(CtClass clazz, CtMethod method, int depth, String block, Line line, Stmt stmt);
+	Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt);
 
 }

@@ -9,8 +9,9 @@ class User {
 	}
 	
 	func getAge(){
+		User user
 		people=father.getPeople()
-		return people
+		return "hello"
 	}
 	
 	

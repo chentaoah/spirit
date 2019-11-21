@@ -2,14 +2,13 @@ package com.sum.shy.core;
 
 import java.util.List;
 
+import com.sum.shy.core.analyzer.FastIterator;
 import com.sum.shy.core.api.Converter;
-import com.sum.shy.core.converter.InvokeConverter;
-import com.sum.shy.core.converter.ReturnConverter;
-import com.sum.shy.core.converter.AbsConverter;
+import com.sum.shy.core.api.Handler;
+import com.sum.shy.core.converter.DefaultConverter;
 import com.sum.shy.core.converter.AssignConverter;
+import com.sum.shy.core.converter.ConditionConverter;
 import com.sum.shy.core.converter.DeclareConverter;
-import com.sum.shy.core.converter.EndConverter;
-import com.sum.shy.core.converter.IfConverter;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
@@ -22,12 +21,15 @@ public class JavaBuilder {
 
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
-		Converter.register("declare", new DeclareConverter());
-		Converter.register("assign", new AssignConverter());
-		Converter.register("invoke", new InvokeConverter());
-		Converter.register("if", new IfConverter());
-		Converter.register("return", new ReturnConverter());
-		Converter.register("end", new EndConverter());// }结束符
+		Converter.register("declare", new DeclareConverter());// 声明转换
+		Converter.register("assign", new AssignConverter());// 赋值转换
+
+		Converter.register("if", new ConditionConverter());// 条件转换
+		Converter.register("elseif", new ConditionConverter());
+		Converter.register("else", new ConditionConverter());
+
+		Converter.register("end", new DefaultConverter());// 默认转换
+		Converter.register("return", new DefaultConverter());
 
 	}
 
@@ -35,9 +37,6 @@ public class JavaBuilder {
 
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
-
-//		clazz.addImport("java.util.List");
-//		clazz.addImport("java.util.Map");
 
 		// ============================ class ================================
 
@@ -61,11 +60,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (CtField field : clazz.staticFields) {
-			body.append("\tpublic static " + field.type + " " + AbsConverter.convertStmt(clazz, field.stmt) + ";\n");
+			body.append("\tpublic static " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt));
 		}
 
 		for (CtField field : clazz.fields) {
-			body.append("\tpublic " + field.type + " " + AbsConverter.convertStmt(clazz, field.stmt) + ";\n");
+			body.append("\tpublic " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt));
 		}
 
 		body.append("\n");
@@ -121,25 +120,17 @@ public class JavaBuilder {
 	}
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
-
 		Context.get().scope = "method";
-
-		List<Line> lines = method.methodLines;
-		for (int i = 0; i < lines.size(); i++) {
-			Line line = lines.get(i);
-			if (line.isIgnore())
-				continue;
-			try {
-				Stmt stmt = Stmt.create(line);
+		FastIterator.traver(clazz, method, new Handler() {
+			@Override
+			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				Converter converter = Converter.get(stmt.syntax);
-				int jump = converter.convert(sb, "0", "\t\t", clazz, method, lines, i, line, stmt);
-				i = i + jump;
-			} catch (Exception e) {
-				System.out.println(line);
-				e.printStackTrace();
+				stmt = converter.convert(clazz, method, indent, block, line, stmt);
+				System.out.println(stmt);
+				sb.append(indent + stmt);
+				return null;// 必须返回null,才能够持续进行下去
 			}
-
-		}
+		});
 
 	}
 

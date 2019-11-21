@@ -3,7 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.api.Listener;
+import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.CtClass;
@@ -12,6 +12,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
+import com.sum.shy.core.utils.LineUtils;
 
 /**
  * 快速遍历器,快速遍历一个方法里面的所有结构
@@ -26,10 +27,10 @@ public class FastIterator {
 	 * 
 	 * @param clazz
 	 * @param method
-	 * @param listener
+	 * @param handler
 	 * @return
 	 */
-	public static Object traver(CtClass clazz, CtMethod method, Listener listener) {
+	public static Object traver(CtClass clazz, CtMethod method, Handler handler) {
 
 		int depth = 0;
 		// 这里默认给了八级的深度
@@ -78,7 +79,8 @@ public class FastIterator {
 			} else if (stmt.isAssign()) {
 				// 判断变量追踪是否帮我们找到了该变量的类型
 				Token token = stmt.getToken(0);
-				if (token.isVar() && token.getTypeAtt() == null) {
+				// 如果变量追踪,并没有找到类型声明
+				if (token.isVar() && !token.isDeclaredAtt()) {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
 					// 设置到第一个token里
@@ -87,12 +89,16 @@ public class FastIterator {
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
 			}
+			String indent = LineUtils.getIndentByNumber(depth + 2);
 
-			Object result = listener.handle(clazz, method, depth, block, line, stmt);
-			if (result != null)
+			Object result = handler.handle(clazz, method, indent, block, line, stmt);
+			if (result != null) {
+				method.variables.clear();// 返回前,清理掉所有的变量
 				return result;
+			}
 
 		}
+		method.variables.clear();// 返回前,清理掉所有的变量
 		return null;
 
 	}

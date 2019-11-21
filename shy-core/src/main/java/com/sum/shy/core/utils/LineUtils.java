@@ -68,6 +68,14 @@ public class LineUtils {
 		return sb.toString();
 	}
 
+	public static String getIndentByNumber(int number) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < number; i++) {
+			sb.append("\t");
+		}
+		return sb.toString();
+	}
+
 	public static void replaceString(List<Character> chars, int index, char left, char right, String name, int number,
 			Map<String, String> replacedStrs) {
 
