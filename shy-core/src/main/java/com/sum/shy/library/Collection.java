@@ -19,7 +19,7 @@ public class Collection {
 	@SuppressWarnings("unchecked")
 	public static <T> T newHashMap(Object... objects) {
 		Map<Object, Object> map = new HashMap<>();
-		for (int i = 0; i + 2 < objects.length; i = i + 2) {
+		for (int i = 0; i < objects.length; i = i + 2) {
 			map.put(objects[i], objects[i + 1]);
 		}
 		return (T) map;
