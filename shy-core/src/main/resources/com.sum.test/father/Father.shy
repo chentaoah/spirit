@@ -9,6 +9,10 @@ class Father {
 		return user.getAge()
 	}
 	
+	func getPeople(){
+		return People()
+	}
+	
 }
 
 

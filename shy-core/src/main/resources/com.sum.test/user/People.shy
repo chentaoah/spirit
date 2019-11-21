@@ -1,0 +1,9 @@
+
+class People {
+
+	name="chentao"
+	age=27.0
+
+
+
+}

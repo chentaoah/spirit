@@ -23,7 +23,7 @@ public class JavaBuilder {
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
 		Converter.register("declare", new DeclareConverter());
-		Converter.register("assignment", new AssignConverter());
+		Converter.register("assign", new AssignConverter());
 		Converter.register("invoke", new InvokeConverter());
 		Converter.register("if", new IfConverter());
 		Converter.register("return", new ReturnConverter());
@@ -129,11 +129,15 @@ public class JavaBuilder {
 			Line line = lines.get(i);
 			if (line.isIgnore())
 				continue;
-
-			Stmt stmt = Stmt.create(line);
-			Converter converter = Converter.get(stmt.syntax);
-			int jump = converter.convert(sb, "0", "\t\t", clazz, method, lines, i, line, stmt);
-			i = i + jump;
+			try {
+				Stmt stmt = Stmt.create(line);
+				Converter converter = Converter.get(stmt.syntax);
+				int jump = converter.convert(sb, "0", "\t\t", clazz, method, lines, i, line, stmt);
+				i = i + jump;
+			} catch (Exception e) {
+				System.out.println(line);
+				e.printStackTrace();
+			}
 
 		}
 
