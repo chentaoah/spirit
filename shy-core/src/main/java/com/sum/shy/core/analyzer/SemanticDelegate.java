@@ -20,11 +20,11 @@ import com.sum.shy.core.entity.Token;
 public class SemanticDelegate {
 
 	// 某些句式,token需要特殊处理
-	public static final String[] SYNTAXS = new String[] { "package", "import", "def", "class", "func" };
+	public static final String[] SYNTAXS = new String[] { "package", "import", "class", "func" };
 
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
-			"else", "for", "while", "do", "try", "catch", "throw" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "class", "func", "return", "if", "else",
+			"for", "while", "do", "try", "catch", "throw" };
 
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
@@ -56,7 +56,7 @@ public class SemanticDelegate {
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(boolean|int|long|double|String|Object)$");// 常用基本类型
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(boolean|int|long|double|String|Object|void)$");// 常用基本类型
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
 	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组
 	private static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型

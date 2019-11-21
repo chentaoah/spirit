@@ -44,7 +44,7 @@ public class FastDerivator {
 		} else if (token.isVariable()) {// 变量
 			if (token.getTypeAtt() != null) {// 这个变量必须有类型才能够被返回
 				if (token.isVar()) {// 单纯的变量就向上追溯到有用的
-					return getType(clazz, ((CodeType) token.getTypeAtt()).token);
+					return token.getTypeAtt();
 				}
 				return new CodeType(token);
 			}

@@ -122,9 +122,6 @@ public class JavaBuilder {
 		FastIterator.traver(clazz, method, true, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-//				if (line.number == 12) {
-//					int s = 15;
-//				}
 				Converter converter = Converter.get(stmt.syntax);
 				stmt = converter.convert(clazz, method, indent, block, line, stmt);
 				sb.append(indent + stmt + "\n");

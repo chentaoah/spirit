@@ -21,10 +21,10 @@ public class FuncParser implements Parser {
 	@Override
 	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		String desc = stmt.get(1);
-		String methodName = desc.substring(0, desc.indexOf("("));// 名称
+		String methodDesc = stmt.get(1);
+		String methodName = methodDesc.substring(0, methodDesc.indexOf("("));// 名称
 		List<Param> params = new ArrayList<>();// 参数
-		List<String> list = LexicalAnalyzer.getWords(desc.substring(desc.indexOf("(") + 1, desc.indexOf(")")));
+		List<String> list = LexicalAnalyzer.getWords(methodDesc.substring(methodDesc.indexOf("(") + 1, methodDesc.indexOf(")")));
 		for (int i = 0; i < list.size(); i = i + 3) {
 			String type = list.get(i);
 			String name = list.get(i + 1);
