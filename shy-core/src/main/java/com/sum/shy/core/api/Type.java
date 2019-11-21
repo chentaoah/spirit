@@ -1,6 +1,9 @@
 package com.sum.shy.core.api;
 
+import java.util.List;
+
 public interface Type {
+
 	/**
 	 * 是否最终的类型
 	 * 
@@ -14,5 +17,12 @@ public interface Type {
 	 * @return
 	 */
 	public String getTypeName();
+
+	/**
+	 * 获取泛型
+	 * 
+	 * @return
+	 */
+	public List<String> getGenericTypes();
 
 }
