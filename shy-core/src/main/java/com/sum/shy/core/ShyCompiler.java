@@ -72,7 +72,6 @@ public class ShyCompiler {
 		CtClass clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
-
 		// 展示一下
 		clazz.show();
 

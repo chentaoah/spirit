@@ -10,6 +10,7 @@ class User {
 	
 	func getAge(){
 		User user
+		father=Father()
 		return "hello"
 	}
 	
