@@ -43,8 +43,11 @@ public class ShyDebugger {
 			if (line.isIgnore()) {
 				System.out.println(line.text);
 			} else {
+//				if (line.number == 19) {
+//					System.out.print("");
+//				}
 				Stmt stmt = Stmt.create(line);
-				System.out.println(line.text + LineUtils.getSpaceByNumber(45 - line.text.length()) + ">>> "
+				System.out.println(line.text + LineUtils.getSpaceByNumber(50 - line.text.length()) + ">>> "
 						+ stmt.syntax + " " + stmt.debug());
 			}
 

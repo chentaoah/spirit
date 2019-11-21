@@ -32,7 +32,7 @@ public class SemanticDelegate {
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", "," };
 
-	public static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(true|false)$");
+	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
@@ -56,10 +56,9 @@ public class SemanticDelegate {
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(bool|int|long|double|str|obj)$");
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(boolean|int|long|double|String|Object)$");// 常用基本类型
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
-	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组,也可能是obj str之类的数组
-	private static final Pattern MAP_TYPE_PATTERN = Pattern.compile("^map<[\\s\\S]+>$");// map是特殊的泛型
+	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组
 	private static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
 
 	/**
@@ -139,7 +138,7 @@ public class SemanticDelegate {
 			} else if (isNull(word)) {// 空
 				token.type = Constants.NULL_TOKEN;
 				return;
-			} else if (isBoolean(word)) {// 布尔值
+			} else if (isBool(word)) {// 布尔值
 				token.type = Constants.BOOL_TOKEN;
 				return;
 			} else if (isInt(word)) {// 整数
@@ -330,8 +329,7 @@ public class SemanticDelegate {
 
 	public static boolean isType(String word) {
 		return BASIC_TYPE_PATTERN.matcher(word).matches() || TYPE_PATTERN.matcher(word).matches()
-				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || MAP_TYPE_PATTERN.matcher(word).matches()
-				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
+				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isCast(String word) {
@@ -342,8 +340,8 @@ public class SemanticDelegate {
 		return "null".equals(word);
 	}
 
-	public static boolean isBoolean(String word) {
-		return BOOLEAN_PATTERN.matcher(word).matches();
+	public static boolean isBool(String word) {
+		return BOOL_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isInt(String word) {

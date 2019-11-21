@@ -108,7 +108,7 @@ public class LineUtils {
 				flag = !flag;
 			}
 			if (!flag) {
-				if (c == '"') {// 如果是字符串
+				if (right == '"') {// 如果是字符串
 					return i;
 				}
 				if (c == left) {

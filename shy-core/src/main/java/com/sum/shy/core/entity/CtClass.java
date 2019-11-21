@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class CtClass {
@@ -46,7 +45,7 @@ public class CtClass {
 			System.out.println("import alias --> " + importStr);
 		}
 
-		System.out.println("className --> " + typeName);
+		System.out.println("typeName --> " + typeName);
 
 		for (CtField field : staticFields) {
 			System.out.println("static field --> " + field);

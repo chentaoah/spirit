@@ -14,7 +14,11 @@ class User {
 		return "hello"
 	}
 	
-	
+	func testList(List<String> list){
+		int obj
+		array=["hello",obj]
+		return array
+	}
 	
 }
 
