@@ -92,7 +92,6 @@ public class Stmt {
 			} else if (token.isType()) {// 类型声明后面加空格
 				// 根语句类型后面加个空格,子语句不用加
 				if (syntax != null) {
-					System.out.println(token);
 					sb.append(token.value.toString() + " ");
 				} else {
 					sb.append(token.value.toString());

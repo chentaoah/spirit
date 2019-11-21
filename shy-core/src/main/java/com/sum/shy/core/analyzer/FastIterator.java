@@ -23,14 +23,15 @@ import com.sum.shy.core.utils.LineUtils;
 public class FastIterator {
 
 	/**
-	 * 快速遍历方法
+	 * 快速遍历
 	 * 
 	 * @param clazz
 	 * @param method
+	 * @param isDerived 是否自动进行推导,而不是仅仅返回一个代表性的codeType
 	 * @param handler
 	 * @return
 	 */
-	public static Object traver(CtClass clazz, CtMethod method, Handler handler) {
+	public static Object traver(CtClass clazz, CtMethod method, boolean isAutoDerived, Handler handler) {
 
 		int depth = 0;
 		// 这里默认给了八级的深度
@@ -83,6 +84,10 @@ public class FastIterator {
 				if (token.isVar() && !token.isDeclaredAtt()) {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
+					// 如果需要精确推导,并且返回的类型并不是完全准确的,则进行深度推导
+					if (isAutoDerived && !type.isAccurate()) {
+						type = InvokeVisiter.visitCodeType(clazz, (CodeType) type);
+					}
 					// 设置到第一个token里
 					token.setTypeAtt(type);
 					// 添加到方法变量里

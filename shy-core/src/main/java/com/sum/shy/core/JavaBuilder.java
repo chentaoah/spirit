@@ -1,7 +1,5 @@
 package com.sum.shy.core;
 
-import java.util.List;
-
 import com.sum.shy.core.analyzer.FastIterator;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
@@ -27,9 +25,9 @@ public class JavaBuilder {
 		Converter.register("if", new ConditionConverter());// 条件转换
 		Converter.register("elseif", new ConditionConverter());
 		Converter.register("else", new ConditionConverter());
-
 		Converter.register("end", new DefaultConverter());// 默认转换
-		Converter.register("return", new DefaultConverter());
+
+		Converter.register("return", new DefaultConverter());// 返回
 
 	}
 
@@ -121,12 +119,14 @@ public class JavaBuilder {
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
 		Context.get().scope = "method";
-		FastIterator.traver(clazz, method, new Handler() {
+		FastIterator.traver(clazz, method, true, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+//				if (line.number == 12) {
+//					int s = 15;
+//				}
 				Converter converter = Converter.get(stmt.syntax);
 				stmt = converter.convert(clazz, method, indent, block, line, stmt);
-				System.out.println(stmt);
 				sb.append(indent + stmt);
 				return null;// 必须返回null,才能够持续进行下去
 			}

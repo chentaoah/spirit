@@ -47,7 +47,7 @@ public class AutoImporter {
 			importByTypeName(clazz, codeType.getTypeName());
 		}
 
-		FastIterator.traver(clazz, method, new Handler() {
+		FastIterator.traver(clazz, method, true, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				if (stmt.isDeclare()) {
@@ -56,11 +56,7 @@ public class AutoImporter {
 				} else if (stmt.isAssign()) {
 					// 判断变量追踪是否帮我们找到了该变量的类型
 					Token token = stmt.getToken(0);
-					CodeType codeType = (CodeType) token.getTypeAtt();
-					if (!codeType.isType()) {// 如果返回的不是一个type token,则进行深度推导
-						codeType = InvokeVisiter.visitCodeType(clazz, codeType);
-					}
-					importByTypeName(clazz, codeType.getTypeName());// 将变量追加到上下文之后,添加类型到import里
+					importByTypeName(clazz, token.getTypeAtt().getTypeName());// 将变量追加到上下文之后,添加类型到import里
 				}
 				return null;
 			}

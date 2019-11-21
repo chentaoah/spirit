@@ -15,10 +15,12 @@ public class CodeType implements Type {
 		this.token = SemanticDelegate.getToken(type);
 	}
 
-	public boolean isType() {
+	@Override
+	public boolean isAccurate() {
 		return token.isType();
 	}
 
+	@Override
 	public String getTypeName() {
 		return token.isType() ? token.value.toString() : null;
 	}

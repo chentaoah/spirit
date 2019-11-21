@@ -36,7 +36,7 @@ public class InvokeVisiter {
 	 */
 	private static CodeType visitElement(CtClass clazz, Element element) {
 		CodeType codeType = (CodeType) element.getType();
-		if (!codeType.isType()) {// 如果不是type token,则需要进行推导
+		if (!codeType.isAccurate()) {// 如果不是type token,则需要进行推导
 			return visitCodeType(clazz, codeType);
 		}
 		return codeType;
@@ -85,7 +85,7 @@ public class InvokeVisiter {
 	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties,
 			String methodName) {
 
-		if (codeType.isType()) {
+		if (codeType.isAccurate()) {
 			String typeName = codeType.token.getTypeNameAtt();
 			String className = clazz.findImport(typeName);
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导

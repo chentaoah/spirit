@@ -81,7 +81,7 @@ public class FastDerivator {
 
 	public static Type getReturnType(CtClass clazz, CtMethod method) {
 
-		Object result = FastIterator.traver(clazz, method, new Handler() {
+		Object result = FastIterator.traver(clazz, method, false, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				// 如果是返回语句
