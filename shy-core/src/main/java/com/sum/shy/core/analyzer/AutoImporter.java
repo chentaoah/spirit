@@ -1,5 +1,6 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
@@ -8,7 +9,9 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Param;
+import com.sum.shy.core.entity.Stmt;
 
 /**
  * 自动引入器
@@ -42,6 +45,22 @@ public class AutoImporter {
 			codeType = (CodeType) param.type;
 			importByTypeName(clazz, codeType.getTypeName());
 		}
+		// 开始遍历方法内容
+		List<Line> lines = method.methodLines;
+		for (int i = 0; i < lines.size(); i++) {
+			Line line = lines.get(i);
+			if (line.isIgnore())
+				continue;
+			Stmt stmt = Stmt.create(line);
+			if (stmt.isDeclare()) {// 追加类型
+				importByTypeName(clazz, stmt.get(0));
+			} else if (stmt.isAssign()) {
+				// 变量追踪
+				VariableTracker.track(clazz, method, block, line, stmt);
+				importByTypeName(clazz, stmt.get(0));
+			}
+		}
+
 	}
 
 	private static void importByTypeName(CtClass clazz, String typeName) {

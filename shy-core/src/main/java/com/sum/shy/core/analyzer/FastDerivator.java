@@ -126,9 +126,10 @@ public class FastDerivator {
 			}
 			String block = sb.toString();
 
-			VariableTracker.track(clazz, method, block, line, stmt);
 			// 如果是赋值语句
-			if (stmt.isAssignment()) {
+			if (stmt.isAssign()) {
+				// 变量追踪
+				VariableTracker.track(clazz, method, block, line, stmt);
 				// 判断变量追踪是否帮我们找到了该变量的类型
 				Token token = stmt.getToken(0);
 				// 如果没有找到,则进行推导
@@ -137,6 +138,7 @@ public class FastDerivator {
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
 			} else if (stmt.isReturn()) {// 如果是返回语句
+				VariableTracker.track(clazz, method, block, line, stmt);
 				method.variables.clear();// 返回前,清理掉所有的变量
 				return getType(clazz, stmt);
 			}

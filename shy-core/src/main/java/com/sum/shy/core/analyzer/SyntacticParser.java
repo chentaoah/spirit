@@ -44,7 +44,7 @@ public class SyntacticParser {
 
 			String second = words.get(1);
 			if ("=".equals(second)) {// 字段定义或者赋值语句
-				return Constants.ASSIGNMENT_SYNTAX;
+				return Constants.ASSIGN_SYNTAX;
 			}
 
 			String third = words.get(2);

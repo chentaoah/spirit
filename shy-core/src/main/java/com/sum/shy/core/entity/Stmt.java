@@ -111,8 +111,8 @@ public class Stmt {
 		return sb.toString();
 	}
 
-	public boolean isAssignment() {
-		return Constants.ASSIGNMENT_SYNTAX.equals(syntax);
+	public boolean isAssign() {
+		return Constants.ASSIGN_SYNTAX.equals(syntax);
 	}
 
 	public boolean isIf() {
@@ -133,6 +133,10 @@ public class Stmt {
 
 	public boolean isReturn() {
 		return Constants.RETURN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isDeclare() {
+		return Constants.DECLARE_SYNTAX.equals(syntax);
 	}
 
 }

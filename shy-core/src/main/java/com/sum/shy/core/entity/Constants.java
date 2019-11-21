@@ -24,7 +24,7 @@ public class Constants {
 	public static final String CLASS_SYNTAX = "class";
 	public static final String FUNC_SYNTAX = "func";
 	public static final String DECLARE_SYNTAX = "declare";
-	public static final String ASSIGNMENT_SYNTAX = "assignment";
+	public static final String ASSIGN_SYNTAX = "assign";
 	public static final String INVOKE_SYNTAX = "invoke";
 	public static final String IF_SYNTAX = "if";
 	public static final String ELSEIF_SYNTAX = "elseif";

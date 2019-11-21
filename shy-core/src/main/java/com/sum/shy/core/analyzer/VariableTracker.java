@@ -29,7 +29,7 @@ public class VariableTracker {
 					getType(clazz, method, block, line, stmt, token, (String) token.value);
 				} catch (Exception e) {
 					// 赋值语句的第一个变量是可以容忍报错的
-					if (stmt.isAssignment() && i == 0) {
+					if (stmt.isAssign() && i == 0) {
 						// ignore
 					} else {
 						throw e;
