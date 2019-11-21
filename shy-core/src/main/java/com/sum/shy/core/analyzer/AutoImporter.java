@@ -8,6 +8,7 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.entity.Param;
 
 /**
  * 自动引入器
@@ -35,7 +36,12 @@ public class AutoImporter {
 	}
 
 	private static void importMethodType(CtClass clazz, CtMethod method) {
-
+		CodeType codeType = (CodeType) method.returnType;
+		importByTypeName(clazz, codeType.getTypeName());
+		for (Param param : method.params) {
+			codeType = (CodeType) param.type;
+			importByTypeName(clazz, codeType.getTypeName());
+		}
 	}
 
 	private static void importByTypeName(CtClass clazz, String typeName) {

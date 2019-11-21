@@ -13,7 +13,7 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
 
-public class AssignmentConverter extends AbsConverter {
+public class AssignConverter extends AbsConverter {
 
 	@Override
 	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,

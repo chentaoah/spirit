@@ -6,7 +6,7 @@ import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
 import com.sum.shy.core.converter.AbsConverter;
-import com.sum.shy.core.converter.AssignmentConverter;
+import com.sum.shy.core.converter.AssignConverter;
 import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.converter.EndConverter;
 import com.sum.shy.core.converter.IfConverter;
@@ -23,7 +23,7 @@ public class JavaBuilder {
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
 		Converter.register("declare", new DeclareConverter());
-		Converter.register("assignment", new AssignmentConverter());
+		Converter.register("assignment", new AssignConverter());
 		Converter.register("invoke", new InvokeConverter());
 		Converter.register("if", new IfConverter());
 		Converter.register("return", new ReturnConverter());
