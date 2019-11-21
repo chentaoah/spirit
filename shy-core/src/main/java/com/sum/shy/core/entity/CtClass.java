@@ -9,7 +9,7 @@ import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
-public class Clazz {
+public class CtClass {
 
 	// 包名
 	public String packageStr;
@@ -24,13 +24,13 @@ public class Clazz {
 	// 接口
 	public List<String> interfaces = new ArrayList<>();
 	// 静态字段
-	public List<Field> staticFields = new ArrayList<>();
+	public List<CtField> staticFields = new ArrayList<>();
 	// 静态方法
-	public List<Method> staticMethods = new ArrayList<>();
+	public List<CtMethod> staticMethods = new ArrayList<>();
 	// 字段
-	public List<Field> fields = new ArrayList<>();
+	public List<CtField> fields = new ArrayList<>();
 	// 方法
-	public List<Method> methods = new ArrayList<>();
+	public List<CtMethod> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines;
 
@@ -48,16 +48,16 @@ public class Clazz {
 
 		System.out.println("className --> " + className);
 
-		for (Field field : staticFields) {
+		for (CtField field : staticFields) {
 			System.out.println("static field --> " + field);
 		}
-		for (Field field : fields) {
+		for (CtField field : fields) {
 			System.out.println("field --> " + field);
 		}
-		for (Method method : staticMethods) {
+		for (CtMethod method : staticMethods) {
 			System.out.println("static method --> " + method);
 		}
-		for (Method method : methods) {
+		for (CtMethod method : methods) {
 			System.out.println("method --> " + method);
 		}
 
@@ -65,24 +65,24 @@ public class Clazz {
 
 	}
 
-	public void addStaticField(Field field) {
+	public void addStaticField(CtField field) {
 		checkField(field);
 		staticFields.add(field);
 	}
 
-	public void addField(Field field) {
+	public void addField(CtField field) {
 		checkField(field);
 		fields.add(field);
 	}
 
-	public void checkField(Field field) {
+	public void checkField(CtField field) {
 		boolean flag = false;
-		for (Field f : staticFields) {
+		for (CtField f : staticFields) {
 			if (f.name.equals(field.name)) {
 				flag = true;
 			}
 		}
-		for (Field f : fields) {
+		for (CtField f : fields) {
 			if (f.name.equals(field.name)) {
 				flag = true;
 			}
@@ -156,13 +156,13 @@ public class Clazz {
 		return true;
 	}
 
-	public Field findField(String fieldName) {
-		for (Field field : staticFields) {
+	public CtField findField(String fieldName) {
+		for (CtField field : staticFields) {
 			if (field.name.equals(fieldName)) {
 				return field;
 			}
 		}
-		for (Field field : fields) {
+		for (CtField field : fields) {
 			if (field.name.equals(fieldName)) {
 				return field;
 			}
@@ -171,13 +171,13 @@ public class Clazz {
 
 	}
 
-	public Method findMethod(String methodName) {
-		for (Method method : staticMethods) {
+	public CtMethod findMethod(String methodName) {
+		for (CtMethod method : staticMethods) {
 			if (method.name.equals(methodName)) {
 				return method;
 			}
 		}
-		for (Method method : methods) {
+		for (CtMethod method : methods) {
 			if (method.name.equals(methodName)) {
 				return method;
 			}

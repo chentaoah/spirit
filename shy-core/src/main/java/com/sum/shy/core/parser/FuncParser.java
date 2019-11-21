@@ -7,11 +7,11 @@ import com.sum.shy.core.analyzer.FastDerivator;
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.utils.LineUtils;
@@ -19,7 +19,7 @@ import com.sum.shy.core.utils.LineUtils;
 public class FuncParser implements Parser {
 
 	@Override
-	public int parse(Clazz clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
+	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		String desc = stmt.get(1);
 		String methodName = desc.substring(0, desc.indexOf("("));// 名称
@@ -33,7 +33,7 @@ public class FuncParser implements Parser {
 		}
 
 		// 添加方法
-		Method method = new Method(null, methodName, params);
+		CtMethod method = new CtMethod(null, methodName, params);
 		method.methodLines = LineUtils.getSubLines(lines, index);
 		// 快速推导
 		Type returnType = FastDerivator.getReturnType(clazz, method);

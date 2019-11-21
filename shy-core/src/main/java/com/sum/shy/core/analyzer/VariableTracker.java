@@ -1,9 +1,9 @@
 package com.sum.shy.core.analyzer;
 
-import com.sum.shy.core.entity.Clazz;
-import com.sum.shy.core.entity.Field;
+import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -20,7 +20,7 @@ import com.sum.shy.core.entity.Variable;
  */
 public class VariableTracker {
 
-	public static void track(Clazz clazz, Method method, String block, Line line, Stmt stmt) {
+	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -51,17 +51,17 @@ public class VariableTracker {
 
 	}
 
-	public static void getType(Clazz clazz, Method method, String block, Line line, Stmt stmt, Token token,
+	public static void getType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
 			String name) {
 		// 静态成员变量
-		for (Field field : clazz.staticFields) {
+		for (CtField field : clazz.staticFields) {
 			if (field.name.equals(name)) {
 				token.setTypeAtt(field.type);
 				return;
 			}
 		}
 		// 成员变量
-		for (Field field : clazz.fields) {
+		for (CtField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				token.setTypeAtt(field.type);
 				return;

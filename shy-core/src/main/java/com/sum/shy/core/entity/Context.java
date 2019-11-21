@@ -17,9 +17,9 @@ public class Context {
 	// 所有被解析的结构体
 	public Map<String, File> files;
 	// 所有被解析的结构体
-	public Map<String, Clazz> classes;
+	public Map<String, CtClass> classes;
 	// 当前读取的class实体
-	public Clazz clazz;
+	public CtClass clazz;
 	// 当前域
 	public String scope;
 
@@ -47,7 +47,7 @@ public class Context {
 	 * 
 	 * @param className
 	 */
-	public Clazz findClass(String className) {
+	public CtClass findClass(String className) {
 		return classes.get(className);
 	}
 

@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
@@ -15,7 +15,7 @@ import com.sum.shy.core.utils.LineUtils;
 public class IfConverter extends AbstractConverter {
 
 	@Override
-	public int convert(StringBuilder sb, String block, String indent, Clazz clazz, Method method, List<Line> lines,
+	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,
 			int index, Line line, Stmt stmt) {
 
 		// 这里的算法是能够截取到所有的块的
@@ -53,7 +53,7 @@ public class IfConverter extends AbstractConverter {
 		return blockLines.size() - 1;
 	}
 
-	private String convertJudgeStmt(Clazz clazz, Stmt stmt) {
+	private String convertJudgeStmt(CtClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.tokens.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isVar()) {

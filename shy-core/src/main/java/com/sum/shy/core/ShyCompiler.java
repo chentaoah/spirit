@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.sum.shy.core.analyzer.AutoImporter;
 import com.sum.shy.core.analyzer.InvokeVisiter;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.FileUtils;
 
@@ -35,7 +35,7 @@ public class ShyCompiler {
 
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
-		Map<String, Clazz> classes = new LinkedHashMap<>();
+		Map<String, CtClass> classes = new LinkedHashMap<>();
 		Context.get().files = files;
 		Context.get().classes = classes;
 
@@ -46,7 +46,7 @@ public class ShyCompiler {
 			File file = entry.getValue();
 			if (!debug) {
 				// 1.解析shy代码
-				Clazz clazz = resolve(className, file);
+				CtClass clazz = resolve(className, file);
 				classes.put(className, clazz);
 			} else {
 				debug(file);
@@ -60,16 +60,16 @@ public class ShyCompiler {
 
 		if (!debug) {
 			// 2.构建java代码
-			for (Clazz clazz : classes.values()) {
+			for (CtClass clazz : classes.values()) {
 				compile(clazz);
 			}
 		}
 
 	}
 
-	public static Clazz resolve(String className, File file) {
+	public static CtClass resolve(String className, File file) {
 		// 读取类结构信息
-		Clazz clazz = new ShyReader().read(file);
+		CtClass clazz = new ShyReader().read(file);
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
 
@@ -83,7 +83,7 @@ public class ShyCompiler {
 		new ShyDebugger().read(file);
 	}
 
-	public static Class<?> compile(Clazz clazz) {
+	public static Class<?> compile(CtClass clazz) {
 		// 转换方法中的内容,并生成java代码
 		String text = new JavaBuilder().build(clazz);
 		System.out.println(text);

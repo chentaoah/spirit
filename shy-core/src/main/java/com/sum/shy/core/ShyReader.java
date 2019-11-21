@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.api.Parser;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -27,7 +27,7 @@ public class ShyReader {
 		Parser.register("func", new FuncParser());
 	}
 
-	public Clazz read(File file) {
+	public CtClass read(File file) {
 		try {
 
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
@@ -44,9 +44,9 @@ public class ShyReader {
 		return null;
 	}
 
-	private Clazz readLines(List<Line> lines) {
+	private CtClass readLines(List<Line> lines) {
 
-		Clazz clazz = new Clazz();
+		CtClass clazz = new CtClass();
 		Context context = Context.get();
 		context.clazz = clazz;
 
@@ -59,7 +59,7 @@ public class ShyReader {
 		return clazz;
 	}
 
-	private void readScopeLines(Clazz clazz, String scope, List<Line> lines) {
+	private void readScopeLines(CtClass clazz, String scope, List<Line> lines) {
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中

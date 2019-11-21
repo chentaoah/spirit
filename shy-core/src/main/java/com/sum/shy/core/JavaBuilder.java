@@ -10,11 +10,11 @@ import com.sum.shy.core.converter.AssignmentConverter;
 import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.converter.EndConverter;
 import com.sum.shy.core.converter.IfConverter;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.Field;
+import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 
@@ -31,7 +31,7 @@ public class JavaBuilder {
 
 	}
 
-	public String build(Clazz clazz) {
+	public String build(CtClass clazz) {
 
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
@@ -60,12 +60,12 @@ public class JavaBuilder {
 
 		// ============================ field ================================
 
-		for (Field field : clazz.staticFields) {
+		for (CtField field : clazz.staticFields) {
 			body.append("\tpublic static " + AbstractConverter.convertType(clazz, field.type) + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
-		for (Field field : clazz.fields) {
+		for (CtField field : clazz.fields) {
 			body.append("\tpublic " + AbstractConverter.convertType(clazz, field.type) + " "
 					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
@@ -74,7 +74,7 @@ public class JavaBuilder {
 
 		// ============================ method ================================
 
-		for (Method method : clazz.staticMethods) {
+		for (CtMethod method : clazz.staticMethods) {
 			body.append("\tpublic static " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name
 					+ "(");
 			if (method.params.size() > 0) {
@@ -89,7 +89,7 @@ public class JavaBuilder {
 			body.append("\n");
 		}
 
-		for (Method method : clazz.methods) {
+		for (CtMethod method : clazz.methods) {
 			body.append(
 					"\tpublic " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name + "(");
 			if (method.params.size() > 0) {
@@ -124,7 +124,7 @@ public class JavaBuilder {
 
 	}
 
-	public static void convertMethod(StringBuilder sb, Clazz clazz, Method method) {
+	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
 
 		Context.get().scope = "method";
 

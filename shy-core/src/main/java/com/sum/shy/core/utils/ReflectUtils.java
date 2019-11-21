@@ -11,7 +11,7 @@ import java.util.Map;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 

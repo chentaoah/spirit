@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.Field;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtField;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Token;
 
 public class InvokeVisiter {
@@ -19,8 +19,8 @@ public class InvokeVisiter {
 	 * 
 	 * @param classes
 	 */
-	public static void visit(Map<String, Clazz> classes) {
-		for (Clazz clazz : classes.values()) {
+	public static void visit(Map<String, CtClass> classes) {
+		for (CtClass clazz : classes.values()) {
 			for (Element element : clazz.getAllElement()) {
 				element.setType(visitElement(clazz, element));
 			}
@@ -34,16 +34,15 @@ public class InvokeVisiter {
 	 * @param element
 	 * @return
 	 */
-	private static CodeType visitElement(Clazz clazz, Element element) {
+	private static CodeType visitElement(CtClass clazz, Element element) {
 		CodeType codeType = (CodeType) element.getType();
-		Token token = codeType.token;
-		if (!token.isType()) {// 如果不是type token,则需要进行推导
+		if (!codeType.isType()) {// 如果不是type token,则需要进行推导
 			return visitCodeType(clazz, codeType);
 		}
 		return codeType;
 	}
 
-	public static CodeType visitCodeType(Clazz clazz, CodeType type) {
+	public static CodeType visitCodeType(CtClass clazz, CodeType type) {
 
 		// 向上获取所有相关的codeType
 		List<CodeType> codeTypes = getRelevantType(type);
@@ -83,22 +82,22 @@ public class InvokeVisiter {
 		return codeTypes;
 	}
 
-	private static CodeType getReturnType(Clazz clazz, CodeType codeType, List<String> properties, String methodName) {
-		Token token = codeType.token;
-		if (token.isType()) {
-			String typeName = token.getTypeNameAtt();
+	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties, String methodName) {
+
+		if (codeType.isType()) {
+			String typeName = codeType.token.getTypeNameAtt();
 			String className = clazz.findImport(typeName);
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
-				Clazz clazz1 = Context.get().findClass(className);
+				CtClass clazz1 = Context.get().findClass(className);
 				if (properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
-					Field field = clazz1.findField(property);
+					CtField field = clazz1.findField(property);
 					CodeType returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
 					returnType = getReturnType(clazz1, returnType, properties, methodName);
 					return returnType;
 
 				} else if (methodName != null) {
-					Method method = clazz1.findMethod(methodName);
+					CtMethod method = clazz1.findMethod(methodName);
 					return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
 				}
 

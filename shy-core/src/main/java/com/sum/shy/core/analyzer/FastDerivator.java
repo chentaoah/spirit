@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.entity.Clazz;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Method;
+import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
@@ -23,7 +23,7 @@ import com.sum.shy.core.entity.Variable;
  */
 public class FastDerivator {
 
-	public static Type getType(Clazz clazz, Stmt stmt) {
+	public static Type getType(CtClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
 			Type type = getType(clazz, token);
 			if (type != null) {
@@ -33,7 +33,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	public static Type getType(Clazz clazz, Token token) {
+	public static Type getType(CtClass clazz, Token token) {
 
 		if (token.isType()) {// 类型声明
 			return new CodeType(token);// 转换成type token
@@ -46,7 +46,7 @@ public class FastDerivator {
 
 		} else if (token.isVariable()) {// 变量
 			if (token.getTypeAtt() != null) {// 这个变量必须有类型才能够被返回
-				if (token.isVar()) {
+				if (token.isVar()) {// 单纯的变量就向上追溯到有用的
 					return getType(clazz, ((CodeType) token.getTypeAtt()).token);
 				}
 				return new CodeType(token);
@@ -82,7 +82,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	public static Type getReturnType(Clazz clazz, Method method) {
+	public static Type getReturnType(CtClass clazz, CtMethod method) {
 
 		int depth = 0;
 		// 这里默认给了八级的深度

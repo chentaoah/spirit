@@ -6,7 +6,7 @@ import java.util.List;
 import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
-public class Method implements Element {
+public class CtMethod implements Element {
 	// 类型
 	public Type returnType;
 	// 参数名
@@ -18,7 +18,7 @@ public class Method implements Element {
 	// method域
 	public List<Line> methodLines;
 
-	public Method(Type returnType, String name, List<Param> params) {
+	public CtMethod(Type returnType, String name, List<Param> params) {
 		this.returnType = returnType;
 		this.name = name;
 		this.params = params;
