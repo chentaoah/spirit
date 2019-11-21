@@ -27,7 +27,7 @@ public class FastIterator {
 	 * 
 	 * @param clazz
 	 * @param method
-	 * @param isDerived 是否自动进行推导,而不是仅仅返回一个代表性的codeType
+	 * @param isAutoDerived 是否自动进行推导,而不是仅仅返回一个代表性的codeType
 	 * @param handler
 	 * @return
 	 */
