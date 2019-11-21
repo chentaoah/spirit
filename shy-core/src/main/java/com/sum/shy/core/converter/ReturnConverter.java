@@ -1,5 +1,5 @@
 package com.sum.shy.core.converter;
 
-public class ReturnConverter extends AbstractConverter {
+public class ReturnConverter extends AbsConverter {
 
 }

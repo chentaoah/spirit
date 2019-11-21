@@ -9,7 +9,7 @@ import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Variable;
 
-public class DeclareConverter extends AbstractConverter {
+public class DeclareConverter extends AbsConverter {
 	@Override
 	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,
 			int index, Line line, Stmt stmt) {

@@ -12,7 +12,7 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
 
-public class IfConverter extends AbstractConverter {
+public class IfConverter extends AbsConverter {
 
 	@Override
 	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,

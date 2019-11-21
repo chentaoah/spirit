@@ -1,5 +1,5 @@
 package com.sum.shy.core.converter;
 
-public class InvokeConverter extends AbstractConverter {
+public class InvokeConverter extends AbsConverter {
 
 }

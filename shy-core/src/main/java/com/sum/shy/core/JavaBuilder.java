@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.converter.InvokeConverter;
 import com.sum.shy.core.converter.ReturnConverter;
-import com.sum.shy.core.converter.AbstractConverter;
+import com.sum.shy.core.converter.AbsConverter;
 import com.sum.shy.core.converter.AssignmentConverter;
 import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.converter.EndConverter;
@@ -61,13 +61,11 @@ public class JavaBuilder {
 		// ============================ field ================================
 
 		for (CtField field : clazz.staticFields) {
-			body.append("\tpublic static " + AbstractConverter.convertType(clazz, field.type) + " "
-					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
+			body.append("\tpublic static " + field.type + " " + AbsConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
 		for (CtField field : clazz.fields) {
-			body.append("\tpublic " + AbstractConverter.convertType(clazz, field.type) + " "
-					+ AbstractConverter.convertStmt(clazz, field.stmt) + ";\n");
+			body.append("\tpublic " + field.type + " " + AbsConverter.convertStmt(clazz, field.stmt) + ";\n");
 		}
 
 		body.append("\n");
@@ -75,13 +73,12 @@ public class JavaBuilder {
 		// ============================ method ================================
 
 		for (CtMethod method : clazz.staticMethods) {
-			body.append("\tpublic static " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name
-					+ "(");
+			body.append("\tpublic static " + method.returnType + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");
+					body.append(param.type + " " + param.name + ", ");
 				}
-				body.deleteCharAt(body.lastIndexOf(","));
+				body.delete(body.lastIndexOf(","), body.length());
 			}
 			body.append("){\n");
 			convertMethod(body, clazz, method);
@@ -90,13 +87,12 @@ public class JavaBuilder {
 		}
 
 		for (CtMethod method : clazz.methods) {
-			body.append(
-					"\tpublic " + AbstractConverter.convertType(clazz, method.returnType) + " " + method.name + "(");
+			body.append("\tpublic " + method.returnType + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
-					body.append(AbstractConverter.convertType(clazz, param.type) + " " + param.name + ",");
+					body.append(param.type + " " + param.name + ", ");
 				}
-				body.deleteCharAt(body.lastIndexOf(","));
+				body.delete(body.lastIndexOf(","), body.length());
 			}
 			body.append("){\n");
 			convertMethod(body, clazz, method);

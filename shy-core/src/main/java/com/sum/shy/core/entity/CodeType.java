@@ -21,7 +21,7 @@ public class CodeType implements Type {
 
 	@Override
 	public String toString() {
-		return token.toString();
+		return token.isType() ? token.value.toString() : token.toString();
 	}
 
 }

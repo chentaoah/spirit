@@ -4,16 +4,14 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Converter;
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
-public abstract class AbstractConverter implements Converter {
+public abstract class AbsConverter implements Converter {
 
 	@Override
 	public int convert(StringBuilder sb, String block, String indent, CtClass clazz, CtMethod method, List<Line> lines,
@@ -24,15 +22,6 @@ public abstract class AbstractConverter implements Converter {
 		sb.append(indent + convertStmt(clazz, stmt) + ";\n");
 
 		return 0;
-	}
-
-	public static String convertType(CtClass clazz, Type type) {
-		if (type instanceof CodeType) {
-			CodeType codeType = (CodeType) type;
-			Token token = codeType.token;
-			return token.value.toString();
-		}
-		return null;
 	}
 
 	public static String convertStmt(CtClass clazz, Stmt stmt) {
