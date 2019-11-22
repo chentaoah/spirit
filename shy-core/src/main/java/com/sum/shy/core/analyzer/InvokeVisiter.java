@@ -23,7 +23,7 @@ public class InvokeVisiter {
 	 * 
 	 * @param classes
 	 */
-	public static void visit(Map<String, CtClass> classes) {
+	public static void visitClasses(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
 			for (Element element : clazz.getAllElement()) {
 				element.setType(visitElement(clazz, element));
@@ -52,7 +52,7 @@ public class InvokeVisiter {
 					@Override
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 							Stmt stmt) {
-						
+
 						return null;
 					}
 				});
