@@ -27,30 +27,25 @@ public class DefaultConverter implements Converter {
 
 	public static Stmt convertSubStmt(CtClass clazz, Stmt stmt) {
 
-		// 在所有的构造函数前面都加个new
-		// 将所有的array和map都转换成方法调用
-		for (int i = 0; i < stmt.tokens.size(); i++) {
+		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (token.isArray()) {
+			if (token.isArray()) {// 将所有的array和map都转换成方法调用
 				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
 				convertSubStmt(clazz, subStmt);
 				subStmt.getToken(0).value = "Collection.newArrayList(";
-				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
+				subStmt.getToken(subStmt.size() - 1).value = ")";
 
 			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
 				convertSubStmt(clazz, subStmt);
 //				if (token.isSeparator() && ":".equals(token.value)) {
 //					token.value = ",";
 //				}
 				subStmt.getToken(0).value = "Collection.newHashMap(";
-				subStmt.getToken(subStmt.tokens.size() - 1).value = ")";
+				subStmt.getToken(subStmt.size() - 1).value = ")";
 
-			} else if (token.isInvokeInit()) {
+			} else if (token.isInvokeInit()) {// 在所有的构造函数前面都加个new
 				Stmt subStmt = (Stmt) token.value;
-				// 先将子语句转换
 				convertSubStmt(clazz, subStmt);
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
