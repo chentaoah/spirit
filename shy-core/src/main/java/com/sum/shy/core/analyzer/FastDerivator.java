@@ -4,6 +4,7 @@ import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
@@ -20,9 +21,9 @@ import com.sum.shy.core.entity.Token;
  */
 public class FastDerivator {
 
-	public static Type getType(CtClass clazz, Stmt stmt) {
+	public static Type getType(Stmt stmt) {
 		for (Token token : stmt.tokens) {
-			Type type = getType(clazz, token);
+			Type type = getType(token);
 			if (type != null) {
 				return type;
 			}
@@ -37,7 +38,7 @@ public class FastDerivator {
 	 * @param token
 	 * @return
 	 */
-	public static Type getType(CtClass clazz, Token token) {
+	public static Type getType(Token token) {
 
 		if (token.isType()) {// 类型声明
 			return new CodeType(token);// 转换成type token
@@ -86,14 +87,55 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static String getArrayType(Token token) {
-		// TODO Auto-generated method stub
-		return "List<Object>";
+	private static Token getArrayType(Token token) {
+		Type finalType = null;
+		boolean flag = true;// 假设数组里面的参数都是已知类型的
+		Stmt subStmt = (Stmt) token.value;
+		for (Token subToken : subStmt.tokens) {
+			Type type = getType(subToken);
+			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
+				if (type.isFinalResult()) {
+					if (finalType != null) {
+						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
+							finalType = null;// 那么直接将最终结果清空
+							break;
+						}
+					} else {
+						finalType = type;
+					}
+				} else {
+					flag = false;
+					break;
+				}
+			}
+		}
+		if (!flag) {
+			return token;// 如果还是没法确定泛型,那么将整个数据结构直接返回
+		} else {
+			return new Token(Constants.TYPE_TOKEN,
+					finalType == null ? "List<Object>" : "List<" + getWrapType(finalType.getTypeName()) + ">", null);
+		}
+
 	}
 
-	private static String getMapType(Token token) {
+	private static Token getMapType(Token token) {
 		// TODO Auto-generated method stub
-		return "Map<Object,Object>";
+		return new Token(Constants.TYPE_TOKEN, "Map<Object,Object>", null);
+	}
+
+	public static String getWrapType(String typeName) {
+		switch (typeName) {
+		case "boolean":
+			return "Boolean";
+		case "int":
+			return "Integer";
+		case "long":
+			return "Long";
+		case "double":
+			return "Double";
+		default:
+			return typeName;
+		}
 	}
 
 	public static Type getReturnType(CtClass clazz, CtMethod method) {
@@ -103,7 +145,7 @@ public class FastDerivator {
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				// 如果是返回语句
 				if (stmt.isReturn()) {
-					return getType(clazz, stmt);
+					return getType(stmt);
 				}
 				return null;
 			}
