@@ -87,7 +87,7 @@ public class MethodResolver {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
 					// 如果需要精确推导,并且返回的类型并不是完全准确的,则进行深度推导
-					if (isAutoDerived && !type.isAccurate()) {
+					if (isAutoDerived && !type.isFinalResult()) {
 						type = InvokeVisiter.visitCodeType(clazz, (CodeType) type);
 					}
 					// 设置到第一个token里

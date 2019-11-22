@@ -1,7 +1,5 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.Map;
-
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;

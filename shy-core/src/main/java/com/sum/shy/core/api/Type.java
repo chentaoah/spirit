@@ -9,7 +9,7 @@ public interface Type {
 	 * 
 	 * @return
 	 */
-	public boolean isAccurate();
+	public boolean isFinalResult();
 
 	/**
 	 * 获取名称
