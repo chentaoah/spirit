@@ -1,6 +1,6 @@
 package com.sum.shy.core;
 
-import com.sum.shy.core.analyzer.FastIterator;
+import com.sum.shy.core.analyzer.MethodResolver;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.converter.DefaultConverter;
@@ -119,7 +119,7 @@ public class JavaBuilder {
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
 		Context.get().scope = "method";
-		FastIterator.traver(clazz, method, true, new Handler() {
+		MethodResolver.resolve(clazz, method, true, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				Converter converter = Converter.get(stmt.syntax);

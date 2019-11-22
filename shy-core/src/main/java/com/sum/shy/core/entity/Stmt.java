@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.analyzer.SemanticDelegate;
-import com.sum.shy.core.analyzer.SyntacticParser;
+import com.sum.shy.core.analyzer.SyntacticDefiner;
 
 public class Stmt {
 
@@ -21,7 +21,7 @@ public class Stmt {
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.语法分析,分析语句的语法
-		String syntax = SyntacticParser.getSyntax(words);
+		String syntax = SyntacticDefiner.getSyntax(words);
 		// 3.语义分析
 		List<Token> tokens = SemanticDelegate.getTokens(syntax, words);
 		// 生成语句

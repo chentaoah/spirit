@@ -15,8 +15,8 @@ class User {
 	}
 	
 	func testList(List<String> list){
-		int obj
-		array=["hello",obj]
+		s="hello"
+		array=["hello",s]
 		return array
 	}
 	

@@ -20,7 +20,7 @@ import com.sum.shy.core.utils.LineUtils;
  * @author chentao26275
  *
  */
-public class FastIterator {
+public class MethodResolver {
 
 	/**
 	 * 快速遍历
@@ -31,7 +31,7 @@ public class FastIterator {
 	 * @param handler
 	 * @return
 	 */
-	public static Object traver(CtClass clazz, CtMethod method, boolean isAutoDerived, Handler handler) {
+	public static Object resolve(CtClass clazz, CtMethod method, boolean isAutoDerived, Handler handler) {
 
 		int depth = 0;
 		// 这里默认给了八级的深度

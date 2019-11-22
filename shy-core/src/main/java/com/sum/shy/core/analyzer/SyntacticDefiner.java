@@ -13,7 +13,7 @@ import com.sum.shy.core.entity.Constants;
  * @author: chentao26275
  * @date: 2019年10月29日
  */
-public class SyntacticParser {
+public class SyntacticDefiner {
 
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
