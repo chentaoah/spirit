@@ -88,39 +88,23 @@ public class FastDerivator {
 	}
 
 	private static Token getArrayType(Token token) {
-		Type finalType = null;
-		boolean flag = true;// 假设数组里面的参数都是已知类型的
-		Stmt subStmt = (Stmt) token.value;
-		for (Token subToken : subStmt.tokens) {
-			Type type = getType(subToken);
-			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (type.isFinal()) {
-					if (finalType != null) {
-						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
-							finalType = null;// 那么直接将最终结果清空
-							break;
-						}
-					} else {
-						finalType = type;
-					}
-				} else {
-					flag = false;
-					break;
-				}
-			}
-		}
-		if (flag) {
-			return new Token(Constants.TYPE_TOKEN,
-					finalType == null ? "List<Object>" : "List<" + getWrapType(finalType.getTypeName()) + ">", null);
-		} else {
-			return token;// 如果还是没法确定泛型,那么将整个数据结构直接返回
-		}
-
+		Type type = getTypeByStep(token, 0, 1);
+		// 如果为null,则说明还需要进行深度推导,那么将该集合直接返回
+		return type != null ? new Token(Constants.TYPE_TOKEN, "List<" + getWrapType(type.getTypeName()) + ">", null)
+				: token;
 	}
 
 	private static Token getMapType(Token token) {
+		Type firstType = getTypeByStep(token, 1, 2);
+		Type secondType = getTypeByStep(token, 2, 2);
+		// 如果为null,则说明还需要进行深度推导,那么将该集合直接返回
+		return firstType != null && secondType != null
+				? new Token(Constants.TYPE_TOKEN,
+						"Map<" + getWrapType(firstType.getTypeName()) + "," + getWrapType(secondType.getTypeName())
+								+ ">",
+						null)
+				: token;
 
-		return new Token(Constants.TYPE_TOKEN, "Map<Object,Object>", null);
 	}
 
 	/**
@@ -130,8 +114,10 @@ public class FastDerivator {
 	 * @param step
 	 */
 	public static Type getTypeByStep(Token token, int start, int step) {
+
+		boolean isSame = true;// 所有元素是否都相同
+		boolean isFinal = true;// 所有元素都是最终结果
 		Type finalType = null;
-		boolean flag = true;// 假设数组里面的参数都是已知类型的
 		Stmt subStmt = (Stmt) token.value;
 		for (int i = start; i < subStmt.size(); i = i + step) {
 			Token subToken = subStmt.getToken(i);
@@ -140,22 +126,27 @@ public class FastDerivator {
 				if (type.isFinal()) {
 					if (finalType != null) {
 						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
-							finalType = null;// 那么直接将最终结果清空
+							isSame = false;
 							break;
 						}
 					} else {
 						finalType = type;
 					}
 				} else {
-					flag = false;
-					break;
+					isFinal = false;
 				}
 			}
 		}
-		if (flag) {
-			return finalType != null ? finalType : new CodeType("Object");
-		}
-		return null;
+
+		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
+		if (!isSame)
+			return new CodeType("Object");
+		// 2.如果集合中的元素类型一致,其中还有需要进行推导的元素,则返回null
+		if (!isFinal)
+			return null;
+		// 3.如果类型都相同,且无须推导,那么直接返回该类型
+		return finalType;
+
 	}
 
 	public static String getWrapType(String typeName) {
