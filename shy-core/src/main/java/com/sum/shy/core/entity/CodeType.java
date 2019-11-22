@@ -21,7 +21,7 @@ public class CodeType implements Type {
 	}
 
 	@Override
-	public boolean isFinalResult() {
+	public boolean isFinal() {
 		return token.isType();
 	}
 

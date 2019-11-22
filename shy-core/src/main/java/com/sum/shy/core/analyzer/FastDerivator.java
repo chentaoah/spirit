@@ -94,7 +94,7 @@ public class FastDerivator {
 		for (Token subToken : subStmt.tokens) {
 			Type type = getType(subToken);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (type.isFinalResult()) {
+				if (type.isFinal()) {
 					if (finalType != null) {
 						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
 							finalType = null;// 那么直接将最终结果清空
@@ -137,7 +137,7 @@ public class FastDerivator {
 			Token subToken = subStmt.getToken(i);
 			Type type = getType(subToken);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (type.isFinalResult()) {
+				if (type.isFinal()) {
 					if (finalType != null) {
 						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
 							finalType = null;// 那么直接将最终结果清空
@@ -151,6 +151,9 @@ public class FastDerivator {
 					break;
 				}
 			}
+		}
+		if (flag) {
+			return finalType != null ? finalType : new CodeType("Object");
 		}
 		return null;
 	}
