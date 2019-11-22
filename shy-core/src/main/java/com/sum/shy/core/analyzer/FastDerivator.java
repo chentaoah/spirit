@@ -109,18 +109,50 @@ public class FastDerivator {
 				}
 			}
 		}
-		if (!flag) {
-			return token;// 如果还是没法确定泛型,那么将整个数据结构直接返回
-		} else {
+		if (flag) {
 			return new Token(Constants.TYPE_TOKEN,
 					finalType == null ? "List<Object>" : "List<" + getWrapType(finalType.getTypeName()) + ">", null);
+		} else {
+			return token;// 如果还是没法确定泛型,那么将整个数据结构直接返回
 		}
 
 	}
 
 	private static Token getMapType(Token token) {
-		// TODO Auto-generated method stub
+
 		return new Token(Constants.TYPE_TOKEN, "Map<Object,Object>", null);
+	}
+
+	/**
+	 * 根据一定的格式,跳跃式的获取到集合中的泛型参数
+	 * 
+	 * @param token
+	 * @param step
+	 */
+	public static Type getTypeByStep(Token token, int start, int step) {
+		Type finalType = null;
+		boolean flag = true;// 假设数组里面的参数都是已知类型的
+		Stmt subStmt = (Stmt) token.value;
+		for (int i = start; i < subStmt.size(); i = i + step) {
+			Token subToken = subStmt.getToken(i);
+			Type type = getType(subToken);
+			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
+				if (type.isFinalResult()) {
+					if (finalType != null) {
+						if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
+							finalType = null;// 那么直接将最终结果清空
+							break;
+						}
+					} else {
+						finalType = type;
+					}
+				} else {
+					flag = false;
+					break;
+				}
+			}
+		}
+		if()
 	}
 
 	public static String getWrapType(String typeName) {

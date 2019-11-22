@@ -14,8 +14,8 @@ class User {
 	}
 	
 	func testList(List<String> list){
-		s="ni hao!"
-		array=["hello",s]
+		s=0
+		array=[123456,s]
 		return array
 	}
 	
