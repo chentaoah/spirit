@@ -64,10 +64,8 @@ public class MethodResolver {
 			}
 			// 生成block
 			StringBuilder sb = new StringBuilder();
-			for (Integer count : counts) {
-				if (count == 0)
-					break;
-				sb.append(count + "-");
+			for (int j = 0; j < depth; j++) {
+				sb.append(counts.get(depth) + "-");
 			}
 			if (sb.length() > 0)
 				sb.deleteCharAt(sb.length() - 1);

@@ -6,9 +6,9 @@ class Father {
 	
 	func getName(User user, String str, int x){
 		if x > 0 {
-		
+			s="wo shi tian cai!"
 		}
-		return user.getAge()
+		return s
 	}
 	
 }
