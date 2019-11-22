@@ -38,9 +38,12 @@ public class DefaultConverter implements Converter {
 			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
-//				if (token.isSeparator() && ":".equals(token.value)) {
-//					token.value = ",";
-//				}
+				// 将map里面的冒号分隔符,转换成逗号分隔
+				for (Token subToken : subStmt.tokens) {
+					if (subToken.isSeparator() && ":".equals(subToken.value)) {
+						subToken.value = ",";
+					}
+				}
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
 
