@@ -36,11 +36,11 @@ public class InvokeVisiter {
 	 * @return
 	 */
 	private static Type visitElement(CtClass clazz, Element element) {
-		CodeType codeType = (CodeType) element.getType();
-		if (!codeType.isFinal()) {// 如果不是type token,则需要进行推导
-			return visitType(clazz, codeType);
+		Type type = element.getType();
+		if (!type.isFinal()) {// 如果不是type token,则需要进行推导
+			return visitType(clazz, type);
 		}
-		return codeType;
+		return type;
 	}
 
 	public static Type visitType(CtClass clazz, Type type) {
