@@ -31,7 +31,7 @@ public class MethodResolver {
 	 * @param handler
 	 * @return
 	 */
-	public static Object resolve(CtClass clazz, CtMethod method, boolean isAutoDerived, Handler handler) {
+	public static Object resolve(CtClass clazz, CtMethod method, Handler handler) {
 
 		int depth = 0;
 		// 这里默认给了八级的深度
@@ -82,12 +82,10 @@ public class MethodResolver {
 				Token token = stmt.getToken(0);
 				// 如果变量追踪,并没有找到类型声明
 				if (token.isVar() && !token.isDeclaredAtt()) {
+					// 快速遍历一行
+					InvokeVisiter.visitStmt(clazz, stmt);
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(stmt);
-					// 如果需要精确推导,并且返回的类型并不是完全准确的,则进行深度推导
-					if (isAutoDerived && !type.isFinal()) {
-						type = InvokeVisiter.visitType(clazz, type);
-					}
 					// 设置到第一个token里
 					token.setTypeAtt(type);
 					// 添加到方法变量里

@@ -47,7 +47,7 @@ public class AutoImporter {
 			importByTypeName(clazz, codeType.getTypeName());
 		}
 
-		MethodResolver.resolve(clazz, method, true, new Handler() {
+		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				if (stmt.isDeclare()) {

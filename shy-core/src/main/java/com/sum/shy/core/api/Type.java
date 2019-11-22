@@ -5,13 +5,6 @@ import java.util.List;
 public interface Type {
 
 	/**
-	 * 是否最终的类型
-	 * 
-	 * @return
-	 */
-	public boolean isFinal();
-
-	/**
 	 * 获取名称
 	 * 
 	 * @return

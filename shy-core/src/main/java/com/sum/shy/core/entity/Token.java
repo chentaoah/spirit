@@ -157,6 +157,14 @@ public class Token {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
+	public Type getReturnTypeAtt() {
+		return (Type) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
+	}
+
+	public void setReturnTypeAtt(Type returnType) {
+		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, returnType);
+	}
+
 	// =================== 全名 =====================
 
 	public String getClassNameAtt() {

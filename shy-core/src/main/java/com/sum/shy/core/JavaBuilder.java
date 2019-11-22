@@ -119,7 +119,7 @@ public class JavaBuilder {
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
 		Context.get().scope = "method";
-		MethodResolver.resolve(clazz, method, true, new Handler() {
+		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				Converter converter = Converter.get(stmt.syntax);

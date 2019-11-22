@@ -21,11 +21,6 @@ public class CodeType implements Type {
 	}
 
 	@Override
-	public boolean isFinal() {
-		return token.isType();
-	}
-
-	@Override
 	public String getTypeName() {
 		if (token.isType()) {
 			String typeName = (String) token.value;

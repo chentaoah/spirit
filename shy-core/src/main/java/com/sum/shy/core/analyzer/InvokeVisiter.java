@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
+import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
 public class InvokeVisiter {
@@ -37,10 +40,44 @@ public class InvokeVisiter {
 	 */
 	private static Type visitElement(CtClass clazz, Element element) {
 		Type type = element.getType();
-		if (!type.isFinal()) {// 如果不是type token,则需要进行推导
-			return visitType(clazz, type);
+		if (type == null) {
+			if (element instanceof CtField) {// 如果是字段
+				Stmt stmt = ((CtField) element).stmt;
+				visitStmt(clazz, stmt);// 推导类型
+				type = FastDerivator.getType(stmt);// 快速推导
+
+			} else if (element instanceof CtMethod) {// 如果是方法
+
+				MethodResolver.resolve(clazz, (CtMethod) element, new Handler() {
+					@Override
+					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
+							Stmt stmt) {
+						
+						return null;
+					}
+				});
+
+			}
 		}
 		return type;
+	}
+
+	public static void visitStmt(CtClass clazz, Stmt stmt) {
+		for (Token token : stmt.tokens) {
+
+			if (token.isInvokeMember()) {
+				Type type = token.getTypeAtt();
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
+
+			} else if (token.isMemberVar()) {
+				Type type = token.getTypeAtt();
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
+				token.setReturnTypeAtt(returnType);
+			}
+
+		}
+
 	}
 
 	public static Type visitType(CtClass clazz, Type type) {
@@ -85,27 +122,27 @@ public class InvokeVisiter {
 	}
 
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
-		if (type.isFinal()) {
-			String typeName = type.getTypeName();
-			String className = clazz.findImport(typeName);
-			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
-				CtClass clazz1 = Context.get().findClass(className);
-				if (properties.size() > 0) {
-					String property = properties.remove(0);// 获取第一个属性
-					CtField field = clazz1.findField(property);
-					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
-					returnType = getReturnType(clazz1, returnType, properties, methodName);
-					return returnType;
 
-				} else if (methodName != null) {
-					CtMethod method = clazz1.findMethod(methodName);
-					return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
-				}
+		String typeName = type.getTypeName();
+		String className = clazz.findImport(typeName);
+		if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
+			CtClass clazz1 = Context.get().findClass(className);
+			if (properties.size() > 0) {
+				String property = properties.remove(0);// 获取第一个属性
+				CtField field = clazz1.findField(property);
+				Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+				returnType = getReturnType(clazz1, returnType, properties, methodName);
+				return returnType;
 
-			} else {// 如果是本地类型，则通过反射进行推导
-
+			} else if (methodName != null) {
+				CtMethod method = clazz1.findMethod(methodName);
+				return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
 			}
+
+		} else {// 如果是本地类型，则通过反射进行推导
+
 		}
+
 		return null;
 	}
 
