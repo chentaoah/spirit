@@ -36,6 +36,20 @@ public class JavaBuilder {
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
 
+		// ============================ head ================================
+
+		StringBuilder head = new StringBuilder();
+
+		// package
+		head.append("package " + clazz.packageStr + ";\n");
+		head.append("\n");
+		// import
+		for (String importStr : clazz.importStrs.values()) {
+			head.append("import " + importStr + ";\n");
+		}
+
+		head.append("\n");
+
 		// ============================ class ================================
 
 		StringBuilder body = new StringBuilder();
@@ -98,20 +112,6 @@ public class JavaBuilder {
 		}
 
 		body.append("}");
-
-		// ============================ head ================================
-
-		StringBuilder head = new StringBuilder();
-
-		// package
-		head.append("package " + clazz.packageStr + ";\n");
-		head.append("\n");
-		// import
-		for (String importStr : clazz.importStrs.values()) {
-			head.append("import " + importStr + ";\n");
-		}
-
-		head.append("\n");
 
 		return head.append(body).toString();
 

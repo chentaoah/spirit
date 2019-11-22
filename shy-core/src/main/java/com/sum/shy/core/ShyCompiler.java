@@ -56,7 +56,7 @@ public class ShyCompiler {
 		// 推导出剩下未知的类型
 		InvokeVisiter.visit(classes);
 		// 自动引入友元
-		AutoImporter.doImport(classes);
+//		AutoImporter.doImport(classes);
 
 		if (!debug) {
 			// 2.构建java代码

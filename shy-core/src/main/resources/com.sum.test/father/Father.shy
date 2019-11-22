@@ -8,7 +8,7 @@ class Father {
 		if x > 0 {
 			s="wo shi tian cai!"
 		}
-		return 0.0
+		return "yapi"
 	}
 	
 }

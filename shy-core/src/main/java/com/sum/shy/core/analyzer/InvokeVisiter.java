@@ -48,23 +48,24 @@ public class InvokeVisiter {
 		// 向上获取所有相关的codeType
 		List<CodeType> codeTypes = getRelevantType((CodeType) type);
 		// type token
-		Type returnType = null;
-		for (CodeType codeType1 : codeTypes) {
-			Token token = codeType1.token;
+		Type lastType = null;
+
+		for (CodeType codeType : codeTypes) {
+			Token token = codeType.token;
 			if (token.isType()) {// 如果是类型声明
-				returnType = codeType1;
+				lastType = codeType;
 
 			} else if (token.isInvokeMember()) {
-				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), token.getMethodNameAtt());
+				lastType = getReturnType(clazz, lastType, token.getPropertiesAtt(), token.getMethodNameAtt());
 
 			} else if (token.isMemberVar()) {
-				returnType = getReturnType(clazz, returnType, token.getPropertiesAtt(), null);
+				lastType = getReturnType(clazz, lastType, token.getPropertiesAtt(), null);
 
 			}
 
 		}
 
-		return returnType;
+		return lastType;
 	}
 
 	private static List<CodeType> getRelevantType(CodeType codeType) {
