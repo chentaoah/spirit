@@ -39,7 +39,7 @@ public class ShyCompiler {
 		Context.get().files = files;
 		Context.get().classes = classes;
 
-		FileUtils.recursiveFiles(path, "", files);
+		FileUtils.getFiles(path, "", files);
 
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			String className = entry.getKey();

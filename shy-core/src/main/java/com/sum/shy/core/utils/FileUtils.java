@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class FileUtils {
 
-	public static void recursiveFiles(String path, String packageStr, Map<String, File> files) {
+	public static void getFiles(String path, String packageStr, Map<String, File> files) {
 
 		File dir = new File(path);
 		if (!dir.isDirectory()) {
@@ -16,7 +16,7 @@ public class FileUtils {
 
 		for (File f : dir.listFiles()) {
 			if (f.isDirectory()) {// 递归
-				recursiveFiles(f.getAbsolutePath(), packageStr, files);
+				getFiles(f.getAbsolutePath(), packageStr, files);
 			} else if (f.isFile()) {// 如果是文件就添加
 				files.put(packageStr + "." + f.getName().replace(".shy", ""), f);
 			}
