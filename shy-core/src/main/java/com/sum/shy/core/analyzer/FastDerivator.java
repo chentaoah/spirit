@@ -95,8 +95,8 @@ public class FastDerivator {
 	}
 
 	private static Token getMapType(Token token) {
-		Type firstType = getTypeByStep(token, 1, 2);
-		Type secondType = getTypeByStep(token, 2, 2);
+		Type firstType = getTypeByStep(token, 1, 4);
+		Type secondType = getTypeByStep(token, 3, 4);
 		// 如果为null,则说明还需要进行深度推导,那么将该集合直接返回
 		return firstType != null && secondType != null
 				? new Token(Constants.TYPE_TOKEN,
