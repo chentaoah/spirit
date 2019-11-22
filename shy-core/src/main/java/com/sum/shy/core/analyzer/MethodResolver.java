@@ -86,7 +86,7 @@ public class MethodResolver {
 					Type type = FastDerivator.getType(stmt);
 					// 如果需要精确推导,并且返回的类型并不是完全准确的,则进行深度推导
 					if (isAutoDerived && !type.isFinal()) {
-						type = InvokeVisiter.visitCodeType(clazz, (CodeType) type);
+						type = InvokeVisiter.visitType(clazz, (CodeType) type);
 					}
 					// 设置到第一个token里
 					token.setTypeAtt(type);

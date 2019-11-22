@@ -9,13 +9,16 @@ class User {
 	}
 	
 	func getAge(){
-		map={"name":"chentao","age":"27"}
+		xyz=father.getName(0)
+		map={"name":"chentao","age":xyz}
 		return map
 	}
 	
 	func testList(List<String> list){
 		s=0
 		array=[123456,s]
+		//array << 232312
+	
 		return array
 	}
 	

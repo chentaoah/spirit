@@ -29,6 +29,7 @@ public class DefaultConverter implements Converter {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
+
 			if (token.isArray()) {// 将所有的array和map都转换成方法调用
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
@@ -38,8 +39,7 @@ public class DefaultConverter implements Converter {
 			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
-				// 将map里面的冒号分隔符,转换成逗号分隔
-				for (Token subToken : subStmt.tokens) {
+				for (Token subToken : subStmt.tokens) {// 将map里面的冒号分隔符,转换成逗号分隔
 					if (subToken.isSeparator() && ":".equals(subToken.value)) {
 						subToken.value = ",";
 					}

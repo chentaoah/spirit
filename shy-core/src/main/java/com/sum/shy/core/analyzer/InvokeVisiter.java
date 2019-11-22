@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
@@ -34,20 +35,20 @@ public class InvokeVisiter {
 	 * @param element
 	 * @return
 	 */
-	private static CodeType visitElement(CtClass clazz, Element element) {
+	private static Type visitElement(CtClass clazz, Element element) {
 		CodeType codeType = (CodeType) element.getType();
 		if (!codeType.isFinal()) {// 如果不是type token,则需要进行推导
-			return visitCodeType(clazz, codeType);
+			return visitType(clazz, codeType);
 		}
 		return codeType;
 	}
 
-	public static CodeType visitCodeType(CtClass clazz, CodeType codeType) {
+	public static Type visitType(CtClass clazz, Type type) {
 
 		// 向上获取所有相关的codeType
-		List<CodeType> codeTypes = getRelevantType(codeType);
+		List<CodeType> codeTypes = getRelevantType((CodeType) type);
 		// type token
-		CodeType returnType = null;
+		Type returnType = null;
 		for (CodeType codeType1 : codeTypes) {
 			Token token = codeType1.token;
 			if (token.isType()) {// 如果是类型声明
@@ -82,17 +83,16 @@ public class InvokeVisiter {
 		return codeTypes;
 	}
 
-	private static CodeType getReturnType(CtClass clazz, CodeType codeType, List<String> properties,
-			String methodName) {
-		if (codeType.isFinal()) {
-			String typeName = codeType.token.getTypeNameAtt();
+	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
+		if (type.isFinal()) {
+			String typeName = type.getTypeName();
 			String className = clazz.findImport(typeName);
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 				CtClass clazz1 = Context.get().findClass(className);
 				if (properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
 					CtField field = clazz1.findField(property);
-					CodeType returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
 					returnType = getReturnType(clazz1, returnType, properties, methodName);
 					return returnType;
 
