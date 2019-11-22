@@ -152,7 +152,7 @@ public class FastDerivator {
 				}
 			}
 		}
-		if()
+		return null;
 	}
 
 	public static String getWrapType(String typeName) {
