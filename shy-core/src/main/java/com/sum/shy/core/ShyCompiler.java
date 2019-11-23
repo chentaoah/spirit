@@ -35,12 +35,9 @@ public class ShyCompiler {
 
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
-		Map<String, CtClass> classes = new LinkedHashMap<>();
-		Context.get().files = files;
-		Context.get().classes = classes;
-
 		FileUtils.getFiles(path, "", files);
 
+		Map<String, CtClass> classes = new LinkedHashMap<>();
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			String className = entry.getKey();
 			File file = entry.getValue();
@@ -53,12 +50,13 @@ public class ShyCompiler {
 			}
 		}
 
-		// 推导出剩下未知的类型
-		InvokeVisiter.visitClasses(classes);
-		// 自动引入友元
-//		AutoImporter.doImport(classes);
-
 		if (!debug) {
+			// 设置上下文
+			Context.get().classes = classes;
+			// 推导出剩下未知的类型
+			InvokeVisiter.visitClasses(classes);
+			// 自动引入友元
+//			AutoImporter.doImport(classes);
 			// 2.构建java代码
 			for (CtClass clazz : classes.values()) {
 				compile(clazz);

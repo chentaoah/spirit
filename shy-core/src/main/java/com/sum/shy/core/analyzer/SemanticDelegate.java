@@ -56,7 +56,7 @@ public class SemanticDelegate {
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(boolean|int|long|double|String|Object|void)$");// 常用基本类型
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|boolean|int|long|double|String|Object)$");// 常用基本类型
 	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
 	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组
 	private static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
@@ -264,14 +264,14 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isInvokeStatic()) {// 静态方法调用
-			token.setTypeNameAtt(getClassName(word));
-			token.setPropertiesAtt(getPropertyNames(word));// 中间可能有很多的成员变量访问
+			token.setTypeNameAtt(getTypeName(word));
+			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
 		} else if (token.isInvokeMember()) {// 成员方法调用
 			token.setVarNameAtt(getVarName(word));
-			token.setPropertiesAtt(getPropertyNames(word));// 中间可能有很多的成员变量访问
+			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
@@ -280,22 +280,22 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isInvokeFluent()) {// 流式调用
-			token.setPropertiesAtt(getPropertyNames(word));// 中间可能有很多的成员变量访问
+			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
 		} else if (token.isStaticVar()) {// 静态变量
-			token.setTypeNameAtt(getClassName(word));
-			token.setPropertiesAtt(getPropertyNames(word));
+			token.setTypeNameAtt(getTypeName(word));
+			token.setPropertiesAtt(getProperties(word));
 			return;
 
 		} else if (token.isMemberVar()) {// 成员变量
 			token.setVarNameAtt(getVarName(word));
-			token.setPropertiesAtt(getPropertyNames(word));
+			token.setPropertiesAtt(getProperties(word));
 			return;
 
 		} else if (token.isMemberVarFluent()) {// 流式成员变量
-			token.setPropertiesAtt(getPropertyNames(word));
+			token.setPropertiesAtt(getProperties(word));
 			return;
 
 		}
@@ -376,7 +376,7 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("("));
 	}
 
-	private static String getClassName(String word) {
+	private static String getTypeName(String word) {
 		return word.substring(0, word.indexOf("."));
 	}
 
@@ -384,7 +384,7 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("."));
 	}
 
-	private static List<String> getPropertyNames(String word) {
+	private static List<String> getProperties(String word) {
 		List<String> list = new ArrayList<>();
 		if (word.contains("(") && word.contains(")")) {
 			String[] strs = word.substring(0, word.indexOf("(")).split("\\.");

@@ -1,6 +1,5 @@
 package com.sum.shy.core.entity;
 
-import java.io.File;
 import java.util.Map;
 
 public class Context {
@@ -15,8 +14,6 @@ public class Context {
 	}
 
 	// 所有被解析的结构体
-	public Map<String, File> files;
-	// 所有被解析的结构体
 	public Map<String, CtClass> classes;
 	// 当前读取的class实体
 	public CtClass clazz;
@@ -30,7 +27,7 @@ public class Context {
 	 * @return
 	 */
 	public String findImport(String typeName) {
-		for (String className : files.keySet()) {
+		for (String className : classes.keySet()) {
 			if (className.substring(className.lastIndexOf(".") + 1).equals(typeName)) {
 				return className;
 			}

@@ -66,7 +66,8 @@ public class InvokeVisiter {
 	}
 
 	public static void visit(CtClass clazz, Stmt stmt) {
-		for (Token token : stmt.tokens) {
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
 			if (token.isInvokeInit()) {
 				token.setReturnTypeAtt(new CodeType(token.getTypeNameAtt()));
 
@@ -86,6 +87,9 @@ public class InvokeVisiter {
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isInvokeFluent()) {
+				Type type = stmt.getToken(i - 1).getReturnTypeAtt();
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isStaticVar()) {
 				Type type = new CodeType(token.getTypeNameAtt());
@@ -98,6 +102,9 @@ public class InvokeVisiter {
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isMemberVarFluent()) {
+				Type type = stmt.getToken(i - 1).getReturnTypeAtt();
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
+				token.setReturnTypeAtt(returnType);
 
 			}
 
