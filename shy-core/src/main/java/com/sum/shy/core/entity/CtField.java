@@ -29,7 +29,7 @@ public class CtField implements Element {
 
 	@Override
 	public String toString() {
-		return type.toString();
+		return "field --> " + stmt;
 	}
 
 }

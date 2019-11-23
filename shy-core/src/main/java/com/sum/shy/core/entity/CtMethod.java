@@ -3,6 +3,7 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
@@ -36,14 +37,10 @@ public class CtMethod implements Element {
 
 	@Override
 	public String toString() {
-		if (returnType != null) {
-			return returnType.toString();
-		}
-		return null;
+		return "method --> " + name + "(" + Joiner.on(",").join(params) + ")";
 	}
 
 	public Variable findVariable(String block, String name) {
-
 		for (Variable variable : variables) {
 			if (block.startsWith(variable.block) && variable.name.equals(name)) {
 				return variable;

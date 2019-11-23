@@ -13,4 +13,9 @@ public class Param {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return type + " " + name;
+	}
+
 }

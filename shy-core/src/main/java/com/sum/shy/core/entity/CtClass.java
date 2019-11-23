@@ -48,16 +48,16 @@ public class CtClass {
 		System.out.println("typeName --> " + typeName);
 
 		for (CtField field : staticFields) {
-			System.out.println("static field --> " + field);
+			System.out.println("static " + field);
 		}
 		for (CtField field : fields) {
-			System.out.println("field --> " + field);
+			System.out.println(field);
 		}
 		for (CtMethod method : staticMethods) {
-			System.out.println("static method --> " + method);
+			System.out.println("static " + method);
 		}
 		for (CtMethod method : methods) {
-			System.out.println("method --> " + method);
+			System.out.println(method);
 		}
 
 		System.out.println("=============================");
