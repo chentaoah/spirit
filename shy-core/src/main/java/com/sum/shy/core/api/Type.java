@@ -5,6 +5,13 @@ import java.util.List;
 public interface Type {
 
 	/**
+	 * 获取全名
+	 * 
+	 * @return
+	 */
+	public String getClassName();
+
+	/**
 	 * 获取名称
 	 * 
 	 * @return

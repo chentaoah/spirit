@@ -48,7 +48,7 @@ public class AutoImporter {
 				public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 						Stmt stmt) {
 					if (stmt.isDeclare()) {
-						importType(clazz, new CodeType(stmt.get(0)));
+						importType(clazz, new CodeType(clazz, stmt.get(0)));
 
 					} else if (stmt.isAssign()) {
 						Token token = stmt.getToken(0);

@@ -28,7 +28,7 @@ public class FuncParser implements Parser {
 			String type = list.get(i);
 			String name = list.get(i + 1);
 			// 根据字符串字面意思,获取类型
-			params.add(new Param(new CodeType(type), name));
+			params.add(new Param(new CodeType(clazz, type), name));
 		}
 
 		// 这里不再直接推导返回类型

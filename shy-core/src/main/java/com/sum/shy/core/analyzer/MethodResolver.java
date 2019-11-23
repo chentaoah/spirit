@@ -78,7 +78,7 @@ public class MethodResolver {
 			InvokeVisiter.visit(clazz, stmt);
 
 			if (stmt.isDeclare()) {
-				method.addVariable(new Variable(block, new CodeType(stmt.get(0)), stmt.get(1)));
+				method.addVariable(new Variable(block, new CodeType(clazz, stmt.get(0)), stmt.get(1)));
 
 			} else if (stmt.isAssign()) {
 				// 判断变量追踪是否帮我们找到了该变量的类型
@@ -86,7 +86,7 @@ public class MethodResolver {
 				// 如果变量追踪,并没有找到类型声明
 				if (token.isVar() && !token.isDeclaredAtt()) {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
-					Type type = FastDerivator.getType(stmt);
+					Type type = FastDerivator.getType(clazz, stmt);
 					// 设置到第一个token里
 					token.setTypeAtt(type);
 					// 添加到方法变量里

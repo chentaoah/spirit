@@ -10,14 +10,23 @@ import com.sum.shy.core.api.Type;
 
 public class CodeType implements Type {
 
+	public CtClass clazz;// 标记在哪个类中被声明
+
 	public Token token;
 
-	public CodeType(Token token) {
+	public CodeType(CtClass clazz, Token token) {
+		this.clazz = clazz;
 		this.token = token;
 	}
 
-	public CodeType(String type) {
+	public CodeType(CtClass clazz, String type) {
+		this.clazz = clazz;
 		this.token = SemanticDelegate.getToken(type);
+	}
+
+	@Override
+	public String getClassName() {
+		return clazz.findImport(getTypeName());
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class InvokeVisiter {
 			if (element instanceof CtField) {// 如果是字段
 				Stmt stmt = ((CtField) element).stmt;
 				visit(clazz, stmt);// 推导类型
-				type = FastDerivator.getType(stmt);// 快速推导
+				type = FastDerivator.getType(clazz, stmt);// 快速推导
 
 			} else if (element instanceof CtMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>();
@@ -55,12 +55,12 @@ public class InvokeVisiter {
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 							Stmt stmt) {
 						if (stmt.isReturn()) {
-							holder.obj = FastDerivator.getType(stmt);
+							holder.obj = FastDerivator.getType(clazz, stmt);
 						}
 						return null;
 					}
 				});
-				type = holder.obj != null ? holder.obj : new CodeType("void");
+				type = holder.obj != null ? holder.obj : new CodeType(clazz, "void");
 			}
 
 		}
@@ -73,10 +73,10 @@ public class InvokeVisiter {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isInvokeInit()) {
-				token.setReturnTypeAtt(new CodeType(token.getTypeNameAtt()));
+				token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 			} else if (token.isInvokeStatic()) {
-				Type type = new CodeType(token.getTypeNameAtt());
+				Type type = new CodeType(clazz, token.getTypeNameAtt());
 				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
 				token.setReturnTypeAtt(returnType);
 
@@ -86,7 +86,7 @@ public class InvokeVisiter {
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isInvokeLocal()) {
-				Type type = new CodeType(clazz.typeName);
+				Type type = new CodeType(clazz, clazz.typeName);
 				Type returnType = getReturnType(clazz, type, null, token.getMethodNameAtt());
 				token.setReturnTypeAtt(returnType);
 
@@ -96,7 +96,7 @@ public class InvokeVisiter {
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isStaticVar()) {
-				Type type = new CodeType(token.getTypeNameAtt());
+				Type type = new CodeType(clazz, token.getTypeNameAtt());
 				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
 				token.setReturnTypeAtt(returnType);
 
@@ -118,8 +118,7 @@ public class InvokeVisiter {
 
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
 
-		String typeName = type.getTypeName();
-		String className = clazz.findImport(typeName);
+		String className = type.getClassName();
 		if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 			CtClass clazz1 = Context.get().findClass(className);
 			if (properties != null && properties.size() > 0) {

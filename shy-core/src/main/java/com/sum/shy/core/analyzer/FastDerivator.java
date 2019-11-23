@@ -2,6 +2,7 @@ package com.sum.shy.core.analyzer;
 
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 
@@ -16,9 +17,9 @@ import com.sum.shy.core.entity.Token;
  */
 public class FastDerivator {
 
-	public static Type getType(Stmt stmt) {
+	public static Type getType(CtClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
-			Type type = getType(token);
+			Type type = getType(clazz, token);
 			if (type != null) {
 				return type;
 			}
@@ -33,16 +34,16 @@ public class FastDerivator {
 	 * @param token
 	 * @return
 	 */
-	public static Type getType(Token token) {
+	public static Type getType(CtClass clazz, Token token) {
 
 		if (token.isType()) {// 类型声明
-			return new CodeType(token);// 转换成type token
+			return new CodeType(clazz, token);// 转换成type token
 
 		} else if (token.isCast()) {// 类型强制转换
-			return new CodeType(token.getTypeNameAtt());// 转换成type token
+			return new CodeType(clazz, token.getTypeNameAtt());// 转换成type token
 
 		} else if (token.isValue()) {// 字面值
-			return getValueType(token);// 转换成type token
+			return getValueType(clazz, token);// 转换成type token
 
 		} else if (token.isVariable()) {// 变量
 			if (token.isVar() && token.getTypeAtt() != null) {// 单纯的变量就向上追溯到有用的
@@ -59,36 +60,37 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static Type getValueType(Token token) {
+	private static Type getValueType(CtClass clazz, Token token) {
 		if (token.isNull()) {
-			return new CodeType("Object");
+			return new CodeType(clazz, "Object");
 		} else if (token.isBool()) {
-			return new CodeType("boolean");
+			return new CodeType(clazz, "boolean");
 		} else if (token.isInt()) {
-			return new CodeType("int");
+			return new CodeType(clazz, "int");
 		} else if (token.isDouble()) {
-			return new CodeType("double");
+			return new CodeType(clazz, "double");
 		} else if (token.isStr()) {
-			return new CodeType("String");
+			return new CodeType(clazz, "String");
 		} else if (token.isArray()) {
-			return getArrayType(token);
+			return getArrayType(clazz, token);
 		} else if (token.isMap()) {
-			return getMapType(token);
+			return getMapType(clazz, token);
 		}
 		return null;
 	}
 
-	private static Type getArrayType(Token token) {
-		Type type = getTypeByStep(token, 0, 1);
-		return type != null ? new CodeType("List<" + getWrapType(type.getTypeName()) + ">") : null;
+	private static Type getArrayType(CtClass clazz, Token token) {
+		Type type = getTypeByStep(clazz, token, 0, 1);
+		return type != null ? new CodeType(clazz, "List<" + getWrapType(type.getTypeName()) + ">") : null;
 	}
 
-	private static Type getMapType(Token token) {
-		Type firstType = getTypeByStep(token, 1, 4);
-		Type secondType = getTypeByStep(token, 3, 4);
+	private static Type getMapType(CtClass clazz, Token token) {
+		Type firstType = getTypeByStep(clazz, token, 1, 4);
+		Type secondType = getTypeByStep(clazz, token, 3, 4);
 		return firstType != null && secondType != null
-				? new CodeType("Map<" + getWrapType(firstType.getTypeName()) + ","
-						+ getWrapType(secondType.getTypeName()) + ">")
+				? new CodeType(clazz,
+						"Map<" + getWrapType(firstType.getTypeName()) + "," + getWrapType(secondType.getTypeName())
+								+ ">")
 				: null;
 
 	}
@@ -96,17 +98,18 @@ public class FastDerivator {
 	/**
 	 * 根据一定的格式,跳跃式的获取到集合中的泛型参数
 	 * 
+	 * @param clazz
 	 * @param token
 	 * @param step
 	 */
-	public static Type getTypeByStep(Token token, int start, int step) {
+	public static Type getTypeByStep(CtClass clazz, Token token, int start, int step) {
 
 		boolean isSame = true;// 所有元素是否都相同
 		Type finalType = null;
 		Stmt subStmt = (Stmt) token.value;
 		for (int i = start; i < subStmt.size(); i = i + step) {
 			Token subToken = subStmt.getToken(i);
-			Type type = getType(subToken);
+			Type type = getType(clazz, subToken);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalType != null) {
 					if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
@@ -121,9 +124,9 @@ public class FastDerivator {
 
 		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
 		if (!isSame)
-			return new CodeType("Object");
+			return new CodeType(clazz, "Object");
 		// 2.可能是个空的集合
-		return finalType != null ? finalType : new CodeType("Object");
+		return finalType != null ? finalType : new CodeType(clazz, "Object");
 
 	}
 
