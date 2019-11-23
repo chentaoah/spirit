@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Element;
-import com.sum.shy.core.utils.ReflectUtils;
 
 public class CtClass {
 
@@ -97,42 +96,72 @@ public class CtClass {
 	 * @param typeName
 	 * @return
 	 */
-	public String findImport(String typeName) {
+	public String findClassName(String typeName) {
 		// 如果本身传入的就是一个全名的话，直接返回
-		if (typeName.contains(".")) {
+		if (typeName.contains("."))
 			return typeName;
-		}
 
-		String importStr = importStrs.get(typeName);
+		// 一些基本类型，就直接返回了
+		String className = getBasicType(typeName);
+		if (className != null)
+			return className;
+
+		className = importStrs.get(typeName);
 		// 如果不存在,则可能是在别名中
-		if (importStr == null) {
-			importStr = importAliases.get(typeName);
-		}
+		if (className == null)
+			className = importAliases.get(typeName);
 
 		// 从上下文中获取
-		importStr = Context.get().findImport(typeName);
+		className = Context.get().findImport(typeName);
 
-		if (importStr == null) {
+		if (className == null)
 			throw new RuntimeException("No import information found!name:[" + typeName + "]");
+
+		return className;
+
+	}
+
+	private String getBasicType(String typeName) {
+		switch (typeName) {
+		case "boolean":
+			return boolean.class.getName();
+		case "int":
+			return int.class.getName();
+		case "long":
+			return long.class.getName();
+		case "double":
+			return double.class.getName();
+		case "Boolean":
+			return Boolean.class.getName();
+		case "Integer":
+			return Integer.class.getName();
+		case "Long":
+			return Long.class.getName();
+		case "Double":
+			return Double.class.getName();
+		case "Object":
+			return Object.class.getName();
+		case "String":
+			return String.class.getName();
+		default:
+			return null;
 		}
-
-		return importStr;
-
 	}
 
 	public boolean addImport(String className) {
 		// 如果是数组
-		if (className.startsWith("[L") && className.endsWith(";")) {
+		if (className.startsWith("[L") && className.endsWith(";"))
 			className = className.substring(2, className.length() - 1);
-		}
+
 		// 如果是基本类型,就不必添加了
-		if (ReflectUtils.isPrimitiveType(className)) {
+		if (isBasicType(className))
 			return true;
-		}
+
 		// 如果是自己本身，就不必添加了
-		if ((packageStr + "." + typeName).equals(className)) {
+		if ((packageStr + "." + typeName).equals(className))
 			return true;
-		}
+
+		// 如果已经存在了，就不重复添加了
 		if (!importStrs.containsValue(className)) {
 			String lastName = className.substring(className.lastIndexOf(".") + 1);
 			// 如果不存在该类,但是出现了类名重复的,则返回false,表示添加失败
@@ -144,6 +173,15 @@ public class CtClass {
 		}
 		// 重复添加也认为是添加成功了
 		return true;
+	}
+
+	private boolean isBasicType(String className) {
+		return boolean.class.getName().equals(className) || int.class.getName().equals(className)
+				|| long.class.getName().equals(className) || double.class.getName().equals(className)
+				|| Boolean.class.getName().equals(className) || Integer.class.getName().equals(className)
+				|| Long.class.getName().equals(className) || Double.class.getName().equals(className)
+				|| Object.class.getName().equals(className) || String.class.getName().equals(className);
+
 	}
 
 	public CtField findField(String fieldName) {

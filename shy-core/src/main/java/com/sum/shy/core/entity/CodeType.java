@@ -26,7 +26,7 @@ public class CodeType implements Type {
 
 	@Override
 	public String getClassName() {
-		return clazz.findImport(getTypeName());
+		return clazz.findClassName(getTypeName());
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class CodeType implements Type {
 					list.remove(0);
 					// 转换成类全名
 					for (int i = 0; i < list.size(); i++) {
-						list.set(i, clazz.findImport(list.get(i)));
+						list.set(i, clazz.findClassName(list.get(i)));
 					}
 					return list;
 				}
