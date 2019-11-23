@@ -3,6 +3,7 @@ class Father {
 
 	name="chentao"
 	age=60
+	user=User()
 	
 	func getName(User user, String str, int x){
 		if x > 0 {
@@ -13,6 +14,11 @@ class Father {
 	
 	func getNum(){
 		return 10
+	}
+	
+	func noReturn(){
+		s="yes!class"
+	
 	}
 	
 }

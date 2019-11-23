@@ -122,7 +122,8 @@ public class InvokeVisiter {
 				String property = properties.remove(0);// 获取第一个属性
 				CtField field = clazz1.findField(property);
 				Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
-				returnType = getReturnType(clazz1, returnType, properties, methodName);
+				if (properties.size() > 0)
+					returnType = getReturnType(clazz1, returnType, properties, methodName);
 				return returnType;
 
 			} else if (methodName != null) {

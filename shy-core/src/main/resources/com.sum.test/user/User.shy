@@ -19,7 +19,7 @@ class User {
 		array=[123456,s]
 		//array << 232312
 	
-		return array
+		return father.user.father.age
 	}
 	
 }
