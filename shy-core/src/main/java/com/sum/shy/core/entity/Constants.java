@@ -65,7 +65,6 @@ public class Constants {
 	public static final String PROPERTIES_ATTACHMENT = "properties";// 属性名
 	public static final String METHOD_NAME_ATTACHMENT = "method_name";// 方法名
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
-
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 
 }

@@ -51,7 +51,9 @@ public class FastDerivator {
 			return token.getReturnTypeAtt();
 
 		} else if (token.isInvoke()) {// 方法调用
-			return token.getReturnTypeAtt();
+			// 如果不存在下一个，则可以直接返回了
+			if (token.getNext() == null)
+				return token.getReturnTypeAtt();
 		}
 
 		return null;

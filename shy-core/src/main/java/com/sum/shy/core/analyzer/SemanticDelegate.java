@@ -85,6 +85,14 @@ public class SemanticDelegate {
 			for (String word : words) {
 				tokens.add(getToken(word));
 			}
+			// 将fluent串联起来
+			Token lastToken = null;
+			for (Token token : tokens) {
+				if (token.isFluent()) {
+					lastToken.setNext(token);
+				}
+				lastToken = token;
+			}
 
 		}
 		return tokens;

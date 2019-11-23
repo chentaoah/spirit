@@ -157,7 +157,8 @@ public class CtClass {
 				return field;
 			}
 		}
-		throw new RuntimeException("No field information found!fieldName:[" + fieldName + "]");
+		throw new RuntimeException(
+				"The field does not exist!class:" + packageStr + "." + typeName + ", field:" + fieldName);
 
 	}
 
@@ -172,7 +173,8 @@ public class CtClass {
 				return method;
 			}
 		}
-		throw new RuntimeException("No method information found!methodName:[" + methodName + "]");
+		throw new RuntimeException(
+				"The method does not exist!class:" + packageStr + "." + typeName + ", method:" + methodName);
 
 	}
 

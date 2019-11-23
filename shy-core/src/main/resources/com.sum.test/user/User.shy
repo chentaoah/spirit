@@ -22,9 +22,7 @@ class User {
 		return father.user.father.age
 	}
 	
-	func ring(){
-		father.ring()
-	}
+	
 	
 }
 

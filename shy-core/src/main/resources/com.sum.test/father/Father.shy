@@ -13,16 +13,12 @@ class Father {
 	}
 	
 	func getNum(){
-		return 10
+		return "ni shou sha"
 	}
 	
 	func noReturn(){
 		s="yes!class"
 	
-	}
-	
-	func ring(){
-		user.ring()
 	}
 	
 }

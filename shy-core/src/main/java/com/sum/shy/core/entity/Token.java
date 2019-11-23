@@ -227,4 +227,14 @@ public class Token {
 		attachments.put(Constants.IS_DECLARED_ATTACHMENT, isDeclared);
 	}
 
+	// =================== 下一个token的引用 =====================
+
+	public Token getNext() {
+		return (Token) attachments.get(Constants.NEXT_TOKEN_ATTACHMENT);
+	}
+
+	public void setNext(Token token) {
+		attachments.put(Constants.NEXT_TOKEN_ATTACHMENT, token);
+	}
+
 }
