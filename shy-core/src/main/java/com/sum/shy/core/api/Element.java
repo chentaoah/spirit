@@ -6,4 +6,8 @@ public interface Element {
 
 	void setType(Type type);
 
+	void lock();
+
+	void unLock();
+
 }

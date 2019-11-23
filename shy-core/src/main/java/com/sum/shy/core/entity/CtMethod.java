@@ -18,6 +18,8 @@ public class CtMethod implements Element {
 	public List<Variable> variables = new ArrayList<>();
 	// method域
 	public List<Line> methodLines;
+	// 锁
+	public volatile boolean isLock = false;
 
 	public CtMethod(Type returnType, String name, List<Param> params) {
 		this.returnType = returnType;
@@ -33,6 +35,19 @@ public class CtMethod implements Element {
 	@Override
 	public void setType(Type type) {
 		this.returnType = type;
+	}
+
+	@Override
+	public void lock() {
+		if (isLock) {
+			throw new RuntimeException("There is a circular dependency!" + toString());
+		}
+		isLock = true;
+	}
+
+	@Override
+	public void unLock() {
+		isLock = false;
 	}
 
 	@Override

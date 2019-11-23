@@ -10,7 +10,6 @@ import com.sum.shy.core.entity.Token;
 public class DeclareConverter extends DefaultConverter {
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-		// 将语句进行一定的转换
 		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));
 		return stmt;
 	}

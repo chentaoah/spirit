@@ -39,6 +39,8 @@ public class InvokeVisiter {
 	 * @return
 	 */
 	public static Type visitElement(CtClass clazz, Element element) {
+		// 上锁
+		element.lock();
 		Type type = element.getType();
 		if (type == null) {
 			if (element instanceof CtField) {// 如果是字段
@@ -62,6 +64,8 @@ public class InvokeVisiter {
 			}
 
 		}
+		// 解锁
+		element.unLock();
 		return type;
 	}
 

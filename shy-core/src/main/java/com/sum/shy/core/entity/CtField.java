@@ -10,6 +10,8 @@ public class CtField implements Element {
 	public String name;
 	// 语句
 	public Stmt stmt;
+	// 锁
+	public volatile boolean isLock = false;
 
 	public CtField(Type type, String name, Stmt stmt) {
 		this.type = type;
@@ -25,6 +27,19 @@ public class CtField implements Element {
 	@Override
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	@Override
+	public void lock() {
+		if (isLock) {
+			throw new RuntimeException("There is a circular dependency!" + toString());
+		}
+		isLock = true;
+	}
+
+	@Override
+	public void unLock() {
+		isLock = false;
 	}
 
 	@Override

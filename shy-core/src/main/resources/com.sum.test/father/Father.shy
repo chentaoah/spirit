@@ -21,6 +21,10 @@ class Father {
 	
 	}
 	
+	func ring(){
+		user.ring()
+	}
+	
 }
 
 
