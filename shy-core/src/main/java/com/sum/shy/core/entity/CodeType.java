@@ -57,6 +57,10 @@ public class CodeType implements Type {
 					List<String> list = Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults()
 							.splitToList(typeName);
 					list.remove(0);
+					// 转换成类全名
+					for (int i = 0; i < list.size(); i++) {
+						list.set(i, clazz.findImport(list.get(i)));
+					}
 					return list;
 				}
 			}
