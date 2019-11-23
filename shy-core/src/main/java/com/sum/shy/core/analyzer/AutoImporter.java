@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Handler;
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
@@ -25,46 +26,48 @@ public class AutoImporter {
 	public static void doImport(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
 			for (Element element : clazz.getAllElement()) {
-				if (element instanceof CtField) {
-					importFieldType(clazz, (CtField) element);
-				} else if (element instanceof CtMethod) {
-					importMethodType(clazz, (CtMethod) element);
-				}
+				importElement(clazz, element);
 			}
 		}
 	}
 
-	private static void importFieldType(CtClass clazz, CtField field) {
-		CodeType codeType = (CodeType) field.type;
-		importByTypeName(clazz, codeType.getTypeName());
-	}
+	private static void importElement(CtClass clazz, Element element) {
+		if (element instanceof CtField) {
+			importType(clazz, element.getType());
 
-	private static void importMethodType(CtClass clazz, CtMethod method) {
-		CodeType codeType = (CodeType) method.returnType;
-		importByTypeName(clazz, codeType.getTypeName());
-		for (Param param : method.params) {
-			codeType = (CodeType) param.type;
-			importByTypeName(clazz, codeType.getTypeName());
-		}
-
-		MethodResolver.resolve(clazz, method, new Handler() {
-			@Override
-			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-				if (stmt.isDeclare()) {
-					importByTypeName(clazz, stmt.get(0));
-
-				} else if (stmt.isAssign()) {
-					// 判断变量追踪是否帮我们找到了该变量的类型
-					Token token = stmt.getToken(0);
-					importByTypeName(clazz, token.getTypeAtt().getTypeName());// 将变量追加到上下文之后,添加类型到import里
-				}
-				return null;
+		} else if (element instanceof CtMethod) {
+			importType(clazz, element.getType());// 方法返回类型
+			CtMethod method = (CtMethod) element;
+			// 自动引入参数中的一些类型
+			for (Param param : method.params) {
+				importType(clazz, param.type);
 			}
-		});
+			// 自动引入方法体中的一些类型
+			MethodResolver.resolve(clazz, method, new Handler() {
+				@Override
+				public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
+						Stmt stmt) {
+					if (stmt.isDeclare()) {
+						importType(clazz, new CodeType(stmt.get(0)));
 
+					} else if (stmt.isAssign()) {
+						Token token = stmt.getToken(0);
+						importType(clazz, token.getTypeAtt());
+					}
+					return null;
+				}
+			});
+		}
 	}
 
-	private static void importByTypeName(CtClass clazz, String typeName) {
+	private static void importType(CtClass clazz, Type type) {
+		importTypeByName(clazz, type.getTypeName());
+		for (String genericType : type.getGenericTypes()) {
+			importTypeByName(clazz, genericType);
+		}
+	}
+
+	private static void importTypeByName(CtClass clazz, String typeName) {
 		if (isBasicType(typeName)) {// java的基本类型,不用引入
 			return;
 
@@ -92,6 +95,14 @@ public class AutoImporter {
 		case "long":
 			return true;
 		case "double":
+			return true;
+		case "Boolean":
+			return true;
+		case "Integer":
+			return true;
+		case "Long":
+			return true;
+		case "Double":
 			return true;
 		case "Object":
 			return true;

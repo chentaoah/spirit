@@ -87,7 +87,7 @@ public class InvokeVisiter {
 
 			} else if (token.isInvokeLocal()) {
 				Type type = new CodeType(clazz.typeName);
-				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				Type returnType = getReturnType(clazz, type, null, token.getMethodNameAtt());
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isInvokeFluent()) {
@@ -122,7 +122,7 @@ public class InvokeVisiter {
 		String className = clazz.findImport(typeName);
 		if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 			CtClass clazz1 = Context.get().findClass(className);
-			if (properties.size() > 0) {
+			if (properties != null && properties.size() > 0) {
 				String property = properties.remove(0);// 获取第一个属性
 				CtField field = clazz1.findField(property);
 				Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导

@@ -4,22 +4,12 @@ class User {
 
 	father=Father()
 
-	func getName(String name,int y){
-		return father.getName(y)
+	func getFather(){
+		return father
 	}
 	
-	func getAge(){
-		xyz=father.getNum()
-		map={"name":"chentao","age":xyz}
-		return map
-	}
-	
-	func testList(List<String> list){
-		s=0
-		array=[123456,s]
-		//array << 232312
-	
-		return father.user.father.age
+	func getName(){
+		return getFather()
 	}
 	
 	

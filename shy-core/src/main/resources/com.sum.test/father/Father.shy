@@ -5,20 +5,12 @@ class Father {
 	age=60
 	user=User()
 	
-	func getName(User user, String str, int x){
-		if x > 0 {
-			s="wo shi tian cai!"
-		}
-		return user.getAge()
+	func getUser(){
+		return user
 	}
 	
-	func getNum(){
-		return "ni shou sha"
-	}
-	
-	func noReturn(){
-		s="yes!class"
-	
+	func getName(){
+		return "I am father!"
 	}
 	
 }

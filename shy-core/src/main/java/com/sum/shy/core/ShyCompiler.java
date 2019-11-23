@@ -16,7 +16,7 @@ public class ShyCompiler {
 	// 主方法
 	public static void main(String[] args) throws IOException {
 
-		// 是否debug
+		// debug模式可以观察词法，语法，和语义是否分析得正确
 		boolean debug = false;
 
 		String path = null;
@@ -56,7 +56,7 @@ public class ShyCompiler {
 			// 推导出剩下未知的类型
 			InvokeVisiter.visitClasses(classes);
 			// 自动引入友元
-//			AutoImporter.doImport(classes);
+			AutoImporter.doImport(classes);
 			// 2.构建java代码
 			for (CtClass clazz : classes.values()) {
 				compile(clazz);
