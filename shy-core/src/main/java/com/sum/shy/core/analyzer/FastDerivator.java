@@ -45,17 +45,13 @@ public class FastDerivator {
 			return getValueType(token);// 转换成type token
 
 		} else if (token.isVariable()) {// 变量
-			if (token.getTypeAtt() != null) {// 这个变量必须有类型才能够被返回
-				if (token.isVar()) {// 单纯的变量就向上追溯到有用的
-					return token.getTypeAtt();
-				}
+			if (token.isVar() && token.getTypeAtt() != null) {// 单纯的变量就向上追溯到有用的
+				return token.getTypeAtt();
 			}
+			return token.getReturnTypeAtt();
 
 		} else if (token.isInvoke()) {// 方法调用
-			if (token.isInvokeInit()) {// 构造方法
-				return new CodeType(token.getTypeNameAtt());// 转换成type token
-			}
-
+			return token.getReturnTypeAtt();
 		}
 
 		return null;
@@ -124,8 +120,8 @@ public class FastDerivator {
 		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
 		if (!isSame)
 			return new CodeType("Object");
-		// 2.如果类型都相同,且无须推导,那么直接返回该类型
-		return finalType;
+		// 2.可能是个空的集合
+		return finalType != null ? finalType : new CodeType("Object");
 
 	}
 

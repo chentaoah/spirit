@@ -1,6 +1,5 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +7,6 @@ import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.CtMethod;
@@ -78,47 +76,6 @@ public class InvokeVisiter {
 
 		}
 
-	}
-
-	public static Type visitType(CtClass clazz, Type type) {
-
-		// 向上获取所有相关的codeType
-		List<CodeType> codeTypes = getRelevantType((CodeType) type);
-		// type token
-		Type lastType = null;
-
-		for (CodeType codeType : codeTypes) {
-			Token token = codeType.token;
-			if (token.isType()) {// 如果是类型声明
-				lastType = codeType;
-
-			} else if (token.isInvokeMember()) {
-				lastType = getReturnType(clazz, lastType, token.getPropertiesAtt(), token.getMethodNameAtt());
-
-			} else if (token.isMemberVar()) {
-				lastType = getReturnType(clazz, lastType, token.getPropertiesAtt(), null);
-
-			}
-
-		}
-
-		return lastType;
-	}
-
-	private static List<CodeType> getRelevantType(CodeType codeType) {
-		List<CodeType> codeTypes = new ArrayList<>();
-		codeTypes.add(codeType);
-		while (true) {
-			Token token = codeType.token;
-			CodeType lastCodeType = (CodeType) token.getTypeAtt();
-			if (lastCodeType != null) {
-				codeTypes.add(0, lastCodeType);
-				codeType = lastCodeType;
-			} else {
-				break;
-			}
-		}
-		return codeTypes;
 	}
 
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
