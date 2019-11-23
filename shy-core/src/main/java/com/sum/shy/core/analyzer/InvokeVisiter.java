@@ -38,7 +38,7 @@ public class InvokeVisiter {
 	 * @param element
 	 * @return
 	 */
-	private static Type visitElement(CtClass clazz, Element element) {
+	public static Type visitElement(CtClass clazz, Element element) {
 		Type type = element.getType();
 		if (type == null) {
 			if (element instanceof CtField) {// 如果是字段
@@ -58,7 +58,7 @@ public class InvokeVisiter {
 						return null;
 					}
 				});
-				type = holder.obj;
+				type = holder.obj != null ? holder.obj : new CodeType("void");
 			}
 
 		}

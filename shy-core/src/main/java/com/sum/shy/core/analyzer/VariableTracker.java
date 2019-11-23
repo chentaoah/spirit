@@ -59,6 +59,8 @@ public class VariableTracker {
 		// 静态成员变量
 		for (CtField field : clazz.staticFields) {
 			if (field.name.equals(name)) {
+				if (field.type == null)// 可能连锁推导时，字段还没有经过推导
+					field.type = InvokeVisiter.visitElement(clazz, field);
 				token.setTypeAtt(field.type);
 				return;
 			}
@@ -66,6 +68,8 @@ public class VariableTracker {
 		// 成员变量
 		for (CtField field : clazz.fields) {
 			if (field.name.equals(name)) {
+				if (field.type == null)
+					field.type = InvokeVisiter.visitElement(clazz, field);
 				token.setTypeAtt(field.type);
 				return;
 			}

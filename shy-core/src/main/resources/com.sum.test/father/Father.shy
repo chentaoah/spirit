@@ -8,7 +8,11 @@ class Father {
 		if x > 0 {
 			s="wo shi tian cai!"
 		}
-		return "yapi"
+		return user.getAge()
+	}
+	
+	func getNum(){
+		return 10
 	}
 	
 }

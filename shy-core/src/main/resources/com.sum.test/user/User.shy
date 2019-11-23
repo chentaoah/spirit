@@ -9,7 +9,7 @@ class User {
 	}
 	
 	func getAge(){
-		xyz=father.getName(0)
+		xyz=father.getNum()
 		map={"name":"chentao","age":xyz}
 		return map
 	}
