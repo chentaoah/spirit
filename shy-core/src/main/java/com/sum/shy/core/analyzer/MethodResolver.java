@@ -52,6 +52,7 @@ public class MethodResolver {
 				continue;
 
 			Stmt stmt = Stmt.create(line);
+
 			boolean inCondition = false;
 			// 判断进入的深度
 			if ("}".equals(stmt.frist())) {
@@ -73,6 +74,8 @@ public class MethodResolver {
 
 			// 变量追踪
 			VariableTracker.track(clazz, method, block, line, stmt);
+			// 快速遍历一行
+			InvokeVisiter.visit(clazz, stmt);
 
 			if (stmt.isDeclare()) {
 				method.addVariable(new Variable(block, new CodeType(stmt.get(0)), stmt.get(1)));
@@ -82,8 +85,6 @@ public class MethodResolver {
 				Token token = stmt.getToken(0);
 				// 如果变量追踪,并没有找到类型声明
 				if (token.isVar() && !token.isDeclaredAtt()) {
-					// 快速遍历一行
-					InvokeVisiter.visitStmt(clazz, stmt);
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(stmt);
 					// 设置到第一个token里

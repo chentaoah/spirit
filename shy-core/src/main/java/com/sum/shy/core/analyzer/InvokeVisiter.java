@@ -7,9 +7,11 @@ import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -41,37 +43,62 @@ public class InvokeVisiter {
 		if (type == null) {
 			if (element instanceof CtField) {// 如果是字段
 				Stmt stmt = ((CtField) element).stmt;
-				visitStmt(clazz, stmt);// 推导类型
+				visit(clazz, stmt);// 推导类型
 				type = FastDerivator.getType(stmt);// 快速推导
 
 			} else if (element instanceof CtMethod) {// 如果是方法
-
+				Holder<Type> holder = new Holder<>();
 				MethodResolver.resolve(clazz, (CtMethod) element, new Handler() {
 					@Override
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 							Stmt stmt) {
-
+						if (stmt.isReturn()) {
+							holder.obj = FastDerivator.getType(stmt);
+						}
 						return null;
 					}
 				});
-
+				type = holder.obj;
 			}
+
 		}
 		return type;
 	}
 
-	public static void visitStmt(CtClass clazz, Stmt stmt) {
+	public static void visit(CtClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
+			if (token.isInvokeInit()) {
+				token.setReturnTypeAtt(new CodeType(token.getTypeNameAtt()));
 
-			if (token.isInvokeMember()) {
+			} else if (token.isInvokeStatic()) {
+				Type type = new CodeType(token.getTypeNameAtt());
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
+
+			} else if (token.isInvokeMember()) {
 				Type type = token.getTypeAtt();
 				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
+
+			} else if (token.isInvokeLocal()) {
+				Type type = new CodeType(clazz.typeName);
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
+
+			} else if (token.isInvokeFluent()) {
+
+			} else if (token.isStaticVar()) {
+				Type type = new CodeType(token.getTypeNameAtt());
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
 				token.setReturnTypeAtt(returnType);
 
 			} else if (token.isMemberVar()) {
 				Type type = token.getTypeAtt();
 				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
 				token.setReturnTypeAtt(returnType);
+
+			} else if (token.isMemberVarFluent()) {
+
 			}
 
 		}
