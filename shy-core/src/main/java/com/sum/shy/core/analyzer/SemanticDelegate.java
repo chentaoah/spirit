@@ -44,7 +44,7 @@ public class SemanticDelegate {
 
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断
 
-	// ============================== 字面值 ================================
+	// ============================== 字面值判断 ================================
 
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
