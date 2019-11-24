@@ -9,7 +9,7 @@ class Father {
 		String[] strs
 		nums=int[0]
 		list=["hello","hi","ni hao!"]
-		return list[0]
+		return nums[0]
 	}
 	
 	func getName(){

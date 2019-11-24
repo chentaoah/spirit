@@ -34,7 +34,7 @@ public class CodeType implements Type {
 					// 解析泛型
 					List<String> list = Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults()
 							.splitToList(text);
-					list.remove(0);
+					list = list.subList(1, list.size());
 					for (String type : list) {
 						genericTypes.add(new CodeType(clazz, type));
 					}

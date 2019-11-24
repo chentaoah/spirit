@@ -145,6 +145,10 @@ public class CtClass {
 			return Object.class.getName();
 		case "String":
 			return String.class.getName();
+		case "List":
+			return List.class.getName();
+		case "Map":
+			return Map.class.getName();
 		default:
 			return null;
 		}

@@ -336,7 +336,9 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isQuickIndex()) {// 流式成员变量
-			token.setVarNameAtt(getVarName(word));
+			token.setVarNameAtt(getArrayVarName(word));
+			token.setPropertiesAtt(getArrayProperties(word));
+			token.setMethodNameAtt("$quick_index");
 			return;
 
 		}
@@ -464,6 +466,20 @@ public class SemanticDelegate {
 
 	private static String getLocalMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
+	}
+
+	private static String getArrayVarName(String word) {
+		String[] names = word.substring(0, word.indexOf("[")).split("\\.");
+		return names[0];
+	}
+
+	private static List<String> getArrayProperties(String word) {
+		List<String> list = new ArrayList<>();
+		String[] names = word.substring(0, word.indexOf("[")).split("\\.");
+		for (int i = 1; i < names.length; i++) {
+			list.add(names[i]);
+		}
+		return list;
 	}
 
 }

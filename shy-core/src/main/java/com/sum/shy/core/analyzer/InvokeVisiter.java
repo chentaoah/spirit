@@ -110,6 +110,11 @@ public class InvokeVisiter {
 				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
 				token.setReturnTypeAtt(returnType);
 
+			} else if (token.isQuickIndex()) {
+				Type type = token.getTypeAtt();
+				Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+				token.setReturnTypeAtt(returnType);
+
 			}
 
 		}
@@ -124,6 +129,8 @@ public class InvokeVisiter {
 				if ("length".equals(property)) {
 					return new CodeType(clazz, "int");
 				}
+			} else if ("$quick_index".equals(methodName)) {
+				return new CodeType(clazz, type.getTypeName());
 			}
 			throw new RuntimeException("Currently, only get length is supported for array types!");
 
