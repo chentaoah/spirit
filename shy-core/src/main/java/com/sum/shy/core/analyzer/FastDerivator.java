@@ -42,6 +42,9 @@ public class FastDerivator {
 		} else if (token.isCast()) {// 类型强制转换
 			return new CodeType(clazz, token.getTypeNameAtt());// 转换成type token
 
+		} else if (token.isArrayInit()) {// 数组初始化
+			return new CodeType(clazz, token.getTypeNameAtt());// 转换成type token
+
 		} else if (token.isValue()) {// 字面值
 			return getValueType(clazz, token);// 转换成type token
 
