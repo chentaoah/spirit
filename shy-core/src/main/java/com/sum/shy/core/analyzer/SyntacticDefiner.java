@@ -35,10 +35,7 @@ public class SyntacticDefiner {
 			if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}
-			if (words.size() == 1 && SemanticDelegate.isInvoke(first)) {// 单纯方法调用语句
-				return Constants.INVOKE_SYNTAX;
-			}
-			if (words.size() == 1 && SemanticDelegate.isQuickIndex(first)) {// 单纯方法调用语句
+			if (words.size() == 1) {// 只有一个语素，一般来说都是invoke
 				return Constants.INVOKE_SYNTAX;
 			}
 			if (words.size() == 2 && SemanticDelegate.isType(first)) {// 如果是类型,则是类型说明语句

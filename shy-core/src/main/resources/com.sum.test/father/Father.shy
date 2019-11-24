@@ -8,8 +8,7 @@ class Father {
 	func getUser(){
 		String[] strs
 		s=int[0]
-		arr[0]
-		return user
+		return s
 	}
 	
 	func getName(){

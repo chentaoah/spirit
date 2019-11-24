@@ -288,6 +288,10 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(word);
 			return;
 
+		} else if (token.isArrayInit()) {// 强制类型转换
+			token.setTypeNameAtt(getArrayInitType(word));
+			return;
+
 		} else if (token.isCast()) {// 强制类型转换
 			token.setTypeNameAtt(getCastType(word));
 			return;
@@ -414,6 +418,14 @@ public class SemanticDelegate {
 		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
+	private static String getArrayInitType(String word) {
+		return word.substring(0, word.indexOf("[")) + "[]";
+	}
+
+	private static String getCastType(String word) {
+		return word.substring(1, word.length() - 1);
+	}
+
 	public static String getInitMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
 	}
@@ -448,10 +460,6 @@ public class SemanticDelegate {
 
 	private static String getLocalMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
-	}
-
-	private static String getCastType(String word) {
-		return word.substring(1, word.length() - 1);
 	}
 
 }

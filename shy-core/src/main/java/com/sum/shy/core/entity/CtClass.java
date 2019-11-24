@@ -123,6 +123,8 @@ public class CtClass {
 
 	private String getBasicType(String typeName) {
 		switch (typeName) {
+		case "void":
+			return void.class.getName();
 		case "boolean":
 			return boolean.class.getName();
 		case "int":

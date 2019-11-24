@@ -49,6 +49,10 @@ public class Token {
 		return Constants.TYPE_TOKEN.equals(type);
 	}
 
+	public boolean isArrayInit() {
+		return Constants.ARRAY_INIT_TOKEN.equals(type);
+	}
+
 	public boolean isCast() {
 		return Constants.CAST_TOKEN.equals(type);
 	}
