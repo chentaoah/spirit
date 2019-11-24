@@ -118,24 +118,35 @@ public class InvokeVisiter {
 
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
 
-		String className = type.getClassName();
-		if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
-			CtClass clazz1 = Context.get().findClass(className);
-			if (properties != null && properties.size() > 0) {
+		if (type.isArray()) {// 如果是一个数组，只支持调用length
+			if (properties != null && properties.size() == 1) {
 				String property = properties.remove(0);// 获取第一个属性
-				CtField field = clazz1.findField(property);
-				Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
-				if (properties.size() > 0)
-					returnType = getReturnType(clazz1, returnType, properties, methodName);
-				return returnType;
-
-			} else if (methodName != null) {
-				CtMethod method = clazz1.findMethod(methodName);
-				return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
+				if ("length".equals(property)) {
+					return new CodeType(clazz, "int");
+				}
 			}
+			throw new RuntimeException("Currently, only get length is supported for array types!");
 
-		} else {// 如果是本地类型，则通过反射进行推导
+		} else {
+			String className = type.getClassName();
+			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
+				CtClass clazz1 = Context.get().findClass(className);
+				if (properties != null && properties.size() > 0) {
+					String property = properties.remove(0);// 获取第一个属性
+					CtField field = clazz1.findField(property);
+					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+					if (properties.size() > 0)
+						returnType = getReturnType(clazz1, returnType, properties, methodName);
+					return returnType;
 
+				} else if (methodName != null) {
+					CtMethod method = clazz1.findMethod(methodName);
+					return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
+				}
+
+			} else {// 如果是本地类型，则通过反射进行推导
+
+			}
 		}
 
 		return null;

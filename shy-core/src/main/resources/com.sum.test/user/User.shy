@@ -4,8 +4,9 @@ class User {
 
 	father=Father()
 
-	func getFather(){
-		return father
+	func getFather(String[] strs){
+		int[] nums
+		return strs.length
 	}
 	
 	func getName(){

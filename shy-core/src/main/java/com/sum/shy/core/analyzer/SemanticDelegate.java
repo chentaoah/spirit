@@ -32,12 +32,28 @@ public class SemanticDelegate {
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", "," };
 
+	// ============================== 类型判断 ================================
+
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern
+			.compile("^(void|boolean|int|long|double|Boolean|Integer|Long|Double|Object|String)$");// 常用基本类型
+	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern
+			.compile("^(boolean\\[\\]|int\\[\\]|long\\[\\]|double\\[\\])$");// 常用基本类型数组
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
+	public static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\]$");// 数组
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
+
+	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断
+
+	// ============================== 字面值 ================================
+
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
+
+	// ============================== 方法调用 ================================
 
 	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]*\\([\\s\\S]*\\)$");
 	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\([\\s\\S]*\\)$");
@@ -48,18 +64,18 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
 			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 
+	// ============================== 变量判断 ================================
+
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");
-	private static final Pattern STATIC_VAR_PATTERN = Pattern
+	public static final Pattern STATIC_VAR_PATTERN = Pattern
 			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
-	private static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
-	private static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
+	public static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+	public static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
-	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([A-Z]+[a-zA-Z0-9]+\\)$");
+	// ============================== 其他 ================================
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|boolean|int|long|double|String|Object)$");// 常用基本类型
-	private static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
-	private static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[\\]$");// 数组
-	private static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[[\\s\\S]+\\]$");// 快速索引 like
+																										// str[0]
 
 	/**
 	 * 语义分析
@@ -169,6 +185,9 @@ public class SemanticDelegate {
 				return;
 			} else if (isVariable(word)) {// 变量
 				token.type = getVarTokenType(word);
+				return;
+			} else if (isQuickIndex(word)) {
+				token.type = Constants.QUICK_INDEX_TOKEN;
 				return;
 			}
 			token.type = Constants.UNKNOWN;
@@ -336,12 +355,13 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isType(String word) {
-		return BASIC_TYPE_PATTERN.matcher(word).matches() || TYPE_PATTERN.matcher(word).matches()
-				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || GENERIC_TYPE_PATTERN.matcher(word).matches();
+		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_TYPE_ARRAY_PATTERN.matcher(word).matches()
+				|| TYPE_PATTERN.matcher(word).matches() || ARRAY_TYPE_PATTERN.matcher(word).matches()
+				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
-	private static boolean isCast(String word) {
-		return CAST_PATTERN.matcher(word).matches();
+	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
+		return CAST_PATTERN.matcher(word).matches() && isType(getCastType(word));
 	}
 
 	private static boolean isNull(String word) {
@@ -378,6 +398,10 @@ public class SemanticDelegate {
 
 	public static boolean isVariable(String word) {
 		return VAR_PATTERN.matcher(word).matches();
+	}
+
+	private static boolean isQuickIndex(String word) {
+		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	public static String getInitMethodName(String word) {
