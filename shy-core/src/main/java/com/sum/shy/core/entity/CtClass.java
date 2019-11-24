@@ -185,6 +185,10 @@ public class CtClass {
 	}
 
 	public boolean addImport(String className) {
+		// 基本类型数组,就不必添加了
+		if (className.startsWith("[") && !className.startsWith("[L"))
+			return true;
+
 		// 如果是数组
 		if (className.startsWith("[L") && className.endsWith(";"))
 			className = className.substring(2, className.length() - 1);
