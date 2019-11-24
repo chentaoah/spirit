@@ -78,7 +78,7 @@ public class SemanticDelegate {
 
 	// ============================== 其他 ================================
 
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[[\\s\\S]+\\]$");// 快速索引 like
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[[\\s\\S]+\\]$");// 快速索引
 
 	/**
 	 * 语义分析
