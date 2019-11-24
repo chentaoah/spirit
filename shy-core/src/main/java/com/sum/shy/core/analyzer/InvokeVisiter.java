@@ -15,6 +15,7 @@ import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.utils.ReflectUtils;
 
 public class InvokeVisiter {
 
@@ -132,7 +133,7 @@ public class InvokeVisiter {
 			} else if ("$quick_index".equals(methodName)) {
 				return new CodeType(clazz, type.getTypeName());
 			}
-			throw new RuntimeException("Currently, only get length is supported for array types!");
+			throw new RuntimeException("Array some functions are not supported yet!");
 
 		} else {
 			String className = type.getClassName();
@@ -142,7 +143,7 @@ public class InvokeVisiter {
 					String property = properties.remove(0);// 获取第一个属性
 					CtField field = clazz1.findField(property);
 					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
-					if (properties.size() > 0)
+					if (properties.size() > 0 || methodName != null)
 						returnType = getReturnType(clazz1, returnType, properties, methodName);
 					return returnType;
 
@@ -152,7 +153,8 @@ public class InvokeVisiter {
 				}
 
 			} else {// 如果是本地类型，则通过反射进行推导
-
+				// 这里一般都是直接推导到底，因为shy可以调java,而java不一定能直接调用shy
+				return ReflectUtils.getReturnType(clazz, type, properties, methodName);
 			}
 		}
 

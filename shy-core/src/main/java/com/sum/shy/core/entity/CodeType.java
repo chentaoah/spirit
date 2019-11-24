@@ -13,7 +13,7 @@ public class CodeType implements Type {
 
 	public String className;
 	public String typeName;
-	public List<Type> genericTypes = new ArrayList<>();
+	public List<CodeType> genericTypes = new ArrayList<>();
 	public boolean isArray = false;
 
 	public CodeType(CtClass clazz, Token token) {
@@ -62,7 +62,9 @@ public class CodeType implements Type {
 
 	@Override
 	public List<Type> getGenericTypes() {
-		return genericTypes;
+		List<Type> list = new ArrayList<>();
+		list.addAll(genericTypes);
+		return list;
 	}
 
 	@Override

@@ -103,16 +103,17 @@ public class CtClass {
 
 		// 一些基本类型，就直接返回了
 		String className = getBasicType(typeName);
-		if (className != null)
-			return className;
 
-		className = importStrs.get(typeName);
+		if (className == null)
+			className = importStrs.get(typeName);
+
 		// 如果不存在,则可能是在别名中
 		if (className == null)
 			className = importAliases.get(typeName);
 
 		// 从上下文中获取
-		className = Context.get().findImport(typeName);
+		if (className == null)
+			className = Context.get().findImport(typeName);
 
 		if (className == null)
 			throw new RuntimeException("No import information found!name:[" + typeName + "]");

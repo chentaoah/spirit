@@ -1,9 +1,12 @@
 
+import com.sum.shy.test.Child
+
 class Father {
 
 	name="chentao"
 	age=60
 	user=User()
+	child=Child()
 	
 	func getUser(){
 		String[] strs
@@ -13,7 +16,12 @@ class Father {
 	}
 	
 	func getName(){
-		return "I am father!"
+		a=child.getList()
+		b=child.getArray()
+		c=child.getInt()
+		d=child.getIntArray()
+		e=child.getListArray()
+	
 	}
 	
 	
