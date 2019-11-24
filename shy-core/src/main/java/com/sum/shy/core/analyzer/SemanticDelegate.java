@@ -159,11 +159,11 @@ public class SemanticDelegate {
 			if (isType(word)) {// 是否类型说明
 				token.type = Constants.TYPE_TOKEN;
 				return;
-			} else if (isArrayInit(word)) {// 类型强制转换
-				token.type = Constants.ARRAY_INIT_TOKEN;
-				return;
 			} else if (isCast(word)) {// 类型强制转换
 				token.type = Constants.CAST_TOKEN;
+				return;
+			} else if (isArrayInit(word)) {// 数组初始化
+				token.type = Constants.ARRAY_INIT_TOKEN;
 				return;
 			} else if (isNull(word)) {// 空
 				token.type = Constants.NULL_TOKEN;
@@ -288,12 +288,12 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(word);
 			return;
 
-		} else if (token.isArrayInit()) {// 强制类型转换
-			token.setTypeNameAtt(getArrayInitType(word));
-			return;
-
 		} else if (token.isCast()) {// 强制类型转换
 			token.setTypeNameAtt(getCastType(word));
+			return;
+
+		} else if (token.isArrayInit()) {// 强制类型转换
+			token.setTypeNameAtt(getArrayInitType(word));
 			return;
 
 		} else if (token.isInvokeInit()) {// 构造方法
@@ -370,12 +370,12 @@ public class SemanticDelegate {
 				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
-	private static boolean isArrayInit(String word) {
-		return INIT_BASIC_ARRAY_TYPE_PATTERN.matcher(word).matches() || INIT_ARRAY_TYPE_PATTERN.matcher(word).matches();
-	}
-
 	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
 		return CAST_PATTERN.matcher(word).matches() && isType(getCastType(word));
+	}
+
+	private static boolean isArrayInit(String word) {
+		return INIT_BASIC_ARRAY_TYPE_PATTERN.matcher(word).matches() || INIT_ARRAY_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isNull(String word) {
@@ -418,12 +418,12 @@ public class SemanticDelegate {
 		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
-	private static String getArrayInitType(String word) {
-		return word.substring(0, word.indexOf("[")) + "[]";
-	}
-
 	private static String getCastType(String word) {
 		return word.substring(1, word.length() - 1);
+	}
+
+	private static String getArrayInitType(String word) {
+		return word.substring(0, word.indexOf("[")) + "[]";
 	}
 
 	public static String getInitMethodName(String word) {
