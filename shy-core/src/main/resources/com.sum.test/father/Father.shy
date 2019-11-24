@@ -6,6 +6,9 @@ class Father {
 	user=User()
 	
 	func getUser(){
+		String[] strs
+		s=int[0]
+		arr[0]
 		return user
 	}
 	

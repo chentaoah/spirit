@@ -38,6 +38,9 @@ public class SyntacticDefiner {
 			if (words.size() == 1 && SemanticDelegate.isInvoke(first)) {// 单纯方法调用语句
 				return Constants.INVOKE_SYNTAX;
 			}
+			if (words.size() == 1 && SemanticDelegate.isQuickIndex(first)) {// 单纯方法调用语句
+				return Constants.INVOKE_SYNTAX;
+			}
 			if (words.size() == 2 && SemanticDelegate.isType(first)) {// 如果是类型,则是类型说明语句
 				return Constants.DECLARE_SYNTAX;
 			}

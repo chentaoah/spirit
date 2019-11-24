@@ -35,6 +35,7 @@ public class Constants {
 	public static final String OPERATOR_TOKEN = "operator";
 	public static final String SEPARATOR_TOKEN = "separator";
 	public static final String TYPE_TOKEN = "type";// 类型声明
+	public static final String ARRAY_INIT_TOKEN = "array_init";// 数组初始化
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
 	public static final String NULL_TOKEN = "null";
 	public static final String BOOL_TOKEN = "bool";
