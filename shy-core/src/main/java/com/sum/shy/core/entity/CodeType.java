@@ -69,6 +69,17 @@ public class CodeType implements Type {
 	}
 
 	@Override
+	public boolean isArray() {
+		if (token.isType()) {
+			String typeName = (String) token.value;
+			if (typeName != null && typeName.endsWith("[]")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return token.isType() ? token.value.toString() : token.toString();
 	}

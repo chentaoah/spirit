@@ -25,4 +25,11 @@ public interface Type {
 	 */
 	public List<String> getGenericTypes();
 
+	/**
+	 * 是否数组
+	 * 
+	 * @return
+	 */
+	public boolean isArray();
+
 }
