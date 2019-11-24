@@ -78,7 +78,7 @@ public class MethodResolver {
 			InvokeVisiter.visit(clazz, stmt);
 
 			if (stmt.isDeclare()) {
-				method.addVariable(new Variable(block, new CodeType(clazz, stmt.get(0)), stmt.get(1)));
+				method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(0)), stmt.get(1)));
 
 			} else if (stmt.isAssign()) {
 				// 判断变量追踪是否帮我们找到了该变量的类型

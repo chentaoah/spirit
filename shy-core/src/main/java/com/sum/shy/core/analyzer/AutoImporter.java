@@ -41,13 +41,14 @@ public class AutoImporter {
 			for (Param param : method.params) {
 				importType(clazz, param.type);
 			}
+
 			// 自动引入方法体中的一些类型
 			MethodResolver.resolve(clazz, method, new Handler() {
 				@Override
 				public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 						Stmt stmt) {
 					if (stmt.isDeclare()) {
-						importType(clazz, new CodeType(clazz, stmt.get(0)));
+						importType(clazz, new CodeType(clazz, stmt.getToken(0)));
 
 					} else if (stmt.isAssign()) {
 						Token token = stmt.getToken(0);
