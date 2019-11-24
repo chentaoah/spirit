@@ -23,7 +23,7 @@ public interface Type {
 	 * 
 	 * @return
 	 */
-	public List<String> getGenericTypes();
+	public List<Type> getGenericTypes();
 
 	/**
 	 * 是否数组

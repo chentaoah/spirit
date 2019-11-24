@@ -62,8 +62,8 @@ public class AutoImporter {
 
 	private static void importType(CtClass clazz, Type type) {
 		clazz.addImport(type.getClassName());
-		for (String genericType : type.getGenericTypes()) {
-			clazz.addImport(genericType);
+		for (Type genericType : type.getGenericTypes()) {
+			clazz.addImport(genericType.getClassName());
 		}
 	}
 

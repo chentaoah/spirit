@@ -4,84 +4,82 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.api.Type;
 
 public class CodeType implements Type {
 
-	public CtClass clazz;// 标记在哪个类中被声明
-
-	public Token token;
+	public String className;
+	public String typeName;
+	public List<Type> genericTypes = new ArrayList<>();
+	public boolean isArray = false;
 
 	public CodeType(CtClass clazz, Token token) {
-		this.clazz = clazz;
-		this.token = token;
+		resolve(clazz, token);
 	}
 
 	public CodeType(CtClass clazz, String type) {
-		this.clazz = clazz;
-		this.token = SemanticDelegate.getToken(type);
+		Token token = SemanticDelegate.getToken(type);
+		resolve(clazz, token);
+	}
+
+	private void resolve(CtClass clazz, Token token) {
+		if (token.isType()) {
+			String text = (String) token.value;
+			if (text != null) {
+				if (text.contains("<") && text.contains(">")) {
+					typeName = text.substring(0, text.indexOf("<"));
+					// 解析泛型
+					List<String> list = Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults()
+							.splitToList(text);
+					list.remove(0);
+					for (String type : list) {
+						genericTypes.add(new CodeType(clazz, type));
+					}
+				} else if (text.endsWith("[]")) {
+					typeName = text.substring(0, text.indexOf("["));
+					isArray = true;
+				} else {
+					typeName = text;
+				}
+				className = clazz.findClassName(typeName);
+			}
+		}
+
 	}
 
 	@Override
 	public String getClassName() {
-		return clazz.findClassName(getTypeName());
+		return className;
 	}
 
 	@Override
 	public String getTypeName() {
-		if (token.isType()) {
-			String typeName = (String) token.value;
-			if (typeName != null) {
-				if (typeName.contains("<") && typeName.contains(">")) {
-					return typeName.substring(0, typeName.indexOf("<"));
-
-				} else if (typeName.contains("[") && typeName.contains("]")) {
-					return typeName.substring(0, typeName.indexOf("["));
-
-				} else {
-					return typeName;
-				}
-			}
-		}
-		return null;
+		return typeName;
 	}
 
 	@Override
-	public List<String> getGenericTypes() {
-		if (token.isType()) {
-			String typeName = (String) token.value;
-			if (typeName != null) {
-				if (typeName.contains("<") && typeName.contains(">")) {
-					List<String> list = Splitter.on(CharMatcher.anyOf("<,>")).omitEmptyStrings().trimResults()
-							.splitToList(typeName);
-					list.remove(0);
-					// 转换成类全名
-					for (int i = 0; i < list.size(); i++) {
-						list.set(i, clazz.findClassName(list.get(i)));
-					}
-					return list;
-				}
-			}
-		}
-		return new ArrayList<>();
+	public List<Type> getGenericTypes() {
+		return genericTypes;
 	}
 
 	@Override
 	public boolean isArray() {
-		if (token.isType()) {
-			String typeName = (String) token.value;
-			if (typeName != null && typeName.endsWith("[]")) {
-				return true;
-			}
-		}
-		return false;
+		return isArray;
 	}
 
 	@Override
 	public String toString() {
-		return token.isType() ? token.value.toString() : token.toString();
+		if (!isArray && genericTypes.size() == 0) {// 普通类型
+			return typeName;
+		} else if (!isArray && genericTypes.size() > 0) {// 泛型
+			return typeName + "<" + Joiner.on(",").join(genericTypes) + ">";
+		} else if (isArray && genericTypes.size() == 0) {// 数组
+			return typeName + "[]";
+		}
+		return null;
 	}
 
 }
