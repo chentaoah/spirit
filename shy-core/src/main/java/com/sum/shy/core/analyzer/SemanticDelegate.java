@@ -68,6 +68,8 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
 			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\[[\\s\\S]+\\]$");// 快速索引
+
 	// ============================== 变量判断 ================================
 
 	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");
@@ -77,8 +79,6 @@ public class SemanticDelegate {
 	public static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
 
 	// ============================== 其他 ================================
-
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\[[\\s\\S]+\\]$");// 快速索引
 
 	/**
 	 * 语义分析
@@ -333,6 +333,10 @@ public class SemanticDelegate {
 
 		} else if (token.isMemberVarFluent()) {// 流式成员变量
 			token.setPropertiesAtt(getProperties(word));
+			return;
+
+		} else if (token.isQuickIndex()) {// 流式成员变量
+			token.setVarNameAtt(getVarName(word));
 			return;
 
 		}

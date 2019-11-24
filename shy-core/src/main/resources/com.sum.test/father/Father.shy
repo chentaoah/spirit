@@ -7,8 +7,9 @@ class Father {
 	
 	func getUser(){
 		String[] strs
-		s=int[0]
-		return s
+		nums=int[0]
+		list=["hello","hi","ni hao!"]
+		return list[0]
 	}
 	
 	func getName(){

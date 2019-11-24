@@ -121,6 +121,10 @@ public class Token {
 		return Constants.MEMBER_VAR_FLUENT_TOKEN.equals(type);
 	}
 
+	public boolean isQuickIndex() {
+		return Constants.QUICK_INDEX_TOKEN.equals(type);
+	}
+
 	public boolean isPrefix() {
 		return Constants.PREFIX_TOKEN.equals(type);
 	}

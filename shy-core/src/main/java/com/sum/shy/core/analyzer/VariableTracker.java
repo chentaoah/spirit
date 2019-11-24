@@ -40,10 +40,13 @@ public class VariableTracker {
 				}
 
 			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
 			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());// 只校验
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+			} else if (token.isQuickIndex()) {
+				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
 			}
 			if (token.hasSubStmt()) {
