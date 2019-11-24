@@ -17,10 +17,11 @@ class Father {
 	
 	func getName(){
 		a=child.getList()
-		b=child.getArray()
-		c=child.getInt()
-		d=child.getIntArray()
-		e=child.getListArray()
+		//b=child.getArray()
+		//c=child.getInt()
+		//d=child.getIntArray()
+		//e=child.getListArray()
+		return a.get(0)
 	
 	}
 	

@@ -104,6 +104,15 @@ public class CtClass {
 		// 一些基本类型，就直接返回了
 		String className = getBasicType(typeName);
 
+		// 如果传进来是个数组，那么处理一下
+		boolean isArray = false;
+		if (className == null) {
+			if (typeName.endsWith("[]")) {
+				typeName = typeName.substring(0, typeName.lastIndexOf("["));
+				isArray = true;
+			}
+		}
+
 		if (className == null)
 			className = importStrs.get(typeName);
 
@@ -118,7 +127,7 @@ public class CtClass {
 		if (className == null)
 			throw new RuntimeException("No import information found!name:[" + typeName + "]");
 
-		return className;
+		return !isArray ? className : "[L" + className + ";";
 
 	}
 
@@ -128,24 +137,44 @@ public class CtClass {
 			return void.class.getName();
 		case "boolean":
 			return boolean.class.getName();
+		case "boolean[]":
+			return boolean[].class.getName();
 		case "int":
 			return int.class.getName();
+		case "int[]":
+			return int[].class.getName();
 		case "long":
 			return long.class.getName();
+		case "long[]":
+			return long[].class.getName();
 		case "double":
 			return double.class.getName();
+		case "double[]":
+			return double[].class.getName();
 		case "Boolean":
 			return Boolean.class.getName();
+		case "Boolean[]":
+			return Boolean[].class.getName();
 		case "Integer":
 			return Integer.class.getName();
+		case "Integer[]":
+			return Integer[].class.getName();
 		case "Long":
 			return Long.class.getName();
+		case "Long[]":
+			return Long[].class.getName();
 		case "Double":
 			return Double.class.getName();
+		case "Double[]":
+			return Double[].class.getName();
 		case "Object":
 			return Object.class.getName();
+		case "Object[]":
+			return Object[].class.getName();
 		case "String":
 			return String.class.getName();
+		case "String[]":
+			return String[].class.getName();
 		case "List":
 			return List.class.getName();
 		case "Map":
@@ -183,11 +212,12 @@ public class CtClass {
 	}
 
 	private boolean isBasicType(String className) {
-		return boolean.class.getName().equals(className) || int.class.getName().equals(className)
-				|| long.class.getName().equals(className) || double.class.getName().equals(className)
-				|| Boolean.class.getName().equals(className) || Integer.class.getName().equals(className)
-				|| Long.class.getName().equals(className) || Double.class.getName().equals(className)
-				|| Object.class.getName().equals(className) || String.class.getName().equals(className);
+		return void.class.getName().equals(className) || boolean.class.getName().equals(className)
+				|| int.class.getName().equals(className) || long.class.getName().equals(className)
+				|| double.class.getName().equals(className) || Boolean.class.getName().equals(className)
+				|| Integer.class.getName().equals(className) || Long.class.getName().equals(className)
+				|| Double.class.getName().equals(className) || Object.class.getName().equals(className)
+				|| String.class.getName().equals(className);
 
 	}
 

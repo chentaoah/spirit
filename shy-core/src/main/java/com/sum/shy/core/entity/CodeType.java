@@ -38,8 +38,8 @@ public class CodeType implements Type {
 					for (String type : list) {
 						genericTypes.add(new CodeType(clazz, type));
 					}
-				} else if (text.endsWith("[]")) {
-					typeName = text.substring(0, text.indexOf("["));
+				} else if (text.endsWith("[]")) {// 如果是数组，则typeName为String[]
+					typeName = text;
 					isArray = true;
 				} else {
 					typeName = text;
@@ -74,12 +74,12 @@ public class CodeType implements Type {
 
 	@Override
 	public String toString() {
-		if (!isArray && genericTypes.size() == 0) {// 普通类型
-			return typeName;
-		} else if (!isArray && genericTypes.size() > 0) {// 泛型
-			return typeName + "<" + Joiner.on(",").join(genericTypes) + ">";
-		} else if (isArray && genericTypes.size() == 0) {// 数组
-			return typeName + "[]";
+		if (!isArray() && genericTypes.size() == 0) {// 普通类型
+			return getTypeName();
+		} else if (!isArray() && genericTypes.size() > 0) {// 泛型
+			return getTypeName() + "<" + Joiner.on(",").join(genericTypes) + ">";
+		} else if (isArray() && genericTypes.size() == 0) {// 数组
+			return getTypeName();
 		}
 		return null;
 	}

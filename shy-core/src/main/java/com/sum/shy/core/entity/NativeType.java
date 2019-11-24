@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
@@ -57,6 +58,18 @@ public class NativeType implements Type {
 	@Override
 	public boolean isArray() {
 		return clazz.isArray();
+	}
+
+	@Override
+	public String toString() {
+		if (!isArray() && genericTypes.size() == 0) {// 普通类型
+			return getTypeName();
+		} else if (!isArray() && genericTypes.size() > 0) {// 泛型
+			return getTypeName() + "<" + Joiner.on(",").join(genericTypes) + ">";
+		} else if (isArray() && genericTypes.size() == 0) {// 数组
+			return getTypeName();
+		}
+		return null;
 	}
 
 	public Method findMethod(String methodName) {
