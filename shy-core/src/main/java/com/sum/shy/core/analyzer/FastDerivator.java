@@ -58,6 +58,12 @@ public class FastDerivator {
 			// 如果不存在下一个，则可以直接返回了
 			if (token.getNext() == null)
 				return token.getReturnTypeAtt();
+
+		} else if (token.isQuickIndex()) {
+			// 如果不存在下一个，则可以直接返回了
+			if (token.getNext() == null)
+				return token.getReturnTypeAtt();
+
 		}
 
 		return null;
