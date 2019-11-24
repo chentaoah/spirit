@@ -15,10 +15,6 @@ public class Context {
 
 	// 所有被解析的结构体
 	public Map<String, CtClass> classes;
-	// 当前读取的class实体
-	public CtClass clazz;
-	// 当前域
-	public String scope;
 
 	/**
 	 * 查询引入的类型

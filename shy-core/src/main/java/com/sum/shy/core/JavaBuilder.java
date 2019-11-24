@@ -8,7 +8,6 @@ import com.sum.shy.core.converter.AssignConverter;
 import com.sum.shy.core.converter.ConditionConverter;
 import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
@@ -118,7 +117,6 @@ public class JavaBuilder {
 	}
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
-		Context.get().scope = "method";
 		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {

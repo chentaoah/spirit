@@ -8,7 +8,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.parser.ClassParser;
@@ -45,17 +44,9 @@ public class ShyReader {
 	}
 
 	private CtClass readLines(List<Line> lines) {
-
 		CtClass clazz = new CtClass();
-		Context context = Context.get();
-		context.clazz = clazz;
-
-		context.scope = "static";
 		readScopeLines(clazz, "static", lines);
-
-		context.scope = "class";
 		readScopeLines(clazz, "class", clazz.classLines);
-
 		return clazz;
 	}
 
