@@ -16,7 +16,7 @@ public class AssignConverter extends DefaultConverter {
 		// 添加类型声明
 		Token token = stmt.getToken(0);
 		if (token.isVar() && !token.isDeclaredAtt()) {
-			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt().toString(), null));
+			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));
 		}
 		return stmt;
 

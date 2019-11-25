@@ -28,9 +28,11 @@ public class VariableTracker {
 				findType(clazz, method, block, line, stmt, token);
 
 			} catch (Exception e) {
-				boolean flag = (stmt.isAssign() && i == 0);
-				if (!flag)
+				if (stmt.isAssign() && i == 0) {
+					token.setDeclaredAtt(false);
+				} else {
 					throw e;
+				}
 			}
 		}
 	}

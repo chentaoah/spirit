@@ -107,9 +107,7 @@ public class MethodResolver {
 				// 判断变量追踪是否帮我们找到了该变量的类型
 				Token token = stmt.getToken(0);
 				// 如果变量追踪,并没有找到类型声明
-				if (token.isVar() && token.getTypeNameAtt() == null) {
-					// 标记变量没有声明
-					token.setDeclaredAtt(false);
+				if (token.isVar() && !token.isDeclaredAtt()) {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
 					// 设置类型
