@@ -4,6 +4,12 @@ func main(){
 	if s=="hello"{
 		
 	}
+	if s!="haha"{
+		
+	}
+	if s {
+		
+	}
 	s=["hello","yes"]
 	return s
 
