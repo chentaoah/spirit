@@ -181,6 +181,8 @@ public class CtClass {
 			return List.class.getName();
 		case "Map":
 			return Map.class.getName();
+		case "Exception":
+			return Exception.class.getName();
 		default:
 			return null;
 		}

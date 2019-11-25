@@ -72,16 +72,38 @@ public class MethodResolver {
 				sb.deleteCharAt(sb.length() - 1);
 			String block = sb.toString();
 
-			// 变量追踪
-			VariableTracker.track(clazz, method, block, line, stmt);
-			// 快速遍历一行
-			InvokeVisiter.visit(clazz, stmt);
-
 			// 某些语句,先行定义一些变量
 			if (stmt.isDeclare()) {
 				method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(0)), stmt.get(1)));
 
-			} else if (stmt.isAssign()) {
+			} else if (stmt.isCatch()) {
+				method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(2)), stmt.get(3)));
+
+			} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
+				String name = stmt.get(1);// 名称
+				Token token = stmt.getToken(3);// 集合
+				VariableTracker.findType(clazz, method, block, line, stmt, token);// 变量追踪
+				InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
+				Type returnType = FastDerivator.getType(clazz, stmt);// 类型推导
+				Type genericType = returnType.getGenericTypes().get(0);
+				method.addVariable(new Variable(block, genericType, name));
+
+			} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
+				String subText = line.text.substring(line.text.indexOf(" "), line.text.indexOf(";"));
+				Stmt subStmt = Stmt.create(subText);
+				VariableTracker.track(clazz, method, block, line, subStmt);// 变量追踪
+				InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
+				Type type = FastDerivator.getType(clazz, subStmt);// 类型推导
+				method.addVariable(new Variable(block, type, subStmt.get(0)));
+
+			}
+
+			// 变量追踪
+			VariableTracker.track(clazz, method, block, line, stmt);
+			// 快速遍历一行
+			InvokeVisiter.visitStmt(clazz, stmt);
+
+			if (stmt.isAssign()) {
 				// 判断变量追踪是否帮我们找到了该变量的类型
 				Token token = stmt.getToken(0);
 				// 如果变量追踪,并没有找到类型声明
@@ -95,19 +117,6 @@ public class MethodResolver {
 					// 添加到方法变量里
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
-
-			} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
-				String name = stmt.get(1);// 名称
-				Token express = stmt.getToken(3);// 集合
-				Type returnType = express.isVar() ? express.getTypeAtt() : express.getReturnTypeAtt();
-				Type genericType = returnType.getGenericTypes().get(0);
-				method.addVariable(new Variable(block, genericType, name));
-
-			} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
-				String name = stmt.get(1);// 名称
-				Token express = stmt.getToken(3);// 字面值
-				Type type = FastDerivator.getType(clazz, express);
-				method.addVariable(new Variable(block, type, name));
 
 			}
 

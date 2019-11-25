@@ -82,7 +82,7 @@ public class JavaBuilder {
 		// ============================ method ================================
 
 		for (CtMethod method : clazz.staticMethods) {
-			body.append("\tpublic static " + method.returnType + " " + method.name + "(");
+			body.append("\tpublic static " + method.type + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					body.append(param.type + " " + param.name + ", ");
@@ -96,7 +96,7 @@ public class JavaBuilder {
 		}
 
 		for (CtMethod method : clazz.methods) {
-			body.append("\tpublic " + method.returnType + " " + method.name + "(");
+			body.append("\tpublic " + method.type + " " + method.name + "(");
 			if (method.params.size() > 0) {
 				for (Param param : method.params) {
 					body.append(param.type + " " + param.name + ", ");

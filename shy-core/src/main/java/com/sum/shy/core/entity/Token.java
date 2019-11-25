@@ -162,6 +162,8 @@ public class Token {
 	}
 
 	public void setTypeAtt(Type type) {
+		if (type == null)
+			throw new RuntimeException("Type cannot be null!token:" + this.toString());
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
@@ -170,6 +172,8 @@ public class Token {
 	}
 
 	public void setReturnTypeAtt(Type returnType) {
+		if (returnType == null)
+			throw new RuntimeException("Return type cannot be null!token:" + this.toString());
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, returnType);
 	}
 

@@ -25,34 +25,35 @@ public class VariableTracker {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			try {
-				if (token.isVar()) {
-					findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
+				findType(clazz, method, block, line, stmt, token);
 
-				} else if (token.isInvokeMember()) {
-					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-				} else if (token.isMemberVar()) {
-					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-				} else if (token.isQuickIndex()) {
-					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-				}
 			} catch (Exception e) {
-				// 如果前面是类型声明，或者后面是赋值操作
-				Token lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
-				boolean isDeclare = lastToken != null && lastToken.isType();
-				Token nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
-				boolean isAssign = nextToken != null && nextToken.isOperator() && "=".equals(nextToken.value);
-				// 如果两个都不是，则抛出异常
-				if (!isDeclare && !isAssign) {
+				boolean flag = (stmt.isAssign() && i == 0);
+				if (!flag)
 					throw e;
-				}
-			}
-			if (token.hasSubStmt()) {
-				track(clazz, method, block, line, (Stmt) token.value);
 			}
 		}
+	}
+
+	public static void findType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token) {
+
+		if (token.isVar()) {
+			findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
+
+		} else if (token.isInvokeMember()) {
+			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		} else if (token.isMemberVar()) {
+			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		} else if (token.isQuickIndex()) {
+			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		}
+		if (token.hasSubStmt()) {
+			track(clazz, method, block, line, (Stmt) token.value);
+		}
+
 	}
 
 	public static void findVariableType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
@@ -93,7 +94,7 @@ public class VariableTracker {
 		}
 
 		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
-				+ " ], var:[" + token.getVarNameAtt() + "]");
+				+ " ], var:[" + name + "]");
 
 	}
 

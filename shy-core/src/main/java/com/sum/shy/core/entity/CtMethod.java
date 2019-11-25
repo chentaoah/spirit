@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
-public class CtMethod implements Element {
-	// 类型
-	public Type returnType;
+public class CtMethod extends AbsElement {
 	// 参数名
 	public String name;
 	// 初始值
@@ -22,32 +19,9 @@ public class CtMethod implements Element {
 	public volatile boolean isLock = false;
 
 	public CtMethod(Type returnType, String name, List<Param> params) {
-		this.returnType = returnType;
+		this.type = returnType;
 		this.name = name;
 		this.params = params;
-	}
-
-	@Override
-	public Type getType() {
-		return returnType;
-	}
-
-	@Override
-	public void setType(Type type) {
-		this.returnType = type;
-	}
-
-	@Override
-	public void lock() {
-		if (isLock) {
-			throw new RuntimeException("There is a circular dependency!" + toString());
-		}
-		isLock = true;
-	}
-
-	@Override
-	public void unLock() {
-		isLock = false;
 	}
 
 	@Override

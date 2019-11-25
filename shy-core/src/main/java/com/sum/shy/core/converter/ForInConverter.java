@@ -10,10 +10,9 @@ public class ForInConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-
-		Token name = stmt.getToken(1);
+		Token var = stmt.getToken(1);
 		Token express = stmt.getToken(3);
-		String text = String.format("for (%s %s:%s){", name.getTypeAtt(), name, express);
+		String text = String.format("for (%s %s : %s){", var.getTypeAtt(), var.value, express.value);
 		// 直接返回拼接的字符串
 		return new Stmt(text);
 	}
