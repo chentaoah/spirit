@@ -48,7 +48,7 @@ public class SyntacticDefiner {
 			}
 
 			String third = words.get(2);
-			if ("for".equals(first) && "in".equals(third)) {
+			if ("for".equals(first)) {
 				if ("in".equals(third)) {
 					return Constants.FOR_IN_SYNTAX;
 				}

@@ -74,8 +74,11 @@ public class LexicalAnalyzer {
 				LineUtils.replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
 
 			} else if (c == '(') {// 方法调用
-				LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
-				i = start;// 索引倒退一些
+				// 为了支持java原生for循环,这里见到括号不认为是一个方法调用
+				if (!"for".equals(text.substring(start, i))) {
+					LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
+					i = start;// 索引倒退一些
+				}
 
 			} else if (c == '<') {// 泛型声明
 				char e = chars.get(start);

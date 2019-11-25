@@ -33,6 +33,14 @@ func main(){
 		i=null
 	}
 	
+	for(int i=0 ; i<100 ; i++) {
+		s="test for"
+	}
+	
+	for(String str:list){
+		s="test for"
+	}
+	
 	return s
 
 }
