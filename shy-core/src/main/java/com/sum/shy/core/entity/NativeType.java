@@ -60,7 +60,7 @@ public class NativeType extends AbsType {
 				return method;
 			}
 		}
-		return null;
+		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
 }

@@ -1,11 +1,14 @@
 package com.sum.shy.core.converter;
 
+import java.util.List;
+
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.entity.Variable;
 
 public class ForInConverter extends DefaultConverter {
 
@@ -20,18 +23,17 @@ public class ForInConverter extends DefaultConverter {
 		} else if (token.isInvoke()) {
 			returnType = token.getReturnTypeAtt();
 		}
-
-		Type type = null;
-		if (returnType.isList()) {
-			type = returnType.getGenericTypes().get(0);
-		} else if (returnType.isMap()) {
-			type = returnType.getGenericTypes().get(0);
-		}
+		// in 后面必须跟着一个集合的泛型,并只取最后一个泛型
+		// TODO 这里还需要进一步的判断
+		List<Type> genericTypes = returnType.getGenericTypes();
+		Type genericType = genericTypes.get(0);
 
 		String name = stmt.get(1);
-		String collection = stmt.get(3);
+		String express = stmt.get(3);
 
-		String text = String.format("for (%s %s:%s){", type, name, collection);
+		String text = String.format("for (%s %s:%s){", genericType, name, express);
+
+		method.addVariable(new Variable(block, genericType, name));
 		// 直接返回拼接的字符串
 		return new Stmt(text);
 	}

@@ -35,6 +35,7 @@ public class JavaBuilder {
 		Converter.register("try", new NoneConverter());// 什么都不做
 		Converter.register("catch", new CatchConverter());// catch语句
 
+		Converter.register("for", new NoneConverter());// for in语句
 		Converter.register("for_in", new ForInConverter());// for in语句
 
 		Converter.register("return", new DefaultConverter());// 返回

@@ -28,8 +28,9 @@ func main(){
 	
 	}
 	list=["hello","yes"]
-	for i in list{
-		i=1001
+	map={"key":10002,"haha":32.0}
+	for i in map.values(){
+		i=null
 	}
 	
 	return s
