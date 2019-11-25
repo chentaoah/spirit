@@ -37,28 +37,28 @@ public class CtClass {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("package --> " + packageStr);
+		sb.append("package --> " + packageStr + "\n");
 
 		for (String importStr : importStrs.values()) {
-			sb.append("import --> " + importStr);
+			sb.append("import --> " + importStr + "\n");
 		}
 		for (String importStr : importAliases.values()) {
-			sb.append("import alias --> " + importStr);
+			sb.append("import alias --> " + importStr + "\n");
 		}
 
-		sb.append("typeName --> " + typeName);
+		sb.append("typeName --> " + typeName + "\n");
 
 		for (CtField field : staticFields) {
-			sb.append("static " + field);
+			sb.append("static " + field + "\n");
 		}
 		for (CtField field : fields) {
-			sb.append(field);
+			sb.append(field + "\n");
 		}
 		for (CtMethod method : staticMethods) {
-			sb.append("static " + method);
+			sb.append("static " + method + "\n");
 		}
 		for (CtMethod method : methods) {
-			sb.append(method);
+			sb.append(method + "\n");
 		}
 
 		return sb.toString();
