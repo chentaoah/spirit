@@ -275,6 +275,11 @@ public class SemanticDelegate {
 			token.value = new Stmt(word, subWords, subTokens);
 			return;
 
+		} else if (token.isArrayInit()) {
+			String prefix = word.substring(0, word.indexOf("["));
+			subWords.add(0, "[");
+			subWords.add("]");
+
 		}
 
 		token.value = word;

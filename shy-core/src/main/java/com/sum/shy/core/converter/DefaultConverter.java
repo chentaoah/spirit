@@ -47,12 +47,15 @@ public class DefaultConverter implements Converter {
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
 
-			} else if (token.isInvokeInit() || token.isArrayInit()) {// 在所有的构造函数前面都加个new
+			} else if (token.isInvokeInit()) {// 在所有的构造函数前面都加个new
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
 
+			} else if (token.isArrayInit()) {// 数组初始化
+				// 追加一个关键字
+//				stmt.tokens.add(i - 1, new Token(Constants.KEYWORD_TOKEN, "new", null));
 			}
 
 		}
