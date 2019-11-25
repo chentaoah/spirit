@@ -28,14 +28,15 @@ public class ShyReader {
 
 	public CtClass read(File file) {
 		try {
-
+			// 获取文件中的每一行
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 			List<Line> lines = new ArrayList<>();
+			// 开始遍历
 			for (int index = 0; index < fileLines.size(); index++) {
 				lines.add(new Line(index + 1, fileLines.get(index)));
 				System.out.println(lines.get(index).text);
 			}
-			return readLines(lines);
+			return readLines(file, lines);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,10 +44,14 @@ public class ShyReader {
 		return null;
 	}
 
-	private CtClass readLines(List<Line> lines) {
+	private CtClass readLines(File file, List<Line> lines) {
 		CtClass clazz = new CtClass();
 		readScopeLines(clazz, "static", lines);
 		readScopeLines(clazz, "class", clazz.classLines);
+		// 如果文件中不存在class对象,那么就用文件名虚拟一个
+		if (clazz.typeName == null) {
+			clazz.typeName = file.getName().replace(".shy", "");
+		}
 		return clazz;
 	}
 
@@ -69,6 +74,7 @@ public class ShyReader {
 			}
 
 		}
+
 	}
 
 }

@@ -30,7 +30,7 @@ public class CtClass {
 	// 方法
 	public List<CtMethod> methods = new ArrayList<>();
 	// class域
-	public List<Line> classLines;
+	public List<Line> classLines = new ArrayList<>();
 
 	public void show() {
 		System.out.println("=============================");

@@ -1,0 +1,10 @@
+
+func main(){
+	s="hello"
+	if s=="hello"{
+		
+	}
+	s=["hello","yes"]
+	return s
+
+}
