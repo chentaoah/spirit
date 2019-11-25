@@ -4,7 +4,10 @@ import com.sum.shy.core.analyzer.MethodResolver;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.converter.DefaultConverter;
+import com.sum.shy.core.converter.ForInConverter;
+import com.sum.shy.core.converter.NoneConverter;
 import com.sum.shy.core.converter.AssignConverter;
+import com.sum.shy.core.converter.CatchConverter;
 import com.sum.shy.core.converter.ConditionConverter;
 import com.sum.shy.core.converter.DeclareConverter;
 import com.sum.shy.core.entity.CtClass;
@@ -19,13 +22,20 @@ public class JavaBuilder {
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
 		Converter.register("declare", new DeclareConverter());// 声明转换
+
 		Converter.register("assign", new AssignConverter());// 赋值转换
 
 		Converter.register("if", new ConditionConverter());// 条件转换
 		Converter.register("elseif", new ConditionConverter());
-		Converter.register("else", new ConditionConverter());
-		Converter.register("end", new ConditionConverter());
+		Converter.register("else", new NoneConverter());// 什么都不做
+		Converter.register("end", new NoneConverter());// 什么都不做
+
 		Converter.register("while", new ConditionConverter());// while循环
+
+		Converter.register("try", new NoneConverter());// 什么都不做
+		Converter.register("catch", new CatchConverter());// catch语句
+
+		Converter.register("for_in", new ForInConverter());// for in语句
 
 		Converter.register("return", new DefaultConverter());// 返回
 

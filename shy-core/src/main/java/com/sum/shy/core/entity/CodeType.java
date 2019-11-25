@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.api.Type;
 
-public class CodeType implements Type {
+public class CodeType extends AbsType {
 
 	public String className;
 	public String typeName;
 	public List<CodeType> genericTypes = new ArrayList<>();
-	public boolean isArray = false;
 
 	public CodeType(CtClass clazz, Token token) {
 		resolve(clazz, token);
@@ -40,7 +38,6 @@ public class CodeType implements Type {
 					}
 				} else if (text.endsWith("[]")) {// 如果是数组，则typeName为String[]
 					typeName = text;
-					isArray = true;
 				} else {
 					typeName = text;
 				}
@@ -65,28 +62,6 @@ public class CodeType implements Type {
 		List<Type> list = new ArrayList<>();
 		list.addAll(genericTypes);
 		return list;
-	}
-
-	@Override
-	public boolean isArray() {
-		return isArray;
-	}
-
-	@Override
-	public boolean isStr() {
-		return "String".equals(getTypeName());
-	}
-
-	@Override
-	public String toString() {
-		if (!isArray() && genericTypes.size() == 0) {// 普通类型
-			return getTypeName();
-		} else if (!isArray() && genericTypes.size() > 0) {// 泛型
-			return getTypeName() + "<" + Joiner.on(",").join(genericTypes) + ">";
-		} else if (isArray() && genericTypes.size() == 0) {// 数组
-			return getTypeName();
-		}
-		return null;
 	}
 
 }

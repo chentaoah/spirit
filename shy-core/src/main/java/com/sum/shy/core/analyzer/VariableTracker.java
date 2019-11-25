@@ -22,37 +22,49 @@ public class VariableTracker {
 
 	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 
-		// 声明语句,变量不进行追踪
-		if (stmt.isDeclare())
+		// 声明语句,异常捕获,变量不进行追踪
+		if (stmt.isDeclare() || stmt.isCatch())
 			return;
 
+		// 如果是for in语法,则只追踪后面的集合
+		if (stmt.isForIn()) {
+			// 只追踪第三个,也就是被遍历的集合
+			findTokenType(clazz, method, block, line, stmt, 3);
+			return;
+		}
+
+		// 直接遍历
 		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			if (token.isVar()) {
-				try {
-					getType(clazz, method, block, line, stmt, token, (String) token.value);
-				} catch (Exception e) {
-					if (stmt.isAssign() && i == 0) {// 赋值语句的第一个变量是可以容忍报错的
-						token.setDeclaredAtt(false);// 设置为未被声明的
-					} else {
-						throw e;
-					}
+			findTokenType(clazz, method, block, line, stmt, i);
+		}
+
+	}
+
+	private static void findTokenType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int i) {
+		Token token = stmt.getToken(i);
+		if (token.isVar()) {
+			try {
+				getType(clazz, method, block, line, stmt, token, (String) token.value);
+			} catch (Exception e) {
+				if (stmt.isAssign() && i == 0) {// 赋值语句的第一个变量是可以容忍报错的
+					token.setDeclaredAtt(false);// 设置为未被声明的
+				} else {
+					throw e;
 				}
-
-			} else if (token.isInvokeMember()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-			} else if (token.isMemberVar()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-			} else if (token.isQuickIndex()) {
-				getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-			}
-			if (token.hasSubStmt()) {
-				track(clazz, method, block, line, (Stmt) token.value);
 			}
 
+		} else if (token.isInvokeMember()) {
+			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		} else if (token.isMemberVar()) {
+			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		} else if (token.isQuickIndex()) {
+			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+		}
+		if (token.hasSubStmt()) {
+			track(clazz, method, block, line, (Stmt) token.value);
 		}
 
 	}

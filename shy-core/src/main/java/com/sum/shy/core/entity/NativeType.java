@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Joiner;
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
@@ -14,7 +13,7 @@ import com.sum.shy.core.utils.ReflectUtils;
  * @author chentao
  *
  */
-public class NativeType implements Type {
+public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
@@ -53,28 +52,6 @@ public class NativeType implements Type {
 		List<Type> list = new ArrayList<>();
 		list.addAll(genericTypes);
 		return list;
-	}
-
-	@Override
-	public boolean isArray() {
-		return clazz.isArray();
-	}
-
-	@Override
-	public boolean isStr() {
-		return "String".equals(getTypeName());
-	}
-
-	@Override
-	public String toString() {
-		if (!isArray() && genericTypes.size() == 0) {// 普通类型
-			return getTypeName();
-		} else if (!isArray() && genericTypes.size() > 0) {// 泛型
-			return getTypeName() + "<" + Joiner.on(",").join(genericTypes) + ">";
-		} else if (isArray() && genericTypes.size() == 0) {// 数组
-			return getTypeName();
-		}
-		return null;
 	}
 
 	public Method findMethod(String methodName) {

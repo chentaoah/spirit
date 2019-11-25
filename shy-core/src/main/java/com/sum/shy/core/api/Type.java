@@ -9,34 +9,55 @@ public interface Type {
 	 * 
 	 * @return
 	 */
-	public String getClassName();
+	String getClassName();
 
 	/**
 	 * 获取名称
 	 * 
 	 * @return
 	 */
-	public String getTypeName();
+	String getTypeName();
 
 	/**
 	 * 获取泛型
 	 * 
 	 * @return
 	 */
-	public List<Type> getGenericTypes();
+	List<Type> getGenericTypes();
+
+	/**
+	 * 是否泛型
+	 * 
+	 * @return
+	 */
+	boolean isGenericType();
 
 	/**
 	 * 是否数组
 	 * 
 	 * @return
 	 */
-	public boolean isArray();
+	boolean isArray();
 
 	/**
 	 * 是否数组
 	 * 
 	 * @return
 	 */
-	public boolean isStr();
+	boolean isStr();
+
+	/**
+	 * 是否集合
+	 * 
+	 * @return
+	 */
+	boolean isList();
+
+	/**
+	 * 是否键值对
+	 * 
+	 * @return
+	 */
+	boolean isMap();
 
 }

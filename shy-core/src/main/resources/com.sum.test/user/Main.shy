@@ -9,14 +9,29 @@ func main(){
 	}
 	if !s {
 		
+	}else{
+	
 	}
 	if s {
 		
 	}
+	y="haha"
 	while s {
+		y="yes"
+	}
+	while 10>0 {
 	
 	}
-	s=["hello","yes"]
+	try{
+	
+	}catch Exception e{
+	
+	}
+	list=["hello","yes"]
+	for i in list{
+		i=1001
+	}
+	
 	return s
 
 }

@@ -17,7 +17,7 @@ public class SyntacticDefiner {
 
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
-			"for", "while", "try" };
+			"while", "try" };
 
 	public static String getSyntax(List<String> words) {
 		try {
@@ -48,6 +48,13 @@ public class SyntacticDefiner {
 			}
 
 			String third = words.get(2);
+			if ("for".equals(first) && "in".equals(third)) {
+				if ("in".equals(third)) {
+					return Constants.FOR_IN_SYNTAX;
+				}
+				return Constants.FOR_SYNTAX;
+			}
+
 			if ("}".equals(first)) {// else if语句
 				if ("else".equals(second)) {
 					if ("if".equals(third)) {
@@ -55,6 +62,8 @@ public class SyntacticDefiner {
 					} else {
 						return Constants.ELSE_SYNTAX;
 					}
+				} else if ("catch".equals(second)) {
+					return Constants.CATCH_SYNTAX;
 				}
 			}
 		} catch (Exception e) {

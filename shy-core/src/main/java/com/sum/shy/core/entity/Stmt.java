@@ -1,5 +1,6 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
@@ -43,6 +44,12 @@ public class Stmt {
 		this.line = new Line(null, word);
 		this.words = subWords;
 		this.tokens = subTokens;
+	}
+
+	public Stmt(String text) {
+		this.line = new Line(null, text);
+		this.words = new ArrayList<>();
+		this.tokens = new ArrayList<>();
 	}
 
 	public String get(int index) {
@@ -100,6 +107,10 @@ public class Stmt {
 				sb.append(token.value.toString());
 			}
 		}
+		// 如果没有token,则直接返回line
+		if (tokens.size() == 0) {
+			return line.text;
+		}
 		return sb.toString();
 	}
 
@@ -137,6 +148,14 @@ public class Stmt {
 
 	public boolean isDeclare() {
 		return Constants.DECLARE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isCatch() {
+		return Constants.CATCH_SYNTAX.equals(syntax);
+	}
+
+	public boolean isForIn() {
+		return Constants.FOR_IN_SYNTAX.equals(syntax);
 	}
 
 }
