@@ -31,7 +31,7 @@ public class ForInConverter extends DefaultConverter {
 		String name = stmt.get(1);
 		String collection = stmt.get(3);
 
-		String text = String.format("for (%s %s:%s) {", type, name, collection);
+		String text = String.format("for (%s %s:%s){", type, name, collection);
 		// 直接返回拼接的字符串
 		return new Stmt(text);
 	}

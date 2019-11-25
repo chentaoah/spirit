@@ -96,6 +96,16 @@ public class Stmt {
 				} else {
 					sb.append(token.value.toString());
 				}
+			} else if (token.isSeparator()) {// 末尾的括号前面加个空格
+//				if ("{".equals(token.value)) {
+//					sb.append(" " + token.value);
+//				} else if ("}".equals(token.value)) {
+//					sb.append(token.value + " ");
+//				} else {
+//					sb.append(token.value.toString());
+//				}
+				sb.append(token.value.toString());
+
 			} else if (token.isType()) {// 类型声明后面加空格
 				// 根语句类型后面加个空格,子语句不用加
 				if (syntax != null) {
@@ -108,7 +118,9 @@ public class Stmt {
 			}
 		}
 		// 如果没有token,则直接返回line
-		if (tokens.size() == 0) {
+		if (tokens.size() == 0)
+
+		{
 			return line.text;
 		}
 		return sb.toString();
