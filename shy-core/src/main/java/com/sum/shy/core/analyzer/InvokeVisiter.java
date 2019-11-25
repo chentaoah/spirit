@@ -122,6 +122,11 @@ public class InvokeVisiter {
 			token.setReturnTypeAtt(returnType);
 
 		}
+		// 内部可能还需要推导
+		if (token.hasSubStmt()) {
+			visitStmt(clazz, (Stmt) token.value);
+		}
+
 	}
 
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {

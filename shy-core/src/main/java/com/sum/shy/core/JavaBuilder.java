@@ -83,11 +83,16 @@ public class JavaBuilder {
 
 		for (CtMethod method : clazz.staticMethods) {
 			body.append("\tpublic static " + method.type + " " + method.name + "(");
-			if (method.params.size() > 0) {
-				for (Param param : method.params) {
-					body.append(param.type + " " + param.name + ", ");
+			// 主方法自动加参数
+			if ("main".equals(method.name)) {
+				body.append("String[] args");
+			} else {
+				if (method.params.size() > 0) {
+					for (Param param : method.params) {
+						body.append(param.type + " " + param.name + ", ");
+					}
+					body.delete(body.lastIndexOf(","), body.length());
 				}
-				body.delete(body.lastIndexOf(","), body.length());
 			}
 			body.append("){\n");
 			convertMethod(body, clazz, method);
