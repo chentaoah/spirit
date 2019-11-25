@@ -45,6 +45,7 @@ public class ConditionConverter extends DefaultConverter {
 						clazz.addImport(StringUtils.class.getName());
 
 					} else {
+						// 只有一个孤零零的字符串,则说明是判空
 						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
 								"StringUtils.isNotEmpty(" + token.value + ")", null));
 						// 添加依赖
