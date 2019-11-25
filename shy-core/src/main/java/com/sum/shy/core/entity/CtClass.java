@@ -32,34 +32,36 @@ public class CtClass {
 	// class域
 	public List<Line> classLines = new ArrayList<>();
 
-	public void show() {
-		System.out.println("=============================");
+	@Override
+	public String toString() {
 
-		System.out.println("package --> " + packageStr);
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("package --> " + packageStr);
 
 		for (String importStr : importStrs.values()) {
-			System.out.println("import --> " + importStr);
+			sb.append("import --> " + importStr);
 		}
 		for (String importStr : importAliases.values()) {
-			System.out.println("import alias --> " + importStr);
+			sb.append("import alias --> " + importStr);
 		}
 
-		System.out.println("typeName --> " + typeName);
+		sb.append("typeName --> " + typeName);
 
 		for (CtField field : staticFields) {
-			System.out.println("static " + field);
+			sb.append("static " + field);
 		}
 		for (CtField field : fields) {
-			System.out.println(field);
+			sb.append(field);
 		}
 		for (CtMethod method : staticMethods) {
-			System.out.println("static " + method);
+			sb.append("static " + method);
 		}
 		for (CtMethod method : methods) {
-			System.out.println(method);
+			sb.append(method);
 		}
 
-		System.out.println("=============================");
+		return sb.toString();
 
 	}
 
