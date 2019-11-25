@@ -71,7 +71,7 @@ public class ShyCompiler {
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
 
-		System.out.println(clazz.toString());
+//		System.out.println(clazz.toString());
 
 		return clazz;
 	}
