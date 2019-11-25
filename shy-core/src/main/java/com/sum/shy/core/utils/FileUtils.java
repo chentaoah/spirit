@@ -14,11 +14,14 @@ public class FileUtils {
 		// 包名
 		packageStr = packageStr + ("".equals(packageStr) ? "" : ".") + dir.getName();
 
-		for (File f : dir.listFiles()) {
-			if (f.isDirectory()) {// 递归
-				getFiles(f.getAbsolutePath(), packageStr, files);
-			} else if (f.isFile()) {// 如果是文件就添加
-				files.put(packageStr + "." + f.getName().replace(".shy", ""), f);
+		for (File file : dir.listFiles()) {
+			if (file.isDirectory()) {// 递归
+				getFiles(file.getAbsolutePath(), packageStr, files);
+
+			} else if (file.isFile()) {// 如果是文件就添加
+				if (file.getName().endsWith(".shy")) {
+					files.put(packageStr + "." + file.getName().replace(".shy", ""), file);
+				}
 			}
 		}
 	}
