@@ -24,16 +24,16 @@ public class VariableTracker {
 		// 直接遍历
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (token.isVar() && token.getTypeAtt() != null) {
+			if (token.isVar() && token.getTypeAtt() == null) {
 				findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
 
-			} else if (token.isInvokeMember() && token.getTypeAtt() != null) {
+			} else if (token.isInvokeMember() && token.getTypeAtt() == null) {
 				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
-			} else if (token.isMemberVar() && token.getTypeAtt() != null) {
+			} else if (token.isMemberVar() && token.getTypeAtt() == null) {
 				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
-			} else if (token.isQuickIndex() && token.getTypeAtt() != null) {
+			} else if (token.isQuickIndex() && token.getTypeAtt() == null) {
 				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
 			}
@@ -92,6 +92,7 @@ public class VariableTracker {
 				token.setTypeAtt(variable.type);
 				return;
 			}
+
 		}
 
 	}
