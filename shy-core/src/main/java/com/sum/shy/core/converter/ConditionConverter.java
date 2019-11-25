@@ -12,9 +12,6 @@ public class ConditionConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-		// 如果是}结束符,那么就不用转换了
-		if (stmt.isEnd())
-			return stmt;
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
