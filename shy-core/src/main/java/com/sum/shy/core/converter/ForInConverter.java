@@ -23,7 +23,6 @@ public class ForInConverter extends DefaultConverter {
 		} else if (token.isInvoke()) {
 			returnType = token.getReturnTypeAtt();
 		}
-		// in 后面必须跟着一个集合的泛型,并只取最后一个泛型
 		// TODO 这里还需要进一步的判断
 		List<Type> genericTypes = returnType.getGenericTypes();
 		Type genericType = genericTypes.get(0);

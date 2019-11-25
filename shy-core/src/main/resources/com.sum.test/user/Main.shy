@@ -29,7 +29,7 @@ func main(){
 	}
 	list=["hello","yes"]
 	map={"key":10002,"haha":32.0}
-	for i in map.values(){
+	for key in map.keySet(){
 		i=null
 	}
 	
