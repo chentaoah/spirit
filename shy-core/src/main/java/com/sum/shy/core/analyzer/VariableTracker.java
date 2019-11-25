@@ -21,36 +21,44 @@ import com.sum.shy.core.entity.Variable;
 public class VariableTracker {
 
 	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-
 		// 直接遍历
 		for (int i = 0; i < stmt.size(); i++) {
-			findVariableType(clazz, method, block, line, stmt, i);
-		}
+			Token token = stmt.getToken(i);
+			if (token.isVar() && token.getTypeAtt() != null) {
+				findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
 
+			} else if (token.isInvokeMember() && token.getTypeAtt() != null) {
+				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+			} else if (token.isMemberVar() && token.getTypeAtt() != null) {
+				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+			} else if (token.isQuickIndex() && token.getTypeAtt() != null) {
+				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+
+			}
+			if (token.hasSubStmt()) {
+				track(clazz, method, block, line, (Stmt) token.value);
+			}
+		}
 	}
 
-	private static void findVariableType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int i) {
-		Token token = stmt.getToken(i);
-		if (token.isVar()) {
-			getType(clazz, method, block, line, stmt, token, (String) token.value);
-
-		} else if (token.isInvokeMember()) {
-			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-		} else if (token.isMemberVar()) {
-			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-		} else if (token.isQuickIndex()) {
-			getType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
+	public static void check(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
+		// 直接遍历
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+			if (token.isVar() || token.isInvokeMember() || token.isMemberVar() || token.isQuickIndex()) {
+				if (token.getTypeAtt() == null)// 如果一个变量没有类型,则抛出异常
+					throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
+							+ line.text.trim() + " ], var:[" + token.getVarNameAtt() + "]");
+			}
+			if (token.hasSubStmt()) {
+				check(clazz, method, block, line, (Stmt) token.value);
+			}
 		}
-		if (token.hasSubStmt()) {
-			track(clazz, method, block, line, (Stmt) token.value);
-		}
-
 	}
 
-	public static void getType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
+	public static void findVariableType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
 			String name) {
 		// 静态成员变量
 		for (CtField field : clazz.staticFields) {
@@ -85,9 +93,6 @@ public class VariableTracker {
 				return;
 			}
 		}
-
-		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
-				+ " ], var:[" + name + "]");
 
 	}
 
