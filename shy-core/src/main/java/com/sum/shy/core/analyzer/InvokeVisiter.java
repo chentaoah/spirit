@@ -122,24 +122,7 @@ public class InvokeVisiter {
 
 	}
 
-	public static void check(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			if (token.isInvoke() || (token.isVariable() && !token.isVar()) || token.isQuickIndex()) {
-				if (token.getReturnTypeAtt() == null)
-					throw new RuntimeException("Cannot deduce return type!number:[" + line.number + "], text:[ "
-							+ line.text.trim() + " ], var:[" + token.getVarNameAtt() + "]");
-			}
-			if (token.hasSubStmt()) {
-				check(clazz, method, block, line, (Stmt) token.value);
-			}
-		}
-	}
-
 	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
-		// 可能进来为空
-		if (type == null)
-			return null;
 
 		if (type.isArray()) {// 如果是一个数组，只支持调用length
 			if (properties != null && properties.size() == 1) {

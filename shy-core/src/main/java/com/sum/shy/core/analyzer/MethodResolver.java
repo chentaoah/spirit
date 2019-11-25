@@ -85,9 +85,13 @@ public class MethodResolver {
 				// 判断变量追踪是否帮我们找到了该变量的类型
 				Token token = stmt.getToken(0);
 				// 如果变量追踪,并没有找到类型声明
-				if (token.isVar() && !token.isDeclaredAtt()) {
+				if (token.isVar() && token.getTypeNameAtt() == null) {
+					// 标记变量没有声明
+					token.setDeclaredAtt(false);
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
+					// 设置类型
+					token.setTypeAtt(type);
 					// 添加到方法变量里
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
@@ -106,16 +110,6 @@ public class MethodResolver {
 				method.addVariable(new Variable(block, type, name));
 
 			}
-
-			// 变量追踪
-			VariableTracker.track(clazz, method, block, line, stmt);
-			// 快速遍历一行
-			InvokeVisiter.visit(clazz, stmt);
-
-			// 校验
-			VariableTracker.check(clazz, method, block, line, stmt);
-			// 校验
-			InvokeVisiter.check(clazz, method, block, line, stmt);
 
 			// 条件语句没必要那么快增加缩进
 			String indent = LineUtils.getIndentByNumber(inCondition ? depth + 2 - 1 : depth + 2);

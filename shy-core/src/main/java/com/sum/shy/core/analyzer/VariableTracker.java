@@ -24,36 +24,33 @@ public class VariableTracker {
 		// 直接遍历
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (token.isVar() && token.getTypeAtt() == null) {
-				findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
+			try {
+				if (token.isVar()) {
+					findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
 
-			} else if (token.isInvokeMember() && token.getTypeAtt() == null) {
-				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+				} else if (token.isInvokeMember()) {
+					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
-			} else if (token.isMemberVar() && token.getTypeAtt() == null) {
-				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+				} else if (token.isMemberVar()) {
+					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
-			} else if (token.isQuickIndex() && token.getTypeAtt() == null) {
-				findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
+				} else if (token.isQuickIndex()) {
+					findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
+				}
+			} catch (Exception e) {
+				// 如果前面是类型声明，或者后面是赋值操作
+				Token lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
+				boolean isDeclare = lastToken != null && lastToken.isType();
+				Token nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
+				boolean isAssign = nextToken != null && nextToken.isOperator() && "=".equals(nextToken.value);
+				// 如果两个都不是，则抛出异常
+				if (!isDeclare && !isAssign) {
+					throw e;
+				}
 			}
 			if (token.hasSubStmt()) {
 				track(clazz, method, block, line, (Stmt) token.value);
-			}
-		}
-	}
-
-	public static void check(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-		// 直接遍历
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			if (token.isVar() || token.isInvokeMember() || token.isMemberVar() || token.isQuickIndex()) {
-				if (token.getTypeAtt() == null)// 如果一个变量没有类型,则抛出异常
-					throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
-							+ line.text.trim() + " ], var:[" + token.getVarNameAtt() + "]");
-			}
-			if (token.hasSubStmt()) {
-				check(clazz, method, block, line, (Stmt) token.value);
 			}
 		}
 	}
@@ -94,6 +91,9 @@ public class VariableTracker {
 			}
 
 		}
+
+		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
+				+ " ], var:[" + token.getVarNameAtt() + "]");
 
 	}
 
