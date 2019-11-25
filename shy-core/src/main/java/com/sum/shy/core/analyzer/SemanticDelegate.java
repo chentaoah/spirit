@@ -277,8 +277,10 @@ public class SemanticDelegate {
 
 		} else if (token.isArrayInit()) {
 			String prefix = word.substring(0, word.indexOf("["));
+			String number = word.substring(word.indexOf("[") + 1, word.indexOf("]"));
 			List<String> subWords = new ArrayList<>();
 			subWords.add(0, "[");
+			subWords.add(number);
 			subWords.add("]");
 			// 获取tokens
 			List<Token> subTokens = getTokens(null, subWords);
