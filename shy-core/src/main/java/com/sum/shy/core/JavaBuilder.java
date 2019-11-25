@@ -25,6 +25,7 @@ public class JavaBuilder {
 		Converter.register("elseif", new ConditionConverter());
 		Converter.register("else", new ConditionConverter());
 		Converter.register("end", new ConditionConverter());
+		Converter.register("while", new ConditionConverter());// while循环
 
 		Converter.register("return", new DefaultConverter());// 返回
 

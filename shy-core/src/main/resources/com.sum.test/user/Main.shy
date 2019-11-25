@@ -7,8 +7,14 @@ func main(){
 	if s!="haha"{
 		
 	}
+	if !s {
+		
+	}
 	if s {
 		
+	}
+	while s {
+	
 	}
 	s=["hello","yes"]
 	return s
