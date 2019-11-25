@@ -19,7 +19,7 @@ public class DefaultConverter implements Converter {
 		// 将语句进行一定的转换
 		stmt = convertSubStmt(clazz, stmt);
 		// 添加一个后缀
-		stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";", null));
+		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));
 
 		return stmt;
 
@@ -47,7 +47,7 @@ public class DefaultConverter implements Converter {
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
 
-			} else if (token.isInvokeInit()) {// 在所有的构造函数前面都加个new
+			} else if (token.isInvokeInit() || token.isArrayInit()) {// 在所有的构造函数前面都加个new
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
 				// 追加一个关键字
