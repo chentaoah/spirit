@@ -73,6 +73,11 @@ public class CodeType implements Type {
 	}
 
 	@Override
+	public boolean isStr() {
+		return "String".equals(getTypeName());
+	}
+
+	@Override
 	public String toString() {
 		if (!isArray() && genericTypes.size() == 0) {// 普通类型
 			return getTypeName();

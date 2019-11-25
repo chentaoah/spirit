@@ -1,50 +1,65 @@
 package com.sum.shy.core.converter;
 
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
+import com.sum.shy.library.StringUtils;
 
 public class ConditionConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+		// 如果是}结束符,那么就不用转换了
+		if (stmt.isEnd())
+			return stmt;
+
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+			// 如果是变量且是字符串类型
+			if (token.isVar() && token.getTypeAtt().isStr()) {
+				try {
+					Token nextToken = stmt.getToken(i + 1);
+					// 如果紧跟着==操作符
+					if (nextToken.isOperator() && "==".equals(nextToken.value)) {
+						Token paramToken = stmt.getToken(i + 2);
+						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+								"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+						// 移除原来的
+						stmt.tokens.remove(i + 1);
+						stmt.tokens.remove(i + 1);
+						// 添加依赖
+						clazz.addImport(StringUtils.class.getName());
+
+					} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
+						// 如果紧跟着!=操作符
+						Token paramToken = stmt.getToken(i + 2);
+						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+								"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+						// 移除原来的
+						stmt.tokens.remove(i + 1);
+						stmt.tokens.remove(i + 1);
+						// 添加依赖
+						clazz.addImport(StringUtils.class.getName());
+
+					} else {
+						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
+								"StringUtils.isNotEmpty(" + token.value + ")", null));
+						// 添加依赖
+						clazz.addImport(StringUtils.class.getName());
+					}
+
+				} catch (Exception e) {
+					// ignore
+				}
+			}
+		}
+		stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
+		stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
 
 		return stmt;
 	}
 
-//	private String convertJudgeStmt(CtClass clazz, Stmt stmt) {
-//		for (int i = 0; i < stmt.tokens.size(); i++) {
-//			Token token = stmt.getToken(i);
-//			if (token.isVar()) {
-//				// 如果是str类型
-////				if (token.getTypeAtt().isStr()) {
-////					// 添加依赖
-////					clazz.addImport(StringUtils.class.getName());
-////					try {
-////						Token nextToken = stmt.getToken(i + 1);
-////						if (nextToken.isOperator() && "==".equals(nextToken.value)) {
-////							Token paramToken = stmt.getToken(i + 2);
-////							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-////									"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
-////							stmt.tokens.remove(i + 2);
-////							stmt.tokens.remove(i + 1);
-////						} else if (nextToken.isOperator() && "!=".equals(nextToken.value)) {
-////							Token paramToken = stmt.getToken(i + 2);
-////							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-////									"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
-////							stmt.tokens.remove(i + 2);
-////							stmt.tokens.remove(i + 1);
-////						} else {
-////							stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-////									"StringUtils.isNotEmpty(" + token.value + ")", null));
-////						}
-////					} catch (Exception e) {
-////						// ignore
-////					}
-////				}
-//			}
-//		}
-//		return stmt.toString();
-//	}
 }

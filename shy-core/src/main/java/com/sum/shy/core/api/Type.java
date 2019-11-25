@@ -32,4 +32,11 @@ public interface Type {
 	 */
 	public boolean isArray();
 
+	/**
+	 * 是否数组
+	 * 
+	 * @return
+	 */
+	public boolean isStr();
+
 }
