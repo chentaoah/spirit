@@ -53,9 +53,10 @@ public class DefaultConverter implements Converter {
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
 
-			} else if (token.isArrayInit()) {// 数组初始化
+			} else if (token.isArrayInit()) {// 数组初始化,是没有子语句的
+				Stmt subStmt = (Stmt) token.value;
 				// 追加一个关键字
-//				stmt.tokens.add(i - 1, new Token(Constants.KEYWORD_TOKEN, "new", null));
+				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
 			}
 
 		}

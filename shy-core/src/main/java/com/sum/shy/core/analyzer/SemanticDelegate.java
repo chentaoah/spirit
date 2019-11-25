@@ -277,9 +277,16 @@ public class SemanticDelegate {
 
 		} else if (token.isArrayInit()) {
 			String prefix = word.substring(0, word.indexOf("["));
+			List<String> subWords = new ArrayList<>();
 			subWords.add(0, "[");
 			subWords.add("]");
-
+			// 获取tokens
+			List<Token> subTokens = getTokens(null, subWords);
+			// 追加一个元素在头部
+			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
+			// 生成子语句
+			token.value = new Stmt(word, subWords, subTokens);
+			return;
 		}
 
 		token.value = word;
