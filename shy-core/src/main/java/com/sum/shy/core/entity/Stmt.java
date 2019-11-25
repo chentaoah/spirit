@@ -97,14 +97,11 @@ public class Stmt {
 					sb.append(token.value.toString());
 				}
 			} else if (token.isSeparator()) {// 末尾的括号前面加个空格
-//				if ("{".equals(token.value)) {
-//					sb.append(" " + token.value);
-//				} else if ("}".equals(token.value)) {
-//					sb.append(token.value + " ");
-//				} else {
-//					sb.append(token.value.toString());
-//				}
-				sb.append(token.value.toString());
+				if (";".equals(token.value)) {
+					sb.append(token.value + " ");
+				} else {
+					sb.append(token.value.toString());
+				}
 
 			} else if (token.isType()) {// 类型声明后面加空格
 				// 根语句类型后面加个空格,子语句不用加
@@ -168,6 +165,10 @@ public class Stmt {
 
 	public boolean isForIn() {
 		return Constants.FOR_IN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFor() {
+		return Constants.FOR_SYNTAX.equals(syntax);
 	}
 
 }

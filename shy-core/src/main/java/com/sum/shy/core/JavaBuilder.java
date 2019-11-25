@@ -4,6 +4,7 @@ import com.sum.shy.core.analyzer.MethodResolver;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.converter.DefaultConverter;
+import com.sum.shy.core.converter.ForConverter;
 import com.sum.shy.core.converter.ForInConverter;
 import com.sum.shy.core.converter.NoneConverter;
 import com.sum.shy.core.converter.AssignConverter;
@@ -35,7 +36,7 @@ public class JavaBuilder {
 		Converter.register("try", new NoneConverter());// 什么都不做
 		Converter.register("catch", new CatchConverter());// catch语句
 
-		Converter.register("for", new NoneConverter());// for in语句
+		Converter.register("for", new ForConverter());// for语句
 		Converter.register("for_in", new ForInConverter());// for in语句
 
 		Converter.register("return", new DefaultConverter());// 返回

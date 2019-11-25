@@ -72,13 +72,22 @@ public class MethodResolver {
 				sb.deleteCharAt(sb.length() - 1);
 			String block = sb.toString();
 
-			// 变量追踪
-			VariableTracker.track(clazz, method, block, line, stmt);
-			// 快速遍历一行
-			InvokeVisiter.visit(clazz, stmt);
-
+			// 某些语句,先行定义一些变量
 			if (stmt.isDeclare()) {
 				method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(0)), stmt.get(1)));
+
+			} else if (stmt.isForIn()) {// for循环里面,也可以定义变量
+				String name = stmt.get(1);// 名称
+				Token express = stmt.getToken(3);// 集合
+				Type returnType = express.isVar() ? express.getTypeAtt() : express.getReturnTypeAtt();
+				Type genericType = returnType.getGenericTypes().get(0);
+				method.addVariable(new Variable(block, genericType, name));
+
+			} else if (stmt.isFor()) {// for循环里面,也可以定义变量
+				String name = stmt.get(1);// 名称
+				Token express = stmt.getToken(3);// 字面值
+				Type type = FastDerivator.getType(clazz, express);
+				method.addVariable(new Variable(block, type, name));
 
 			} else if (stmt.isAssign()) {
 				// 判断变量追踪是否帮我们找到了该变量的类型
@@ -87,12 +96,18 @@ public class MethodResolver {
 				if (token.isVar() && !token.isDeclaredAtt()) {
 					// 这里使用了快速推导,但是返回的类型并不是最终类型
 					Type type = FastDerivator.getType(clazz, stmt);
-					// 设置到第一个token里
+					// 设置类型
 					token.setTypeAtt(type);
 					// 添加到方法变量里
 					method.addVariable(new Variable(block, type, stmt.get(0)));
 				}
 			}
+
+			// 变量追踪
+			VariableTracker.track(clazz, method, block, line, stmt);
+			// 快速遍历一行
+			InvokeVisiter.visit(clazz, stmt);
+
 			// 条件语句没必要那么快增加缩进
 			String indent = LineUtils.getIndentByNumber(inCondition ? depth + 2 - 1 : depth + 2);
 
