@@ -97,7 +97,7 @@ public class JavaBuilder {
 			}
 			body.deleteCharAt(body.lastIndexOf(","));
 		}
-		body.append("{\n");
+		body.append(" {\n");
 		body.append("\n");
 
 		return body.toString();
@@ -138,7 +138,7 @@ public class JavaBuilder {
 					body.delete(body.lastIndexOf(","), body.length());
 				}
 			}
-			body.append("){\n");
+			body.append(") {\n");
 			convertMethod(body, clazz, method);
 			body.append("\t}\n");
 			body.append("\n");
@@ -152,7 +152,7 @@ public class JavaBuilder {
 				}
 				body.delete(body.lastIndexOf(","), body.length());
 			}
-			body.append("){\n");
+			body.append(") {\n");
 			convertMethod(body, clazz, method);
 			body.append("\t}\n");
 			body.append("\n");

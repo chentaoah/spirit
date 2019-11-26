@@ -74,10 +74,25 @@ public class Stmt {
 
 	@Override
 	public String toString() {
+		// 如果没有token,则直接返回line
+		if (size() == 0) {
+			return line.text;
+		}
 		StringBuilder sb = new StringBuilder();
-		for (Token token : tokens) {
+		for (int i = 0; i < size(); i++) {
+			Token token = getToken(i);
+
 			if (token.isKeyword()) {// 关键字一般后面加个空格
-				sb.append(token.value.toString() + " ");
+				if ("try".equals(token.value)) {// try语句不动
+					sb.append(token.value);
+
+				} else if ("else".equals(token.value) && size() == 3) {// } else { 语句
+					sb.append(token.value);
+
+				} else {
+					sb.append(token.value + " ");
+				}
+
 			} else if (token.isOperator()) {// 有些操作符两边加空格会好看些
 				if ("&&".equals(token.value)) {
 					sb.append(" " + token.value + " ");
@@ -97,29 +112,30 @@ public class Stmt {
 					sb.append(token.value.toString());
 				}
 			} else if (token.isSeparator()) {// 末尾的括号前面加个空格
-				if (";".equals(token.value)) {
+				if (";".equals(token.value)) {// ;在后面加空格
 					sb.append(token.value + " ");
+
+				} else if (",".equals(token.value)) {// ,后面加空格
+					sb.append(token.value + " ");
+
+				} else if ("{".equals(token.value) && i == size() - 1) {// 如果{结尾,则在前面加个空格
+					sb.append(" " + token.value);
+
+				} else if ("}".equals(token.value) && size() != 1) {// 如果}是开头,那么后面加空格,并且不是end语句
+					sb.append(token.value + " ");
+
 				} else {
 					sb.append(token.value.toString());
 				}
 
 			} else if (token.isType()) {// 类型声明后面加空格
-				// 根语句类型后面加个空格,子语句不用加
-				if (syntax != null) {
-					sb.append(token.value.toString() + " ");
-				} else {
-					sb.append(token.value.toString());
-				}
+				sb.append(token.value.toString() + " ");
+
 			} else {
 				sb.append(token.value.toString());
 			}
 		}
-		// 如果没有token,则直接返回line
-		if (tokens.size() == 0)
 
-		{
-			return line.text;
-		}
 		return sb.toString();
 	}
 
