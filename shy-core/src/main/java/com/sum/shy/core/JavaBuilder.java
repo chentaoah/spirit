@@ -113,18 +113,29 @@ public class JavaBuilder {
 
 		StringBuilder body = new StringBuilder();
 		for (CtField field : clazz.staticFields) {
-			body.append(String.format("\tpublic static %s %s;\n", field.type,
-					DefaultConverter.convertSubStmt(clazz, field.stmt)));
+			body.append(buildField(clazz, "static", field));
 		}
 		for (CtField field : clazz.fields) {
-			body.append(
-					String.format("\tpublic %s %s;\n", field.type, DefaultConverter.convertSubStmt(clazz, field.stmt)));
+			body.append(buildField(clazz, "", field));
 		}
 		// 分隔一下
 		if (clazz.staticFields.size() > 0 || clazz.fields.size() > 0)
 			body.append("\n");
 
 		return body.toString();
+	}
+
+	/**
+	 * 构建字段
+	 * 
+	 * @param clazz
+	 * @param desc
+	 * @param field
+	 * @return
+	 */
+	private String buildField(CtClass clazz, String desc, CtField field) {
+		return String.format("\tpublic %s %s %s;\n", desc, field.type,
+				DefaultConverter.convertSubStmt(clazz, field.stmt));
 	}
 
 	/**
@@ -137,33 +148,50 @@ public class JavaBuilder {
 
 		StringBuilder body = new StringBuilder();
 		for (CtMethod method : clazz.staticMethods) {
-			String paramStr = "";
-			if ("main".equals(method.name)) {// 主方法自动加参数
-				paramStr = "String[] args";
-			} else if (method.params.size() > 0) {
-				paramStr = Joiner.on(", ").join(method.params);
-			}
-			body.append(String.format("\tpublic static %s %s(%s) {\n", method.type, method.name, paramStr));
-			convertMethod(body, clazz, method);
-			body.append("\t}\n\n");
+			body.append(buildMethod(clazz, "static", method));
 		}
 		for (CtMethod method : clazz.methods) {
-			String paramStr = method.params.size() > 0 ? Joiner.on(", ").join(method.params) : "";
-			body.append(String.format("\tpublic %s %s(%s) {\n", method.type, method.name, paramStr));
-			convertMethod(body, clazz, method);
-			body.append("\t}\n\n");
+			body.append(buildMethod(clazz, "", method));
 		}
-
 		return body.toString();
 	}
 
-	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {
+	/**
+	 * 构建方法
+	 * 
+	 * @param clazz
+	 * @param desc
+	 * @param field
+	 * @return
+	 */
+	private String buildMethod(CtClass clazz, String desc, CtMethod method) {
+		StringBuilder body = new StringBuilder();
+		String paramStr = "";
+		if ("static".equals(desc) && "main".equals(method.name)) {// 主方法自动加参数
+			paramStr = "String[] args";
+		} else if (method.params.size() > 0) {
+			paramStr = Joiner.on(", ").join(method.params);
+		}
+		body.append(String.format("\tpublic %s %s %s(%s) {\n", desc, method.type, method.name, paramStr));
+		convertMethod(body, clazz, method);
+		body.append("\t}\n\n");
+		return body.toString();
+	}
+
+	/**
+	 * 转换每一行
+	 * 
+	 * @param body
+	 * @param clazz
+	 * @param method
+	 */
+	public static void convertMethod(StringBuilder body, CtClass clazz, CtMethod method) {
 		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 				Converter converter = Converter.get(stmt.syntax);
 				stmt = converter.convert(clazz, method, indent, block, line, stmt);
-				sb.append(indent + stmt + "\n");
+				body.append(indent + stmt + "\n");
 				return null;// 必须返回null,才能够持续进行下去
 			}
 		});

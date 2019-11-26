@@ -19,7 +19,7 @@ public class DefaultConverter implements Converter {
 	public static Stmt convertStmt(CtClass clazz, Stmt stmt) {
 		// 将语句进行一定的转换
 		stmt = convertSubStmt(clazz, stmt);
-		// 添加一个后缀
+		// 这个添加的后缀,使得后面不会加上空格
 		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));
 
 		return stmt;
