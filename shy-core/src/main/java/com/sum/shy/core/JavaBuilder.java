@@ -7,6 +7,7 @@ import com.sum.shy.core.converter.DefaultConverter;
 import com.sum.shy.core.converter.ForConverter;
 import com.sum.shy.core.converter.ForInConverter;
 import com.sum.shy.core.converter.NoneConverter;
+import com.sum.shy.core.converter.PrintConverter;
 import com.sum.shy.core.converter.AssignConverter;
 import com.sum.shy.core.converter.CatchConverter;
 import com.sum.shy.core.converter.ConditionConverter;
@@ -39,6 +40,9 @@ public class JavaBuilder {
 		Converter.register("for", new ForConverter());// for语句
 		Converter.register("for_in", new ForInConverter());// for in语句
 
+		Converter.register("print", new PrintConverter());// 日志
+		Converter.register("debug", new PrintConverter());// 日志
+
 		Converter.register("return", new DefaultConverter());// 返回
 
 	}
@@ -48,10 +52,39 @@ public class JavaBuilder {
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
 
-		// ============================ class ================================
+		// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
+		String methods = buildMethods(clazz);
+
+		String fields = buildFields(clazz);
+
+		String classStr = buildClass(clazz);
+
+		String head = buildHead(clazz);
+
+		return head + classStr + fields + methods;
+
+	}
+
+	private String buildHead(CtClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 
+		// package
+		body.append("package " + clazz.packageStr + ";\n");
+		body.append("\n");
+		// import
+		for (String importStr : clazz.importStrs.values()) {
+			body.append("import " + importStr + ";\n");
+		}
+
+		body.append("\n");
+
+		return body.toString();
+	}
+
+	private String buildClass(CtClass clazz) {
+
+		StringBuilder body = new StringBuilder();
 		// class
 		body.append("public class " + clazz.typeName + " ");
 		if (clazz.superName != null) {
@@ -67,19 +100,30 @@ public class JavaBuilder {
 		body.append("{\n");
 		body.append("\n");
 
-		// ============================ field ================================
+		return body.toString();
+	}
+
+	private String buildFields(CtClass clazz) {
+
+		StringBuilder body = new StringBuilder();
 
 		for (CtField field : clazz.staticFields) {
-			body.append("\tpublic static " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt) + "\n");
+			body.append(
+					"\tpublic static " + field.type + " " + DefaultConverter.convertSubStmt(clazz, field.stmt) + ";\n");
 		}
 
 		for (CtField field : clazz.fields) {
-			body.append("\tpublic " + field.type + " " + DefaultConverter.convertStmt(clazz, field.stmt) + "\n");
+			body.append("\tpublic " + field.type + " " + DefaultConverter.convertSubStmt(clazz, field.stmt) + ";\n");
 		}
 
 		body.append("\n");
 
-		// ============================ method ================================
+		return body.toString();
+	}
+
+	private String buildMethods(CtClass clazz) {
+
+		StringBuilder body = new StringBuilder();
 
 		for (CtMethod method : clazz.staticMethods) {
 			body.append("\tpublic static " + method.type + " " + method.name + "(");
@@ -116,22 +160,7 @@ public class JavaBuilder {
 
 		body.append("}");
 
-		// ============================ head ================================
-
-		StringBuilder head = new StringBuilder();
-
-		// package
-		head.append("package " + clazz.packageStr + ";\n");
-		head.append("\n");
-		// import
-		for (String importStr : clazz.importStrs.values()) {
-			head.append("import " + importStr + ";\n");
-		}
-
-		head.append("\n");
-
-		return head.append(body).toString();
-
+		return body.toString();
 	}
 
 	public static void convertMethod(StringBuilder sb, CtClass clazz, CtMethod method) {

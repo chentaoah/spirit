@@ -245,6 +245,20 @@ public class CtClass {
 
 	}
 
+	public boolean existField(String fieldName) {
+		for (CtField field : staticFields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		for (CtField field : fields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public CtMethod findMethod(String methodName) {
 		for (CtMethod method : staticMethods) {
 			if (method.name.equals(methodName)) {
