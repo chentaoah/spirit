@@ -26,7 +26,7 @@ public class CtMethod extends AbsElement {
 
 	@Override
 	public String toString() {
-		return "method --> " + name + "(" + Joiner.on(",").join(params) + ")";
+		return "method --> " + name + "(" + Joiner.on(", ").join(params) + ")";
 	}
 
 	public Variable findVariable(String block, String name) {

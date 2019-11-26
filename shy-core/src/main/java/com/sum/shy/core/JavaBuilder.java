@@ -17,7 +17,6 @@ import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
-import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 
 public class JavaBuilder {
@@ -55,98 +54,105 @@ public class JavaBuilder {
 
 		// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
 		String methods = buildMethods(clazz);
-
 		String fields = buildFields(clazz);
-
-		String classStr = buildClass(clazz);
-
+		String classStr = buildClass(clazz, fields, methods);
 		String head = buildHead(clazz);
 
-		return head + classStr + fields + methods;
+		return head + classStr;
 
 	}
 
+	/**
+	 * 构建头部
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	private String buildHead(CtClass clazz) {
 
 		StringBuilder body = new StringBuilder();
-
-		// package
-		body.append("package " + clazz.packageStr + ";\n");
+		body.append(String.format("package %s;\n", clazz.packageStr));// package
 		body.append("\n");
-		// import
-		for (String importStr : clazz.importStrs.values()) {
-			body.append("import " + importStr + ";\n");
+		for (String importStr : clazz.importStrs.values()) {// import
+			body.append(String.format("import %s;\n", importStr));
 		}
-
-		body.append("\n");
-
+		// 分隔一下
+		if (clazz.importStrs.size() > 0)
+			body.append("\n");
 		return body.toString();
 	}
 
-	private String buildClass(CtClass clazz) {
+	/**
+	 * 构建class
+	 * 
+	 * @param clazz
+	 * @param methods
+	 * @param fields
+	 * @return
+	 */
+	private String buildClass(CtClass clazz, String fields, String methods) {
+		StringBuilder body = new StringBuilder();
 		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
 				: "";
-		return String.format("public class %s%s%s{\n\n", clazz.typeName, extendsStr, implementsStr);
+		body.append(String.format("public class %s%s%s{\n\n", clazz.typeName + " ", extendsStr, implementsStr));
+		body.append(fields);
+		body.append(methods);
+		body.append("}\n");// 追加一个class末尾
+		return body.toString();
 	}
 
+	/**
+	 * 构建字段
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	private String buildFields(CtClass clazz) {
 
 		StringBuilder body = new StringBuilder();
-
 		for (CtField field : clazz.staticFields) {
-			body.append(
-					"\tpublic static " + field.type + " " + DefaultConverter.convertSubStmt(clazz, field.stmt) + ";\n");
+			body.append(String.format("\tpublic static %s %s;\n", field.type,
+					DefaultConverter.convertSubStmt(clazz, field.stmt)));
 		}
-
 		for (CtField field : clazz.fields) {
-			body.append("\tpublic " + field.type + " " + DefaultConverter.convertSubStmt(clazz, field.stmt) + ";\n");
+			body.append(
+					String.format("\tpublic %s %s;\n", field.type, DefaultConverter.convertSubStmt(clazz, field.stmt)));
 		}
-
-		body.append("\n");
+		// 分隔一下
+		if (clazz.staticFields.size() > 0 || clazz.fields.size() > 0)
+			body.append("\n");
 
 		return body.toString();
 	}
 
+	/**
+	 * 构建方法体
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	private String buildMethods(CtClass clazz) {
 
 		StringBuilder body = new StringBuilder();
-
 		for (CtMethod method : clazz.staticMethods) {
-			body.append("\tpublic static " + method.type + " " + method.name + "(");
-			// 主方法自动加参数
-			if ("main".equals(method.name)) {
-				body.append("String[] args");
-			} else {
-				if (method.params.size() > 0) {
-					for (Param param : method.params) {
-						body.append(param.type + " " + param.name + ", ");
-					}
-					body.delete(body.lastIndexOf(","), body.length());
-				}
+			String paramStr = "";
+			if ("main".equals(method.name)) {// 主方法自动加参数
+				paramStr = "String[] args";
+			} else if (method.params.size() > 0) {
+				paramStr = Joiner.on(", ").join(method.params);
 			}
-			body.append(") {\n");
+			body.append(String.format("\tpublic static %s %s(%s) {\n", method.type, method.name, paramStr));
 			convertMethod(body, clazz, method);
-			body.append("\t}\n");
-			body.append("\n");
+			body.append("\t}\n\n");
 		}
-
 		for (CtMethod method : clazz.methods) {
-			body.append("\tpublic " + method.type + " " + method.name + "(");
-			if (method.params.size() > 0) {
-				for (Param param : method.params) {
-					body.append(param.type + " " + param.name + ", ");
-				}
-				body.delete(body.lastIndexOf(","), body.length());
-			}
-			body.append(") {\n");
+			String paramStr = method.params.size() > 0 ? Joiner.on(", ").join(method.params) : "";
+			body.append(String.format("\tpublic %s %s(%s) {\n", method.type, method.name, paramStr));
 			convertMethod(body, clazz, method);
-			body.append("\t}\n");
-			body.append("\n");
+			body.append("\t}\n\n");
 		}
-
-		body.append("}");
 
 		return body.toString();
 	}
