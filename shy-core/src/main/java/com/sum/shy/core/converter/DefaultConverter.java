@@ -7,6 +7,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.library.Collection;
 
 public class DefaultConverter implements Converter {
 
@@ -36,6 +37,9 @@ public class DefaultConverter implements Converter {
 				subStmt.getToken(0).value = "Collection.newArrayList(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
 
+				// 添加依赖
+				clazz.addImport(Collection.class.getName());
+
 			} else if (token.isMap()) {
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
@@ -46,6 +50,9 @@ public class DefaultConverter implements Converter {
 				}
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
+
+				// 添加依赖
+				clazz.addImport(Collection.class.getName());
 
 			} else if (token.isInvokeInit()) {// 在所有的构造函数前面都加个new
 				Stmt subStmt = (Stmt) token.value;
