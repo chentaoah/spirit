@@ -19,9 +19,6 @@ func main(){
 	while s {
 		y="yes"
 	}
-	while 10>0 {
-	
-	}
 	try{
 	
 	}catch Exception e{

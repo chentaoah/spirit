@@ -18,6 +18,7 @@ import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.library.StringUtils;
 
 public class JavaBuilder {
 
@@ -134,8 +135,13 @@ public class JavaBuilder {
 	 * @return
 	 */
 	private String buildField(CtClass clazz, String desc, CtField field) {
-		return String.format("\tpublic %s %s %s;\n", desc, field.type,
-				DefaultConverter.convertSubStmt(clazz, field.stmt));
+		if (StringUtils.isNotEmpty(desc)) {
+			return String.format("\tpublic %s %s %s;\n", desc, field.type,
+					DefaultConverter.convertSubStmt(clazz, field.stmt));
+		} else {
+			return String.format("\tpublic %s %s;\n", field.type, DefaultConverter.convertSubStmt(clazz, field.stmt));
+		}
+
 	}
 
 	/**
@@ -172,7 +178,12 @@ public class JavaBuilder {
 		} else if (method.params.size() > 0) {
 			paramStr = Joiner.on(", ").join(method.params);
 		}
-		body.append(String.format("\tpublic %s %s %s(%s) {\n", desc, method.type, method.name, paramStr));
+		if (StringUtils.isNotEmpty(desc)) {
+			body.append(String.format("\tpublic %s %s %s(%s) {\n", desc, method.type, method.name, paramStr));
+		} else {
+			body.append(String.format("\tpublic %s %s(%s) {\n", method.type, method.name, paramStr));
+		}
+		// 转化方法体
 		convertMethod(body, clazz, method);
 		body.append("\t}\n\n");
 		return body.toString();
