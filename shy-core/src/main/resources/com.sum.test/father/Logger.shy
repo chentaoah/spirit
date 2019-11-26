@@ -1,13 +1,8 @@
 
 
-func testLog(int y,int x,long long){
-		
+func testLog(int y,int x,long long){	
 	print "haha"
 	debug "huhu"
-		
-	
-	
-	
 }
 
 
