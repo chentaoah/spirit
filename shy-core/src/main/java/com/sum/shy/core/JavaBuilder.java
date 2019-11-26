@@ -1,5 +1,6 @@
 package com.sum.shy.core;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.core.analyzer.MethodResolver;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
@@ -83,24 +84,11 @@ public class JavaBuilder {
 	}
 
 	private String buildClass(CtClass clazz) {
-
-		StringBuilder body = new StringBuilder();
-		// class
-		body.append("public class " + clazz.typeName + " ");
-		if (clazz.superName != null) {
-			body.append("extends " + clazz.superName + " ");
-		}
-		if (clazz.interfaces.size() > 0) {
-			body.append("implements ");
-			for (String inf : clazz.interfaces) {
-				body.append(inf + ",");
-			}
-			body.deleteCharAt(body.lastIndexOf(","));
-		}
-		body.append(" {\n");
-		body.append("\n");
-
-		return body.toString();
+		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
+		String implementsStr = clazz.interfaces.size() > 0
+				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
+				: "";
+		return String.format("public class %s%s%s{\n\n", clazz.typeName, extendsStr, implementsStr);
 	}
 
 	private String buildFields(CtClass clazz) {
