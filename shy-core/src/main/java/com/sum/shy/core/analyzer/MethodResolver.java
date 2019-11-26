@@ -89,7 +89,7 @@ public class MethodResolver {
 				method.addVariable(new Variable(block, genericType, name));
 
 			} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
-				String subText = line.text.substring(line.text.indexOf(" "), line.text.indexOf(";"));
+				String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
 				Stmt subStmt = Stmt.create(subText);
 				VariableTracker.track(clazz, method, block, line, subStmt);// 变量追踪
 				InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导

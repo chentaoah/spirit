@@ -23,7 +23,7 @@ public class ConditionConverter extends DefaultConverter {
 					if (nextToken.isOperator() && "==".equals(nextToken.value)) {
 						Token paramToken = stmt.getToken(i + 2);
 						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-								"StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+								"StringUtils.equals(" + token.value + ", " + paramToken.value + ")", null));
 						// 移除原来的
 						stmt.tokens.remove(i + 1);
 						stmt.tokens.remove(i + 1);
@@ -34,7 +34,7 @@ public class ConditionConverter extends DefaultConverter {
 						// 如果紧跟着!=操作符
 						Token paramToken = stmt.getToken(i + 2);
 						stmt.tokens.set(i, new Token(Constants.EXPRESS_TOKEN,
-								"!StringUtils.equals(" + token.value + "," + paramToken.value + ")", null));
+								"!StringUtils.equals(" + token.value + ", " + paramToken.value + ")", null));
 						// 移除原来的
 						stmt.tokens.remove(i + 1);
 						stmt.tokens.remove(i + 1);
