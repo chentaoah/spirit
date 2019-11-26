@@ -4,7 +4,7 @@ import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
 
 public abstract class AbsElement implements Element {
-
+	// 类型
 	public Type type;
 	// 锁
 	public volatile boolean isLock = false;
