@@ -98,7 +98,7 @@ public class FastDerivator {
 		Type secondType = getTypeByStep(clazz, token, 3, 4);
 		return firstType != null && secondType != null
 				? new CodeType(clazz,
-						"Map<" + getWrapType(firstType.toString()) + "," + getWrapType(secondType.toString()) + ">")
+						"Map<" + getWrapType(firstType.toString()) + ", " + getWrapType(secondType.toString()) + ">")
 				: null;
 
 	}
