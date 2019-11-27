@@ -50,7 +50,7 @@ public class InvokeVisiter {
 				type = FastDerivator.getType(clazz, stmt);// 快速推导
 
 			} else if (element instanceof CtMethod) {// 如果是方法
-				Holder<Type> holder = new Holder<>();
+				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
 				MethodResolver.resolve(clazz, (CtMethod) element, new Handler() {
 					@Override
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
@@ -61,7 +61,7 @@ public class InvokeVisiter {
 						return null;
 					}
 				});
-				type = holder.obj != null ? holder.obj : new CodeType(clazz, "void");
+				type = holder.obj;
 			}
 
 		}

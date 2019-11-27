@@ -30,6 +30,8 @@ public class JavaBuilder {
 
 		Converter.register("assign", new AssignConverter());// 赋值转换
 
+		Converter.register("invoke", new DefaultConverter());// 方法调用
+
 		Converter.register("if", new ConditionConverter());// 条件转换
 		Converter.register("elseif", new ConditionConverter());
 		Converter.register("else", new NoneConverter());// 什么都不做
@@ -206,10 +208,16 @@ public class JavaBuilder {
 		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
 			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
-				Converter converter = Converter.get(stmt.syntax);
-				stmt = converter.convert(clazz, method, indent, block, line, stmt);
-				body.append(indent + stmt + "\n");
-				return null;// 必须返回null,才能够持续进行下去
+				try {
+					Converter converter = Converter.get(stmt.syntax);
+					stmt = converter.convert(clazz, method, indent, block, line, stmt);
+					body.append(indent + stmt + "\n");
+					return null;// 必须返回null,才能够持续进行下去
+				} catch (Exception e) {
+					System.out.println(stmt);
+					System.out.println(stmt.syntax);
+					throw e;
+				}
 			}
 		});
 

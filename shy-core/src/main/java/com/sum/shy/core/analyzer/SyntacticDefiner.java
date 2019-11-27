@@ -32,6 +32,14 @@ public class SyntacticDefiner {
 				}
 			}
 
+//			if ("if".equals(first)) {
+//				for (String word : words) {
+//					if (":".equals(word))
+//						return Constants.IF_SINGLE_SYNTAX;
+//				}
+//				return Constants.IF_SYNTAX;
+//			}
+
 			if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}

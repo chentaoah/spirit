@@ -36,6 +36,8 @@ func main(){
 		i=null
 	}
 	
+	if list.size()>0 : list.get(100) : print "hello world!"
+	
 	list?.get(100)
 	
 	for i=0; i<100; i++ {

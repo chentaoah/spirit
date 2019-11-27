@@ -79,7 +79,8 @@ public class Stmt {
 	}
 
 	public Stmt subStmt(int start, int end) {
-		return new Stmt(tokens.subList(start, end));
+		// 这里一定要new一个,不然subList返回的是原来集合的一个视图
+		return new Stmt(new ArrayList<>(tokens.subList(start, end)));
 	}
 
 	@Override
@@ -197,6 +198,10 @@ public class Stmt {
 
 	public boolean isFor() {
 		return Constants.FOR_SYNTAX.equals(syntax);
+	}
+
+	public boolean isWhile() {
+		return Constants.WHILE_SYNTAX.equals(syntax);
 	}
 
 }
