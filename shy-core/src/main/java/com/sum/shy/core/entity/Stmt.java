@@ -133,7 +133,7 @@ public class Stmt {
 				} else if ("{".equals(token.value) && i == size() - 1) {// 如果{结尾,则在前面加个空格
 					sb.append(" " + token.value);
 
-				} else if ("}".equals(token.value) && size() != 1) {// 如果}是开头,那么后面加空格,并且不是end语句
+				} else if ("}".equals(token.value) && i == 0 && size() != 1) {// 如果}是开头,并且不是孤零零的一个
 					sb.append(token.value + " ");
 
 				} else {

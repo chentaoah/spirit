@@ -90,7 +90,7 @@ public class FastDerivator {
 
 	private static Type getArrayType(CtClass clazz, Token token) {
 		Type type = getTypeByStep(clazz, token, 0, 1);
-		return type != null ? new CodeType(clazz, "List<" + getWrapType(type.getTypeName()) + ">") : null;
+		return type != null ? new CodeType(clazz, "List<" + getWrapType(type.toString()) + ">") : null;
 	}
 
 	private static Type getMapType(CtClass clazz, Token token) {
@@ -98,8 +98,7 @@ public class FastDerivator {
 		Type secondType = getTypeByStep(clazz, token, 3, 4);
 		return firstType != null && secondType != null
 				? new CodeType(clazz,
-						"Map<" + getWrapType(firstType.getTypeName()) + "," + getWrapType(secondType.getTypeName())
-								+ ">")
+						"Map<" + getWrapType(firstType.toString()) + "," + getWrapType(secondType.toString()) + ">")
 				: null;
 
 	}
@@ -121,7 +120,7 @@ public class FastDerivator {
 			Type type = getType(clazz, subToken);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalType != null) {
-					if (!finalType.getTypeName().equals(type.getTypeName())) {// 如果存在多个类型
+					if (!finalType.toString().equals(type.toString())) {// 如果存在多个类型
 						isSame = false;
 						break;
 					}

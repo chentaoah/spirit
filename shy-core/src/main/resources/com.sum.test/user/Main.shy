@@ -27,6 +27,7 @@ func main(){
 	list=["hello","yes"]
 	list << "first" << "second"
 	
+	arr=[{"key":"value","key":"value"},{"key":"value"}]
 	
 	map={"key":"hi","haha":list.get(0)}
 	map << "test","test" << "hello","hello"
