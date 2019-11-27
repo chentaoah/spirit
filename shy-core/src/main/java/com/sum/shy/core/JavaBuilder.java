@@ -8,6 +8,7 @@ import com.sum.shy.core.converter.DefaultConverter;
 import com.sum.shy.core.converter.FastAddConverter;
 import com.sum.shy.core.converter.ForConverter;
 import com.sum.shy.core.converter.ForInConverter;
+import com.sum.shy.core.converter.JudgeInvokeConverter;
 import com.sum.shy.core.converter.NoneConverter;
 import com.sum.shy.core.converter.PrintConverter;
 import com.sum.shy.core.converter.AssignConverter;
@@ -46,6 +47,8 @@ public class JavaBuilder {
 		Converter.register("debug", new PrintConverter());// 日志
 
 		Converter.register("fast_add", new FastAddConverter());// 快速添加
+
+		Converter.register("judge_invoke", new JudgeInvokeConverter());// 判空调用
 
 		Converter.register("return", new DefaultConverter());// 返回
 

@@ -36,6 +36,8 @@ func main(){
 		i=null
 	}
 	
+	list?.get(100)
+	
 	for i=0; i<100; i++ {
 		s=list.get(i)
 		i="hello"

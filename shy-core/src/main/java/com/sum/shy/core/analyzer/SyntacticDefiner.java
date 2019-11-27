@@ -49,6 +49,9 @@ public class SyntacticDefiner {
 			if ("<<".equals(second)) {
 				return Constants.FAST_ADD_SYNTAX;
 			}
+			if ("?".equals(second)) {
+				return Constants.JUDGE_INVOKE_SYNTAX;
+			}
 
 			String third = words.get(2);
 			if ("for".equals(first)) {

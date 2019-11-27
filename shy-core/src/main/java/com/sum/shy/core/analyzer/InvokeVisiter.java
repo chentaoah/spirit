@@ -97,7 +97,12 @@ public class InvokeVisiter {
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isInvokeFluent()) {
-			Type type = stmt.getToken(index - 1).getReturnTypeAtt();
+			// 如果是判空语句,则向前倒两位 like obj?.do()
+			Token lastToken = stmt.getToken(index - 1);
+			if (lastToken.isOperator() && "?".equals(lastToken.value))
+				lastToken = stmt.getToken(index - 2);
+			// ?号前面可能是变量也可能是方法调用
+			Type type = lastToken.isVar() ? lastToken.getTypeAtt() : lastToken.getReturnTypeAtt();
 			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
