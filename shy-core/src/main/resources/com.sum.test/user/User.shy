@@ -6,7 +6,7 @@ class User {
 
 	func getFather(String[] strs){
 		int[] nums
-		return strs.length
+		return strs
 	}
 	
 	func getName(){

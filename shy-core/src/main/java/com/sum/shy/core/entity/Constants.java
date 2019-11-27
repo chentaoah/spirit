@@ -32,6 +32,7 @@ public class Constants {
 	public static final String RETURN_SYNTAX = "return";
 	public static final String FOR_IN_SYNTAX = "for_in";
 	public static final String FOR_SYNTAX = "for";// 原生java的语法
+	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
 
 	public static final String KEYWORD_TOKEN = "keyword";
 	public static final String KEYWORD_PARAM_TOKEN = "keyword_param";

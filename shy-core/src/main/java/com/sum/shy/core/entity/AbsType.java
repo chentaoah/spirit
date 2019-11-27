@@ -39,7 +39,7 @@ public abstract class AbsType implements Type {
 			return getTypeName();
 
 		} else if (!isArray() && isGenericType()) {// 泛型
-			return getTypeName() + "<" + Joiner.on(",").join(getGenericTypes()) + ">";
+			return getTypeName() + "<" + Joiner.on(", ").join(getGenericTypes()) + ">";
 
 		}
 		return null;

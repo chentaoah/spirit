@@ -24,13 +24,13 @@ public class LexicalAnalyzer {
 	public static final char[] CHAR_SYMBOLS = new char[] { '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '!', '(',
 			')', '[', ']', '{', '}', ':', ',' };
 
-	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "\\!", "=",
-			"\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";" };
+	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "<<", "\\!",
+			"=", "\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";" };
 
-	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "!", "=", "+", "-", "*",
-			"/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";" };
+	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "<<", "!", "=", "+", "-",
+			"*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";" };
 
-	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "\\+ \\+", "- -" };
+	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "\\+ \\+", "- -", "< <" };
 
 	public static List<String> getWords(String text) {
 
@@ -74,19 +74,22 @@ public class LexicalAnalyzer {
 				LineUtils.replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
 
 			} else if (c == '(') {// 方法调用
-				LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
-				i = start;// 索引倒退一些
-
-			} else if (c == '<') {// 泛型声明
-				char e = chars.get(start);
-				if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
-					LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
-					i = start;
-				} else if ("map".equals(text.substring(start, i))) {// 如果是map类型也进行替换
-					LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
-					i = start;
+				// 如果没有前缀的话
+				if (start == -1) {// 子表达式
+					LineUtils.replaceString(chars, i, '(', ')', "$subexpress", count++, replacedStrs);
+				} else {
+					LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
+					i = start;// 索引倒退一些
 				}
 
+			} else if (c == '<') {// 泛型声明
+				if (start >= 0) {
+					char e = chars.get(start);
+					if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
+						LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
+						i = start;
+					}
+				}
 			}
 			// 如果是其他东西的话,则结束标记
 			if (c == ' ' || isSymbols(c)) {

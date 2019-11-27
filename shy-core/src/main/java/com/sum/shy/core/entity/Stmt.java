@@ -52,6 +52,12 @@ public class Stmt {
 		this.tokens = new ArrayList<>();
 	}
 
+	public Stmt(List<Token> tokens) {
+		this.line = null;
+		this.words = new ArrayList<>();
+		this.tokens = tokens;
+	}
+
 	public String get(int index) {
 		return words.get(index);
 	}
@@ -70,6 +76,10 @@ public class Stmt {
 
 	public String last() {
 		return tokens.get(tokens.size() - 1).value.toString();
+	}
+
+	public Stmt subStmt(int start, int end) {
+		return new Stmt(tokens.subList(start, end));
 	}
 
 	@Override
@@ -107,6 +117,8 @@ public class Stmt {
 				} else if (">".equals(token.value)) {
 					sb.append(" " + token.value + " ");
 				} else if ("<".equals(token.value)) {
+					sb.append(" " + token.value + " ");
+				} else if ("<<".equals(token.value)) {
 					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value.toString());

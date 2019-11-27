@@ -5,6 +5,7 @@ import com.sum.shy.core.analyzer.MethodResolver;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.converter.DefaultConverter;
+import com.sum.shy.core.converter.FastAddConverter;
 import com.sum.shy.core.converter.ForConverter;
 import com.sum.shy.core.converter.ForInConverter;
 import com.sum.shy.core.converter.NoneConverter;
@@ -43,6 +44,8 @@ public class JavaBuilder {
 
 		Converter.register("print", new PrintConverter());// 日志
 		Converter.register("debug", new PrintConverter());// 日志
+
+		Converter.register("fast_add", new FastAddConverter());// 快速添加
 
 		Converter.register("return", new DefaultConverter());// 返回
 

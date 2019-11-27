@@ -46,6 +46,9 @@ public class SyntacticDefiner {
 			if ("=".equals(second)) {// 字段定义或者赋值语句
 				return Constants.ASSIGN_SYNTAX;
 			}
+			if ("<<".equals(second)) {
+				return Constants.FAST_ADD_SYNTAX;
+			}
 
 			String third = words.get(2);
 			if ("for".equals(first)) {

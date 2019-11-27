@@ -25,7 +25,12 @@ func main(){
 	
 	}
 	list=["hello","yes"]
+	list << "first" << "second"
+	
+	
 	map={"key":"hi","haha":list.get(0)}
+	map << "test","test" << "hello","hello"
+	
 	for key in map.keySet(){
 		i=null
 	}
