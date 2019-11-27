@@ -249,7 +249,7 @@ public class SemanticDelegate {
 				List<Token> subTokens = getTokens(null, subWords);
 				// 追加一个元素在头部
 				subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-				subTokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "<", null));
+				subTokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "<", null));// 注意:这个符号不再是操作符,而是分隔符
 				subTokens.add(subTokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ">", null));
 				// 生成子语句
 				token.value = new Stmt(word, subWords, subTokens);
