@@ -2,6 +2,9 @@
 
 class User {
 
+	//@Reference(group="haha",version="v")
+	//Father father
+	
 	father=Father()
 
 	func getFather(String[] strs){
