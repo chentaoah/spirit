@@ -96,6 +96,11 @@ public class FastDerivator {
 	}
 
 	private static Type getArrayType(CtClass clazz, Token token) {
+		// 开始遍历
+//		Stmt subStmt = (Stmt) token.value;
+//		for (Token subToken : subStmt.tokens) {
+//
+//		}
 		Type type = getTypeByStep(clazz, token, 0, 1);
 		return type != null ? new CodeType(clazz, "List<" + getWrapType(type.toString()) + ">") : null;
 	}

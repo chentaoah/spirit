@@ -1,18 +1,15 @@
 package com.sum.shy.test;
 
-import java.util.List;
-
-import com.sum.shy.core.analyzer.LexicalAnalyzer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Test {
 
 	public static void main(String[] args) {
-
-		String text = "func main(){";
-
-		List<String> list = LexicalAnalyzer.getWords(text);
-
-		System.out.println(list);
+		int a = 100;
+		int b = 100;
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("key", a == b);
 
 	}
 

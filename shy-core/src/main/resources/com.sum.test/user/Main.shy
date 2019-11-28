@@ -36,6 +36,9 @@ func main(){
 		i=null
 	}
 	
+	b=list.get(100)==null
+	map={"hello":1==2,"chuachua":false}
+	
 	for key in list : print list.get(10000)
 	
 	if list.size()>0 : list.get(100) : print "hello world!"

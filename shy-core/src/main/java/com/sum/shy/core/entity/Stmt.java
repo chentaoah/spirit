@@ -58,8 +58,8 @@ public class Stmt {
 		this.tokens = tokens;
 	}
 
-	public String get(int index) {
-		return words.get(index);
+	public String get(int index) {// 修改为从token获取字符串
+		return getToken(index).value.toString();
 	}
 
 	public Token getToken(int index) {
@@ -81,6 +81,23 @@ public class Stmt {
 	public Stmt subStmt(int start, int end) {
 		// 这里一定要new一个,不然subList返回的是原来集合的一个视图
 		return new Stmt(new ArrayList<>(tokens.subList(start, end)));
+	}
+
+	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
+		List<Stmt> subStmts = new ArrayList<>();
+		for (int i = 0, last = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if (token.isSeparator() && separator.equals(token.value)) {// 分隔符
+				Stmt subStmt = subStmt(last, i);
+				subStmts.add(subStmt);
+				last = i + 1;// 记录截取开始的地方
+			} else if (i == size() - 1) {// 到达最后
+				Stmt subStmt = subStmt(last, i + 1);
+				subStmts.add(subStmt);
+			}
+		}
+		System.out.println(subStmts);
+		return subStmts;
 	}
 
 	@Override

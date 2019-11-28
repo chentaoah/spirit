@@ -57,21 +57,14 @@ public class MethodResolver {
 			// 处理单行语句,拆分成多行语句
 			if (stmt.isIf() || stmt.isFor() || stmt.isForIn() || stmt.isWhile()) {
 				if (!"{".equals(stmt.last())) {
-					for (int j = 0, last = 0; j < stmt.size(); j++) {
-						Token token = stmt.getToken(j);
-						if (token.isSeparator() && ":".equals(token.value)) {
-							Stmt subStmt = stmt.subStmt(last, j);
-							String text = subStmt.toString();
-							if (last == 0)
-								text = text + " {";
-							resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create(text));
-							last = j + 1;
-
-						} else if (j == stmt.size() - 1) {// 到最后
-							Stmt subStmt = stmt.subStmt(last, j + 1);
-							String text = subStmt.toString();
-							resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create(text));
-						}
+					List<Stmt> subStmts = stmt.split(":");
+					int count = 0;
+					for (Stmt subStmt : subStmts) {
+						String text = subStmt.toString();
+						if (count == 0)
+							text = text + " {";
+						resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create(text));
+						count++;
 					}
 					resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create("}"));
 					continue;
