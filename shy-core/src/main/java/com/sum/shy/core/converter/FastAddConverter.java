@@ -18,14 +18,14 @@ public class FastAddConverter extends DefaultConverter {
 		Token var = stmt.getToken(0);// 变量
 		Type type = var.getTypeAtt();
 		List<Stmt> subStmt = stmt.split("<<");
-		if (type.isList()) {
-			for (int i = 1; i < subStmt.size(); i++) {
-				sb.append(String.format("%s%s.add(%s);\n", indent, var.value, subStmt.toString()));
-			}
+		if (type.isList()) {// 这一行自动加了缩进,后面的需要手动加上
+			for (int i = 1; i < subStmt.size(); i++)
+				sb.append(String.format("%s%s.add(%s);\n", i == 1 ? "" : indent, var.value, subStmt.get(i)));
+
 		} else if (type.isMap()) {
-			for (int i = 1; i < subStmt.size(); i++) {
-				sb.append(String.format("%s%s.put(%s);\n", indent, var.value, subStmt.toString()));
-			}
+			for (int i = 1; i < subStmt.size(); i++)
+				sb.append(String.format("%s%s.put(%s);\n", i == 1 ? "" : indent, var.value, subStmt.get(i)));
+
 		}
 		// 删除最后一个换行符
 		sb.deleteCharAt(sb.length() - 1);

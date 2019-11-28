@@ -10,6 +10,7 @@ public class Test {
 		int b = 100;
 		Map<String, Boolean> map = new HashMap<>();
 		map.put("key", a == b);
+		map.put("key", 10 > 100);
 
 	}
 
