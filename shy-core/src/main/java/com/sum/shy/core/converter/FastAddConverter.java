@@ -1,5 +1,7 @@
 package com.sum.shy.core.converter;
 
+import java.util.List;
+
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtMethod;
@@ -15,13 +17,14 @@ public class FastAddConverter extends DefaultConverter {
 		StringBuilder sb = new StringBuilder();
 		Token var = stmt.getToken(0);// 变量
 		Type type = var.getTypeAtt();
+		List<Stmt> subStmt = stmt.split("<<");
 		if (type.isList()) {
-			for (int i = 2; i < stmt.size(); i = i + 2) {
-				sb.append(String.format("%s%s.add(%s);\n", i == 2 ? "" : indent, var.value, stmt.get(i)));
+			for (int i = 1; i < subStmt.size(); i++) {
+				sb.append(String.format("%s%s.add(%s);\n", indent, var.value, subStmt.toString()));
 			}
 		} else if (type.isMap()) {
-			for (int i = 2; i < stmt.size(); i = i + 4) {
-				sb.append(String.format("%s%s.put(%s);\n", i == 2 ? "" : indent, var.value, stmt.subStmt(i, i + 3)));
+			for (int i = 1; i < subStmt.size(); i++) {
+				sb.append(String.format("%s%s.put(%s);\n", indent, var.value, subStmt.toString()));
 			}
 		}
 		// 删除最后一个换行符
