@@ -96,10 +96,10 @@ public class Stmt {
 			if (token.isKeyword()) {// 关键字一般后面加个空格
 				if ("try".equals(token.value)) {// try语句不动
 					sb.append(token.value);
-
 				} else if ("else".equals(token.value) && size() == 3) {// } else { 语句
 					sb.append(token.value);
-
+				} else if ("in".equals(token.value)) {// for xxx in xxx :
+					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value + " ");
 				}
@@ -127,16 +127,14 @@ public class Stmt {
 			} else if (token.isSeparator()) {// 末尾的括号前面加个空格
 				if (";".equals(token.value)) {// ;在后面加空格
 					sb.append(token.value + " ");
-
 				} else if (",".equals(token.value)) {// ,后面加空格
 					sb.append(token.value + " ");
-
 				} else if ("{".equals(token.value) && i == size() - 1) {// 如果{结尾,则在前面加个空格
 					sb.append(" " + token.value);
-
 				} else if ("}".equals(token.value) && i == 0 && size() != 1) {// 如果}是开头,并且不是孤零零的一个
 					sb.append(token.value + " ");
-
+				} else if (":".equals(token.value)) {// if xxx==xxx : print xxx
+					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value.toString());
 				}

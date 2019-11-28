@@ -36,6 +36,8 @@ func main(){
 		i=null
 	}
 	
+	for key in list : print list.get(10000)
+	
 	if list.size()>0 : list.get(100) : print "hello world!"
 	
 	list?.get(100)
@@ -45,6 +47,8 @@ func main(){
 		i="hello"
 		print "thank {} very much!", "you"
 	}
+	
+	for i=0; i<100; i++ : print "hello world!" : s=100000000 : abc="kucha"
 	
 	return s
 
