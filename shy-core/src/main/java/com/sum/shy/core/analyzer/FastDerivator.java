@@ -23,7 +23,7 @@ public class FastDerivator {
 
 		// 如果其中有==判断,则整个语句认为是判断语句
 		for (Token token : stmt.tokens) {
-			if (token.isOperator() && "==".equals(token.value))
+			if (token.isJudgeOperator())
 				return new CodeType(clazz, "boolean");
 		}
 		// 其他类型,进行返回值推导
@@ -102,7 +102,7 @@ public class FastDerivator {
 		Type finalType = null;
 		// 开始遍历
 		Stmt stmt = (Stmt) token.value;
-		for (Stmt subStmt : stmt.split(",")) {
+		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			Type type = getType(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalType != null) {
@@ -130,7 +130,7 @@ public class FastDerivator {
 		Type finalKeyType = null;
 		Type finalValueType = null;
 		Stmt stmt = (Stmt) token.value;
-		for (Stmt subStmt : stmt.split(",")) {
+		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
 			Type KeyType = getType(clazz, subStmts.get(0));
 			Type valueType = getType(clazz, subStmts.get(1));
@@ -138,7 +138,6 @@ public class FastDerivator {
 				if (finalKeyType != null) {
 					if (!finalKeyType.toString().equals(KeyType.toString())) {// 如果存在多个类型
 						isSameKey = false;
-						break;
 					}
 				} else {
 					finalKeyType = KeyType;
@@ -148,7 +147,6 @@ public class FastDerivator {
 				if (finalValueType != null) {
 					if (!finalValueType.toString().equals(valueType.toString())) {// 如果存在多个类型
 						isSameValue = false;
-						break;
 					}
 				} else {
 					finalValueType = valueType;

@@ -24,7 +24,7 @@ func main(){
 	}catch Exception e{
 	
 	}
-	list=["hello","yes"]
+	list=["hello",132412341234]
 	list << "first" << "second"
 	
 	arr=[{"key":"value","key":"value"},{"key":"value"}]
@@ -36,8 +36,8 @@ func main(){
 		i=null
 	}
 	
-	b=list.get(100)==null
-	map1234={"hello":1==2,"chuachua":false}
+	b=list.get(100) != null
+	map1234={"hello":1==2, 12.0 :"halo"}
 	
 	for key in list : print list.get(10000)
 	
