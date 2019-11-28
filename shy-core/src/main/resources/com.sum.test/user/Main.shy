@@ -37,7 +37,7 @@ func main(){
 	}
 	
 	b=list.get(100) != null
-	map1234={"hello":1==2, 12.0 :"halo"}
+	map1234={10:1==2, 12+1000000000 :"halo"}
 	
 	for key in list : print list.get(10000)
 	
