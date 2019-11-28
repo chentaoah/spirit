@@ -18,6 +18,13 @@ import com.sum.shy.core.entity.Token;
 public class FastDerivator {
 
 	public static Type getType(CtClass clazz, Stmt stmt) {
+
+		// 如果其中有==判断,则整个语句认为是判断语句
+		for (Token token : stmt.tokens) {
+			if (token.isOperator() && "==".equals(token.value))
+				return new CodeType(clazz, "boolean");
+		}
+		// 其他类型,进行返回值推导
 		for (Token token : stmt.tokens) {
 			Type type = getType(clazz, token);
 			if (type != null) {
