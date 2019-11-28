@@ -1,5 +1,7 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.List;
+
 import com.sum.shy.core.api.Type;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.CtClass;
@@ -96,40 +98,12 @@ public class FastDerivator {
 	}
 
 	private static Type getArrayType(CtClass clazz, Token token) {
-		// 开始遍历
-//		Stmt subStmt = (Stmt) token.value;
-//		for (Token subToken : subStmt.tokens) {
-//
-//		}
-		Type type = getTypeByStep(clazz, token, 0, 1);
-		return type != null ? new CodeType(clazz, "List<" + getWrapType(type.toString()) + ">") : null;
-	}
-
-	private static Type getMapType(CtClass clazz, Token token) {
-		Type firstType = getTypeByStep(clazz, token, 1, 4);
-		Type secondType = getTypeByStep(clazz, token, 3, 4);
-		return firstType != null && secondType != null
-				? new CodeType(clazz,
-						"Map<" + getWrapType(firstType.toString()) + ", " + getWrapType(secondType.toString()) + ">")
-				: null;
-
-	}
-
-	/**
-	 * 根据一定的格式,跳跃式的获取到集合中的泛型参数
-	 * 
-	 * @param clazz
-	 * @param token
-	 * @param step
-	 */
-	public static Type getTypeByStep(CtClass clazz, Token token, int start, int step) {
-
 		boolean isSame = true;// 所有元素是否都相同
 		Type finalType = null;
-		Stmt subStmt = (Stmt) token.value;
-		for (int i = start; i < subStmt.size(); i = i + step) {
-			Token subToken = subStmt.getToken(i);
-			Type type = getType(clazz, subToken);
+		// 开始遍历
+		Stmt stmt = (Stmt) token.value;
+		for (Stmt subStmt : stmt.split(",")) {
+			Type type = getType(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalType != null) {
 					if (!finalType.toString().equals(type.toString())) {// 如果存在多个类型
@@ -143,10 +117,48 @@ public class FastDerivator {
 		}
 
 		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
-		if (!isSame)
-			return new CodeType(clazz, "Object");
 		// 2.可能是个空的集合
-		return finalType != null ? finalType : new CodeType(clazz, "Object");
+		if (!isSame || finalType == null)
+			return new CodeType(clazz, "List<Object>");
+
+		return new CodeType(clazz, String.format("List<%s>", getWrapType(finalType.toString())));
+	}
+
+	private static Type getMapType(CtClass clazz, Token token) {
+		boolean isSameKey = true;
+		boolean isSameValue = true;
+		Type finalKeyType = null;
+		Type finalValueType = null;
+		Stmt stmt = (Stmt) token.value;
+		for (Stmt subStmt : stmt.split(",")) {
+			List<Stmt> subStmts = subStmt.split(":");
+			Type KeyType = getType(clazz, subStmts.get(0));
+			Type valueType = getType(clazz, subStmts.get(1));
+			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
+				if (finalKeyType != null) {
+					if (!finalKeyType.toString().equals(KeyType.toString())) {// 如果存在多个类型
+						isSameKey = false;
+						break;
+					}
+				} else {
+					finalKeyType = KeyType;
+				}
+			}
+			if (valueType != null) {// 如果有个类型,不是最终类型的话,则直接
+				if (finalValueType != null) {
+					if (!finalValueType.toString().equals(valueType.toString())) {// 如果存在多个类型
+						isSameValue = false;
+						break;
+					}
+				} else {
+					finalValueType = valueType;
+				}
+			}
+		}
+		// 类型不相同,或者是空的map,则取Object类型
+		String key = !isSameKey || finalKeyType == null ? "Object" : getWrapType(finalKeyType.toString());
+		String value = !isSameValue || finalValueType == null ? "Object" : getWrapType(finalValueType.toString());
+		return new CodeType(clazz, String.format("Map<%s, %s>", key, value));
 
 	}
 
