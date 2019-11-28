@@ -116,6 +116,10 @@ public class Stmt {
 					sb.append(token.value);
 				} else if ("in".equals(token.value)) {// for xxx in xxx :
 					sb.append(" " + token.value + " ");
+				} else if ("continue".equals(token.value)) {
+					sb.append(token.value);
+				} else if ("break".equals(token.value)) {
+					sb.append(token.value);
 				} else {
 					sb.append(token.value + " ");
 				}

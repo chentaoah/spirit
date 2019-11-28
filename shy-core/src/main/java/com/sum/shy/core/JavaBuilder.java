@@ -38,6 +38,8 @@ public class JavaBuilder {
 		Converter.register("end", new NoneConverter());// 什么都不做
 
 		Converter.register("while", new ConditionConverter());// while循环
+		Converter.register("continue", new DefaultConverter());// continue
+		Converter.register("break", new DefaultConverter());// break
 
 		Converter.register("try", new NoneConverter());// 什么都不做
 		Converter.register("catch", new CatchConverter());// catch语句
