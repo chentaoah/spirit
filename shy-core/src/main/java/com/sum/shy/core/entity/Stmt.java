@@ -86,13 +86,12 @@ public class Stmt {
 	@Override
 	public String toString() {
 		// 如果没有token,则直接返回line
-		if (size() == 0) {
+		if (size() == 0)
 			return line.text;
-		}
+
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size(); i++) {
 			Token token = getToken(i);
-
 			if (token.isKeyword()) {// 关键字一般后面加个空格
 				if ("try".equals(token.value)) {// try语句不动
 					sb.append(token.value);
