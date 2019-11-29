@@ -15,7 +15,7 @@ class Father {
 		return nums[0]
 	}
 	
-	func getName(){
+	func getName() throws Exception{
 		a=child.getList()
 		//b=child.getArray()
 		//c=child.getInt()

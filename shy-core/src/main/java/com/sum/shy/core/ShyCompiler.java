@@ -17,7 +17,7 @@ public class ShyCompiler {
 	public static void main(String[] args) throws IOException {
 
 		// debug模式可以观察词法，语法，和语义是否分析得正确
-		boolean debug = false;
+		boolean debug = true;
 
 		String path = null;
 		String OSName = System.getProperty("os.name");

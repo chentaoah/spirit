@@ -28,9 +28,7 @@ public class JavaBuilder {
 	static {
 		// 赋值语句和方法调用语句都使用一个转换器
 		Converter.register("declare", new DeclareConverter());// 声明转换
-
 		Converter.register("assign", new AssignConverter());// 赋值转换
-
 		Converter.register("invoke", new DefaultConverter());// 方法调用
 
 		Converter.register("if", new ConditionConverter());// 条件转换
