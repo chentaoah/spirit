@@ -50,6 +50,8 @@ func main(){
 		
 	}
 	
+	throw Exception("I am here!")
+	
 	for key in list : print list.get(10000)
 	
 	if list.size()>0 : list.get(100) : print "hello world!"

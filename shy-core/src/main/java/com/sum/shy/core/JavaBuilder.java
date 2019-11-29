@@ -47,6 +47,7 @@ public class JavaBuilder {
 
 		Converter.register("try", new NoneConverter());// 什么都不做
 		Converter.register("catch", new CatchConverter());// catch语句
+		Converter.register("throw", new DefaultConverter());// throw
 
 		Converter.register("sync", new SyncConverter());// 同步语句
 
