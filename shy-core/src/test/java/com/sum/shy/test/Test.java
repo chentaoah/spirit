@@ -14,7 +14,7 @@ public class Test {
 		map.put("key", a == b);
 		map.put("key", 10 > 100);
 		synchronized (map) {
-			
+
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("word");
@@ -23,6 +23,10 @@ public class Test {
 		list.add("word");
 		list.add("word");
 		list.add("word");
+
+		if (list instanceof Object) {
+
+		}
 
 	}
 

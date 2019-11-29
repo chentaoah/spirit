@@ -23,8 +23,11 @@ public class FastDerivator {
 
 		// 如果其中有==判断,则整个语句认为是判断语句
 		for (Token token : stmt.tokens) {
-			if (token.isJudgeOperator())
+			if (token.isJudgeOperator()) {
 				return new CodeType(clazz, "boolean");
+			} else if (token.isKeyword() && "instanceof".equals(token.value)) {
+				return new CodeType(clazz, "boolean");
+			}
 		}
 		// 其他类型,进行返回值推导
 		for (Token token : stmt.tokens) {

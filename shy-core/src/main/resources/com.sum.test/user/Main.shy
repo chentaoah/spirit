@@ -45,6 +45,10 @@ func main(){
 	sync list {
 	
 	}
+	bbbb=list instanceof Object
+	if list instanceof Object {
+		
+	}
 	
 	for key in list : print list.get(10000)
 	

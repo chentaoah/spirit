@@ -120,6 +120,8 @@ public class Stmt {
 					sb.append(token.value);
 				} else if ("break".equals(token.value)) {
 					sb.append(token.value);
+				} else if ("instanceof".equals(token.value)) {
+					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value + " ");
 				}
@@ -160,8 +162,11 @@ public class Stmt {
 				}
 
 			} else if (token.isType()) {// 类型声明后面加空格
-				sb.append(token.value.toString() + " ");
-
+				if (i - 1 > 0 && "instanceof".equals(get(i - 1))) {
+					sb.append(token.value.toString());// 类型判断语句中类型后面不用加空格 a instanceof List
+				} else {
+					sb.append(token.value.toString() + " ");
+				}
 			} else {
 				sb.append(token.value.toString());
 			}
