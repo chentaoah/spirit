@@ -24,7 +24,7 @@ public class SemanticDelegate {
 
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "class", "func", "return", "if", "else",
-			"for", "in", "while", "continue", "break", "do", "try", "catch", "throw", "print", "debug" };
+			"for", "in", "while", "continue", "break", "do", "try", "catch", "throw", "print", "debug", "sync" };
 
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",

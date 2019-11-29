@@ -42,6 +42,10 @@ func main(){
 	continue
 	break
 	
+	sync list {
+	
+	}
+	
 	for key in list : print list.get(10000)
 	
 	if list.size()>0 : list.get(100) : print "hello world!"

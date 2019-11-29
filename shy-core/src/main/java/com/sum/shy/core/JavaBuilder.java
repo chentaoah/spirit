@@ -11,6 +11,7 @@ import com.sum.shy.core.converter.ForInConverter;
 import com.sum.shy.core.converter.JudgeInvokeConverter;
 import com.sum.shy.core.converter.NoneConverter;
 import com.sum.shy.core.converter.PrintConverter;
+import com.sum.shy.core.converter.SyncConverter;
 import com.sum.shy.core.converter.AssignConverter;
 import com.sum.shy.core.converter.CatchConverter;
 import com.sum.shy.core.converter.ConditionConverter;
@@ -37,6 +38,9 @@ public class JavaBuilder {
 		Converter.register("else", new NoneConverter());// 什么都不做
 		Converter.register("end", new NoneConverter());// 什么都不做
 
+		Converter.register("for", new ForConverter());// for语句
+		Converter.register("for_in", new ForInConverter());// for in语句
+
 		Converter.register("while", new ConditionConverter());// while循环
 		Converter.register("continue", new DefaultConverter());// continue
 		Converter.register("break", new DefaultConverter());// break
@@ -44,8 +48,7 @@ public class JavaBuilder {
 		Converter.register("try", new NoneConverter());// 什么都不做
 		Converter.register("catch", new CatchConverter());// catch语句
 
-		Converter.register("for", new ForConverter());// for语句
-		Converter.register("for_in", new ForInConverter());// for in语句
+		Converter.register("sync", new SyncConverter());// 同步语句
 
 		Converter.register("print", new PrintConverter());// 日志
 		Converter.register("debug", new PrintConverter());// 日志
