@@ -159,6 +159,7 @@ public class InvokeVisiter {
 			throw new RuntimeException("Some functions of array are not supported yet!");
 
 		} else {
+			// 类名
 			String className = type.getClassName();
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 				CtClass clazz1 = Context.get().findClass(className);
