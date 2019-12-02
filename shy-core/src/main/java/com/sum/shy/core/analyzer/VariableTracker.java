@@ -8,7 +8,6 @@ import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
-import com.sum.shy.library.StringUtils;
 
 /**
  * 变量追踪器
@@ -97,9 +96,12 @@ public class VariableTracker {
 		}
 
 		// 从继承里面去找
-		if (StringUtils.isNotEmpty(clazz.superName)) {
-
-		}
+//		if (StringUtils.isNotEmpty(clazz.superName)) {
+//			Type type = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
+//					Collection.newArrayList(name), null);
+//			token.setTypeAtt(type);
+//			return;
+//		}
 
 		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
 				+ " ], var:[" + name + "]");

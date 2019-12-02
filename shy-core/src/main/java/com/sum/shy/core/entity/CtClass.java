@@ -278,6 +278,20 @@ public class CtClass implements Annotated {
 
 	}
 
+	public boolean existMethod(String methodName) {
+		for (CtMethod method : staticMethods) {
+			if (method.name.equals(methodName)) {
+				return true;
+			}
+		}
+		for (CtMethod method : methods) {
+			if (method.name.equals(methodName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<Element> getAllElement() {
 		List<Element> list = new ArrayList<>();
 		list.addAll(staticFields);

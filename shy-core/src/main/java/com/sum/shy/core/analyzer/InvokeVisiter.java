@@ -145,7 +145,7 @@ public class InvokeVisiter {
 
 	}
 
-	private static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
+	public static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
 
 		if (type.isArray()) {// 如果是一个数组，只支持调用length
 			if (properties != null && properties.size() == 1) {
