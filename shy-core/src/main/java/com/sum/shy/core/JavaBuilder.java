@@ -112,7 +112,7 @@ public class JavaBuilder {
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
 				: "";
-		body.append(buildAnnotations(clazz));// 构建上面的注解
+		body.append(buildAnnotations("", clazz));// 构建上面的注解
 		body.append(String.format("public class %s%s%s{\n\n", clazz.typeName + " ", extendsStr, implementsStr));
 		body.append(fields);
 		body.append(methods);
@@ -126,10 +126,10 @@ public class JavaBuilder {
 	 * @param element
 	 * @return
 	 */
-	private String buildAnnotations(Annotated annotated) {
+	private String buildAnnotations(String indent, Annotated annotated) {
 		StringBuilder body = new StringBuilder();
 		for (String annotation : annotated.getAnnotations()) {
-			body.append("\t" + annotation + "\n");
+			body.append(indent + annotation + "\n");
 		}
 		return body.toString();
 	}
@@ -145,11 +145,11 @@ public class JavaBuilder {
 		StringBuilder body = new StringBuilder();
 
 		for (CtField field : clazz.staticFields) {
-			body.append(buildAnnotations(field));
+			body.append(buildAnnotations("\t", field));
 			body.append(buildField(clazz, "static", field));
 		}
 		for (CtField field : clazz.fields) {
-			body.append(buildAnnotations(field));
+			body.append(buildAnnotations("\t", field));
 			body.append(buildField(clazz, "", field));
 		}
 		// 分隔一下
@@ -187,11 +187,11 @@ public class JavaBuilder {
 
 		StringBuilder body = new StringBuilder();
 		for (CtMethod method : clazz.staticMethods) {
-			body.append(buildAnnotations(method));
+			body.append(buildAnnotations("\t", method));
 			body.append(buildMethod(clazz, "static", method));
 		}
 		for (CtMethod method : clazz.methods) {
-			body.append(buildAnnotations(method));
+			body.append(buildAnnotations("\t", method));
 			body.append(buildMethod(clazz, "", method));
 		}
 		return body.toString();

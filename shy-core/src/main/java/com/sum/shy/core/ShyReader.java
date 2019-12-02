@@ -22,7 +22,7 @@ public class ShyReader {
 	static {
 		Parser.register("package", new PackageParser());
 		Parser.register("import", new ImportParser());
-		Parser.register("annotation", new AnnotationParser());
+		Parser.register("annotation", new AnnotationParser());// 注解
 		Parser.register("class", new ClassParser());
 		Parser.register("assign", new FieldParser());
 		Parser.register("func", new FuncParser());
