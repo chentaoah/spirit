@@ -1,0 +1,15 @@
+
+
+class Child extends Father{
+	
+	func getName(){
+		
+	
+	
+	}
+
+
+
+
+
+}
