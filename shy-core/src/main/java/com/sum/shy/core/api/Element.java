@@ -1,6 +1,6 @@
 package com.sum.shy.core.api;
 
-public interface Element {
+public interface Element extends Annotated {
 
 	Type getType();
 

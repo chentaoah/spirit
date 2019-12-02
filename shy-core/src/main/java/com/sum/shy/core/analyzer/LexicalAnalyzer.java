@@ -54,7 +54,7 @@ public class LexicalAnalyzer {
 			char c = chars.get(i);
 			// 如果是字符,则记下该位置
 			if (start < 0) {
-				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.') {
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.' || c == '@') {
 					start = i;
 				}
 			}

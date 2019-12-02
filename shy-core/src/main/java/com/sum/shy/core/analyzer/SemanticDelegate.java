@@ -93,28 +93,36 @@ public class SemanticDelegate {
 
 		List<Token> tokens = new ArrayList<>();
 
-		if (isKeywordSyntax(syntax)) {// 有些句式需要特殊处理
+		// 注解
+		if (Constants.ANNOTATION_SYNTAX.equals(syntax)) {
+			tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0), null));
+			return tokens;
+		}
+
+		// 关键字语句特殊处理
+		if (isKeywordSyntax(syntax)) {
 			for (String word : words) {
 				Token token = new Token();
 				getKeywordTokenType(token, word);
 				token.value = word;
 				tokens.add(token);
 			}
-
-		} else {
-			for (String word : words) {
-				tokens.add(getToken(word));
-			}
-			// 将fluent串联起来
-			Token lastToken = null;
-			for (Token token : tokens) {
-				if (token.isFluent()) {
-					lastToken.setNext(token);
-				}
-				lastToken = token;
-			}
-
+			return tokens;
 		}
+
+		// 一般情况
+		for (String word : words) {
+			tokens.add(getToken(word));
+		}
+		// 将fluent串联起来
+		Token lastToken = null;
+		for (Token token : tokens) {
+			if (token.isFluent()) {
+				lastToken.setNext(token);
+			}
+			lastToken = token;
+		}
+
 		return tokens;
 	}
 

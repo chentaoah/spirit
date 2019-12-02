@@ -10,6 +10,7 @@ import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.parser.AnnotationParser;
 import com.sum.shy.core.parser.ClassParser;
 import com.sum.shy.core.parser.FieldParser;
 import com.sum.shy.core.parser.FuncParser;
@@ -21,6 +22,7 @@ public class ShyReader {
 	static {
 		Parser.register("package", new PackageParser());
 		Parser.register("import", new ImportParser());
+		Parser.register("annotation", new AnnotationParser());
 		Parser.register("class", new ClassParser());
 		Parser.register("assign", new FieldParser());
 		Parser.register("func", new FuncParser());
@@ -70,6 +72,7 @@ public class ShyReader {
 				i = i + jump;
 			} catch (Exception e) {
 				System.out.println(stmt);
+				System.out.println(stmt.syntax);
 				throw e;
 			}
 

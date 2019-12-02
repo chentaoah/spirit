@@ -1,5 +1,7 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Context {
@@ -15,6 +17,8 @@ public class Context {
 
 	// 所有被解析的结构体
 	public Map<String, CtClass> classes;
+	// 解析到的注解上下文
+	public List<String> annotations = new ArrayList<>();
 
 	/**
 	 * 查询引入的类型
@@ -42,6 +46,17 @@ public class Context {
 	 */
 	public CtClass findClass(String className) {
 		return classes.get(className);
+	}
+
+	/**
+	 * 返回上下文中等待处理的注解
+	 * 
+	 * @return
+	 */
+	public List<String> getAnnotations() {
+		List<String> result = annotations;
+		annotations = new ArrayList<>();
+		return result;
 	}
 
 }

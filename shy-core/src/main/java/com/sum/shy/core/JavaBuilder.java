@@ -2,6 +2,7 @@ package com.sum.shy.core;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.analyzer.MethodResolver;
+import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Converter;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.converter.DefaultConverter;
@@ -26,7 +27,9 @@ import com.sum.shy.library.StringUtils;
 public class JavaBuilder {
 
 	static {
-		// 赋值语句和方法调用语句都使用一个转换器
+
+		Converter.register("annotation", new DefaultConverter());// 注解
+
 		Converter.register("declare", new DeclareConverter());// 声明转换
 		Converter.register("assign", new AssignConverter());// 赋值转换
 		Converter.register("invoke", new DefaultConverter());// 方法调用
@@ -109,10 +112,25 @@ public class JavaBuilder {
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
 				: "";
+		body.append(buildAnnotations(clazz));// 构建上面的注解
 		body.append(String.format("public class %s%s%s{\n\n", clazz.typeName + " ", extendsStr, implementsStr));
 		body.append(fields);
 		body.append(methods);
 		body.append("}\n");// 追加一个class末尾
+		return body.toString();
+	}
+
+	/**
+	 * 构建注解
+	 * 
+	 * @param element
+	 * @return
+	 */
+	private String buildAnnotations(Annotated annotated) {
+		StringBuilder body = new StringBuilder();
+		for (String annotation : annotated.getAnnotations()) {
+			body.append("\t" + annotation + "\n");
+		}
 		return body.toString();
 	}
 
@@ -125,10 +143,13 @@ public class JavaBuilder {
 	private String buildFields(CtClass clazz) {
 
 		StringBuilder body = new StringBuilder();
+
 		for (CtField field : clazz.staticFields) {
+			body.append(buildAnnotations(field));
 			body.append(buildField(clazz, "static", field));
 		}
 		for (CtField field : clazz.fields) {
+			body.append(buildAnnotations(field));
 			body.append(buildField(clazz, "", field));
 		}
 		// 分隔一下
@@ -166,9 +187,11 @@ public class JavaBuilder {
 
 		StringBuilder body = new StringBuilder();
 		for (CtMethod method : clazz.staticMethods) {
+			body.append(buildAnnotations(method));
 			body.append(buildMethod(clazz, "static", method));
 		}
 		for (CtMethod method : clazz.methods) {
+			body.append(buildAnnotations(method));
 			body.append(buildMethod(clazz, "", method));
 		}
 		return body.toString();

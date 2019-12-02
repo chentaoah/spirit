@@ -35,7 +35,7 @@ public class Constants {
 	public static final String WHILE_SYNTAX = "while";
 	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
 	public static final String JUDGE_INVOKE_SYNTAX = "judge_invoke";// 判空调用
-//	public static final String IF_SINGLE_SYNTAX = "if_single";// 单行语句
+	public static final String ANNOTATION_SYNTAX = "annotation";
 
 	public static final String KEYWORD_TOKEN = "keyword";
 	public static final String KEYWORD_PARAM_TOKEN = "keyword_param";
@@ -65,6 +65,7 @@ public class Constants {
 	public static final String SUFFIX_TOKEN = "suffix";// 后缀
 	public static final String EXPRESS_TOKEN = "express";// 表达式
 	public static final String QUICK_INDEX_TOKEN = "quick_index";// 数组或者集合的快速索引
+	public static final String ANNOTATION_TOKEN = "annotation";// 数组或者集合的快速索引
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型

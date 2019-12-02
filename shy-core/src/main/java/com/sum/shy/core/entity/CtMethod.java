@@ -25,12 +25,15 @@ public class CtMethod extends AbsElement {
 	 * @param name
 	 * @param params
 	 * @param exceptions
+	 * @param annotations
 	 */
-	public CtMethod(Type returnType, String name, List<Param> params, List<String> exceptions) {
+	public CtMethod(Type returnType, String name, List<Param> params, List<String> exceptions,
+			List<String> annotations) {
 		this.type = returnType;
 		this.name = name;
 		this.params = params;
 		this.exceptions = exceptions;
+		this.annotations = annotations != null ? annotations : new ArrayList<>();
 	}
 
 	@Override

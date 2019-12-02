@@ -8,6 +8,7 @@ import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Param;
@@ -43,7 +44,7 @@ public class FuncParser implements Parser {
 		}
 
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(null, methodName, params, exceptions);
+		CtMethod method = new CtMethod(null, methodName, params, exceptions, Context.get().getAnnotations());
 		method.methodLines = LineUtils.getSubLines(lines, index);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {

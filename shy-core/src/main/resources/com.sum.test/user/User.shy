@@ -2,7 +2,7 @@
 
 class User {
 
-	//@Reference(group="haha",version="v")
+	@Reference(group="haha",version="v")
 	//Father father
 	
 	father=Father()

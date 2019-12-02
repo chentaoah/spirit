@@ -32,6 +32,10 @@ public class SyntacticDefiner {
 				}
 			}
 
+			if (first.startsWith("@")) {// 注解
+				return Constants.ANNOTATION_SYNTAX;
+			}
+
 //			if ("if".equals(first)) {
 //				for (String word : words) {
 //					if (":".equals(word))

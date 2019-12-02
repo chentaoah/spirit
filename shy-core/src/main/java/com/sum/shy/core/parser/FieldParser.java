@@ -6,6 +6,7 @@ import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -21,9 +22,9 @@ public class FieldParser implements Parser {
 		String name = stmt.get(0);
 		// 这里不再直接推导类型
 		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.addStaticField(new CtField(null, name, stmt));
+			clazz.addStaticField(new CtField(null, name, stmt, Context.get().getAnnotations()));
 		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.addField(new CtField(null, name, stmt));
+			clazz.addField(new CtField(null, name, stmt, Context.get().getAnnotations()));
 		}
 
 		return 0;

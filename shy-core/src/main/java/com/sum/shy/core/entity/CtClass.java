@@ -5,9 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Element;
 
-public class CtClass {
+public class CtClass implements Annotated {
 
 	// 包名
 	public String packageStr;
@@ -15,6 +16,8 @@ public class CtClass {
 	public Map<String, String> importStrs = new LinkedHashMap<>();
 	// 别名引入
 	public Map<String, String> importAliases = new LinkedHashMap<>();
+	// 类上的注解
+	public List<String> annotations = new ArrayList<>();
 	// 类名
 	public String typeName;
 	// 父类
@@ -282,6 +285,11 @@ public class CtClass {
 		list.addAll(fields);
 		list.addAll(methods);
 		return list;
+	}
+
+	@Override
+	public List<String> getAnnotations() {
+		return annotations;
 	}
 
 }
