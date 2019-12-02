@@ -2,8 +2,8 @@
 @Service(group="haha",version="v")
 class User {
 
-	//@Reference(group="haha",version="v")
-	//Father father
+	@Reference(group="haha",version="v")
+	Father father1
 	
 	@Reference(group="haha",version="v")
 	father=Father()

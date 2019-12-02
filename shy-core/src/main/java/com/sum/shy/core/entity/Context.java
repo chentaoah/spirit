@@ -3,6 +3,7 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Context {
 
@@ -15,6 +16,8 @@ public class Context {
 		return local.get();
 	}
 
+	// 所有友元
+	public Set<String> friends;
 	// 所有被解析的结构体
 	public Map<String, CtClass> classes;
 	// 解析到的注解上下文
@@ -27,7 +30,7 @@ public class Context {
 	 * @return
 	 */
 	public String findImport(String typeName) {
-		for (String className : classes.keySet()) {
+		for (String className : friends) {
 			if (className.substring(className.lastIndexOf(".") + 1).equals(typeName)) {
 				return className;
 			}
@@ -36,7 +39,7 @@ public class Context {
 	}
 
 	public boolean isFriend(String className) {
-		return classes.containsKey(className);
+		return friends.contains(className);
 	}
 
 	/**

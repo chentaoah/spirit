@@ -36,6 +36,8 @@ public class ShyCompiler {
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
 		FileUtils.getFiles(path, "", files);
+		// 设置所有的友元
+		Context.get().friends = files.keySet();
 
 		Map<String, CtClass> classes = new LinkedHashMap<>();
 		for (Map.Entry<String, File> entry : files.entrySet()) {

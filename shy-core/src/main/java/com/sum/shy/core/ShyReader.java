@@ -12,6 +12,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.parser.AnnotationParser;
 import com.sum.shy.core.parser.ClassParser;
+import com.sum.shy.core.parser.DeclareParser;
 import com.sum.shy.core.parser.FieldParser;
 import com.sum.shy.core.parser.FuncParser;
 import com.sum.shy.core.parser.ImportParser;
@@ -24,6 +25,7 @@ public class ShyReader {
 		Parser.register("import", new ImportParser());
 		Parser.register("annotation", new AnnotationParser());// 注解
 		Parser.register("class", new ClassParser());
+		Parser.register("declare", new DeclareParser());// 声明
 		Parser.register("assign", new FieldParser());
 		Parser.register("func", new FuncParser());
 	}
