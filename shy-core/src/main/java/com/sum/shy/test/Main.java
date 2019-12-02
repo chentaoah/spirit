@@ -11,7 +11,7 @@ public class Main {
 
 	public static Logger logger = LoggerFactory.getLogger(Main.class);
 
-	public static String main(String[] args) {
+	public static String main(String[] args) throws Exception {
 		String s = "hello";
 		if (StringUtils.equals(s, "hello")) {
 		}

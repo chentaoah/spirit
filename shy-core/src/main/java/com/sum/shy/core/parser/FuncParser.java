@@ -12,6 +12,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
 
 public class FuncParser implements Parser {
@@ -19,7 +20,7 @@ public class FuncParser implements Parser {
 	@Override
 	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		String methodDesc = stmt.get(1);
+		String methodDesc = stmt.get(1);// func method(int num) throws exception
 		String methodName = methodDesc.substring(0, methodDesc.indexOf("("));// 名称
 		List<Param> params = new ArrayList<>();// 参数
 		List<String> list = LexicalAnalyzer
@@ -31,8 +32,18 @@ public class FuncParser implements Parser {
 			params.add(new Param(new CodeType(clazz, type), name));
 		}
 
+		// 抛出的异常
+		String thrid = stmt.get(2);
+		List<String> exceptions = new ArrayList<>();
+		if ("throws".equals(thrid)) {
+			for (Token token : stmt.tokens.subList(3, stmt.size())) {
+				if (token.isKeywordParam())
+					exceptions.add(token.value.toString());
+			}
+		}
+
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(null, methodName, params);
+		CtMethod method = new CtMethod(null, methodName, params, exceptions);
 		method.methodLines = LineUtils.getSubLines(lines, index);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {

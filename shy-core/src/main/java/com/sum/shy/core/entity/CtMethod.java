@@ -15,13 +15,22 @@ public class CtMethod extends AbsElement {
 	public List<Variable> variables = new ArrayList<>();
 	// method域
 	public List<Line> methodLines;
-	// 锁
-	public volatile boolean isLock = false;
+	// 可能抛出的异常
+	public List<String> exceptions;
 
-	public CtMethod(Type returnType, String name, List<Param> params) {
+	/**
+	 * 构造
+	 * 
+	 * @param returnType
+	 * @param name
+	 * @param params
+	 * @param exceptions
+	 */
+	public CtMethod(Type returnType, String name, List<Param> params, List<String> exceptions) {
 		this.type = returnType;
 		this.name = name;
 		this.params = params;
+		this.exceptions = exceptions;
 	}
 
 	@Override

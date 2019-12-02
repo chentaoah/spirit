@@ -190,10 +190,16 @@ public class JavaBuilder {
 		} else if (method.params.size() > 0) {
 			paramStr = Joiner.on(", ").join(method.params);
 		}
+		// 可能会抛出的异常
+		String exceptions = method.exceptions.size() > 0
+				? String.format("throws %s ", Joiner.on(", ").join(method.exceptions))
+				: "";
+
 		if (StringUtils.isNotEmpty(desc)) {
-			body.append(String.format("\tpublic %s %s %s(%s) {\n", desc, method.type, method.name, paramStr));
+			body.append(
+					String.format("\tpublic %s %s %s(%s) %s{\n", desc, method.type, method.name, paramStr, exceptions));
 		} else {
-			body.append(String.format("\tpublic %s %s(%s) {\n", method.type, method.name, paramStr));
+			body.append(String.format("\tpublic %s %s(%s) %s{\n", method.type, method.name, paramStr, exceptions));
 		}
 		// 转化方法体
 		convertMethod(body, clazz, method);
