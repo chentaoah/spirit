@@ -2,7 +2,6 @@ package com.sum.shy.core.parser;
 
 import java.util.List;
 
-import com.sum.shy.core.analyzer.VariableTracker;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Constants;
@@ -16,8 +15,6 @@ public class FieldParser implements Parser {
 	@Override
 	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		// 变量追踪
-		VariableTracker.track(clazz, null, null, line, stmt);
 		// 变量名
 		String name = stmt.get(0);
 		// 这里不再直接推导类型

@@ -8,6 +8,7 @@ import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
+import com.sum.shy.library.StringUtils;
 
 /**
  * 变量追踪器
@@ -92,6 +93,11 @@ public class VariableTracker {
 				token.setTypeAtt(variable.type);
 				return;
 			}
+
+		}
+
+		// 从继承里面去找
+		if (StringUtils.isNotEmpty(clazz.superName)) {
 
 		}
 

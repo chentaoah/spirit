@@ -26,9 +26,19 @@ public class InvokeVisiter {
 	 */
 	public static void visitClasses(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
-			for (Element element : clazz.getAllElement()) {
-				element.setType(visitElement(clazz, element));
-			}
+			visitClass(clazz);
+
+		}
+	}
+
+	/**
+	 * 推导类
+	 * 
+	 * @param clazz
+	 */
+	public static void visitClass(CtClass clazz) {
+		for (Element element : clazz.getAllElement()) {
+			element.setType(visitElement(clazz, element));
 		}
 	}
 
@@ -46,6 +56,7 @@ public class InvokeVisiter {
 		if (type == null) {
 			if (element instanceof CtField) {// 如果是字段
 				Stmt stmt = ((CtField) element).stmt;
+				VariableTracker.track(clazz, null, null, stmt.line, stmt);// 变量追踪一下
 				visitStmt(clazz, stmt);// 推导类型
 				type = FastDerivator.getType(clazz, stmt);// 快速推导
 
@@ -145,7 +156,7 @@ public class InvokeVisiter {
 			} else if ("$quick_index".equals(methodName)) {
 				return new CodeType(clazz, type.getTypeName().replace("[]", ""));
 			}
-			throw new RuntimeException("Array some functions are not supported yet!");
+			throw new RuntimeException("Some functions of array are not supported yet!");
 
 		} else {
 			String className = type.getClassName();
