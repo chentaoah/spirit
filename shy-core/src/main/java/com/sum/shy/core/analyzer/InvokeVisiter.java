@@ -165,8 +165,15 @@ public class InvokeVisiter {
 				CtClass clazz1 = Context.get().findClass(className);
 				if (properties != null && properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
+
+//					if (clazz1.existField(property)) { // 如果存在
+//
+//					} else {
+//
+//					}
 					CtField field = clazz1.findField(property);
 					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+
 					if (properties.size() > 0 || methodName != null)
 						returnType = getReturnType(clazz1, returnType, properties, methodName);
 					return returnType;
