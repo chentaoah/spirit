@@ -7,8 +7,9 @@ scope: source.shy
 contexts:
   main:
     # Annotation
-    - match: '[@]{1}'
-      scope: entity.name.class
+    - match: '@'
+      scope: string
+      push: annotation
 
     # Keyword 
     - match: '\b(package|import|class|extends|impl|func|throws)\b'
@@ -43,6 +44,12 @@ contexts:
     - match: '//'
       scope: comment
       push: line_comment
+
+  annotation:
+    - meta_scope: string
+    - match: '[A-Za-z0-9]+'
+      scope: variable
+      pop: true
 
   double_quoted_string:
     - meta_scope: string
