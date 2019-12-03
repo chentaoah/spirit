@@ -164,35 +164,35 @@ public class InvokeVisiter {
 			// 类名
 			String className = type.getClassName();
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
-				CtClass clazz1 = Context.get().findClass(className);
+				CtClass typeClass = Context.get().findClass(className);
 				if (properties != null && properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
 
-					if (clazz1.existField(property)) {
-						CtField field = clazz1.findField(property);
-						Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+					if (typeClass.existField(property)) {
+						CtField field = typeClass.findField(property);
+						Type returnType = visitElement(typeClass, field);// 可能字段类型还需要进行深度推导
 						if (properties.size() > 0 || methodName != null)
-							returnType = getReturnType(clazz1, returnType, properties, methodName);
+							returnType = getReturnType(typeClass, returnType, properties, methodName);
 						return returnType;
 
-					} else if (StringUtils.isNotEmpty(clazz1.superName)) {// 如果不存在该属性，则向上寻找
+					} else if (StringUtils.isNotEmpty(typeClass.superName)) {// 如果不存在该属性，则向上寻找
 						// 父类可能是java里面的类
-						Type returnType = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz1.superName),
+						Type returnType = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, typeClass.superName),
 								Collection.newArrayList(property), null);
 						if (properties.size() > 0 || methodName != null)
-							returnType = getReturnType(clazz1, returnType, properties, methodName);
+							returnType = getReturnType(typeClass, returnType, properties, methodName);
 						return returnType;
 
 					}
 
 				} else if (methodName != null) {
 
-					if (clazz1.existMethod(methodName)) {
-						CtMethod method = clazz1.findMethod(methodName);
-						return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
+					if (typeClass.existMethod(methodName)) {
+						CtMethod method = typeClass.findMethod(methodName);
+						return visitElement(typeClass, method);// 可能字段类型还需要进行深度推导
 
-					} else if (StringUtils.isNotEmpty(clazz1.superName)) {
-						return InvokeVisiter.getReturnType(clazz1, new CodeType(clazz, clazz1.superName), null,
+					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
+						return InvokeVisiter.getReturnType(typeClass, new CodeType(clazz, typeClass.superName), null,
 								methodName);
 					}
 
