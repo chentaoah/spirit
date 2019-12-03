@@ -15,11 +15,11 @@ contexts:
       scope: keyword
 
     # Block
-    - match: '\b(if|else|for|in|while|do|try|catch)\b'
+    - match: '\b(if|else|for|in|while|do|try|catch|sync)\b'
       scope: keyword
 
     # Block Keyword
-    - match: '\b(return|continue|break|throw|instanceof|print)\b'
+    - match: '\b(null|return|continue|break|throw|instanceof|print)\b'
       scope: keyword
 
     # String
