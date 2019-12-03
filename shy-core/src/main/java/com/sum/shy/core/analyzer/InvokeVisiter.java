@@ -192,7 +192,7 @@ public class InvokeVisiter {
 						return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
 
 					} else if (StringUtils.isNotEmpty(clazz1.superName)) {
-						return InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz1.superName), null,
+						return InvokeVisiter.getReturnType(clazz1, new CodeType(clazz, clazz1.superName), null,
 								methodName);
 					}
 
