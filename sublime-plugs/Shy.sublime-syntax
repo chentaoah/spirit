@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - shy
+scope: source.shy
+contexts:
+  main:
+    # Annotation
+    - match: '[@]{1}'
+      scope: entity.name.class
+
+    # Keyword 
+    - match: '\b(package|import|class|extends|impl|func|throws)\b'
+      scope: keyword
+
+    # Block
+    - match: '\b(if|else|for|in|while|do|try|catch)\b'
+      scope: keyword
+
+    # Block Keyword
+    - match: '\b(return|continue|break|throw|instanceof|print)\b'
+      scope: keyword
+
+    # String
+    - match: '"'
+      scope: string
+      push: double_quoted_string
+
+    # Number
+    - match: '\b\d+(\.\d+)?\b'
+      scope: constant.numeric
+
+    # Type
+    - match: '\b[A-Z]+[A-Za-z0-9]+\b'
+      scope: entity.name.class
+
+    # Accessible Entity
+    - match: '\b[a-z]+[A-Za-z0-9]*\b'
+      scope: storage.type
+
+    # Comment
+    - match: '//'
+      scope: comment
+      push: line_comment
+
+  double_quoted_string:
+    - meta_scope: string
+    - match: '"'
+      scope: string
+      pop: true
+
+  line_comment:
+    - meta_scope: comment
+    - match: $
+      pop: true
