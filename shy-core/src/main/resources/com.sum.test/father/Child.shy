@@ -3,7 +3,7 @@
 class Child extends Father{
 	
 	func getName(){
-		
+		return age
 	
 	
 	}

@@ -16,6 +16,8 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.library.Collection;
+import com.sum.shy.library.StringUtils;
 
 public class InvokeVisiter {
 
@@ -165,15 +167,35 @@ public class InvokeVisiter {
 				CtClass clazz1 = Context.get().findClass(className);
 				if (properties != null && properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
-					CtField field = clazz1.findField(property);
-					Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
-					if (properties.size() > 0 || methodName != null)
-						returnType = getReturnType(clazz1, returnType, properties, methodName);
-					return returnType;
+
+					if (clazz1.existField(property)) {
+						CtField field = clazz1.findField(property);
+						Type returnType = visitElement(clazz1, field);// 可能字段类型还需要进行深度推导
+						if (properties.size() > 0 || methodName != null)
+							returnType = getReturnType(clazz1, returnType, properties, methodName);
+						return returnType;
+
+					} else if (StringUtils.isNotEmpty(clazz1.superName)) {// 如果不存在该属性，则向上寻找
+						// 父类可能是java里面的类
+						Type returnType = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz1.superName),
+								Collection.newArrayList(property), null);
+						if (properties.size() > 0 || methodName != null)
+							returnType = getReturnType(clazz1, returnType, properties, methodName);
+						return returnType;
+
+					}
 
 				} else if (methodName != null) {
-					CtMethod method = clazz1.findMethod(methodName);
-					return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
+
+					if (clazz1.existMethod(methodName)) {
+						CtMethod method = clazz1.findMethod(methodName);
+						return visitElement(clazz1, method);// 可能字段类型还需要进行深度推导
+
+					} else if (StringUtils.isNotEmpty(clazz1.superName)) {
+						return InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz1.superName), null,
+								methodName);
+					}
+
 				}
 
 			} else {// 如果是本地类型，则通过反射进行推导

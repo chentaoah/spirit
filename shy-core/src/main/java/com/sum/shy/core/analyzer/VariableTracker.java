@@ -100,12 +100,12 @@ public class VariableTracker {
 		}
 
 		// 从继承里面去找
-//		if (StringUtils.isNotEmpty(clazz.superName)) {
-//			Type type = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
-//					Collection.newArrayList(name), null);
-//			token.setTypeAtt(type);
-//			return;
-//		}
+		if (StringUtils.isNotEmpty(clazz.superName)) {
+			Type type = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
+					Collection.newArrayList(name), null);
+			token.setTypeAtt(type);
+			return;
+		}
 
 		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
 				+ " ], var:[" + name + "]");

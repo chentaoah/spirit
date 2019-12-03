@@ -1,7 +1,5 @@
 
 @Service(group="haha",version="v")
-@Service(group="haha",version="v")
-@Service(group="haha",version="v")
 class User {
 
 	@Reference(group="haha",version="v")
