@@ -161,10 +161,10 @@ public class InvokeVisiter {
 			throw new RuntimeException("Some functions of array are not supported yet!");
 
 		} else {
-			// 类名
-			String className = type.getClassName();
+
+			String className = type.getClassName();// 类名
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
-				CtClass typeClass = Context.get().findClass(className);
+				CtClass typeClass = Context.get().findClass(className);// 获取友元
 				if (properties != null && properties.size() > 0) {
 					String property = properties.remove(0);// 获取第一个属性
 
@@ -177,8 +177,8 @@ public class InvokeVisiter {
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {// 如果不存在该属性，则向上寻找
 						// 父类可能是java里面的类
-						Type returnType = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, typeClass.superName),
-								Collection.newArrayList(property), null);
+						Type returnType = InvokeVisiter.getReturnType(typeClass,
+								new CodeType(typeClass, typeClass.superName), Collection.newArrayList(property), null);
 						if (properties.size() > 0 || methodName != null)
 							returnType = getReturnType(typeClass, returnType, properties, methodName);
 						return returnType;
@@ -192,8 +192,8 @@ public class InvokeVisiter {
 						return visitElement(typeClass, method);// 可能字段类型还需要进行深度推导
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-						return InvokeVisiter.getReturnType(typeClass, new CodeType(clazz, typeClass.superName), null,
-								methodName);
+						return InvokeVisiter.getReturnType(typeClass, new CodeType(typeClass, typeClass.superName),
+								null, methodName);
 					}
 
 				}
