@@ -104,7 +104,7 @@ public class InvokeVisiter {
 			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
-		} else if (token.isInvokeLocal()) {
+		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
 			Type returnType = getReturnType(clazz, type, null, token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);

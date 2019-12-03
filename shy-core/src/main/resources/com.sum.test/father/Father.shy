@@ -24,6 +24,11 @@ class Father {
 		return a.get(0)
 	
 	}
+	
+	func getList(){
+		return ["hello","yes"]
+	
+	}
 
 	
 }
