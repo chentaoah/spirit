@@ -1,0 +1,11 @@
+
+
+interface Inter {
+
+	String getName()
+
+
+
+
+
+}

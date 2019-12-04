@@ -12,7 +12,7 @@ contexts:
       push: annotation
 
     # Keyword 
-    - match: '\b(package|import|class|extends|impl|func|throws)\b'
+    - match: '\b(package|import|class|interface|abstract|extends|impl|func|throws)\b'
       scope: keyword
 
     # Block
