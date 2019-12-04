@@ -1,11 +1,14 @@
 
 
-interface Inter {
+interface Inter extends Father,Mather{
 
 	String getName()
-
-
-
-
-
+	
+	Object getAge()
+	
+	String getFather()
+	
+	@Reference(group="g1",version="v1")
+	String do()
+	
 }

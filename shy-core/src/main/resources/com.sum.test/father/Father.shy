@@ -1,7 +1,7 @@
 
 import com.sum.shy.test.Child
 
-class Father {
+abstract class Father {
 
 	name="chentao"
 	age=60

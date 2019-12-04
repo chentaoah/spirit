@@ -9,7 +9,6 @@ import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Element;
 
 public class CtClass implements Annotated {
-
 	// 包名
 	public String packageStr;
 	// 引入
@@ -18,11 +17,13 @@ public class CtClass implements Annotated {
 	public Map<String, String> importAliases = new LinkedHashMap<>();
 	// 类上的注解
 	public List<String> annotations = new ArrayList<>();
+	// 类别
+	public String category;
 	// 类名
 	public String typeName;
 	// 父类
 	public String superName;
-	// 接口
+	// 接口(接口继承的接口也在这个里面)
 	public List<String> interfaces = new ArrayList<>();
 	// 静态字段
 	public List<CtField> staticFields = new ArrayList<>();

@@ -16,8 +16,8 @@ import com.sum.shy.core.entity.Constants;
 public class SyntacticDefiner {
 
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "class", "func", "return", "if",
-			"while", "continue", "break", "try", "throw", "print", "debug", "sync" };
+	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "interface", "abstract", "class",
+			"func", "return", "if", "while", "continue", "break", "try", "throw", "print", "debug", "sync" };
 
 	public static String getSyntax(List<String> words) {
 		try {

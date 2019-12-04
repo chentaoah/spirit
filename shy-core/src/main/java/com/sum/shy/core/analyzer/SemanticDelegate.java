@@ -20,13 +20,12 @@ import com.sum.shy.core.entity.Token;
 public class SemanticDelegate {
 
 	// 某些句式,token需要特殊处理
-	public static final String[] SYNTAXS = new String[] { "package", "import", "class", "func" };
-
+	public static final String[] SYNTAXS = new String[] { "package", "import", "interface", "abstract", "class",
+			"func" };
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "class", "func", "return", "if", "else",
-			"for", "in", "while", "continue", "break", "do", "try", "catch", "throw", "print", "debug", "sync",
-			"instanceof" };
-
+	public static final String[] KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
+			"extends", "impl", "func", "return", "if", "else", "for", "in", "do", "while", "continue", "break", "try",
+			"catch", "throw", "sync", "instanceof", "print", "debug" };
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
 			"%", "<", ">", "!", "++", "--", "<<", "?" };

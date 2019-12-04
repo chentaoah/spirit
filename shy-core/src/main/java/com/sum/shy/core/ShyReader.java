@@ -16,6 +16,7 @@ import com.sum.shy.core.parser.DeclareParser;
 import com.sum.shy.core.parser.FieldParser;
 import com.sum.shy.core.parser.FuncParser;
 import com.sum.shy.core.parser.ImportParser;
+import com.sum.shy.core.parser.InterfaceParser;
 import com.sum.shy.core.parser.PackageParser;
 
 public class ShyReader {
@@ -24,6 +25,8 @@ public class ShyReader {
 		Parser.register("package", new PackageParser());
 		Parser.register("import", new ImportParser());
 		Parser.register("annotation", new AnnotationParser());// 注解
+		Parser.register("interface", new InterfaceParser());
+		Parser.register("abstract", new ClassParser());
 		Parser.register("class", new ClassParser());
 		Parser.register("declare", new DeclareParser());// 声明
 		Parser.register("assign", new FieldParser());
@@ -51,7 +54,9 @@ public class ShyReader {
 	private CtClass readLines(File file, List<Line> lines) {
 		CtClass clazz = new CtClass();
 		readScopeLines(clazz, "static", lines);
-		readScopeLines(clazz, "class", clazz.classLines);
+		if (!"interface".equals(clazz.category)) {
+			readScopeLines(clazz, "class", clazz.classLines);
+		}
 		// 如果文件中不存在class对象,那么就用文件名虚拟一个
 		if (clazz.typeName == null) {
 			clazz.typeName = file.getName().replace(".shy", "");

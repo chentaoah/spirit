@@ -68,13 +68,20 @@ public class JavaBuilder {
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
 
-		// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
-		String methods = buildMethods(clazz);
-		String fields = buildFields(clazz);
-		String classStr = buildClass(clazz, fields, methods);
-		String head = buildHead(clazz);
+		if ("interface".equals(clazz.category)) {
+			String head = buildHead(clazz);
+			String classStr = buildInterface(clazz);
+			return head + classStr;
 
-		return head + classStr;
+		} else {
+			// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
+			String methods = buildMethods(clazz);
+			String fields = buildFields(clazz);
+			String classStr = buildClass(clazz, fields, methods);
+			String head = buildHead(clazz);
+			return head + classStr;
+
+		}
 
 	}
 
@@ -98,6 +105,27 @@ public class JavaBuilder {
 		return body.toString();
 	}
 
+	private String buildInterface(CtClass clazz) {
+		StringBuilder body = new StringBuilder();
+		String extendsStr = clazz.interfaces.size() > 0
+				? String.format("extends %s ", Joiner.on(", ").join(clazz.interfaces))
+				: "";
+		body.append(buildAnnotations("", clazz));// 构建上面的注解
+		body.append(String.format("public interface %s%s{\n\n", clazz.typeName + " ", extendsStr));
+		// 几乎不做任何处理
+		for (Line line : clazz.classLines) {
+			if (!line.isIgnore()) {
+				if (line.text.trim().startsWith("@")) {
+					body.append(line.text + "\n");
+				} else {
+					body.append(line.text + ";\n\n");
+				}
+			}
+		}
+		body.append("}\n");// 追加一个class末尾
+		return body.toString();
+	}
+
 	/**
 	 * 构建class
 	 * 
@@ -108,12 +136,14 @@ public class JavaBuilder {
 	 */
 	private String buildClass(CtClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
+		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
 		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
 				: "";
 		body.append(buildAnnotations("", clazz));// 构建上面的注解
-		body.append(String.format("public class %s%s%s{\n\n", clazz.typeName + " ", extendsStr, implementsStr));
+		body.append(String.format("public %sclass %s%s%s{\n\n", abstractStr, clazz.typeName + " ", extendsStr,
+				implementsStr));
 		body.append(fields);
 		body.append(methods);
 		body.append("}\n");// 追加一个class末尾
