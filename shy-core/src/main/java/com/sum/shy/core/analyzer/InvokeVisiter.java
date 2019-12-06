@@ -147,12 +147,12 @@ public class InvokeVisiter {
 
 	}
 
-	public static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
+	public static Type getReturnType(CtClass clazz, Type type, List<String> members, String methodName) {
 
 		if (type.isArray()) {// 如果是一个数组，只支持调用length
-			if (properties != null && properties.size() == 1) {
-				String property = properties.remove(0);// 获取第一个属性
-				if ("length".equals(property)) {
+			if (members != null && members.size() == 1) {
+				String member = members.remove(0);// 获取第一个属性
+				if ("length".equals(member)) {
 					return new CodeType(clazz, "int");
 				}
 			} else if ("$quick_index".equals(methodName)) {
@@ -165,22 +165,21 @@ public class InvokeVisiter {
 			String className = type.getClassName();// 类名
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 				CtClass typeClass = Context.get().findClass(className);// 获取友元
-				if (properties != null && properties.size() > 0) {
-					String property = properties.remove(0);// 获取第一个属性
-
-					if (typeClass.existField(property)) {
-						CtField field = typeClass.findField(property);
+				if (members != null && members.size() > 0) {
+					String member = members.remove(0);// 获取第一个属性
+					if (typeClass.existField(member)) {
+						CtField field = typeClass.findField(member);
 						Type returnType = visitElement(typeClass, field);// 可能字段类型还需要进行深度推导
-						if (properties.size() > 0 || methodName != null)
-							returnType = getReturnType(typeClass, returnType, properties, methodName);
+						if (members.size() > 0 || methodName != null)
+							returnType = getReturnType(typeClass, returnType, members, methodName);
 						return returnType;
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {// 如果不存在该属性，则向上寻找
 						// 父类可能是java里面的类
 						Type returnType = InvokeVisiter.getReturnType(typeClass,
-								new CodeType(typeClass, typeClass.superName), Collection.newArrayList(property), null);
-						if (properties.size() > 0 || methodName != null)
-							returnType = getReturnType(typeClass, returnType, properties, methodName);
+								new CodeType(typeClass, typeClass.superName), Collection.newArrayList(member), null);
+						if (members.size() > 0 || methodName != null)
+							returnType = getReturnType(typeClass, returnType, members, methodName);
 						return returnType;
 
 					}
@@ -200,7 +199,7 @@ public class InvokeVisiter {
 
 			} else {// 如果是本地类型，则通过反射进行推导
 				// 这里一般都是直接推导到底，因为shy可以调java,而java不一定能直接调用shy
-				return ReflectUtils.getReturnType(clazz, type, properties, methodName);
+				return ReflectUtils.getReturnType(clazz, type, members, methodName);
 			}
 		}
 
