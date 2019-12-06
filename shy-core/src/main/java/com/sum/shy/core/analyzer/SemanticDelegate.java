@@ -109,7 +109,6 @@ public class SemanticDelegate {
 	 * 语义分析
 	 * 
 	 * @param syntax
-	 * 
 	 * @param words
 	 * @return
 	 */
