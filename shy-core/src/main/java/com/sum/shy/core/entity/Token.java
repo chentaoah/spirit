@@ -207,12 +207,12 @@ public class Token {
 	// =================== 后缀名 =====================
 
 	@SuppressWarnings("unchecked")
-	public List<String> getPropertiesAtt() {
-		return (List<String>) attachments.get(Constants.PROPERTIES_ATTACHMENT);
+	public List<String> getMembersAtt() {
+		return (List<String>) attachments.get(Constants.MEMBERS_ATTACHMENT);
 	}
 
-	public void setPropertiesAtt(List<String> list) {
-		attachments.put(Constants.PROPERTIES_ATTACHMENT, list);
+	public void setMembersAtt(List<String> list) {
+		attachments.put(Constants.MEMBERS_ATTACHMENT, list);
 	}
 
 	// =================== 方法名 =====================

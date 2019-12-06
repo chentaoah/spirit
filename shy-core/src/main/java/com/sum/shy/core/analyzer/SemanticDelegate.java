@@ -356,13 +356,13 @@ public class SemanticDelegate {
 
 		} else if (token.isInvokeStatic()) {// 静态方法调用
 			token.setTypeNameAtt(getTypeName(word));
-			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
+			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
 		} else if (token.isInvokeMember()) {// 成员方法调用
 			token.setVarNameAtt(getVarName(word));
-			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
+			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
@@ -371,27 +371,27 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isInvokeFluent()) {// 流式调用
-			token.setPropertiesAtt(getProperties(word));// 中间可能有很多的成员变量访问
+			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
 			return;
 
 		} else if (token.isStaticVar()) {// 静态变量
 			token.setTypeNameAtt(getTypeName(word));
-			token.setPropertiesAtt(getProperties(word));
+			token.setMembersAtt(getProperties(word));
 			return;
 
 		} else if (token.isMemberVar()) {// 成员变量
 			token.setVarNameAtt(getVarName(word));
-			token.setPropertiesAtt(getProperties(word));
+			token.setMembersAtt(getProperties(word));
 			return;
 
 		} else if (token.isMemberVarFluent()) {// 流式成员变量
-			token.setPropertiesAtt(getProperties(word));
+			token.setMembersAtt(getProperties(word));
 			return;
 
 		} else if (token.isQuickIndex()) {// 流式成员变量
 			token.setVarNameAtt(getArrayVarName(word));
-			token.setPropertiesAtt(getArrayProperties(word));
+			token.setMembersAtt(getArrayProperties(word));
 			token.setMethodNameAtt("$quick_index");
 			return;
 

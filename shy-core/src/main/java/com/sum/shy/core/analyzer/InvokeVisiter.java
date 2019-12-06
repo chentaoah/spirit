@@ -96,12 +96,12 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeStatic()) {
 			Type type = new CodeType(clazz, token.getTypeNameAtt());
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isInvokeMember()) {
 			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isInvokeLocal()) {// 本地调用
@@ -116,27 +116,27 @@ public class InvokeVisiter {
 				lastToken = stmt.getToken(index - 2);
 			// ?号前面可能是变量也可能是方法调用
 			Type type = lastToken.isVar() ? lastToken.getTypeAtt() : lastToken.getReturnTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isStaticVar()) {
 			Type type = new CodeType(clazz, token.getTypeNameAtt());
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null);
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isMemberVar()) {
 			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null);
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isMemberVarFluent()) {
 			Type type = stmt.getToken(index - 1).getReturnTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), null);
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null);
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isQuickIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getPropertiesAtt(), token.getMethodNameAtt());
+			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt());
 			token.setReturnTypeAtt(returnType);
 
 		}
