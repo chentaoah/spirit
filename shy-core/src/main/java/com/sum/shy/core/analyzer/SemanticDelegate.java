@@ -89,8 +89,8 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	// 流式调用
 	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
-	// 快速索引
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\[[\\s\\S]+\\]$");
+	// 快速索引(不支持流式调用)
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\\\]$");
 
 	// ============================== 变量判断 ================================
 
