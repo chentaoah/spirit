@@ -156,7 +156,7 @@ public class InvokeVisiter {
 					return new CodeType(clazz, "int");
 				}
 			} else if ("$quick_index".equals(methodName)) {
-				return new CodeType(clazz, type.getSimpleName().replace("[]", ""));
+				return new CodeType(clazz, type.getName());
 			}
 			throw new RuntimeException("Some functions of array are not supported yet!");
 

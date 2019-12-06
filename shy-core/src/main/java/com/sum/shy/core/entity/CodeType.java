@@ -25,6 +25,7 @@ public class CodeType extends AbsType {
 		if (token.isType()) {
 			if (token.value instanceof String) {
 				simpleName = (String) token.value;
+
 			} else if (token.value instanceof Stmt) {
 				Stmt subStmt = (Stmt) token.value;
 				simpleName = (String) subStmt.getToken(0).value;// 前缀
@@ -34,8 +35,11 @@ public class CodeType extends AbsType {
 						genericTypes.add(new CodeType(clazz, subToken));
 				}
 			}
+			// 查找类名
 			className = clazz.findClassName(simpleName);
 
+		} else {
+			throw new RuntimeException("Token is not type token!token:[" + token + "]");
 		}
 
 	}
