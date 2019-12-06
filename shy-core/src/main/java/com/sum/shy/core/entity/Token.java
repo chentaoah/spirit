@@ -184,16 +184,6 @@ public class Token {
 		attachments.put(Constants.RETURN_TYPE_ATTACHMENT, returnType);
 	}
 
-	// =================== 全名 =====================
-
-	public String getClassNameAtt() {
-		return (String) attachments.get(Constants.CLASS_NAME_ATTACHMENT);
-	}
-
-	public void setClassNameAtt(String str) {
-		attachments.put(Constants.CLASS_NAME_ATTACHMENT, str);
-	}
-
 	// =================== 类名 =====================
 
 	public String getTypeNameAtt() {

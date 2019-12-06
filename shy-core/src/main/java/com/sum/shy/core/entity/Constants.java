@@ -69,7 +69,6 @@ public class Constants {
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
-	public static final String CLASS_NAME_ATTACHMENT = "class_name";// 全名
 	public static final String TYPE_NAME_ATTACHMENT = "type_name";// 类名
 	public static final String VAR_NAME_ATTACHMENT = "var_name";// 变量名
 	public static final String PROPERTIES_ATTACHMENT = "properties";// 属性名

@@ -34,28 +34,35 @@ public class SemanticDelegate {
 
 	// ============================== 类型判断 ================================
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile(
-			"^(void|boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");// 常用基本类型
-	public static final Pattern BASIC_ARRAY_TYPE_PATTERN = Pattern
+	// 基础类型
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern
+			.compile("^(void|boolean|char|short|int|long|float|double|byte|"
+					+ "Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");
+	// 基础类型数组
+	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern
 			.compile("^(boolean\\[\\]|char\\[\\]|short\\[\\]|int\\[\\]|long\\[\\]|float\\[\\]|double\\[\\]|byte\\[\\]|"
 					+ "Boolean\\[\\]|Character\\[\\]|Short\\[\\]|Integer\\[\\]|Long\\[\\]|Float\\[\\]|Double\\[\\]|Byte\\[\\]|"
-					+ "Object\\[\\]|String\\[\\])$");// 常用基本类型数组--int[]
+					+ "Object\\[\\]|String\\[\\])$");
 
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型--Father
-	public static final Pattern TYPE_ALIAS_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+_[A-Z]+[a-zA-Z0-9]+$");// 类型别名--G_Father
-	public static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\]$");// 数组--Father[]
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型--Father<Child>
+	// 类型--Father and G_Father
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+$");
+	// 数组--Father[] and G_Father[]
+	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\[\\]$");
+	// 泛型--Father<Child> and G_Father<Child>
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+<[\\s\\S]+>$");
+	// 强制转换，还需要type判断--(TYPE_PATTERN)
+	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 
-	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断--(Father)
+	// ============================== 数组初始化 ================================
 
-	public static final Pattern INIT_BASIC_ARRAY_TYPE_PATTERN = Pattern.compile(
+	// 基础类型数组声明
+	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile(
 			"^(boolean\\[\\d+\\]|char\\[\\d+\\]|short\\[\\d+\\]|int\\[\\d+\\]|long\\[\\d+\\]|float\\[\\d+\\]|double\\[\\d+\\]|byte\\[\\d+\\]|"
 					+ "Boolean\\[\\d+\\]|Character\\[\\d+\\]|Short\\[\\d+\\]|Integer\\[\\d+\\]|Long\\[\\d+\\]|Float\\[\\d+\\]|Double\\[\\d+\\]|Byte\\[\\d+\\]|"
-					+ "Object\\[\\d+\\]|String\\[\\d+\\])$");// 常用基本类型数组声明--int[8]
+					+ "Object\\[\\d+\\]|String\\[\\d+\\])$");
 
-	public static final Pattern INIT_ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--Father[8]
-	public static final Pattern INIT_ARRAY_TYPE_ALIAS_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9]+_[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--G_Father[8]
+	// 类型数组声明
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\[\\d+\\]$");
 
 	// ============================== 字面值判断 ================================
 
@@ -68,14 +75,14 @@ public class SemanticDelegate {
 
 	// ============================== 方法调用 ================================
 
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_<>\\.]*\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_<>]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_<>\\.]*\\([\\s\\S]*\\)$");// 方法调用
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_<>]+\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// 静态方法
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// 本地方法
+	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// 流式调用
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
-			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// 成员方法
 
 	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\[[\\s\\S]+\\]$");// 快速索引
 
@@ -421,9 +428,9 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isType(String word) {
-		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_ARRAY_TYPE_PATTERN.matcher(word).matches()
-				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ALIAS_PATTERN.matcher(word).matches()
-				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || GENERIC_TYPE_PATTERN.matcher(word).matches();
+		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_TYPE_ARRAY_PATTERN.matcher(word).matches()
+				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
+				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
@@ -431,7 +438,7 @@ public class SemanticDelegate {
 	}
 
 	private static boolean isArrayInit(String word) {
-		return INIT_BASIC_ARRAY_TYPE_PATTERN.matcher(word).matches() || INIT_ARRAY_TYPE_PATTERN.matcher(word).matches();
+		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isNull(String word) {
