@@ -58,6 +58,10 @@ func main(){
 	
 	list?.get(100)
 	
+	aaa=int[10000]
+	
+	for ac in aaa : print "haha"
+	
 	for i=0; i<100; i++ {
 		s=list.get(i)
 		i="hello"

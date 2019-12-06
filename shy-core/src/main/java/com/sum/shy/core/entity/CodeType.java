@@ -9,7 +9,7 @@ import com.sum.shy.core.api.Type;
 public class CodeType extends AbsType {
 
 	public String className;
-	public String typeName;
+	public String simpleName;
 	public List<CodeType> genericTypes = new ArrayList<>();
 
 	public CodeType(CtClass clazz, Token token) {
@@ -24,17 +24,17 @@ public class CodeType extends AbsType {
 	private void resolve(CtClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
-				typeName = (String) token.value;
+				simpleName = (String) token.value;
 			} else if (token.value instanceof Stmt) {
 				Stmt subStmt = (Stmt) token.value;
-				typeName = (String) subStmt.getToken(0).value;// 前缀
+				simpleName = (String) subStmt.getToken(0).value;// 前缀
 				for (int i = 1; i < subStmt.size(); i++) {
 					Token subToken = subStmt.getToken(i);
 					if (subToken.isType())
 						genericTypes.add(new CodeType(clazz, subToken));
 				}
 			}
-			className = clazz.findClassName(typeName);
+			className = clazz.findClassName(simpleName);
 
 		}
 
@@ -46,8 +46,8 @@ public class CodeType extends AbsType {
 	}
 
 	@Override
-	public String getTypeName() {
-		return typeName;
+	public String getSimpleName() {
+		return simpleName;
 	}
 
 	@Override

@@ -119,8 +119,10 @@ public class MethodResolver {
 			VariableTracker.findType(clazz, method, block, line, stmt, token);// 变量追踪
 			InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
 			Type returnType = FastDerivator.getType(clazz, stmt);// 类型推导
-			Type genericType = returnType.getGenericTypes().get(0);
-			method.addVariable(new Variable(block, genericType, name));
+			// 如果是数组,则用数组内的类型
+			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getName())
+					: returnType.getGenericTypes().get(0);
+			method.addVariable(new Variable(block, finalType, name));
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));

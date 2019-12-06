@@ -43,7 +43,7 @@ public class NativeType extends AbsType {
 	}
 
 	@Override
-	public String getTypeName() {
+	public String getSimpleName() {
 		return clazz.getSimpleName();
 	}
 
