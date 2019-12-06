@@ -34,19 +34,27 @@ public class SemanticDelegate {
 
 	// ============================== 类型判断 ================================
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern
-			.compile("^(void|boolean|int|long|double|Boolean|Integer|Long|Double|Object|String)$");// 常用基本类型
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile(
+			"^(void|boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");// 常用基本类型
 	public static final Pattern BASIC_ARRAY_TYPE_PATTERN = Pattern
-			.compile("^(boolean\\[\\]|int\\[\\]|long\\[\\]|double\\[\\])$");// 常用基本类型数组
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型
-	public static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\]$");// 数组
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型
+			.compile("^(boolean\\[\\]|char\\[\\]|short\\[\\]|int\\[\\]|long\\[\\]|float\\[\\]|double\\[\\]|byte\\[\\]|"
+					+ "Boolean\\[\\]|Character\\[\\]|Short\\[\\]|Integer\\[\\]|Long\\[\\]|Float\\[\\]|Double\\[\\]|Byte\\[\\]|"
+					+ "Object\\[\\]|String\\[\\])$");// 常用基本类型数组--int[]
 
-	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+$");// 普通类型--Father
+	public static final Pattern TYPE_ALIAS_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+_[A-Z]+[a-zA-Z0-9]+$");// 类型别名--G_Father
+	public static final Pattern ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\]$");// 数组--Father[]
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+<[\\s\\S]+>$");// 泛型--Father<Child>
 
-	public static final Pattern INIT_BASIC_ARRAY_TYPE_PATTERN = Pattern
-			.compile("^(boolean\\[\\d+\\]|int\\[\\d+\\]|long\\[\\d+\\]|double\\[\\d+\\])$");// 常用基本类型数组
-	public static final Pattern INIT_ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组
+	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断--(Father)
+
+	public static final Pattern INIT_BASIC_ARRAY_TYPE_PATTERN = Pattern.compile(
+			"^(boolean\\[\\d\\]|char\\[\\d\\]|short\\[\\d\\]|int\\[\\d\\]|long\\[\\d\\]|float\\[\\d\\]|double\\[\\d\\]|byte\\[\\d\\]|"
+					+ "Boolean\\[\\d\\]|Character\\[\\d\\]|Short\\[\\d\\]|Integer\\[\\d\\]|Long\\[\\d\\]|Float\\[\\d\\]|Double\\[\\d\\]|Byte\\[\\d\\]|"
+					+ "Object\\[\\d\\]|String\\[\\d\\])$");// 常用基本类型数组声明--int[8]
+	public static final Pattern INIT_ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--Father[8]
+	public static final Pattern INIT_ARRAY_TYPE_ALIAS_PATTERN = Pattern
+			.compile("^[A-Z]+[a-zA-Z0-9]+_[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--G_Father[8]
 
 	// ============================== 字面值判断 ================================
 
