@@ -198,26 +198,8 @@ public class SemanticDelegate {
 			} else if (isArrayInit(word)) {// 数组初始化
 				token.type = Constants.ARRAY_INIT_TOKEN;
 				return;
-			} else if (isNull(word)) {// 空
-				token.type = Constants.NULL_TOKEN;
-				return;
-			} else if (isBool(word)) {// 布尔值
-				token.type = Constants.BOOL_TOKEN;
-				return;
-			} else if (isInt(word)) {// 整数
-				token.type = Constants.INT_TOKEN;
-				return;
-			} else if (isDouble(word)) {// 浮点数
-				token.type = Constants.DOUBLE_TOKEN;
-				return;
-			} else if (isStr(word)) {// 字符串
-				token.type = Constants.STR_TOKEN;
-				return;
-			} else if (isArray(word)) {// 数组
-				token.type = Constants.ARRAY_TOKEN;
-				return;
-			} else if (isMap(word)) {// 键值对
-				token.type = Constants.MAP_TOKEN;
+			} else if (isValue(word)) {// 字面值
+				token.type = getValueTokenType(word);
 				return;
 			} else if (isInvoke(word)) {// 方法调用
 				token.type = getInvokeTokenType(word);
@@ -235,38 +217,45 @@ public class SemanticDelegate {
 
 	}
 
+	private static String getValueTokenType(String word) {
+		if (isNull(word))
+			return Constants.NULL_TOKEN;
+		if (isBool(word))
+			return Constants.BOOL_TOKEN;
+		if (isInt(word))
+			return Constants.INT_TOKEN;
+		if (isDouble(word))
+			return Constants.DOUBLE_TOKEN;
+		if (isStr(word))
+			return Constants.STR_TOKEN;
+		if (isArray(word))
+			return Constants.ARRAY_TOKEN;
+		if (isMap(word))
+			return Constants.MAP_TOKEN;
+		return Constants.UNKNOWN;
+	}
+
 	private static String getInvokeTokenType(String word) {
-
-		if (INVOKE_INIT_PATTERN.matcher(word).matches()) {// 构造函数
+		if (INVOKE_INIT_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_INIT_TOKEN;
-		}
-		if (INVOKE_STATIC_PATTERN.matcher(word).matches()) {
+		if (INVOKE_STATIC_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_STATIC_TOKEN;
-		}
-		if (INVOKE_MEMBER_PATTERN.matcher(word).matches()) {
+		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_MEMBER_TOKEN;
-		}
-		if (INVOKE_LOCAL_PATTERN.matcher(word).matches()) {
+		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
-		}
-		if (INVOKE_FLUENT_PATTERN.matcher(word).matches()) {
+		if (INVOKE_FLUENT_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_FLUENT_TOKEN;
-		}
-
 		return Constants.UNKNOWN;
 	}
 
 	private static String getVarTokenType(String word) {
-
-		if (STATIC_VAR_PATTERN.matcher(word).matches()) {
+		if (STATIC_VAR_PATTERN.matcher(word).matches())
 			return Constants.STATIC_VAR_TOKEN;
-		}
-		if (MEMBER_VAR_PATTERN.matcher(word).matches()) {
+		if (MEMBER_VAR_PATTERN.matcher(word).matches())
 			return Constants.MEMBER_VAR_TOKEN;
-		}
-		if (MEMBER_VAR_FLUENT_PATTERN.matcher(word).matches()) {
+		if (MEMBER_VAR_FLUENT_PATTERN.matcher(word).matches())
 			return Constants.MEMBER_VAR_FLUENT_TOKEN;
-		}
 		return Constants.VAR_TOKEN;
 	}
 
@@ -450,6 +439,12 @@ public class SemanticDelegate {
 		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches();
 	}
 
+	// 复合判断
+	private static boolean isValue(String word) {
+		return isNull(word) || isBool(word) || isInt(word) || isDouble(word) || isStr(word) || isArray(word)
+				|| isMap(word);
+	}
+
 	private static boolean isNull(String word) {
 		return "null".equals(word);
 	}
@@ -470,16 +465,16 @@ public class SemanticDelegate {
 		return STR_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isInvoke(String word) {
-		return INVOKE_PATTERN.matcher(word).matches();
-	}
-
 	public static boolean isArray(String word) {
 		return ARRAY_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isMap(String word) {
 		return MAP_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isInvoke(String word) {
+		return INVOKE_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isVariable(String word) {
