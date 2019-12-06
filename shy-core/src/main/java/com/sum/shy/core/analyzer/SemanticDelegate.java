@@ -75,24 +75,33 @@ public class SemanticDelegate {
 
 	// ============================== 方法调用 ================================
 
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_<>\\.]*\\([\\s\\S]*\\)$");// 方法调用
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_<>]+\\([\\s\\S]*\\)$");// 构造方法
+	// 方法调用
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_<>\\.]*\\([\\s\\S]*\\)$");
+	// 构造方法(支持别名)
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_<>]+\\([\\s\\S]*\\)$");
+	// 静态方法(支持别名)
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// 静态方法
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");// 本地方法
-	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// 流式调用
+			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	// 成员方法
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
-			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");// 成员方法
-
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\[[\\s\\S]+\\]$");// 快速索引
+			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	// 本地方法
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	// 流式调用
+	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	// 快速索引
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]+\\[[\\s\\S]+\\]$");
 
 	// ============================== 变量判断 ================================
 
-	public static final Pattern VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9_\\.]+$");
-	public static final Pattern STATIC_VAR_PATTERN = Pattern
-			.compile("^(?!\\d+$)[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
-	public static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^(?!\\d+$)[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
-	public static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^(?!\\d+$)\\.[a-zA-Z0-9]+$");
+	// 变量
+	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]+$");
+	// 静态变量(支持别名)
+	public static final Pattern STATIC_VAR_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
+	// 成员变量
+	public static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
+	// 流式成员变量
+	public static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+$");
 
 	// ============================== 其他 ================================
 
