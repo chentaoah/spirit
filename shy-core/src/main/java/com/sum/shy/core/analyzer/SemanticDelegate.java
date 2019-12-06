@@ -52,6 +52,7 @@ public class SemanticDelegate {
 			"^(boolean\\[\\d\\]|char\\[\\d\\]|short\\[\\d\\]|int\\[\\d\\]|long\\[\\d\\]|float\\[\\d\\]|double\\[\\d\\]|byte\\[\\d\\]|"
 					+ "Boolean\\[\\d\\]|Character\\[\\d\\]|Short\\[\\d\\]|Integer\\[\\d\\]|Long\\[\\d\\]|Float\\[\\d\\]|Double\\[\\d\\]|Byte\\[\\d\\]|"
 					+ "Object\\[\\d\\]|String\\[\\d\\])$");// 常用基本类型数组声明--int[8]
+
 	public static final Pattern INIT_ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--Father[8]
 	public static final Pattern INIT_ARRAY_TYPE_ALIAS_PATTERN = Pattern
 			.compile("^[A-Z]+[a-zA-Z0-9]+_[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--G_Father[8]
