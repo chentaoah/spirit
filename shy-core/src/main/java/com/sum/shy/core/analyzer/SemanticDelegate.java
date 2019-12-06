@@ -422,8 +422,8 @@ public class SemanticDelegate {
 
 	public static boolean isType(String word) {
 		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_ARRAY_TYPE_PATTERN.matcher(word).matches()
-				|| TYPE_PATTERN.matcher(word).matches() || ARRAY_TYPE_PATTERN.matcher(word).matches()
-				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
+				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ALIAS_PATTERN.matcher(word).matches()
+				|| ARRAY_TYPE_PATTERN.matcher(word).matches() || GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
