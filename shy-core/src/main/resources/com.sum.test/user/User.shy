@@ -10,7 +10,9 @@ class User {
 
 	func getFather(String[] strs){
 		int[] nums
-		return strs
+		byte[] b
+		s=char[100]
+		return s[100]
 	}
 	
 	@Aspect

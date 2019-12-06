@@ -49,9 +49,9 @@ public class SemanticDelegate {
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");// 强制转换，还需要type判断--(Father)
 
 	public static final Pattern INIT_BASIC_ARRAY_TYPE_PATTERN = Pattern.compile(
-			"^(boolean\\[\\d\\]|char\\[\\d\\]|short\\[\\d\\]|int\\[\\d\\]|long\\[\\d\\]|float\\[\\d\\]|double\\[\\d\\]|byte\\[\\d\\]|"
-					+ "Boolean\\[\\d\\]|Character\\[\\d\\]|Short\\[\\d\\]|Integer\\[\\d\\]|Long\\[\\d\\]|Float\\[\\d\\]|Double\\[\\d\\]|Byte\\[\\d\\]|"
-					+ "Object\\[\\d\\]|String\\[\\d\\])$");// 常用基本类型数组声明--int[8]
+			"^(boolean\\[\\d+\\]|char\\[\\d+\\]|short\\[\\d+\\]|int\\[\\d+\\]|long\\[\\d+\\]|float\\[\\d+\\]|double\\[\\d+\\]|byte\\[\\d+\\]|"
+					+ "Boolean\\[\\d+\\]|Character\\[\\d+\\]|Short\\[\\d+\\]|Integer\\[\\d+\\]|Long\\[\\d+\\]|Float\\[\\d+\\]|Double\\[\\d+\\]|Byte\\[\\d+\\]|"
+					+ "Object\\[\\d+\\]|String\\[\\d+\\])$");// 常用基本类型数组声明--int[8]
 
 	public static final Pattern INIT_ARRAY_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9]+\\[\\d+\\]$");// 常用基本类型数组--Father[8]
 	public static final Pattern INIT_ARRAY_TYPE_ALIAS_PATTERN = Pattern
