@@ -26,12 +26,12 @@ public class Context {
 	/**
 	 * 查询引入的类型
 	 * 
-	 * @param typeName
+	 * @param name
 	 * @return
 	 */
-	public String findImport(String typeName) {
+	public String findFriend(String name) {
 		for (String className : friends) {
-			if (className.substring(className.lastIndexOf(".") + 1).equals(typeName)) {
+			if (className.substring(className.lastIndexOf(".") + 1).equals(name)) {
 				return className;
 			}
 		}

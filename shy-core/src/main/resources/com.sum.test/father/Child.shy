@@ -1,13 +1,18 @@
 
 
+import com.sum.test.father.Father G_Father
+
 class Child extends Father{
+
+	father=G_Father()
 	
 	func getName(){
 		return getList()
-	
-	
 	}
-
+	
+	func do(){
+		return father.getName()
+	}
 
 
 

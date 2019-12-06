@@ -99,39 +99,40 @@ public class CtClass implements Annotated {
 	/**
 	 * 首先从import里面拿，如果没有，则从上下文中获取友元
 	 * 
-	 * @param typeName
+	 * @param simpleName
 	 * @return
 	 */
-	public String findClassName(String typeName) {
+	public String findClassName(String simpleName) {
 		// 如果本身传入的就是一个全名的话，直接返回
-		if (typeName.contains("."))
-			return typeName;
+		if (simpleName.contains("."))
+			return simpleName;
 
 		// 一些基本类型，就直接返回了
-		String className = getBasicType(typeName);
+		String className = getBasicType(simpleName);
 
 		// 如果传进来是个数组，那么处理一下
 		boolean isArray = false;
 		if (className == null) {
-			if (typeName.endsWith("[]")) {
-				typeName = typeName.substring(0, typeName.lastIndexOf("["));
+			if (simpleName.endsWith("[]")) {
+				simpleName = simpleName.substring(0, simpleName.lastIndexOf("["));
 				isArray = true;
 			}
 		}
 
+		// 从引入的获取类名
 		if (className == null)
-			className = importStrs.get(typeName);
+			className = importStrs.get(simpleName);
 
 		// 如果不存在,则可能是在别名中
 		if (className == null)
-			className = importAliases.get(typeName);
+			className = importAliases.get(simpleName);
 
-		// 从上下文中获取
+		// 寻找友元
 		if (className == null)
-			className = Context.get().findImport(typeName);
+			className = Context.get().findFriend(simpleName);
 
 		if (className == null)
-			throw new RuntimeException("No import information found!name:[" + typeName + "]");
+			throw new RuntimeException("No import information found!name:[" + simpleName + "]");
 
 		return !isArray ? className : "[L" + className + ";";
 
