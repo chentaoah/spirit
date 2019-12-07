@@ -1,11 +1,11 @@
 
-@Service(group="haha",version="v")
+//@Service(group="haha",version="v")
 class User {
 
-	@Reference(group="haha",version="v")
+	//@Reference(group="haha",version="v")
 	Father father1
 	
-	@Reference(group="haha",version="v")
+	//@Reference(group="haha",version="v")
 	father=Father()
 
 	func getFather(String[] strs){
@@ -15,7 +15,7 @@ class User {
 		return s[100]
 	}
 	
-	@Aspect
+	//@Aspect
 	func getName(){
 		return getFather()
 	}

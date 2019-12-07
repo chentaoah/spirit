@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.AliasReplacer;
-import com.sum.shy.core.analyzer.FriendImporter;
+import com.sum.shy.core.analyzer.AutoImporter;
 import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
@@ -48,7 +48,7 @@ public class ShyCompiler {
 				// 1.解析shy代码
 				CtClass clazz = resolve(className, file);
 				// 自动引入友元,和常用的一些类
-				FriendImporter.doImport(clazz, file);
+				AutoImporter.doImport(clazz, file);
 
 				classes.put(className, clazz);
 

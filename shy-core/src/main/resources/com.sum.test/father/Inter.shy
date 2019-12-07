@@ -1,6 +1,6 @@
 
 
-interface Inter extends Father,Mather{
+interface Inter extends Father{
 
 	String getName()
 	
@@ -8,7 +8,7 @@ interface Inter extends Father,Mather{
 	
 	String getFather()
 	
-	@Reference(group="g1",version="v1")
+	//@Reference(group="g1",version="v1")
 	String do()
 	
 }

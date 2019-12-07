@@ -3,8 +3,8 @@ package com.sum.shy.test;
 public class Test {
 
 	public static void main(String[] args) {
-		String test = "G_Father father = \"\\\"G_Father\\\"\" + G_Father() +\"G_Father\"";
-		test = test.replaceAll("(?!((?<=\").*?(?=\")))\\bG_Father\\b", "Child");
+		String test = "interface Inter extends Father ,Mather{";
+		test = test.replaceAll("(?!((?<=\").*?(?=\")))\\b[A-Z]+\\w+\\b", "Child");
 		System.out.println(test);
 
 	}

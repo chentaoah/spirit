@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.library.StringUtils;
 
 /**
  * 自动引入器
@@ -16,7 +16,7 @@ import com.sum.shy.core.entity.CtClass;
  * @author chentao26275
  *
  */
-public class FriendImporter {
+public class AutoImporter {
 
 	public static void doImport(CtClass clazz, File file) {
 		try {
@@ -27,25 +27,24 @@ public class FriendImporter {
 			// 开始遍历
 			for (int index = 0; index < fileLines.size(); index++) {
 				String line = fileLines.get(index);
-				// 忽略这两种
-				if (!line.trim().startsWith("package") && !line.trim().startsWith("import")) {
+				if (StringUtils.isNotEmpty(line) && !line.trim().startsWith("//") && !line.trim().startsWith("package")
+						&& !line.trim().startsWith("import")) {
 					Matcher matcher = pattern.matcher(line);
-					if (matcher.find()) {
-						for (int i = 0; i < matcher.groupCount(); i++) {
-							String typeName = matcher.group(i);
-							// 1.判断是否已经引入了，如果引入了，则不再重复引入
-							if (!clazz.existImport(typeName)) {
-								// 判断是否友元，这里还要判断一下是因为也可能是Object之类的常用类型
-								String className = clazz.findClassName(typeName);
-								if (Context.get().isFriend(className)) {
-									clazz.addImport(className);
-									System.out.println("Add a import info!class:" + className);
-								}
-							}
+					// 这里的find方法并不会一次找到所有的
+					while (matcher.find()) {
+						String typeName = matcher.group(matcher.groupCount() - 1);
+						// 1.判断是否已经引入了，如果引入了，则不再重复引入
+						if (!clazz.existImport(typeName)) {
+							// clazz会返回一个合适的类名
+							String className = clazz.findClassName(typeName);
+							// clazz会适当的引入类，而不是每次调用都添加
+							if (clazz.addImport(className))
+								System.out.println("Add a import info!class:" + className);
 						}
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
