@@ -34,6 +34,7 @@ public class ShyReader {
 	}
 
 	public CtClass read(File file) {
+		System.out.println("=================================== Shy ========================================");
 		try {
 			// 获取文件中的每一行
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);

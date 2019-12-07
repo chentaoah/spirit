@@ -43,7 +43,7 @@ public class AutoImporter {
 							// 不为空，且不能是该类本身，则尝试添加
 							if (className != null && !clazz.getClassName().equals(className)) {
 								clazz.addImport(className);
-								System.out.println("Automatically added a import info!class:[" + className + "]");
+								System.out.println("Automatically add a import info!class:[" + className + "]");
 							}
 						}
 					}
@@ -53,6 +53,8 @@ public class AutoImporter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// 分隔一下
+		System.out.println();
 
 	}
 

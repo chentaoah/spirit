@@ -98,6 +98,15 @@ public class CtClass implements Annotated {
 	}
 
 	/**
+	 * 获取类名
+	 * 
+	 * @return
+	 */
+	public String getClassName() {
+		return packageStr + "." + typeName;
+	}
+
+	/**
 	 * 是否已经引入
 	 * 
 	 * @param typeName
@@ -105,15 +114,6 @@ public class CtClass implements Annotated {
 	 */
 	public boolean existImport(String typeName) {
 		return importStrs.containsKey(typeName) || importAliases.containsKey(typeName);
-	}
-
-	/**
-	 * 获取类名
-	 * 
-	 * @return
-	 */
-	public String getClassName() {
-		return packageStr + "." + typeName;
 	}
 
 	/**
@@ -198,8 +198,7 @@ public class CtClass implements Annotated {
 				return field;
 			}
 		}
-		throw new RuntimeException(
-				"The field does not exist!class:" + packageStr + "." + typeName + ", field:" + fieldName);
+		throw new RuntimeException("The field does not exist!class:" + getClassName() + ", field:" + fieldName);
 
 	}
 
@@ -228,8 +227,7 @@ public class CtClass implements Annotated {
 				return method;
 			}
 		}
-		throw new RuntimeException(
-				"The method does not exist!class:" + packageStr + "." + typeName + ", method:" + methodName);
+		throw new RuntimeException("The method does not exist!class:" + getClassName() + ", method:" + methodName);
 
 	}
 
