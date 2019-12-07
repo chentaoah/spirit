@@ -15,16 +15,16 @@ import com.sum.shy.core.entity.NativeType;
 
 public class ReflectUtils {
 
-	public static Type getReturnType(CtClass clazz, Type type, List<String> properties, String methodName) {
+	public static Type getReturnType(CtClass clazz, Type type, List<String> members, String methodName) {
 		// 类名
 		NativeType nativeType = type instanceof CodeType ? new NativeType(type) : (NativeType) type;
 		try {
-			if (properties != null && properties.size() > 0) {
-				String property = properties.remove(0);// 获取第一个属性
-				Field field = nativeType.clazz.getField(property);
+			if (members != null && members.size() > 0) {
+				String member = members.remove(0);// 获取第一个属性
+				Field field = nativeType.clazz.getField(member);
 				Type returnType = visitElement(nativeType, field.getGenericType());
-				if (properties.size() > 0 || methodName != null)
-					returnType = getReturnType(clazz, returnType, properties, methodName);
+				if (members.size() > 0 || methodName != null)
+					returnType = getReturnType(clazz, returnType, members, methodName);
 				return returnType;
 
 			} else if (methodName != null) {

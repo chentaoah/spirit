@@ -185,7 +185,6 @@ public class InvokeVisiter {
 					}
 
 				} else if (methodName != null) {
-
 					if (typeClass.existMethod(methodName)) {
 						CtMethod method = typeClass.findMethod(methodName);
 						return visitElement(typeClass, method);// 可能字段类型还需要进行深度推导
