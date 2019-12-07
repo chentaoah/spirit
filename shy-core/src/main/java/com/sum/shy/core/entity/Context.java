@@ -31,7 +31,7 @@ public class Context {
 	 */
 	public String findFriend(String name) {
 		for (String className : friends) {
-			if (className.substring(className.lastIndexOf(".") + 1).equals(name)) {
+			if (className.endsWith("." + name)) {
 				return className;
 			}
 		}

@@ -97,6 +97,16 @@ public class CtClass implements Annotated {
 	}
 
 	/**
+	 * 是否已经引入
+	 * 
+	 * @param typeName
+	 * @return
+	 */
+	public boolean existImport(String typeName) {
+		return importStrs.containsKey(typeName) || importAliases.containsKey(typeName);
+	}
+
+	/**
 	 * 首先从import里面拿，如果没有，则从上下文中获取友元
 	 * 
 	 * @param simpleName

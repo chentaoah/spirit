@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.AliasReplacer;
-import com.sum.shy.core.analyzer.AutoImporter;
+import com.sum.shy.core.analyzer.FriendImporter;
 import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Context;
@@ -47,7 +47,11 @@ public class ShyCompiler {
 			if (!debug) {
 				// 1.解析shy代码
 				CtClass clazz = resolve(className, file);
+				// 自动引入友元,和常用的一些类
+				FriendImporter.doImport(clazz, file);
+
 				classes.put(className, clazz);
+
 			} else {
 				debug(file);
 			}
@@ -58,8 +62,6 @@ public class ShyCompiler {
 			Context.get().classes = classes;
 			// 推导出剩下未知的类型
 			InvokeVisiter.visitClasses(classes);
-			// 自动引入友元
-			AutoImporter.doImport(classes);
 			// 2.构建java代码
 			for (CtClass clazz : classes.values()) {
 				compile(clazz);
@@ -74,8 +76,6 @@ public class ShyCompiler {
 		// 追加包名
 		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
 
-//		System.out.println(clazz.toString());
-
 		return clazz;
 	}
 
@@ -85,10 +85,12 @@ public class ShyCompiler {
 
 	public static Class<?> compile(CtClass clazz) {
 		// 转换方法中的内容,并生成java代码
-		String text = new JavaBuilder().build(clazz);
+		String code = new JavaBuilder().build(clazz);
 		// 替换类的别名
-		text = AliasReplacer.replace(clazz, text);
-		System.out.println(text);
+		code = AliasReplacer.replace(clazz, code);
+
+		System.out.println(code);
+
 		return null;
 	}
 
