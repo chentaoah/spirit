@@ -103,6 +103,11 @@ public class ReflectUtils {
 		return isArray(simpleName) ? simpleName.substring(0, simpleName.indexOf("[")) : simpleName;
 	}
 
+	public static String getClassName(String className) {
+		return className.startsWith("[L") && className.endsWith(";") ? className.substring(2, className.length() - 1)
+				: className;
+	}
+
 	public static String getCommonType(String simpleName) {
 
 		switch (simpleName) {

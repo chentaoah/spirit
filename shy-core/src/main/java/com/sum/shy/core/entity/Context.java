@@ -22,6 +22,8 @@ public class Context {
 	public Map<String, CtClass> classes;
 	// 解析到的注解上下文
 	public List<String> annotations = new ArrayList<>();
+	// 当前类
+	public CtClass currentClass;
 
 	/**
 	 * 查询引入的类型

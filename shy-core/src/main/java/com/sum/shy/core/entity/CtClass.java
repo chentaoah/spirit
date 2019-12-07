@@ -159,10 +159,8 @@ public class CtClass implements Annotated {
 		// 基本类型数组,就不必添加了
 		if (className.startsWith("[") && !className.startsWith("[L"))
 			return true;
-
-		// 如果是数组，处理一下
-		if (className.startsWith("[L") && className.endsWith(";"))
-			className = className.substring(2, className.length() - 1);
+		// 如果是数组，则把修饰符号去掉
+		className = ReflectUtils.getClassName(className);
 
 		// 1.基本类className和simpleName相同
 		// 2.一般java.lang.包下的类不用引入

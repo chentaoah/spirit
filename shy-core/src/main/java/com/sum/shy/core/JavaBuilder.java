@@ -17,6 +17,7 @@ import com.sum.shy.core.converter.AssignConverter;
 import com.sum.shy.core.converter.CatchConverter;
 import com.sum.shy.core.converter.ConditionConverter;
 import com.sum.shy.core.converter.DeclareConverter;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
@@ -64,6 +65,8 @@ public class JavaBuilder {
 	}
 
 	public String build(CtClass clazz) {
+		// 当前类
+		Context.get().currentClass = clazz;
 
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
