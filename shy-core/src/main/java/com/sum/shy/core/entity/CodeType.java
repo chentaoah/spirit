@@ -36,7 +36,7 @@ public class CodeType extends AbsType {
 				}
 			}
 			// 查找类名
-			className = clazz.getClassName(simpleName);
+			className = clazz.findClassName(simpleName);
 
 		} else {
 			throw new RuntimeException("Token is not type token!token:[" + token + "]");

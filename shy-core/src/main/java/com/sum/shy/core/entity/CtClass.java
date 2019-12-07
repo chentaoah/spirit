@@ -108,12 +108,21 @@ public class CtClass implements Annotated {
 	}
 
 	/**
+	 * 获取类名
+	 * 
+	 * @return
+	 */
+	public String getClassName() {
+		return packageStr + "." + typeName;
+	}
+
+	/**
 	 * 在字段声明语句中，这个时候还没有自动引入友元，导致报错
 	 * 
 	 * @param simpleName
 	 * @return
 	 */
-	public String getClassName(String simpleName) {
+	public String findClassName(String simpleName) {
 		// 如果本身传入的就是一个全名的话，直接返回
 		if (simpleName.contains("."))
 			return simpleName;
@@ -136,6 +145,8 @@ public class CtClass implements Annotated {
 		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
 			className = ReflectUtils.getCommonType(simpleName);
+		if (className == null)
+			className = ReflectUtils.getCollectionType(typeName);
 		if (className != null)
 			return className;
 
@@ -149,7 +160,7 @@ public class CtClass implements Annotated {
 		if (className.startsWith("[") && !className.startsWith("[L"))
 			return true;
 
-		// 如果是数组
+		// 如果是数组，处理一下
 		if (className.startsWith("[L") && className.endsWith(";"))
 			className = className.substring(2, className.length() - 1);
 
@@ -159,7 +170,7 @@ public class CtClass implements Annotated {
 			return true;
 
 		// 如果是自己本身，就不必添加了
-		if ((packageStr + "." + typeName).equals(className))
+		if (getClassName().equals(className))
 			return true;
 
 		// 如果已经存在了，就不重复添加了

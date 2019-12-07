@@ -40,10 +40,10 @@ public class AutoImporter {
 						if (!clazz.existImport(typeName)) {
 							// clazz会返回一个合适的类名
 							String className = findClassName(typeName);
-							// clazz会适当的引入类，而不是每次调用都添加
-							if (className != null) {
+							// 不为空，且不能是该类本身，则尝试添加
+							if (className != null && !clazz.getClassName().equals(className)) {
 								clazz.addImport(className);
-								System.out.println("Add a import info!class:[" + className + "]");
+								System.out.println("Automatically added a import info!class:[" + className + "]");
 							}
 						}
 					}
@@ -63,7 +63,7 @@ public class AutoImporter {
 	 * @return
 	 */
 	public static String findClassName(String typeName) {
-		// 友元
+		// 友元，自身也在友元中
 		String className = Context.get().findFriend(typeName);
 		// 基本类型不用引入进来，一般集合引入进来就行
 		if (className == null)
