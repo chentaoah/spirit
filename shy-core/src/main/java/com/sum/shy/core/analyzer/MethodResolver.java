@@ -120,7 +120,7 @@ public class MethodResolver {
 			InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
 			Type returnType = FastDerivator.getType(clazz, stmt);// 类型推导
 			// 如果是数组,则用数组内的类型
-			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getName())
+			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getTypeName())
 					: returnType.getGenericTypes().get(0);
 			method.addVariable(new Variable(block, finalType, name));
 

@@ -23,7 +23,7 @@ public interface Type {
 	 * 
 	 * @return
 	 */
-	String getName();
+	String getTypeName();
 
 	/**
 	 * 获取泛型

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Element;
+import com.sum.shy.core.utils.ReflectUtils;
 
 public class CtClass implements Annotated {
 	// 包名
@@ -107,141 +108,41 @@ public class CtClass implements Annotated {
 	}
 
 	/**
-	 * 首先从import里面拿，如果没有，则从上下文中获取友元
+	 * 不再从友元里面找，因为友元已经在前面自动引入了
 	 * 
 	 * @param simpleName
 	 * @return
 	 */
-	public String findClassName(String simpleName) {
+	public String getClassName(String simpleName) {
 		// 如果本身传入的就是一个全名的话，直接返回
 		if (simpleName.contains("."))
 			return simpleName;
 
-		// 一些基本类型，就直接返回了
-		String className = getBasicType(simpleName);
-
 		// 如果传进来是个数组，那么处理一下
-		boolean isArray = false;
-		if (className == null) {
-			if (simpleName.endsWith("[]")) {
-				simpleName = simpleName.substring(0, simpleName.lastIndexOf("["));
-				isArray = true;
-			}
-		}
-
-		// 从引入的获取类名
+		boolean isArray = ReflectUtils.isArray(simpleName);
+		String typeName = ReflectUtils.getTypeName(simpleName);
+		// 1.首先先去引入里面找
+		String className = null;
 		if (className == null)
-			className = importStrs.get(simpleName);
-
-		// 如果不存在,则可能是在别名中
+			className = importStrs.get(typeName);
 		if (className == null)
-			className = importAliases.get(simpleName);
+			className = importAliases.get(typeName);
+		if (className != null)
+			return !isArray ? className : "[L" + className + ";";
 
-		// 寻找友元
+		// 2.可能是这个类本身
+		if (this.typeName.equals(typeName))
+			return packageStr + "." + this.typeName;
+
+		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
-			className = Context.get().findFriend(simpleName);
+			className = ReflectUtils.getCommonType(simpleName);
+		if (className != null)
+			return className;
 
-		if (className == null)
-			throw new RuntimeException("No import information found!name:[" + simpleName + "]");
+		// 如果一直没有找到就抛出异常
+		throw new RuntimeException("No import info found!simpleName:[" + simpleName + "]");
 
-		return !isArray ? className : "[L" + className + ";";
-
-	}
-
-	private String getBasicType(String typeName) {
-
-		switch (typeName) {
-		// 空类型
-		case "void":
-			return void.class.getName();
-		// 基本类型
-		case "boolean":
-			return boolean.class.getName();
-		case "char":
-			return char.class.getName();
-		case "short":
-			return short.class.getName();
-		case "int":
-			return int.class.getName();
-		case "long":
-			return long.class.getName();
-		case "float":
-			return float.class.getName();
-		case "double":
-			return double.class.getName();
-		case "byte":
-			return byte.class.getName();
-		// 基本类型数组
-		case "boolean[]":
-			return boolean[].class.getName();
-		case "char[]":
-			return char[].class.getName();
-		case "short[]":
-			return short[].class.getName();
-		case "int[]":
-			return int[].class.getName();
-		case "long[]":
-			return long[].class.getName();
-		case "float[]":
-			return float[].class.getName();
-		case "double[]":
-			return double[].class.getName();
-		case "byte[]":
-			return byte[].class.getName();
-		// 包装类
-		case "Boolean":
-			return Boolean.class.getName();
-		case "Character":
-			return Character.class.getName();
-		case "Short":
-			return Short.class.getName();
-		case "Integer":
-			return Integer.class.getName();
-		case "Long":
-			return Long.class.getName();
-		case "Float":
-			return Float.class.getName();
-		case "Double":
-			return Double.class.getName();
-		case "Byte":
-			return Byte.class.getName();
-		// 包装类数组
-		case "Boolean[]":
-			return Boolean[].class.getName();
-		case "Character[]":
-			return Character[].class.getName();
-		case "Short[]":
-			return Short[].class.getName();
-		case "Integer[]":
-			return Integer[].class.getName();
-		case "Long[]":
-			return Long[].class.getName();
-		case "Float[]":
-			return Float[].class.getName();
-		case "Double[]":
-			return Double[].class.getName();
-		case "Byte[]":
-			return Byte[].class.getName();
-		// 类
-		case "Object":
-			return Object.class.getName();
-		case "String":
-			return String.class.getName();
-		case "List":
-			return List.class.getName();
-		case "Map":
-			return Map.class.getName();
-		case "Exception":
-			return Exception.class.getName();
-		// 类数组
-		case "Object[]":
-			return Object[].class.getName();
-		case "String[]":
-			return String[].class.getName();
-
-		default:
-			return null;
-		}
 	}
 
 	public boolean addImport(String className) {
@@ -253,8 +154,9 @@ public class CtClass implements Annotated {
 		if (className.startsWith("[L") && className.endsWith(";"))
 			className = className.substring(2, className.length() - 1);
 
-		// 如果是基本类型,就不必添加了
-		if (isBasicType(className))
+		// 1.基本类className和simpleName相同
+		// 2.一般java.lang.包下的类不用引入
+		if (ReflectUtils.getCommonType(className) != null || className.startsWith("java.lang."))
 			return true;
 
 		// 如果是自己本身，就不必添加了
@@ -273,16 +175,6 @@ public class CtClass implements Annotated {
 		}
 		// 重复添加也认为是添加成功了
 		return true;
-	}
-
-	private boolean isBasicType(String className) {
-		return void.class.getName().equals(className) || boolean.class.getName().equals(className)
-				|| int.class.getName().equals(className) || long.class.getName().equals(className)
-				|| double.class.getName().equals(className) || Boolean.class.getName().equals(className)
-				|| Integer.class.getName().equals(className) || Long.class.getName().equals(className)
-				|| Double.class.getName().equals(className) || Object.class.getName().equals(className)
-				|| String.class.getName().equals(className);
-
 	}
 
 	public CtField findField(String fieldName) {

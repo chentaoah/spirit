@@ -6,7 +6,7 @@ import com.sum.shy.core.api.Type;
 public abstract class AbsType implements Type {
 
 	@Override
-	public String getName() {
+	public String getTypeName() {
 		return getSimpleName().replace("[]", "");
 	}
 
