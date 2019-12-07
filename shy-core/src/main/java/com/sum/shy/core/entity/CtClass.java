@@ -108,7 +108,7 @@ public class CtClass implements Annotated {
 	}
 
 	/**
-	 * 不再从友元里面找，因为友元已经在前面自动引入了
+	 * 在字段声明语句中，这个时候还没有自动引入友元，导致报错
 	 * 
 	 * @param simpleName
 	 * @return
@@ -127,12 +127,11 @@ public class CtClass implements Annotated {
 			className = importStrs.get(typeName);
 		if (className == null)
 			className = importAliases.get(typeName);
+		// 2.友元,注意这个类本身也在友元中
+		if (className == null)
+			className = Context.get().findFriend(typeName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
-
-		// 2.可能是这个类本身
-		if (this.typeName.equals(typeName))
-			return packageStr + "." + this.typeName;
 
 		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)

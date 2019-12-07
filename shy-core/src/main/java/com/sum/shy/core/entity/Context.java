@@ -26,12 +26,12 @@ public class Context {
 	/**
 	 * 查询引入的类型
 	 * 
-	 * @param name
+	 * @param typeName
 	 * @return
 	 */
-	public String findFriend(String name) {
+	public String findFriend(String typeName) {
 		for (String className : friends) {
-			if (className.endsWith("." + name)) {
+			if (className.endsWith("." + typeName)) {
 				return className;
 			}
 		}

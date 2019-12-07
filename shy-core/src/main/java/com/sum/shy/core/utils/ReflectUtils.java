@@ -100,7 +100,7 @@ public class ReflectUtils {
 	}
 
 	public static String getTypeName(String simpleName) {
-		return simpleName.substring(0, simpleName.indexOf("["));
+		return isArray(simpleName) ? simpleName.substring(0, simpleName.indexOf("[")) : simpleName;
 	}
 
 	public static String getCommonType(String simpleName) {
