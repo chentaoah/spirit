@@ -6,6 +6,10 @@ class Child extends Father{
 
 	father=G_Father()
 	
+	s="G_Father()"
+	
+	G_Father fa1
+	
 	func getName(){
 		return getList()
 	}

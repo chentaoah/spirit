@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sum.shy.core.analyzer.AliasReplacer;
 import com.sum.shy.core.analyzer.AutoImporter;
 import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.entity.CtClass;
@@ -85,6 +86,8 @@ public class ShyCompiler {
 	public static Class<?> compile(CtClass clazz) {
 		// 转换方法中的内容,并生成java代码
 		String text = new JavaBuilder().build(clazz);
+		// 替换类的别名
+		text = AliasReplacer.replace(clazz, text);
 		System.out.println(text);
 		return null;
 	}
