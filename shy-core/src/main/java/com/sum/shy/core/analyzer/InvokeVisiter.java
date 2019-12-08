@@ -15,7 +15,6 @@ import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.library.Collection;
 import com.sum.shy.library.StringUtils;
 
@@ -198,7 +197,7 @@ public class InvokeVisiter {
 
 			} else {// 如果是本地类型，则通过反射进行推导
 				// 这里一般都是直接推导到底，因为shy可以调java,而java不一定能直接调用shy
-				return ReflectUtils.getReturnType(clazz, type, members, methodName);
+				return NativeLinker.getReturnType(clazz, type, members, methodName);
 			}
 		}
 
