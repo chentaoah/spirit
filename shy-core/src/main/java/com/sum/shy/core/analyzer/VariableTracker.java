@@ -64,6 +64,12 @@ public class VariableTracker {
 
 	public static void findVariableType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
 			String name) {
+		// this引用，指向的是这个类本身
+		if ("this".equals(name)) {
+			// 这里可能是比较隐晦的逻辑，因为
+			token.setTypeAtt(new CodeType(clazz, clazz.getClassName(), clazz.typeName));
+			return;
+		}
 		// 先在最近的位置找变量
 		if (method != null) {
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询

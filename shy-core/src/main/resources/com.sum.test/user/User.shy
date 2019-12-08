@@ -22,6 +22,10 @@ class User {
 		return getFather(strs)
 	}
 	
+	func getName(){
+		return this.father1
+	}
+	
 	
 	
 	

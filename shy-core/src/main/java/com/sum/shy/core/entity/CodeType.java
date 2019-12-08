@@ -18,6 +18,12 @@ public class CodeType extends AbsType {
 		resolve(clazz, token);
 	}
 
+	public CodeType(CtClass clazz, String className, String simpleName) {
+		super(clazz);
+		this.className = className;
+		this.simpleName = simpleName;
+	}
+
 	private void resolve(CtClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
