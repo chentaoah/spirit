@@ -56,7 +56,7 @@ public class ReflectUtils {
 		} else if (type instanceof ParameterizedType) {// 泛型
 			ParameterizedType parameterizedType = (ParameterizedType) type;
 			Class<?> clazz = (Class<?>) parameterizedType.getRawType();
-			List<NativeType> genericTypes = new ArrayList<>();
+			List<Type> genericTypes = new ArrayList<>();
 			for (java.lang.reflect.Type actualType : parameterizedType.getActualTypeArguments()) {
 				if (actualType instanceof Class<?>) {
 					genericTypes.add(new NativeType((Class<?>) actualType));
@@ -212,8 +212,8 @@ public class ReflectUtils {
 
 	}
 
-	public static String getWrapType(String typeName) {
-		switch (typeName) {
+	public static String getWrapType(String className) {
+		switch (className) {
 		case "boolean":
 			return Boolean.class.getName();
 		case "char":
@@ -231,7 +231,7 @@ public class ReflectUtils {
 		case "byte":
 			return Byte.class.getName();
 		default:
-			return typeName;
+			return null;
 		}
 	}
 

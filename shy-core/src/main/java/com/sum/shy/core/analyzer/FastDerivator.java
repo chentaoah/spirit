@@ -103,29 +103,31 @@ public class FastDerivator {
 
 	private static Type getArrayType(CtClass clazz, Token token) {
 		boolean isSame = true;// 所有元素是否都相同
-		Type finalType = null;
+		Type genericType = null;
 		// 开始遍历
 		Stmt stmt = (Stmt) token.value;
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			Type type = getType(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (finalType != null) {
-					if (!finalType.toString().equals(type.toString())) {// 如果存在多个类型
+				if (genericType != null) {
+					if (!genericType.equals(type)) {// 如果存在多个类型
 						isSame = false;
 						break;
 					}
 				} else {
-					finalType = type;
+					genericType = type;
 				}
 			}
 		}
 
 		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
 		// 2.可能是个空的集合
-		if (!isSame || finalType == null)
+		if (!isSame || genericType == null)
 			return new CodeType(clazz, "List<Object>");
 
-		return new CodeType(clazz, String.format("List<%s>", ReflectUtils.getWrapType(finalType.toString())));
+		Type finalType = new CodeType(clazz, "List");
+		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
+		return finalType;
 	}
 
 	private static Type getMapType(CtClass clazz, Token token) {
@@ -140,7 +142,7 @@ public class FastDerivator {
 			Type valueType = getType(clazz, subStmts.get(1));
 			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalKeyType != null) {
-					if (!finalKeyType.toString().equals(KeyType.toString())) {// 如果存在多个类型
+					if (!finalKeyType.equals(KeyType)) {// 如果存在多个类型
 						isSameKey = false;
 					}
 				} else {
@@ -149,7 +151,7 @@ public class FastDerivator {
 			}
 			if (valueType != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalValueType != null) {
-					if (!finalValueType.toString().equals(valueType.toString())) {// 如果存在多个类型
+					if (!finalValueType.equals(valueType)) {// 如果存在多个类型
 						isSameValue = false;
 					}
 				} else {
@@ -158,11 +160,28 @@ public class FastDerivator {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		String key = !isSameKey || finalKeyType == null ? "Object" : ReflectUtils.getWrapType(finalKeyType.toString());
-		String value = !isSameValue || finalValueType == null ? "Object"
-				: ReflectUtils.getWrapType(finalValueType.toString());
-		return new CodeType(clazz, String.format("Map<%s, %s>", key, value));
+		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, "Object") : finalKeyType;
+		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, "Object") : finalValueType;
 
+		Type finalType = new CodeType(clazz, "Map");
+		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
+		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
+		return finalType;
+
+	}
+
+	/**
+	 * 获取封装类
+	 * 
+	 * @param clazz
+	 * @param genericType
+	 * @return
+	 */
+	private static Type getWrapType(CtClass clazz, Type genericType) {
+		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
+		if (wrapType != null)
+			genericType = new CodeType(clazz, wrapType);
+		return genericType;
 	}
 
 }

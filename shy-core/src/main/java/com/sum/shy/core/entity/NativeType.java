@@ -17,9 +17,7 @@ public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
-	public List<NativeType> genericTypes;// List<E> E-String
-
-	public NativeType(Class<?> clazz, List<NativeType> genericTypes) {
+	public NativeType(Class<?> clazz, List<Type> genericTypes) {
 		this.clazz = clazz;
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
@@ -45,13 +43,6 @@ public class NativeType extends AbsType {
 	@Override
 	public String getSimpleName() {
 		return clazz.getSimpleName();
-	}
-
-	@Override
-	public List<Type> getGenericTypes() {
-		List<Type> list = new ArrayList<>();
-		list.addAll(genericTypes);
-		return list;
 	}
 
 	public Method findMethod(String methodName) {

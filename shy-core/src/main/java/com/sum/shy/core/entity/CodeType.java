@@ -1,16 +1,11 @@
 package com.sum.shy.core.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sum.shy.core.analyzer.SemanticDelegate;
-import com.sum.shy.core.api.Type;
 
 public class CodeType extends AbsType {
 
 	public String className;
 	public String simpleName;
-	public List<CodeType> genericTypes = new ArrayList<>();
 
 	public CodeType(CtClass clazz, Token token) {
 		resolve(clazz, token);
@@ -52,13 +47,6 @@ public class CodeType extends AbsType {
 	@Override
 	public String getSimpleName() {
 		return simpleName;
-	}
-
-	@Override
-	public List<Type> getGenericTypes() {
-		List<Type> list = new ArrayList<>();
-		list.addAll(genericTypes);
-		return list;
 	}
 
 }
