@@ -122,6 +122,8 @@ public class Stmt {
 					sb.append(token.value);
 				} else if ("instanceof".equals(token.value)) {
 					sb.append(" " + token.value + " ");
+				} else if ("return".equals(token.value) && size() == 2) {// return;
+					sb.append(token.value);
 				} else {
 					sb.append(token.value + " ");
 				}

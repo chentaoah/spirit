@@ -69,8 +69,12 @@ public class InvokeVisiter {
 					@Override
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 							Stmt stmt) {
-						if (stmt.isReturn())
-							holder.obj = FastDerivator.getType(clazz, stmt);
+						// 有效返回，才是返回
+						if (stmt.isReturn()) {
+							Type returnType = FastDerivator.getType(clazz, stmt);
+							if (returnType != null)
+								holder.obj = returnType;
+						}
 						return null;
 					}
 				});
