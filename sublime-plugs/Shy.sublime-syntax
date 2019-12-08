@@ -20,7 +20,7 @@ contexts:
       scope: keyword
 
     # Block Keyword
-    - match: '\b(null|return|continue|break|throw|instanceof|print)\b'
+    - match: '\b(null|return|this|continue|break|throw|instanceof|print)\b'
       scope: keyword
 
     # String
