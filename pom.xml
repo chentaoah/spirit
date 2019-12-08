@@ -8,6 +8,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>shy-core</module>
+		<module>shy-check</module>
+		<module>shy-assist</module>
 	</modules>
 	<properties>    
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
