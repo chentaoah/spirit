@@ -8,6 +8,6 @@
 	    ]
   	},
   	//自动提示
-  	{ "keys": ["ctrl+enter"], "command": "example" }
+  	//{ "keys": ["ctrl+enter"], "command": "example" }
 
 ]
