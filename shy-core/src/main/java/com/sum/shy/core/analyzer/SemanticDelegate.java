@@ -45,11 +45,11 @@ public class SemanticDelegate {
 					+ "Object\\[\\]|String\\[\\])$");
 
 	// 类型--Father and G_Father
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+$");
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");
 	// 数组--Father[] and G_Father[]
-	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\[\\]$");
+	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");
 	// 泛型--Father<Child> and G_Father<Child>
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+<[\\s\\S]+>$");
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");
 	// 强制转换，还需要type判断--(TYPE_PATTERN)
 	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 
@@ -62,7 +62,7 @@ public class SemanticDelegate {
 					+ "Object\\[\\d+\\]|String\\[\\d+\\])$");
 
 	// 类型数组声明
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\[\\d+\\]$");
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
 
 	// ============================== 字面值判断 ================================
 
@@ -76,12 +76,12 @@ public class SemanticDelegate {
 	// ============================== 方法调用 ================================
 
 	// 方法调用
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[a-zA-Z0-9_<>\\.]*\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[\\w<>\\.]*\\([\\s\\S]*\\)$");
 	// 构造方法(支持别名)
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_<>]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
 	// 静态方法(支持别名)
 	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+			.compile("^[A-Z]+\\w+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 	// 成员方法
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
 			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
@@ -97,7 +97,7 @@ public class SemanticDelegate {
 	// 变量
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]+$");
 	// 静态变量(支持别名)
-	public static final Pattern STATIC_VAR_PATTERN = Pattern.compile("^[A-Z]+[a-zA-Z0-9_]+\\.[a-zA-Z0-9\\.]+$");
+	public static final Pattern STATIC_VAR_PATTERN = Pattern.compile("^[A-Z]+\\w+\\.[a-zA-Z0-9\\.]+$");
 	// 成员变量
 	public static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
 	// 流式成员变量
