@@ -9,7 +9,18 @@ import com.sum.shy.core.utils.ReflectUtils;
 
 public abstract class AbsType implements Type {
 
+	public CtClass clazz;
+
 	public List<Type> genericTypes = new ArrayList<>();
+
+	/**
+	 * 要求子类必须传入CtClass
+	 * 
+	 * @param clazz
+	 */
+	public AbsType(CtClass clazz) {
+		this.clazz = clazz;
+	}
 
 	@Override
 	public String getTypeName() {
@@ -67,13 +78,9 @@ public abstract class AbsType implements Type {
 
 	@Override
 	public String toString() {
-
-		String finalName = getSimpleName();
-		CtClass currentClass = Context.get().currentClass;// 当前类
-		if (currentClass != null) {
-			if (!currentClass.addImport(getClassName()))
-				finalName = ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
-		}
+		// 最终是否打印类全名，看是否能够添加到该类型中
+		String finalName = clazz.addImport(getClassName()) ? getSimpleName()
+				: ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
 
 		if (!isArray() && !isGenericType()) {// 普通类型
 			return finalName;

@@ -18,21 +18,24 @@ public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
-	public NativeType(Class<?> clazz, List<Type> genericTypes) {
+	public NativeType(CtClass ctClass, Class<?> clazz, List<Type> genericTypes) {
+		super(ctClass);
 		this.clazz = clazz;
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
-	public NativeType(Class<?> clazz) {
+	public NativeType(CtClass ctClass, Class<?> clazz) {
+		super(ctClass);
 		this.clazz = clazz;
 		this.genericTypes = new ArrayList<>();
 	}
 
-	public NativeType(Type type) {
+	public NativeType(CtClass ctClass, Type type) {
+		super(ctClass);
 		this.clazz = ReflectUtils.getClass(type.getClassName());
 		this.genericTypes = new ArrayList<>();
 		for (Type genericType : type.getGenericTypes()) {
-			genericTypes.add(new NativeType(genericType));
+			genericTypes.add(new NativeType(ctClass, genericType));
 		}
 	}
 

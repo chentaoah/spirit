@@ -14,22 +14,22 @@ import com.sum.shy.core.entity.NativeType;
 
 public class NativeLinker {
 
-	public static Type getReturnType(CtClass clazz, Type type, List<String> members, String methodName,
+	public static Type getReturnType(CtClass ctClass, Type type, List<String> members, String methodName,
 			List<Type> parameterTypes) {
 		// 类名
-		NativeType nativeType = type instanceof CodeType ? new NativeType(type) : (NativeType) type;
+		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (members != null && members.size() > 0) {
 				String member = members.remove(0);// 获取第一个属性
 				Field field = nativeType.clazz.getField(member);
-				Type returnType = visitElement(nativeType, field.getGenericType());
+				Type returnType = visitElement(ctClass, nativeType, field.getGenericType());
 				if (members.size() > 0 || methodName != null)
-					returnType = getReturnType(clazz, returnType, members, methodName, parameterTypes);
+					returnType = getReturnType(ctClass, returnType, members, methodName, parameterTypes);
 				return returnType;
 
 			} else if (methodName != null) {
 				Method method = nativeType.findMethod(methodName, parameterTypes);
-				return visitElement(nativeType, method.getGenericReturnType());
+				return visitElement(ctClass, nativeType, method.getGenericReturnType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -38,7 +38,7 @@ public class NativeLinker {
 		return null;
 	}
 
-	private static Type visitElement(NativeType nativeType, java.lang.reflect.Type type) {
+	private static Type visitElement(CtClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])
@@ -46,7 +46,7 @@ public class NativeLinker {
 		// E --> TypeVariableImpl
 
 		if (type instanceof Class<?>) {// 一部分类型可以直接转换
-			return new NativeType((Class<?>) type);
+			return new NativeType(ctClass, (Class<?>) type);
 
 		} else if (type instanceof TypeVariable<?>) {// 对象的其中一个泛型参数
 			String paramName = type.toString();// 泛型参数名称 E or K or V
@@ -63,9 +63,9 @@ public class NativeLinker {
 			// 获取该类型里面的泛型
 			for (java.lang.reflect.Type actualType : parameterizedType.getActualTypeArguments()) {
 				// 递归
-				genericTypes.add(visitElement(nativeType, actualType));
+				genericTypes.add(visitElement(ctClass, nativeType, actualType));
 			}
-			return new NativeType(clazz, genericTypes);
+			return new NativeType(ctClass, clazz, genericTypes);
 		}
 
 		return null;

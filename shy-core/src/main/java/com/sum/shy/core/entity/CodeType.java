@@ -8,10 +8,12 @@ public class CodeType extends AbsType {
 	public String simpleName;
 
 	public CodeType(CtClass clazz, Token token) {
+		super(clazz);
 		resolve(clazz, token);
 	}
 
 	public CodeType(CtClass clazz, String type) {
+		super(clazz);
 		Token token = SemanticDelegate.getToken(type);// 语义分析器,会自动将泛型进行拆分
 		resolve(clazz, token);
 	}
