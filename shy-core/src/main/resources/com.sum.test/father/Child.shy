@@ -23,6 +23,29 @@ class Child extends Father{
 		return People().getFather()
 	
 	}
+	
+	func testGeneric(){
+		return People().getName()
+	
+	}
+	
+	func test(String s){
+		return s
+	}
+	
+	func test(int s){
+		return s
+	}
+	
+	func testGeneric(int s){
+		return People().getOne(s)
+	
+	}
+	
+	func testGeneric(String s){
+		return People().getOne(s)
+	
+	}
 
 
 

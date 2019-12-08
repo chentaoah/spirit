@@ -1,5 +1,6 @@
 
 import com.sum.shy.test.Child
+import com.sum.test.father.Child M_Child
 
 abstract class Father {
 
@@ -28,6 +29,13 @@ abstract class Father {
 	func getList(){
 		return ["hello","yes"]
 	
+	}
+	
+	func test1(){
+		s="hello"
+		s1=10000000
+		return M_Child().test(s1)
+		
 	}
 
 	

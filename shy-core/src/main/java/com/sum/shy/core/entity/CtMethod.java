@@ -55,4 +55,19 @@ public class CtMethod extends AbsElement {
 		variables.add(variable);
 	}
 
+	public boolean isSame(String methodName, List<Type> parameterTypes) {
+		if (name.equals(methodName)) {
+			if (params.size() == parameterTypes.size()) {
+				int count = 0;
+				for (Param param : params) {
+					if (!param.type.equals(parameterTypes.get(count++))) {
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

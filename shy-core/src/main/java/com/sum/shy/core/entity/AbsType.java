@@ -67,9 +67,13 @@ public abstract class AbsType implements Type {
 
 	@Override
 	public String toString() {
-		// 当一个类型被拼接到java代码中的时候，在该类中尝试自动引入
-		String finalName = Context.get().currentClass.addImport(getClassName()) ? getSimpleName()
-				: ReflectUtils.getClassName(getClassName());
+
+		String finalName = getSimpleName();
+		CtClass currentClass = Context.get().currentClass;// 当前类
+		if (currentClass != null) {
+			if (!currentClass.addImport(getClassName()))
+				finalName = ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
+		}
 
 		if (!isArray() && !isGenericType()) {// 普通类型
 			return finalName;

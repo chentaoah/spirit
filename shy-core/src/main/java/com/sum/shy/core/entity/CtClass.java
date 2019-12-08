@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Element;
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class CtClass implements Annotated {
@@ -214,14 +215,14 @@ public class CtClass implements Annotated {
 		return false;
 	}
 
-	public CtMethod findMethod(String methodName) {
+	public CtMethod findMethod(String methodName, List<Type> parameterTypes) {
 		for (CtMethod method : staticMethods) {
-			if (method.name.equals(methodName)) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return method;
 			}
 		}
 		for (CtMethod method : methods) {
-			if (method.name.equals(methodName)) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return method;
 			}
 		}
@@ -229,14 +230,14 @@ public class CtClass implements Annotated {
 
 	}
 
-	public boolean existMethod(String methodName) {
+	public boolean existMethod(String methodName, List<Type> parameterTypes) {
 		for (CtMethod method : staticMethods) {
-			if (method.name.equals(methodName)) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
 		}
 		for (CtMethod method : methods) {
-			if (method.name.equals(methodName)) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
 		}

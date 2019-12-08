@@ -1,6 +1,7 @@
 package com.sum.shy.core.entity;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +46,26 @@ public class NativeType extends AbsType {
 		return clazz.getSimpleName();
 	}
 
-	public Method findMethod(String methodName) {
+	public Method findMethod(String methodName, List<Type> parameterTypes) {
+		// 遍历方法
 		for (Method method : clazz.getMethods()) {
+			// 方法名相同
 			if (method.getName().equals(methodName)) {
-				return method;
+				// 参数个数相同
+				if (method.getParameterCount() == parameterTypes.size()) {
+					// 假设就是这个方法
+					boolean flag = true;
+					int count = 0;
+					// 遍历参数类型
+					for (Parameter parameter : method.getParameters()) {
+						if (!parameter.getType().getName().equals(parameterTypes.get(count++).getClassName())) {
+							flag = false;
+							break;
+						}
+					}
+					if (flag)
+						return method;
+				}
 			}
 		}
 		throw new RuntimeException("The method was not found!method:" + methodName);

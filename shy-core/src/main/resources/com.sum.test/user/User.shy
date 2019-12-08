@@ -17,7 +17,8 @@ class User {
 	
 	//@Aspect
 	func getName(){
-		return getFather()
+		String[] strs
+		return getFather(strs)
 	}
 	
 	

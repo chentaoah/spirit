@@ -102,7 +102,7 @@ public class VariableTracker {
 		// 从继承里面去找
 		if (StringUtils.isNotEmpty(clazz.superName)) {
 			Type type = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
-					Collection.newArrayList(name), null);
+					Collection.newArrayList(name), null, null);
 			token.setTypeAtt(type);
 			return;
 		}

@@ -14,7 +14,8 @@ import com.sum.shy.core.entity.NativeType;
 
 public class NativeLinker {
 
-	public static Type getReturnType(CtClass clazz, Type type, List<String> members, String methodName) {
+	public static Type getReturnType(CtClass clazz, Type type, List<String> members, String methodName,
+			List<Type> parameterTypes) {
 		// 类名
 		NativeType nativeType = type instanceof CodeType ? new NativeType(type) : (NativeType) type;
 		try {
@@ -23,11 +24,11 @@ public class NativeLinker {
 				Field field = nativeType.clazz.getField(member);
 				Type returnType = visitElement(nativeType, field.getGenericType());
 				if (members.size() > 0 || methodName != null)
-					returnType = getReturnType(clazz, returnType, members, methodName);
+					returnType = getReturnType(clazz, returnType, members, methodName, parameterTypes);
 				return returnType;
 
 			} else if (methodName != null) {
-				Method method = nativeType.findMethod(methodName);
+				Method method = nativeType.findMethod(methodName, parameterTypes);
 				return visitElement(nativeType, method.getGenericReturnType());
 			}
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.sum.shy.test;
 
 import java.util.List;
+import java.util.Map;
 
 public class People {
 
@@ -12,7 +13,7 @@ public class People {
 		return new People();
 	}
 
-	public List<String> getName() {
+	public List<Map<String, String>> getName() {
 		return null;
 	}
 
@@ -26,6 +27,14 @@ public class People {
 
 	public Father getFather() {
 		return null;
+	}
+
+	public String getOne(String str) {
+		return null;
+	}
+
+	public int getOne(int str) {
+		return 0;
 	}
 
 }

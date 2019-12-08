@@ -9,9 +9,8 @@ public class ReflectUtils {
 		try {
 			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}
-		return null;
 	}
 
 	public static boolean isArray(String simpleName) {
