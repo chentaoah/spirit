@@ -1,6 +1,7 @@
 
 
 import com.sum.test.father.Father G_Father
+import com.sum.shy.test.People
 
 class Child extends Father{
 
@@ -16,6 +17,11 @@ class Child extends Father{
 	
 	func do(){
 		return father.getName()
+	}
+	
+	func testFullName(){
+		return People().getFather()
+	
 	}
 
 

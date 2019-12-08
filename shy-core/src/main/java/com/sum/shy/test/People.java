@@ -19,8 +19,13 @@ public class People {
 	public Child getChild() {
 		return null;
 	}
-	
+
 	public String getStr() {
 		return null;
 	}
+
+	public Father getFather() {
+		return null;
+	}
+
 }
