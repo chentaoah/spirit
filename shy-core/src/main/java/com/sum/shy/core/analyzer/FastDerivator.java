@@ -7,6 +7,7 @@ import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.utils.ReflectUtils;
 
 /**
  * 快速推导器
@@ -124,7 +125,7 @@ public class FastDerivator {
 		if (!isSame || finalType == null)
 			return new CodeType(clazz, "List<Object>");
 
-		return new CodeType(clazz, String.format("List<%s>", getWrapType(finalType.toString())));
+		return new CodeType(clazz, String.format("List<%s>", ReflectUtils.getWrapType(finalType.toString())));
 	}
 
 	private static Type getMapType(CtClass clazz, Token token) {
@@ -157,25 +158,11 @@ public class FastDerivator {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		String key = !isSameKey || finalKeyType == null ? "Object" : getWrapType(finalKeyType.toString());
-		String value = !isSameValue || finalValueType == null ? "Object" : getWrapType(finalValueType.toString());
+		String key = !isSameKey || finalKeyType == null ? "Object" : ReflectUtils.getWrapType(finalKeyType.toString());
+		String value = !isSameValue || finalValueType == null ? "Object"
+				: ReflectUtils.getWrapType(finalValueType.toString());
 		return new CodeType(clazz, String.format("Map<%s, %s>", key, value));
 
-	}
-
-	public static String getWrapType(String typeName) {
-		switch (typeName) {
-		case "boolean":
-			return "Boolean";
-		case "int":
-			return "Integer";
-		case "long":
-			return "Long";
-		case "double":
-			return "Double";
-		default:
-			return typeName;
-		}
 	}
 
 }

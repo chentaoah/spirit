@@ -56,7 +56,7 @@ public class InvokeVisiter {
 		element.lock();
 		Type type = element.getType();
 		if (type == null) {
-			Context.get().currentClass = clazz;
+//			Context.get().currentClass = clazz;
 			if (element instanceof CtField) {// 如果是字段
 				Stmt stmt = ((CtField) element).stmt;
 				VariableTracker.track(clazz, null, null, stmt.line, stmt);// 变量追踪一下
