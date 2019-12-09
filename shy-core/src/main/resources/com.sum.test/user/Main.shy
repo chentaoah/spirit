@@ -49,7 +49,7 @@ func main(){
 	if list instanceof Object {
 		
 	}
-	
+	num111=1+323323+111
 	throw Exception("I am here!")
 	
 	for key in list : print list.get(10000)

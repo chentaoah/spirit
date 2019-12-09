@@ -145,6 +145,14 @@ public class Stmt {
 					sb.append(" " + token.value + " ");
 				} else if ("<<".equals(token.value)) {
 					sb.append(" " + token.value + " ");
+				} else if ("+".equals(token.value)) {
+					sb.append(" " + token.value + " ");
+				} else if ("-".equals(token.value)) {
+					sb.append(" " + token.value + " ");
+				} else if ("*".equals(token.value)) {
+					sb.append(" " + token.value + " ");
+				} else if ("/".equals(token.value)) {
+					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value.toString());
 				}
