@@ -1,0 +1,29 @@
+package com.sum.test.syntax;
+
+import com.sum.shy.library.Collection;
+import java.util.List;
+import java.util.Map;
+
+public class Syntax {
+
+	public List<String> list = Collection.newArrayList("first", "second");
+	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
+
+	public void testFastAdd() {
+		list.add("first");
+		list.add("second");
+		map.put("user1", 123);
+		map.put("user2", 456);
+	}
+
+	public void testJudge() {
+		boolean b = list.get(1) != null;
+		boolean bb = list instanceof Object;
+	}
+
+	public void testJudgeInvoke() {
+		if (list != null)
+			list.get(100);
+	}
+
+}

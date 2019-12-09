@@ -6,10 +6,8 @@ class Syntax {
 	map={"key":100,"key":100}
 
 	func testFastAdd(){
-		
 		list << "first" << "second"
 		map << "user1",123 << "user2",456
-	
 	}
 	
 	func testJudge(){

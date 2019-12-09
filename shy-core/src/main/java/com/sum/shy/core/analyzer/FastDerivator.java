@@ -165,7 +165,7 @@ public class FastDerivator {
 
 		Type finalType = new CodeType(clazz, "Map");
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
-		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
+		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
 
 	}
