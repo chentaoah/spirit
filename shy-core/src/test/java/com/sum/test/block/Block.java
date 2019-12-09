@@ -44,6 +44,7 @@ public class Block {
 		List<String> list = Collection.newArrayList("first", "second", "third");
 		for (String str : list) {
 			logger.info(str);
+			break;
 		}
 		for (int i = 0; i < 100; i++) {
 			s = list.get(i);
@@ -51,10 +52,10 @@ public class Block {
 			continue;
 		}
 		for (int i = 0; i < 100; i++) {
-			logger.info("hello world!");
+			s = list.get(i);
 			s = String.valueOf(12345);
 			s = "caixukun";
-			break;
+			continue;
 		}
 		int[] nums = new int[100];
 		for (int num : nums) {
@@ -66,6 +67,7 @@ public class Block {
 		String y = "hi!";
 		while (StringUtils.isNotEmpty(y)) {
 			logger.info(y);
+			break;
 		}
 	}
 

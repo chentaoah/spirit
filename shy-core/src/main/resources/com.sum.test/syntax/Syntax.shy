@@ -13,6 +13,7 @@ class Syntax {
 	func testJudge(){
 		b=list.get(1) != null
 		bb=list instanceof Object
+		if b && bb : print "yes"
 	}
 	
 	func testJudgeInvoke(){

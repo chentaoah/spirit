@@ -1,11 +1,14 @@
 package com.sum.test.syntax;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.sum.shy.library.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class Syntax {
 
+	public static Logger logger = LoggerFactory.getLogger(Syntax.class);
 	public List<String> list = Collection.newArrayList("first", "second");
 	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
 
@@ -19,6 +22,9 @@ public class Syntax {
 	public void testJudge() {
 		boolean b = list.get(1) != null;
 		boolean bb = list instanceof Object;
+		if (b && bb) {
+			logger.info("yes");
+		}
 	}
 
 	public void testJudgeInvoke() {

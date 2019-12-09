@@ -33,7 +33,7 @@ class Block {
 		}
 		
 		list=["first","second","third"]
-		for str in list : print str
+		for str in list : print str : break
 		
 		for i=0; i<100; i++ {
 			s=list.get(i)
@@ -41,7 +41,7 @@ class Block {
 			continue
 		}
 		
-		for i=0; i<100; i++ : s=list.get(i) : s=String.valueOf(12345) : s="caixukun" : break
+		for i=0; i<100; i++ : s=list.get(i) : s=String.valueOf(12345) : s="caixukun" : continue
 		
 		nums=int[100]
 		for num in nums : print "num is {}",num
@@ -52,6 +52,7 @@ class Block {
 		y="hi!"
 		while y {
 			print y
+			break
 		}
 	}
 	
