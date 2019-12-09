@@ -35,13 +35,13 @@ class Block {
 		list=["first","second","third"]
 		for str in list : print str : break
 		
-		for i=0; i<100; i++ {
+		for i=0; i<list.size(); i++ {
 			s=list.get(i)
 			print "thank {} very much!", "you"
 			continue
 		}
 		
-		for i=0; i<100; i++ : s=list.get(i) : s=String.valueOf(12345) : s="caixukun" : continue
+		for i=0; i<list.size(); i++ : s=list.get(i) : s=String.valueOf(12345) : s="caixukun" : continue
 		
 		nums=int[100]
 		for num in nums : print "num is {}",num

@@ -46,12 +46,12 @@ public class Block {
 			logger.info(str);
 			break;
 		}
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < list.size(); i++) {
 			s = list.get(i);
 			logger.info("thank {} very much!", "you");
 			continue;
 		}
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < list.size(); i++) {
 			s = list.get(i);
 			s = String.valueOf(12345);
 			s = "caixukun";

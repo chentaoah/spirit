@@ -128,7 +128,7 @@ public class MethodResolver {
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
 			Stmt subStmt = Stmt.create(subText);
 			VariableTracker.track(clazz, method, block, line, subStmt);// 变量追踪
-			InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
+			InvokeVisiter.visitStmt(clazz, subStmt);// 返回值推导
 			Type type = FastDerivator.getType(clazz, subStmt);// 类型推导
 			method.addVariable(new Variable(block, type, subStmt.get(0)));
 
