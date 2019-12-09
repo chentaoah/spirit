@@ -42,7 +42,7 @@ class Block {
 			continue
 		}
 		
-		for i=0; i<100; i++ : print "hello world!" : s=12345 : s="caixukun" : break
+		for i=0; i<100; i++ : print "hello world!" : s=String.valueOf(12345) : s="caixukun" : break
 		
 		nums=int[100]
 		for num in nums : print "num is {}",num
