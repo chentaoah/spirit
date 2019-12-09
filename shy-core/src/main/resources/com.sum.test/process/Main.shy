@@ -1,0 +1,16 @@
+
+func main(){
+	
+	print "hello world!"
+
+}
+
+
+func doSomething(){
+	s="hello"
+	if s=="hello" {
+		print "hi!"
+		return true
+	}
+	return false
+}

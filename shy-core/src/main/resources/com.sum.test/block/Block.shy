@@ -1,0 +1,75 @@
+
+//代码块
+class Block {
+
+	s="hello"
+	
+	func testIf(){
+		if s=="hello"{
+			print s
+		}
+		if s!="hello"{
+			print s
+		}
+		if s {
+			print s
+		}
+		if !s {
+			print s
+		}else{
+			print s
+		}
+		
+		if s : print s
+		
+		if s : print s : print "yes"
+	
+	}
+	
+	func testFor(){
+	
+		map={"key":100,"key":100}
+		for key in map.keySet(){
+			print key
+		}
+		
+		list=["first","second","third"]
+		for str in list : print str
+		
+		for i=0; i<100; i++ {
+			s=list.get(i)
+			print "thank {} very much!", "you"
+			continue
+		}
+		
+		for i=0; i<100; i++ : print "hello world!" : s=12345 : s="caixukun" : break
+		
+		nums=int[100]
+		for num in nums : print "num is {}",num
+		
+	}
+	
+	func testWhile(){
+		y="hi!"
+		while y {
+			print y
+		}
+	}
+	
+	func testTry(){
+		try{
+			throw Exception("test")
+		}catch Exception e{
+			//here need error keyword
+		}
+	
+	}
+	
+	func testSync(){
+		sync s {
+			print "in sync!"
+		}
+	
+	}
+
+}

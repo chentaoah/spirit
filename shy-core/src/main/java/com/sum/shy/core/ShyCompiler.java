@@ -17,26 +17,17 @@ public class ShyCompiler {
 	// 主方法
 	public static void main(String[] args) throws IOException {
 
+		// 第一个参数是代码地址
+		String inputPath = args[0];
+		// 第二参数是输出地址
+		String outputPath = args[1];
+
 		// debug模式可以观察词法，语法，和语义是否分析得正确
 		boolean debug = false;
 
-		String path = null;
-		String OSName = System.getProperty("os.name");
-		switch (OSName) {
-		case "Windows 10":
-			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\com.sum.test";
-			break;
-		case "Mac OS X":
-			path = "/Users/chentao/Work/CloudSpace/Shy/shy-core/src/main/resources/com.sum.test";
-			break;
-		default:
-			path = "D:\\Work\\CloudSpace\\Shy\\shy-core\\src\\main\\resources\\com.sum.test";
-			break;
-		}
-
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
-		FileUtils.getFiles(path, "", files);
+		FileUtils.getFiles(inputPath, "", files);
 		// 设置所有的友元
 		Context.get().friends = files.keySet();
 
@@ -62,9 +53,12 @@ public class ShyCompiler {
 			Context.get().classes = classes;
 			// 推导出剩下未知的类型
 			InvokeVisiter.visitClasses(classes);
-			// 2.构建java代码
+
 			for (CtClass clazz : classes.values()) {
-				compile(clazz);
+				// 2.构建java代码
+				String code = build(clazz);
+				// 输出到指定文件夹下
+				FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
 			}
 		}
 
@@ -83,7 +77,7 @@ public class ShyCompiler {
 		new ShyDebugger().read(file);
 	}
 
-	public static Class<?> compile(CtClass clazz) {
+	public static String build(CtClass clazz) {
 		// 转换方法中的内容,并生成java代码
 		String code = new JavaBuilder().build(clazz);
 		// 替换类的别名
@@ -91,7 +85,7 @@ public class ShyCompiler {
 
 		System.out.println(code);
 
-		return null;
+		return code;
 	}
 
 }

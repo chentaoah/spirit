@@ -1,0 +1,12 @@
+
+
+interface Interface{
+
+	String one()
+	
+	int two()
+	
+	byte[] three()
+	
+	
+}
