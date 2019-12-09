@@ -17,7 +17,6 @@ class Syntax {
 	
 	func testJudgeInvoke(){
 		list?.get(100)
-	
 	}
 
 }
