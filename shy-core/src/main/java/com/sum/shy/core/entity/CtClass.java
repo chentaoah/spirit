@@ -157,28 +157,33 @@ public class CtClass implements Annotated {
 	}
 
 	public boolean addImport(String className) {
-		// 基本类型数组,就不必添加了
+
+		// 1.基本类型数组,不添加
 		if (className.startsWith("[") && !className.startsWith("[L"))
 			return true;
+
 		// 如果是数组，则把修饰符号去掉
 		className = ReflectUtils.getClassName(className);
 
-		// 1.基本类className和simpleName相同
-		// 2.一般java.lang.包下的类不用引入
+		// 2.基本类className和simpleName相同
+		// 3.一般java.lang.包下的类不用引入
 		if (ReflectUtils.getCommonType(className) != null || className.startsWith("java.lang."))
 			return true;
 
-		// 如果是自己本身，就不必添加了
+		// 4.别名,不添加
+		if (importAliases.containsValue(className))
+			return true;
+
+		// 5.如果是本身,不添加
 		if (getClassName().equals(className))
 			return true;
 
-		// 如果已经存在了，就不重复添加了
+		// 6.重复
 		if (!importStrs.containsValue(className)) {
 			String lastName = className.substring(className.lastIndexOf(".") + 1);
 			// 如果不存在该类,但是出现了类名重复的,则返回false,表示添加失败
-			if (importStrs.containsKey(lastName)) {
+			if (importStrs.containsKey(lastName))
 				return false;
-			}
 			importStrs.put(lastName, className);
 			return true;
 		}

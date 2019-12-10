@@ -11,8 +11,13 @@ contexts:
       scope: string
       push: annotation
 
+    # String
+    - match: '"'
+      scope: string
+      push: double_string
+
     # Keyword 
-    - match: '\b(package|import|class|interface|abstract|extends|impl|func|throws)\b'
+    - match: '\b(package|import|interface|abstract|class|extends|impl|func|throws)\b'
       scope: keyword
 
     # Block
@@ -20,13 +25,16 @@ contexts:
       scope: keyword
 
     # Block Keyword
-    - match: '\b(null|return|this|continue|break|throw|instanceof|print)\b'
+    - match: '\b(this|return|continue|break|throw|instanceof|print)\b'
       scope: keyword
 
-    # String
-    - match: '"'
-      scope: string
-      push: double_quoted_string
+    # Basic Type 
+    - match: '\b(boolean|char|short|int|long|float|double|byte)\b'
+      scope: keyword
+
+    # Literal 
+    - match: '\b(null|true|false)\b'
+      scope: keyword
 
     # Number
     - match: '\b\d+(\.\d+)?\b'
@@ -51,7 +59,7 @@ contexts:
       scope: variable
       pop: true
 
-  double_quoted_string:
+  double_string:
     - meta_scope: string
     - match: '"'
       scope: string

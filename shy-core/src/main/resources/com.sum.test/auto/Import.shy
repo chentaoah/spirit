@@ -1,10 +1,18 @@
 
+//别名
+import com.sum.test.auto.Alias G_Alias
+
 class Import {
 
 	f=Friend()
+	a=G_Alias()
 
 	func testFriend(){
 		return f.sayHello()
+	}
+
+	func testAlias(){
+		return a.getName()
 	}
 	
 	

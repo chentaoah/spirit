@@ -1,4 +1,33 @@
 
 class Type {
+	b=true
+	b1=false
+	i=100
+	d=100.0
+	s="string"
+	list=["first","second","third"]
+	list1=["string",100]
+	map={"key1":123,"key2":456}
+	map1={"key1":"string","key2":100}
+	bArray=boolean[10]
+	cArray=char[10]
+	sArray=short[10]
+	iArray=int[10]
+	fArray=float[10]
+	dArray=double[10]
+	objArray=Object[10]
+	strArray=String[10]
+
+	func testType(){
+
+		list << "fourth"
+		//测试不同类型
+		list1 << 100.0
+
+		map << "key3",100
+		//测试不同类型
+		map1 << "key3",100.0
+
+	}
 	
 }
