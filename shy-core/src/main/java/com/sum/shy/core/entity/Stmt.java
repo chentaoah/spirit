@@ -124,6 +124,10 @@ public class Stmt {
 					sb.append(" " + token.value + " ");
 				} else if ("return".equals(token.value) && size() == 2) {// return;
 					sb.append(token.value);
+				} else if ("extends".equals(token.value)) {// extends
+					sb.append(" " + token.value + " ");
+				} else if ("impl".equals(token.value)) {// impl shy代码显示的更好看点
+					sb.append(" " + token.value + " ");
 				} else {
 					sb.append(token.value + " ");
 				}
