@@ -1,0 +1,17 @@
+
+class Service extends AbsService{
+
+	func one(){
+		return "one"
+	}
+	
+	func two(){
+		return 10
+	}
+	
+	func three(){
+		return byte[10]
+	}
+
+	
+}

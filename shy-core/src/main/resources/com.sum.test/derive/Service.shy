@@ -1,6 +1,6 @@
 
 
-interface Interface{
+interface Service{
 
 	String one()
 	

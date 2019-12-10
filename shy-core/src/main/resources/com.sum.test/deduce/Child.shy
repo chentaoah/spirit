@@ -1,10 +1,9 @@
 
-
-
-
 class Child extends Father{
 
-
+	func sayHelloLikeFather(){
+		return this.sayHello()
+	}
 
 
 

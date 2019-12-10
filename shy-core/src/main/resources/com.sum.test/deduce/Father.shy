@@ -3,7 +3,9 @@
 
 class Father {
 
-	
+	func sayHello(){
+		return "hello"
+	}
 
 	
 }
