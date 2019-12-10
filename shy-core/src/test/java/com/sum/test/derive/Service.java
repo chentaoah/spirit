@@ -1,19 +1,11 @@
 package com.sum.test.derive;
 
-import com.sum.test.derive.AbsService;
+public interface Service {
 
-public class Service extends AbsService {
+	String one();
 
-	public String one() {
-		return "one";
-	}
+	int two();
 
-	public int two() {
-		return 10;
-	}
-
-	public byte[] three() {
-		return new byte[10];
-	}
+	byte[] three();
 
 }

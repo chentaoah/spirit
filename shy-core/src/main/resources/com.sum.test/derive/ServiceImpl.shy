@@ -1,5 +1,5 @@
 
-class Service extends AbsService{
+class ServiceImpl extends AbsService{
 
 	func one(){
 		return "one"
