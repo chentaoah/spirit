@@ -1,6 +1,6 @@
-package com.sum.test.derive;
+package com.sum.test.clazz;
 
-import com.sum.test.derive.AbsService;
+import com.sum.test.clazz.AbsService;
 
 public class ServiceImpl extends AbsService {
 

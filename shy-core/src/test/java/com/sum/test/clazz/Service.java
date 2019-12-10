@@ -1,4 +1,4 @@
-package com.sum.test.derive;
+package com.sum.test.clazz;
 
 public interface Service {
 
