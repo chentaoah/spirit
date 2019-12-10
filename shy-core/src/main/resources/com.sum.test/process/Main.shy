@@ -1,10 +1,8 @@
 
+//面向过程
 func main(){
-	
-	print "hello world!"
-
+	doSomething()
 }
-
 
 func doSomething(){
 	s="hello"

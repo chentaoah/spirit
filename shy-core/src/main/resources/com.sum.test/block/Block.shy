@@ -26,23 +26,30 @@ class Block {
 	}
 	
 	func testFor(){
-	
+		//遍历Map
 		map={"key":100,"key":100}
 		for key in map.keySet(){
 			print key
 		}
+		for value in map.values(){
+			print "number is {}",value
+		}
 		
+		//遍历List
 		list=["first","second","third"]
 		for str in list : print str : break
 		
+		//索引遍历
 		for i=0; i<list.size(); i++ {
 			s=list.get(i)
 			print "thank {} very much!", "you"
 			continue
 		}
 		
+		//索引遍历
 		for i=0; i<list.size(); i++ : s=list.get(i) : s=String.valueOf(12345) : s="caixukun" : continue
 		
+		//遍历数组
 		nums=int[100]
 		for num in nums : print "num is {}",num
 		

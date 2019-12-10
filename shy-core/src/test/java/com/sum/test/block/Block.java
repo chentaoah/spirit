@@ -41,6 +41,9 @@ public class Block {
 		for (String key : map.keySet()) {
 			logger.info(key);
 		}
+		for (Integer value : map.values()) {
+			logger.info("number is {}", value);
+		}
 		List<String> list = Collection.newArrayList("first", "second", "third");
 		for (String str : list) {
 			logger.info(str);

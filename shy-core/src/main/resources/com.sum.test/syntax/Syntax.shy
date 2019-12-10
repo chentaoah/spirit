@@ -5,17 +5,20 @@ class Syntax {
 	list=["first","second"]
 	map={"key":100,"key":100}
 
+	//快速添加
 	func testFastAdd(){
 		list << "first" << "second"
 		map << "user1",123 << "user2",456
 	}
 	
+	//一般判断
 	func testJudge(){
 		b=list.get(1) != null
 		bb=list instanceof Object
 		if b && bb : print "yes"
 	}
 	
+	//判断调用
 	func testJudgeInvoke(){
 		list?.get(100)
 	}

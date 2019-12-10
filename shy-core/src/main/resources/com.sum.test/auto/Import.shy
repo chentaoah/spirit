@@ -1,6 +1,11 @@
 
-
 class Import {
+
+	f=Friend()
+
+	func testFriend(){
+		return f.sayHello()
+	}
 	
 	
 }
