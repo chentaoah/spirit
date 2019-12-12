@@ -28,6 +28,17 @@ class Type {
 		//测试不同类型
 		map1 << "key3",100.0
 
+		//测试数组返回
+		a1=bArray[0]
+		a2=cArray[0]
+		a3=sArray[0]
+		a4=iArray[0]
+		a5=fArray[0]
+		a6=dArray[0]
+		a7=objArray[0]
+		a8=strArray[0]
+		print "test array{}{}{}{}{}{}{}{}{}",a1,a2,a3,a4,a5,a6,a7,a8
+
 	}
 	
 }

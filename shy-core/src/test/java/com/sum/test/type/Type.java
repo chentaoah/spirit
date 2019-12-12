@@ -1,11 +1,14 @@
 package com.sum.test.type;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.sum.shy.library.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class Type {
 
+	public static Logger logger = LoggerFactory.getLogger(Type.class);
 	public boolean b = true;
 	public boolean b1 = false;
 	public int i = 100;
@@ -29,6 +32,15 @@ public class Type {
 		list1.add(100.0);
 		map.put("key3", 100);
 		map1.put("key3", 100.0);
+		boolean a1 = bArray[0];
+		char a2 = cArray[0];
+		short a3 = sArray[0];
+		int a4 = iArray[0];
+		float a5 = fArray[0];
+		double a6 = dArray[0];
+		Object a7 = objArray[0];
+		String a8 = strArray[0];
+		logger.info("test array{}{}{}{}{}{}{}{}{}", a1, a2, a3, a4, a5, a6, a7, a8);
 	}
 
 }

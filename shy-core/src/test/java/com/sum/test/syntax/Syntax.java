@@ -32,7 +32,7 @@ public class Syntax {
 			list.get(100);
 	}
 
-	public void testError() {
+	public void testLog() {
 		try {
 			logger.info("test print keyword");
 			logger.debug("test debug keyword");

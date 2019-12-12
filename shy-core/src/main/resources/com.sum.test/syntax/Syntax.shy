@@ -24,7 +24,7 @@ class Syntax {
 	}
 	
 	//异常处理
-	func testError(){
+	func testLog(){
 		try{
 			print "test print keyword"
 			debug "test debug keyword"
