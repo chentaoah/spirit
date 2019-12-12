@@ -21,7 +21,7 @@ contexts:
       scope: keyword
 
     # Block
-    - match: '\b(if|else|for|in|while|do|try|catch|sync)\b'
+    - match: '\b(if|else|for|in|do|while|try|catch|sync)\b'
       scope: keyword
 
     # Block Keyword
