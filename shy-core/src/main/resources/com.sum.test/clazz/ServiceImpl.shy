@@ -16,10 +16,5 @@ class ServiceImpl extends AbsService{
 	func three(){
 		return byte[10]
 	}
-	
-	func testClass(){
-		return ServiceImpl.class
-	}
 
-	
 }
