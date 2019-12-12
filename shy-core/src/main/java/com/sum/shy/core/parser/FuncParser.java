@@ -21,30 +21,45 @@ public class FuncParser implements Parser {
 	@Override
 	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
-		String methodDesc = stmt.get(1);// func method(int num) throws exception
-		String methodName = methodDesc.substring(0, methodDesc.indexOf("("));// 名称
+		boolean isSync = false;
+		String methodName = null;
 		List<Param> params = new ArrayList<>();// 参数
-		List<String> list = LexicalAnalyzer
-				.getWords(methodDesc.substring(methodDesc.indexOf("(") + 1, methodDesc.indexOf(")")));
-		for (int i = 0; i < list.size(); i = i + 3) {
-			String type = list.get(i);
-			String name = list.get(i + 1);
-			// 根据字符串字面意思,获取类型
-			params.add(new Param(new CodeType(clazz, type), name));
-		}
-
-		// 抛出的异常
-		String thrid = stmt.get(2);
 		List<String> exceptions = new ArrayList<>();
-		if ("throws".equals(thrid)) {
-			for (Token token : stmt.tokens.subList(3, stmt.size())) {
-				if (token.isKeywordParam())
-					exceptions.add(token.value.toString());
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+			if (token.isKeyword()) {
+				if ("func".equals(token.value)) {
+					Token nextToken = stmt.getToken(i + 1);
+					if ("sync".equals(nextToken.value)) {// 如果是同步语句块
+						isSync = true;
+						nextToken = stmt.getToken(i + 2);
+					}
+					// func method(int num) throws exception
+					String methodDesc = nextToken.value.toString();
+					methodName = methodDesc.substring(0, methodDesc.indexOf("("));// 名称
+					List<String> list = LexicalAnalyzer
+							.getWords(methodDesc.substring(methodDesc.indexOf("(") + 1, methodDesc.indexOf(")")));
+					for (int j = 0; j < list.size(); j = j + 3) {
+						String type = list.get(j);
+						String name = list.get(j + 1);
+						// 根据字符串字面意思,获取类型
+						params.add(new Param(new CodeType(clazz, type), name));
+					}
+				} else if ("throws".equals(token.value)) {
+					for (int j = i + 1; j < stmt.size(); j++) {
+						Token nextToken = stmt.getToken(j);
+						if (nextToken.isKeywordParam()) {
+							clazz.interfaces.add(nextToken.value.toString());
+						} else if (nextToken.isKeyword()) {
+							break;
+						}
+					}
+				}
 			}
 		}
 
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(null, methodName, params, exceptions, Context.get().getAnnotations());
+		CtMethod method = new CtMethod(null, isSync, methodName, params, exceptions, Context.get().getAnnotations());
 		method.methodLines = LineUtils.getSubLines(lines, index);
 
 		if (Constants.STATIC_SCOPE.equals(scope)) {

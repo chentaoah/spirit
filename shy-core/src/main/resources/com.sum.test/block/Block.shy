@@ -72,7 +72,7 @@ class Block {
 	
 	}
 	
-	func testSync(){
+	func sync testSync(){
 		sync s {
 			print "in sync!"
 		}

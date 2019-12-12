@@ -81,7 +81,7 @@ public class Block {
 		}
 	}
 
-	public void testSync() {
+	public synchronized void testSync() {
 		synchronized (s) {
 			logger.info("in sync!");
 		}

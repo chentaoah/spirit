@@ -7,6 +7,8 @@ import com.google.common.base.Joiner;
 import com.sum.shy.core.api.Type;
 
 public class CtMethod extends AbsElement {
+	// 是否同步
+	public boolean isSync;
 	// 参数名
 	public String name;
 	// 初始值
@@ -27,9 +29,10 @@ public class CtMethod extends AbsElement {
 	 * @param exceptions
 	 * @param annotations
 	 */
-	public CtMethod(Type returnType, String name, List<Param> params, List<String> exceptions,
+	public CtMethod(Type returnType, boolean isSync, String name, List<Param> params, List<String> exceptions,
 			List<String> annotations) {
 		this.type = returnType;
+		this.isSync = isSync;
 		this.name = name;
 		this.params = params;
 		this.exceptions = exceptions;

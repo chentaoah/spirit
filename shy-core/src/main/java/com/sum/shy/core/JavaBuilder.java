@@ -220,7 +220,7 @@ public class JavaBuilder {
 		StringBuilder body = new StringBuilder();
 		for (CtMethod method : clazz.staticMethods) {
 			body.append(buildAnnotations("\t", method));
-			body.append(buildMethod(clazz, "static", method));
+			body.append(buildMethod(clazz, "static ", method));
 		}
 		for (CtMethod method : clazz.methods) {
 			body.append(buildAnnotations("\t", method));
@@ -251,13 +251,10 @@ public class JavaBuilder {
 				: "";
 		// 如果是构造函数,那就没有返回值了
 		String returnType = method.name.equals(clazz.typeName) ? "" : method.type.toString() + " ";
+		// public static synchronized void method(String param) throws Exception {
+		body.append(String.format("\tpublic %s%s%s%s(%s) %s{\n", desc, method.isSync ? "synchronized " : "", returnType,
+				method.name, paramStr, exceptions));
 
-		if (StringUtils.isNotEmpty(desc)) {
-			body.append(
-					String.format("\tpublic %s %s%s(%s) %s{\n", desc, returnType, method.name, paramStr, exceptions));
-		} else {
-			body.append(String.format("\tpublic %s%s(%s) %s{\n", returnType, method.name, paramStr, exceptions));
-		}
 		// 转化方法体
 		convertMethod(body, clazz, method);
 		body.append("\t}\n\n");
