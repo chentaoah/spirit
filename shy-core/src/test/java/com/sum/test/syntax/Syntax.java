@@ -32,4 +32,14 @@ public class Syntax {
 			list.get(100);
 	}
 
+	public void testError() {
+		try {
+			logger.info("test print keyword");
+			logger.debug("test debug keyword");
+			throw new Exception("test");
+		} catch (Exception e) {
+			logger.error("There is a Exception!", e);
+		}
+	}
+
 }

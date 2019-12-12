@@ -55,6 +55,7 @@ public class JavaBuilder {
 
 		Converter.register("print", new PrintConverter());// 日志
 		Converter.register("debug", new PrintConverter());// 日志
+		Converter.register("error", new PrintConverter());// 日志
 
 		Converter.register("fast_add", new FastAddConverter());// 快速添加
 

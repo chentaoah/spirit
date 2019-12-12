@@ -28,6 +28,10 @@ public class PrintConverter extends DefaultConverter {
 			stmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, "logger.debug(", null));// 替换
 			stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ");", null));
 
+		} else if ("error".equals(token.value)) {
+			stmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, "logger.error(", null));// 替换
+			stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ");", null));
+
 		}
 		// 如果不存在
 		if (!clazz.existField("logger")) {

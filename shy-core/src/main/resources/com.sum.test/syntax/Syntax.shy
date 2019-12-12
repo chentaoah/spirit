@@ -22,6 +22,17 @@ class Syntax {
 	func testJudgeInvoke(){
 		list?.get(100)
 	}
+	
+	//异常处理
+	func testError(){
+		try{
+			print "test print keyword"
+			debug "test debug keyword"
+			throw Exception("test")
+		}catch Exception e{
+			error "There is a Exception!",e
+		}
+	}
 
 }
 

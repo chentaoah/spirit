@@ -25,7 +25,7 @@ contexts:
       scope: keyword
 
     # Block Keyword
-    - match: '\b(this|return|continue|break|throw|instanceof|print)\b'
+    - match: '\b(this|return|continue|break|throw|instanceof|print|debug|error)\b'
       scope: keyword
 
     # Basic Type 

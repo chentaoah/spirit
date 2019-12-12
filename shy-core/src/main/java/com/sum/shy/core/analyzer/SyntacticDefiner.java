@@ -17,7 +17,7 @@ public class SyntacticDefiner {
 
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "interface", "abstract", "class",
-			"func", "return", "if", "while", "continue", "break", "try", "throw", "print", "debug", "sync" };
+			"func", "if", "while", "try", "sync", "return", "break", "continue", "throw", "print", "debug", "error" };
 
 	public static String getSyntax(List<String> words) {
 		try {
