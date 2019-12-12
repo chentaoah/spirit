@@ -1,9 +1,24 @@
 
 class Child extends Father{
 
-	func sayHelloLikeFather(){
+	father=Father()
+	age=18
+
+	func sayHello(){
+		return super.sayHello()
+	}
+
+	func getFather(){
+		return father
+	}
+
+	func testMembers(){
+		a=getFather().getChild().getFather().name
+		b=father.child.father.child.father.name
+		print "test members {} {}",a,b
 		return this.sayHello()
 	}
+
 
 
 

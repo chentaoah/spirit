@@ -70,6 +70,13 @@ public class VariableTracker {
 			token.setTypeAtt(new CodeType(clazz, clazz.getClassName(), clazz.typeName));
 			return;
 		}
+		// super引用,指向的是父类
+		if ("super".equals(name)) {
+			// 这里可能是比较隐晦的逻辑，因为
+			token.setTypeAtt(new CodeType(clazz, clazz.superName));
+			return;
+		}
+
 		// 先在最近的位置找变量
 		if (method != null) {
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
