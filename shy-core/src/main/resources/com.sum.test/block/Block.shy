@@ -78,5 +78,9 @@ class Block {
 		}
 	
 	}
+	
+	func testThrows() throws Exception {
+		return s
+	}
 
 }

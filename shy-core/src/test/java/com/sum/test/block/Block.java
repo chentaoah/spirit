@@ -87,4 +87,8 @@ public class Block {
 		}
 	}
 
+	public String testThrows() throws Exception {
+		return s;
+	}
+
 }
