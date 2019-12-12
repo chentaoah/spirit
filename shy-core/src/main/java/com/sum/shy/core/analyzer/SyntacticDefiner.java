@@ -39,6 +39,9 @@ public class SyntacticDefiner {
 			if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}
+			if (words.size() == 1 && first.startsWith("super(")) {// 只有一个语素,并且以super开头
+				return Constants.SUPER_SYNTAX;
+			}
 			if (words.size() == 1) {// 只有一个语素，一般来说都是invoke
 				return Constants.INVOKE_SYNTAX;
 			}

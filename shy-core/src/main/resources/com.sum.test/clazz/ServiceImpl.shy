@@ -1,6 +1,10 @@
 
 class ServiceImpl extends AbsService{
 
+	func ServiceImpl(){
+		super()
+	}
+
 	func one(){
 		return "one"
 	}

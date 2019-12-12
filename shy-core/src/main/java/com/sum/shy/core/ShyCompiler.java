@@ -1,7 +1,6 @@
 package com.sum.shy.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import com.sum.shy.core.utils.FileUtils;
 public class ShyCompiler {
 
 	// 主方法
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		// 第一个参数是代码地址
 		String inputPath = args[0];
@@ -23,7 +22,7 @@ public class ShyCompiler {
 		String outputPath = args[1];
 
 		// debug模式可以观察词法，语法，和语义是否分析得正确
-		boolean debug = false;
+		boolean debug = true;
 
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();

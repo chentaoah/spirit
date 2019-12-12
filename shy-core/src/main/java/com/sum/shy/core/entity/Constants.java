@@ -36,6 +36,7 @@ public class Constants {
 	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
 	public static final String JUDGE_INVOKE_SYNTAX = "judge_invoke";// 判空调用
 	public static final String ANNOTATION_SYNTAX = "annotation";
+	public static final String SUPER_SYNTAX = "super";// 父类构造
 
 	public static final String KEYWORD_TOKEN = "keyword";
 	public static final String KEYWORD_PARAM_TOKEN = "keyword_param";
