@@ -49,7 +49,7 @@ public class FuncParser implements Parser {
 					for (int j = i + 1; j < stmt.size(); j++) {
 						Token nextToken = stmt.getToken(j);
 						if (nextToken.isKeywordParam()) {
-							clazz.interfaces.add(nextToken.value.toString());
+							exceptions.add(nextToken.value.toString());
 						} else if (nextToken.isKeyword()) {
 							break;
 						}
