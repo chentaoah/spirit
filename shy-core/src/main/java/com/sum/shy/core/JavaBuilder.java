@@ -248,12 +248,14 @@ public class JavaBuilder {
 		String exceptions = method.exceptions.size() > 0
 				? String.format("throws %s ", Joiner.on(", ").join(method.exceptions))
 				: "";
+		// 如果是构造函数,那就没有返回值了
+		String returnType = method.name.equals(clazz.typeName) ? "" : method.type.toString() + " ";
 
 		if (StringUtils.isNotEmpty(desc)) {
 			body.append(
-					String.format("\tpublic %s %s %s(%s) %s{\n", desc, method.type, method.name, paramStr, exceptions));
+					String.format("\tpublic %s %s%s(%s) %s{\n", desc, returnType, method.name, paramStr, exceptions));
 		} else {
-			body.append(String.format("\tpublic %s %s(%s) %s{\n", method.type, method.name, paramStr, exceptions));
+			body.append(String.format("\tpublic %s%s(%s) %s{\n", returnType, method.name, paramStr, exceptions));
 		}
 		// 转化方法体
 		convertMethod(body, clazz, method);

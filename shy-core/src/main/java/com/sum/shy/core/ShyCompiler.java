@@ -22,7 +22,7 @@ public class ShyCompiler {
 		String outputPath = args[1];
 
 		// debug模式可以观察词法，语法，和语义是否分析得正确
-		boolean debug = true;
+		boolean debug = false;
 
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();

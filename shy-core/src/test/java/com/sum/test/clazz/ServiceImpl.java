@@ -4,6 +4,10 @@ import com.sum.test.clazz.AbsService;
 
 public class ServiceImpl extends AbsService {
 
+	public ServiceImpl() {
+		super();
+	}
+
 	public String one() {
 		return "one";
 	}

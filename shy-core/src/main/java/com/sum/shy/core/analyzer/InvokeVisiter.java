@@ -217,6 +217,10 @@ public class InvokeVisiter {
 					}
 
 				} else if (methodName != null) {
+					// 父类构造方法
+					if ("super".equals(methodName)) {
+						return new CodeType(typeClass, typeClass.superName);
+					}
 					// 存在该方法
 					if (typeClass.existMethod(methodName, parameterTypes)) {
 						CtMethod method = typeClass.findMethod(methodName, parameterTypes);
