@@ -17,7 +17,7 @@ contexts:
       push: double_string
 
     # Keyword 
-    - match: '\b(package|import|interface|abstract|class|extends|impl|func|throws)\b'
+    - match: '\b(package|import|interface|abstract|class|extends|impl|super|func|throws)\b'
       scope: keyword
 
     # Block

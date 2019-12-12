@@ -20,4 +20,8 @@ public class ServiceImpl extends AbsService {
 		return new byte[10];
 	}
 
+	public Class<ServiceImpl> testClass() {
+		return ServiceImpl.class;
+	}
+
 }

@@ -197,7 +197,12 @@ public class InvokeVisiter {
 			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
 				CtClass typeClass = Context.get().findClass(className);// 获取友元
 				if (members != null && members.size() > 0) {
+
 					String member = members.remove(0);// 获取第一个属性
+					// 特殊属性class
+					if ("class".equals(member)) {
+						return new CodeType(typeClass, "Class<" + typeClass.typeName + ">");
+					}
 					// 存在该字段
 					if (typeClass.existField(member)) {
 						CtField field = typeClass.findField(member);

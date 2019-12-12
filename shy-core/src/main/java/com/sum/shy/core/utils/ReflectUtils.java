@@ -105,6 +105,8 @@ public class ReflectUtils {
 			return Object.class.getName();
 		case "String":
 			return String.class.getName();
+		case "Class":
+			return Class.class.getName();
 		case "Exception":
 			return Exception.class.getName();
 		// 类数组
