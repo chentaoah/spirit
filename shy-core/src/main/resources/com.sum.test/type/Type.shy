@@ -39,6 +39,15 @@ class Type {
 		a8=strArray[0]
 		print "test array{}{}{}{}{}{}{}{}{}",a1,a2,a3,a4,a5,a6,a7,a8
 
+		//测试class
+		clazz=Type.class
+		print "test class {}",clazz
+
+		//测试this
+		self=this
+		print "test this {}",self
+
+
 	}
 	
 }

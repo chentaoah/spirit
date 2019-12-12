@@ -251,6 +251,7 @@ public class JavaBuilder {
 				: "";
 		// 如果是构造函数,那就没有返回值了
 		String returnType = method.name.equals(clazz.typeName) ? "" : method.type.toString() + " ";
+
 		// public static synchronized void method(String param) throws Exception {
 		body.append(String.format("\tpublic %s%s%s%s(%s) %s{\n", desc, method.isSync ? "synchronized " : "", returnType,
 				method.name, paramStr, exceptions));
