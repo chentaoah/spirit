@@ -271,7 +271,14 @@ public class SemanticDelegate {
 				// 追加一个元素在头部
 				subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
 				subTokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "<", null));// 注意:这个符号不再是操作符,而是分隔符
-				subTokens.add(subTokens.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ">", null));
+				subTokens.add(new Token(Constants.SEPARATOR_TOKEN, ">", null));// 20191213 ct 修复>分隔符插入位置错误的问题
+				// 将泛型中的?替换一下
+				int count = 0;
+				for (Token subToken : subTokens) {
+					if ("?".equals(subToken.value.toString()))
+						subTokens.set(count, new Token(Constants.TYPE_TOKEN, "?", null));
+					count++;
+				}
 				// 生成子语句
 				token.value = new Stmt(word, subWords, subTokens);
 				return;

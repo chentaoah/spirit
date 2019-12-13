@@ -41,8 +41,10 @@ public class Type {
 		Object a7 = objArray[0];
 		String a8 = strArray[0];
 		logger.info("test array{}{}{}{}{}{}{}{}{}", a1, a2, a3, a4, a5, a6, a7, a8);
-		Class<Type> clazz = Type.class;
-		logger.info("test class {}", clazz);
+		Class<?> clazz;
+		clazz = Type.class;
+		Class<?> clz = clazz;
+		logger.info("test class {}", clz);
 		Type self = this;
 		logger.info("test this {}", self);
 	}

@@ -178,8 +178,11 @@ public class Stmt {
 			} else if (token.isType()) {// 类型声明后面加空格
 				if (i - 1 > 0 && "instanceof".equals(get(i - 1))) {
 					sb.append(token.value.toString());// 类型判断语句中类型后面不用加空格 a instanceof List
-				} else {
+				} else if (syntax != null) {
+					// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
 					sb.append(token.value.toString() + " ");
+				} else {
+					sb.append(token.value.toString());
 				}
 			} else {
 				sb.append(token.value.toString());

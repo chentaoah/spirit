@@ -1,8 +1,11 @@
 
+import com.sum.shy.test.ClassGenericTest
+
 class Child extends Father{
 
 	father=Father()
 	age=18
+	t=ClassGenericTest()
 
 	func sayHello(){
 		return super.sayHello()
@@ -17,6 +20,11 @@ class Child extends Father{
 		b=father.child.father.child.father.name
 		print "test members {} {}",a,b
 		return this.sayHello()
+	}
+
+	func testClassGeneric(){
+		a = t.getClazz()
+		return a.getName()
 	}
 
 

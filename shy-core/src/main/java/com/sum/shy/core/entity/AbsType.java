@@ -1,5 +1,6 @@
 package com.sum.shy.core.entity;
 
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,11 @@ public abstract class AbsType implements Type {
 	}
 
 	@Override
+	public boolean isWildcard() {
+		return getClassName().equals(WildcardType.class.getName());
+	}
+
+	@Override
 	public boolean isArray() {
 		return getSimpleName().endsWith("[]");
 	}
@@ -79,9 +85,16 @@ public abstract class AbsType implements Type {
 	@Override
 	public String toString() {
 		// 最终是否打印类全名，看是否能够添加到该类型中
-		String finalName = clazz.addImport(getClassName()) ? getSimpleName()
-				: ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
-
+		String finalName = null;
+		if (isWildcard()) {
+			finalName = "?";
+		} else {
+			if (clazz.addImport(getClassName())) {
+				finalName = getSimpleName();
+			} else {
+				finalName = ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
+			}
+		}
 		if (!isArray() && !isGenericType()) {// 普通类型
 			return finalName;
 		} else if (isArray() && !isGenericType()) {// 数组

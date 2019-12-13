@@ -40,8 +40,10 @@ class Type {
 		print "test array{}{}{}{}{}{}{}{}{}",a1,a2,a3,a4,a5,a6,a7,a8
 
 		//测试class
+		Class<?> clazz
 		clazz=Type.class
-		print "test class {}",clazz
+		clz=clazz
+		print "test class {}",clz
 
 		//测试this
 		self=this

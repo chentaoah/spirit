@@ -1,5 +1,6 @@
 package com.sum.shy.core.utils;
 
+import java.lang.reflect.WildcardType;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +115,9 @@ public class ReflectUtils {
 			return Object[].class.getName();
 		case "String[]":
 			return String[].class.getName();
+		// 未知类型
+		case "?":
+			return WildcardType.class.getName();
 
 		default:
 			return null;

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class NativeLinker {
 		// java.util.List<java.lang.String> --> parameterTypeImpl
 		// E --> TypeVariableImpl
 
-		if (type instanceof Class<?>) {// 一部分类型可以直接转换
+		if (type instanceof Class) {// 一部分类型可以直接转换
 			return new NativeType(ctClass, (Class<?>) type);
 
-		} else if (type instanceof TypeVariable<?>) {// 对象的其中一个泛型参数
+		} else if (type instanceof TypeVariable) {// 对象的其中一个泛型参数
 			String paramName = type.toString();// 泛型参数名称 E or K or V
 			int index = getTypeVariableIndex(nativeType.clazz, paramName);
 			return nativeType.genericTypes.get(index);
@@ -66,6 +67,10 @@ public class NativeLinker {
 				genericTypes.add(visitElement(ctClass, nativeType, actualType));
 			}
 			return new NativeType(ctClass, clazz, genericTypes);
+
+		} else if (type instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
+			// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
+			return new NativeType(ctClass, WildcardType.class);
 		}
 
 		return null;

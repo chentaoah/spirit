@@ -40,6 +40,13 @@ public interface Type {
 	boolean isGenericType();
 
 	/**
+	 * 是否未知数
+	 * 
+	 * @return
+	 */
+	boolean isWildcard();
+
+	/**
 	 * 是否数组
 	 * 
 	 * @return

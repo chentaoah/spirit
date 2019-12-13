@@ -201,7 +201,7 @@ public class InvokeVisiter {
 					String member = members.remove(0);// 获取第一个属性
 					// 特殊属性class
 					if ("class".equals(member)) {
-						return new CodeType(typeClass, "Class<" + typeClass.typeName + ">");
+						return new CodeType(typeClass, "Class<?>");
 					}
 					// 存在该字段
 					if (typeClass.existField(member)) {
