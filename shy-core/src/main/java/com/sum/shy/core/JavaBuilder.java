@@ -161,11 +161,10 @@ public class JavaBuilder {
 		// 在这里把内部类拼上
 		for (CtClass innerClass : clazz.innerClasses.values()) {
 			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
+			// 删除最后一个缩进
+			if (body.charAt(body.length() - 1) == '\t')
+				body.deleteCharAt(body.length() - 1);
 		}
-		// 删除最后一个缩进
-		if (body.charAt(body.length() - 1) == '\t')
-			body.deleteCharAt(body.length() - 1);
-
 		body.append("}\n");// 追加一个class末尾
 		return body.toString();
 	}
