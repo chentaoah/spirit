@@ -1,0 +1,9 @@
+
+import com.sum.test.Outside.Inner
+
+class InnerInvoker{
+	inner=Inner()
+	func testInner(){
+		return inner.getAge()
+	}
+}

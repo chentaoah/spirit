@@ -138,17 +138,25 @@ public class CtClass implements Annotated {
 		// 如果传进来是个数组，那么处理一下
 		boolean isArray = ReflectUtils.isArray(simpleName);
 		String typeName = ReflectUtils.getTypeName(simpleName);
+
 		// 1.首先先去引入里面找
 		String className = null;
 		if (className == null)
 			className = importStrs.get(typeName);
 		if (className == null)
 			className = importAliases.get(typeName);
-		// 2.友元,注意这个类本身也在友元中
+
+		// 2.友元,注意这个类本身也在所有类之中
 		if (className == null)
 			className = Context.get().findFriend(typeName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
+
+		// 3.内部类
+		for (CtClass innerClass : innerClasses) {
+			if (innerClass.getClassName().endsWith("." + typeName))
+				return innerClass.getClassName();
+		}
 
 		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
@@ -185,7 +193,13 @@ public class CtClass implements Annotated {
 		if (getClassName().equals(className))
 			return true;
 
-		// 6.重复
+		// 6.内部类不添加
+		for (CtClass innerClass : innerClasses) {
+			if (innerClass.getClassName().endsWith(className))
+				return true;
+		}
+
+		// 7.重复的不添加
 		if (!importStrs.containsValue(className)) {
 			String lastName = className.substring(className.lastIndexOf(".") + 1);
 			// 如果不存在该类,但是出现了类名重复的,则返回false,表示添加失败

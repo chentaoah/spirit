@@ -62,6 +62,7 @@ public class ShyCompiler {
 				// 输出到指定文件夹下
 				FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
 			}
+
 		}
 
 	}

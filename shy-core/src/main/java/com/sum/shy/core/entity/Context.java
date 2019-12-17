@@ -18,7 +18,7 @@ public class Context {
 
 	// 所有友元
 	public Set<String> friends;
-	// 所有被解析的结构体
+	// 所有类，包括内部类
 	public Map<String, CtClass> classes;
 	// 解析到的注解上下文
 	public List<String> annotations = new ArrayList<>();
@@ -66,6 +66,20 @@ public class Context {
 	public CtClass findClass(String className) {
 		return classes.get(className);
 	}
+
+	/**
+	 * 查询class
+	 * 
+	 * @param typeName
+	 */
+//	public String findClassName(String typeName) {
+//		for (String className : classes.keySet()) {
+//			if (className.endsWith("." + typeName)) {
+//				return className;
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * 返回上下文中等待处理的注解
