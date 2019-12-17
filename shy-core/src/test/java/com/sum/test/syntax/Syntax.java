@@ -25,6 +25,9 @@ public class Syntax {
 		if (b && bb) {
 			logger.info("yes");
 		}
+		if (list.get(1) != null && list instanceof Object) {
+			logger.info("test success");
+		}
 	}
 
 	public void testJudgeInvoke() {

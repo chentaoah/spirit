@@ -16,6 +16,7 @@ class Syntax {
 		b=list.get(1) != null
 		bb=list instanceof Object
 		if b && bb : print "yes"
+		if list.get(1)!=null && list instanceof Object : print "test success"
 	}
 	
 	//判断调用
