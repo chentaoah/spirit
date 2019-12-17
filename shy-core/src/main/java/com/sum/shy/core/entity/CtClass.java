@@ -158,7 +158,7 @@ public class CtClass implements Annotated {
 				return innerClassName;
 		}
 
-		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
+		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
 			className = ReflectUtils.getCommonType(simpleName);
 		if (className == null)
