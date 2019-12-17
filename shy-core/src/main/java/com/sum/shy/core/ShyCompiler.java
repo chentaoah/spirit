@@ -85,8 +85,10 @@ public class ShyCompiler {
 		// 添加主类
 		classes.putAll(mainClasses);
 		// 添加内部类
-		for (CtClass innerClass : mainClasses.values()) {
-			classes.put(innerClass.getClassName(), innerClass);
+		for (CtClass mainClass : mainClasses.values()) {
+			for (CtClass innerClass : mainClass.innerClasses.values()) {
+				classes.put(innerClass.getClassName(), innerClass);
+			}
 		}
 		return classes;
 	}

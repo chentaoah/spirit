@@ -197,6 +197,9 @@ public class InvokeVisiter {
 		} else {
 
 			String className = type.getClassName();// 类名
+			if ("com.sum.test.Outside.Inner".equals(className)) {
+				System.out.println("debug");
+			}
 			if (Context.get().contains(className)) {// 看下上下文中是否包含
 				CtClass typeClass = Context.get().findClass(className);// 获取友元
 				if (members != null && members.size() > 0) {
