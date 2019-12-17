@@ -65,7 +65,7 @@ public class ShyReader {
 			readScopeLines(mainClass, "class", mainClass.classLines);
 		}
 		// 遍历读取内部类的信息
-		for (CtClass innerClass : mainClass.innerClasses) {
+		for (CtClass innerClass : mainClass.innerClasses.values()) {
 			readScopeLines(innerClass, "class", innerClass.classLines);
 		}
 

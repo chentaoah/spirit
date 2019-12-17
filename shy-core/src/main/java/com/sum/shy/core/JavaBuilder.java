@@ -149,7 +149,7 @@ public class JavaBuilder {
 		body.append(fields);
 		body.append(methods);
 		// 在这里把内部类拼上
-		for (CtClass innerClass : clazz.innerClasses) {
+		for (CtClass innerClass : clazz.innerClasses.values()) {
 			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
 		}
 		body.append("}\n");// 追加一个class末尾
