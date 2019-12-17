@@ -52,7 +52,7 @@ public class ClassParser implements Parser {
 			// 内部类指向了主类
 			innerClass.mainClass = clazz;
 			// 主类包含了内部类
-			clazz.innerClasses.put(innerClass.getClassName(), innerClass);
+			clazz.innerClasses.put(typeName, innerClass);
 
 			clazz = innerClass;
 		}

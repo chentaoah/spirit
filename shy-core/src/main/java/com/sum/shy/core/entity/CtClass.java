@@ -37,7 +37,7 @@ public class CtClass implements Annotated {
 	public List<CtMethod> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
-	// 内部类
+	// 内部类( typeName --> CtClass )
 	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
 
 	@Override
@@ -154,10 +154,8 @@ public class CtClass implements Annotated {
 			return !isArray ? className : "[L" + className + ";";
 
 		// 3.内部类
-		for (String innerClassName : innerClasses.keySet()) {
-			if (innerClassName.endsWith("." + typeName))
-				return innerClassName;
-		}
+		if (innerClasses.containsKey(typeName))
+			return innerClasses.get(typeName).getClassName();
 
 		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
@@ -195,8 +193,10 @@ public class CtClass implements Annotated {
 			return true;
 
 		// 6.内部类不添加
-		if (innerClasses.containsKey(className))
-			return true;
+		for (CtClass innerClass : innerClasses.values()) {
+			if (innerClass.getClassName().equals(className))
+				return true;
+		}
 
 		// 7.重复的不添加
 		if (!importStrs.containsValue(className)) {
