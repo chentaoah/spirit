@@ -37,6 +37,8 @@ public class CtClass implements Annotated {
 	public List<CtMethod> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
+	// 内部类
+	public List<CtClass> innerClasses = new ArrayList<>();
 
 	@Override
 	public String toString() {

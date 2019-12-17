@@ -53,16 +53,21 @@ public class ShyReader {
 	}
 
 	private CtClass readLines(File file, List<Line> lines) {
-		CtClass clazz = new CtClass();
-		readScopeLines(clazz, "static", lines);
-		if (!"interface".equals(clazz.category)) {
-			readScopeLines(clazz, "class", clazz.classLines);
+		// 这里有一个问题,如果要支持一个文件里面多个class的话,那么这里就需要解析多次
+		CtClass mainClass = new CtClass();
+		// 文件名即类名,如果类名和文件名不一致,则认为是该类的内部类
+		mainClass.typeName = file.getName().replace(".shy", "");
+		// 读取类的信息,包括静态方法,静态变量
+		readScopeLines(mainClass, "static", lines);
+		// 如果不是接口的话
+		if (!"interface".equals(mainClass.category)) {
+			// 继续读取类内部的信息
+			readScopeLines(mainClass, "class", mainClass.classLines);
+			// 遍历读取内部类的信息
+//			readScopeLines(clazz, "class", clazz.classLines);
 		}
-		// 如果文件中不存在class对象,那么就用文件名虚拟一个
-		if (clazz.typeName == null) {
-			clazz.typeName = file.getName().replace(".shy", "");
-		}
-		return clazz;
+
+		return mainClass;
 	}
 
 	private void readScopeLines(CtClass clazz, String scope, List<Line> lines) {

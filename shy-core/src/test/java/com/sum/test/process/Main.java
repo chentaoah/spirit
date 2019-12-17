@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
+	public static int x = 100;
+	public static double y = 100.0;
 	public static Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static void main() {
