@@ -38,8 +38,24 @@ public class Context {
 		return null;
 	}
 
+	/**
+	 * 是否友元
+	 * 
+	 * @param className
+	 * @return
+	 */
 	public boolean isFriend(String className) {
 		return friends.contains(className);
+	}
+
+	/**
+	 * 是否包含这个类
+	 * 
+	 * @param className
+	 * @return
+	 */
+	public boolean contains(String className) {
+		return classes.containsKey(className);
 	}
 
 	/**

@@ -29,10 +29,10 @@ public class InvokeVisiter {
 	public static void visitClasses(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
 			visitClass(clazz);
-			// 内部类
-			for (CtClass innerClass : clazz.innerClasses) {
-				visitClass(innerClass);
-			}
+			// 遍历读取内部类的信息
+//			for (CtClass innerClass : clazz.innerClasses) {
+//				visitClass(innerClass);
+//			}
 		}
 	}
 
@@ -197,7 +197,7 @@ public class InvokeVisiter {
 		} else {
 
 			String className = type.getClassName();// 类名
-			if (Context.get().isFriend(className)) {// 如果是友元，则字面意思进行推导
+			if (Context.get().contains(className)) {// 看下上下文中是否包含
 				CtClass typeClass = Context.get().findClass(className);// 获取友元
 				if (members != null && members.size() > 0) {
 

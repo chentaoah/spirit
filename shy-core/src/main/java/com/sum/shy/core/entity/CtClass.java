@@ -17,8 +17,6 @@ public class CtClass implements Annotated {
 	public Map<String, String> importStrs = new LinkedHashMap<>();
 	// 别名引入
 	public Map<String, String> importAliases = new LinkedHashMap<>();
-	// 内部类指向主类的引用
-	public CtClass mainClass;
 	// 类上的注解
 	public List<String> annotations = new ArrayList<>();
 	// 类别
@@ -102,13 +100,17 @@ public class CtClass implements Annotated {
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
+	public String getPackage() {
+		return packageStr;
+	}
+
 	/**
 	 * 获取类名
 	 * 
 	 * @return
 	 */
 	public String getClassName() {
-		return packageStr + "." + typeName;
+		return getPackage() + "." + typeName;
 	}
 
 	/**
@@ -118,10 +120,6 @@ public class CtClass implements Annotated {
 	 * @return
 	 */
 	public boolean existImport(String typeName) {
-		// 内部类会委托主类
-		if (mainClass != null)
-			return mainClass.existImport(typeName);
-
 		return importStrs.containsKey(typeName) || importAliases.containsKey(typeName);
 	}
 
@@ -132,9 +130,6 @@ public class CtClass implements Annotated {
 	 * @return
 	 */
 	public String findClassName(String simpleName) {
-		// 内部类会委托主类
-		if (mainClass != null)
-			return mainClass.findClassName(simpleName);
 
 		// 如果本身传入的就是一个全名的话，直接返回
 		if (simpleName.contains("."))
@@ -169,10 +164,6 @@ public class CtClass implements Annotated {
 	}
 
 	public boolean addImport(String className) {
-
-		// 内部类会委托主类
-		if (mainClass != null)
-			return mainClass.addImport(className);
 
 		// 1.基本类型数组,不添加
 		if (className.startsWith("[") && !className.startsWith("[L"))

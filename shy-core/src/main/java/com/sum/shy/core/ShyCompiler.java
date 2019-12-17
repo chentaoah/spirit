@@ -26,11 +26,12 @@ public class ShyCompiler {
 
 		// 获取所有目录下的文件,并开始编译
 		Map<String, File> files = new LinkedHashMap<>();
+
 		FileUtils.getFiles(inputPath, "", files);
 		// 设置所有的友元
 		Context.get().friends = files.keySet();
 
-		Map<String, CtClass> classes = new LinkedHashMap<>();
+		Map<String, CtClass> mainClasses = new LinkedHashMap<>();
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			String className = entry.getKey();
 			File file = entry.getValue();
@@ -40,7 +41,7 @@ public class ShyCompiler {
 				// 自动引入友元,和常用的一些类
 				AutoImporter.doImport(mainClass, file);
 				// 将内部类当做普通的类,添加到集合中
-				classes.put(className, mainClass);
+				mainClasses.put(className, mainClass);
 
 			} else {
 				debug(file);
@@ -48,12 +49,14 @@ public class ShyCompiler {
 		}
 
 		if (!debug) {
+			// 所有类,包括内部类
+			Map<String, CtClass> allClasses = getAllClasses(mainClasses);
 			// 设置上下文
-			Context.get().classes = classes;
+			Context.get().classes = allClasses;
 			// 推导出剩下未知的类型
-			InvokeVisiter.visitClasses(classes);
+			InvokeVisiter.visitClasses(allClasses);
 
-			for (CtClass clazz : classes.values()) {
+			for (CtClass clazz : mainClasses.values()) {
 				// 2.构建java代码
 				String code = build(clazz);
 				// 输出到指定文件夹下
@@ -74,6 +77,17 @@ public class ShyCompiler {
 
 	public static void debug(File file) {
 		new ShyDebugger().read(file);
+	}
+
+	private static Map<String, CtClass> getAllClasses(Map<String, CtClass> mainClasses) {
+		Map<String, CtClass> classes = new LinkedHashMap<>();
+		// 添加主类
+		classes.putAll(mainClasses);
+		// 添加内部类
+		for (CtClass innerClass : mainClasses.values()) {
+			classes.put(innerClass.getClassName(), innerClass);
+		}
+		return classes;
 	}
 
 	public static String build(CtClass clazz) {

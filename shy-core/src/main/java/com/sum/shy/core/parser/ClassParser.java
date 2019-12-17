@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.entity.InnerClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -46,8 +47,8 @@ public class ClassParser implements Parser {
 
 		// 判断是不是内部类,判断依据是类名和文件名是否一致
 		if (!clazz.typeName.equals(typeName)) {
-
-			CtClass innerClass = new CtClass();
+			// 新建一个内部类
+			InnerClass innerClass = new InnerClass();
 			// 内部类指向了主类
 			innerClass.mainClass = clazz;
 			// 主类包含了内部类
