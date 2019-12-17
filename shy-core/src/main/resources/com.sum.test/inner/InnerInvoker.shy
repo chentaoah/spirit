@@ -1,5 +1,5 @@
 
-import com.sum.test.Outside.Inner
+import com.sum.test.inner.Outside.Inner
 
 class InnerInvoker{
 	inner=Inner()
