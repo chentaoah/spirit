@@ -63,8 +63,10 @@ public class ShyReader {
 		if (!"interface".equals(mainClass.category)) {
 			// 继续读取类内部的信息
 			readScopeLines(mainClass, "class", mainClass.classLines);
-			// 遍历读取内部类的信息
-//			readScopeLines(clazz, "class", clazz.classLines);
+		}
+		// 遍历读取内部类的信息
+		for (CtClass innerClass : mainClass.innerClasses) {
+			readScopeLines(innerClass, "class", innerClass.classLines);
 		}
 
 		return mainClass;

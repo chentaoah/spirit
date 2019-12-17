@@ -36,11 +36,11 @@ public class ShyCompiler {
 			File file = entry.getValue();
 			if (!debug) {
 				// 1.解析shy代码
-				CtClass clazz = resolve(className, file);
+				CtClass mainClass = resolve(className, file);
 				// 自动引入友元,和常用的一些类
-				AutoImporter.doImport(clazz, file);
-
-				classes.put(className, clazz);
+				AutoImporter.doImport(mainClass, file);
+				// 将内部类当做普通的类,添加到集合中
+				classes.put(className, mainClass);
 
 			} else {
 				debug(file);

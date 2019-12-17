@@ -148,6 +148,10 @@ public class JavaBuilder {
 				implementsStr));
 		body.append(fields);
 		body.append(methods);
+		// 在这里把内部类拼上
+		for (CtClass innerClass : clazz.innerClasses) {
+			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
+		}
 		body.append("}\n");// 追加一个class末尾
 		return body.toString();
 	}

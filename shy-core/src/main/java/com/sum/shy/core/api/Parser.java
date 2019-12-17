@@ -29,6 +29,6 @@ public interface Parser {
 		return parsers.get(syntax);
 	}
 
-	int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt);
+	int parse(CtClass mainClass, String scope, List<Line> lines, int index, Line line, Stmt stmt);
 
 }

@@ -29,7 +29,10 @@ public class InvokeVisiter {
 	public static void visitClasses(Map<String, CtClass> classes) {
 		for (CtClass clazz : classes.values()) {
 			visitClass(clazz);
-
+			// 内部类
+			for (CtClass innerClass : clazz.innerClasses) {
+				visitClass(innerClass);
+			}
 		}
 	}
 

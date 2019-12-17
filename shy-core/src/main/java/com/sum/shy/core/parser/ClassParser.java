@@ -20,6 +20,7 @@ public class ClassParser implements Parser {
 		String typeName = null;
 		String superName = null;
 		List<String> interfaces = new ArrayList<>();
+
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			// 如果是关键字
@@ -42,16 +43,29 @@ public class ClassParser implements Parser {
 				}
 			}
 		}
+
 		// 判断是不是内部类,判断依据是类名和文件名是否一致
 		if (!clazz.typeName.equals(typeName)) {
-			clazz = new CtClass();
 
+			CtClass innerClass = new CtClass();
+			// 内部类指向了主类
+			innerClass.mainClass = clazz;
+			// 主类包含了内部类
+			clazz.innerClasses.add(innerClass);
+
+			clazz = innerClass;
 		}
 
 		// 设置类上面的注解
 		clazz.annotations = Context.get().getAnnotations();
 		// 类别 interface abstract class
 		clazz.category = stmt.get(0);
+		// 类名
+		clazz.typeName = typeName;
+		// 父类名
+		clazz.superName = superName;
+		// 接口
+		clazz.interfaces = interfaces;
 
 		// 通过工具类来获取下面的所有行
 		clazz.classLines = LineUtils.getSubLines(lines, index);

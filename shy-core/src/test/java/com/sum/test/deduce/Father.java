@@ -15,4 +15,8 @@ public class Father {
 		return child;
 	}
 
+	public class XXX {
+
+	}
+
 }
