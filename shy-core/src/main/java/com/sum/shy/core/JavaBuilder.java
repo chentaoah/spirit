@@ -164,6 +164,7 @@ public class JavaBuilder {
 			// 删除最后一个缩进
 			if (body.charAt(body.length() - 1) == '\t')
 				body.deleteCharAt(body.length() - 1);
+			body.append("\n");
 		}
 		body.append("}\n");// 追加一个class末尾
 		return body.toString();
