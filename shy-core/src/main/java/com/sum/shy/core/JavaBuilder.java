@@ -21,6 +21,7 @@ import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.entity.InnerClass;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.library.StringUtils;
 
@@ -77,11 +78,19 @@ public class JavaBuilder {
 
 		} else {
 			// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
-			String methods = buildMethods(clazz);
-			String fields = buildFields(clazz);
-			String classStr = buildClass(clazz, fields, methods);
-			String head = buildHead(clazz);
-			return head + classStr;
+			if (!(clazz instanceof InnerClass)) {
+				String methods = buildMethods(clazz);
+				String fields = buildFields(clazz);
+				String classStr = buildClass(clazz, fields, methods);
+				String head = buildHead(clazz);
+				return head + classStr;
+			} else {
+				// 内部类不用加头部
+				String methods = buildMethods(clazz);
+				String fields = buildFields(clazz);
+				String classStr = buildClass(clazz, fields, methods);
+				return classStr;
+			}
 
 		}
 
@@ -138,13 +147,14 @@ public class JavaBuilder {
 	 */
 	private String buildClass(CtClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
+		String desc = clazz instanceof InnerClass ? "static " : "";// 内部类需要是静态比较好
 		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
 		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
 				: "";
 		body.append(buildAnnotations("", clazz));// 构建上面的注解
-		body.append(String.format("public %sclass %s%s%s{\n\n", abstractStr, clazz.typeName + " ", extendsStr,
+		body.append(String.format("public %s%sclass %s%s%s{\n\n", desc, abstractStr, clazz.typeName + " ", extendsStr,
 				implementsStr));
 		body.append(fields);
 		body.append(methods);
@@ -152,6 +162,10 @@ public class JavaBuilder {
 		for (CtClass innerClass : clazz.innerClasses.values()) {
 			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
 		}
+		// 删除最后一个缩进
+		if (body.charAt(body.length() - 1) == '\t')
+			body.deleteCharAt(body.length() - 1);
+
 		body.append("}\n");// 追加一个class末尾
 		return body.toString();
 	}

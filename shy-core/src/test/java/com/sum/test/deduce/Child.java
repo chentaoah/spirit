@@ -1,12 +1,9 @@
 package com.sum.test.deduce;
 
 import com.sum.shy.test.ClassGenericTest;
-
 import com.sum.test.deduce.Father;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sum.test.deduce.Father.XXX;
 
 public class Child extends Father {
 
@@ -33,13 +30,6 @@ public class Child extends Father {
 	public String testClassGeneric() {
 		Class<?> a = t.getClazz();
 		return a.getName();
-	}
-
-	public String test() {
-
-		XXX x = new XXX();
-
-		return null;
 	}
 
 }
