@@ -31,7 +31,8 @@ public class JavaStarter {
 		String outputPath = args[1];
 
 		// 1.获取所有指定路径下的文件
-		Map<String, File> files = getFiles(inputPath);
+		Map<String, File> files = new LinkedHashMap<>();
+		FileUtils.getFiles(inputPath, "", files);
 
 		// 2.如果是debug模式,则进行token的打印
 		if (debug) {
@@ -41,36 +42,18 @@ public class JavaStarter {
 
 		// 3.如果不是debug模式,则解析成相应的数据结构
 		Map<String, CtClass> mainClasses = new ShyCompiler().compile(files);
+
 		for (CtClass clazz : mainClasses.values()) {
-			// 4.构建java代码
-			String code = build(clazz);
+			// 4.转换方法中的内容,并生成java代码
+			String code = new JavaBuilder().build(clazz);
+			// 替换类的别名
+			code = AliasReplacer.replace(clazz, code);
+			// 打印
+			System.out.println(code);
 			// 输出到指定文件夹下
 			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
 		}
 
-	}
-
-	/**
-	 * 通过递归返回所有指定路径下的文件
-	 * 
-	 * @param inputPath
-	 * @return
-	 */
-	private static Map<String, File> getFiles(String inputPath) {
-		Map<String, File> files = new LinkedHashMap<>();
-		FileUtils.getFiles(inputPath, "", files);
-		return files;
-	}
-
-	public static String build(CtClass clazz) {
-		// 转换方法中的内容,并生成java代码
-		String code = new JavaBuilder().build(clazz);
-		// 替换类的别名
-		code = AliasReplacer.replace(clazz, code);
-
-		System.out.println(code);
-
-		return code;
 	}
 
 }
