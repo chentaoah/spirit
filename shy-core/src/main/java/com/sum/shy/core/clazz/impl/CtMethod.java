@@ -9,6 +9,8 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.type.api.Type;
 
 public class CtMethod extends AbsElement {
+
+	public boolean isSync;
 	// 参数名
 	public String name;
 	// 初始值

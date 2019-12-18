@@ -2,7 +2,9 @@ package com.sum.shy.core.clazz.api;
 
 import com.sum.shy.core.type.api.Type;
 
-public abstract class AbsElement extends AbsDescribable implements Element {
+public abstract class AbsElement extends AbsAnnotated implements Element {
+	// 域
+	public String scope;
 	// 类型
 	public Type type;
 	// 锁

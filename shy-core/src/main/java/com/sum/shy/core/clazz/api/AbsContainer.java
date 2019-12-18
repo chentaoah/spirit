@@ -10,7 +10,7 @@ import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.type.api.Type;
 
-public abstract class AbsContainer extends AbsDescribable implements Container {
+public abstract class AbsContainer extends AbsAnnotated implements Container {
 
 	// 静态字段
 	public List<CtField> staticFields = new ArrayList<>();
