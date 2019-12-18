@@ -11,4 +11,8 @@ public abstract class AbsLinkable extends AbsAnnotated implements Linkable {
 	// 别名引入
 	public Map<String, String> importAliases = new LinkedHashMap<>();
 
+	public String getPackage() {
+		return packageStr;
+	}
+
 }

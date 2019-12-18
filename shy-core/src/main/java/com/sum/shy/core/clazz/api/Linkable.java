@@ -8,4 +8,6 @@ package com.sum.shy.core.clazz.api;
  */
 public interface Linkable {
 
+	String getPackage();
+
 }

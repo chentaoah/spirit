@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.clazz.api.AbsLinkable;
+import com.sum.shy.core.clazz.api.AbsContainer;
 import com.sum.shy.core.clazz.api.Element;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.utils.ReflectUtils;
 
-public class CtClass extends AbsLinkable {
+public class CtClass extends AbsContainer {
+
 	// 类别
 	public String category;
 	// 类名
@@ -21,18 +22,8 @@ public class CtClass extends AbsLinkable {
 	public String superName;
 	// 接口(接口继承的接口也在这个里面)
 	public List<String> interfaces = new ArrayList<>();
-
-	// 静态字段
-	public List<CtField> staticFields = new ArrayList<>();
-	// 静态方法
-	public List<CtMethod> staticMethods = new ArrayList<>();
-	// 字段
-	public List<CtField> fields = new ArrayList<>();
-	// 方法
-	public List<CtMethod> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
-
 	// 内部类( typeName --> CtClass )
 	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
 
@@ -68,37 +59,6 @@ public class CtClass extends AbsLinkable {
 
 		return sb.toString();
 
-	}
-
-	public void addStaticField(CtField field) {
-		checkField(field);
-		staticFields.add(field);
-	}
-
-	public void addField(CtField field) {
-		checkField(field);
-		fields.add(field);
-	}
-
-	public void checkField(CtField field) {
-		boolean flag = false;
-		for (CtField f : staticFields) {
-			if (f.name.equals(field.name)) {
-				flag = true;
-			}
-		}
-		for (CtField f : fields) {
-			if (f.name.equals(field.name)) {
-				flag = true;
-			}
-		}
-		if (flag)
-			throw new RuntimeException("Cannot have duplicate fields!number:[" + field.stmt.line.number + "], text:[ "
-					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
-	}
-
-	public String getPackage() {
-		return packageStr;
 	}
 
 	/**
