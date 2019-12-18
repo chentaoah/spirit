@@ -1,15 +1,12 @@
 package com.sum.shy.core.clazz.impl;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.sum.shy.core.clazz.api.AbsContainer;
+import com.sum.shy.core.clazz.api.AbsLinkable;
 import com.sum.shy.core.entity.Line;
 
-public class CtClass extends AbsContainer {
-
+public class CtClass extends AbsLinkable {
 	// 类别
 	public String category;
 	// 类名
@@ -20,8 +17,6 @@ public class CtClass extends AbsContainer {
 	public List<String> interfaces = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
-	// 内部类( typeName --> CtClass )
-	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
 
 	public String getClassName() {
 		return getPackage() + "." + typeName;

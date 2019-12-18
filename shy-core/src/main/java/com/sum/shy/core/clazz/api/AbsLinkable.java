@@ -6,7 +6,7 @@ import java.util.Map;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.ReflectUtils;
 
-public abstract class AbsLinkable extends AbsDescribable implements Linkable {
+public abstract class AbsLinkable extends AbsContainer implements Linkable {
 	// 包名
 	public String packageStr;
 	// 引入

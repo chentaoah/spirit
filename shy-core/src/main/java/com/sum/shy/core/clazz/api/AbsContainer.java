@@ -1,13 +1,16 @@
 package com.sum.shy.core.clazz.api;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
 
-public abstract class AbsContainer extends AbsLinkable implements Container {
+public abstract class AbsContainer extends AbsDescribable implements Container {
 
 	// 静态字段
 	public List<CtField> staticFields = new ArrayList<>();
@@ -17,6 +20,8 @@ public abstract class AbsContainer extends AbsLinkable implements Container {
 	public List<CtField> fields = new ArrayList<>();
 	// 方法
 	public List<CtMethod> methods = new ArrayList<>();
+	// 内部类( typeName --> CtClass )
+	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
 
 	public void addField(CtField field) {
 		checkField(field);
