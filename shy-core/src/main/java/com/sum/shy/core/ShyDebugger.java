@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -12,6 +13,11 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.utils.LineUtils;
 
 public class ShyDebugger {
+
+	public void debug(Map<String, File> files) {
+		// TODO Auto-generated method stub
+
+	}
 
 	/**
 	 * 这里仅仅测试一个语句被拆分成token以后,是什么样的,是否符合预期
