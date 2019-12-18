@@ -60,7 +60,7 @@ public class ClassParser implements Parser {
 		// 设置类上面的注解
 		clazz.setAnnotations(Context.get().getAnnotations());
 		// 类别 interface abstract class
-		clazz.setCategory(stmt.get(0));
+		clazz.category = stmt.get(0);
 		// 类名
 		clazz.typeName = typeName;
 		// 父类名

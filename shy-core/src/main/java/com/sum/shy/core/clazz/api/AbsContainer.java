@@ -25,7 +25,7 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 
 	public void addField(CtField field) {
 		checkField(field);
-		if ("static".equals(field.getScope())) {
+		if ("static".equals(field.scope)) {
 			staticFields.add(field);
 		} else {
 			fields.add(field);
@@ -33,7 +33,7 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 	}
 
 	public void addMethod(CtMethod method) {
-		if ("static".equals(method.getScope())) {
+		if ("static".equals(method.scope)) {
 			staticMethods.add(method);
 		} else {
 			methods.add(method);

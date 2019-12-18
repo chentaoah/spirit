@@ -17,7 +17,7 @@ public class InterfaceParser implements Parser {
 
 		// 设置类上面的注解
 		clazz.annotations = Context.get().getAnnotations();
-		clazz.setCategory("interface");
+		clazz.category = "interface";
 		clazz.typeName = stmt.get(1);
 		try {
 			if ("extends".equals(stmt.get(2))) {

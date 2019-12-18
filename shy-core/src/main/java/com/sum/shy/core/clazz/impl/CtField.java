@@ -16,7 +16,7 @@ public class CtField extends AbsElement {
 		// 注解
 		setAnnotations(annotations);
 		// 域
-		setScope(scope);
+		this.scope = scope;
 		// 类型
 		setType(type);
 

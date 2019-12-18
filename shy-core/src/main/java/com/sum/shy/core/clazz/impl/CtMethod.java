@@ -34,9 +34,9 @@ public class CtMethod extends AbsElement {
 		// 注解
 		setAnnotations(annotations);
 		// 域
-		setScope(scope);
+		this.scope = scope;
 		// 是否同步
-		setSync(isSync);
+		this.isSync = isSync;
 		// 类型
 		setType(returnType);
 
