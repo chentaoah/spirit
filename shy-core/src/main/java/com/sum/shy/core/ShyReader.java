@@ -60,7 +60,7 @@ public class ShyReader {
 		// 读取类的信息,包括静态方法,静态变量
 		readScopeLines(mainClass, "static", lines);
 		// 如果不是接口的话
-		if (!"interface".equals(mainClass.getCategory())) {
+		if (!"interface".equals(mainClass.category)) {
 			// 继续读取类内部的信息
 			readScopeLines(mainClass, "class", mainClass.classLines);
 		}

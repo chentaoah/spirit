@@ -71,7 +71,7 @@ public class JavaBuilder {
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
 
-		if ("interface".equals(clazz.getCategory())) {
+		if ("interface".equals(clazz.category)) {
 			String head = buildHead(clazz);
 			String classStr = buildInterface(clazz);
 			return head + classStr;
@@ -148,7 +148,7 @@ public class JavaBuilder {
 	private String buildClass(CtClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
 		String desc = clazz instanceof InnerClass ? "static " : "";// 内部类需要是静态比较好
-		String abstractStr = "abstract".equals(clazz.getCategory()) ? "abstract " : "";
+		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
 		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
 		String implementsStr = clazz.interfaces.size() > 0
 				? String.format("implements %s ", Joiner.on(", ").join(clazz.interfaces))
