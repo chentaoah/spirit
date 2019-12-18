@@ -13,7 +13,7 @@ public class CtField extends AbsElement {
 	// 语句
 	public Stmt stmt;
 
-	public CtField(Type type, String name, Stmt stmt, List<String> annotations) {
+	public CtField(String scope, Type type, String name, Stmt stmt, List<String> annotations) {
 		this.type = type;
 		this.name = name;
 		this.stmt = stmt;
@@ -23,6 +23,12 @@ public class CtField extends AbsElement {
 	@Override
 	public String toString() {
 		return "field --> " + stmt;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

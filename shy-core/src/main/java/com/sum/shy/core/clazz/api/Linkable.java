@@ -10,4 +10,10 @@ public interface Linkable {
 
 	String getPackage();
 
+	boolean existImport(String typeName);
+
+	String findImport(String simpleName);
+
+	boolean addImport(String className);
+
 }

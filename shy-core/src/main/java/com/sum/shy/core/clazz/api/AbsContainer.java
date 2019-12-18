@@ -3,10 +3,11 @@ package com.sum.shy.core.clazz.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
 
-public class AbsContainer extends AbsLinkable implements Container {
+public abstract class AbsContainer extends AbsLinkable implements Container {
 
 	// 静态字段
 	public List<CtField> staticFields = new ArrayList<>();
@@ -17,14 +18,13 @@ public class AbsContainer extends AbsLinkable implements Container {
 	// 方法
 	public List<CtMethod> methods = new ArrayList<>();
 
-	public void addStaticField(CtField field) {
-		checkField(field);
-		staticFields.add(field);
-	}
-
 	public void addField(CtField field) {
 		checkField(field);
-		fields.add(field);
+		if ("static".equals(field.getScope())) {
+			staticFields.add(field);
+		} else {
+			fields.add(field);
+		}
 	}
 
 	public void checkField(CtField field) {
@@ -42,6 +42,73 @@ public class AbsContainer extends AbsLinkable implements Container {
 		if (flag)
 			throw new RuntimeException("Cannot have duplicate fields!number:[" + field.stmt.line.number + "], text:[ "
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
+	}
+
+	public CtField findField(String fieldName) {
+		for (CtField field : staticFields) {
+			if (field.name.equals(fieldName)) {
+				return field;
+			}
+		}
+		for (CtField field : fields) {
+			if (field.name.equals(fieldName)) {
+				return field;
+			}
+		}
+		throw new RuntimeException("The field does not exist!class:" + getId() + ", field:" + fieldName);
+
+	}
+
+	public boolean existField(String fieldName) {
+		for (CtField field : staticFields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		for (CtField field : fields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public CtMethod findMethod(String methodName, List<Type> parameterTypes) {
+		for (CtMethod method : staticMethods) {
+			if (method.isSame(methodName, parameterTypes)) {
+				return method;
+			}
+		}
+		for (CtMethod method : methods) {
+			if (method.isSame(methodName, parameterTypes)) {
+				return method;
+			}
+		}
+		throw new RuntimeException("The method does not exist!class:" + getId() + ", method:" + methodName);
+
+	}
+
+	public boolean existMethod(String methodName, List<Type> parameterTypes) {
+		for (CtMethod method : staticMethods) {
+			if (method.isSame(methodName, parameterTypes)) {
+				return true;
+			}
+		}
+		for (CtMethod method : methods) {
+			if (method.isSame(methodName, parameterTypes)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<Element> getAllElement() {
+		List<Element> list = new ArrayList<>();
+		list.addAll(staticFields);
+		list.addAll(staticMethods);
+		list.addAll(fields);
+		list.addAll(methods);
+		return list;
 	}
 
 }

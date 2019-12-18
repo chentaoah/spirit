@@ -24,7 +24,7 @@ public class InnerClass extends CtClass {
 	}
 
 	public String findClassName(String simpleName) {
-		return mainClass.findClassName(simpleName);
+		return mainClass.findImport(simpleName);
 	}
 
 	public boolean addImport(String className) {

@@ -77,4 +77,10 @@ public class CtMethod extends AbsElement {
 		return false;
 	}
 
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

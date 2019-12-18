@@ -10,8 +10,6 @@ import com.sum.shy.core.clazz.impl.CtField;
  */
 public interface Container {
 
-	void addStaticField(CtField field);
-
 	void addField(CtField field);
 
 }
