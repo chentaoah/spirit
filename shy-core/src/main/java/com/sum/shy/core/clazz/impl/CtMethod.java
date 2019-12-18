@@ -33,8 +33,11 @@ public class CtMethod extends AbsElement {
 	 * @param exceptions
 	 * @param annotations
 	 */
-	public CtMethod(Type returnType, boolean isSync, String name, List<Param> params, List<String> exceptions,
-			List<String> annotations) {
+	public CtMethod(String scope, Type returnType, boolean isSync, String name, List<Param> params,
+			List<String> exceptions, List<String> annotations) {
+		// 域
+		setScope(scope);
+
 		this.type = returnType;
 		this.isSync = isSync;
 		this.name = name;

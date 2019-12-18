@@ -8,7 +8,6 @@ import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Param;
@@ -59,14 +58,10 @@ public class FuncParser implements Parser {
 		}
 
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(null, isSync, methodName, params, exceptions, Context.get().getAnnotations());
+		CtMethod method = new CtMethod(scope, null, isSync, methodName, params, exceptions,
+				Context.get().getAnnotations());
 		method.methodLines = LineUtils.getSubLines(lines, index);
-
-		if (Constants.STATIC_SCOPE.equals(scope)) {
-			clazz.staticMethods.add(method);
-		} else if (Constants.CLASS_SCOPE.equals(scope)) {
-			clazz.methods.add(method);
-		}
+		clazz.addMethod(method);
 
 		return method.methodLines.size() + 1;
 
