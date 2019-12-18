@@ -1,6 +1,5 @@
 package com.sum.shy.core.clazz.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
@@ -14,10 +13,16 @@ public class CtField extends AbsElement {
 	public Stmt stmt;
 
 	public CtField(String scope, Type type, String name, Stmt stmt, List<String> annotations) {
-		this.type = type;
+		// 注解
+		setAnnotations(annotations);
+		// 域
+		setScope(scope);
+		// 类型
+		setType(type);
+
 		this.name = name;
 		this.stmt = stmt;
-		this.annotations = annotations != null ? annotations : new ArrayList<>();
+
 	}
 
 	@Override

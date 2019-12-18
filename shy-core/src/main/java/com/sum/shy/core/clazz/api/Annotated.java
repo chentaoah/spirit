@@ -6,4 +6,6 @@ public interface Annotated {
 
 	List<String> getAnnotations();
 
+	void setAnnotations(List<String> annotations);
+
 }

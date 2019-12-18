@@ -15,12 +15,12 @@ public class CtMethod extends AbsElement {
 	public String name;
 	// 初始值
 	public List<Param> params;
+	// 可能抛出的异常
+	public List<String> exceptions;
 	// 变量
 	public List<Variable> variables = new ArrayList<>();
 	// method域
 	public List<Line> methodLines;
-	// 可能抛出的异常
-	public List<String> exceptions;
 
 	/**
 	 * 构造
@@ -33,16 +33,19 @@ public class CtMethod extends AbsElement {
 	 */
 	public CtMethod(String scope, Type returnType, boolean isSync, String name, List<Param> params,
 			List<String> exceptions, List<String> annotations) {
+		// 注解
+		setAnnotations(annotations);
 		// 域
 		setScope(scope);
 		// 是否同步
 		setSync(isSync);
+		// 类型
+		setType(returnType);
 
-		this.type = returnType;
 		this.name = name;
 		this.params = params;
 		this.exceptions = exceptions;
-		this.annotations = annotations != null ? annotations : new ArrayList<>();
+
 	}
 
 	@Override
