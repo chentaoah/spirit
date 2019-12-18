@@ -8,19 +8,11 @@ package com.sum.shy.core.clazz.api;
  */
 public abstract class AbsDescribable extends AbsAnnotated {
 
-	public String scope;
-
 	public String category;
 
+	public String scope;
+
 	public boolean isSync;
-
-	public String getScope() {
-		return scope;
-	}
-
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
 
 	public String getCategory() {
 		return category;
@@ -28,6 +20,14 @@ public abstract class AbsDescribable extends AbsAnnotated {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 
 	public boolean isSync() {
