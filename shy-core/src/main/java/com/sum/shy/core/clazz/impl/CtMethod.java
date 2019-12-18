@@ -11,8 +11,6 @@ import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Variable;
 
 public class CtMethod extends AbsElement {
-	// 是否同步
-	public boolean isSync;
 	// 参数名
 	public String name;
 	// 初始值
@@ -37,9 +35,10 @@ public class CtMethod extends AbsElement {
 			List<String> exceptions, List<String> annotations) {
 		// 域
 		setScope(scope);
+		// 是否同步
+		setSync(isSync);
 
 		this.type = returnType;
-		this.isSync = isSync;
 		this.name = name;
 		this.params = params;
 		this.exceptions = exceptions;

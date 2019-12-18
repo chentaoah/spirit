@@ -1,8 +1,5 @@
 package com.sum.shy.core.clazz.api;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * 可描述的
  * 
@@ -11,30 +8,34 @@ import java.util.Map;
  */
 public abstract class AbsDescribable extends AbsAnnotated {
 
-	public Map<String, String> desc = new LinkedHashMap<>();
+	public String scope;
+
+	public String category;
+
+	public boolean isSync;
 
 	public String getScope() {
-		return desc.get("SCOPE");
+		return scope;
 	}
 
 	public void setScope(String scope) {
-		desc.put("SCOPE", scope);
-	}
-
-	public String getSync() {
-		return desc.get("SYNC");
-	}
-
-	public void setSync(String sync) {
-		desc.put("SYNC", sync);
+		this.scope = scope;
 	}
 
 	public String getCategory() {
-		return desc.get("CATEGORY");
+		return category;
 	}
 
 	public void setCategory(String category) {
-		desc.put("CATEGORY", category);
+		this.category = category;
+	}
+
+	public boolean isSync() {
+		return isSync;
+	}
+
+	public void setSync(boolean isSync) {
+		this.isSync = isSync;
 	}
 
 }
