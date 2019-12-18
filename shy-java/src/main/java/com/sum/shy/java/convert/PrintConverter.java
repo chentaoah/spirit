@@ -39,8 +39,8 @@ public class PrintConverter extends DefaultConverter {
 			clazz.addImport(Logger.class.getName());
 			clazz.addImport(LoggerFactory.class.getName());
 			// 添加字段
-			clazz.addField(new CtField("static", new CodeType(clazz, "Logger"), "logger",
-					new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)"), null));
+			clazz.addField(new CtField(null, "static", new CodeType(clazz, "Logger"), "logger",
+					new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)")));
 		}
 
 		return stmt;
