@@ -81,6 +81,9 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 		if (className.startsWith("[") && !className.startsWith("[L"))
 			return true;
 
+		// 如果是内部类 xxx.xxx.xxx$xxx
+		className = className.replaceAll("\\$", ".");
+
 		// 如果是数组，则把修饰符号去掉
 		className = ReflectUtils.getClassName(className);
 

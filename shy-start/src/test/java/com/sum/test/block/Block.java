@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.List;
 
 public class Block {
@@ -43,6 +44,9 @@ public class Block {
 		}
 		for (Integer value : map.values()) {
 			logger.info("number is {}", value);
+		}
+		for (Entry<String, Integer> entry : map.entrySet()) {
+			logger.info("test entry!", entry.getKey());
 		}
 		List<String> list = Collection.newArrayList("first", "second", "third");
 		for (String str : list) {

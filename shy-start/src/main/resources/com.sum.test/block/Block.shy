@@ -34,6 +34,9 @@ class Block {
 		for value in map.values(){
 			print "number is {}",value
 		}
+		for entry in map.entrySet(){
+			print "test entry!",entry.getKey()
+		}
 		
 		//遍历List
 		list=["first","second","third"]
