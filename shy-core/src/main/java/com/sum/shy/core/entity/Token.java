@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.api.Type;
+import com.sum.shy.core.type.api.Type;
 
 public class Token {
 

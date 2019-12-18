@@ -7,12 +7,12 @@ import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.clazz.impl.Param;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.core.utils.LineUtils;
 
 public class FuncParser implements Parser {

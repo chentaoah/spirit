@@ -8,10 +8,10 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.NativeType;
+import com.sum.shy.core.type.api.Type;
+import com.sum.shy.core.type.impl.CodeType;
+import com.sum.shy.core.type.impl.NativeType;
 
 public class NativeLinker {
 

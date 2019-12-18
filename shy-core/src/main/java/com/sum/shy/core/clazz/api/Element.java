@@ -1,6 +1,6 @@
 package com.sum.shy.core.clazz.api;
 
-import com.sum.shy.core.api.Type;
+import com.sum.shy.core.type.api.Type;
 
 public interface Element extends Annotated {
 

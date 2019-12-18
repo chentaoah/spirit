@@ -1,15 +1,15 @@
 package com.sum.shy.core.analyzer;
 
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.entity.CodeType;
+import com.sum.shy.core.clazz.impl.Param;
+import com.sum.shy.core.clazz.impl.Variable;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.entity.Variable;
+import com.sum.shy.core.type.api.Type;
+import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
 

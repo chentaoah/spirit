@@ -1,4 +1,4 @@
-package com.sum.shy.core.api;
+package com.sum.shy.core.type.api;
 
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;

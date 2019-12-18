@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.type.impl.CodeType;
 
 public class PrintConverter extends DefaultConverter {
 

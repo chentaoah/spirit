@@ -1,13 +1,13 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.type.impl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.api.AbsType;
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.type.api.AbsType;
+import com.sum.shy.core.type.api.Type;
 import com.sum.shy.core.utils.ReflectUtils;
 
 /**

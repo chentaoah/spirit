@@ -2,11 +2,11 @@ package com.sum.shy.core.analyzer;
 
 import java.util.List;
 
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.type.api.Type;
+import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 /**

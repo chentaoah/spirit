@@ -1,6 +1,6 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.clazz.impl;
 
-import com.sum.shy.core.api.Type;
+import com.sum.shy.core.type.api.Type;
 
 public class Param {
 

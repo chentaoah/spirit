@@ -1,8 +1,10 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.type.impl;
 
 import com.sum.shy.core.analyzer.SemanticDelegate;
-import com.sum.shy.core.api.AbsType;
 import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.type.api.AbsType;
 
 public class CodeType extends AbsType {
 

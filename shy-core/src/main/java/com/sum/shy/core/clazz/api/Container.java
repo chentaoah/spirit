@@ -2,9 +2,9 @@ package com.sum.shy.core.clazz.api;
 
 import java.util.List;
 
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
+import com.sum.shy.core.type.api.Type;
 
 /**
  * Element容器

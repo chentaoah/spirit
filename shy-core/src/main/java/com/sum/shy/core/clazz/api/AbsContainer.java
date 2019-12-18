@@ -5,10 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
+import com.sum.shy.core.type.api.Type;
 
 public abstract class AbsContainer extends AbsDescribable implements Container {
 

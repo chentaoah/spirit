@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.api.Type;
 import com.sum.shy.core.clazz.api.AbsElement;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Param;
-import com.sum.shy.core.entity.Variable;
+import com.sum.shy.core.type.api.Type;
 
 public class CtMethod extends AbsElement {
 	// 参数名
