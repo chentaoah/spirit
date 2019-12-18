@@ -38,11 +38,10 @@ public class CtMethod extends AbsElement {
 		setAnnotations(annotations);
 		// 域
 		this.scope = scope;
-		// 是否同步
-		this.isSync = isSync;
 		// 类型
 		this.type = returnType;
 
+		this.isSync = isSync;
 		this.name = name;
 		this.params = params;
 		this.exceptions = exceptions;
