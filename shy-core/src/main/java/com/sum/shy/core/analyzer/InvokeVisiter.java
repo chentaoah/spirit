@@ -2,7 +2,6 @@ package com.sum.shy.core.analyzer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.clazz.api.Element;
@@ -20,21 +19,6 @@ import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
 
 public class InvokeVisiter {
-
-	/**
-	 * 遍历所有的字段和方法,推导出最终的类型
-	 * 
-	 * @param classes
-	 */
-	public static void visitClasses(Map<String, CtClass> classes) {
-		for (CtClass clazz : classes.values()) {
-			visitClass(clazz);
-			// 遍历读取内部类的信息
-//			for (CtClass innerClass : clazz.innerClasses) {
-//				visitClass(innerClass);
-//			}
-		}
-	}
 
 	/**
 	 * 推导类

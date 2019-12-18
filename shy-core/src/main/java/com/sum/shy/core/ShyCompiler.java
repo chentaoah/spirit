@@ -14,16 +14,28 @@ public class ShyCompiler {
 
 	public Map<String, CtClass> compile(Map<String, File> files) {
 
-		// 设置所有的友元
+		// 设置友元
 		Context.get().friends = files.keySet();
 
+		// 1.通过文件解析类信息
+		Map<String, CtClass> mainClasses = resolveClassesFromFiles(files);
+		// 2.从类里面取出所有内部类,供推导使用
+		Map<String, CtClass> allClasses = getAllClasses(mainClasses);
+
+		// 设置所有类
+		Context.get().classes = allClasses;
+
+		// 3.推导字段和方法的类型
+		deriveTypeOfMembers(allClasses);
+
+		return mainClasses;
+	}
+
+	public Map<String, CtClass> resolveClassesFromFiles(Map<String, File> files) {
 		Map<String, CtClass> mainClasses = new LinkedHashMap<>();
-
 		for (Map.Entry<String, File> entry : files.entrySet()) {
-
 			String className = entry.getKey();
 			File file = entry.getValue();
-
 			// 读取类结构信息
 			CtClass mainClass = new ShyReader().read(file);
 			// 追加包名
@@ -32,16 +44,7 @@ public class ShyCompiler {
 			AutoImporter.doImport(mainClass, file);
 			// 将内部类当做普通的类,添加到集合中
 			mainClasses.put(className, mainClass);
-
 		}
-
-		// 所有类,包括内部类
-		Map<String, CtClass> allClasses = getAllClasses(mainClasses);
-		// 设置上下文
-		Context.get().classes = allClasses;
-		// 推导出剩下未知的类型
-		InvokeVisiter.visitClasses(allClasses);
-
 		return mainClasses;
 	}
 
@@ -57,6 +60,12 @@ public class ShyCompiler {
 			}
 		}
 		return classes;
+	}
+
+	public void deriveTypeOfMembers(Map<String, CtClass> allClasses) {
+		for (CtClass clazz : allClasses.values()) {
+			InvokeVisiter.visitClass(clazz);
+		}
 	}
 
 }
