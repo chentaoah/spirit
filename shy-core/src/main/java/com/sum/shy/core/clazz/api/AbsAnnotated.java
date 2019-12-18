@@ -5,7 +5,7 @@ import java.util.List;
 
 public abstract class AbsAnnotated implements Annotated {
 
-	public List<String> annotations;
+	public List<String> annotations = new ArrayList<>();
 
 	public List<String> getAnnotations() {
 		return annotations;

@@ -58,7 +58,7 @@ public class ClassParser implements Parser {
 		}
 
 		// 设置类上面的注解
-		clazz.annotations = Context.get().getAnnotations();
+		clazz.setAnnotations(Context.get().getAnnotations());
 		// 类别 interface abstract class
 		clazz.setCategory(stmt.get(0));
 		// 类名
