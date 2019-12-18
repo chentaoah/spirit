@@ -17,11 +17,14 @@ public class ShyCompiler {
 		Context.get().friends = files.keySet();
 
 		Map<String, CtClass> mainClasses = new LinkedHashMap<>();
+
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			String className = entry.getKey();
 			File file = entry.getValue();
-			// 解析shy代码
-			CtClass mainClass = resolve(className, file);
+			// 读取类结构信息
+			CtClass mainClass = new ShyReader().read(file);
+			// 追加包名
+			mainClass.packageStr = className.substring(0, className.lastIndexOf("."));
 			// 自动引入友元,和常用的一些类
 			AutoImporter.doImport(mainClass, file);
 			// 将内部类当做普通的类,添加到集合中
@@ -37,15 +40,6 @@ public class ShyCompiler {
 		InvokeVisiter.visitClasses(allClasses);
 
 		return mainClasses;
-	}
-
-	public CtClass resolve(String className, File file) {
-		// 读取类结构信息
-		CtClass clazz = new ShyReader().read(file);
-		// 追加包名
-		clazz.packageStr = className.substring(0, className.lastIndexOf("."));
-
-		return clazz;
 	}
 
 	public Map<String, CtClass> getAllClasses(Map<String, CtClass> mainClasses) {
