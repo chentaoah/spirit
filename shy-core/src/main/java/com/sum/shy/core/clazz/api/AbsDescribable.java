@@ -21,4 +21,20 @@ public abstract class AbsDescribable extends AbsAnnotated {
 		desc.put("SCOPE", scope);
 	}
 
+	public String getSync() {
+		return desc.get("SYNC");
+	}
+
+	public void setSync(String sync) {
+		desc.put("SYNC", sync);
+	}
+
+	public String getCategory() {
+		return desc.get("CATEGORY");
+	}
+
+	public void setCategory(String category) {
+		desc.put("CATEGORY", category);
+	}
+
 }

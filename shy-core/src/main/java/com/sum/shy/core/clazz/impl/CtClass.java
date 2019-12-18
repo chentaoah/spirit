@@ -7,8 +7,6 @@ import com.sum.shy.core.clazz.api.AbsLinkable;
 import com.sum.shy.core.entity.Line;
 
 public class CtClass extends AbsLinkable {
-	// 类别
-	public String category;
 	// 类名
 	public String typeName;
 	// 父类
