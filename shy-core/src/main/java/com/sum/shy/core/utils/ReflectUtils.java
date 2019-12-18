@@ -27,6 +27,10 @@ public class ReflectUtils {
 				: className;
 	}
 
+	public static String getPackage(String className) {
+		return className.substring(0, className.lastIndexOf("."));
+	}
+
 	public static String getCommonType(String simpleName) {
 
 		switch (simpleName) {

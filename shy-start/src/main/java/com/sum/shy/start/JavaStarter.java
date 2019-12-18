@@ -36,16 +36,16 @@ public class JavaStarter {
 
 		// 2.如果是debug模式,则进行token的打印
 		if (debug) {
-			new ShyDebugger().debug(files);
+			new ShyDebugger().debug(files);// debug
 			return;
 		}
 
 		// 3.如果不是debug模式,则解析成相应的数据结构
-		Map<String, CtClass> mainClasses = new ShyCompiler().compile(files);
+		Map<String, CtClass> mainClasses = new ShyCompiler().compile(files);// compile
 
 		for (CtClass clazz : mainClasses.values()) {
 			// 4.转换方法中的内容,并生成java代码
-			String code = new JavaBuilder().build(clazz);
+			String code = new JavaBuilder().build(clazz);// build
 			// 替换类的别名
 			code = AliasReplacer.replace(clazz, code);
 			// 打印
