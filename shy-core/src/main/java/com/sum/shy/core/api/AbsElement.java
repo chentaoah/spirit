@@ -1,9 +1,6 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.api;
 
 import java.util.List;
-
-import com.sum.shy.core.api.Element;
-import com.sum.shy.core.api.Type;
 
 public abstract class AbsElement implements Element {
 	// 注解

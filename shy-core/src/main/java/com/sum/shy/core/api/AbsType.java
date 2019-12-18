@@ -1,11 +1,11 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.api;
 
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.api.Type;
+import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public abstract class AbsType implements Type {

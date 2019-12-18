@@ -3,6 +3,7 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.api.AbsElement;
 import com.sum.shy.core.api.Type;
 
 public class CtField extends AbsElement {
