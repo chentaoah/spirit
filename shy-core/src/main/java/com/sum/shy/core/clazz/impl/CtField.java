@@ -25,10 +25,4 @@ public class CtField extends AbsElement {
 		return "field --> " + stmt;
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

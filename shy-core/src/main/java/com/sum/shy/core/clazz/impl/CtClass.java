@@ -22,9 +22,4 @@ public class CtClass extends AbsLinkable {
 		return getPackage() + "." + typeName;
 	}
 
-	@Override
-	public String getId() {
-		return getClassName();
-	}
-
 }

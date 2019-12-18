@@ -60,7 +60,7 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 				return field;
 			}
 		}
-		throw new RuntimeException("The field does not exist!class:" + getId() + ", field:" + fieldName);
+		throw new RuntimeException("The field does not exist!class:" + getClassName() + ", field:" + fieldName);
 
 	}
 
@@ -89,7 +89,7 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 				return method;
 			}
 		}
-		throw new RuntimeException("The method does not exist!class:" + getId() + ", method:" + methodName);
+		throw new RuntimeException("The method does not exist!class:" + getClassName() + ", method:" + methodName);
 
 	}
 
@@ -115,5 +115,7 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 		list.addAll(methods);
 		return list;
 	}
+
+	protected abstract String getClassName();
 
 }

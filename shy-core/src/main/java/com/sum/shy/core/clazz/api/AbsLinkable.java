@@ -3,6 +3,7 @@ package com.sum.shy.core.clazz.api;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.ReflectUtils;
 
@@ -58,8 +59,8 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return !isArray ? className : "[L" + className + ";";
 
 		// 3.内部类
-//		if (innerClasses.containsKey(typeName))
-//			return innerClasses.get(typeName).getClassName();
+		if (innerClasses.containsKey(typeName))
+			return innerClasses.get(typeName).getClassName();
 
 		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
@@ -93,14 +94,14 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return true;
 
 		// 5.如果是本身,不添加
-//		if (getClassName().equals(className))
-//			return true;
-//
-//		// 6.内部类不添加
-//		for (CtClass innerClass : innerClasses.values()) {
-//			if (innerClass.getClassName().equals(className))
-//				return true;
-//		}
+		if (getClassName().equals(className))
+			return true;
+
+		// 6.内部类不添加
+		for (CtClass innerClass : innerClasses.values()) {
+			if (innerClass.getClassName().equals(className))
+				return true;
+		}
 
 		// 7.重复的不添加
 		if (!importStrs.containsValue(className)) {

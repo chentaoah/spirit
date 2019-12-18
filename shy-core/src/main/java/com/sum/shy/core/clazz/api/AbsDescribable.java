@@ -9,7 +9,7 @@ import java.util.Map;
  * @author chentao26275
  *
  */
-public abstract class AbsDescribable extends AbsAnnotated implements Locable {
+public abstract class AbsDescribable extends AbsAnnotated {
 
 	public Map<String, String> desc = new LinkedHashMap<>();
 
