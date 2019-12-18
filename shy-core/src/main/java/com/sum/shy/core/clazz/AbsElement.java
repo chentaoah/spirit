@@ -1,4 +1,6 @@
-package com.sum.shy.core.api;
+package com.sum.shy.core.clazz;
+
+import com.sum.shy.core.api.Type;
 
 public abstract class AbsElement extends AbsAnnotated implements Element {
 	// 类型

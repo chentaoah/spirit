@@ -5,20 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.api.Annotated;
-import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.AbsLinkable;
+import com.sum.shy.core.clazz.Element;
 import com.sum.shy.core.utils.ReflectUtils;
 
-public class CtClass implements Annotated {
-	// 包名
-	public String packageStr;
-	// 引入
-	public Map<String, String> importStrs = new LinkedHashMap<>();
-	// 别名引入
-	public Map<String, String> importAliases = new LinkedHashMap<>();
-	// 类上的注解
-	public List<String> annotations = new ArrayList<>();
+public class CtClass extends AbsLinkable {
 	// 类别
 	public String category;
 	// 类名
@@ -27,6 +19,7 @@ public class CtClass implements Annotated {
 	public String superName;
 	// 接口(接口继承的接口也在这个里面)
 	public List<String> interfaces = new ArrayList<>();
+
 	// 静态字段
 	public List<CtField> staticFields = new ArrayList<>();
 	// 静态方法
@@ -37,6 +30,7 @@ public class CtClass implements Annotated {
 	public List<CtMethod> methods = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
+
 	// 内部类( typeName --> CtClass )
 	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
 

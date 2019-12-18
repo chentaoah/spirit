@@ -3,8 +3,8 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.api.AbsElement;
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.AbsElement;
 
 public class CtField extends AbsElement {
 	// 参数名

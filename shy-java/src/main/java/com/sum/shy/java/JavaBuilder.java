@@ -2,8 +2,8 @@ package com.sum.shy.java;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.analyzer.MethodResolver;
-import com.sum.shy.core.api.Annotated;
 import com.sum.shy.core.api.Handler;
+import com.sum.shy.core.clazz.Annotated;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CtField;
 import com.sum.shy.core.entity.Line;

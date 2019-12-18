@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.api.Element;
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.Element;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
