@@ -58,8 +58,8 @@ public class FuncParser implements Parser {
 		}
 
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(scope, null, isSync, methodName, params, exceptions,
-				Context.get().getAnnotations());
+		CtMethod method = new CtMethod(Context.get().getAnnotations(), scope, isSync, null, methodName, params,
+				exceptions);
 		method.methodLines = LineUtils.getSubLines(lines, index);
 		clazz.addMethod(method);
 

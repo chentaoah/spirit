@@ -21,16 +21,17 @@ public class CtMethod extends AbsElement {
 	public List<Line> methodLines;
 
 	/**
-	 * 构造
 	 * 
+	 * @param annotations
+	 * @param scope
 	 * @param returnType
+	 * @param isSync
 	 * @param name
 	 * @param params
 	 * @param exceptions
-	 * @param annotations
 	 */
-	public CtMethod(String scope, Type returnType, boolean isSync, String name, List<Param> params,
-			List<String> exceptions, List<String> annotations) {
+	public CtMethod(List<String> annotations, String scope, boolean isSync, Type returnType, String name,
+			List<Param> params, List<String> exceptions) {
 		// 注解
 		setAnnotations(annotations);
 		// 域
@@ -38,7 +39,7 @@ public class CtMethod extends AbsElement {
 		// 是否同步
 		this.isSync = isSync;
 		// 类型
-		setType(returnType);
+		this.type = returnType;
 
 		this.name = name;
 		this.params = params;

@@ -18,8 +18,8 @@ public class DeclareParser implements Parser {
 		// 变量名
 		String name = stmt.get(1);
 		// 这里不再直接推导类型
-		clazz.addField(new CtField(scope, new CodeType(clazz, stmt.getToken(0)), name, new Stmt(name),
-				Context.get().getAnnotations()));
+		clazz.addField(new CtField(Context.get().getAnnotations(), scope, new CodeType(clazz, stmt.getToken(0)), name,
+				new Stmt(name)));
 
 		return 0;
 	}

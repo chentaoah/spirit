@@ -12,13 +12,13 @@ public class CtField extends AbsElement {
 	// 语句
 	public Stmt stmt;
 
-	public CtField(String scope, Type type, String name, Stmt stmt, List<String> annotations) {
+	public CtField(List<String> annotations, String scope, Type type, String name, Stmt stmt) {
 		// 注解
 		setAnnotations(annotations);
 		// 域
 		this.scope = scope;
 		// 类型
-		setType(type);
+		this.type = type;
 
 		this.name = name;
 		this.stmt = stmt;
