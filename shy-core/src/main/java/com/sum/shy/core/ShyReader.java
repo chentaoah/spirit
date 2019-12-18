@@ -18,6 +18,7 @@ import com.sum.shy.core.parser.FuncParser;
 import com.sum.shy.core.parser.ImportParser;
 import com.sum.shy.core.parser.InterfaceParser;
 import com.sum.shy.core.parser.PackageParser;
+import com.sum.shy.core.utils.TypeUtils;
 
 public class ShyReader {
 
@@ -56,7 +57,7 @@ public class ShyReader {
 		// 这里有一个问题,如果要支持一个文件里面多个class的话,那么这里就需要解析多次
 		CtClass mainClass = new CtClass();
 		// 文件名即类名,如果类名和文件名不一致,则认为是该类的内部类
-		mainClass.typeName = file.getName().replace(".shy", "");
+		mainClass.typeName = TypeUtils.getTypeNameByFile(file);
 		// 读取类的信息,包括静态方法,静态变量
 		readScopeLines(mainClass, "static", lines);
 		// 如果不是接口的话

@@ -1,7 +1,9 @@
 package com.sum.shy.core.utils;
 
+import java.io.File;
+
 public class TypeUtils {
-	
+
 	public static String getPackage(String className) {
 		return className.substring(0, className.lastIndexOf("."));
 	}
@@ -17,5 +19,9 @@ public class TypeUtils {
 	public static String getClassName(String className) {
 		return className.startsWith("[L") && className.endsWith(";") ? className.substring(2, className.length() - 1)
 				: className;
+	}
+
+	public static String getTypeNameByFile(File file) {
+		return file.getName().replace(".shy", "");
 	}
 }
