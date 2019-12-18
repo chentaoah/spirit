@@ -32,6 +32,14 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 		}
 	}
 
+	public void addMethod(CtMethod method) {
+		if ("static".equals(method.getScope())) {
+			staticMethods.add(method);
+		} else {
+			methods.add(method);
+		}
+	}
+
 	public void checkField(CtField field) {
 		boolean flag = false;
 		for (CtField f : staticFields) {
@@ -49,6 +57,20 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
+	public boolean existField(String fieldName) {
+		for (CtField field : staticFields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		for (CtField field : fields) {
+			if (field.name.equals(fieldName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public CtField findField(String fieldName) {
 		for (CtField field : staticFields) {
 			if (field.name.equals(fieldName)) {
@@ -64,14 +86,14 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 
 	}
 
-	public boolean existField(String fieldName) {
-		for (CtField field : staticFields) {
-			if (field.name.equals(fieldName)) {
+	public boolean existMethod(String methodName, List<Type> parameterTypes) {
+		for (CtMethod method : staticMethods) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
 		}
-		for (CtField field : fields) {
-			if (field.name.equals(fieldName)) {
+		for (CtMethod method : methods) {
+			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
 		}
@@ -91,20 +113,6 @@ public abstract class AbsContainer extends AbsDescribable implements Container {
 		}
 		throw new RuntimeException("The method does not exist!class:" + getClassName() + ", method:" + methodName);
 
-	}
-
-	public boolean existMethod(String methodName, List<Type> parameterTypes) {
-		for (CtMethod method : staticMethods) {
-			if (method.isSame(methodName, parameterTypes)) {
-				return true;
-			}
-		}
-		for (CtMethod method : methods) {
-			if (method.isSame(methodName, parameterTypes)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public List<Element> getAllElement() {
