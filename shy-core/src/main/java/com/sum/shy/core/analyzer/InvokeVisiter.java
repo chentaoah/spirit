@@ -16,8 +16,8 @@ import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.library.Collection;
-import com.sum.shy.library.StringUtils;
+import com.sum.shy.lib.Collection;
+import com.sum.shy.lib.StringUtils;
 
 public class InvokeVisiter {
 

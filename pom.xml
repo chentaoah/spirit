@@ -10,6 +10,9 @@
 		<module>shy-core</module>
 		<module>shy-check</module>
 		<module>shy-assist</module>
+		<module>shy-java</module>
+		<module>shy-start</module>
+		<module>shy-lib</module>
 	</modules>
 	<properties>    
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    

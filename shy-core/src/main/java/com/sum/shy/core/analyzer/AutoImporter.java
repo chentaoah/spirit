@@ -11,7 +11,7 @@ import com.google.common.io.Files;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.utils.ReflectUtils;
-import com.sum.shy.library.StringUtils;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 自动引入器

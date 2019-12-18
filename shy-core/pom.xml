@@ -9,6 +9,12 @@
 	</parent>
 	<artifactId>shy-core</artifactId>
 	<dependencies>
+		<!-- lib -->
+		<dependency>
+			<groupId>com.sum.shy</groupId>
+			<artifactId>shy-lib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- 工具包 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>

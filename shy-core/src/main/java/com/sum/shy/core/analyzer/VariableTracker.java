@@ -10,8 +10,8 @@ import com.sum.shy.core.entity.Param;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.entity.Variable;
-import com.sum.shy.library.Collection;
-import com.sum.shy.library.StringUtils;
+import com.sum.shy.lib.Collection;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 变量追踪器
