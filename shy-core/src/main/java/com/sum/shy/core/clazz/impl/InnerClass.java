@@ -23,7 +23,7 @@ public class InnerClass extends CtClass {
 		return mainClass.existImport(typeName);
 	}
 
-	public String findClassName(String simpleName) {
+	public String findImport(String simpleName) {
 		return mainClass.findImport(simpleName);
 	}
 
