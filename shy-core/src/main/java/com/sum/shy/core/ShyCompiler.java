@@ -20,8 +20,10 @@ public class ShyCompiler {
 		Map<String, CtClass> mainClasses = new LinkedHashMap<>();
 
 		for (Map.Entry<String, File> entry : files.entrySet()) {
+
 			String className = entry.getKey();
 			File file = entry.getValue();
+
 			// 读取类结构信息
 			CtClass mainClass = new ShyReader().read(file);
 			// 追加包名
