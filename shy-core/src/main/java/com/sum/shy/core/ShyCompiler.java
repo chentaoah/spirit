@@ -8,7 +8,7 @@ import com.sum.shy.core.analyzer.AutoImporter;
 import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.core.utils.TypeUtils;
 
 public class ShyCompiler {
 
@@ -39,7 +39,7 @@ public class ShyCompiler {
 			// 读取类结构信息
 			CtClass mainClass = new ShyReader().read(file);
 			// 追加包名
-			mainClass.packageStr = ReflectUtils.getPackage(className);
+			mainClass.packageStr = TypeUtils.getPackage(className);
 			// 自动引入友元,和常用的一些类
 			AutoImporter.doImport(mainClass, file);
 			// 将内部类当做普通的类,添加到集合中

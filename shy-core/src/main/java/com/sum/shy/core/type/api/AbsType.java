@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.core.utils.TypeUtils;
 
 public abstract class AbsType implements Type {
 
@@ -92,7 +92,7 @@ public abstract class AbsType implements Type {
 			if (clazz.addImport(getClassName())) {
 				finalName = getSimpleName();
 			} else {
-				finalName = ReflectUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
+				finalName = TypeUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
 			}
 		}
 		if (!isArray() && !isGenericType()) {// 普通类型

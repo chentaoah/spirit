@@ -6,6 +6,7 @@ import java.util.Map;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.core.utils.TypeUtils;
 
 public abstract class AbsLinkable extends AbsContainer implements Linkable {
 	// 包名
@@ -42,8 +43,8 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return simpleName;
 
 		// 如果传进来是个数组，那么处理一下
-		boolean isArray = ReflectUtils.isArray(simpleName);
-		String typeName = ReflectUtils.getTypeName(simpleName);
+		boolean isArray = TypeUtils.isArray(simpleName);
+		String typeName = TypeUtils.getTypeName(simpleName);
 
 		// 1.首先先去引入里面找
 		String className = null;
@@ -85,7 +86,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 		className = className.replaceAll("\\$", ".");
 
 		// 如果是数组，则把修饰符号去掉
-		className = ReflectUtils.getClassName(className);
+		className = TypeUtils.getClassName(className);
 
 		// 2.基本类className和simpleName相同
 		// 3.一般java.lang.包下的类不用引入
