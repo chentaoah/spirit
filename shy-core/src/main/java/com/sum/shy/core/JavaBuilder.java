@@ -258,7 +258,8 @@ public class JavaBuilder {
 	private String buildMethod(CtClass clazz, String desc, CtMethod method) {
 		StringBuilder body = new StringBuilder();
 		String paramStr = "";
-		if ("static".equals(desc) && "main".equals(method.name)) {// 主方法自动加参数
+
+		if ("static ".equals(desc) && "main".equals(method.name)) {// 主方法自动加参数
 			paramStr = "String[] args";
 		} else if (method.params.size() > 0) {
 			paramStr = Joiner.on(", ").join(method.params);
