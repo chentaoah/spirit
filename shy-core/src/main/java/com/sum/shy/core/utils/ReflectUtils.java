@@ -6,12 +6,8 @@ import java.util.Map;
 
 public class ReflectUtils {
 
-	public static Class<?> getClass(String className) {
-		try {
-			return Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("The class was not found!className:[" + className + "]");
-		}
+	public static String getPackage(String className) {
+		return className.substring(0, className.lastIndexOf("."));
 	}
 
 	public static boolean isArray(String simpleName) {
@@ -27,8 +23,12 @@ public class ReflectUtils {
 				: className;
 	}
 
-	public static String getPackage(String className) {
-		return className.substring(0, className.lastIndexOf("."));
+	public static Class<?> getClass(String className) {
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("The class was not found!className:[" + className + "]");
+		}
 	}
 
 	public static String getCommonType(String simpleName) {
