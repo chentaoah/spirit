@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.CodeType;
-import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.entity.NativeType;
 
 public class NativeLinker {

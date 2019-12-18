@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.CtClass;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.lib.StringUtils;
 

@@ -1,10 +1,11 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.clazz.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.clazz.AbsElement;
+import com.sum.shy.core.clazz.api.AbsElement;
+import com.sum.shy.core.entity.Stmt;
 
 public class CtField extends AbsElement {
 	// 参数名

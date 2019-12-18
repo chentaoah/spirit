@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public abstract class AbsType implements Type {

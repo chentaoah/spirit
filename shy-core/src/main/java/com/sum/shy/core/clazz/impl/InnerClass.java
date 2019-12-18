@@ -1,4 +1,4 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.clazz.impl;
 
 /**
  * 内部类对象

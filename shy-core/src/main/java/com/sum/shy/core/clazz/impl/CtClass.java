@@ -1,4 +1,4 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.clazz.impl;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.clazz.AbsLinkable;
-import com.sum.shy.core.clazz.Element;
+import com.sum.shy.core.clazz.api.AbsLinkable;
+import com.sum.shy.core.clazz.api.Element;
+import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class CtClass extends AbsLinkable {

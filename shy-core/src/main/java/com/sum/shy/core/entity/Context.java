@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.sum.shy.core.clazz.impl.CtClass;
+
 public class Context {
 
 	public static ThreadLocal<Context> local = new ThreadLocal<>();

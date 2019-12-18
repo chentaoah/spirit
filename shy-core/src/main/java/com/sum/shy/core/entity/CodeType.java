@@ -2,6 +2,7 @@ package com.sum.shy.core.entity;
 
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.api.AbsType;
+import com.sum.shy.core.clazz.impl.CtClass;
 
 public class CodeType extends AbsType {
 

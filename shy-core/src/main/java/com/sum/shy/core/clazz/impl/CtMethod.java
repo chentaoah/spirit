@@ -1,11 +1,14 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.clazz.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.clazz.AbsElement;
+import com.sum.shy.core.clazz.api.AbsElement;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Param;
+import com.sum.shy.core.entity.Variable;
 
 public class CtMethod extends AbsElement {
 	// 是否同步

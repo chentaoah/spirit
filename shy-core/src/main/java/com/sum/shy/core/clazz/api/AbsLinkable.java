@@ -1,10 +1,9 @@
-package com.sum.shy.core.clazz;
+package com.sum.shy.core.clazz.api;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class AbsLinkable extends AbsAnnotated {
-
+public abstract class AbsLinkable extends AbsAnnotated implements Linkable {
 	// 包名
 	public String packageStr;
 	// 引入

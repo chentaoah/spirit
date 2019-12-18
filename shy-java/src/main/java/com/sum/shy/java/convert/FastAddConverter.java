@@ -3,8 +3,8 @@ package com.sum.shy.java.convert;
 import java.util.List;
 
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.CtMethod;
+import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;

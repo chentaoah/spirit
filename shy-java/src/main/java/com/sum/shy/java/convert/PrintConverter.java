@@ -3,11 +3,11 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.clazz.impl.CtField;
+import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.CtClass;
-import com.sum.shy.core.entity.CtField;
-import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;

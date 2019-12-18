@@ -1,4 +1,4 @@
-package com.sum.shy.core.clazz;
+package com.sum.shy.core.clazz.api;
 
 /**
  * 可链接的

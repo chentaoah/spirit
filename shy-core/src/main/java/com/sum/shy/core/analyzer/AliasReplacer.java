@@ -2,7 +2,7 @@ package com.sum.shy.core.analyzer;
 
 import java.util.Map;
 
-import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.clazz.impl.CtClass;
 
 public class AliasReplacer {
 

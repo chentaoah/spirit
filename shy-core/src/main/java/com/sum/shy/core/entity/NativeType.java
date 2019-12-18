@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sum.shy.core.api.AbsType;
 import com.sum.shy.core.api.Type;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.utils.ReflectUtils;
 
 /**

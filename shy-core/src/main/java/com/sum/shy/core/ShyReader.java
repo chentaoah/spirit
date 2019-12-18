@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.api.Parser;
-import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.parser.AnnotationParser;

@@ -6,12 +6,12 @@ import java.util.Map;
 
 import com.sum.shy.core.api.Handler;
 import com.sum.shy.core.api.Type;
-import com.sum.shy.core.clazz.Element;
-import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.clazz.api.Element;
+import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.clazz.impl.CtField;
+import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.CodeType;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.CtField;
-import com.sum.shy.core.entity.CtMethod;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;

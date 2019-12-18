@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sum.shy.core.entity.CtClass;
+import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 
