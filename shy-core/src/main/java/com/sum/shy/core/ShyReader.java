@@ -8,6 +8,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.api.Parser;
 import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.parser.AnnotationParser;
@@ -59,15 +60,15 @@ public class ShyReader {
 		// 文件名即类名,如果类名和文件名不一致,则认为是该类的内部类
 		mainClass.typeName = TypeUtils.getTypeNameByFile(file);
 		// 读取类的信息,包括静态方法,静态变量
-		readScopeLines(mainClass, "static", lines);
+		readScopeLines(mainClass, Constants.STATIC_SCOPE, lines);
 		// 如果不是接口的话
-		if (!"interface".equals(mainClass.category)) {
+		if (!mainClass.isInterface()) {
 			// 继续读取类内部的信息
-			readScopeLines(mainClass, "class", mainClass.classLines);
+			readScopeLines(mainClass, Constants.CLASS_SCOPE, mainClass.classLines);
 		}
 		// 遍历读取内部类的信息
 		for (CtClass innerClass : mainClass.innerClasses.values()) {
-			readScopeLines(innerClass, "class", innerClass.classLines);
+			readScopeLines(innerClass, Constants.CLASS_SCOPE, innerClass.classLines);
 		}
 
 		return mainClass;

@@ -14,4 +14,16 @@ public abstract class AbsDescribable extends AbsAnnotated {
 
 	public boolean isSync;
 
+	public boolean isInterface() {
+		return "interface".equals(category);
+	}
+
+	public boolean isAbstract() {
+		return "abstract".equals(category);
+	}
+
+	public boolean isClass() {
+		return "class".equals(category);
+	}
+
 }
