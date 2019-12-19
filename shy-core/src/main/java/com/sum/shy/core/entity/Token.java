@@ -18,6 +18,11 @@ public class Token {
 		attachments = new HashMap<>();
 	}
 
+	public Token(Object value) {
+		this.value = value;
+		attachments = new HashMap<>();
+	}
+
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;

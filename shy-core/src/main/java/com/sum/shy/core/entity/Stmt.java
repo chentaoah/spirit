@@ -100,6 +100,17 @@ public class Stmt {
 		return subStmts;
 	}
 
+	public Stmt replace(int start, int end, Token token) {// 将指定位置之间的token用传入的来替代,返回的是一个拷贝
+		List<Token> newTokens = new ArrayList<>();
+		for (int i = 0; i < size(); i++) {
+			if (i >= start && i < end) {
+				newTokens.add(tokens.get(i));
+			}
+		}
+		newTokens.add(start, token);
+		return new Stmt(newTokens);
+	}
+
 	@Override
 	public String toString() {
 		// 如果没有token,则直接返回line

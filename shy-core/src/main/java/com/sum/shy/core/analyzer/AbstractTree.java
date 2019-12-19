@@ -26,9 +26,9 @@ public class AbstractTree {
 	 * @param stmt
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static Node<Token> grow(Stmt stmt) {
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
-		Node<Token> node = new Node<Token>();
 		int maxPriority = -1;// 优先级
 		Token currToken = null;// 当前优先级最高的操作符
 		int index = -1;
@@ -46,11 +46,18 @@ public class AbstractTree {
 		}
 		if (index >= 0) {
 			// 将操作符左右的元素,组成节点
-			node.content = currToken;
-			
+			Node<Token> node = new Node<Token>(currToken);
+			Token lastToken = stmt.getToken(index - 1);
+			Token nextToken = stmt.getToken(index + 1);
+			node.left = lastToken instanceof Node ? (Node<Token>) lastToken : new Node<Token>(lastToken);
+			node.right = nextToken instanceof Node ? (Node<Token>) nextToken : new Node<Token>(nextToken);
+			stmt = stmt.replace(index - 1, index + 1, node);
+			// 递归
+			return grow(stmt);
+
 		}
 
-		return node;
+		return null;
 	}
 
 	public static int getPriority(String value) {
@@ -71,13 +78,17 @@ public class AbstractTree {
 		return -1;
 	}
 
-	public static class Node<T> {
+	public static class Node<T> extends Token {
 
 		public T content;
 
 		public Node<T> left;
 
 		public Node<T> right;
+
+		public Node(T content) {
+			this.content = content;
+		}
 
 	}
 }
