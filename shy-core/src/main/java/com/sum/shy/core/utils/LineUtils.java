@@ -89,7 +89,7 @@ public class LineUtils {
 
 		int end = findEnd(chars, index, left, right);
 		// 判断后面的符号是否连续
-		if (end + 1 < chars.size()) {
+		if (end != -1 && end + 1 < chars.size()) {
 			char c = chars.get(end + 1);
 			if (c == left1) {
 				end = findEnd(chars, end + 1, left1, right1);
