@@ -103,11 +103,13 @@ public class Stmt {
 	public Stmt replace(int start, int end, Token token) {// 将指定位置之间的token用传入的来替代,返回的是一个拷贝
 		List<Token> newTokens = new ArrayList<>();
 		for (int i = 0; i < size(); i++) {
-			if (i >= start && i < end) {
+			// 注意不再这个范围的才添加
+			if (i < start || i >= end) {
 				newTokens.add(tokens.get(i));
+			} else if (i == start) {
+				newTokens.add(token);
 			}
 		}
-		newTokens.add(start, token);
 		return new Stmt(newTokens);
 	}
 

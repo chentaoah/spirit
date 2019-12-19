@@ -1,8 +1,16 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 抽象语法树
@@ -13,9 +21,9 @@ import com.sum.shy.core.utils.LineUtils;
 public class AbstractTree {
 	// "++", "--", "!",
 	public static final String[] OPERATORS = new String[] { "*", "/", "%", "+", "-", "==", "!=", "<", ">", "<=", ">=",
-			"&&", "||", };
+			"&&", "||" };
 
-	public static final int[] OPERATOR_PRIORITY = new int[] { 35, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15 };
+	public static final int[] OPERATOR_PRIORITY = new int[] { 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15 };
 
 	public static final String[] KEYWORDS = new String[] { "instanceof" };
 
@@ -29,47 +37,55 @@ public class AbstractTree {
 	 */
 	public static Node grow(Stmt stmt) {
 		// 如果只有一个元素
-		if (stmt.size() == 1)
-			return new Node(stmt.getToken(0));
+		if (stmt.size() == 1) {
+			Token token = stmt.getToken(0);
+			return token.isNode() ? (Node) token.value : new Node(0, token);
+		}
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
 		int maxPriority = -1;// 优先级
-		int index = -1;
+		Token lastToken = null;
 		Token currToken = null;// 当前优先级最高的操作符
+		Token nextToken = null;
+		int index = -1;
 
-		for (int i = 0; i < stmt.size(); i++) {
+		// 每个token在一行里面的位置
+		Map<Token, Integer> positionMap = new LinkedHashMap<>();
+		for (int i = 0, position = 0; i < stmt.size(); i++) {
+
 			Token token = stmt.getToken(i);
+
+			// token在实际字符串中的起始位置,+1是微调一下位置
+			position += token.value.toString().length();
+			positionMap.put(token, position);
+
 			// 如果是操作符
-			if (token.isOperator() || (token.isKeyword() && token.isInstanceof())) {
+			if (token.isOperator() || token.isInstanceof()) {
 				int priority = getPriority(token.value.toString());
 				if (priority > maxPriority) {
 					maxPriority = priority;
-					index = i;
+					lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
 					currToken = token;
+					nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
+					index = i;
 				}
 			}
 		}
-		if (index >= 0) {
-			// 将操作符左右的元素,组成节点
-			int last = index - 1;
-			int next = index + 1;
+		// 校验
+		if (currToken == null)
+			return null;
 
-			Node node = new Node(currToken);
-			Token lastToken = last >= 0 ? stmt.getToken(last) : null;
-			Token nextToken = next < stmt.size() ? stmt.getToken(next) : null;
-			if (lastToken != null)
-				node.left = lastToken instanceof Node ? (Node) lastToken : new Node(lastToken);
-			if (nextToken != null)
-				node.right = nextToken instanceof Node ? (Node) nextToken : new Node(nextToken);
-			// 替换
-			stmt = stmt.replace(last >= 0 ? last : 0, next < stmt.size() ? next + 1 : stmt.size(), node);
+		Node node = new Node(positionMap.get(currToken), currToken);
+		if (lastToken != null)
+			node.left = lastToken.isNode() ? (Node) lastToken.value : new Node(positionMap.get(lastToken), lastToken);
+		if (nextToken != null)
+			node.right = nextToken.isNode() ? (Node) nextToken.value : new Node(positionMap.get(nextToken), nextToken);
+		// 替换
+		stmt = stmt.replace(index - 1 >= 0 ? index - 1 : 0, index + 1 < stmt.size() ? index + 1 + 1 : stmt.size(),
+				new Token(Constants.NODE_TOKEN, node, null));
+		// 递归
+		return grow(stmt);
 
-			// 递归
-			return grow(stmt);
-
-		}
-
-		return null;
 	}
 
 	public static int getPriority(String value) {
@@ -90,7 +106,9 @@ public class AbstractTree {
 		return -1;
 	}
 
-	public static class Node extends Token {
+	public static class Node {
+
+		public int position;
 
 		public Token token;
 
@@ -98,8 +116,14 @@ public class AbstractTree {
 
 		public Node right;
 
-		public Node(Token content) {
-			this.token = content;
+		public Node(int position, Token token) {
+			this.position = position;
+			this.token = token;
+		}
+
+		@Override
+		public String toString() {
+			return "" + (left == null ? "" : left) + " " + token.value + " " + (right == null ? "" : right);
 		}
 
 	}
@@ -110,44 +134,47 @@ public class AbstractTree {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String text = "(x > 0 || y < 100) && list.size()>100 && obj instanceof Object";
-		Stmt stmt = Stmt.create(text);
-		Node node = grow(stmt);
-		System.out.println(buildTree(node));
-	}
-
-	private static String buildTree(Node node) {
-		// 最上面那个节点的缩进
-		int indent = getIndent(node);
-		// 按照缩进打印节点
-		StringBuilder sb = new StringBuilder();
-		sb.append(LineUtils.getSpaceByNumber(indent * 4) + node.token.value.toString());
-
-		return "";
-	}
-
-	private static int getIndent(Node node) {
-		// 最大缩进
-		int maxIndent = -1;
-		// 起点的缩进量
-		int startIndent = 0;
-		// 起始节点
-		Node startNode = node;
-		while (startNode != null) {
-			int indent = 0;
-			// 向左
-			while (node.left != null) {
-				indent++;
-				node = node.left;
-			}
-			if (startIndent + indent > maxIndent) {
-				maxIndent = startIndent + indent;
-			}
-			startNode = startNode.right;
-			startIndent--;
+		// 构建一个画布
+		List<Line> lines = new ArrayList<>();
+		for (int i = 0; i < 30; i++) {
+			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(80)));
 		}
 
-		return maxIndent;
+		String text = "(x > 0 || y < 100) && list.size()>100 && obj instanceof Object";
+
+		Stmt stmt = Stmt.create(text);
+		System.out.println(stmt.toString());
+		Node node = grow(stmt);
+		// 在20行中构建树结构
+		buildTree(lines, 0, null, node);
+		// 打印
+		for (Line line : lines) {
+			System.out.println(line.text);
+		}
+	}
+
+	private static void buildTree(List<Line> lines, int depth, String separator, Node node) {
+
+		if (node == null)
+			return;
+
+		if (StringUtils.isNotEmpty(separator)) {
+			Line lastLine = lines.get(depth - 1);
+			StringBuilder sb = new StringBuilder(lastLine.text);
+			sb.replace(node.position, node.position + 1, separator);
+			lastLine.text = sb.toString();
+		}
+		// 在节点的上方
+		Line line = lines.get(depth);
+		StringBuilder sb = new StringBuilder(line.text);
+		String text = node.token.value.toString();
+		sb.replace(node.position, node.position + text.length(), text);
+		line.text = sb.toString();
+		// 右边节点
+		buildTree(lines, depth + 2, "\\", node.right);
+		// 左边节点
+		buildTree(lines, depth + 2, "/", node.left);
+
 	}
 
 }

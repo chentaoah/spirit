@@ -146,6 +146,10 @@ public class Token {
 		return isKeyword() && "instanceof".equals(value.toString());
 	}
 
+	public boolean isNode() {
+		return Constants.NODE_TOKEN.equals(type);
+	}
+
 	// =================== 复合判断 =====================
 
 	public boolean isValue() {
