@@ -67,6 +67,7 @@ public class Constants {
 	public static final String EXPRESS_TOKEN = "express";// 表达式
 	public static final String QUICK_INDEX_TOKEN = "quick_index";// 数组或者集合的快速索引
 	public static final String ANNOTATION_TOKEN = "annotation";// 数组或者集合的快速索引
+	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型

@@ -133,6 +133,10 @@ public class Token {
 		return Constants.UNKNOWN.equals(type);
 	}
 
+	public boolean isSubexpress() {
+		return Constants.SUBEXPRESS_TOKEN.equals(type);
+	}
+
 	// =================== 复合判断 =====================
 
 	public boolean isValue() {

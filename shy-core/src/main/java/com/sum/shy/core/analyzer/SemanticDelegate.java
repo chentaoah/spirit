@@ -50,8 +50,6 @@ public class SemanticDelegate {
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");
 	// 泛型--Father<Child> and G_Father<Child>
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");
-	// 强制转换，还需要type判断--(TYPE_PATTERN)
-	public static final Pattern CAST_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 
 	// ============================== 数组初始化 ================================
 
@@ -72,6 +70,11 @@ public class SemanticDelegate {
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
+
+	// ============================== 子表达式 ================================
+
+	// 子表达式--里面是type则是cast 其他则为表达式
+	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 
 	// ============================== 方法调用 ================================
 
@@ -191,14 +194,14 @@ public class SemanticDelegate {
 			if (isType(word)) {// 是否类型说明
 				token.type = Constants.TYPE_TOKEN;
 				return;
-			} else if (isCast(word)) {// 类型强制转换
-				token.type = Constants.CAST_TOKEN;
-				return;
 			} else if (isArrayInit(word)) {// 数组初始化
 				token.type = Constants.ARRAY_INIT_TOKEN;
 				return;
 			} else if (isValue(word)) {// 字面值
 				token.type = getValueTokenType(word);
+				return;
+			} else if (isSubexpress(word)) {// 子表达式
+				token.type = getSubexpressTokenType(word);
 				return;
 			} else if (isInvoke(word)) {// 方法调用
 				token.type = getInvokeTokenType(word);
@@ -232,6 +235,12 @@ public class SemanticDelegate {
 		if (isMap(word))
 			return Constants.MAP_TOKEN;
 		return Constants.UNKNOWN;
+	}
+
+	private static String getSubexpressTokenType(String word) {
+		if (isCast(word))
+			return Constants.CAST_TOKEN;
+		return Constants.SUBEXPRESS_TOKEN;
 	}
 
 	private static String getInvokeTokenType(String word) {
@@ -336,6 +345,18 @@ public class SemanticDelegate {
 			// 生成子语句
 			token.value = new Stmt(word, subWords, subTokens);
 			return;
+
+		} else if (token.isSubexpress()) {
+			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
+			List<String> subWords = LexicalAnalyzer.getWords(str);
+			subWords.add(0, "(");
+			subWords.add(")");
+			// 获取tokens
+			List<Token> subTokens = getTokens(null, subWords);
+			// 生成子语句
+			token.value = new Stmt(word, subWords, subTokens);
+			return;
+
 		}
 
 		token.value = word;
@@ -437,8 +458,12 @@ public class SemanticDelegate {
 				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
+	private static boolean isSubexpress(String word) {
+		return SUBEXPRESS_PATTERN.matcher(word).matches();
+	}
+
 	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
-		return CAST_PATTERN.matcher(word).matches() && isType(getCastType(word));
+		return SUBEXPRESS_PATTERN.matcher(word).matches() && isType(getCastType(word));
 	}
 
 	private static boolean isArrayInit(String word) {
