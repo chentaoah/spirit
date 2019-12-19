@@ -238,7 +238,7 @@ public class SemanticDelegate {
 	}
 
 	private static String getSubexpressTokenType(String word) {
-		if (isCast(word))
+		if (isType(getCastType(word)))
 			return Constants.CAST_TOKEN;
 		return Constants.SUBEXPRESS_TOKEN;
 	}
@@ -460,10 +460,6 @@ public class SemanticDelegate {
 
 	private static boolean isSubexpress(String word) {
 		return SUBEXPRESS_PATTERN.matcher(word).matches();
-	}
-
-	private static boolean isCast(String word) {// 必须是两边有括号，并且内部是类型声明
-		return SUBEXPRESS_PATTERN.matcher(word).matches() && isType(getCastType(word));
 	}
 
 	private static boolean isArrayInit(String word) {
