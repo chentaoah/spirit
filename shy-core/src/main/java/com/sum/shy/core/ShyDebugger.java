@@ -15,8 +15,9 @@ import com.sum.shy.core.utils.LineUtils;
 public class ShyDebugger {
 
 	public void debug(Map<String, File> files) {
-		// TODO Auto-generated method stub
-
+		for (File file : files.values()) {
+			read(file);
+		}
 	}
 
 	/**
