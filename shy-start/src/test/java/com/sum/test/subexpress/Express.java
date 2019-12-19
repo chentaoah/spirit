@@ -17,4 +17,10 @@ public class Express {
 		}
 	}
 
+	public void testCast() {
+		String s1 = "I am a str";
+		Object o1 = (Object)s1;
+		logger.info("test success", o1);
+	}
+
 }
