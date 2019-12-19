@@ -137,6 +137,10 @@ public class Token {
 		return Constants.SUBEXPRESS_TOKEN.equals(type);
 	}
 
+	public boolean isInstanceof() {
+		return isKeyword() && "instanceof".equals(value.toString());
+	}
+
 	// =================== 复合判断 =====================
 
 	public boolean isValue() {
@@ -156,7 +160,7 @@ public class Token {
 	}
 
 	public boolean hasSubStmt() {
-		return isArray() || isMap() || isInvoke();
+		return isArray() || isMap() || isInvoke() || isSubexpress();
 	}
 
 	public boolean isJudgeOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
