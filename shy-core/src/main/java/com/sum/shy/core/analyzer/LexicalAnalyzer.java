@@ -67,7 +67,7 @@ public class LexicalAnalyzer {
 					LineUtils.replaceString(chars, i, '[', ']', "$array", count++, replacedStrs);
 				} else {
 					// 不管大小写，都截取
-					LineUtils.replaceString(chars, start, '[', ']', "$declare", count++, replacedStrs);
+					LineUtils.replaceString(chars, start, '[', ']', "$array_like", count++, replacedStrs);
 					i = start;// 索引倒退一些
 				}
 
