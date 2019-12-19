@@ -11,6 +11,12 @@ class Express {
 		}
 	}
 
+	func testCast(){
+		s1="I am a str"
+		o1=(Object)s1
+		print "test success",o1
+	}
+
 
 
 

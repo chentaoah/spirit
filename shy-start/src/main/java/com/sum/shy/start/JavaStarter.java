@@ -23,7 +23,7 @@ public class JavaStarter {
 	public static void main(String[] args) {
 
 		// debug模式可以观察词法，语法，和语义是否分析得正确
-		boolean debug = true;
+		boolean debug = false;
 
 		// 第一个参数是代码地址
 		String inputPath = args[0];
