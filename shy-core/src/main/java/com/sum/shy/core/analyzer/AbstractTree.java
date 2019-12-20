@@ -173,7 +173,7 @@ public class AbstractTree {
 			Line lastLine = lines.get(depth - 1);
 			StringBuilder sb = new StringBuilder(lastLine.text);
 			// 尽量上上面的分割符在中间
-			int position = node.token.getPosition() + text.length() / 2;
+			int position = node.token.getPosition() + text.length() / 2 - 1;
 			sb.replace(position, position + 1, separator);
 			lastLine.text = sb.toString();
 		}
