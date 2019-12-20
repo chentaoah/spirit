@@ -172,8 +172,8 @@ public class AbstractTree {
 		if (StringUtils.isNotEmpty(separator)) {
 			Line lastLine = lines.get(depth - 1);
 			StringBuilder sb = new StringBuilder(lastLine.text);
-			// 尽量上上面的分割符在中间
-			int position = node.token.getPosition() + text.length() / 2 - 1;
+			// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
+			int position = node.token.getPosition() + text.length() / 2 + text.length() % 2 - 1;
 			sb.replace(position, position + 1, separator);
 			lastLine.text = sb.toString();
 		}
