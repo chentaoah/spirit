@@ -263,4 +263,14 @@ public class Token {
 		attachments.put(Constants.NEXT_TOKEN_ATTACHMENT, token);
 	}
 
+	// =================== 在语句中的位置 =====================
+
+	public int getPosition() {
+		return (int) attachments.get(Constants.POSITION_ATTACHMENT);
+	}
+
+	public void setPosition(int position) {
+		attachments.put(Constants.POSITION_ATTACHMENT, position);
+	}
+
 }

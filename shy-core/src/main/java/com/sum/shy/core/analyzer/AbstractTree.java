@@ -1,9 +1,7 @@
 package com.sum.shy.core.analyzer;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
@@ -36,10 +34,26 @@ public class AbstractTree {
 	 * @return
 	 */
 	public static Node grow(Stmt stmt) {
+		// 为每个token计算位置
+		int position = 0;
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+			// 格式化的长度
+			String text = stmt.getTokenStr(i, token);
+			// 先使用位置,再将自己的长度追加到位置中
+			token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
+			// 加上当前的长度
+			position += text.length();
+		}
+		return getNodeByLoop(stmt);
+	}
+
+	private static Node getNodeByLoop(Stmt stmt) {
+
 		// 如果只有一个元素
 		if (stmt.size() == 1) {
 			Token token = stmt.getToken(0);
-			return token.isNode() ? (Node) token.value : new Node(0, token);
+			return token.isNode() ? (Node) token.value : new Node(token);
 		}
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
@@ -50,15 +64,8 @@ public class AbstractTree {
 		int index = -1;
 
 		// 每个token在一行里面的位置
-		Map<Token, Integer> positionMap = new LinkedHashMap<>();
-		for (int i = 0, position = 0; i < stmt.size(); i++) {
-
+		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-
-			// token在实际字符串中的起始位置,+1是微调一下位置
-			position += token.value.toString().length();
-			positionMap.put(token, position);
-
 			// 如果是操作符
 			if (token.isOperator() || token.isInstanceof()) {
 				int priority = getPriority(token.value.toString());
@@ -75,16 +82,18 @@ public class AbstractTree {
 		if (currToken == null)
 			return null;
 
-		Node node = new Node(positionMap.get(currToken), currToken);
+		Node node = new Node(currToken);
 		if (lastToken != null)
-			node.left = lastToken.isNode() ? (Node) lastToken.value : new Node(positionMap.get(lastToken), lastToken);
+			node.left = lastToken.isNode() ? (Node) lastToken.value : new Node(lastToken);
 		if (nextToken != null)
-			node.right = nextToken.isNode() ? (Node) nextToken.value : new Node(positionMap.get(nextToken), nextToken);
+			node.right = nextToken.isNode() ? (Node) nextToken.value : new Node(nextToken);
+
 		// 替换
 		stmt = stmt.replace(index - 1 >= 0 ? index - 1 : 0, index + 1 < stmt.size() ? index + 1 + 1 : stmt.size(),
 				new Token(Constants.NODE_TOKEN, node, null));
+
 		// 递归
-		return grow(stmt);
+		return getNodeByLoop(stmt);
 
 	}
 
@@ -108,16 +117,13 @@ public class AbstractTree {
 
 	public static class Node {
 
-		public int position;
-
 		public Token token;
 
 		public Node left;
 
 		public Node right;
 
-		public Node(int position, Token token) {
-			this.position = position;
+		public Node(Token token) {
 			this.token = token;
 		}
 
@@ -136,7 +142,7 @@ public class AbstractTree {
 	public static void main(String[] args) {
 		// 构建一个画布
 		List<Line> lines = new ArrayList<>();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 20; i++) {
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(80)));
 		}
 
@@ -144,6 +150,7 @@ public class AbstractTree {
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.toString());
+
 		Node node = grow(stmt);
 		// 在20行中构建树结构
 		buildTree(lines, 0, null, node);
@@ -157,23 +164,28 @@ public class AbstractTree {
 
 		if (node == null)
 			return;
-
+		// 节点内容
+		String text = node.token.value.toString();
+		// 获取上一行
 		if (StringUtils.isNotEmpty(separator)) {
 			Line lastLine = lines.get(depth - 1);
 			StringBuilder sb = new StringBuilder(lastLine.text);
-			sb.replace(node.position, node.position + 1, separator);
+			// 尽量上上面的分割符在中间
+			int position = node.token.getPosition() + text.length() / 2;
+			sb.replace(position, position + 1, separator);
 			lastLine.text = sb.toString();
 		}
 		// 在节点的上方
 		Line line = lines.get(depth);
 		StringBuilder sb = new StringBuilder(line.text);
-		String text = node.token.value.toString();
-		sb.replace(node.position, node.position + text.length(), text);
+		int position = node.token.getPosition();
+		sb.replace(position, position + text.length(), text);
 		line.text = sb.toString();
-		// 右边节点
-		buildTree(lines, depth + 2, "\\", node.right);
+
 		// 左边节点
 		buildTree(lines, depth + 2, "/", node.left);
+		// 右边节点
+		buildTree(lines, depth + 2, "\\", node.right);
 
 	}
 
