@@ -120,13 +120,13 @@ public class Stmt {
 			return line.text;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size(); i++) {
-			String str = getTokenStr(i, getToken(i));
+			String str = format(i, getToken(i));
 			sb.append(str);
 		}
 		return sb.toString();
 	}
 
-	public String getTokenStr(int index, Token token) {
+	public String format(int index, Token token) {
 
 		if (token.isKeyword()) {// 关键字一般后面加个空格
 			if ("try".equals(token.value)) {// try语句不动

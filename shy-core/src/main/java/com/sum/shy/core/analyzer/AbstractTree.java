@@ -17,15 +17,16 @@ import com.sum.shy.lib.StringUtils;
  *
  */
 public class AbstractTree {
-	// "++", "--", "!",
-	public static final String[] OPERATORS = new String[] { "*", "/", "%", "+", "-", "==", "!=", "<", ">", "<=", ">=",
-			"&&", "||" };
 
-	public static final int[] OPERATOR_PRIORITY = new int[] { 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15 };
+	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "==", "!=", "<",
+			">", "<=", ">=", "&&", "||" };
 
-	public static final String[] KEYWORDS = new String[] { "instanceof" };
+	public static final int[] OPERATOR_PRIORITY = new int[] { 40, 40, 40, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20,
+			15, 15 };
 
-	public static final int[] KEYWORD_PRIORITY = new int[] { 20 };
+	public enum Category {
+		LEFT, RIGHT, DOUBLE
+	}
 
 	/**
 	 * 语法树,并不能处理所有的语句,比如for循环语句,只能处理一个简单的表达式
@@ -39,7 +40,7 @@ public class AbstractTree {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			// 格式化的长度
-			String text = stmt.getTokenStr(i, token);
+			String text = stmt.format(i, token);
 			// 先使用位置,再将自己的长度追加到位置中
 			token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
 			// 加上当前的长度
@@ -57,40 +58,96 @@ public class AbstractTree {
 		}
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
+		Token finalLastToken = null;
+		Token finalToken = null;// 当前优先级最高的操作符
+		Token finalNextToken = null;
 		int maxPriority = -1;// 优先级
-		Token lastToken = null;
-		Token currToken = null;// 当前优先级最高的操作符
-		Token nextToken = null;
+		Category finalCategory = null;// 一元左元,一元右元,二元
 		int index = -1;
 
 		// 每个token在一行里面的位置
 		for (int i = 0; i < stmt.size(); i++) {
+
+			Token lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
 			Token token = stmt.getToken(i);
-			// 如果是操作符
-			if (token.isOperator() || token.isInstanceof()) {
-				int priority = getPriority(token.value.toString());
-				if (priority > maxPriority) {
-					maxPriority = priority;
-					lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
-					currToken = token;
-					nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
-					index = i;
+			Token nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
+			int priority = -1;
+			Category category = null;
+
+//			1.括号，如 ( ) 和 [ ]
+//			2.一元运算符，如 -、++、--和 !
+//			3.算术运算符，如 *、/、%、+ 和 -
+//			4.关系运算符，如 >、>=、<、<=、== 和 !=
+//			5.逻辑运算符，如 &、^、|、&&、||
+//			6.条件运算符和赋值运算符，如 ? ：、=、*=、/=、+= 和 -=
+
+			if (token.isFluent()) {
+				priority = 50;// 优先级最高
+				category = Category.LEFT;
+
+			} else if (token.isOperator()) {// 如果是操作符
+				String value = token.value.toString();
+				// 优先级
+				priority = getPriority(value);
+				if ("++".equals(value) || "--".equals(value)) {
+					if (lastToken != null && lastToken.isVar()) {// 左元
+						category = Category.LEFT;
+					} else if (nextToken != null && nextToken.isVar()) {// 右元
+						category = Category.RIGHT;
+					}
+				} else if ("-".equals(value)) {// -可能是个符号 100+(-10)
+					category = lastToken == null && nextToken != null ? Category.RIGHT : Category.DOUBLE;
+
+				} else if ("!".equals(value)) {// 右元
+					category = Category.RIGHT;
+
+				} else {// 一般操作符都是二元的
+					category = Category.DOUBLE;
 				}
+
+			} else if (token.isCast()) {
+				priority = 35;// 介于!和 *之间
+				category = Category.RIGHT;
+
+			} else if (token.isInstanceof()) {// instanceof
+				priority = 20;// 相当于一个==
+				category = Category.DOUBLE;
+
 			}
+
+			if (priority > maxPriority) {
+
+				finalLastToken = lastToken;
+				finalToken = token;
+				finalNextToken = nextToken;
+				maxPriority = priority;
+				finalCategory = category;
+				index = i;
+
+			}
+
 		}
 		// 校验
-		if (currToken == null)
+		if (finalToken == null)
 			return null;
 
-		Node node = new Node(currToken);
-		if (lastToken != null)
-			node.left = lastToken.isNode() ? (Node) lastToken.value : new Node(lastToken);
-		if (nextToken != null)
-			node.right = nextToken.isNode() ? (Node) nextToken.value : new Node(nextToken);
+		Node node = new Node(finalToken);
+		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE) {
+			if (finalLastToken != null) {
+				node.left = finalLastToken.isNode() ? (Node) finalLastToken.value : new Node(finalLastToken);
+			}
+		}
+		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE) {
+			if (finalNextToken != null) {
+				node.right = finalNextToken.isNode() ? (Node) finalNextToken.value : new Node(finalNextToken);
+			}
+		}
+
+		int start = finalCategory == Category.LEFT || finalCategory == Category.DOUBLE ? index - 1 : index;
+		int end = finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE ? index + 1 + 1 : index + 1;
 
 		// 替换
-		stmt = stmt.replace(index - 1 >= 0 ? index - 1 : 0, index + 1 < stmt.size() ? index + 1 + 1 : stmt.size(),
-				new Token(Constants.NODE_TOKEN, node, null));
+		stmt = stmt.replace(start, end, new Token(Constants.NODE_TOKEN, node, null));
 
 		// 递归
 		return getNodeByLoop(stmt);
@@ -102,13 +159,6 @@ public class AbstractTree {
 		for (String operator : OPERATORS) {
 			if (operator.equals(value)) {
 				return OPERATOR_PRIORITY[count];
-			}
-			count++;
-		}
-		count = 0;
-		for (String operator : KEYWORDS) {
-			if (operator.equals(value)) {
-				return KEYWORD_PRIORITY[count];
 			}
 			count++;
 		}
@@ -146,7 +196,10 @@ public class AbstractTree {
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(80)));
 		}
 
-		String text = "(x > 0 || y < 100) && list.size()>100 && obj instanceof Object";
+//		String text = "(x > 0 || y < 100) && list.size()>100 && obj instanceof Object";
+//		String text = "((x+1>0)&&(y<100)) && s==\"test\"";
+		String text = "(int)var + 1000 + list.size().toString()";
+//		String text = "(int)obj.toString().length+ 100";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.toString());
