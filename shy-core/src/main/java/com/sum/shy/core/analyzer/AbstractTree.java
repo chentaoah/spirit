@@ -156,7 +156,9 @@ public class AbstractTree {
 		buildTree(lines, 0, null, node);
 		// 打印
 		for (Line line : lines) {
-			System.out.println(line.text);
+			if (!line.isIgnore()) {
+				System.out.println(line.text);
+			}
 		}
 	}
 
