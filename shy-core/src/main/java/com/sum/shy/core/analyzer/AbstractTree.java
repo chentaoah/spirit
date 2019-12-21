@@ -36,7 +36,12 @@ public class AbstractTree {
 	 */
 	public static Node grow(Stmt stmt) {
 		// 为每个token计算位置
-		int position = 0;
+		markPosition(0, stmt);
+		// 递归获取节点树
+		return getNodeByLoop(stmt);
+	}
+
+	public static void markPosition(int position, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			// 格式化的长度
@@ -45,10 +50,14 @@ public class AbstractTree {
 			token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
 			// 保留指向语句的引用
 			token.setStmt(stmt);
+			// 给子节点也计算位置
+			if (token.hasSubStmt()) {
+				Stmt subStmt = (Stmt) token.value;
+				markPosition(position, subStmt);
+			}
 			// 加上当前的长度
 			position += text.length();
 		}
-		return getNodeByLoop(stmt);
 	}
 
 	private static Node getNodeByLoop(Stmt stmt) {
@@ -166,7 +175,16 @@ public class AbstractTree {
 	}
 
 	public static Node getNode(Token token) {
-		return token.isNode() ? (Node) token.value : new Node(token);
+		if (token.isNode()) {
+			return (Node) token.value;
+
+		} else if (token.isSubexpress()) {
+			Stmt subStmt = (Stmt) token.value;
+			return getNodeByLoop(subStmt.subStmt(1, subStmt.size() - 1));
+
+		} else {
+			return new Node(token);
+		}
 	}
 
 	public static class Node {
