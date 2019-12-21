@@ -79,5 +79,6 @@ public class Constants {
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 	public static final String POSITION_ATTACHMENT = "position";// 位置
+	public static final String STMT_ATTACHMENT = "stmt";// 指向语句的引用
 
 }

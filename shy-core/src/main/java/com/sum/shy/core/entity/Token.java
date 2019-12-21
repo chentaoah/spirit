@@ -273,4 +273,14 @@ public class Token {
 		attachments.put(Constants.POSITION_ATTACHMENT, position);
 	}
 
+	// =================== 对语句的引用 =====================
+
+	public Stmt getStmt() {
+		return (Stmt) attachments.get(Constants.STMT_ATTACHMENT);
+	}
+
+	public void setStmt(Stmt stmt) {
+		attachments.put(Constants.STMT_ATTACHMENT, stmt);
+	}
+
 }
