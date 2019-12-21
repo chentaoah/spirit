@@ -217,10 +217,11 @@ public class AbstractTree {
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(100)));
 		}
 
-		String text = "var = !(x > 0 || y < 100) || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object";
+//		String text = "var = !(x > 0 || y < 100) || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object";
 //		String text = "((x+1>0)&&(y<100)) && s==\"test\"";
 //		String text = "(int)var + 1000 + list.size().toString()";
 //		String text = "(int)obj.toString().length+ 100";
+		String text = "list.get(1)";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());
