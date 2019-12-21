@@ -126,7 +126,14 @@ public class Stmt {
 		return sb.toString();
 	}
 
+	public String format(Token token) {
+		return format(tokens.indexOf(token), token);
+	}
+
 	public String format(int index, Token token) {
+
+		if (token == null)
+			return "";
 
 		if (token.isKeyword()) {// 关键字一般后面加个空格
 			if ("try".equals(token.value)) {// try语句不动

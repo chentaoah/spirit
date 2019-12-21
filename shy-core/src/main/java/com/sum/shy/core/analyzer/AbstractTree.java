@@ -43,6 +43,8 @@ public class AbstractTree {
 			String text = stmt.format(i, token);
 			// 先使用位置,再将自己的长度追加到位置中
 			token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
+			// 保留指向语句的引用
+			token.setStmt(stmt);
 			// 加上当前的长度
 			position += text.length();
 		}
