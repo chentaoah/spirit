@@ -52,8 +52,7 @@ public class AbstractTree {
 			token.setStmt(stmt);
 			// 给子节点也计算位置
 			if (token.hasSubStmt()) {
-				Stmt subStmt = (Stmt) token.value;
-				markPosition(position, subStmt);
+				markPosition(position, (Stmt) token.value);
 			}
 			// 加上当前的长度
 			position += text.length();
