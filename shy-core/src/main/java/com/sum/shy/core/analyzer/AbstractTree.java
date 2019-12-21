@@ -19,10 +19,10 @@ import com.sum.shy.lib.StringUtils;
 public class AbstractTree {
 
 	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "==", "!=", "<",
-			">", "<=", ">=", "&&", "||" };
+			">", "<=", ">=", "&&", "||", "=" };
 
-	public static final int[] OPERATOR_PRIORITY = new int[] { 40, 40, 40, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20,
-			15, 15 };
+	public static final int[] PRIORITY = new int[] { 40, 40, 40, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15,
+			10 };
 
 	public enum Category {
 		LEFT, RIGHT, DOUBLE
@@ -54,12 +54,12 @@ public class AbstractTree {
 		// 如果只有一个元素
 		if (stmt.size() == 1) {
 			Token token = stmt.getToken(0);
-			return token.isNode() ? (Node) token.value : new Node(token);
+			return getNode(token);
 		}
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
 		Token finalLastToken = null;
-		Token finalToken = null;// 当前优先级最高的操作符
+		Token finalCurrToken = null;// 当前优先级最高的操作符
 		Token finalNextToken = null;
 		int maxPriority = -1;// 优先级
 		Category finalCategory = null;// 一元左元,一元右元,二元
@@ -69,7 +69,7 @@ public class AbstractTree {
 		for (int i = 0; i < stmt.size(); i++) {
 
 			Token lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
-			Token token = stmt.getToken(i);
+			Token currToken = stmt.getToken(i);
 			Token nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
 			int priority = -1;
 			Category category = null;
@@ -81,12 +81,12 @@ public class AbstractTree {
 //			5.逻辑运算符，如 &、^、|、&&、||
 //			6.条件运算符和赋值运算符，如 ? ：、=、*=、/=、+= 和 -=
 
-			if (token.isFluent()) {
+			if (currToken.isFluent()) {
 				priority = 50;// 优先级最高
 				category = Category.LEFT;
 
-			} else if (token.isOperator()) {// 如果是操作符
-				String value = token.value.toString();
+			} else if (currToken.isOperator()) {// 如果是操作符
+				String value = currToken.value.toString();
 				// 优先级
 				priority = getPriority(value);
 				if ("++".equals(value) || "--".equals(value)) {
@@ -105,41 +105,39 @@ public class AbstractTree {
 					category = Category.DOUBLE;
 				}
 
-			} else if (token.isCast()) {
+			} else if (currToken.isCast()) {
 				priority = 35;// 介于!和 *之间
 				category = Category.RIGHT;
 
-			} else if (token.isInstanceof()) {// instanceof
+			} else if (currToken.isInstanceof()) {// instanceof
 				priority = 20;// 相当于一个==
 				category = Category.DOUBLE;
 
 			}
 
 			if (priority > maxPriority) {
-
 				finalLastToken = lastToken;
-				finalToken = token;
+				finalCurrToken = currToken;
 				finalNextToken = nextToken;
 				maxPriority = priority;
 				finalCategory = category;
 				index = i;
-
 			}
 
 		}
 		// 校验
-		if (finalToken == null)
+		if (finalCurrToken == null)
 			return null;
 
-		Node node = new Node(finalToken);
+		Node node = new Node(finalCurrToken);
 		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE) {
 			if (finalLastToken != null) {
-				node.left = finalLastToken.isNode() ? (Node) finalLastToken.value : new Node(finalLastToken);
+				node.left = getNode(finalLastToken);
 			}
 		}
 		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE) {
 			if (finalNextToken != null) {
-				node.right = finalNextToken.isNode() ? (Node) finalNextToken.value : new Node(finalNextToken);
+				node.right = getNode(finalNextToken);
 			}
 		}
 
@@ -158,11 +156,15 @@ public class AbstractTree {
 		int count = 0;
 		for (String operator : OPERATORS) {
 			if (operator.equals(value)) {
-				return OPERATOR_PRIORITY[count];
+				return PRIORITY[count];
 			}
 			count++;
 		}
 		return -1;
+	}
+
+	public static Node getNode(Token token) {
+		return token.isNode() ? (Node) token.value : new Node(token);
 	}
 
 	public static class Node {
@@ -193,15 +195,16 @@ public class AbstractTree {
 		// 构建一个画布
 		List<Line> lines = new ArrayList<>();
 		for (int i = 0; i < 20; i++) {
-			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(80)));
+			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(100)));
 		}
 
-//		String text = "(x > 0 || y < 100) && list.size()>100 && obj instanceof Object";
+		String text = "var = (x > 0 || y < 100) || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object";
 //		String text = "((x+1>0)&&(y<100)) && s==\"test\"";
-		String text = "(int)var + 1000 + list.size().toString()";
+//		String text = "(int)var + 1000 + list.size().toString()";
 //		String text = "(int)obj.toString().length+ 100";
 
 		Stmt stmt = Stmt.create(text);
+		System.out.println(stmt.debug());
 		System.out.println(stmt.toString());
 
 		Node node = grow(stmt);
