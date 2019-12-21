@@ -172,9 +172,7 @@ public class AbstractTree {
 	public static class Node {
 
 		public Token token;
-
 		public Node left;
-
 		public Node right;
 
 		public Node(Token token) {
@@ -183,7 +181,8 @@ public class AbstractTree {
 
 		@Override
 		public String toString() {
-			return "" + (left == null ? "" : left) + " " + token.value + " " + (right == null ? "" : right);
+			Stmt stmt = token.getStmt();
+			return "" + (left == null ? "" : left) + stmt.format(token) + (right == null ? "" : right);
 		}
 
 	}
