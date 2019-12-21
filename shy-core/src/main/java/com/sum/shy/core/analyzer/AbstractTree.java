@@ -106,8 +106,9 @@ public class AbstractTree {
 					} else if (nextToken != null && nextToken.isVar()) {// 右元
 						category = Category.RIGHT;
 					}
-				} else if ("-".equals(value)) {// -可能是个符号 100+(-10)
-					category = lastToken == null && nextToken != null ? Category.RIGHT : Category.DOUBLE;
+				} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
+					category = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Category.RIGHT
+							: Category.DOUBLE;
 
 				} else if ("!".equals(value)) {// 右元
 					category = Category.RIGHT;
