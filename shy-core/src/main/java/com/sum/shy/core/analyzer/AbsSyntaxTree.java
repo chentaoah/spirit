@@ -16,7 +16,7 @@ import com.sum.shy.lib.StringUtils;
  * @author chentao26275
  *
  */
-public class AbstractTree {
+public class AbsSyntaxTree {
 
 	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "==", "!=", "<",
 			">", "<=", ">=", "&&", "||", "=" };
@@ -223,7 +223,8 @@ public class AbstractTree {
 //		String text = "(int)obj.toString().length+ 100";
 //		String text = "list.get(1)";
 //		String text = "map={\"key1\":100}.getSize().toString()+100>0";
-		String text = "b= x >= 100";
+//		String text = "b= x >= 100";
+		String text = "b=((String)obj).length() <= 100";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());
