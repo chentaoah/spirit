@@ -224,7 +224,7 @@ public class AbsSyntaxTree {
 //		String text = "list.get(1)";
 //		String text = "map={\"key1\":100}.getSize().toString()+100>0";
 //		String text = "b= x >= 100";
-		String text = "b=((String)obj).length() <= 100";
+		String text = "b=((String)list.get(1)).length() <= 100";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());

@@ -86,10 +86,14 @@ public class InvokeVisiter {
 		if (token.hasSubStmt()) {
 			visitStmt(clazz, (Stmt) token.value);
 		}
+
 		// 参数类型，为了像java那样支持重载
 		List<Type> parameterTypes = getParameterTypes(clazz, token);
 
-		if (token.isInvokeInit()) {
+		if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
+			token.setReturnTypeAtt(FastDerivator.getType(clazz, (Stmt) token.value));
+
+		} else if (token.isInvokeInit()) {
 			token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 		} else if (token.isInvokeStatic()) {
