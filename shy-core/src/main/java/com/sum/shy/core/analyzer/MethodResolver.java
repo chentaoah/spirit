@@ -116,9 +116,9 @@ public class MethodResolver {
 		} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
 			String name = stmt.get(1);// 名称
 			Token token = stmt.getToken(3);// 集合
-			VariableTracker.findType(clazz, method, block, line, stmt, token);// 变量追踪
-			InvokeVisiter.visitStmt(clazz, stmt);// 返回值推导
-			Type returnType = FastDerivator.getType(clazz, stmt);// 类型推导
+			VariableTracker.findType(clazz, method, block, line, stmt, token);// 只针对list
+			InvokeVisiter.visitStmt(clazz, stmt);// 只针对list
+			Type returnType = FastDerivator.getType(clazz, stmt.subStmt(3, stmt.size() - 1));// 只针对list
 			// 如果是数组,则用数组内的类型
 			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getTypeName())
 					: returnType.getGenericTypes().get(0);

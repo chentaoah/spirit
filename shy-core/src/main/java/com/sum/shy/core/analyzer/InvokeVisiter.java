@@ -58,7 +58,7 @@ public class InvokeVisiter {
 							Stmt stmt) {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
-							Type returnType = FastDerivator.getType(clazz, stmt);
+							Type returnType = FastDerivator.getType(clazz, stmt.subStmt(1, stmt.size()));
 							if (returnType != null)
 								holder.obj = returnType;
 						}
