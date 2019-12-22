@@ -82,16 +82,12 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[\\w<>\\.]*\\([\\s\\S]*\\)$");
 	// 构造方法(支持别名)
 	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
-	// 静态方法(支持别名)
-	public static final Pattern INVOKE_STATIC_PATTERN = Pattern
-			.compile("^[A-Z]+\\w+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
-	// 成员方法
-	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern
-			.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
 	// 本地方法
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	// 流式调用
-	public static final Pattern INVOKE_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
+	// 流式成员变量
+	public static final Pattern VISIT_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+$");
 	// 快速索引(不支持流式调用)
 	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9\\.]*\\[\\d+\\]$");
 
@@ -99,14 +95,6 @@ public class SemanticDelegate {
 
 	// 变量
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]+$");
-	// 静态变量(支持别名)
-	public static final Pattern STATIC_VAR_PATTERN = Pattern.compile("^[A-Z]+\\w+\\.[a-zA-Z0-9\\.]+$");
-	// 成员变量
-	public static final Pattern MEMBER_VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\.[a-zA-Z0-9\\.]+$");
-	// 流式成员变量
-	public static final Pattern MEMBER_VAR_FLUENT_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+$");
-
-	// ============================== 其他 ================================
 
 	/**
 	 * 语义分析
@@ -246,24 +234,16 @@ public class SemanticDelegate {
 	private static String getInvokeTokenType(String word) {
 		if (INVOKE_INIT_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_INIT_TOKEN;
-		if (INVOKE_STATIC_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_STATIC_TOKEN;
-		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_MEMBER_TOKEN;
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
-		if (INVOKE_FLUENT_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_FLUENT_TOKEN;
+		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
+			return Constants.INVOKE_MEMBER_TOKEN;
 		return Constants.UNKNOWN;
 	}
 
 	private static String getVarTokenType(String word) {
-		if (STATIC_VAR_PATTERN.matcher(word).matches())
-			return Constants.STATIC_VAR_TOKEN;
-		if (MEMBER_VAR_PATTERN.matcher(word).matches())
-			return Constants.MEMBER_VAR_TOKEN;
-		if (MEMBER_VAR_FLUENT_PATTERN.matcher(word).matches())
-			return Constants.MEMBER_VAR_FLUENT_TOKEN;
+		if (VISIT_MEMBER_PATTERN.matcher(word).matches())
+			return Constants.VISIT_MEMBER_TOKEN;
 		return Constants.VAR_TOKEN;
 	}
 
@@ -382,18 +362,6 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(getInitMethodName(word));
 			return;
 
-		} else if (token.isInvokeStatic()) {// 静态方法调用
-			token.setTypeNameAtt(getTypeName(word));
-			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
-			token.setMethodNameAtt(getMethodName(word));
-			return;
-
-		} else if (token.isInvokeMember()) {// 成员方法调用
-			token.setVarNameAtt(getVarName(word));
-			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
-			token.setMethodNameAtt(getMethodName(word));
-			return;
-
 		} else if (token.isInvokeLocal()) {// 本地方法调用
 			token.setMethodNameAtt(getLocalMethodName(word));
 			return;
@@ -401,16 +369,6 @@ public class SemanticDelegate {
 		} else if (token.isInvokeFluent()) {// 流式调用
 			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
 			token.setMethodNameAtt(getMethodName(word));
-			return;
-
-		} else if (token.isStaticVar()) {// 静态变量
-			token.setTypeNameAtt(getTypeName(word));
-			token.setMembersAtt(getProperties(word));
-			return;
-
-		} else if (token.isMemberVar()) {// 成员变量
-			token.setVarNameAtt(getVarName(word));
-			token.setMembersAtt(getProperties(word));
 			return;
 
 		} else if (token.isMemberVarFluent()) {// 流式成员变量

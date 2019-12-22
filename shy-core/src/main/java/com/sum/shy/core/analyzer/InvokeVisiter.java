@@ -97,20 +97,6 @@ public class InvokeVisiter {
 		} else if (token.isInvokeInit()) {
 			token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
-		} else if (token.isInvokeStatic()) {
-			Type type = new CodeType(clazz, token.getTypeNameAtt());
-			// 支持重载
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt(),
-					parameterTypes);
-			token.setReturnTypeAtt(returnType);
-
-		} else if (token.isInvokeMember()) {
-			Type type = token.getTypeAtt();
-			// 支持重载
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt(),
-					parameterTypes);
-			token.setReturnTypeAtt(returnType);
-
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
 			// 支持重载
@@ -127,16 +113,6 @@ public class InvokeVisiter {
 			// 支持重载
 			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt(),
 					parameterTypes);
-			token.setReturnTypeAtt(returnType);
-
-		} else if (token.isStaticVar()) {
-			Type type = new CodeType(clazz, token.getTypeNameAtt());
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null, null);
-			token.setReturnTypeAtt(returnType);
-
-		} else if (token.isMemberVar()) {
-			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null, null);
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isMemberVarFluent()) {

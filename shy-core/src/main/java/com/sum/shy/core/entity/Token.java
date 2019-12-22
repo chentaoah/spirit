@@ -94,36 +94,20 @@ public class Token {
 		return Constants.INVOKE_INIT_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeStatic() {
-		return Constants.INVOKE_STATIC_TOKEN.equals(type);
-	}
-
-	public boolean isInvokeMember() {
-		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
-	}
-
 	public boolean isInvokeLocal() {
 		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
 	}
 
 	public boolean isInvokeFluent() {
-		return Constants.INVOKE_FLUENT_TOKEN.equals(type);
+		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
 	}
 
 	public boolean isVar() {
 		return Constants.VAR_TOKEN.equals(type);
 	}
 
-	public boolean isStaticVar() {
-		return Constants.STATIC_VAR_TOKEN.equals(type);
-	}
-
-	public boolean isMemberVar() {
-		return Constants.MEMBER_VAR_TOKEN.equals(type);
-	}
-
 	public boolean isMemberVarFluent() {
-		return Constants.MEMBER_VAR_FLUENT_TOKEN.equals(type);
+		return Constants.VISIT_MEMBER_TOKEN.equals(type);
 	}
 
 	public boolean isQuickIndex() {
@@ -157,11 +141,11 @@ public class Token {
 	}
 
 	public boolean isInvoke() {
-		return isInvokeInit() || isInvokeStatic() || isInvokeMember() || isInvokeLocal() || isInvokeFluent();
+		return isInvokeInit() || isInvokeLocal() || isInvokeFluent();
 	}
 
 	public boolean isVariable() {
-		return isVar() || isStaticVar() || isMemberVar() || isMemberVarFluent();
+		return isVar() || isMemberVarFluent();
 	}
 
 	public boolean isFluent() {

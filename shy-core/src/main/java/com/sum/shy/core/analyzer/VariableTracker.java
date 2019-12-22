@@ -46,12 +46,6 @@ public class VariableTracker {
 		if (token.isVar()) {
 			findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
 
-		} else if (token.isInvokeMember()) {
-			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
-		} else if (token.isMemberVar()) {
-			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
 		} else if (token.isQuickIndex()) {
 			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
 
