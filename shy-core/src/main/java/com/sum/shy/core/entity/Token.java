@@ -82,16 +82,16 @@ public class Token {
 		return Constants.STR_TOKEN.equals(type);
 	}
 
-	public boolean isArray() {
-		return Constants.ARRAY_TOKEN.equals(type);
+	public boolean isList() {
+		return Constants.LIST_TOKEN.equals(type);
 	}
 
 	public boolean isMap() {
 		return Constants.MAP_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeInit() {
-		return Constants.INVOKE_INIT_TOKEN.equals(type);
+	public boolean isTypeInit() {
+		return Constants.TYPE_INIT_TOKEN.equals(type);
 	}
 
 	public boolean isInvokeLocal() {
@@ -137,11 +137,11 @@ public class Token {
 	// =================== 复合判断 =====================
 
 	public boolean isValue() {
-		return isNull() || isBool() || isInt() || isDouble() || isStr() || isArray() || isMap();
+		return isNull() || isBool() || isInt() || isDouble() || isStr() || isList() || isMap();
 	}
 
 	public boolean isInvoke() {
-		return isInvokeInit() || isInvokeLocal() || isInvokeFluent();
+		return isTypeInit() || isInvokeLocal() || isInvokeFluent();
 	}
 
 	public boolean isVariable() {
@@ -153,7 +153,7 @@ public class Token {
 	}
 
 	public boolean hasSubStmt() {
-		return isArray() || isMap() || isInvoke() || isSubexpress();
+		return isList() || isMap() || isInvoke() || isSubexpress();
 	}
 
 	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型

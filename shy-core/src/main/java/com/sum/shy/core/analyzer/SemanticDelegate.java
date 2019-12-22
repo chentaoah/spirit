@@ -35,14 +35,11 @@ public class SemanticDelegate {
 	// ============================== 类型判断 ================================
 
 	// 基础类型
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern
-			.compile("^(void|boolean|char|short|int|long|float|double|byte|"
-					+ "Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile(
+			"^(void|boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");
 	// 基础类型数组
-	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern
-			.compile("^(boolean\\[\\]|char\\[\\]|short\\[\\]|int\\[\\]|long\\[\\]|float\\[\\]|double\\[\\]|byte\\[\\]|"
-					+ "Boolean\\[\\]|Character\\[\\]|Short\\[\\]|Integer\\[\\]|Long\\[\\]|Float\\[\\]|Double\\[\\]|Byte\\[\\]|"
-					+ "Object\\[\\]|String\\[\\])$");
+	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile(
+			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)?\\[\\]$");
 
 	// 类型--Father and G_Father
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");
@@ -51,14 +48,13 @@ public class SemanticDelegate {
 	// 泛型--Father<Child> and G_Father<Child>
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");
 
-	// ============================== 数组初始化 ================================
+	// ============================== 初始化 ================================
 
+	// 构造方法(支持别名)
+	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
 	// 基础类型数组声明
 	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile(
-			"^(boolean\\[\\d+\\]|char\\[\\d+\\]|short\\[\\d+\\]|int\\[\\d+\\]|long\\[\\d+\\]|float\\[\\d+\\]|double\\[\\d+\\]|byte\\[\\d+\\]|"
-					+ "Boolean\\[\\d+\\]|Character\\[\\d+\\]|Short\\[\\d+\\]|Integer\\[\\d+\\]|Long\\[\\d+\\]|Float\\[\\d+\\]|Double\\[\\d+\\]|Byte\\[\\d+\\]|"
-					+ "Object\\[\\d+\\]|String\\[\\d+\\])$");
-
+			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)?\\[\\d+\\]$");
 	// 类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
 
@@ -68,7 +64,7 @@ public class SemanticDelegate {
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
-	public static final Pattern ARRAY_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
+	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
 	// ============================== 子表达式 ================================
@@ -76,25 +72,23 @@ public class SemanticDelegate {
 	// 子表达式--里面是type则是cast 其他则为表达式
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 
-	// ============================== 方法调用 ================================
-
-	// 方法调用
-	public static final Pattern INVOKE_PATTERN = Pattern.compile("^[\\w<>\\.]*\\([\\s\\S]*\\)$");
-	// 构造方法(支持别名)
-	public static final Pattern INVOKE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
-	// 本地方法
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	// 流式调用
-	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+\\([\\s\\S]*\\)$");
-	// 流式成员变量
-	public static final Pattern VISIT_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9\\.]+$");
-	// 快速索引(不支持流式调用)
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9\\.]*\\[\\d+\\]$");
-
 	// ============================== 变量判断 ================================
 
-	// 变量
-	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9_\\.]+$");
+	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
+
+	// ============================== 方法调用 ================================
+
+	// 本地方法
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	// 流式成员变量
+	public static final Pattern VISIT_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
+	// 流式调用
+	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+
+	// ============================== 其他 ================================
+
+	// 快速索引(不支持流式调用)
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
 	 * 语义分析
@@ -182,8 +176,8 @@ public class SemanticDelegate {
 			if (isType(word)) {// 是否类型说明
 				token.type = Constants.TYPE_TOKEN;
 				return;
-			} else if (isArrayInit(word)) {// 数组初始化
-				token.type = Constants.ARRAY_INIT_TOKEN;
+			} else if (isInit(word)) {// 初始化
+				token.type = getInitTokenType(word);
 				return;
 			} else if (isValue(word)) {// 字面值
 				token.type = getValueTokenType(word);
@@ -191,11 +185,11 @@ public class SemanticDelegate {
 			} else if (isSubexpress(word)) {// 子表达式
 				token.type = getSubexpressTokenType(word);
 				return;
+			} else if (isVar(word)) {// 变量
+				token.type = Constants.VAR_TOKEN;
+				return;
 			} else if (isInvoke(word)) {// 方法调用
 				token.type = getInvokeTokenType(word);
-				return;
-			} else if (isVariable(word)) {// 变量
-				token.type = getVarTokenType(word);
 				return;
 			} else if (isQuickIndex(word)) {
 				token.type = Constants.QUICK_INDEX_TOKEN;
@@ -207,22 +201,78 @@ public class SemanticDelegate {
 
 	}
 
+	private static boolean contain(String[] strs, String word) {
+		for (String str : strs) {
+			if (str.equals(word)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean isKeywordSyntax(String syntax) {
+		return contain(SYNTAXS, syntax);
+	}
+
+	private static boolean isKeyword(String word) {
+		return contain(KEYWORDS, word);
+	}
+
+	public static boolean isOperator(String word) {
+		return contain(OPERATORS, word);
+	}
+
+	public static boolean isSeparator(String word) {
+		return contain(SEPARATORS, word);
+	}
+
+	public static boolean isType(String word) {
+		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_TYPE_ARRAY_PATTERN.matcher(word).matches()
+				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
+				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
+	}
+
+	private static boolean isInit(String word) {
+		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
+				|| TYPE_INIT_PATTERN.matcher(word).matches();
+	}
+
+	private static String getInitTokenType(String word) {
+		if (BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
+			return Constants.ARRAY_INIT_TOKEN;
+		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
+			return Constants.ARRAY_INIT_TOKEN;
+		if (TYPE_INIT_PATTERN.matcher(word).matches())
+			return Constants.TYPE_INIT_TOKEN;
+		return Constants.UNKNOWN;
+	}
+
+	private static boolean isValue(String word) {
+		return "null".equals(word) || BOOL_PATTERN.matcher(word).matches() || INT_PATTERN.matcher(word).matches()
+				|| DOUBLE_PATTERN.matcher(word).matches() || STR_PATTERN.matcher(word).matches()
+				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
+	}
+
 	private static String getValueTokenType(String word) {
-		if (isNull(word))
+		if ("null".equals(word))
 			return Constants.NULL_TOKEN;
-		if (isBool(word))
+		if (BOOL_PATTERN.matcher(word).matches())
 			return Constants.BOOL_TOKEN;
-		if (isInt(word))
+		if (INT_PATTERN.matcher(word).matches())
 			return Constants.INT_TOKEN;
-		if (isDouble(word))
+		if (DOUBLE_PATTERN.matcher(word).matches())
 			return Constants.DOUBLE_TOKEN;
-		if (isStr(word))
+		if (STR_PATTERN.matcher(word).matches())
 			return Constants.STR_TOKEN;
-		if (isArray(word))
-			return Constants.ARRAY_TOKEN;
-		if (isMap(word))
+		if (LIST_PATTERN.matcher(word).matches())
+			return Constants.LIST_TOKEN;
+		if (MAP_PATTERN.matcher(word).matches())
 			return Constants.MAP_TOKEN;
 		return Constants.UNKNOWN;
+	}
+
+	private static boolean isSubexpress(String word) {
+		return SUBEXPRESS_PATTERN.matcher(word).matches();
 	}
 
 	private static String getSubexpressTokenType(String word) {
@@ -231,20 +281,27 @@ public class SemanticDelegate {
 		return Constants.SUBEXPRESS_TOKEN;
 	}
 
+	public static boolean isVar(String word) {
+		return VAR_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isInvoke(String word) {
+		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_MEMBER_PATTERN.matcher(word).matches()
+				|| INVOKE_MEMBER_PATTERN.matcher(word).matches();
+	}
+
 	private static String getInvokeTokenType(String word) {
-		if (INVOKE_INIT_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_INIT_TOKEN;
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
+		if (VISIT_MEMBER_PATTERN.matcher(word).matches())
+			return Constants.VISIT_MEMBER_TOKEN;
 		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_MEMBER_TOKEN;
 		return Constants.UNKNOWN;
 	}
 
-	private static String getVarTokenType(String word) {
-		if (VISIT_MEMBER_PATTERN.matcher(word).matches())
-			return Constants.VISIT_MEMBER_TOKEN;
-		return Constants.VAR_TOKEN;
+	public static boolean isQuickIndex(String word) {
+		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	private static void getTokenValue(Token token, String word) {
@@ -275,7 +332,7 @@ public class SemanticDelegate {
 			token.value = word;
 			return;
 
-		} else if (token.isArray()) {// 如果是数组,则解析子语句
+		} else if (token.isList()) {// 如果是数组,则解析子语句
 			String str = word.substring(1, word.length() - 1);
 			List<String> subWords = LexicalAnalyzer.getWords(str);
 			subWords.add(0, "[");
@@ -358,7 +415,7 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(getArrayInitType(word));
 			return;
 
-		} else if (token.isInvokeInit()) {// 构造方法
+		} else if (token.isTypeInit()) {// 构造方法
 			token.setTypeNameAtt(getInitMethodName(word));
 			return;
 
@@ -383,91 +440,6 @@ public class SemanticDelegate {
 
 		}
 
-	}
-
-	private static boolean contain(String[] strs, String word) {
-		for (String str : strs) {
-			if (str.equals(word)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static boolean isKeywordSyntax(String syntax) {
-		return contain(SYNTAXS, syntax);
-	}
-
-	private static boolean isKeyword(String word) {
-		return contain(KEYWORDS, word);
-	}
-
-	public static boolean isOperator(String word) {
-		return contain(OPERATORS, word);
-	}
-
-	public static boolean isSeparator(String word) {
-		return contain(SEPARATORS, word);
-	}
-
-	public static boolean isType(String word) {
-		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_TYPE_ARRAY_PATTERN.matcher(word).matches()
-				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
-				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
-	}
-
-	private static boolean isSubexpress(String word) {
-		return SUBEXPRESS_PATTERN.matcher(word).matches();
-	}
-
-	private static boolean isArrayInit(String word) {
-		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches();
-	}
-
-	// 复合判断
-	private static boolean isValue(String word) {
-		return isNull(word) || isBool(word) || isInt(word) || isDouble(word) || isStr(word) || isArray(word)
-				|| isMap(word);
-	}
-
-	private static boolean isNull(String word) {
-		return "null".equals(word);
-	}
-
-	public static boolean isBool(String word) {
-		return BOOL_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isInt(String word) {
-		return INT_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isDouble(String word) {
-		return DOUBLE_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isStr(String word) {
-		return STR_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isArray(String word) {
-		return ARRAY_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isMap(String word) {
-		return MAP_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isInvoke(String word) {
-		return INVOKE_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isVariable(String word) {
-		return VAR_PATTERN.matcher(word).matches();
-	}
-
-	public static boolean isQuickIndex(String word) {
-		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	private static String getCastType(String word) {

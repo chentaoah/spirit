@@ -31,7 +31,7 @@ public class DefaultConverter implements Converter {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 
-			if (token.isArray()) {// 将所有的array和map都转换成方法调用
+			if (token.isList()) {// 将所有的array和map都转换成方法调用
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
 				subStmt.getToken(0).value = "Collection.newArrayList(";
@@ -54,7 +54,7 @@ public class DefaultConverter implements Converter {
 				// 添加依赖
 				clazz.addImport(Collection.class.getName());
 
-			} else if (token.isInvokeInit()) {// 在所有的构造函数前面都加个new
+			} else if (token.isTypeInit()) {// 在所有的构造函数前面都加个new
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
 				// 追加一个关键字

@@ -94,7 +94,7 @@ public class InvokeVisiter {
 			Stmt subStmt = (Stmt) token.value;
 			token.setReturnTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
-		} else if (token.isInvokeInit()) {
+		} else if (token.isTypeInit()) {
 			token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 		} else if (token.isInvokeLocal()) {// 本地调用

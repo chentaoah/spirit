@@ -82,7 +82,7 @@ public class FastDerivator {
 			return new CodeType(clazz, "double");
 		} else if (token.isStr()) {
 			return new CodeType(clazz, "String");
-		} else if (token.isArray()) {
+		} else if (token.isList()) {
 			return getArrayType(clazz, token);
 		} else if (token.isMap()) {
 			return getMapType(clazz, token);
