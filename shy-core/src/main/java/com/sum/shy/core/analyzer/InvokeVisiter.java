@@ -100,7 +100,6 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
-			// 支持重载
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setReturnTypeAtt(returnType);
 
@@ -116,7 +115,6 @@ public class InvokeVisiter {
 				lastToken = stmt.getToken(index - 2);
 			// ?号前面可能是变量也可能是方法调用
 			Type type = lastToken.isVar() ? lastToken.getTypeAtt() : lastToken.getReturnTypeAtt();
-			// 支持重载
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setReturnTypeAtt(returnType);
 
