@@ -45,10 +45,6 @@ public class VariableTracker {
 
 		if (token.isVar()) {
 			findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
-
-		} else if (token.isQuickIndex()) {
-			findVariableType(clazz, method, block, line, stmt, token, token.getVarNameAtt());
-
 		}
 		if (token.hasSubStmt()) {
 			track(clazz, method, block, line, (Stmt) token.value);

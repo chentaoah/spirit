@@ -39,7 +39,7 @@ public class SemanticDelegate {
 			"^(void|boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");
 	// 基础类型数组
 	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile(
-			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)?\\[\\]$");
+			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)\\[\\]$");
 
 	// 类型--Father and G_Father
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");
@@ -54,7 +54,7 @@ public class SemanticDelegate {
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
 	// 基础类型数组声明
 	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile(
-			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)?\\[\\d+\\]$");
+			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)\\[\\d+\\]$");
 	// 类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
 
@@ -74,7 +74,7 @@ public class SemanticDelegate {
 
 	// ============================== 变量判断 ================================
 
-	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
+	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*$");
 
 	// ============================== 方法调用 ================================
 
@@ -87,8 +87,8 @@ public class SemanticDelegate {
 
 	// ============================== 其他 ================================
 
-	// 快速索引(不支持流式调用)
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
+	// 快速索引
+	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^(\\.)?[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
 	 * 语义分析
@@ -118,20 +118,11 @@ public class SemanticDelegate {
 			return tokens;
 		}
 
-		// 一般情况
 		for (String word : words) {
 			tokens.add(getToken(word));
 		}
-		// 将fluent串联起来
-		Token lastToken = null;
-		for (Token token : tokens) {
-			if (token.isFluent()) {
-				lastToken.setNext(token);
-			}
-			lastToken = token;
-		}
-
 		return tokens;
+
 	}
 
 	/**
@@ -407,35 +398,32 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(word);
 			return;
 
-		} else if (token.isCast()) {// 强制类型转换
-			token.setTypeNameAtt(getCastType(word));
-			return;
-
 		} else if (token.isArrayInit()) {// 强制类型转换
 			token.setTypeNameAtt(getArrayInitType(word));
 			return;
 
 		} else if (token.isTypeInit()) {// 构造方法
-			token.setTypeNameAtt(getInitMethodName(word));
+			token.setTypeNameAtt(getMethodName(word));
+			return;
+
+		} else if (token.isCast()) {// 强制类型转换
+			token.setTypeNameAtt(getCastType(word));
 			return;
 
 		} else if (token.isInvokeLocal()) {// 本地方法调用
-			token.setMethodNameAtt(getLocalMethodName(word));
+			token.setMemberNameAtt(getMethodName(word));
 			return;
 
-		} else if (token.isInvokeFluent()) {// 流式调用
-			token.setMembersAtt(getProperties(word));// 中间可能有很多的成员变量访问
-			token.setMethodNameAtt(getMethodName(word));
+		} else if (token.isVisitMember()) {// 访问成员变量
+			token.setMemberNameAtt(getMemberName(word));
 			return;
 
-		} else if (token.isMemberVarFluent()) {// 流式成员变量
-			token.setMembersAtt(getProperties(word));
+		} else if (token.isInvokeMember()) {// 流式调用
+			token.setMemberNameAtt(getMemberName(word));
 			return;
 
 		} else if (token.isQuickIndex()) {// 流式成员变量
-			token.setVarNameAtt(getArrayVarName(word));
-			token.setMembersAtt(getArrayProperties(word));
-			token.setMethodNameAtt("$quick_index");
+			token.setMemberNameAtt(getMemberName(word));
 			return;
 
 		}
@@ -450,54 +438,19 @@ public class SemanticDelegate {
 		return word.substring(0, word.indexOf("[")) + "[]";
 	}
 
-	public static String getInitMethodName(String word) {
+	public static String getMethodName(String word) {
 		return word.substring(0, word.indexOf("("));
 	}
 
-	private static String getTypeName(String word) {
-		return word.substring(0, word.indexOf("."));
-	}
-
-	private static String getVarName(String word) {
-		return word.substring(0, word.indexOf("."));
-	}
-
-	private static List<String> getProperties(String word) {
-		List<String> list = new ArrayList<>();
-		if (word.contains("(") && word.contains(")")) {
-			String[] strs = word.substring(0, word.indexOf("(")).split("\\.");
-			for (int i = 1; i < strs.length - 1; i++) {
-				list.add(strs[i]);
-			}
-		} else {
-			String[] strs = word.split("\\.");
-			for (int i = 1; i < strs.length; i++) {
-				list.add(strs[i]);
-			}
+	public static String getMemberName(String word) {
+		int start = word.startsWith(".") ? 1 : 0;
+		int end = -1;
+		if (word.contains("[")) {
+			end = word.indexOf("[");
+		} else if (word.contains("(")) {
+			end = word.indexOf("(");
 		}
-		return list;
-	}
-
-	private static String getMethodName(String word) {
-		return word.substring(word.lastIndexOf(".") + 1, word.indexOf("("));
-	}
-
-	private static String getLocalMethodName(String word) {
-		return word.substring(0, word.indexOf("("));
-	}
-
-	private static String getArrayVarName(String word) {
-		String[] names = word.substring(0, word.indexOf("[")).split("\\.");
-		return names[0];
-	}
-
-	private static List<String> getArrayProperties(String word) {
-		List<String> list = new ArrayList<>();
-		String[] names = word.substring(0, word.indexOf("[")).split("\\.");
-		for (int i = 1; i < names.length; i++) {
-			list.add(names[i]);
-		}
-		return list;
+		return word.substring(start, end);
 	}
 
 }

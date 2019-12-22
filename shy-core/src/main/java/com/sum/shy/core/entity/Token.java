@@ -1,7 +1,6 @@
 package com.sum.shy.core.entity;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.core.type.api.Type;
@@ -58,8 +57,8 @@ public class Token {
 		return Constants.ARRAY_INIT_TOKEN.equals(type);
 	}
 
-	public boolean isCast() {
-		return Constants.CAST_TOKEN.equals(type);
+	public boolean isTypeInit() {
+		return Constants.TYPE_INIT_TOKEN.equals(type);
 	}
 
 	public boolean isNull() {
@@ -90,48 +89,48 @@ public class Token {
 		return Constants.MAP_TOKEN.equals(type);
 	}
 
-	public boolean isTypeInit() {
-		return Constants.TYPE_INIT_TOKEN.equals(type);
+	public boolean isSubexpress() {
+		return Constants.SUBEXPRESS_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeLocal() {
-		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
-	}
-
-	public boolean isInvokeFluent() {
-		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
+	public boolean isCast() {
+		return Constants.CAST_TOKEN.equals(type);
 	}
 
 	public boolean isVar() {
 		return Constants.VAR_TOKEN.equals(type);
 	}
 
-	public boolean isMemberVarFluent() {
+	public boolean isInvokeLocal() {
+		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
+	}
+
+	public boolean isVisitMember() {
 		return Constants.VISIT_MEMBER_TOKEN.equals(type);
+	}
+
+	public boolean isInvokeMember() {
+		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
 	}
 
 	public boolean isQuickIndex() {
 		return Constants.QUICK_INDEX_TOKEN.equals(type);
 	}
 
-	public boolean isPrefix() {
-		return Constants.PREFIX_TOKEN.equals(type);
-	}
-
-	public boolean isUnknown() {
-		return Constants.UNKNOWN.equals(type);
-	}
-
-	public boolean isSubexpress() {
-		return Constants.SUBEXPRESS_TOKEN.equals(type);
-	}
-
 	public boolean isInstanceof() {
 		return isKeyword() && "instanceof".equals(value.toString());
 	}
 
+	public boolean isPrefix() {
+		return Constants.PREFIX_TOKEN.equals(type);
+	}
+
 	public boolean isNode() {
 		return Constants.NODE_TOKEN.equals(type);
+	}
+
+	public boolean isUnknown() {
+		return Constants.UNKNOWN.equals(type);
 	}
 
 	// =================== 复合判断 =====================
@@ -141,15 +140,11 @@ public class Token {
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isInvokeLocal() || isInvokeFluent();
+		return isTypeInit() || isInvokeLocal() || isInvokeMember();
 	}
 
-	public boolean isVariable() {
-		return isVar() || isMemberVarFluent();
-	}
-
-	public boolean isFluent() {
-		return isInvokeFluent() || isMemberVarFluent();
+	public boolean isVisit() {
+		return isVisitMember() || isInvokeMember();
 	}
 
 	public boolean hasSubStmt() {
@@ -171,7 +166,7 @@ public class Token {
 		return false;
 	}
 
-	// =================== get/set方法 =====================
+	// =================== 变量的类型 =====================
 
 	public Type getTypeAtt() {
 		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);
@@ -182,6 +177,8 @@ public class Token {
 			throw new RuntimeException("Type cannot be null!token:" + this.toString());
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
+
+	// =================== 方法的返回值 =====================
 
 	public Type getReturnTypeAtt() {
 		return (Type) attachments.get(Constants.RETURN_TYPE_ATTACHMENT);
@@ -203,35 +200,14 @@ public class Token {
 		attachments.put(Constants.TYPE_NAME_ATTACHMENT, str);
 	}
 
-	// =================== 变量名 =====================
+	// =================== 成员名称 =====================
 
-	public String getVarNameAtt() {
-		return (String) attachments.get(Constants.VAR_NAME_ATTACHMENT);
+	public String getMemberNameAtt() {
+		return (String) attachments.get(Constants.MEMBER_NAME_ATTACHMENT);
 	}
 
-	public void setVarNameAtt(String str) {
-		attachments.put(Constants.VAR_NAME_ATTACHMENT, str);
-	}
-
-	// =================== 后缀名 =====================
-
-	@SuppressWarnings("unchecked")
-	public List<String> getMembersAtt() {
-		return (List<String>) attachments.get(Constants.MEMBERS_ATTACHMENT);
-	}
-
-	public void setMembersAtt(List<String> list) {
-		attachments.put(Constants.MEMBERS_ATTACHMENT, list);
-	}
-
-	// =================== 方法名 =====================
-
-	public String getMethodNameAtt() {
-		return (String) attachments.get(Constants.METHOD_NAME_ATTACHMENT);
-	}
-
-	public void setMethodNameAtt(String str) {
-		attachments.put(Constants.METHOD_NAME_ATTACHMENT, str);
+	public void setMemberNameAtt(String str) {
+		attachments.put(Constants.MEMBER_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 是否已经被声明 =====================
@@ -243,16 +219,6 @@ public class Token {
 
 	public void setDeclaredAtt(boolean isDeclared) {
 		attachments.put(Constants.IS_DECLARED_ATTACHMENT, isDeclared);
-	}
-
-	// =================== 下一个token的引用 =====================
-
-	public Token getNext() {
-		return (Token) attachments.get(Constants.NEXT_TOKEN_ATTACHMENT);
-	}
-
-	public void setNext(Token token) {
-		attachments.put(Constants.NEXT_TOKEN_ATTACHMENT, token);
 	}
 
 	// =================== 在语句中的位置 =====================

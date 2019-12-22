@@ -1,6 +1,7 @@
 package com.sum.shy.core.analyzer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.sum.shy.core.api.Handler;
@@ -100,10 +101,15 @@ public class InvokeVisiter {
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
 			// 支持重载
-			Type returnType = getReturnType(clazz, type, null, token.getMethodNameAtt(), parameterTypes);
+			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setReturnTypeAtt(returnType);
 
-		} else if (token.isInvokeFluent()) {
+		} else if (token.isVisitMember()) {
+			Type type = stmt.getToken(index - 1).getReturnTypeAtt();
+			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), null, null);
+			token.setReturnTypeAtt(returnType);
+
+		} else if (token.isInvokeMember()) {
 			// 如果是判空语句,则向前倒两位 like obj?.do()
 			Token lastToken = stmt.getToken(index - 1);
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
@@ -111,18 +117,12 @@ public class InvokeVisiter {
 			// ?号前面可能是变量也可能是方法调用
 			Type type = lastToken.isVar() ? lastToken.getTypeAtt() : lastToken.getReturnTypeAtt();
 			// 支持重载
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt(),
-					parameterTypes);
-			token.setReturnTypeAtt(returnType);
-
-		} else if (token.isMemberVarFluent()) {
-			Type type = stmt.getToken(index - 1).getReturnTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), null, null);
+			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setReturnTypeAtt(returnType);
 
 		} else if (token.isQuickIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getMembersAtt(), token.getMethodNameAtt(), null);
+			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), "$quick_index", null);
 			token.setReturnTypeAtt(returnType);
 
 		}

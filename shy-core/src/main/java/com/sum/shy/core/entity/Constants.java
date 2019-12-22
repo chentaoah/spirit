@@ -70,11 +70,8 @@ public class Constants {
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
 	public static final String TYPE_NAME_ATTACHMENT = "type_name";// 类名
-	public static final String VAR_NAME_ATTACHMENT = "var_name";// 变量名
-	public static final String MEMBERS_ATTACHMENT = "members";// 属性名
-	public static final String METHOD_NAME_ATTACHMENT = "method_name";// 方法名
+	public static final String MEMBER_NAME_ATTACHMENT = "member_name";// 成员名
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
-	public static final String NEXT_TOKEN_ATTACHMENT = "next_token";// fluent指向下一个token的引用
 	public static final String POSITION_ATTACHMENT = "position";// 位置
 	public static final String STMT_ATTACHMENT = "stmt";// 指向语句的引用
 

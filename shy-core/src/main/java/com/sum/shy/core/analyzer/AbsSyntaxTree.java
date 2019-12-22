@@ -92,7 +92,7 @@ public class AbsSyntaxTree {
 //			5.逻辑运算符，如 &、^、|、&&、||
 //			6.条件运算符和赋值运算符，如 ? ：、=、*=、/=、+= 和 -=
 
-			if (currToken.isFluent()) {
+			if (currToken.isVisit()) {
 				priority = 50;// 优先级最高
 				category = Category.LEFT;
 
