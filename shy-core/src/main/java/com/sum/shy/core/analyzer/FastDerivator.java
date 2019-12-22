@@ -53,7 +53,7 @@ public class FastDerivator {
 			return new CodeType(clazz, token.getTypeNameAtt());
 
 		} else if (token.isInvoke()) {// 方法调用
-			return token.getReturnTypeAtt();
+			return token.getTypeAtt();
 
 		} else if (token.isArrayInit()) {// 数组初始化
 			return new CodeType(clazz, token.getTypeNameAtt());
@@ -62,10 +62,10 @@ public class FastDerivator {
 			return getValueType(clazz, token);
 
 		} else if (token.isVar()) {// 变量,小心fluent变量
-			return token.getReturnTypeAtt() != null ? token.getReturnTypeAtt() : token.getTypeAtt();
+			return token.getTypeAtt();
 
 		} else if (token.isQuickIndex()) {// 快速索引
-			return token.getReturnTypeAtt();
+			return token.getTypeAtt();
 
 		}
 		return null;

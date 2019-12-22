@@ -93,20 +93,20 @@ public class InvokeVisiter {
 
 		if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 			Stmt subStmt = (Stmt) token.value;
-			token.setReturnTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
+			token.setTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isTypeInit()) {
-			token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
+			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
-			token.setReturnTypeAtt(returnType);
+			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitMember()) {
-			Type type = stmt.getToken(index - 1).getReturnTypeAtt();
+			Type type = stmt.getToken(index - 1).getTypeAtt();
 			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), null, null);
-			token.setReturnTypeAtt(returnType);
+			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMember()) {
 			// 如果是判空语句,则向前倒两位 like obj?.do()
@@ -114,14 +114,14 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
 				lastToken = stmt.getToken(index - 2);
 			// ?号前面可能是变量也可能是方法调用
-			Type type = lastToken.isVar() ? lastToken.getTypeAtt() : lastToken.getReturnTypeAtt();
+			Type type = lastToken.getTypeAtt();
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
-			token.setReturnTypeAtt(returnType);
+			token.setTypeAtt(returnType);
 
 		} else if (token.isQuickIndex()) {
 			Type type = token.getTypeAtt();
 			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), "$quick_index", null);
-			token.setReturnTypeAtt(returnType);
+			token.setTypeAtt(returnType);
 
 		}
 
