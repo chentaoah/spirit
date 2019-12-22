@@ -289,9 +289,9 @@ public class SemanticDelegate {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
 		if (VISIT_MEMBER_PATTERN.matcher(word).matches())
-			return Constants.VISIT_MEMBER_TOKEN;
+			return Constants.VISIT_FIELD_TOKEN;
 		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_MEMBER_TOKEN;
+			return Constants.INVOKE_METHOD_TOKEN;
 		return Constants.UNKNOWN;
 	}
 

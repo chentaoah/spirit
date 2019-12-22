@@ -106,11 +106,11 @@ public class Token {
 	}
 
 	public boolean isVisitMember() {
-		return Constants.VISIT_MEMBER_TOKEN.equals(type);
+		return Constants.VISIT_FIELD_TOKEN.equals(type);
 	}
 
 	public boolean isInvokeMember() {
-		return Constants.INVOKE_MEMBER_TOKEN.equals(type);
+		return Constants.INVOKE_METHOD_TOKEN.equals(type);
 	}
 
 	public boolean isQuickIndex() {

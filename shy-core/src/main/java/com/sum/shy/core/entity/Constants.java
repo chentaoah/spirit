@@ -56,8 +56,8 @@ public class Constants {
 	public static final String MAP_TOKEN = "map";
 	public static final String VAR_TOKEN = "var";
 	public static final String INVOKE_LOCAL_TOKEN = "invoke_local";
-	public static final String VISIT_MEMBER_TOKEN = "visit_member";
-	public static final String INVOKE_MEMBER_TOKEN = "invoke_member";
+	public static final String VISIT_FIELD_TOKEN = "visit_field";
+	public static final String INVOKE_METHOD_TOKEN = "invoke_method";
 	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
 	public static final String QUICK_INDEX_TOKEN = "quick_index";// 数组或者集合的快速索引
