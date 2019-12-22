@@ -51,13 +51,18 @@ public class LexicalAnalyzer {
 
 		// 1.整体替换
 		for (int i = 0, count = 0, start = -1; i < chars.size(); i++) {// i为游标
+
 			char c = chars.get(i);
-			// 如果是字符,则记下该位置
-			if (start < 0) {
-				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '.' || c == '@') {
+
+			if (start < 0) {// 如果是字符,则记下该位置
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '@') {
 					start = i;
 				}
 			}
+			// start因为中间的.访问符号而被刷新
+			if (c == '.')
+				start = i;
+
 			if (c == '"') {// 字符串
 				LineUtils.replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
 
@@ -105,19 +110,21 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
+		// 3.成员访问符，也要进行拆分
+		text = text.replaceAll("\\.", " .");
 
-		// 3.将多余的空格去掉
+		// 4.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
-		// 4.将那些被分离的符号,紧贴在一起
+		// 5.将那些被分离的符号,紧贴在一起
 		for (String str : BAD_SYMBOLS) {
 			text = text.replaceAll(str, str.replaceAll(" ", ""));
 		}
 
-		// 5.根据操作符,进行拆分
+		// 6.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
-		// 6.重新将替换的字符串替换回来
+		// 7.重新将替换的字符串替换回来
 		for (int i = 0; i < words.size(); i++) {
 			String str = replacedStrs.get(words.get(i));
 			if (str != null) {

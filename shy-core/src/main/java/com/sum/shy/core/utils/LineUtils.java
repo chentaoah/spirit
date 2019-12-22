@@ -139,7 +139,7 @@ public class LineUtils {
 		}
 		// 重新创建
 		subChars = new ArrayList<>();
-		for (char c : (name + number + " ").toCharArray()) {
+		for (char c : (" " + name + number + " ").toCharArray()) {
 			subChars.add(c);
 		}
 		chars.addAll(start, subChars);

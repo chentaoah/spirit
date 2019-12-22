@@ -18,6 +18,7 @@ class Child extends Father{
 	func testMembers(){
 		a=getFather().getChild().getFather().name
 		b=father.child.father.child.father.name
+		c=father.getChild()
 		print "test members {} {}",a,b
 		return this.sayHello()
 	}
