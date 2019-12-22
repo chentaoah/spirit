@@ -31,7 +31,7 @@ public class LexicalAnalyzer {
 	public static final String[] SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "<<", "!", "=", "+", "-",
 			"*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";", "?" };
 
-	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "\\+ \\+", "- -", "< <" };
+	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "< =", "> =", "\\+ \\+", "- -", "< <" };
 
 	public static List<String> getWords(String text) {
 

@@ -183,6 +183,10 @@ public class Stmt {
 				return " " + token.value + " ";
 			} else if ("/".equals(token.value)) {
 				return " " + token.value + " ";
+			} else if ("<=".equals(token.value)) {
+				return " " + token.value + " ";
+			} else if (">=".equals(token.value)) {
+				return " " + token.value + " ";
 			} else {
 				return token.value.toString();
 			}
