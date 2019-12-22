@@ -3,6 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.List;
 
 import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.api.Type;
@@ -21,64 +22,52 @@ import com.sum.shy.core.utils.ReflectUtils;
 public class FastDerivator {
 
 	public static Type getType(CtClass clazz, Stmt stmt) {
-
 		// 如果其中有==判断,则整个语句认为是判断语句
-		for (Token token : stmt.tokens) {
-			if (token.isJudgeOperator()) {
-				return new CodeType(clazz, "boolean");
-			} else if (token.isKeyword() && "instanceof".equals(token.value)) {
-				return new CodeType(clazz, "boolean");
-			}
-		}
-		// 其他类型,进行返回值推导
-		for (Token token : stmt.tokens) {
-			Type type = getType(clazz, token);
-			if (type != null) {
-				return type;
-			}
-		}
-		return null;
+		Node node = AbsSyntaxTree.grow(stmt);
+		// 如果是赋值语句,则将右节点作为顶点
+		if (stmt.isAssign())
+			node = node.right;
+		// 通过递归推导类型
+		return getType(clazz, node);
 	}
 
-	/**
-	 * 这里只会返回确定的类型,需要推导的都只是返回null
-	 * 
-	 * @param clazz
-	 * @param token
-	 * @return
-	 */
-	public static Type getType(CtClass clazz, Token token) {
+	private static Type getType(CtClass clazz, Node node) {
 
-		if (token.isType()) {// 类型声明
-			return new CodeType(clazz, token);// 转换成type token
+		if (node == null)
+			return null;
 
-		} else if (token.isCast()) {// 类型强制转换
-			return new CodeType(clazz, token.getTypeNameAtt());// 转换成type token
+		Token token = node.token;
+		// 如果是逻辑判断，或者类型判断关键字
+		if (token.isLogicalOperator() || token.isInstanceof()) {
+			return new CodeType(clazz, "boolean");
 
-		} else if (token.isArrayInit()) {// 数组初始化
-			return new CodeType(clazz, token.getTypeNameAtt());// 转换成type token
+		} else if (token.isCalculateOperator()) {
+			// 先取左边的，再取右边的
+			if (node.left != null) {
+				return getType(clazz, node.left);
+			} else if (node.right != null) {
+				return getType(clazz, node.right);
+			}
+
+		} else if (token.isCast()) {
+			return new CodeType(clazz, token.getTypeNameAtt());
+
+		} else if (token.isArrayInit()) {
+			return new CodeType(clazz, token.getTypeNameAtt());
 
 		} else if (token.isValue()) {// 字面值
-			return getValueType(clazz, token);// 转换成type token
+			return getValueType(clazz, token);
 
 		} else if (token.isVariable()) {// 变量
-			if (token.isVar() && token.getTypeAtt() != null) {// 单纯的变量就向上追溯到有用的
-				return token.getTypeAtt();
-			}
+			return token.getTypeAtt();
+
+		} else if (token.isInvoke()) {
 			return token.getReturnTypeAtt();
 
-		} else if (token.isInvoke()) {// 方法调用
-			// 如果不存在下一个，则可以直接返回了
-			if (token.getNext() == null)
-				return token.getReturnTypeAtt();
-
 		} else if (token.isQuickIndex()) {
-			// 如果不存在下一个，则可以直接返回了
-			if (token.getNext() == null)
-				return token.getReturnTypeAtt();
+			return token.getReturnTypeAtt();
 
 		}
-
 		return null;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.LineUtils;
@@ -185,24 +186,6 @@ public class AbsSyntaxTree {
 		} else {
 			return new Node(token);
 		}
-	}
-
-	public static class Node {
-
-		public Token token;
-		public Node left;
-		public Node right;
-
-		public Node(Token token) {
-			this.token = token;
-		}
-
-		@Override
-		public String toString() {
-			Stmt stmt = token.getStmt();
-			return "" + (left == null ? "" : left) + stmt.format(token) + (right == null ? "" : right);
-		}
-
 	}
 
 	/**

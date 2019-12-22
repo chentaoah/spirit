@@ -172,10 +172,18 @@ public class Token {
 		return isArray() || isMap() || isInvoke() || isSubexpress();
 	}
 
-	public boolean isJudgeOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
 		if (isOperator())
-			return "==".equals(value) || "!=".equals(value) || ">=".equals(value) || "<=".equals(value)
-					|| ">".equals(value) || "<".equals(value);
+			return "!".equals(value) || "==".equals(value) || "!=".equals(value) || ">=".equals(value)
+					|| "<=".equals(value) || ">".equals(value) || "<".equals(value) || "&&".equals(value)
+					|| "||".equals(value);
+		return false;
+	}
+
+	public boolean isCalculateOperator() {
+		if (isOperator())
+			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
+					|| "*".equals(value) || "/".equals(value) || "%".equals(value);
 		return false;
 	}
 
