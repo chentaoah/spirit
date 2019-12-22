@@ -418,11 +418,11 @@ public class SemanticDelegate {
 			token.setMemberNameAtt(getMethodName(word));
 			return;
 
-		} else if (token.isVisitMember()) {// 访问成员变量
+		} else if (token.isVisitField()) {// 访问成员变量
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
-		} else if (token.isInvokeMember()) {// 流式调用
+		} else if (token.isInvokeMethod()) {// 流式调用
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 

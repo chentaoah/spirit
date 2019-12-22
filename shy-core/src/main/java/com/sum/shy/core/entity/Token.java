@@ -105,11 +105,11 @@ public class Token {
 		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
 	}
 
-	public boolean isVisitMember() {
+	public boolean isVisitField() {
 		return Constants.VISIT_FIELD_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeMember() {
+	public boolean isInvokeMethod() {
 		return Constants.INVOKE_METHOD_TOKEN.equals(type);
 	}
 
@@ -140,11 +140,11 @@ public class Token {
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isInvokeLocal() || isInvokeMember();
+		return isTypeInit() || isInvokeLocal() || isInvokeMethod();
 	}
 
 	public boolean isVisit() {
-		return isVisitMember() || isInvokeMember();
+		return isVisitField() || isInvokeMethod();
 	}
 
 	public boolean hasSubStmt() {

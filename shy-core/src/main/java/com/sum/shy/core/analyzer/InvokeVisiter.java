@@ -103,12 +103,12 @@ public class InvokeVisiter {
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
-		} else if (token.isVisitMember()) {
+		} else if (token.isVisitField()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
 			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), null, null);
 			token.setTypeAtt(returnType);
 
-		} else if (token.isInvokeMember()) {
+		} else if (token.isInvokeMethod()) {
 			// 如果是判空语句,则向前倒两位 like obj?.do()
 			Token lastToken = stmt.getToken(index - 1);
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
