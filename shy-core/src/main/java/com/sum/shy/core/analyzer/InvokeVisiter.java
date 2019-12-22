@@ -91,7 +91,8 @@ public class InvokeVisiter {
 		List<Type> parameterTypes = getParameterTypes(clazz, token);
 
 		if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-			token.setReturnTypeAtt(FastDerivator.getType(clazz, (Stmt) token.value));
+			Stmt subStmt = (Stmt) token.value;
+			token.setReturnTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isInvokeInit()) {
 			token.setReturnTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));

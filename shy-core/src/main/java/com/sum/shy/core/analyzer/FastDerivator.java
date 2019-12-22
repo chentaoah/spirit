@@ -61,8 +61,8 @@ public class FastDerivator {
 		} else if (token.isValue()) {// 字面值
 			return getValueType(clazz, token);
 
-		} else if (token.isVariable()) {// 变量
-			return token.getTypeAtt();
+		} else if (token.isVariable()) {// 变量,小心fluent变量
+			return token.getReturnTypeAtt() != null ? token.getReturnTypeAtt() : token.getTypeAtt();
 
 		} else if (token.isQuickIndex()) {// 快速索引
 			return token.getReturnTypeAtt();

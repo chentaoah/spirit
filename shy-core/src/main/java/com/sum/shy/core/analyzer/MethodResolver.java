@@ -145,6 +145,9 @@ public class MethodResolver {
 			// 如果变量追踪,并没有找到类型声明
 			if (token.isVar() && !token.isDeclaredAtt()) {
 				// 这里使用了快速推导,但是返回的类型并不是最终类型
+				if (stmt.toString().equals("a = getFather().getChild().getFather().name")) {
+					System.out.println("");
+				}
 				Type type = FastDerivator.getType(clazz, stmt);
 				// 设置类型
 				token.setTypeAtt(type);
