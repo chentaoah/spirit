@@ -110,19 +110,27 @@ public class LexicalAnalyzer {
 		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
 		}
-		// 3.成员访问符，也要进行拆分
-		text = text.replaceAll("\\.", " .");
 
-		// 4.将多余的空格去掉
+		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
-		// 5.将那些被分离的符号,紧贴在一起
+		// 4.将那些被分离的符号,紧贴在一起
 		for (String str : BAD_SYMBOLS) {
 			text = text.replaceAll(str, str.replaceAll(" ", ""));
 		}
 
-		// 6.根据操作符,进行拆分
+		// 5.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
+
+		// 6.如果包含.但是又不是数字的话，则再拆一次
+		for (int i = 0; i < words.size(); i++) {
+			String word = words.get(i);
+			if (word.indexOf(".") > 0 && !SemanticDelegate.isDouble(word)) {
+				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
+				words.remove(i);
+				words.addAll(i, subWords);
+			}
+		}
 
 		// 7.重新将替换的字符串替换回来
 		for (int i = 0; i < words.size(); i++) {

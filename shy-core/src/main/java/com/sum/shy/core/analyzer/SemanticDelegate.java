@@ -244,6 +244,10 @@ public class SemanticDelegate {
 				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
+	public static boolean isDouble(String word) {
+		return DOUBLE_PATTERN.matcher(word).matches();
+	}
+
 	private static String getValueTokenType(String word) {
 		if ("null".equals(word))
 			return Constants.NULL_TOKEN;
@@ -444,7 +448,7 @@ public class SemanticDelegate {
 
 	public static String getMemberName(String word) {
 		int start = word.startsWith(".") ? 1 : 0;
-		int end = -1;
+		int end = word.length();
 		if (word.contains("[")) {
 			end = word.indexOf("[");
 		} else if (word.contains("(")) {
