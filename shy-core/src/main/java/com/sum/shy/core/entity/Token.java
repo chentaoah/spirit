@@ -143,8 +143,12 @@ public class Token {
 		return isNull() || isBool() || isInt() || isDouble() || isStr() || isList() || isMap();
 	}
 
-	public boolean isInvoke() {
+	public boolean isAccess() {
 		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isQuickIndex();
+	}
+
+	public boolean isInvoke() {
+		return isTypeInit() || isInvokeLocal() || isInvokeMethod();
 	}
 
 	public boolean hasSubStmt() {

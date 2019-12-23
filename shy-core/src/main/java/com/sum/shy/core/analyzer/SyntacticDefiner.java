@@ -42,7 +42,7 @@ public class SyntacticDefiner {
 			if (words.size() == 1 && first.startsWith("super(")) {// 只有一个语素,并且以super开头
 				return Constants.SUPER_SYNTAX;
 			}
-			if (words.size() == 1 && SemanticDelegate.isInvoke(first)) {// 只有一个语素，调用本地方法
+			if (words.size() == 1 && SemanticDelegate.isAccess(first)) {// 只有一个语素，调用本地方法
 				return Constants.INVOKE_SYNTAX;
 			}
 
@@ -50,7 +50,7 @@ public class SyntacticDefiner {
 			if (words.size() == 2 && SemanticDelegate.isType(first)) {// 如果是类型,则是类型说明语句
 				return Constants.DECLARE_SYNTAX;
 			}
-			if (words.size() == 2 && SemanticDelegate.isInvoke(second)) {// 调用成员方法
+			if (words.size() == 2 && SemanticDelegate.isAccess(second)) {// 调用成员方法
 				return Constants.INVOKE_SYNTAX;
 			}
 			if ("=".equals(second)) {// 字段定义或者赋值语句

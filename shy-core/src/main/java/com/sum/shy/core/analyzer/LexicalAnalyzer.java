@@ -58,11 +58,10 @@ public class LexicalAnalyzer {
 			char c = chars.get(i);
 
 			if (start < 0) {// 如果是字符,则记下该位置
-				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '@') {
+				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '@') {
 					start = i;
 				}
 			}
-			// start因为中间的.访问符号而被刷新
 			if (c == '.')
 				start = i;
 

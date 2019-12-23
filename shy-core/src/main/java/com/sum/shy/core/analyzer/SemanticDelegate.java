@@ -152,8 +152,8 @@ public class SemanticDelegate {
 			} else if (isVar(word)) {// 变量
 				token.type = Constants.VAR_TOKEN;
 				return;
-			} else if (isInvoke(word)) {// 方法调用
-				token.type = getInvokeTokenType(word);
+			} else if (isAccess(word)) {// 属性访问
+				token.type = getAccessTokenType(word);
 				return;
 			}
 			token.type = Constants.UNKNOWN;
@@ -250,12 +250,12 @@ public class SemanticDelegate {
 		return VAR_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isInvoke(String word) {
+	public static boolean isAccess(String word) {
 		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches()
 				|| INVOKE_METHOD_PATTERN.matcher(word).matches() || QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
-	private static String getInvokeTokenType(String word) {
+	private static String getAccessTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
 		if (VISIT_FIELD_PATTERN.matcher(word).matches())
@@ -295,73 +295,52 @@ public class SemanticDelegate {
 			token.value = word;
 			return;
 
+		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
+			token.value = getSubStmt(token, word, "[", "]");
+			return;
+
 		} else if (token.isList()) {// 如果是数组,则解析子语句
-			String str = word.substring(1, word.length() - 1);
-			List<String> subWords = LexicalAnalyzer.getWords(str);
-			subWords.add(0, "[");
-			subWords.add("]");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
+			token.value = getSubStmt(token, word, "[", "]");
 			return;
 
 		} else if (token.isMap()) {
-			String str = word.substring(1, word.length() - 1);
-			List<String> subWords = LexicalAnalyzer.getWords(str);
-			subWords.add(0, "{");
-			subWords.add("}");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
-			return;
-
-		} else if (token.isInvoke()) {
-			String prefix = word.substring(0, word.indexOf("("));
-			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
-			List<String> subWords = LexicalAnalyzer.getWords(str);
-			subWords.add(0, "(");
-			subWords.add(")");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 追加一个元素在头部
-			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
-			return;
-
-		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
-			String prefix = word.substring(0, word.indexOf("["));
-			String number = word.substring(word.indexOf("[") + 1, word.indexOf("]"));
-			List<String> subWords = new ArrayList<>();
-			subWords.add(0, "[");
-			subWords.add(number);
-			subWords.add("]");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 追加一个元素在头部
-			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
+			token.value = getSubStmt(token, word, "{", "}");
 			return;
 
 		} else if (token.isSubexpress()) {
-			String str = word.substring(word.indexOf("(") + 1, word.lastIndexOf(")"));
-			List<String> subWords = LexicalAnalyzer.getWords(str);
-			subWords.add(0, "(");
-			subWords.add(")");
-			// 获取tokens
-			List<Token> subTokens = getTokens(null, subWords);
-			// 生成子语句
-			token.value = new Stmt(word, subWords, subTokens);
+			token.value = getSubStmt(token, word, "(", ")");
 			return;
 
+		} else if (token.isInvoke()) {
+			token.value = getSubStmt(token, word, "(", ")");
+			return;
 		}
 
 		token.value = word;
 		return;
 
+	}
+
+	private static Stmt getSubStmt(Token token, String word, String start, String end) {
+		// 开始位置
+		int startIndex = word.indexOf(start);
+		// 结束位置
+		int endIndex = word.indexOf(end);
+		// 前缀
+		String prefix = startIndex != 0 ? word.substring(0, startIndex) : null;
+		// 内容
+		String content = word.substring(startIndex + 1, endIndex);
+		// 分解内容
+		List<String> subWords = LexicalAnalyzer.getWords(content);
+		subWords.add(0, start);
+		subWords.add(end);
+		// 获取tokens
+		List<Token> subTokens = getTokens(null, subWords);
+		// 追加一个元素在头部
+		if (prefix != null)
+			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
+		// 生成子语句
+		return new Stmt(word, subWords, subTokens);
 	}
 
 	private static void getAttachments(Token token, String word) {
