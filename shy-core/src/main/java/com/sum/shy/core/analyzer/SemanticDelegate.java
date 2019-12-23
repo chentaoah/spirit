@@ -214,10 +214,6 @@ public class SemanticDelegate {
 				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isDouble(String word) {
-		return DOUBLE_PATTERN.matcher(word).matches();
-	}
-
 	private static String getValueTokenType(String word) {
 		if ("null".equals(word))
 			return Constants.NULL_TOKEN;
@@ -265,6 +261,15 @@ public class SemanticDelegate {
 		if (QUICK_INDEX_PATTERN.matcher(word).matches())
 			return Constants.QUICK_INDEX_TOKEN;
 		return Constants.UNKNOWN;
+	}
+
+	public static boolean isDouble(String word) {
+		return DOUBLE_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isInvoke(String word) {
+		return TYPE_INIT_PATTERN.matcher(word).matches() || INVOKE_LOCAL_PATTERN.matcher(word).matches()
+				|| INVOKE_METHOD_PATTERN.matcher(word).matches();
 	}
 
 	private static void getTokenValue(Token token, String word) {
