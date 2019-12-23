@@ -155,9 +155,6 @@ public class SemanticDelegate {
 			} else if (isInvoke(word)) {// 方法调用
 				token.type = getInvokeTokenType(word);
 				return;
-			} else if (isQuickIndex(word)) {
-				token.type = Constants.QUICK_INDEX_TOKEN;
-				return;
 			}
 			token.type = Constants.UNKNOWN;
 			return;
@@ -255,7 +252,7 @@ public class SemanticDelegate {
 
 	public static boolean isInvoke(String word) {
 		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches()
-				|| INVOKE_METHOD_PATTERN.matcher(word).matches();
+				|| INVOKE_METHOD_PATTERN.matcher(word).matches() || QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	private static String getInvokeTokenType(String word) {
@@ -265,11 +262,9 @@ public class SemanticDelegate {
 			return Constants.VISIT_FIELD_TOKEN;
 		if (INVOKE_METHOD_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_METHOD_TOKEN;
+		if (QUICK_INDEX_PATTERN.matcher(word).matches())
+			return Constants.QUICK_INDEX_TOKEN;
 		return Constants.UNKNOWN;
-	}
-
-	public static boolean isQuickIndex(String word) {
-		return QUICK_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	private static void getTokenValue(Token token, String word) {

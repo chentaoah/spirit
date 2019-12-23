@@ -2,7 +2,7 @@ package com.sum.shy.core.clazz.api;
 
 import com.sum.shy.core.type.api.Type;
 
-public abstract class AbsElement extends AbsAnnotated implements Element {
+public abstract class AbsMember extends AbsAnnotated implements Member {
 	// 域
 	public String scope;
 	// 类型

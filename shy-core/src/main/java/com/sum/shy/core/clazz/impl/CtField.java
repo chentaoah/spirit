@@ -2,11 +2,11 @@ package com.sum.shy.core.clazz.impl;
 
 import java.util.List;
 
-import com.sum.shy.core.clazz.api.AbsElement;
+import com.sum.shy.core.clazz.api.AbsMember;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.type.api.Type;
 
-public class CtField extends AbsElement {
+public class CtField extends AbsMember {
 	// 参数名
 	public String name;
 	// 语句

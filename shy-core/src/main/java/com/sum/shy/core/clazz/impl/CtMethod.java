@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.clazz.api.AbsElement;
+import com.sum.shy.core.clazz.api.AbsMember;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.type.api.Type;
 
-public class CtMethod extends AbsElement {
+public class CtMethod extends AbsMember {
 
 	public boolean isSync;
 	// 参数名

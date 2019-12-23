@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.sum.shy.core.api.Handler;
-import com.sum.shy.core.clazz.api.Element;
+import com.sum.shy.core.clazz.api.Member;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
@@ -27,7 +27,7 @@ public class InvokeVisiter {
 	 * @param clazz
 	 */
 	public static void visitClass(CtClass clazz) {
-		for (Element element : clazz.getAllElement()) {
+		for (Member element : clazz.getAllElement()) {
 			element.setType(visitElement(clazz, element));
 		}
 	}
@@ -39,7 +39,7 @@ public class InvokeVisiter {
 	 * @param element
 	 * @return
 	 */
-	public static Type visitElement(CtClass clazz, Element element) {
+	public static Type visitElement(CtClass clazz, Member element) {
 		// 上锁
 		element.lock();
 		Type type = element.getType();

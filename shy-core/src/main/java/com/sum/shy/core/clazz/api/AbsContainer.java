@@ -115,8 +115,8 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 
 	}
 
-	public List<Element> getAllElement() {
-		List<Element> list = new ArrayList<>();
+	public List<Member> getAllElement() {
+		List<Member> list = new ArrayList<>();
 		list.addAll(staticFields);
 		list.addAll(staticMethods);
 		list.addAll(fields);
