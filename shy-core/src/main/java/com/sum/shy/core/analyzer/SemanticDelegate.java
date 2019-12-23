@@ -32,33 +32,21 @@ public class SemanticDelegate {
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", ",", ";" };
 
-	// ============================== 类型判断 ================================
+	// ============================== 类型 ================================
 
-	// 类型枚举
-	public static final String TYPE_ENUM = "boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String";
-	// 基本类型
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|" + TYPE_ENUM + ")$");
-	// 基础类型数组
-	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\]$");
+	public static final String TYPE_ENUM = "boolean|char|short|int|long|float|double|byte|"
+			+ "Boolean|Character|Short|Integer|Long|Float|Double|Byte|" + "Object|String";// 类型枚举
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|" + TYPE_ENUM + ")$");// 基本类型
+	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\]$");// 基本类型数组
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");// 普通类型
+	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");// 类型数组
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");// 泛型
 
-	// 类型--Father and G_Father
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");
-	// 数组--Father[] and G_Father[]
-	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");
-	// 泛型--Father<Child> and G_Father<Child>
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");
+	// ============================== 字面值 ================================
 
-	// ============================== 初始化 ================================
-
-	// 基础类型数组声明
-	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");
-	// 类型数组声明
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
-	// 构造方法(支持别名)
-	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
-
-	// ============================== 字面值判断 ================================
-
+	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
+	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
@@ -66,27 +54,13 @@ public class SemanticDelegate {
 	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
-	// ============================== 子表达式 ================================
+	// ============================== 表达式 ================================
 
-	// 子表达式--里面是type则是cast 其他则为表达式
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-
-	// ============================== 变量判断 ================================
-
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*$");
-
-	// ============================== 方法调用 ================================
-
-	// 本地方法
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	// 流式成员变量
 	public static final Pattern VISIT_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
-	// 流式调用
 	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-
-	// ============================== 其他 ================================
-
-	// 快速索引
 	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^(\\.)?[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
