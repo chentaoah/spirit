@@ -135,20 +135,20 @@ public class Token {
 
 	// =================== 复合判断 =====================
 
+	public boolean isInit() {
+		return isArrayInit() || isTypeInit();
+	}
+
 	public boolean isValue() {
 		return isNull() || isBool() || isInt() || isDouble() || isStr() || isList() || isMap();
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isInvokeLocal() || isInvokeMethod();
-	}
-
-	public boolean isVisit() {
-		return isVisitField() || isInvokeMethod();
+		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isQuickIndex();
 	}
 
 	public boolean hasSubStmt() {
-		return isList() || isMap() || isInvoke() || isSubexpress();
+		return isTypeInit() || isList() || isMap() || isSubexpress() || isInvokeLocal() || isInvokeMethod();
 	}
 
 	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
@@ -166,7 +166,7 @@ public class Token {
 		return false;
 	}
 
-	// =================== 变量的类型 =====================
+	// =================== 类型 =====================
 
 	public Type getTypeAtt() {
 		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);

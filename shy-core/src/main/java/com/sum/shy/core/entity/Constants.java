@@ -52,7 +52,7 @@ public class Constants {
 	public static final String LONG_TOKEN = "long";
 	public static final String DOUBLE_TOKEN = "double";
 	public static final String STR_TOKEN = "str";
-	public static final String LIST_TOKEN = "array";
+	public static final String LIST_TOKEN = "list";
 	public static final String MAP_TOKEN = "map";
 	public static final String VAR_TOKEN = "var";
 	public static final String INVOKE_LOCAL_TOKEN = "invoke_local";
