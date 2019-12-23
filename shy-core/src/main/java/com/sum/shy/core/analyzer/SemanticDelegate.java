@@ -61,7 +61,8 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
 	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^(\\.)?[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
+	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
+	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
 	 * 语义分析
@@ -248,7 +249,8 @@ public class SemanticDelegate {
 
 	public static boolean isAccess(String word) {
 		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches()
-				|| INVOKE_METHOD_PATTERN.matcher(word).matches() || QUICK_INDEX_PATTERN.matcher(word).matches();
+				|| INVOKE_METHOD_PATTERN.matcher(word).matches() || VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches()
+				|| ARRAY_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	private static String getAccessTokenType(String word) {
@@ -258,8 +260,10 @@ public class SemanticDelegate {
 			return Constants.VISIT_FIELD_TOKEN;
 		if (INVOKE_METHOD_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_METHOD_TOKEN;
-		if (QUICK_INDEX_PATTERN.matcher(word).matches())
-			return Constants.QUICK_INDEX_TOKEN;
+		if (VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches())
+			return Constants.VISIT_ARRAY_INDEX_TOKEN;
+		if (ARRAY_INDEX_PATTERN.matcher(word).matches())
+			return Constants.ARRAY_INDEX_TOKEN;
 		return Constants.UNKNOWN;
 	}
 
@@ -359,7 +363,7 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isTypeInit()) {// 构造方法
-			token.setTypeNameAtt(getMethodName(word));
+			token.setTypeNameAtt(getMemberName(word));
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
@@ -367,7 +371,7 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isInvokeLocal()) {// 本地方法调用
-			token.setMemberNameAtt(getMethodName(word));
+			token.setMemberNameAtt(getMemberName(word));
 			return;
 
 		} else if (token.isVisitField()) {// 访问成员变量
@@ -378,7 +382,7 @@ public class SemanticDelegate {
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
-		} else if (token.isQuickIndex()) {// 流式成员变量
+		} else if (token.isVisitArrayIndex() || token.isArrayIndex()) {// 流式成员变量
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
@@ -392,10 +396,6 @@ public class SemanticDelegate {
 
 	private static String getArrayInitType(String word) {
 		return word.substring(0, word.indexOf("[")) + "[]";
-	}
-
-	public static String getMethodName(String word) {
-		return word.substring(0, word.indexOf("("));
 	}
 
 	public static String getMemberName(String word) {

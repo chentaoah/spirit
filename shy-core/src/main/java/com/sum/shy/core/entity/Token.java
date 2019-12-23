@@ -113,8 +113,12 @@ public class Token {
 		return Constants.INVOKE_METHOD_TOKEN.equals(type);
 	}
 
-	public boolean isQuickIndex() {
-		return Constants.QUICK_INDEX_TOKEN.equals(type);
+	public boolean isVisitArrayIndex() {
+		return Constants.VISIT_ARRAY_INDEX_TOKEN.equals(type);
+	}
+
+	public boolean isArrayIndex() {
+		return Constants.ARRAY_INDEX_TOKEN.equals(type);
 	}
 
 	public boolean isInstanceof() {
@@ -144,7 +148,7 @@ public class Token {
 	}
 
 	public boolean isAccess() {
-		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isQuickIndex();
+		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
 	}
 
 	public boolean isInvoke() {
@@ -152,7 +156,7 @@ public class Token {
 	}
 
 	public boolean hasSubStmt() {
-		return isTypeInit() || isList() || isMap() || isSubexpress() || isInvokeLocal() || isInvokeMethod();
+		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
 
 	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型

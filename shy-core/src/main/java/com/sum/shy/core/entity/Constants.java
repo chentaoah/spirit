@@ -55,12 +55,13 @@ public class Constants {
 	public static final String LIST_TOKEN = "list";
 	public static final String MAP_TOKEN = "map";
 	public static final String VAR_TOKEN = "var";
+	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
+	public static final String CAST_TOKEN = "cast";// 类型强制转换
 	public static final String INVOKE_LOCAL_TOKEN = "invoke_local";
 	public static final String VISIT_FIELD_TOKEN = "visit_field";
 	public static final String INVOKE_METHOD_TOKEN = "invoke_method";
-	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
-	public static final String CAST_TOKEN = "cast";// 类型强制转换
-	public static final String QUICK_INDEX_TOKEN = "quick_index";// 数组或者集合的快速索引
+	public static final String VISIT_ARRAY_INDEX_TOKEN = "visit_array_index";// 访问字段,并通过索引访问数组中的元素
+	public static final String ARRAY_INDEX_TOKEN = "array_index";// 访问字段,并通过索引访问数组中的元素
 
 	public static final String PREFIX_TOKEN = "prefix";// 分隔符前面的一串字符，统一称为前缀
 	public static final String SUFFIX_TOKEN = "suffix";// 后缀

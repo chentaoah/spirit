@@ -109,20 +109,23 @@ public class InvokeVisiter {
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
-			// 如果是判空语句,则向前倒两位 like obj?.do()
 			Token lastToken = stmt.getToken(index - 1);
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
-				lastToken = stmt.getToken(index - 2);
-			// ?号前面可能是变量也可能是方法调用
+				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
 			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
-		} else if (token.isQuickIndex()) {
-			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), "$quick_index", null);
+		} else if (token.isVisitArrayIndex()) {
+			Token lastToken = stmt.getToken(index - 1);
+			Type type = lastToken.getTypeAtt();
+			Type returnType = getReturnType(clazz, type, Arrays.asList(token.getMemberNameAtt()), "$array_index", null);
 			token.setTypeAtt(returnType);
 
+		} else if (token.isArrayIndex()) {
+			Type type = token.getTypeAtt();
+			Type returnType = getReturnType(clazz, type, null, "$array_index", null);
+			token.setTypeAtt(returnType);
 		}
 
 	}
@@ -152,7 +155,7 @@ public class InvokeVisiter {
 				if ("length".equals(member)) {
 					return new CodeType(clazz, "int");
 				}
-			} else if ("$quick_index".equals(methodName)) {
+			} else if ("$array_index".equals(methodName)) {
 				return new CodeType(clazz, type.getTypeName());
 			}
 			throw new RuntimeException("Some functions of array are not supported yet!");

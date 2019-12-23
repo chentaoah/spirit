@@ -64,7 +64,7 @@ public class FastDerivator {
 		} else if (token.isVar()) {// 变量,小心fluent变量
 			return token.getTypeAtt();
 
-		} else if (token.isQuickIndex()) {// 快速索引
+		} else if (token.isVisitArrayIndex()) {// 快速索引
 			return token.getTypeAtt();
 
 		}
