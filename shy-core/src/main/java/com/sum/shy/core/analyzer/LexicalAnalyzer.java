@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.utils.LineUtils;
@@ -32,6 +33,8 @@ public class LexicalAnalyzer {
 			"*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";", "?" };
 
 	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "< =", "> =", "\\+ \\+", "- -", "< <" };
+
+	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+.[A-Z]+\\w+$");
 
 	public static List<String> getWords(String text) {
 
@@ -123,14 +126,13 @@ public class LexicalAnalyzer {
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
 		// 6.如果包含.但是又不是数字的话，则再拆一次
-		if (!text.startsWith("import ")) {
-			for (int i = 0; i < words.size(); i++) {
-				String word = words.get(i);
-				if (word.indexOf(".") > 0 && !SemanticDelegate.isDouble(word)) {
-					List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
-					words.remove(i);
-					words.addAll(i, subWords);
-				}
+		for (int i = 0; i < words.size(); i++) {
+			String word = words.get(i);
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches()
+					&& !SemanticDelegate.isDouble(word)) {
+				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
+				words.remove(i);
+				words.addAll(i, subWords);
 			}
 		}
 

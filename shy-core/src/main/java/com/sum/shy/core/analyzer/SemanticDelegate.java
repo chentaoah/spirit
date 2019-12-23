@@ -50,13 +50,13 @@ public class SemanticDelegate {
 
 	// ============================== 初始化 ================================
 
-	// 构造方法(支持别名)
-	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
 	// 基础类型数组声明
 	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile(
 			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)\\[\\d+\\]$");
 	// 类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
+	// 构造方法(支持别名)
+	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");
 
 	// ============================== 字面值判断 ================================
 
