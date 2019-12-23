@@ -34,12 +34,12 @@ public class SemanticDelegate {
 
 	// ============================== 类型判断 ================================
 
-	// 基础类型
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile(
-			"^(void|boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)$");
+	// 类型枚举
+	public static final String TYPE_ENUM = "boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String";
+	// 基本类型
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|" + TYPE_ENUM + ")$");
 	// 基础类型数组
-	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile(
-			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)\\[\\]$");
+	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\]$");
 
 	// 类型--Father and G_Father
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");
@@ -51,8 +51,7 @@ public class SemanticDelegate {
 	// ============================== 初始化 ================================
 
 	// 基础类型数组声明
-	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile(
-			"^(boolean|char|short|int|long|float|double|byte|Boolean|Character|Short|Integer|Long|Float|Double|Byte|Object|String)\\[\\d+\\]$");
+	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");
 	// 类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");
 	// 构造方法(支持别名)
