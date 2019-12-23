@@ -42,7 +42,7 @@ public class SemanticDelegate {
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");// 类型数组
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");// 泛型
 
-	// ============================== 字面值 ================================
+	// ============================== 值 ================================
 
 	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
@@ -59,8 +59,8 @@ public class SemanticDelegate {
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
-	public static final Pattern INVOKE_MEMBER_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
+	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
 	public static final Pattern QUICK_INDEX_PATTERN = Pattern.compile("^(\\.)?[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
@@ -254,16 +254,16 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isInvoke(String word) {
-		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_MEMBER_PATTERN.matcher(word).matches()
-				|| INVOKE_MEMBER_PATTERN.matcher(word).matches();
+		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches()
+				|| INVOKE_METHOD_PATTERN.matcher(word).matches();
 	}
 
 	private static String getInvokeTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
-		if (VISIT_MEMBER_PATTERN.matcher(word).matches())
+		if (VISIT_FIELD_PATTERN.matcher(word).matches())
 			return Constants.VISIT_FIELD_TOKEN;
-		if (INVOKE_MEMBER_PATTERN.matcher(word).matches())
+		if (INVOKE_METHOD_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_METHOD_TOKEN;
 		return Constants.UNKNOWN;
 	}
