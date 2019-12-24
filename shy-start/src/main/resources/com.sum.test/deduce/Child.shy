@@ -19,7 +19,7 @@ class Child extends Father{
 		a=getFather().getChild().getFather().name
 		b=father.child.father.child.father.name
 		c=father.getChild()
-		print "test members {} {}",a,b
+		print "test members {} {}",a,b,c
 		return this.sayHello()
 	}
 

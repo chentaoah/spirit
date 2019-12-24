@@ -23,7 +23,8 @@ public class Child extends Father {
 	public String testMembers() {
 		String a = getFather().getChild().getFather().name;
 		String b = father.child.father.child.father.name;
-		logger.info("test members {} {}", a, b);
+		Child c = father.getChild();
+		logger.info("test members {} {}", a, b, c);
 		return this.sayHello();
 	}
 

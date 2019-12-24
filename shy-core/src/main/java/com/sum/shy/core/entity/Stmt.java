@@ -206,10 +206,11 @@ public class Stmt {
 			}
 
 		} else if (token.isType()) {// 类型声明后面加空格
-			if (index - 1 > 0 && "instanceof".equals(get(index - 1))) {
-				return token.value.toString();// 类型判断语句中类型后面不用加空格 a instanceof List
-			} else if (syntax != null) {
-				// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
+			if (index - 1 > 0 && "instanceof".equals(get(index - 1))) {// 类型判断语句中类型后面不用加空格 a instanceof List
+				return token.value.toString();
+			} else if (index + 1 < size() && get(index + 1).startsWith(".")) {// Type.get()后面不用加空格了
+				return token.value.toString();
+			} else if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
 				return token.value + " ";
 			} else {
 				return token.value.toString();
