@@ -117,7 +117,7 @@ public class MethodResolver {
 			String name = stmt.get(1);// 名称
 			Token token = stmt.getToken(3);// 集合
 			VariableTracker.findType(clazz, method, block, line, stmt, token);// 只针对list
-			InvokeVisiter.visitStmt(clazz, stmt);// 只针对list
+			TypeVisiter.visitStmt(clazz, stmt);// 只针对list
 			Type returnType = FastDerivator.getType(clazz, stmt.subStmt(3, stmt.size() - 1));// 只针对list
 			// 如果是数组,则用数组内的类型
 			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getTypeName())
@@ -128,7 +128,7 @@ public class MethodResolver {
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
 			Stmt subStmt = Stmt.create(subText);
 			VariableTracker.track(clazz, method, block, line, subStmt);// 变量追踪
-			InvokeVisiter.visitStmt(clazz, subStmt);// 返回值推导
+			TypeVisiter.visitStmt(clazz, subStmt);// 返回值推导
 			Type type = FastDerivator.getType(clazz, subStmt);// 类型推导
 			method.addVariable(new Variable(block, type, subStmt.get(0)));
 
@@ -137,7 +137,7 @@ public class MethodResolver {
 		// 变量追踪
 		VariableTracker.track(clazz, method, block, line, stmt);
 		// 快速遍历一行
-		InvokeVisiter.visitStmt(clazz, stmt);
+		TypeVisiter.visitStmt(clazz, stmt);
 
 		if (stmt.isAssign()) {
 			// 判断变量追踪是否帮我们找到了该变量的类型
@@ -149,6 +149,9 @@ public class MethodResolver {
 					System.out.println("");
 				}
 				Type type = FastDerivator.getType(clazz, stmt);
+				if (type == null) {
+					System.out.println(stmt.toString());
+				}
 				// 设置类型
 				token.setTypeAtt(type);
 				// 添加到方法变量里

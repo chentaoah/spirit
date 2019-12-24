@@ -92,7 +92,7 @@ public class VariableTracker {
 		for (CtField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
-					field.type = InvokeVisiter.visitElement(clazz, field);
+					field.type = TypeVisiter.visitElement(clazz, field);
 				token.setTypeAtt(field.type);
 				return;
 			}
@@ -101,7 +101,7 @@ public class VariableTracker {
 		for (CtField field : clazz.staticFields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)// 可能连锁推导时，字段还没有经过推导
-					field.type = InvokeVisiter.visitElement(clazz, field);
+					field.type = TypeVisiter.visitElement(clazz, field);
 				token.setTypeAtt(field.type);
 				return;
 			}
@@ -109,7 +109,7 @@ public class VariableTracker {
 
 		// 从继承里面去找
 		if (StringUtils.isNotEmpty(clazz.superName)) {
-			Type type = InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
+			Type type = TypeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
 					Collection.newArrayList(name), null, null);
 			token.setTypeAtt(type);
 			return;

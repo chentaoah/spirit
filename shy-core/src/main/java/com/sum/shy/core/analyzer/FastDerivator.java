@@ -49,24 +49,12 @@ public class FastDerivator {
 				return getType(clazz, node.right);
 			}
 
-		} else if (token.isCast()) {// 类型转换
-			return new CodeType(clazz, token.getTypeNameAtt());
-
-		} else if (token.isInvoke()) {// 方法调用
-			return token.getTypeAtt();
-
-		} else if (token.isArrayInit()) {// 数组初始化
-			return new CodeType(clazz, token.getTypeNameAtt());
-
-		} else if (token.isValue()) {// 字面值
+		} else if (token.isValue()) {// 类型转换
 			return getValueType(clazz, token);
 
-		} else if (token.isVar()) {// 变量,小心fluent变量
-			return token.getTypeAtt();
-
-		} else if (token.isVisitArrayIndex()) {// 快速索引
-			return token.getTypeAtt();
-
+		} else {
+			if (token.getTypeAtt() != null)
+				return token.getTypeAtt();
 		}
 		return null;
 	}
