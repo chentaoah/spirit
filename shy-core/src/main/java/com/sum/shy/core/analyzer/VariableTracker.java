@@ -26,11 +26,7 @@ public class VariableTracker {
 	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			try {
-				findType(clazz, method, block, line, stmt, token);
-			} catch (Exception e) {
-				throw e;
-			}
+			findType(clazz, method, block, line, stmt, token);
 		}
 	}
 
