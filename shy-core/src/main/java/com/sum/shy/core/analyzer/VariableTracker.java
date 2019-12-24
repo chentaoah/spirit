@@ -76,7 +76,7 @@ public class VariableTracker {
 		for (CtField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
-					field.type = TypeVisiter.visitMember(clazz, field);
+					field.type = InvokeVisiter.visitMember(clazz, field);
 				return field.type;
 			}
 		}
@@ -84,13 +84,13 @@ public class VariableTracker {
 		for (CtField field : clazz.staticFields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)// 可能连锁推导时，字段还没有经过推导
-					field.type = TypeVisiter.visitMember(clazz, field);
+					field.type = InvokeVisiter.visitMember(clazz, field);
 				return field.type;
 			}
 		}
 		// 从继承里面去找
 		if (StringUtils.isNotEmpty(clazz.superName))
-			return TypeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName), name, null, null);
+			return InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName), name, null, null);
 
 		return null;
 

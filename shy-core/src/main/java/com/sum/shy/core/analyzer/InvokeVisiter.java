@@ -17,7 +17,7 @@ import com.sum.shy.core.type.api.Type;
 import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.lib.StringUtils;
 
-public class TypeVisiter {
+public class InvokeVisiter {
 
 	public static Type visitMember(CtClass clazz, Member member) {
 		// 上锁
@@ -28,7 +28,7 @@ public class TypeVisiter {
 				Stmt stmt = ((CtField) member).stmt;
 				if (stmt.isAssign()) {
 					VariableTracker.track(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
-					TypeVisiter.visitStmt(clazz, stmt);
+					InvokeVisiter.visitStmt(clazz, stmt);
 					type = FastDerivator.deriveExpress(clazz, stmt);
 				}
 

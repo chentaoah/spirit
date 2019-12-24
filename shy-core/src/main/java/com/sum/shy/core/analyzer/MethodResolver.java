@@ -107,7 +107,7 @@ public class MethodResolver {
 
 		} else {
 			VariableTracker.track(clazz, method, block, line, stmt);
-			TypeVisiter.visitStmt(clazz, stmt);
+			InvokeVisiter.visitStmt(clazz, stmt);
 		}
 
 		// 条件语句没必要那么快增加缩进
@@ -157,7 +157,7 @@ public class MethodResolver {
 			int end, int index, Filter filter) {
 		Stmt subStmt = stmt.subStmt(start, end);
 		VariableTracker.track(clazz, method, block, line, subStmt);
-		TypeVisiter.visitStmt(clazz, subStmt);
+		InvokeVisiter.visitStmt(clazz, subStmt);
 		Type type = FastDerivator.deriveExpress(clazz, subStmt);
 		if (filter != null)
 			type = filter.processType(type);

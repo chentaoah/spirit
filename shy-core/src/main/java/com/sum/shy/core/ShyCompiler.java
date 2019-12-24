@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.shy.core.analyzer.AutoImporter;
-import com.sum.shy.core.analyzer.TypeVisiter;
+import com.sum.shy.core.analyzer.InvokeVisiter;
 import com.sum.shy.core.clazz.api.Member;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Context;
@@ -71,7 +71,7 @@ public class ShyCompiler {
 
 	public static void visitClass(CtClass clazz) {
 		for (Member member : clazz.getAllMember()) {
-			member.setType(TypeVisiter.visitMember(clazz, member));
+			member.setType(InvokeVisiter.visitMember(clazz, member));
 		}
 	}
 
