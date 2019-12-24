@@ -139,18 +139,14 @@ public class InvokeVisiter {
 			List<Type> parameterTypes) {
 
 		if (type.isArray()) {// 如果是一个数组，只支持调用length
-
 			if ("length".equals(fieldName)) {
 				return new CodeType(clazz, "int");
-
 			} else if ("$array_index".equals(methodName)) {
 				return new CodeType(clazz, type.getTypeName());
-
 			}
 			throw new RuntimeException("Some functions of array are not supported yet!");
 
 		} else {
-
 			String className = type.getClassName();// 类名
 			if (Context.get().contains(className)) {// 看下上下文中是否包含
 				CtClass typeClass = Context.get().findClass(className);// 获取友元
