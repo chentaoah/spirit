@@ -112,6 +112,7 @@ public class MethodResolver {
 			VariableTracker.track(clazz, method, block, line, stmt);
 			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
 		}
+		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 条件语句没必要那么快增加缩进
 		String indent = LineUtils
