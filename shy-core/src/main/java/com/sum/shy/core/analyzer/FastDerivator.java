@@ -41,7 +41,7 @@ public class FastDerivator {
 		if (token.isLogicalOperator() || token.isInstanceof()) {
 			return new CodeType(clazz, "boolean");
 
-		} else if (token.isCalculateOperator()) {
+		} else if (token.isCalcOperator()) {
 			// 先取左边的，再取右边的
 			if (node.left != null) {
 				return getType(clazz, node.left);

@@ -171,7 +171,7 @@ public class Token {
 		return false;
 	}
 
-	public boolean isCalculateOperator() {
+	public boolean isCalcOperator() {
 		if (isOperator())
 			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
 					|| "*".equals(value) || "/".equals(value) || "%".equals(value);
