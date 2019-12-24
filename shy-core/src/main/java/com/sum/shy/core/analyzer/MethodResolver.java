@@ -84,44 +84,34 @@ public class MethodResolver {
 
 		// 某些语句,先行定义一些变量
 		if (stmt.isDeclare()) {
-			method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(0)), stmt.get(1)));
+			processDeclare(clazz, method, block, line, stmt, 0);
 
 		} else if (stmt.isCatch()) {
-			method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(2)), stmt.get(3)));
+			processDeclare(clazz, method, block, line, stmt, 2);
 
 		} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
 			// 处理表达式
 			Type type = processExpress(clazz, method, block, line, stmt, stmt.subStmt(3, stmt.size() - 1), 1);
 			// 如果是数组,则用数组内的类型
 			Type finalType = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
+			// 设置item类型
+			stmt.getToken(1).setTypeAtt(finalType);
 			// 添加变量到上下文
 			method.addVariable(new Variable(block, finalType, stmt.get(1)));
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
-
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
-			Stmt subStmt = Stmt.create(subText);
-			// 处理表达式
-			Type type = processExpress(clazz, method, block, line, subStmt, subStmt, 0);
-			// 添加变量到上下文
-			method.addVariable(new Variable(block, type, subStmt.get(0)));
+			// 统一处理赋值语句
+			processAssign(clazz, method, block, line, Stmt.create(subText));
 
 		} else if (stmt.isAssign()) {
-			// 处理表达式
-			Type type = processExpress(clazz, method, block, line, stmt, stmt, 0);
-			// 标记是否已经被声明
-			Token token = stmt.getToken(0);
-			token.setDeclaredAtt(token.getTypeAtt() != null);
-			// 添加变量到上下文
-			method.addVariable(new Variable(block, type, stmt.get(0)));
+			// 统一处理赋值语句
+			processAssign(clazz, method, block, line, stmt);
 
 		} else {
 			VariableTracker.track(clazz, method, block, line, stmt);
 			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
-
 		}
-		// 再校验一次!!!
-		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 条件语句没必要那么快增加缩进
 		String indent = LineUtils
@@ -176,6 +166,26 @@ public class MethodResolver {
 		Type type = FastDerivator.deriveExpress(clazz, express);
 
 		return type;
+	}
+
+	private static void processAssign(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
+		// 处理表达式
+		Type type = processExpress(clazz, method, block, line, stmt, stmt, 0);
+		// 标记是否已经被声明
+		Token token = stmt.getToken(0);
+		token.setDeclaredAtt(token.getTypeAtt() != null);
+		token.setTypeAtt(type);
+		// 添加变量到上下文
+		method.addVariable(new Variable(block, type, token.value.toString()));
+
+	}
+
+	private static void processDeclare(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt,
+			int typeIndex) {
+		Type type = new CodeType(clazz, stmt.getToken(typeIndex));
+		stmt.getToken(typeIndex + 1).setTypeAtt(type);
+		method.addVariable(new Variable(block, type, stmt.get(typeIndex + 1)));
+
 	}
 
 	public static class Position {
