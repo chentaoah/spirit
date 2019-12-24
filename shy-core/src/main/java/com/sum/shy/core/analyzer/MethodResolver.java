@@ -149,7 +149,7 @@ public class MethodResolver {
 
 		// 判断进入的深度
 		if ("}".equals(stmt.frist())) {
-			position.depth.decrementAndGet();// --
+			depth.decrementAndGet();// --
 		}
 		if ("{".equals(stmt.last())) {
 			depth.incrementAndGet();// ++
