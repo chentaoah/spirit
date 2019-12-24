@@ -25,8 +25,8 @@ public class TypeVisiter {
 	 * @param clazz
 	 */
 	public static void visitClass(CtClass clazz) {
-		for (Member element : clazz.getAllElement()) {
-			element.setType(visitElement(clazz, element));
+		for (Member element : clazz.getAllMember()) {
+			element.setType(visitMember(clazz, element));
 		}
 	}
 
@@ -37,7 +37,7 @@ public class TypeVisiter {
 	 * @param element
 	 * @return
 	 */
-	public static Type visitElement(CtClass clazz, Member element) {
+	public static Type visitMember(CtClass clazz, Member element) {
 		// 上锁
 		element.lock();
 		Type type = element.getType();
@@ -181,7 +181,7 @@ public class TypeVisiter {
 					// 存在该字段
 					if (typeClass.existField(fieldName)) {
 						CtField field = typeClass.findField(fieldName);
-						return visitElement(typeClass, field);// 可能字段类型还需要进行深度推导
+						return visitMember(typeClass, field);// 可能字段类型还需要进行深度推导
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {// 如果不存在该属性，则向上寻找
 						// 父类可能是java里面的类
@@ -197,7 +197,7 @@ public class TypeVisiter {
 					// 存在该方法
 					if (typeClass.existMethod(methodName, parameterTypes)) {
 						CtMethod method = typeClass.findMethod(methodName, parameterTypes);
-						return visitElement(typeClass, method);// 可能字段类型还需要进行深度推导
+						return visitMember(typeClass, method);// 可能字段类型还需要进行深度推导
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
 						return getReturnType(typeClass, new CodeType(typeClass, typeClass.superName), null, methodName,

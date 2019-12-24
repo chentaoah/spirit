@@ -26,6 +26,6 @@ public interface Container {
 
 	CtMethod findMethod(String methodName, List<Type> parameterTypes);
 
-	List<Member> getAllElement();
+	List<Member> getAllMember();
 
 }
