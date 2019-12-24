@@ -155,6 +155,10 @@ public class Token {
 		return isTypeInit() || isInvokeLocal() || isInvokeMethod();
 	}
 
+	public boolean isFluent() {
+		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
+	}
+
 	public boolean hasSubStmt() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
