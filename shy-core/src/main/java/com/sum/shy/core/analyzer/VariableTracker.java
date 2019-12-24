@@ -26,8 +26,7 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	@SuppressWarnings("unlikely-arg-type")
-	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int... ignores) {
+	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Integer... ignores) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			try {

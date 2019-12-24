@@ -117,11 +117,12 @@ public class MethodResolver {
 			method.addVariable(new Variable(block, type, stmt.get(0)));
 
 		} else {
-
 			VariableTracker.track(clazz, method, block, line, stmt);
 			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
 
 		}
+		// 再校验一次
+		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 条件语句没必要那么快增加缩进
 		String indent = LineUtils
@@ -167,7 +168,7 @@ public class MethodResolver {
 	}
 
 	private static Type processExpression(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt,
-			Stmt express, int... ignores) {
+			Stmt express, Integer... ignores) {
 		// 变量追踪
 		VariableTracker.track(clazz, method, block, line, stmt, ignores);
 		// 字面类型推导

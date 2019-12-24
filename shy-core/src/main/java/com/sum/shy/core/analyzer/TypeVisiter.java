@@ -19,39 +19,20 @@ import com.sum.shy.lib.StringUtils;
 
 public class TypeVisiter {
 
-	/**
-	 * 推导类
-	 * 
-	 * @param clazz
-	 */
-	public static void visitClass(CtClass clazz) {
-		for (Member member : clazz.getAllMember()) {
-			member.setType(visitMember(clazz, member));
-		}
-	}
-
-	/**
-	 * 如果字段类型还没有推导出来，则进行深度推导
-	 * 
-	 * @param clazz
-	 * @param element
-	 * @return
-	 */
-	public static Type visitMember(CtClass clazz, Member element) {
+	public static Type visitMember(CtClass clazz, Member member) {
 		// 上锁
-		element.lock();
-		Type type = element.getType();
+		member.lock();
+		Type type = member.getType();
 		if (type == null) {
+			if (member instanceof CtField) {
+				Stmt stmt = ((CtField) member).stmt;
+				VariableTracker.track(clazz, null, null, stmt.line, stmt, 0);
+				TypeVisiter.visitStmt(clazz, stmt);
+				type = FastDerivator.deriveExpression(clazz, stmt);
 
-			if (element instanceof CtField) {// 如果是字段
-				Stmt stmt = ((CtField) element).stmt;
-				VariableTracker.track(clazz, null, null, stmt.line, stmt);// 变量追踪一下
-				visitStmt(clazz, stmt);// 推导类型
-				type = FastDerivator.deriveExpression(clazz, stmt);// 快速推导
-
-			} else if (element instanceof CtMethod) {// 如果是方法
+			} else if (member instanceof CtMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
-				MethodResolver.resolve(clazz, (CtMethod) element, new Handler() {
+				MethodResolver.resolve(clazz, (CtMethod) member, new Handler() {
 					@Override
 					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
 							Stmt stmt) {
@@ -66,17 +47,15 @@ public class TypeVisiter {
 				});
 				type = holder.obj;
 			}
-
 		}
 		// 解锁
-		element.unLock();
+		member.unLock();
 		return type;
 	}
 
 	public static void visitStmt(CtClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			visitToken(clazz, stmt, i, token);
+			visitToken(clazz, stmt, i, stmt.getToken(i));
 		}
 	}
 
