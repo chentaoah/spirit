@@ -58,9 +58,9 @@ public class SemanticDelegate {
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*$");
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+$");
-	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-zA-Z0-9]+\\([\\s\\S]*\\)$");
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\([\\s\\S]*\\)$");
+	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*$");
+	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
