@@ -12,23 +12,20 @@ import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.type.api.Type;
 import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.core.type.impl.NativeType;
+import com.sum.shy.lib.StringUtils;
 
 public class NativeLinker {
 
-	public static Type getReturnType(CtClass ctClass, Type type, List<String> members, String methodName,
+	public static Type getReturnType(CtClass ctClass, Type type, String fieldName, String methodName,
 			List<Type> parameterTypes) {
 		// 类名
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
-			if (members != null && members.size() > 0) {
-				String member = members.remove(0);// 获取第一个属性
-				Field field = nativeType.clazz.getField(member);
-				Type returnType = visitElement(ctClass, nativeType, field.getGenericType());
-				if (members.size() > 0 || methodName != null)
-					returnType = getReturnType(ctClass, returnType, members, methodName, parameterTypes);
-				return returnType;
+			if (StringUtils.isNotEmpty(fieldName)) {
+				Field field = nativeType.clazz.getField(fieldName);
+				return visitElement(ctClass, nativeType, field.getGenericType());
 
-			} else if (methodName != null) {
+			} else if (StringUtils.isNotEmpty(methodName)) {
 				Method method = nativeType.findMethod(methodName, parameterTypes);
 				return visitElement(ctClass, nativeType, method.getGenericReturnType());
 			}
