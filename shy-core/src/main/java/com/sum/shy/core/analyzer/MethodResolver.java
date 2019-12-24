@@ -90,45 +90,36 @@ public class MethodResolver {
 			method.addVariable(new Variable(block, new CodeType(clazz, stmt.getToken(2)), stmt.get(3)));
 
 		} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
-			String name = stmt.get(1);// 名称
-			Token token = stmt.getToken(3);// 集合
-			VariableTracker.findType(clazz, method, block, line, stmt, token);// 只针对list
-			TypeVisiter.visitStmt(clazz, stmt);// 只针对list
-			Type returnType = FastDerivator.getType(clazz, stmt.subStmt(3, stmt.size() - 1));// 只针对list
+			// 处理表达式
+			Type type = processExpression(clazz, method, block, line, stmt, stmt.subStmt(3, stmt.size() - 1), 1);
 			// 如果是数组,则用数组内的类型
-			Type finalType = returnType.isArray() ? new CodeType(clazz, returnType.getTypeName())
-					: returnType.getGenericTypes().get(0);
-			method.addVariable(new Variable(block, finalType, name));
+			Type finalType = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
+			// 添加变量到上下文
+			method.addVariable(new Variable(block, finalType, stmt.get(1)));
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
+
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
 			Stmt subStmt = Stmt.create(subText);
-			VariableTracker.track(clazz, method, block, line, subStmt);// 变量追踪
-			TypeVisiter.visitStmt(clazz, subStmt);// 返回值推导
-			Type type = FastDerivator.getType(clazz, subStmt);// 类型推导
+			// 处理表达式
+			Type type = processExpression(clazz, method, block, line, subStmt, subStmt, 0);
+			// 添加变量到上下文
 			method.addVariable(new Variable(block, type, subStmt.get(0)));
 
-		}
-
-		// 变量追踪
-		VariableTracker.track(clazz, method, block, line, stmt);
-		// 快速遍历一行
-		TypeVisiter.visitStmt(clazz, stmt);
-
-		if (stmt.isAssign()) {
-			// 判断变量追踪是否帮我们找到了该变量的类型
+		} else if (stmt.isAssign()) {
+			// 处理表达式
+			Type type = processExpression(clazz, method, block, line, stmt, stmt, 0);
+			// 标记是否已经被声明
 			Token token = stmt.getToken(0);
-			// 如果变量追踪,并没有找到类型声明
-			if (token.isVar() && !token.isDeclaredAtt()) {
-				// 这里使用了快速推导,但是返回的类型并不是最终类型
-				Type type = FastDerivator.getType(clazz, stmt);
-				if (type == null)
-					System.out.println(stmt);
-				// 设置类型
-				token.setTypeAtt(type);
-				// 添加到方法变量里
-				method.addVariable(new Variable(block, type, stmt.get(0)));
-			}
+			token.setDeclaredAtt(token.getTypeAtt() != null);
+			token.setTypeAtt(type);
+			// 添加变量到上下文
+			method.addVariable(new Variable(block, type, stmt.get(0)));
+
+		} else {
+
+			VariableTracker.track(clazz, method, block, line, stmt);
+			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
 
 		}
 
@@ -173,6 +164,18 @@ public class MethodResolver {
 			sb.deleteCharAt(sb.length() - 1);
 
 		return sb.toString();
+	}
+
+	private static Type processExpression(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt,
+			Stmt express, int... ignores) {
+		// 变量追踪
+		VariableTracker.track(clazz, method, block, line, stmt, ignores);
+		// 字面类型推导
+		TypeVisiter.visitStmt(clazz, stmt);
+		// 推导表达式的返回类型
+		Type type = FastDerivator.deriveExpression(clazz, express);
+
+		return type;
 	}
 
 	public static class Position {

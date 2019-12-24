@@ -1,5 +1,7 @@
 package com.sum.shy.core.analyzer;
 
+import java.util.Arrays;
+
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
@@ -24,19 +26,15 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-		// 直接遍历
+	@SuppressWarnings("unlikely-arg-type")
+	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int... ignores) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			try {
 				findType(clazz, method, block, line, stmt, token);
-
 			} catch (Exception e) {
-				if (stmt.isAssign() && i == 0) {
-					token.setDeclaredAtt(false);
-				} else {
+				if (!Arrays.asList(ignores).contains(i))
 					throw e;
-				}
 			}
 		}
 	}
