@@ -77,27 +77,10 @@ public class MethodResolver {
 	private static Object resolveStmt(CtClass clazz, CtMethod method, Handler handler, Position position, Line line,
 			Stmt stmt) {
 
-		AtomicInteger depth = position.depth;
-		List<Integer> counts = position.counts;
-
-		boolean inCondition = false;
-		// 判断进入的深度
-		if ("}".equals(stmt.frist())) {
-			position.depth.decrementAndGet();// --
-		}
-		if ("{".equals(stmt.last())) {
-			depth.incrementAndGet();// ++
-			counts.set(depth.get(), counts.get(depth.get()) + 1);
-			inCondition = true;
-		}
-		// 生成block
-		StringBuilder sb = new StringBuilder();
-		for (int j = 0; j < depth.get(); j++) {
-			sb.append(counts.get(depth.get()) + "-");
-		}
-		if (sb.length() > 0)
-			sb.deleteCharAt(sb.length() - 1);
-		String block = sb.toString();
+		// 根据{和}重新计算位置
+		boolean inCondition = calcPosition(position, stmt);
+		// 根据位置生成块的标记
+		String block = getBlock(position);
 
 		// 某些语句,先行定义一些变量
 		if (stmt.isDeclare()) {
@@ -150,11 +133,46 @@ public class MethodResolver {
 		}
 
 		// 条件语句没必要那么快增加缩进
-		String indent = LineUtils.getIndentByNumber(inCondition ? depth.get() + 2 - 1 : depth.get() + 2);
+		String indent = LineUtils
+				.getIndentByNumber(inCondition ? position.depth.get() + 2 - 1 : position.depth.get() + 2);
 
 		Object result = handler.handle(clazz, method, indent, block, line, stmt);
 		return result;
 
+	}
+
+	private static boolean calcPosition(Position position, Stmt stmt) {
+
+		AtomicInteger depth = position.depth;
+		List<Integer> counts = position.counts;
+		boolean inCondition = false;
+
+		// 判断进入的深度
+		if ("}".equals(stmt.frist())) {
+			position.depth.decrementAndGet();// --
+		}
+		if ("{".equals(stmt.last())) {
+			depth.incrementAndGet();// ++
+			counts.set(depth.get(), counts.get(depth.get()) + 1);
+			inCondition = true;
+		}
+
+		return inCondition;
+	}
+
+	private static String getBlock(Position position) {
+
+		AtomicInteger depth = position.depth;
+		List<Integer> counts = position.counts;
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < depth.get(); i++) {
+			sb.append(counts.get(depth.get()) + "-");
+		}
+		if (sb.length() > 0)
+			sb.deleteCharAt(sb.length() - 1);
+
+		return sb.toString();
 	}
 
 	public static class Position {
