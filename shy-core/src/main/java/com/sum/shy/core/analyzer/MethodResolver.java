@@ -14,6 +14,7 @@ import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.api.Type;
 import com.sum.shy.core.type.impl.CodeType;
 import com.sum.shy.core.utils.LineUtils;
+import com.sum.shy.lib.Collection;
 
 /**
  * 快速遍历器,快速遍历一个方法里面的所有结构
@@ -34,17 +35,7 @@ public class MethodResolver {
 	 */
 	public static Object resolve(CtClass clazz, CtMethod method, Handler handler) {
 
-		AtomicInteger depth = new AtomicInteger(0);
-		// 这里默认给了八级的深度
-		List<Integer> counts = new ArrayList<>();
-		counts.add(1);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
-		counts.add(0);
+		Position position = new Position();
 
 		List<Line> lines = method.methodLines;
 		for (int i = 0; i < lines.size(); i++) {
@@ -63,16 +54,16 @@ public class MethodResolver {
 						String text = subStmt.toString();
 						if (count == 0)
 							text = text + " {";
-						resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create(text));
+						resolveStmt(clazz, method, handler, position, line, Stmt.create(text));
 						count++;
 					}
-					resolveStmt(clazz, method, handler, depth, counts, line, Stmt.create("}"));
+					resolveStmt(clazz, method, handler, position, line, Stmt.create("}"));
 					continue;
 				}
 			}
 
 			// 其他语句走默认分支
-			Object result = resolveStmt(clazz, method, handler, depth, counts, line, stmt);
+			Object result = resolveStmt(clazz, method, handler, position, line, stmt);
 			if (result != null) {
 				method.variables.clear();// 返回前,清理掉所有的变量
 				return result;
@@ -84,13 +75,16 @@ public class MethodResolver {
 
 	}
 
-	private static Object resolveStmt(CtClass clazz, CtMethod method, Handler handler, AtomicInteger depth,
-			List<Integer> counts, Line line, Stmt stmt) {
+	private static Object resolveStmt(CtClass clazz, CtMethod method, Handler handler, Position position, Line line,
+			Stmt stmt) {
+
+		AtomicInteger depth = position.depth;
+		List<Integer> counts = position.counts;
 
 		boolean inCondition = false;
 		// 判断进入的深度
 		if ("}".equals(stmt.frist())) {
-			depth.decrementAndGet();// --
+			position.depth.decrementAndGet();// --
 		}
 		if ("{".equals(stmt.last())) {
 			depth.incrementAndGet();// ++
@@ -145,13 +139,9 @@ public class MethodResolver {
 			// 如果变量追踪,并没有找到类型声明
 			if (token.isVar() && !token.isDeclaredAtt()) {
 				// 这里使用了快速推导,但是返回的类型并不是最终类型
-				if (stmt.toString().equals("a = getFather().getChild().getFather().name")) {
-					System.out.println("");
-				}
 				Type type = FastDerivator.getType(clazz, stmt);
-				if (type == null) {
-					System.out.println(stmt.toString());
-				}
+				if (type == null)
+					System.out.println(stmt);
 				// 设置类型
 				token.setTypeAtt(type);
 				// 添加到方法变量里
@@ -165,6 +155,14 @@ public class MethodResolver {
 
 		Object result = handler.handle(clazz, method, indent, block, line, stmt);
 		return result;
+
+	}
+
+	public static class Position {
+
+		public AtomicInteger depth = new AtomicInteger(0);
+		// 这里默认给了八级的深度
+		public List<Integer> counts = Collection.newArrayList(1, 0, 0, 0, 0, 0, 0, 0);
 
 	}
 
