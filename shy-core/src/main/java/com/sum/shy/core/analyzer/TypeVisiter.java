@@ -25,8 +25,8 @@ public class TypeVisiter {
 	 * @param clazz
 	 */
 	public static void visitClass(CtClass clazz) {
-		for (Member element : clazz.getAllMember()) {
-			element.setType(visitMember(clazz, element));
+		for (Member member : clazz.getAllMember()) {
+			member.setType(visitMember(clazz, member));
 		}
 	}
 
