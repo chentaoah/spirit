@@ -55,12 +55,6 @@ public class VariableTracker {
 
 	}
 
-	private static void checkType(Line line, String name, Type type) {
-		if (type == null)
-			throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
-					+ line.text.trim() + " ], var:[" + name + "]");
-	}
-
 	public static Type findType(CtClass clazz, CtMethod method, String block, String name) {
 		// this引用，指向的是这个类本身
 		if ("this".equals(name))
@@ -104,6 +98,12 @@ public class VariableTracker {
 
 		return null;
 
+	}
+
+	private static void checkType(Line line, String name, Type type) {
+		if (type == null)
+			throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
+					+ line.text.trim() + " ], var:[" + name + "]");
 	}
 
 }
