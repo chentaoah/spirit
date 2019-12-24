@@ -21,7 +21,7 @@ import com.sum.shy.core.utils.ReflectUtils;
  */
 public class FastDerivator {
 
-	public static Type deriveExpression(CtClass clazz, Stmt stmt) {
+	public static Type deriveExpress(CtClass clazz, Stmt stmt) {
 
 		// 如果是赋值语句,并且第一个变量已经被声明,则返回该变量的声明
 		if (stmt.isAssign()) {
@@ -93,7 +93,7 @@ public class FastDerivator {
 		// 开始遍历
 		Stmt stmt = (Stmt) token.value;
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			Type type = deriveExpression(clazz, subStmt);
+			Type type = deriveExpress(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (genericType != null) {
 					if (!genericType.equals(type)) {// 如果存在多个类型
@@ -124,8 +124,8 @@ public class FastDerivator {
 		Stmt stmt = (Stmt) token.value;
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
-			Type KeyType = deriveExpression(clazz, subStmts.get(0));
-			Type valueType = deriveExpression(clazz, subStmts.get(1));
+			Type KeyType = deriveExpress(clazz, subStmts.get(0));
+			Type valueType = deriveExpress(clazz, subStmts.get(1));
 			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalKeyType != null) {
 					if (!finalKeyType.equals(KeyType)) {// 如果存在多个类型

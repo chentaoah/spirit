@@ -91,7 +91,7 @@ public class MethodResolver {
 
 		} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
 			// 处理表达式
-			Type type = processExpression(clazz, method, block, line, stmt, stmt.subStmt(3, stmt.size() - 1), 1);
+			Type type = processExpress(clazz, method, block, line, stmt, stmt.subStmt(3, stmt.size() - 1), 1);
 			// 如果是数组,则用数组内的类型
 			Type finalType = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
 			// 添加变量到上下文
@@ -102,13 +102,13 @@ public class MethodResolver {
 			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
 			Stmt subStmt = Stmt.create(subText);
 			// 处理表达式
-			Type type = processExpression(clazz, method, block, line, subStmt, subStmt, 0);
+			Type type = processExpress(clazz, method, block, line, subStmt, subStmt, 0);
 			// 添加变量到上下文
 			method.addVariable(new Variable(block, type, subStmt.get(0)));
 
 		} else if (stmt.isAssign()) {
 			// 处理表达式
-			Type type = processExpression(clazz, method, block, line, stmt, stmt, 0);
+			Type type = processExpress(clazz, method, block, line, stmt, stmt, 0);
 			// 标记是否已经被声明
 			Token token = stmt.getToken(0);
 			token.setDeclaredAtt(token.getTypeAtt() != null);
@@ -167,14 +167,14 @@ public class MethodResolver {
 		return sb.toString();
 	}
 
-	private static Type processExpression(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt,
-			Stmt express, Integer... ignores) {
+	private static Type processExpress(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Stmt express,
+			Integer... ignores) {
 		// 变量追踪
 		VariableTracker.track(clazz, method, block, line, stmt, ignores);
 		// 字面类型推导
 		TypeVisiter.visitStmt(clazz, stmt);
 		// 推导表达式的返回类型
-		Type type = FastDerivator.deriveExpression(clazz, express);
+		Type type = FastDerivator.deriveExpress(clazz, express);
 
 		return type;
 	}

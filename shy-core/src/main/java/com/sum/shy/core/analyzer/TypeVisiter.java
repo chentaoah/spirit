@@ -28,7 +28,7 @@ public class TypeVisiter {
 				Stmt stmt = ((CtField) member).stmt;
 				VariableTracker.track(clazz, null, null, stmt.line, stmt, 0);
 				TypeVisiter.visitStmt(clazz, stmt);
-				type = FastDerivator.deriveExpression(clazz, stmt);
+				type = FastDerivator.deriveExpress(clazz, stmt);
 
 			} else if (member instanceof CtMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
@@ -38,7 +38,7 @@ public class TypeVisiter {
 							Stmt stmt) {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
-							Type returnType = FastDerivator.deriveExpression(clazz, stmt.subStmt(1, stmt.size()));
+							Type returnType = FastDerivator.deriveExpress(clazz, stmt.subStmt(1, stmt.size()));
 							if (returnType != null)
 								holder.obj = returnType;
 						}
@@ -79,7 +79,7 @@ public class TypeVisiter {
 
 		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 			Stmt subStmt = (Stmt) token.value;
-			token.setTypeAtt(FastDerivator.deriveExpression(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
+			token.setTypeAtt(FastDerivator.deriveExpress(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isCast()) {
 			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
@@ -125,7 +125,7 @@ public class TypeVisiter {
 			if (stmt.size() > 3) {// 方法里面必须有参数
 				List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 				for (Stmt subStmt : subStmts) {
-					Type parameterType = FastDerivator.deriveExpression(clazz, subStmt);
+					Type parameterType = FastDerivator.deriveExpress(clazz, subStmt);
 					parameterTypes.add(parameterType);
 				}
 			}
