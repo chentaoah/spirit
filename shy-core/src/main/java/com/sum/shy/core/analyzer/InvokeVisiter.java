@@ -90,13 +90,15 @@ public class InvokeVisiter {
 
 		// 参数类型，为了像java那样支持重载
 		List<Type> parameterTypes = getParameterTypes(clazz, token);
-
-		if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-			Stmt subStmt = (Stmt) token.value;
-			token.setTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
+		if (token.isType()) {
+			token.setTypeAtt(new CodeType(clazz, token));
 
 		} else if (token.isTypeInit()) {
 			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
+
+		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
+			Stmt subStmt = (Stmt) token.value;
+			token.setTypeAtt(FastDerivator.getType(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
