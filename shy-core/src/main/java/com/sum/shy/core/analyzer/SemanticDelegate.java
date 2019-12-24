@@ -354,11 +354,7 @@ public class SemanticDelegate {
 
 	private static void getAttachments(Token token, String word) {
 
-		if (token.isType()) {
-			token.setTypeNameAtt(word);
-			return;
-
-		} else if (token.isArrayInit()) {// 强制类型转换
+		if (token.isArrayInit()) {// 强制类型转换
 			token.setTypeNameAtt(getArrayInitType(word));
 			return;
 
@@ -378,11 +374,11 @@ public class SemanticDelegate {
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
-		} else if (token.isInvokeMethod()) {// 流式调用
+		} else if (token.isInvokeMethod()) {
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
-		} else if (token.isVisitArrayIndex() || token.isArrayIndex()) {// 流式成员变量
+		} else if (token.isVisitArrayIndex() || token.isArrayIndex()) {
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
