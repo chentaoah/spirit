@@ -1,7 +1,5 @@
 package com.sum.shy.core.analyzer;
 
-import java.util.Arrays;
-
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtField;
 import com.sum.shy.core.clazz.impl.CtMethod;
@@ -12,7 +10,6 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.api.Type;
 import com.sum.shy.core.type.impl.CodeType;
-import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -26,14 +23,13 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Integer... ignores) {
+	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			try {
 				findType(clazz, method, block, line, stmt, token);
 			} catch (Exception e) {
-				if (!Arrays.asList(ignores).contains(i))
-					throw e;
+				throw e;
 			}
 		}
 	}
@@ -41,48 +37,49 @@ public class VariableTracker {
 	public static void findType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token) {
 
 		if (token.isVar()) {
-			findVariableType(clazz, method, block, line, stmt, token, (String) token.value);
+			String name = token.value.toString();
+			Type type = findType(clazz, method, block, name);
+			checkType(line, name, type);
+			token.setTypeAtt(type);
 
 		} else if (token.isArrayIndex()) {
-			findVariableType(clazz, method, block, line, stmt, token, token.getMemberNameAtt());
+			String name = token.getMemberNameAtt();
+			Type type = findType(clazz, method, block, name);
+			checkType(line, name, type);
+			token.setTypeAtt(type);
 
 		}
-
 		if (token.hasSubStmt()) {
 			track(clazz, method, block, line, (Stmt) token.value);
 		}
 
 	}
 
-	public static void findVariableType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token,
-			String name) {
+	private static void checkType(Line line, String name, Type type) {
+		if (type == null)
+			throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
+					+ line.text.trim() + " ], var:[" + name + "]");
+	}
+
+	public static Type findType(CtClass clazz, CtMethod method, String block, String name) {
 		// this引用，指向的是这个类本身
-		if ("this".equals(name)) {
-			// 这里可能是比较隐晦的逻辑，因为
-			token.setTypeAtt(new CodeType(clazz, clazz.getClassName(), clazz.typeName));
-			return;
-		}
+		if ("this".equals(name))
+			return new CodeType(clazz, clazz.getClassName(), clazz.typeName);// 这里可能是比较隐晦的逻辑，因为
+
 		// super引用,指向的是父类
-		if ("super".equals(name)) {
-			// 这里可能是比较隐晦的逻辑，因为
-			token.setTypeAtt(new CodeType(clazz, clazz.superName));
-			return;
-		}
+		if ("super".equals(name))
+			return new CodeType(clazz, clazz.superName);// 这里可能是比较隐晦的逻辑，因为
 
 		// 先在最近的位置找变量
 		if (method != null) {
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			Variable variable = method.findVariable(block, name);
-			if (variable != null) {
-				token.setTypeAtt(variable.type);
-				return;
-			}
+			if (variable != null)
+				return variable.type;
 			// 如果在成员变量中没有声明,则查看方法内是否声明
 			for (Param param : method.params) {
-				if (param.name.equals(name)) {
-					token.setTypeAtt(param.type);
-					return;
-				}
+				if (param.name.equals(name))
+					return param.type;
 			}
 		}
 		// 成员变量
@@ -90,8 +87,7 @@ public class VariableTracker {
 			if (field.name.equals(name)) {
 				if (field.type == null)
 					field.type = TypeVisiter.visitMember(clazz, field);
-				token.setTypeAtt(field.type);
-				return;
+				return field.type;
 			}
 		}
 		// 静态成员变量
@@ -99,21 +95,14 @@ public class VariableTracker {
 			if (field.name.equals(name)) {
 				if (field.type == null)// 可能连锁推导时，字段还没有经过推导
 					field.type = TypeVisiter.visitMember(clazz, field);
-				token.setTypeAtt(field.type);
-				return;
+				return field.type;
 			}
 		}
-
 		// 从继承里面去找
-		if (StringUtils.isNotEmpty(clazz.superName)) {
-			Type type = TypeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName),
-					Collection.newArrayList(name), null, null);
-			token.setTypeAtt(type);
-			return;
-		}
+		if (StringUtils.isNotEmpty(clazz.superName))
+			return TypeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName), name, null, null);
 
-		throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ " + line.text.trim()
-				+ " ], var:[" + name + "]");
+		return null;
 
 	}
 

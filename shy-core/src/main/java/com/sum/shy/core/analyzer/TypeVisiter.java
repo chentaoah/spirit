@@ -26,9 +26,11 @@ public class TypeVisiter {
 		if (type == null) {
 			if (member instanceof CtField) {
 				Stmt stmt = ((CtField) member).stmt;
-				VariableTracker.track(clazz, null, null, stmt.line, stmt, 0);
-				TypeVisiter.visitStmt(clazz, stmt);
-				type = FastDerivator.deriveExpress(clazz, stmt);
+				if (stmt.isAssign()) {
+					VariableTracker.track(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
+					TypeVisiter.visitStmt(clazz, stmt);
+					type = FastDerivator.deriveExpress(clazz, stmt);
+				}
 
 			} else if (member instanceof CtMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
@@ -196,7 +198,7 @@ public class TypeVisiter {
 			}
 		}
 
-		throw new RuntimeException("Cannot deduce returned type!");
+		return null;
 
 	}
 

@@ -82,37 +82,33 @@ public class MethodResolver {
 		// 根据位置生成块的标记
 		String block = getBlock(position);
 
-		// 某些语句,先行定义一些变量
-		if (stmt.isDeclare()) {
-			processDeclare(clazz, method, block, line, stmt, 0);
+		if (stmt.isDeclare()) {// Type type
+			processBridge(clazz, method, block, line, stmt, 0, 1, 1, null);
 
-		} else if (stmt.isCatch()) {
-			processDeclare(clazz, method, block, line, stmt, 2);
+		} else if (stmt.isCatch()) {// }catch Exception e{
+			processBridge(clazz, method, block, line, stmt, 2, 3, 3, null);
 
-		} else if (stmt.isForIn()) {// for item in list {循环里面,也可以定义变量
-			// 处理表达式
-			Type type = processExpress(clazz, method, block, line, stmt, stmt.subStmt(3, stmt.size() - 1), 1);
-			// 如果是数组,则用数组内的类型
-			Type finalType = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
-			// 设置item类型
-			stmt.getToken(1).setTypeAtt(finalType);
-			// 添加变量到上下文
-			method.addVariable(new Variable(block, finalType, stmt.get(1)));
+		} else if (stmt.isForIn()) {// for item in list {
+			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1, new Filter() {
+				@Override
+				public Type processType(Type type) {// 如果是数组,则用数组内的类型
+					return type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
+				}
+			});
 
-		} else if (stmt.isFor()) {// for i=0; i<100; i++ {循环里面,也可以定义变量
-			String subText = line.text.substring(line.text.indexOf("for ") + 3, line.text.indexOf(";"));
-			// 统一处理赋值语句
-			processAssign(clazz, method, block, line, Stmt.create(subText));
+		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
+			processBridge(clazz, method, block, line, stmt, stmt.indexOf("=") + 1, stmt.indexOf(";"), 1, null);
 
-		} else if (stmt.isAssign()) {
-			// 统一处理赋值语句
-			processAssign(clazz, method, block, line, stmt);
+		} else if (stmt.isAssign()) {// var=list.get(0)
+			Token token = stmt.getToken(0);
+			Type type = VariableTracker.findType(clazz, method, block, token.value.toString());
+			token.setDeclaredAtt(type != null);
+			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
 
 		} else {
 			VariableTracker.track(clazz, method, block, line, stmt);
-			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
+			TypeVisiter.visitStmt(clazz, stmt);
 		}
-		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 条件语句没必要那么快增加缩进
 		String indent = LineUtils
@@ -157,44 +153,28 @@ public class MethodResolver {
 		return sb.toString();
 	}
 
-	private static Type processExpress(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Stmt express,
-			Integer... ignores) {
-		// 变量追踪
-		VariableTracker.track(clazz, method, block, line, stmt, ignores);
-		// 字面类型推导
-		TypeVisiter.visitStmt(clazz, stmt);
-		// 推导表达式的返回类型
-		Type type = FastDerivator.deriveExpress(clazz, express);
-
-		return type;
-	}
-
-	private static void processAssign(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-		// 处理表达式
-		Type type = processExpress(clazz, method, block, line, stmt, stmt, 0);
-		// 标记是否已经被声明
-		Token token = stmt.getToken(0);
-		token.setDeclaredAtt(token.getTypeAtt() != null);
+	private static void processBridge(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int start,
+			int end, int index, Filter filter) {
+		Stmt subStmt = stmt.subStmt(start, end);
+		VariableTracker.track(clazz, method, block, line, subStmt);
+		TypeVisiter.visitStmt(clazz, subStmt);
+		Type type = FastDerivator.deriveExpress(clazz, subStmt);
+		if (filter != null)
+			type = filter.processType(type);
+		Token token = stmt.getToken(index);
 		token.setTypeAtt(type);
-		// 添加变量到上下文
 		method.addVariable(new Variable(block, type, token.value.toString()));
-
-	}
-
-	private static void processDeclare(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt,
-			int typeIndex) {
-		Type type = new CodeType(clazz, stmt.getToken(typeIndex));
-		stmt.getToken(typeIndex + 1).setTypeAtt(type);
-		method.addVariable(new Variable(block, type, stmt.get(typeIndex + 1)));
-
 	}
 
 	public static class Position {
-
+		// 深度
 		public AtomicInteger depth = new AtomicInteger(0);
 		// 这里默认给了八级的深度
 		public List<Integer> counts = Collection.newArrayList(1, 0, 0, 0, 0, 0, 0, 0);
+	}
 
+	public static interface Filter {
+		Type processType(Type type);
 	}
 
 }

@@ -112,6 +112,16 @@ public class Stmt {
 		return new Stmt(newTokens);
 	}
 
+	public int indexOf(String str) {
+		for (int i = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	@Override
 	public String toString() {
 		// 如果没有token,则直接返回line
