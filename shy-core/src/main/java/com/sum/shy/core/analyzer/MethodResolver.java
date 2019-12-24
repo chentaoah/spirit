@@ -112,7 +112,6 @@ public class MethodResolver {
 			// 标记是否已经被声明
 			Token token = stmt.getToken(0);
 			token.setDeclaredAtt(token.getTypeAtt() != null);
-			token.setTypeAtt(type);
 			// 添加变量到上下文
 			method.addVariable(new Variable(block, type, stmt.get(0)));
 
@@ -121,7 +120,7 @@ public class MethodResolver {
 			TypeVisiter.visitStmt(clazz, stmt);// 返回值推导
 
 		}
-		// 再校验一次
+		// 再校验一次!!!
 		VariableTracker.track(clazz, method, block, line, stmt);
 
 		// 条件语句没必要那么快增加缩进
