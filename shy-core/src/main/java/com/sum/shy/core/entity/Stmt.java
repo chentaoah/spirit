@@ -58,24 +58,24 @@ public class Stmt {
 		this.tokens = tokens;
 	}
 
-	public String get(int index) {// 修改为从token获取字符串
-		return getToken(index).value.toString();
+	public int size() {
+		return tokens.size();
 	}
 
 	public Token getToken(int index) {
 		return tokens.get(index);
 	}
 
-	public int size() {
-		return tokens.size();
+	public String get(int index) {// 修改为从token获取字符串
+		return getToken(index).value.toString();
 	}
 
 	public String frist() {
-		return tokens.get(0).value.toString();
+		return get(0);
 	}
 
 	public String last() {
-		return tokens.get(tokens.size() - 1).value.toString();
+		return get(size() - 1);
 	}
 
 	public Stmt subStmt(int start, int end) {
@@ -96,7 +96,6 @@ public class Stmt {
 				subStmts.add(subStmt);
 			}
 		}
-//		System.out.println(subStmts);
 		return subStmts;
 	}
 
