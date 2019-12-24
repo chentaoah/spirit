@@ -330,19 +330,19 @@ public class SemanticDelegate {
 
 	}
 
-	private static Stmt getSubStmt(Token token, String word, String start, String end) {
+	private static Stmt getSubStmt(Token token, String word, String left, String right) {
 		// 开始位置
-		int startIndex = word.indexOf(start);
+		int start = word.indexOf(left);
 		// 结束位置
-		int endIndex = word.indexOf(end);
+		int end = word.lastIndexOf(right);
 		// 前缀
-		String prefix = startIndex != 0 ? word.substring(0, startIndex) : null;
+		String prefix = start != 0 ? word.substring(0, start) : null;
 		// 内容
-		String content = word.substring(startIndex + 1, endIndex);
+		String content = word.substring(start + 1, end);
 		// 分解内容
 		List<String> subWords = LexicalAnalyzer.getWords(content);
-		subWords.add(0, start);
-		subWords.add(end);
+		subWords.add(0, left);
+		subWords.add(right);
 		// 获取tokens
 		List<Token> subTokens = getTokens(null, subWords);
 		// 追加一个元素在头部

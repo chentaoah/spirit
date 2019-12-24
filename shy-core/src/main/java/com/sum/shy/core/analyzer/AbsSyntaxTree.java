@@ -200,7 +200,7 @@ public class AbsSyntaxTree {
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(100)));
 		}
 
-		String text = "var = true || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object || !(x > 0 || y < 100)";
+//		String text = "var = true || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object || !(x > 0 || y < 100)";
 //		String text = "((x+1>0)&&(y<100)) && s==\"test\"";
 //		String text = "(int)var + 1000 + list.size().toString()";
 //		String text = "(int)obj.toString().length+ 100";
@@ -208,6 +208,7 @@ public class AbsSyntaxTree {
 //		String text = "map={\"key1\":100}.getSize().toString()+100>0";
 //		String text = "b= x >= 100";
 //		String text = "b=((String)list.get(1)).length() <= 100";
+		String text = "b=x>=((String)list.get(1)).length().get().set()";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());
