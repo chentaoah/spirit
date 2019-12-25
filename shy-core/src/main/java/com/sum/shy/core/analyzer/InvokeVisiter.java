@@ -136,11 +136,9 @@ public class InvokeVisiter {
 	}
 
 	public static Type visitField(CtClass clazz, Type type, String fieldName) {
-
 		if (type.isArray()) {
-			if ("length".equals(fieldName)) {
+			if ("length".equals(fieldName))
 				return new CodeType(clazz, "int");
-			}
 			throw new RuntimeException("Some functions of array are not supported yet!");
 		} else {
 			String className = type.getClassName();
@@ -167,9 +165,8 @@ public class InvokeVisiter {
 
 	public static Type visitMethod(CtClass clazz, Type type, String methodName, List<Type> parameterTypes) {
 		if (type.isArray()) {
-			if ("$array_index".equals(methodName)) {
+			if ("$array_index".equals(methodName))
 				return new CodeType(clazz, type.getTypeName());
-			}
 			throw new RuntimeException("Some functions of array are not supported yet!");
 		} else {
 			String className = type.getClassName();
@@ -187,9 +184,6 @@ public class InvokeVisiter {
 						return visitMethod(typeClass, new CodeType(typeClass, typeClass.superName), methodName,
 								parameterTypes);
 					}
-					throw new RuntimeException(String.format(
-							"The method could not be found!inClass:[%s], type:[%s], methodName:[%s], parameterTypes:%s",
-							clazz.getClassName(), type, methodName, parameterTypes));
 				}
 			} else {
 				return NativeLinker.getReturnType(clazz, type, null, methodName, parameterTypes);
