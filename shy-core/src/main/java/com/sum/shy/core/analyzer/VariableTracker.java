@@ -90,7 +90,7 @@ public class VariableTracker {
 		}
 		// 从继承里面去找
 		if (StringUtils.isNotEmpty(clazz.superName))
-			return InvokeVisiter.getReturnType(clazz, new CodeType(clazz, clazz.superName), name, null, null);
+			return InvokeVisiter.visitField(clazz, new CodeType(clazz, clazz.superName), name);
 
 		return null;
 

@@ -88,12 +88,12 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
-			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getMemberNameAtt(), null, null);
+			Type returnType = visitField(clazz, type, token.getMemberNameAtt());
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
@@ -101,19 +101,19 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, null, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
 			Token lastToken = stmt.getToken(index - 1);
 			Type type = lastToken.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, token.getMemberNameAtt(), null, null);
-			returnType = getReturnType(clazz, returnType, null, "$array_index", null);
+			Type returnType = visitField(clazz, type, token.getMemberNameAtt());
+			returnType = visitMethod(clazz, returnType, "$array_index", null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isArrayIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = getReturnType(clazz, type, null, "$array_index", null);
+			Type returnType = visitMethod(clazz, type, "$array_index", null);
 			token.setTypeAtt(returnType);
 		}
 
@@ -135,67 +135,67 @@ public class InvokeVisiter {
 		return parameterTypes;
 	}
 
-	public static Type getReturnType(CtClass clazz, Type type, String fieldName, String methodName,
-			List<Type> parameterTypes) {
+	public static Type visitField(CtClass clazz, Type type, String fieldName) {
 
-		if (type.isArray()) {// 如果是一个数组，只支持调用length
+		if (type.isArray()) {
 			if ("length".equals(fieldName)) {
 				return new CodeType(clazz, "int");
-			} else if ("$array_index".equals(methodName)) {
-				return new CodeType(clazz, type.getTypeName());
 			}
 			throw new RuntimeException("Some functions of array are not supported yet!");
-
 		} else {
-			String className = type.getClassName();// 类名
-			if (Context.get().contains(className)) {// 看下上下文中是否包含
-				CtClass typeClass = Context.get().findClass(className);// 获取友元
+			String className = type.getClassName();
+			if (Context.get().contains(className)) {
+				CtClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(fieldName)) {
-					// 特殊属性class
 					if ("class".equals(fieldName)) {
 						return new CodeType(typeClass, "Class<?>");
 					}
-					// 存在该字段
 					if (typeClass.existField(fieldName)) {
 						CtField field = typeClass.findField(fieldName);
-						return visitMember(typeClass, field);// 可能字段类型还需要进行深度推导
+						return visitMember(typeClass, field);
 
-					} else if (StringUtils.isNotEmpty(typeClass.superName)) {// 如果不存在该属性，则向上寻找
-						// 父类可能是java里面的类
-						return getReturnType(typeClass, new CodeType(typeClass, typeClass.superName), fieldName, null,
-								null);
+					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
+						return visitField(typeClass, new CodeType(typeClass, typeClass.superName), fieldName);
 					}
+				}
+			} else {
+				return NativeLinker.getReturnType(clazz, type, fieldName, null, null);
+			}
+		}
+		return null;
+	}
 
-				} else if (StringUtils.isNotEmpty(methodName)) {
-					// 父类构造方法
+	public static Type visitMethod(CtClass clazz, Type type, String methodName, List<Type> parameterTypes) {
+		if (type.isArray()) {
+			if ("$array_index".equals(methodName)) {
+				return new CodeType(clazz, type.getTypeName());
+			}
+			throw new RuntimeException("Some functions of array are not supported yet!");
+		} else {
+			String className = type.getClassName();
+			if (Context.get().contains(className)) {
+				CtClass typeClass = Context.get().findClass(className);
+				if (StringUtils.isNotEmpty(methodName)) {
 					if ("super".equals(methodName)) {
 						return new CodeType(typeClass, typeClass.superName);
 					}
-					// 存在该方法
 					if (typeClass.existMethod(methodName, parameterTypes)) {
 						CtMethod method = typeClass.findMethod(methodName, parameterTypes);
-						return visitMember(typeClass, method);// 可能字段类型还需要进行深度推导
+						return visitMember(typeClass, method);
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-						return getReturnType(typeClass, new CodeType(typeClass, typeClass.superName), null, methodName,
+						return visitMethod(typeClass, new CodeType(typeClass, typeClass.superName), methodName,
 								parameterTypes);
 					}
-
-					// 没有该方法，又没有父类，则抛出方法找不到异常
 					throw new RuntimeException(String.format(
 							"The method could not be found!inClass:[%s], type:[%s], methodName:[%s], parameterTypes:%s",
 							clazz.getClassName(), type, methodName, parameterTypes));
-
 				}
-
-			} else {// 如果是本地类型，则通过反射进行推导
-				// 这里一般都是直接推导到底，因为shy可以调java,而java不一定能直接调用shy
-				return NativeLinker.getReturnType(clazz, type, fieldName, methodName, parameterTypes);
+			} else {
+				return NativeLinker.getReturnType(clazz, type, null, methodName, parameterTypes);
 			}
 		}
-
 		return null;
-
 	}
 
 }
