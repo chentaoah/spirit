@@ -66,6 +66,10 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
+	public int indexOf(Token token) {
+		return tokens.indexOf(token);
+	}
+
 	public String get(int index) {// 修改为从token获取字符串
 		return getToken(index).value.toString();
 	}
