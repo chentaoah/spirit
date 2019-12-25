@@ -138,6 +138,9 @@ public class SemanticDelegate {
 			token.type = Constants.SEPARATOR_TOKEN;
 			return;
 		} else {
+			if (word == null) {
+				System.out.println("");
+			}
 			if (isType(word)) {// 是否类型说明
 				token.type = Constants.TYPE_TOKEN;
 				return;
@@ -341,15 +344,19 @@ public class SemanticDelegate {
 
 	private static void getAttachments(Token token, String word) {
 
-		if (token.isArrayInit()) {// 强制类型转换
+		if (token.isArrayInit()) {// 数组构造
 			token.setTypeNameAtt(getArrayInitType(word));
+			return;
+
+		} else if (token.isTypeInit()) {// 构造
+			token.setTypeNameAtt(getMemberName(word));
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
 			token.setTypeNameAtt(getCastType(word));
 			return;
 
-		} else if (token.isTypeInit() || token.isAccess()) {// 构造方法或者属性访问
+		} else if (token.isAccess()) {// 属性访问
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
