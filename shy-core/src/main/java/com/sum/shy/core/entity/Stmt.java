@@ -140,7 +140,7 @@ public class Stmt {
 	}
 
 	public String format(Token token) {
-		return format(tokens.indexOf(token), token);
+		return format(indexOf(token), token);
 	}
 
 	public String format(int index, Token token) {
