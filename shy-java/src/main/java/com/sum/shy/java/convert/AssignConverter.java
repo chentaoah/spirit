@@ -1,5 +1,8 @@
 package com.sum.shy.java.convert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sum.shy.core.analyzer.AbsSyntaxTree;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtMethod;
@@ -15,7 +18,8 @@ public class AssignConverter extends DefaultConverter {
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 		// 查找==节点
 		Node node = AbsSyntaxTree.grow(stmt);
-		node = findEqualJudgment(node);
+		List<Node> nodes = new ArrayList<>();
+		findEqualJudgment(node, nodes);
 		// 一般的转换
 		stmt = convertStmt(clazz, stmt);
 		// 添加类型声明
@@ -27,19 +31,17 @@ public class AssignConverter extends DefaultConverter {
 
 	}
 
-	private Node findEqualJudgment(Node node) {
+	private void findEqualJudgment(Node node, List<Node> nodes) {
 		// 如果当前节点就是
 		Token token = node.token;
 		if (token.isOperator() && "==".equals(token.value)) {
-			return node;
+
 		}
 		// 查找子节点
-		Node result = null;
-		if (result == null && node.left != null)
-			result = findEqualJudgment(node.left);
-		if (result == null && node.right != null)
-			result = findEqualJudgment(node.right);
-		return result;
+		if (node.left != null)
+			findEqualJudgment(node.left, nodes);
+		if (node.right != null)
+			findEqualJudgment(node.right, nodes);
 
 	}
 
