@@ -133,6 +133,10 @@ public class Token {
 		return Constants.NODE_TOKEN.equals(type);
 	}
 
+	public boolean isExpress() {
+		return Constants.EXPRESS_TOKEN.equals(type);
+	}
+
 	public boolean isUnknown() {
 		return Constants.UNKNOWN.equals(type);
 	}

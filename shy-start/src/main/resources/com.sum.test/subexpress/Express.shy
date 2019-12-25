@@ -34,6 +34,10 @@ class Express {
 		print "{}",express
 		express1=((Object)list.get(1))
 		print "{}",express1
+		b11=(x +1 >0 && y <100 ) && list.get(0)=="test" && s instanceof Object
+		print "{}",b11
+
+
 	}
 
 

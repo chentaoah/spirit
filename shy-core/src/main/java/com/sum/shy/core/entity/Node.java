@@ -14,8 +14,15 @@ public class Node {
 
 	@Override
 	public String toString() {
-		Stmt stmt = token.getStmt();
-		return "" + (left == null ? "" : left) + stmt.format(token) + (right == null ? "" : right);
+		String text = null;
+		if (token.isExpress()) {// 如果是手动添加的表达式,那么则直接用表达式来拼接字符串
+			text = token.value.toString();
+
+		} else {
+			Stmt stmt = token.getStmt();
+			text = stmt.format(token);
+		}
+		return "" + (left == null ? "" : left) + text + (right == null ? "" : right);
 	}
 
 }

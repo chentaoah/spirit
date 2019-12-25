@@ -26,7 +26,7 @@ public class Express {
 	}
 
 	public void testTree() {
-		boolean b = (x + 1 > 0 && y < 100) && s == "test" && s instanceof Object;
+		boolean b = x + 1 > 0 && y < 100 && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("test tree", b);
 		List<String> list = Collection.newArrayList("one", "two", "three");
 		boolean b1 = ((Object)list.get(1)).toString().length() + 100 > 0;
@@ -41,6 +41,8 @@ public class Express {
 		logger.info("{}", express);
 		Object express1 = ((Object)list.get(1));
 		logger.info("{}", express1);
+		boolean b11 = x + 1 > 0 && y < 100 && StringUtils.equals(list.get(0), "test") && s instanceof Object;
+		logger.info("{}", b11);
 	}
 
 }

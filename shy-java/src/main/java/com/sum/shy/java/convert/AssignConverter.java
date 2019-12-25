@@ -16,14 +16,27 @@ public class AssignConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+
+		// 保留第一个var token
+		Token token = stmt.getToken(0);
+
 		// 查找==节点
-		Node node = AbsSyntaxTree.grow(stmt);
-		List<Node> nodes = new ArrayList<>();
-		findEqualJudgment(node, nodes);
+		if (line.text.contains("==")) {
+			Node node = AbsSyntaxTree.grow(stmt);
+			List<Node> nodes = new ArrayList<>();
+			findEquals(node, nodes);
+			for (Node someNode : nodes) {
+				String express = String.format("StringUtils.equals(%s, %s)", someNode.left, someNode.right);
+				someNode.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+				someNode.left = null;
+				someNode.right = null;
+			}
+			// 合成一个新的语句
+			stmt = Stmt.create(node.toString());
+		}
 		// 一般的转换
 		stmt = convertStmt(clazz, stmt);
-		// 添加类型声明
-		Token token = stmt.getToken(0);
+
 		if (token.isVar() && !token.isDeclaredAtt()) {
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));
 		}
@@ -31,17 +44,20 @@ public class AssignConverter extends DefaultConverter {
 
 	}
 
-	private void findEqualJudgment(Node node, List<Node> nodes) {
+	private void findEquals(Node node, List<Node> nodes) {
 		// 如果当前节点就是
 		Token token = node.token;
 		if (token.isOperator() && "==".equals(token.value)) {
-
+			// 如果两边节点都是str的话
+			if (node.left.token.getTypeAtt().isStr() && node.right.token.getTypeAtt().isStr()) {
+				nodes.add(node);
+			}
 		}
 		// 查找子节点
 		if (node.left != null)
-			findEqualJudgment(node.left, nodes);
+			findEquals(node.left, nodes);
 		if (node.right != null)
-			findEqualJudgment(node.right, nodes);
+			findEquals(node.right, nodes);
 
 	}
 

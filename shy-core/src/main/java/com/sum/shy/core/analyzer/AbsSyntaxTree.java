@@ -178,11 +178,6 @@ public class AbsSyntaxTree {
 	public static Node getNode(Token token) {
 		if (token.isNode()) {
 			return (Node) token.value;
-
-		} else if (token.isSubexpress()) {
-			Stmt subStmt = (Stmt) token.value;
-			return getNodeByLoop(subStmt.subStmt(1, subStmt.size() - 1));
-
 		} else {
 			return new Node(token);
 		}
