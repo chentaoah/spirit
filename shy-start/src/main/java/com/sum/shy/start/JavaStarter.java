@@ -8,8 +8,8 @@ import com.sum.shy.core.ShyCompiler;
 import com.sum.shy.core.ShyDebugger;
 import com.sum.shy.core.analyzer.AliasReplacer;
 import com.sum.shy.core.clazz.impl.CtClass;
+import com.sum.shy.core.utils.FileUtils;
 import com.sum.shy.java.JavaBuilder;
-import com.sum.shy.utils.FileUtils;
 
 /**
  * 将指定shy代码,转换成java代码
