@@ -157,7 +157,7 @@ public class InvokeVisiter {
 					}
 				}
 			} else {
-				return NativeLinker.getReturnType(clazz, type, fieldName, null, null);
+				return NativeLinker.visitField(clazz, type, fieldName);
 			}
 		}
 		return null;
@@ -186,7 +186,7 @@ public class InvokeVisiter {
 					}
 				}
 			} else {
-				return NativeLinker.getReturnType(clazz, type, null, methodName, parameterTypes);
+				return NativeLinker.visitMethod(clazz, type, methodName, parameterTypes);
 			}
 		}
 		return null;

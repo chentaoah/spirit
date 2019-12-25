@@ -16,27 +16,33 @@ import com.sum.shy.lib.StringUtils;
 
 public class NativeLinker {
 
-	public static Type getReturnType(CtClass ctClass, Type type, String fieldName, String methodName,
-			List<Type> parameterTypes) {
-		// 类名
+	public static Type visitField(CtClass ctClass, Type type, String fieldName) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
 				Field field = nativeType.clazz.getField(fieldName);
-				return visitElement(ctClass, nativeType, field.getGenericType());
-
-			} else if (StringUtils.isNotEmpty(methodName)) {
-				Method method = nativeType.findMethod(methodName, parameterTypes);
-				return visitElement(ctClass, nativeType, method.getGenericReturnType());
+				return visitMember(ctClass, nativeType, field.getGenericType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
-	private static Type visitElement(CtClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
+	public static Type visitMethod(CtClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
+		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
+		try {
+			if (StringUtils.isNotEmpty(methodName)) {
+				Method method = nativeType.findMethod(methodName, parameterTypes);
+				return visitMember(ctClass, nativeType, method.getGenericReturnType());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static Type visitMember(CtClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])
@@ -61,7 +67,7 @@ public class NativeLinker {
 			// 获取该类型里面的泛型
 			for (java.lang.reflect.Type actualType : parameterizedType.getActualTypeArguments()) {
 				// 递归
-				genericTypes.add(visitElement(ctClass, nativeType, actualType));
+				genericTypes.add(visitMember(ctClass, nativeType, actualType));
 			}
 			return new NativeType(ctClass, clazz, genericTypes);
 
