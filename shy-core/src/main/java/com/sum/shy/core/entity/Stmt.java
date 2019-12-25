@@ -82,9 +82,34 @@ public class Stmt {
 		return get(size() - 1);
 	}
 
+	public int indexOf(String str) {
+		for (int i = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public int lastIndexOf(String str) {
+		int index = -1;
+		for (int i = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
+				index = i > index ? i : index;
+			}
+		}
+		return index;
+	}
+
 	public Stmt subStmt(int start, int end) {
 		// 这里一定要new一个,不然subList返回的是原来集合的一个视图
 		return new Stmt(new ArrayList<>(tokens.subList(start, end)));
+	}
+
+	public Stmt subStmt(String left, String right) {
+		return subStmt(indexOf(left), lastIndexOf(right));
 	}
 
 	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
@@ -114,16 +139,6 @@ public class Stmt {
 			}
 		}
 		return new Stmt(newTokens);
-	}
-
-	public int indexOf(String str) {
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	@Override
