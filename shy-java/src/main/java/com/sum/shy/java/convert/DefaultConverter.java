@@ -30,13 +30,11 @@ public class DefaultConverter implements Converter {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-
 			if (token.isList()) {// 将所有的array和map都转换成方法调用
 				Stmt subStmt = (Stmt) token.value;
 				convertSubStmt(clazz, subStmt);
 				subStmt.getToken(0).value = "Collection.newArrayList(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
-
 				// 添加依赖
 				clazz.addImport(Collection.class.getName());
 
@@ -50,7 +48,6 @@ public class DefaultConverter implements Converter {
 				}
 				subStmt.getToken(0).value = "Collection.newHashMap(";
 				subStmt.getToken(subStmt.size() - 1).value = ")";
-
 				// 添加依赖
 				clazz.addImport(Collection.class.getName());
 
@@ -64,6 +61,48 @@ public class DefaultConverter implements Converter {
 				Stmt subStmt = (Stmt) token.value;
 				// 追加一个关键字
 				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+			}
+
+		}
+
+		return stmt;
+	}
+
+	public static Stmt convertExpress(CtClass clazz, Stmt stmt) {
+
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+
+			if (token.isArrayInit()) {// 数组初始化,是没有子语句的
+				Stmt subStmt = (Stmt) token.value;
+				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+
+			} else if (token.isTypeInit()) {// 在所有的构造函数前面都加个new
+				Stmt subStmt = (Stmt) token.value;
+				convertExpress(clazz, subStmt);
+				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+
+			} else if (token.isList()) {// 将所有的array和map都转换成方法调用
+				Stmt subStmt = (Stmt) token.value;
+				convertExpress(clazz, subStmt);
+				subStmt.getToken(0).value = "Collection.newArrayList(";
+				subStmt.getToken(subStmt.size() - 1).value = ")";
+				// 添加依赖
+				clazz.addImport(Collection.class.getName());
+
+			} else if (token.isMap()) {
+				Stmt subStmt = (Stmt) token.value;
+				convertExpress(clazz, subStmt);
+				for (Token subToken : subStmt.tokens) {// 将map里面的冒号分隔符,转换成逗号分隔
+					if (subToken.isSeparator() && ":".equals(subToken.value)) {
+						subToken.value = ",";
+					}
+				}
+				subStmt.getToken(0).value = "Collection.newHashMap(";
+				subStmt.getToken(subStmt.size() - 1).value = ")";
+				// 添加依赖
+				clazz.addImport(Collection.class.getName());
+
 			}
 
 		}
