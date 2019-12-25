@@ -13,6 +13,16 @@ public class ConditionConverter extends DefaultConverter {
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 
+		convertExpress(clazz, method, indent, block, line, stmt);
+
+		stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
+		stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
+
+		return stmt;
+	}
+
+	public static void convertExpress(CtClass clazz, CtMethod method, String indent, String block, Line line,
+			Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			// 如果是变量且是字符串类型
@@ -54,10 +64,6 @@ public class ConditionConverter extends DefaultConverter {
 				}
 			}
 		}
-		stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
-		stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
-
-		return stmt;
 	}
 
 }
