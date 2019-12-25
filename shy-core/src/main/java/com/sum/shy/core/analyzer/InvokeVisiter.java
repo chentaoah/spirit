@@ -63,12 +63,11 @@ public class InvokeVisiter {
 
 	public static void visitToken(CtClass clazz, Stmt stmt, int index, Token token) {
 		// 内部可能还需要推导
-		if (token.hasSubStmt()) {
+		if (token.hasSubStmt())
 			visitStmt(clazz, (Stmt) token.value);
-		}
 
 		// 参数类型，为了像java那样支持重载
-		List<Type> parameterTypes = getParameterTypes(clazz, token);
+		List<Type> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
@@ -102,8 +101,7 @@ public class InvokeVisiter {
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
-			Token lastToken = stmt.getToken(index - 1);
-			Type type = lastToken.getTypeAtt();
+			Type type = stmt.getToken(index - 1).getTypeAtt();
 			Type returnType = visitField(clazz, type, token.getMemberNameAtt());
 			returnType = visitMethod(clazz, returnType, "$array_index", null);
 			token.setTypeAtt(returnType);
@@ -118,15 +116,13 @@ public class InvokeVisiter {
 
 	private static List<Type> getParameterTypes(CtClass clazz, Token token) {
 		List<Type> parameterTypes = new ArrayList<>();
-		if (token.isInvoke()) {
-			Stmt stmt = (Stmt) token.value;
-			// 只取括号里的
-			if (stmt.size() > 3) {// 方法里面必须有参数
-				List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
-				for (Stmt subStmt : subStmts) {
-					Type parameterType = FastDerivator.deriveExpress(clazz, subStmt);
-					parameterTypes.add(parameterType);
-				}
+		Stmt stmt = (Stmt) token.value;
+		// 只取括号里的
+		if (stmt.size() > 3) {// 方法里面必须有参数
+			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
+			for (Stmt subStmt : subStmts) {
+				Type parameterType = FastDerivator.deriveExpress(clazz, subStmt);
+				parameterTypes.add(parameterType);
 			}
 		}
 		return parameterTypes;
