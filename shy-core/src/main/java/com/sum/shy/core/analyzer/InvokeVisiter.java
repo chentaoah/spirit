@@ -73,18 +73,15 @@ public class InvokeVisiter {
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
 
-		} else if (token.isArrayInit()) {
+		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
 			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
-		} else if (token.isTypeInit()) {
-			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
+		} else if (token.isValue()) {
+			token.setTypeAtt(FastDerivator.getValueType(clazz, token));
 
 		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 			Stmt subStmt = (Stmt) token.value;
 			token.setTypeAtt(FastDerivator.deriveExpress(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
-
-		} else if (token.isCast()) {
-			token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);

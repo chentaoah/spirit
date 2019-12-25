@@ -57,18 +57,13 @@ public class FastDerivator {
 			} else if (node.right != null) {
 				return getType(clazz, node.right);
 			}
-
-		} else if (token.isValue()) {// 类型转换
-			return getValueType(clazz, token);
-
-		} else {
-			if (token.getTypeAtt() != null)
-				return token.getTypeAtt();
 		}
-		return null;
+
+		return token.getTypeAtt();
+
 	}
 
-	private static Type getValueType(CtClass clazz, Token token) {
+	public static Type getValueType(CtClass clazz, Token token) {
 		if (token.isNull()) {
 			return new CodeType(clazz, "Object");
 		} else if (token.isBool()) {
