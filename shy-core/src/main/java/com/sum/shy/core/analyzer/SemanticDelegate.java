@@ -281,34 +281,23 @@ public class SemanticDelegate {
 		if (token.isType()) {
 			// 如果是泛型,则进行深度的拆分
 			if (word.contains("<") && word.contains(">")) {
-				String prefix = word.substring(0, word.indexOf("<"));
-				String str = word.substring(word.indexOf("<") + 1, word.lastIndexOf(">"));
-				List<String> subWords = LexicalAnalyzer.getWords(str);
-				// 获取tokens
-				List<Token> subTokens = getTokens(null, subWords);
-				// 追加一个元素在头部
-				subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
-				subTokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "<", null));// 注意:这个符号不再是操作符,而是分隔符
-				subTokens.add(new Token(Constants.SEPARATOR_TOKEN, ">", null));// 20191213 ct 修复>分隔符插入位置错误的问题
+				// 获取子语句
+				Stmt subStmt = getSubStmt(token, word, "<", ">");
 				// 将泛型中的?替换一下
 				int count = 0;
-				for (Token subToken : subTokens) {
-					if ("?".equals(subToken.value.toString()))
-						subTokens.set(count, new Token(Constants.TYPE_TOKEN, "?", null));
+				for (Token subToken : subStmt.tokens) {
+					if ("?".equals(subToken.value))
+						subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?", null));
 					count++;
 				}
 				// 生成子语句
-				token.value = new Stmt(word, subWords, subTokens);
+				token.value = subStmt;
 				return;
 			}
 			token.value = word;
 			return;
 
-		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
-			token.value = getSubStmt(token, word, "[", "]");
-			return;
-
-		} else if (token.isList()) {// 如果是数组,则解析子语句
+		} else if (token.isArrayInit() || token.isList()) {// 这里的拆分是为了更好的加上new这个关键字
 			token.value = getSubStmt(token, word, "[", "]");
 			return;
 
@@ -316,13 +305,10 @@ public class SemanticDelegate {
 			token.value = getSubStmt(token, word, "{", "}");
 			return;
 
-		} else if (token.isSubexpress()) {
+		} else if (token.isSubexpress() || token.isInvoke()) {
 			token.value = getSubStmt(token, word, "(", ")");
 			return;
 
-		} else if (token.isInvoke()) {
-			token.value = getSubStmt(token, word, "(", ")");
-			return;
 		}
 
 		token.value = word;
@@ -341,10 +327,11 @@ public class SemanticDelegate {
 		String content = word.substring(start + 1, end);
 		// 分解内容
 		List<String> subWords = LexicalAnalyzer.getWords(content);
-		subWords.add(0, left);
-		subWords.add(right);
 		// 获取tokens
 		List<Token> subTokens = getTokens(null, subWords);
+		// 插入分隔符
+		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left, null));// 注意:这个符号不再是操作符,而是分隔符
+		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right, null));// 20191213 ct 修复>分隔符插入位置错误的问题
 		// 追加一个元素在头部
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
@@ -358,27 +345,11 @@ public class SemanticDelegate {
 			token.setTypeNameAtt(getArrayInitType(word));
 			return;
 
-		} else if (token.isTypeInit()) {// 构造方法
-			token.setTypeNameAtt(getMemberName(word));
-			return;
-
 		} else if (token.isCast()) {// 强制类型转换
 			token.setTypeNameAtt(getCastType(word));
 			return;
 
-		} else if (token.isInvokeLocal()) {// 本地方法调用
-			token.setMemberNameAtt(getMemberName(word));
-			return;
-
-		} else if (token.isVisitField()) {// 访问成员变量
-			token.setMemberNameAtt(getMemberName(word));
-			return;
-
-		} else if (token.isInvokeMethod()) {
-			token.setMemberNameAtt(getMemberName(word));
-			return;
-
-		} else if (token.isVisitArrayIndex() || token.isArrayIndex()) {
+		} else if (token.isTypeInit() || token.isAccess()) {// 构造方法或者属性访问
 			token.setMemberNameAtt(getMemberName(word));
 			return;
 
