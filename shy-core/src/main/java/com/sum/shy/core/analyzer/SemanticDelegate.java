@@ -138,9 +138,6 @@ public class SemanticDelegate {
 			token.type = Constants.SEPARATOR_TOKEN;
 			return;
 		} else {
-			if (word == null) {
-				System.out.println("");
-			}
 			if (isType(word)) {// 是否类型说明
 				token.type = Constants.TYPE_TOKEN;
 				return;
