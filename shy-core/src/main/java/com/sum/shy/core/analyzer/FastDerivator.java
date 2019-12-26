@@ -46,7 +46,7 @@ public class FastDerivator {
 
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
-		if (token.isLogicalOperator() || token.isInstanceof()) {
+		if (token.isLogicalOperator() || token.isJudgeOperator() || token.isInstanceof()) {
 			return new CodeType(clazz, "boolean");
 
 		} else if (token.isCalcOperator()) {

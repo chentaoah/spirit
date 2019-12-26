@@ -169,9 +169,14 @@ public class Token {
 
 	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
 		if (isOperator())
-			return "!".equals(value) || "==".equals(value) || "!=".equals(value) || ">=".equals(value)
-					|| "<=".equals(value) || ">".equals(value) || "<".equals(value) || "&&".equals(value)
-					|| "||".equals(value);
+			return "!".equals(value) || "&&".equals(value) || "||".equals(value);
+		return false;
+	}
+
+	public boolean isJudgeOperator() {
+		if (isOperator())
+			return "==".equals(value) || "!=".equals(value) || ">=".equals(value) || "<=".equals(value)
+					|| ">".equals(value) || "<".equals(value);
 		return false;
 	}
 

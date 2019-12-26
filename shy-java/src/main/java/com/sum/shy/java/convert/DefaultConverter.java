@@ -11,6 +11,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.type.api.Type;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
@@ -90,18 +91,26 @@ public class DefaultConverter implements Converter {
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
 			Token token = node.token;
-			String express = null;
-			if ("==".equals(token.value)) {
-				express = "StringUtils.equals(%s, %s)";
-			} else if ("!=".equals(token.value)) {
-				express = "!StringUtils.equals(%s, %s)";
-			}
-			if (express != null) {
-				express = String.format(express, node.left, node.right);
+			if (token.isEqualsOperator()) {
+				String express = null;
+				if ("==".equals(token.value)) {
+					express = "StringUtils.equals(%s, %s)";
+				} else if ("!=".equals(token.value)) {
+					express = "!StringUtils.equals(%s, %s)";
+				}
+				if (express != null) {
+					express = String.format(express, node.left, node.right);
+					node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+					node.left = null;
+					node.right = null;
+				}
+			} else {
+				String express = String.format("StringUtils.isNotEmpty(%s)", node);
 				node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
 				node.left = null;
 				node.right = null;
 			}
+
 		}
 		if (nodes.size() > 0)
 			clazz.addImport(StringUtils.class.getName());
@@ -111,9 +120,23 @@ public class DefaultConverter implements Converter {
 
 	public static void findEquals(Node node, List<Node> nodes) {
 		// 如果当前节点就是
+		if (node == null)
+			return;
+
 		Token token = node.token;
-		if (token.isEqualsOperator()) {// == or !=
-			if (node != null && node.left != null) {
+		if (token.isLogicalOperator()) {// ! or && or ||
+			if (node.left != null) {
+				Type type = node.left.token.getTypeAtt();
+				if (type != null && type.isStr())
+					nodes.add(node.left);
+			}
+			if (node.right != null) {
+				Type type = node.right.token.getTypeAtt();
+				if (type != null && type.isStr())
+					nodes.add(node.right);
+			}
+		} else if (token.isEqualsOperator()) {// == or !=
+			if (node.left != null) {
 				if (node.left.token.getTypeAtt().isStr())
 					nodes.add(node);
 			}
