@@ -20,10 +20,9 @@ import com.sum.shy.lib.StringUtils;
 public class AbsSyntaxTree {
 
 	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "==", "!=", "<",
-			">", "<=", ">=", "&&", "||", "=" };
+			">", "<=", ">=", "&&", "||" };
 
-	public static final int[] PRIORITY = new int[] { 40, 40, 40, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15,
-			10 };
+	public static final int[] PRIORITY = new int[] { 40, 40, 40, 30, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15, 15 };
 
 	public enum Category {
 		LEFT, RIGHT, DOUBLE
@@ -211,9 +210,8 @@ public class AbsSyntaxTree {
 		System.out.println(stmt.toString());
 
 		stmt = grow(stmt);
-		for (Token token : stmt.tokens) {
-			if (token.isNode())
-				buildTree(lines, 0, null, (Node) token.value);
+		for (Node node : stmt.findNodes()) {
+			buildTree(lines, 0, null, node);
 		}
 
 		// 打印
