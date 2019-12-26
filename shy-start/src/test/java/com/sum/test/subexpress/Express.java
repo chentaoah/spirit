@@ -43,7 +43,7 @@ public class Express {
 		logger.info("{}", express1);
 		boolean b11 = (x + 1 > 0 && y < 100) && StringUtils.equals(list.get(0), "test") && s instanceof Object;
 		logger.info("{}", b11);
-		boolean b111 = (StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && s instanceof Object;
+		boolean b111 = (!StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("{}", b111);
 		String b222 = list.get(1).toString();
 		logger.info("{}", b222);

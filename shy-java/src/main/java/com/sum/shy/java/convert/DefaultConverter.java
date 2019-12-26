@@ -89,10 +89,19 @@ public class DefaultConverter implements Converter {
 		}
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
-			String express = String.format("StringUtils.equals(%s, %s)", node.left, node.right);
-			node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
-			node.left = null;
-			node.right = null;
+			Token token = node.token;
+			String express = null;
+			if ("==".equals(token.value)) {
+				express = "StringUtils.equals(%s, %s)";
+			} else if ("!=".equals(token.value)) {
+				express = "!StringUtils.equals(%s, %s)";
+			}
+			if (express != null) {
+				express = String.format(express, node.left, node.right);
+				node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+				node.left = null;
+				node.right = null;
+			}
 		}
 		if (nodes.size() > 0)
 			clazz.addImport(StringUtils.class.getName());
