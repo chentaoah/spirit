@@ -103,14 +103,10 @@ public class DefaultConverter implements Converter {
 	public static void findEquals(Node node, List<Node> nodes) {
 		// 如果当前节点就是
 		Token token = node.token;
-		if (token.isOperator() && "==".equals(token.value)) {
-			try {
-				// 如果两边节点都是str的话
-				if (node.left.token.getTypeAtt().isStr()) {
+		if (token.isEqualsOperator()) {// == or !=
+			if (node != null && node.left != null) {
+				if (node.left.token.getTypeAtt().isStr())
 					nodes.add(node);
-				}
-			} catch (Exception e) {
-				// ignore
 			}
 		}
 		// 查找子节点

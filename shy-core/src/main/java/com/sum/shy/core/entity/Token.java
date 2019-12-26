@@ -175,6 +175,12 @@ public class Token {
 		return false;
 	}
 
+	public boolean isEqualsOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+		if (isOperator())
+			return "==".equals(value) || "!=".equals(value);
+		return false;
+	}
+
 	public boolean isCalcOperator() {
 		if (isOperator())
 			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
