@@ -30,10 +30,21 @@ public class FastDerivator {
 				return token.getTypeAtt();
 		}
 		// 如果其中有==判断,则整个语句认为是判断语句
-		Node node = AbsSyntaxTree.grow(stmt).findNode();
+		stmt = AbsSyntaxTree.grow(stmt);
 		// 通过递归推导类型
-		return getType(clazz, node);
+		return getType(clazz, stmt);
 
+	}
+
+	private static Type getType(CtClass clazz, Stmt stmt) {
+		for (Token token : stmt.tokens) {
+			if (token.isNode()) {
+				return getType(clazz, (Node) token.value);
+			} else if (token.getTypeAtt() != null) {
+				return token.getTypeAtt();
+			}
+		}
+		return null;
 	}
 
 	private static Type getType(CtClass clazz, Node node) {

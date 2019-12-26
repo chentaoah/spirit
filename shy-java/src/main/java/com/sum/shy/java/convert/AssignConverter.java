@@ -15,6 +15,9 @@ public class AssignConverter extends DefaultConverter {
 		// 保留第一个var token
 		Token token = stmt.getToken(0);
 
+		if (line.text.contains("=="))
+			stmt = convertEquals(clazz, stmt);
+		
 		// 一般的转换
 		stmt = convertStmt(clazz, stmt);
 
