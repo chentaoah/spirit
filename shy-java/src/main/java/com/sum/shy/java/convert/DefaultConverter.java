@@ -1,10 +1,14 @@
 package com.sum.shy.java.convert;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import com.sum.shy.core.analyzer.AbsSyntaxTree;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.api.Converter;
@@ -70,38 +74,43 @@ public class DefaultConverter implements Converter {
 		return stmt;
 	}
 
-//	public static Stmt convertExpress(CtClass clazz, Stmt stmt) {
-//		// 查找==节点
-//		Node node = AbsSyntaxTree.grow(stmt);
-//		List<Node> nodes = new ArrayList<>();
-//		findEquals(node, nodes);
-//		for (Node someNode : nodes) {
-//			String express = String.format("StringUtils.equals(%s, %s)", someNode.left, someNode.right);
-//			someNode.token = new Token(Constants.EXPRESS_TOKEN, express, null);
-//			someNode.left = null;
-//			someNode.right = null;
-//		}
-//		// 合成一个新的语句
-//		stmt = Stmt.create(node.toString());
-//
-//		return stmt;
-//	}
-//
-//	public static void findEquals(Node node, List<Node> nodes) {
-//		// 如果当前节点就是
-//		Token token = node.token;
-//		if (token.isOperator() && "==".equals(token.value)) {
-//			// 如果两边节点都是str的话
-//			if (node.left.token.getTypeAtt().isStr() && node.right.token.getTypeAtt().isStr()) {
-//				nodes.add(node);
-//			}
-//		}
-//		// 查找子节点
-//		if (node.left != null)
-//			findEquals(node.left, nodes);
-//		if (node.right != null)
-//			findEquals(node.right, nodes);
-//
-//	}
+	public static Stmt convertEquals(CtClass clazz, Stmt stmt) {
+		// 查找==节点
+		stmt = AbsSyntaxTree.grow(stmt);
+		List<Node> nodes = new ArrayList<>();
+		// 遍历所有顶点，收集==节点
+		for (Node node : stmt.findNodes()) {
+			findEquals(node, nodes);
+		}
+		// 遍历所有==节点，转换该节点
+		for (Node node : nodes) {
+			String express = String.format("StringUtils.equals(%s, %s)", node.left, node.right);
+			node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+			node.left = null;
+			node.right = null;
+		}
+		return stmt;
+	}
+
+	public static void findEquals(Node node, List<Node> nodes) {
+		// 如果当前节点就是
+		Token token = node.token;
+		if (token.isOperator() && "==".equals(token.value)) {
+			try {
+				// 如果两边节点都是str的话
+				if (node.left.token.getTypeAtt().isStr()) {
+					nodes.add(node);
+				}
+			} catch (Exception e) {
+				// ignore
+			}
+		}
+		// 查找子节点
+		if (node.left != null)
+			findEquals(node.left, nodes);
+		if (node.right != null)
+			findEquals(node.right, nodes);
+
+	}
 
 }
