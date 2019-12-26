@@ -158,7 +158,7 @@ public class MethodResolver {
 		Stmt subStmt = stmt.subStmt(start, end);
 		VariableTracker.track(clazz, method, block, line, subStmt);
 		InvokeVisiter.visitStmt(clazz, subStmt);
-		Type type = FastDerivator.deriveExpress(clazz, subStmt);
+		Type type = FastDerivator.deriveStmt(clazz, subStmt);
 		if (filter != null)
 			type = filter.processType(type);
 		Token token = stmt.getToken(index);

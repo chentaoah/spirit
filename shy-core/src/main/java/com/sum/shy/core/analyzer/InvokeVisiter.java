@@ -29,7 +29,7 @@ public class InvokeVisiter {
 				if (stmt.isAssign()) {
 					VariableTracker.track(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
 					InvokeVisiter.visitStmt(clazz, stmt);
-					type = FastDerivator.deriveExpress(clazz, stmt);
+					type = FastDerivator.deriveStmt(clazz, stmt);
 				}
 
 			} else if (member instanceof CtMethod) {// 如果是方法
@@ -40,7 +40,7 @@ public class InvokeVisiter {
 							Stmt stmt) {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
-							Type returnType = FastDerivator.deriveExpress(clazz, stmt.subStmt(1, stmt.size()));
+							Type returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
 							if (returnType != null)
 								holder.obj = returnType;
 						}
@@ -80,7 +80,7 @@ public class InvokeVisiter {
 
 		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 			Stmt subStmt = (Stmt) token.value;
-			token.setTypeAtt(FastDerivator.deriveExpress(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
+			token.setTypeAtt(FastDerivator.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
@@ -121,7 +121,7 @@ public class InvokeVisiter {
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {
-				Type parameterType = FastDerivator.deriveExpress(clazz, subStmt);
+				Type parameterType = FastDerivator.deriveStmt(clazz, subStmt);
 				parameterTypes.add(parameterType);
 			}
 		}
