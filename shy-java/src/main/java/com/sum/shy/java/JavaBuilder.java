@@ -220,9 +220,9 @@ public class JavaBuilder {
 	private String buildField(CtClass clazz, String desc, CtField field) {
 		if (StringUtils.isNotEmpty(desc)) {
 			return String.format("\tpublic %s %s %s;\n", desc, field.type,
-					DefaultConverter.convertSubStmt(clazz, field.stmt));
+					DefaultConverter.convertCommon(clazz, field.stmt));
 		} else {
-			return String.format("\tpublic %s %s;\n", field.type, DefaultConverter.convertSubStmt(clazz, field.stmt));
+			return String.format("\tpublic %s %s;\n", field.type, DefaultConverter.convertCommon(clazz, field.stmt));
 		}
 
 	}

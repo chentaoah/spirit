@@ -17,7 +17,7 @@ public class PrintConverter extends DefaultConverter {
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 
-		convertSubStmt(clazz, stmt);
+		convertCommon(clazz, stmt);
 
 		Token token = stmt.getToken(0);
 		if ("print".equals(token.value)) {
