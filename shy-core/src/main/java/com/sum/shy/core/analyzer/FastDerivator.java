@@ -22,12 +22,10 @@ import com.sum.shy.core.utils.ReflectUtils;
 public class FastDerivator {
 
 	public static Type deriveStmt(CtClass clazz, Stmt stmt) {
-
 		// 如果其中有==判断,则整个语句认为是判断语句
 		stmt = AbsSyntaxTree.grow(stmt);
 		// 通过递归推导类型
 		return getType(clazz, stmt);
-
 	}
 
 	private static Type getType(CtClass clazz, Stmt stmt) {
