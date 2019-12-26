@@ -23,12 +23,6 @@ public class FastDerivator {
 
 	public static Type deriveStmt(CtClass clazz, Stmt stmt) {
 
-		// 如果是赋值语句,并且第一个变量已经被声明,则返回该变量的声明
-		if (stmt.isAssign()) {
-			Token token = stmt.getToken(0);
-			if (token.isVar() && token.getTypeAtt() != null)
-				return token.getTypeAtt();
-		}
 		// 如果其中有==判断,则整个语句认为是判断语句
 		stmt = AbsSyntaxTree.grow(stmt);
 		// 通过递归推导类型
