@@ -17,13 +17,16 @@ public class AssignConverter extends DefaultConverter {
 
 		if (line.text.contains("=="))
 			stmt = convertEquals(clazz, stmt);
-		
+
 		// 一般的转换
 		stmt = convertStmt(clazz, stmt);
 
 		if (token.isVar() && !token.isDeclaredAtt()) {
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));
 		}
+
+		stmt.syntax = Constants.ASSIGN_SYNTAX;
+
 		return stmt;
 
 	}
