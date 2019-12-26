@@ -137,7 +137,8 @@ public class DefaultConverter implements Converter {
 			}
 		} else if (token.isEqualsOperator()) {// == or !=
 			if (node.left != null) {
-				if (node.left.token.getTypeAtt().isStr())
+				Type type = node.left.token.getTypeAtt();
+				if (type != null && type.isStr())
 					nodes.add(node);
 			}
 		}
