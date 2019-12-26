@@ -23,7 +23,7 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static void track(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
+	public static void trackStmt(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			findType(clazz, method, block, line, stmt, token);
@@ -46,7 +46,7 @@ public class VariableTracker {
 
 		}
 		if (token.hasSubStmt()) {
-			track(clazz, method, block, line, (Stmt) token.value);
+			trackStmt(clazz, method, block, line, (Stmt) token.value);
 		}
 
 	}

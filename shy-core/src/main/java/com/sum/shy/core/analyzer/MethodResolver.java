@@ -106,7 +106,7 @@ public class MethodResolver {
 			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
 
 		} else {
-			VariableTracker.track(clazz, method, block, line, stmt);
+			VariableTracker.trackStmt(clazz, method, block, line, stmt);
 			InvokeVisiter.visitStmt(clazz, stmt);
 		}
 
@@ -156,7 +156,7 @@ public class MethodResolver {
 	private static void processBridge(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int start,
 			int end, int index, Filter filter) {
 		Stmt subStmt = stmt.subStmt(start, end);
-		VariableTracker.track(clazz, method, block, line, subStmt);
+		VariableTracker.trackStmt(clazz, method, block, line, subStmt);
 		InvokeVisiter.visitStmt(clazz, subStmt);
 		Type type = FastDerivator.deriveStmt(clazz, subStmt);
 		if (filter != null)
