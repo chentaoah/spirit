@@ -32,10 +32,10 @@ public class FastDerivator {
 
 	private static Type getType(CtClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
-			if (token.isNode()) {
-				return getType(clazz, (Node) token.value);
-			} else if (token.getTypeAtt() != null) {
+			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
+			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
+				return getType(clazz, (Node) token.value);
 			}
 		}
 		return null;
