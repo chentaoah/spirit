@@ -45,6 +45,8 @@ public class Express {
 		logger.info("{}", b11);
 		boolean b111 = (StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("{}", b111);
+		String b222 = list.get(1).toString();
+		logger.info("{}", b222);
 	}
 
 }
