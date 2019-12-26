@@ -31,7 +31,8 @@ public class FastDerivator {
 		}
 
 		// 如果其中有==判断,则整个语句认为是判断语句
-		Node node = AbsSyntaxTree.grow(stmt);
+		Node node = AbsSyntaxTree.grow(stmt).findNode();
+
 		// 如果是赋值语句,则将右节点作为顶点
 		if (stmt.isAssign())
 			node = node.right;

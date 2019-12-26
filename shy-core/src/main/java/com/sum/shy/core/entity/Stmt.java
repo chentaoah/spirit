@@ -141,6 +141,23 @@ public class Stmt {
 		return new Stmt(newTokens);
 	}
 
+	public Node findNode() {
+		for (Token token : tokens) {
+			if (token.isNode())
+				return (Node) token.value;
+		}
+		return null;
+	}
+
+	public List<Node> findNodes() {
+		List<Node> nodes = new ArrayList<>();
+		for (Token token : tokens) {
+			if (token.isNode())
+				nodes.add((Node) token.value);
+		}
+		return nodes;
+	}
+
 	@Override
 	public String toString() {
 		// 如果没有token,则直接返回line

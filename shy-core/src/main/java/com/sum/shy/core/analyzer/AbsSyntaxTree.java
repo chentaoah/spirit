@@ -35,7 +35,7 @@ public class AbsSyntaxTree {
 	 * @param stmt
 	 * @return
 	 */
-	public static Node grow(Stmt stmt) {
+	public static Stmt grow(Stmt stmt) {
 		// 为每个token计算位置
 		markPosition(0, stmt);
 		// 递归获取节点树
@@ -60,13 +60,11 @@ public class AbsSyntaxTree {
 		}
 	}
 
-	private static Node getNodeByLoop(Stmt stmt) {
+	private static Stmt getNodeByLoop(Stmt stmt) {
 
 		// 如果只有一个元素
-		if (stmt.size() == 1) {
-			Token token = stmt.getToken(0);
-			return getNode(token);
-		}
+		if (stmt.size() == 1)
+			return stmt;
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
 		Token finalLastToken = null;
@@ -139,7 +137,7 @@ public class AbsSyntaxTree {
 		}
 		// 校验
 		if (finalCurrToken == null)
-			return null;
+			return stmt;
 
 		Node node = getNode(finalCurrToken);
 		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE) {
@@ -205,15 +203,19 @@ public class AbsSyntaxTree {
 //		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
-		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object";
+//		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object";
+		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());
 		System.out.println(stmt.toString());
 
-		Node node = grow(stmt);
-		// 在20行中构建树结构
-		buildTree(lines, 0, null, node);
+		stmt = grow(stmt);
+		for (Token token : stmt.tokens) {
+			if (token.isNode())
+				buildTree(lines, 0, null, (Node) token.value);
+		}
+
 		// 打印
 		for (Line line : lines) {
 			if (!line.isIgnore()) {
