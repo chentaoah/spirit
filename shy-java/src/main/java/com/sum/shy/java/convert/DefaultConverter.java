@@ -13,6 +13,7 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.lib.Collection;
+import com.sum.shy.lib.StringUtils;
 
 public class DefaultConverter implements Converter {
 
@@ -93,6 +94,9 @@ public class DefaultConverter implements Converter {
 			node.left = null;
 			node.right = null;
 		}
+		if (nodes.size() > 0)
+			clazz.addImport(StringUtils.class.getName());
+
 		return stmt;
 	}
 

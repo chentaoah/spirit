@@ -260,6 +260,8 @@ public class Stmt {
 			} else {
 				return token.value.toString();
 			}
+		} else if (token.isCast()) {// 类型声明后面加空格
+			return token.value + " ";
 		} else {
 			return token.value.toString();
 		}
