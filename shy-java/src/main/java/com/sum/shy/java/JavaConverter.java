@@ -119,10 +119,14 @@ public class JavaConverter {
 					nodes.add(node.right);
 			}
 		} else if (token.isEqualsOperator()) {// == or !=
-			if (node.left != null) {
+			if (node.left != null && node.right != null) {
 				Type type = node.left.token.getTypeAtt();
-				if (type != null && type.isStr())
-					nodes.add(node);
+				if (type != null && type.isStr()) {// 如果左边的类型是str
+					String value = node.right.token.value.toString();
+					if (!"null".equals(value)) {// 并且右边不是null
+						nodes.add(node);
+					}
+				}
 			}
 		}
 		// 查找子节点

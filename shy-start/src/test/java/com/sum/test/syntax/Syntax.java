@@ -26,7 +26,7 @@ public class Syntax {
 		if (b && bb) {
 			logger.info("yes");
 		}
-		if (list.get(1) != null && list instanceof Object) {
+		if (!StringUtils.equals(list.get(1), null) && list instanceof Object) {
 			logger.info("test success");
 		}
 	}
