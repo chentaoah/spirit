@@ -138,14 +138,33 @@ public class JavaConverter {
 	}
 
 	public static void insertBrackets(CtClass clazz, Stmt stmt) {
-		if (stmt.size() >= 2) {// if xxx { //print xxx,xxx
-			stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
+		// 第一个连续关键字之后，最后的分隔符之前
+		if (stmt.size() >= 2) {// if xxx { //print xxx,xxx //}catch Exception e{
+			int index = findKeyword(stmt);
+			stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
 			if ("{".equals(stmt.last())) {
 				stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
 			} else {
 				stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")", null));
 			}
 		}
+	}
+
+	private static int findKeyword(Stmt stmt) {
+		int index = -1;
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.getToken(i);
+			if (token.isKeyword()) {
+				index = i;
+			} else {
+				if (index == -1) {// 不是关键字的话,则进行下去
+					continue;
+				} else {// 如果不是关键字,但是关键字已经找到,则中断
+					break;
+				}
+			}
+		}
+		return index;
 	}
 
 	public static void addLineEnd(CtClass clazz, Stmt stmt) {
