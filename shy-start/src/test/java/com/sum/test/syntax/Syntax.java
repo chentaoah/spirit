@@ -21,7 +21,7 @@ public class Syntax {
 	}
 
 	public void testJudge() {
-		boolean b = list.get(1) != null;
+		boolean b = !StringUtils.equals(list.get(1), null);
 		boolean bb = list instanceof Object;
 		if (b && bb) {
 			logger.info("yes");
