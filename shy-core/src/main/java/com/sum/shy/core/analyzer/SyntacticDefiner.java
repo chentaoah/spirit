@@ -3,6 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.utils.ArrayUtils;
 
 /**
  * 语法分析器
@@ -14,10 +15,12 @@ import com.sum.shy.core.entity.Constants;
  * @date: 2019年10月29日
  */
 public class SyntacticDefiner {
-
+	// 结构体关键字,组成一个类的基本结构
+	public static final String[] STRUCT_KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
+			"func" };
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "def", "interface", "abstract", "class",
-			"func", "if", "while", "try", "sync", "return", "break", "continue", "throw", "print", "debug", "error" };
+	public static final String[] KEYWORDS = new String[] { "if", "while", "try", "sync", "return", "break", "continue",
+			"throw", "print", "debug", "error" };
 
 	public static String getSyntax(List<String> words) {
 		try {
@@ -27,6 +30,10 @@ public class SyntacticDefiner {
 
 			// 第一个单词
 			String first = words.get(0);
+			for (String keyword : STRUCT_KEYWORDS) {// 关键字语句
+				if (keyword.equals(first))
+					return keyword;
+			}
 			for (String keyword : KEYWORDS) {// 关键字语句
 				if (keyword.equals(first))
 					return keyword;
@@ -93,6 +100,10 @@ public class SyntacticDefiner {
 
 		// 未知
 		return Constants.UNKNOWN;
+	}
+
+	public static boolean isStructKeyword(String keyword) {
+		return ArrayUtils.contain(SyntacticDefiner.STRUCT_KEYWORDS, keyword);
 	}
 
 }

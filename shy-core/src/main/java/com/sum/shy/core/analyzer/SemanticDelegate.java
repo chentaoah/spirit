@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.utils.ArrayUtils;
 
 /**
  * 语义分析器
@@ -19,9 +20,6 @@ import com.sum.shy.core.entity.Token;
  */
 public class SemanticDelegate {
 
-	// 某些句式,token需要特殊处理
-	public static final String[] SYNTAXS = new String[] { "package", "import", "interface", "abstract", "class",
-			"func" };
 	// 关键字
 	public static final String[] KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
 			"extends", "impl", "func", "throws", "if", "else", "for", "in", "do", "while", "try", "catch", "sync",
@@ -75,26 +73,28 @@ public class SemanticDelegate {
 
 		List<Token> tokens = new ArrayList<>();
 
-		// 注解
+		// 1.注解
 		if (Constants.ANNOTATION_SYNTAX.equals(syntax)) {
 			tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0), null));
 			return tokens;
 		}
 
-		// 关键字语句特殊处理
-		if (isKeywordSyntax(syntax)) {
+		// 2.关键字语句特殊处理
+		if (SyntacticDefiner.isStructKeyword(syntax)) {
 			for (String word : words) {
 				Token token = new Token();
-				getKeywordTokenType(token, word);
+				getStructTokenType(token, word);
 				token.value = word;
 				tokens.add(token);
 			}
 			return tokens;
 		}
 
+		// 3.一般的处理方式
 		for (String word : words) {
 			tokens.add(getToken(word));
 		}
+
 		return tokens;
 
 	}
@@ -113,7 +113,7 @@ public class SemanticDelegate {
 		return token;
 	}
 
-	private static void getKeywordTokenType(Token token, String word) {
+	private static void getStructTokenType(Token token, String word) {
 		if (isKeyword(word)) {
 			token.type = Constants.KEYWORD_TOKEN;
 			return;
@@ -163,29 +163,16 @@ public class SemanticDelegate {
 
 	}
 
-	private static boolean contain(String[] strs, String word) {
-		for (String str : strs) {
-			if (str.equals(word)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static boolean isKeywordSyntax(String syntax) {
-		return contain(SYNTAXS, syntax);
-	}
-
 	private static boolean isKeyword(String word) {
-		return contain(KEYWORDS, word);
+		return ArrayUtils.contain(KEYWORDS, word);
 	}
 
 	public static boolean isOperator(String word) {
-		return contain(OPERATORS, word);
+		return ArrayUtils.contain(OPERATORS, word);
 	}
 
 	public static boolean isSeparator(String word) {
-		return contain(SEPARATORS, word);
+		return ArrayUtils.contain(SEPARATORS, word);
 	}
 
 	public static boolean isType(String word) {
