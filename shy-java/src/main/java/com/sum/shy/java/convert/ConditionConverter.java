@@ -28,8 +28,7 @@ public class ConditionConverter extends DefaultConverter {
 			stmt = JavaConverter.convertEquals(clazz, stmt);// 这个比较特别，stmt的替换是通过处理Node实现的，其实是操作副本完成的
 		}
 
-		stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
-		stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
+		JavaConverter.insertBrackets(clazz, stmt);// 插入括号
 
 		return stmt;
 	}

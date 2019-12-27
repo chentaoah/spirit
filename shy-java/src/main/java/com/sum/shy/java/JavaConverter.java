@@ -137,6 +137,17 @@ public class JavaConverter {
 
 	}
 
+	public static void insertBrackets(CtClass clazz, Stmt stmt) {
+		if (stmt.size() >= 2) {// if xxx { //print xxx,xxx
+			stmt.tokens.add(1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
+			if ("{".equals(stmt.last())) {
+				stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
+			} else {
+				stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")", null));
+			}
+		}
+	}
+
 	public static void addLineEnd(CtClass clazz, Stmt stmt) {
 		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
 	}
