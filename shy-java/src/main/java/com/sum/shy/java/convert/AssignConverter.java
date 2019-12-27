@@ -16,6 +16,9 @@ public class AssignConverter extends DefaultConverter {
 		// 保留第一个var token
 		Token token = stmt.getToken(0);
 
+		if (line.text.contains("( s!=\"test\" ) && s==\"test\" && list.get(0) && s")) {
+			System.out.println("");
+		}
 		JavaConverter.convertCommon(clazz, stmt);
 		JavaConverter.convertEquals(clazz, stmt);
 		JavaConverter.addLineEnd(clazz, stmt);

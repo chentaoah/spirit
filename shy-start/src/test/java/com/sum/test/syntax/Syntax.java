@@ -1,5 +1,6 @@
 package com.sum.test.syntax;
 
+import com.sum.shy.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;

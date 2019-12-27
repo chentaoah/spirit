@@ -82,15 +82,19 @@ public class JavaConverter {
 				}
 				if (express != null) {
 					express = String.format(express, node.left, node.right);
-					node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
 					node.left = null;
 					node.right = null;
+					node.token.type = Constants.EXPRESS_TOKEN;
+					node.token.value = express;
+					node.token.attachments = null;
 				}
 			} else {
 				String express = String.format("StringUtils.isNotEmpty(%s)", node);
-				node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
 				node.left = null;
 				node.right = null;
+				node.token.type = Constants.EXPRESS_TOKEN;
+				node.token.value = express;
+				node.token.attachments = null;
 			}
 
 		}
