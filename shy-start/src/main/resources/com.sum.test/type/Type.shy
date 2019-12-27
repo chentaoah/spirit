@@ -1,5 +1,7 @@
 
+@Deprecated
 class Type {
+	@Deprecated
 	b=true
 	b1=false
 	i=100
@@ -18,6 +20,7 @@ class Type {
 	objArray=Object[10]
 	strArray=String[10]
 
+	@Deprecated
 	func testType(){
 
 		list << "fourth"
