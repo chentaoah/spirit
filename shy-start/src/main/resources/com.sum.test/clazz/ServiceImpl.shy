@@ -1,8 +1,15 @@
 
 class ServiceImpl extends AbsService{
+
+	String name
 	//测试构造方法
 	func ServiceImpl(){
+		this("chentao")
+	}
+
+	func ServiceImpl(String name){
 		super()
+		this.name=name
 	}
 
 	func one(){
