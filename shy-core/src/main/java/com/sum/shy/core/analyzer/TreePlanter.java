@@ -210,7 +210,7 @@ public class TreePlanter {
 //		String text = "(x >= 0 && y<100)";
 //		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
-		String text = "if this.name=true || (int)x++ > 100.0 && list.size()>100 {";
+		String text = "for i=0; i<list.size(); i++ {";
 
 		Stmt stmt = Stmt.create(text);
 		System.out.println(stmt.debug());
