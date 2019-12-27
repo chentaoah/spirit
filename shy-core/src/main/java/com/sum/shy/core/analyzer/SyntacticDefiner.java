@@ -56,15 +56,6 @@ public class SyntacticDefiner {
 					&& SemanticDelegate.isInvokeMethod(first)) {// 调用方法
 				return Constants.INVOKE_SYNTAX;
 			}
-			if ("=".equals(second)) {// 字段定义或者赋值语句
-				return Constants.ASSIGN_SYNTAX;
-			}
-			if ("<<".equals(second)) {
-				return Constants.FAST_ADD_SYNTAX;
-			}
-			if ("?".equals(second)) {
-				return Constants.JUDGE_INVOKE_SYNTAX;
-			}
 
 			// 第三个单词
 			String third = words.get(2);
@@ -83,6 +74,16 @@ public class SyntacticDefiner {
 					}
 				} else if ("catch".equals(second)) {
 					return Constants.CATCH_SYNTAX;
+				}
+			}
+
+			for (String word : words) {
+				if ("=".equals(word)) {// 字段定义或者赋值语句
+					return Constants.ASSIGN_SYNTAX;
+				} else if ("<<".equals(word)) {
+					return Constants.FAST_ADD_SYNTAX;
+				} else if ("?".equals(word)) {
+					return Constants.JUDGE_INVOKE_SYNTAX;
 				}
 			}
 

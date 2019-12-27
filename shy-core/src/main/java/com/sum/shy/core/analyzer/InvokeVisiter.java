@@ -169,6 +169,9 @@ public class InvokeVisiter {
 					if ("super".equals(methodName)) {
 						return new CodeType(typeClass, typeClass.superName);
 					}
+					if ("this".equals(methodName)) {
+						return new CodeType(typeClass, typeClass.typeName);
+					}
 					if (typeClass.existMethod(methodName, parameterTypes)) {
 						CtMethod method = typeClass.findMethod(methodName, parameterTypes);
 						return visitMember(typeClass, method);

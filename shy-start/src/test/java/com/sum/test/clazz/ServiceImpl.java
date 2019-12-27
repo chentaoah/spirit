@@ -4,8 +4,15 @@ import com.sum.test.clazz.AbsService;
 
 public class ServiceImpl extends AbsService {
 
+	public String name;
+
 	public ServiceImpl() {
+		this("chentao");
+	}
+
+	public ServiceImpl(String name) {
 		super();
+		this.name = name;
 	}
 
 	public String one() {

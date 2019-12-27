@@ -30,6 +30,7 @@ public class JavaBuilder {
 	static {
 
 		Converter.register("super", new DefaultConverter());// 调用父类构造方法
+		Converter.register("this", new DefaultConverter());// 调用构造方法
 
 		Converter.register("declare", new DeclareConverter());// 声明转换
 		Converter.register("assign", new AssignConverter());// 赋值转换
