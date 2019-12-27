@@ -11,13 +11,14 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.impl.CodeType;
+import com.sum.shy.java.JavaConverter;
 
 public class PrintConverter extends DefaultConverter {
 
 	@Override
 	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
 
-		convertCommon(clazz, stmt);
+		JavaConverter.convertCommon(clazz, stmt);
 
 		Token token = stmt.getToken(0);
 		if ("print".equals(token.value)) {
