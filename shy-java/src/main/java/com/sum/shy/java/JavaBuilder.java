@@ -29,7 +29,6 @@ public class JavaBuilder {
 
 	static {
 
-		Converter.register("annotation", new DefaultConverter());// 注解
 		Converter.register("super", new DefaultConverter());// 调用父类构造方法
 
 		Converter.register("declare", new DeclareConverter());// 声明转换

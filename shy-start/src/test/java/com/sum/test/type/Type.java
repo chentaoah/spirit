@@ -6,9 +6,11 @@ import com.sum.shy.lib.Collection;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class Type {
 
 	public static Logger logger = LoggerFactory.getLogger(Type.class);
+	@Deprecated
 	public boolean b = true;
 	public boolean b1 = false;
 	public int i = 100;
@@ -27,6 +29,7 @@ public class Type {
 	public Object[] objArray = new Object[10];
 	public String[] strArray = new String[10];
 
+	@Deprecated
 	public void testType() {
 		list.add("fourth");
 		list1.add(100.0);

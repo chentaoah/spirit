@@ -23,6 +23,7 @@ public class Constants {
 	public static final String CLASS_SYNTAX = "class";
 	public static final String FUNC_SYNTAX = "func";
 	public static final String SUPER_SYNTAX = "super";// 父类构造
+	public static final String THIS_SYNTAX = "this";// 调用自身构造
 	public static final String DECLARE_SYNTAX = "declare";
 	public static final String ASSIGN_SYNTAX = "assign";
 	public static final String INVOKE_SYNTAX = "invoke";

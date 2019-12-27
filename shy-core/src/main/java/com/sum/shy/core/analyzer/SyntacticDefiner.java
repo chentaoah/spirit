@@ -21,36 +21,39 @@ public class SyntacticDefiner {
 
 	public static String getSyntax(List<String> words) {
 		try {
-			if (words == null || words.size() == 0) {// 添加空校验
+			// 空校验
+			if (words == null || words.size() == 0)
 				return Constants.UNKNOWN;
-			}
 
+			// 第一个单词
 			String first = words.get(0);
 			for (String keyword : KEYWORDS) {// 关键字语句
-				if (keyword.equals(first)) {
+				if (keyword.equals(first))
 					return keyword;
-				}
 			}
-
-			if (first.startsWith("@")) {// 注解
-				return Constants.ANNOTATION_SYNTAX;
-			}
-
 			if (words.size() == 1 && "}".equals(first)) {// 语句块的结束
 				return Constants.END_SYNTAX;
+			}
+			if (words.size() == 1 && first.startsWith("@")) {// 注解
+				return Constants.ANNOTATION_SYNTAX;
 			}
 			if (words.size() == 1 && first.startsWith("super(")) {// 只有一个语素,并且以super开头
 				return Constants.SUPER_SYNTAX;
 			}
-			if (words.size() == 1 && SemanticDelegate.isInvoke(first)) {// 只有一个语素，调用本地方法
+			if (words.size() == 1 && first.startsWith("this(")) {// 只有一个语素,并且以this开头
+				return Constants.THIS_SYNTAX;
+			}
+			if (words.size() == 1 && SemanticDelegate.isInvokeLocal(first)) {// 调用本地方法
 				return Constants.INVOKE_SYNTAX;
 			}
 
+			// 第二个单词
 			String second = words.get(1);
-			if (words.size() == 2 && SemanticDelegate.isType(first)) {// 如果是类型,则是类型说明语句
+			if (words.size() == 2 && SemanticDelegate.isType(first) && SemanticDelegate.isVar(second)) {// 如果是类型,则是类型说明语句
 				return Constants.DECLARE_SYNTAX;
 			}
-			if (words.size() == 2 && SemanticDelegate.isInvoke(second)) {// 调用成员方法
+			if (words.size() == 2 && (SemanticDelegate.isVar(first) || SemanticDelegate.isType(first))
+					&& SemanticDelegate.isInvokeMethod(first)) {// 调用方法
 				return Constants.INVOKE_SYNTAX;
 			}
 			if ("=".equals(second)) {// 字段定义或者赋值语句
@@ -63,6 +66,7 @@ public class SyntacticDefiner {
 				return Constants.JUDGE_INVOKE_SYNTAX;
 			}
 
+			// 第三个单词
 			String third = words.get(2);
 			if ("for".equals(first)) {
 				if ("in".equals(third)) {
@@ -70,7 +74,6 @@ public class SyntacticDefiner {
 				}
 				return Constants.FOR_SYNTAX;
 			}
-
 			if ("}".equals(first)) {// else if语句
 				if ("else".equals(second)) {
 					if ("if".equals(third)) {
@@ -82,6 +85,7 @@ public class SyntacticDefiner {
 					return Constants.CATCH_SYNTAX;
 				}
 			}
+
 		} catch (Exception e) {
 			// ignore
 		}

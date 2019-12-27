@@ -276,6 +276,14 @@ public class SemanticDelegate {
 				|| INVOKE_METHOD_PATTERN.matcher(word).matches();
 	}
 
+	public static boolean isInvokeLocal(String word) {
+		return INVOKE_LOCAL_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isInvokeMethod(String word) {
+		return INVOKE_METHOD_PATTERN.matcher(word).matches();
+	}
+
 	private static void getTokenValue(Token token, String word) {
 
 		if (token.isType()) {
