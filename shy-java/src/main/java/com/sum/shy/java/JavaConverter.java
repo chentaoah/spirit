@@ -57,11 +57,11 @@ public class JavaConverter {
 
 	}
 
-	public static void convertEquals(CtClass clazz, Stmt stmt) {
+	public static Stmt convertEquals(CtClass clazz, Stmt stmt) {
 		// 先将子语句替换
 		for (Token token : stmt.tokens) {
 			if (token.hasSubStmt())
-				convertEquals(clazz, (Stmt) token.value);
+				token.value = convertEquals(clazz, (Stmt) token.value);
 		}
 		// 查找==节点
 		stmt = AbsSyntaxTree.grow(stmt);
@@ -84,22 +84,20 @@ public class JavaConverter {
 					express = String.format(express, node.left, node.right);
 					node.left = null;
 					node.right = null;
-					node.token.type = Constants.EXPRESS_TOKEN;
-					node.token.value = express;
-					node.token.attachments = null;
+					node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
 				}
 			} else {
 				String express = String.format("StringUtils.isNotEmpty(%s)", node);
 				node.left = null;
 				node.right = null;
-				node.token.type = Constants.EXPRESS_TOKEN;
-				node.token.value = express;
-				node.token.attachments = null;
+				node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
 			}
 
 		}
 		if (nodes.size() > 0)
 			clazz.addImport(StringUtils.class.getName());
+
+		return stmt;
 
 	}
 
