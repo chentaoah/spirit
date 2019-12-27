@@ -18,8 +18,7 @@ public class AssignConverter extends DefaultConverter {
 
 		stmt = convertStmt(clazz, stmt);
 
-		if (line.text.contains("=="))
-			stmt = JavaConverter.convertEquals(clazz, stmt);
+		JavaConverter.convertEquals(clazz, stmt);
 
 		if (token.isVar() && !token.isDeclaredAtt()) {
 			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));

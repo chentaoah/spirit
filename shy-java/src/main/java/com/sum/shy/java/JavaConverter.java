@@ -15,11 +15,16 @@ import com.sum.shy.lib.StringUtils;
 
 public class JavaConverter {
 
-	public static Stmt convertCommon(CtClass clazz, Stmt stmt) {
+	public static void addLineEnd(Stmt stmt) {
+		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
+	}
+
+	public static void convertCommon(CtClass clazz, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 
 			Token token = stmt.getToken(i);
+
 			if (token.hasSubStmt())
 				convertCommon(clazz, (Stmt) token.value);
 
@@ -54,14 +59,13 @@ public class JavaConverter {
 
 		}
 
-		return stmt;
 	}
 
-	public static Stmt convertEquals(CtClass clazz, Stmt stmt) {
+	public static void convertEquals(CtClass clazz, Stmt stmt) {
 		// 先将子语句替换
 		for (Token token : stmt.tokens) {
 			if (token.hasSubStmt())
-				token.value = convertEquals(clazz, (Stmt) token.value);
+				convertEquals(clazz, (Stmt) token.value);
 		}
 		// 查找==节点
 		stmt = AbsSyntaxTree.grow(stmt);
@@ -97,7 +101,6 @@ public class JavaConverter {
 		if (nodes.size() > 0)
 			clazz.addImport(StringUtils.class.getName());
 
-		return stmt;
 	}
 
 	public static void findEquals(Node node, List<Node> nodes) {

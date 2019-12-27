@@ -18,7 +18,7 @@ public class DefaultConverter implements Converter {
 
 	public static Stmt convertStmt(CtClass clazz, Stmt stmt) {
 		// 将语句进行一定的转换
-		stmt = JavaConverter.convertCommon(clazz, stmt);
+		JavaConverter.convertCommon(clazz, stmt);
 		// 这个添加的后缀,使得后面不会加上空格
 		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));
 
