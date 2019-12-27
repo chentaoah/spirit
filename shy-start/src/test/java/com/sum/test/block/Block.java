@@ -20,7 +20,7 @@ public class Block {
 		if (!StringUtils.equals(s, "hello")) {
 			logger.info(s);
 		}
-		if (s) {
+		if (StringUtils.isNotEmpty(s)) {
 			logger.info(s);
 		}
 		if (!StringUtils.isNotEmpty(s)) {
@@ -28,10 +28,10 @@ public class Block {
 		} else {
 			logger.info(s);
 		}
-		if (s) {
+		if (StringUtils.isNotEmpty(s)) {
 			logger.info(s);
 		}
-		if (s) {
+		if (StringUtils.isNotEmpty(s)) {
 			logger.info(s);
 			logger.info("yes");
 		}
@@ -72,7 +72,7 @@ public class Block {
 
 	public void testWhile() {
 		String y = "hi!";
-		while (y) {
+		while (StringUtils.isNotEmpty(y)) {
 			logger.info(y);
 			break;
 		}
