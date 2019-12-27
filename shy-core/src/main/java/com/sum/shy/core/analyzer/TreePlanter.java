@@ -17,7 +17,7 @@ import com.sum.shy.lib.StringUtils;
  * @author chentao26275
  *
  */
-public class AbsSyntaxTree {
+public class TreePlanter {
 
 	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "==", "!=", "<",
 			">", "<=", ">=", "&&", "||", "<<", "?", "=" };

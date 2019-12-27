@@ -3,7 +3,7 @@ package com.sum.shy.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.analyzer.AbsSyntaxTree;
+import com.sum.shy.core.analyzer.TreePlanter;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
@@ -64,7 +64,7 @@ public class JavaConverter {
 				token.value = convertEquals(clazz, (Stmt) token.value);
 		}
 		// 查找==节点
-		stmt = AbsSyntaxTree.grow(stmt);
+		stmt = TreePlanter.grow(stmt);
 		// 遍历所有顶点，收集==节点
 		List<Node> nodes = new ArrayList<>();
 		for (Node node : stmt.findNodes()) {
