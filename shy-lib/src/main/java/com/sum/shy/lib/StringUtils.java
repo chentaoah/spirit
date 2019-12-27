@@ -10,8 +10,8 @@ public class StringUtils {
 		return str == null || str.length() == 0;
 	}
 
-	public static boolean equals(String str1, String str2) {
-		return str1 != null && str1.equals(str2);
+	public static boolean equals(String str, Object obj) {
+		return str == obj || (str != null && str.equals(obj));
 	}
 
 }
