@@ -15,7 +15,6 @@ public class DefaultConverter implements Converter {
 	}
 
 	public static Stmt convertStmt(CtClass clazz, Stmt stmt) {
-		// 将语句进行一定的转换
 		JavaConverter.convertCommon(clazz, stmt);
 		JavaConverter.addLineEnd(clazz, stmt);
 		return stmt;

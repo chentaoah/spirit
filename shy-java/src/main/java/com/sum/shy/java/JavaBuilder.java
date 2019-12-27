@@ -35,6 +35,7 @@ public class JavaBuilder {
 		Converter.register("declare", new DeclareConverter());// 声明转换
 		Converter.register("assign", new AssignConverter());// 赋值转换
 		Converter.register("invoke", new DefaultConverter());// 方法调用
+		Converter.register("return", new DefaultConverter());// 返回
 
 		Converter.register("if", new ConditionConverter());// 条件转换
 		Converter.register("elseif", new ConditionConverter());
@@ -59,10 +60,7 @@ public class JavaBuilder {
 		Converter.register("error", new PrintConverter());// 日志
 
 		Converter.register("fast_add", new FastAddConverter());// 快速添加
-
 		Converter.register("judge_invoke", new JudgeInvokeConverter());// 判空调用
-
-		Converter.register("return", new DefaultConverter());// 返回
 
 	}
 
