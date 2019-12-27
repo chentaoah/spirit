@@ -15,10 +15,6 @@ import com.sum.shy.lib.StringUtils;
 
 public class JavaConverter {
 
-	public static void addLineEnd(Stmt stmt) {
-		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
-	}
-
 	public static void convertCommon(CtClass clazz, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
@@ -133,6 +129,10 @@ public class JavaConverter {
 		if (node.right != null)
 			findEquals(node.right, nodes);
 
+	}
+
+	public static void addLineEnd(CtClass clazz, Stmt stmt) {
+		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
 	}
 
 }
