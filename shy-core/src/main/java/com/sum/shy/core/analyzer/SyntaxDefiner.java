@@ -14,7 +14,7 @@ import com.sum.shy.core.utils.ArrayUtils;
  * @author: chentao26275
  * @date: 2019年10月29日
  */
-public class SyntacticDefiner {
+public class SyntaxDefiner {
 	// 结构体关键字,组成一个类的基本结构
 	public static final String[] STRUCT_KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
 			"func" };
@@ -102,8 +102,8 @@ public class SyntacticDefiner {
 		return Constants.UNKNOWN;
 	}
 
-	public static boolean isStructKeyword(String keyword) {
-		return ArrayUtils.contain(SyntacticDefiner.STRUCT_KEYWORDS, keyword);
+	public static boolean isStruct(String keyword) {
+		return ArrayUtils.contain(SyntaxDefiner.STRUCT_KEYWORDS, keyword);
 	}
 
 }

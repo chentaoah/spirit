@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.analyzer.SemanticDelegate;
-import com.sum.shy.core.analyzer.SyntacticDefiner;
+import com.sum.shy.core.analyzer.SyntaxDefiner;
+import com.sum.shy.core.analyzer.TreePlanter;
 
 public class Stmt {
 
@@ -22,9 +23,12 @@ public class Stmt {
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.语法分析,分析语句的语法
-		String syntax = SyntacticDefiner.getSyntax(words);
+		String syntax = SyntaxDefiner.getSyntax(words);
 		// 3.语义分析
 		List<Token> tokens = SemanticDelegate.getTokens(syntax, words);
+		// 4.生成抽象语法树
+		if (!SyntaxDefiner.isStruct(syntax))
+			tokens = TreePlanter.getTrees(syntax, tokens);
 		// 生成语句
 		return new Stmt(line, words, syntax, tokens);
 	}

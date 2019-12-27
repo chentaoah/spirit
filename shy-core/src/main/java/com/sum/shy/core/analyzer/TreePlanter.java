@@ -29,6 +29,11 @@ public class TreePlanter {
 		LEFT, RIGHT, DOUBLE
 	}
 
+	public static List<Token> getTrees(String syntax, List<Token> tokens) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * 语法树,并不能处理所有的语句,比如for循环语句,只能处理一个简单的表达式
 	 * 

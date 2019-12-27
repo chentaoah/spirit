@@ -80,7 +80,7 @@ public class SemanticDelegate {
 		}
 
 		// 2.关键字语句特殊处理
-		if (SyntacticDefiner.isStructKeyword(syntax)) {
+		if (SyntaxDefiner.isStruct(syntax)) {
 			for (String word : words) {
 				Token token = new Token();
 				getStructTokenType(token, word);
