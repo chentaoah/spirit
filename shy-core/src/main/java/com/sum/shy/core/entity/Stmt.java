@@ -24,18 +24,18 @@ public class Stmt {
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 
 		if (SyntaxDefiner.isAnnotation(words)) {// 判断是否注解语法
-			// 2.语法分析
-			String syntax = Constants.ANNOTATION_SYNTAX;
-			// 3.语义分析
+			// 2.语义分析
 			List<Token> tokens = SemanticDelegate.getAnnotationTokens(words);
+			// 3.语法分析
+			String syntax = Constants.ANNOTATION_SYNTAX;
 
 			return new Stmt(line, words, syntax, tokens);
 
 		} else if (SyntaxDefiner.isStruct(words)) {// 判断是否是结构语法
-			// 2.语法分析
-			String syntax = SyntaxDefiner.getStructSyntax(words);
-			// 3.语义分析
+			// 2.语义分析
 			List<Token> tokens = SemanticDelegate.getStructTokens(words);
+			// 3.语法分析
+			String syntax = SyntaxDefiner.getStructSyntax(words);
 
 			return new Stmt(line, words, syntax, tokens);
 

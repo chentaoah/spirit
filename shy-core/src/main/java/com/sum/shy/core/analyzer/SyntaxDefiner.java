@@ -88,10 +88,10 @@ public class SyntaxDefiner {
 			if (tokens.size() == 1 && "}".equals(first.toString())) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isInvokeLocal() && first.toString().startsWith("super(")) {// 只有一个语素,并且以super开头
+			if (tokens.size() == 1 && first.isInvokeLocal() && "super".equals(first.getMemberNameAtt())) {// 只有一个语素,并且以super开头
 				return Constants.SUPER_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isInvokeLocal() && first.toString().startsWith("this(")) {// 只有一个语素,并且以this开头
+			if (tokens.size() == 1 && first.isInvokeLocal() && "this".equals(first.getMemberNameAtt())) {// 只有一个语素,并且以this开头
 				return Constants.THIS_SYNTAX;
 			}
 			if (tokens.size() == 1 && first.isInvokeLocal()) {// 调用本地方法
