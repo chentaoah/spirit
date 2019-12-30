@@ -1,5 +1,8 @@
 package com.sum.shy.core.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node {
 
 	public static final String[] BINARY_OPERATOR = new String[] { "+", "-", "*", "/", "%", "==", "!=", "<", ">", "<=",
@@ -49,6 +52,30 @@ public class Node {
 
 		// 其他
 		return token.toString();
+	}
+
+	public List<Node> getNodes() {
+		List<Node> nodes = new ArrayList<>();
+		nodes.add(this);
+		if (left != null)
+			nodes.addAll(0, left.getNodes());
+		if (right != null)
+			nodes.addAll(right.getNodes());
+		return nodes;
+	}
+
+	public Stmt toStmt() {
+		return new Stmt(getTokens());
+	}
+
+	public List<Token> getTokens() {
+		List<Token> tokens = new ArrayList<>();
+		tokens.add(token);
+		if (left != null)
+			tokens.addAll(0, left.getTokens());
+		if (right != null)
+			tokens.addAll(right.getTokens());
+		return tokens;
 	}
 
 }

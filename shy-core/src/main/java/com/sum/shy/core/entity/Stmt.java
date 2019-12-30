@@ -233,6 +233,17 @@ public class Stmt {
 				return token + " ";
 			}
 
+		} else if (token.isOperator()) {
+			if ("=".equals(token.toString())) {
+				return " " + token + " ";
+
+			} else if ("<<".equals(token.toString())) {
+				return " " + token + " ";
+
+			} else {
+				return token.toString();
+			}
+
 		} else if (token.isSeparator()) {// 末尾的括号前面加个空格
 			if (",".equals(token.toString())) {// ,后面加空格
 				return token + " ";
