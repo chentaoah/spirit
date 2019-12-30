@@ -25,6 +25,7 @@ public class Constants {
 	public static final String SUPER_SYNTAX = "super";// 父类构造
 	public static final String THIS_SYNTAX = "this";// 调用自身构造
 	public static final String DECLARE_SYNTAX = "declare";
+	public static final String FUNC_DECLARE_SYNTAX = "func_declare";// 方法声明,在接口中
 	public static final String ASSIGN_SYNTAX = "assign";
 	public static final String FIELD_ASSIGN_SYNTAX = "field_assign";// 字段赋值
 	public static final String INVOKE_SYNTAX = "invoke";

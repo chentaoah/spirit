@@ -3,6 +3,7 @@ package com.sum.shy.core.analyzer;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.utils.ArrayUtils;
 
@@ -97,7 +98,7 @@ public class SyntaxDefiner {
 			if (tokens.size() == 1 && first.isInvokeLocal()) {// 调用本地方法
 				return Constants.INVOKE_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isNode() && ((Token) first.value).isInvokeMethod()) {// 调用方法
+			if (tokens.size() == 1 && first.isNode() && ((Node) first.value).token.isInvokeMethod()) {// 调用方法
 				return Constants.INVOKE_SYNTAX;
 			}
 
@@ -106,10 +107,13 @@ public class SyntaxDefiner {
 			if (tokens.size() == 2 && first.isType() && second.isVar()) {// 如果是类型,则是类型说明语句
 				return Constants.DECLARE_SYNTAX;
 			}
+			if (tokens.size() == 2 && first.isType() && second.isInvokeLocal()) {// 如果是类型,则是类型说明语句
+				return Constants.FUNC_DECLARE_SYNTAX;
+			}
 			if ("=".equals(second.toString())) {// 字段定义或者赋值语句
 				if (first.isVar()) {
 					return Constants.ASSIGN_SYNTAX;
-				} else if (first.isNode() && ((Token) first.value).isVisitField()) {
+				} else if (first.isNode() && ((Node) first.value).token.isVisitField()) {
 					return Constants.FIELD_ASSIGN_SYNTAX;
 				}
 			}
