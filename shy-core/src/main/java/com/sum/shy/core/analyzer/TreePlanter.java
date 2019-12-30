@@ -171,8 +171,6 @@ public class TreePlanter {
 			String text = stmt.format(i, token);
 			// 先使用位置,再将自己的长度追加到位置中
 			token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
-			// 保留指向语句的引用
-			token.setStmt(stmt);
 			// 给子节点也计算位置
 			if (token.hasSubStmt()) {
 				markPosition(position, (Stmt) token.value);
@@ -212,7 +210,6 @@ public class TreePlanter {
 		System.out.println(stmt.debug());
 		System.out.println(stmt.toString());
 
-		stmt = grow(stmt);
 		for (Node node : stmt.findNodes()) {
 			buildTree(lines, 0, null, node);
 		}
