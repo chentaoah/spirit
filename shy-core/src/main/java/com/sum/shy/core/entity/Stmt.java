@@ -295,7 +295,7 @@ public class Stmt {
 	public String debug() {
 		StringBuilder sb = new StringBuilder();
 		for (Token token : tokens) {
-			sb.append(token.toString() + " ");
+			sb.append(token.debug() + " ");
 		}
 		return sb.toString();
 	}

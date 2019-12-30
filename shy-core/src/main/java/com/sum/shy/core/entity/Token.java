@@ -30,6 +30,10 @@ public class Token {
 
 	@Override
 	public String toString() {
+		return value.toString();
+	}
+
+	public String debug() {
 		return "<" + type + ", " + value + ">";
 	}
 
