@@ -6,7 +6,7 @@ import java.util.List;
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.analyzer.SyntaxDefiner;
-import com.sum.shy.core.analyzer.TreePlanter;
+import com.sum.shy.core.analyzer.TreeBuilder;
 
 public class Stmt {
 
@@ -43,7 +43,7 @@ public class Stmt {
 			// 2.语义分析
 			List<Token> tokens = SemanticDelegate.getTokens(words);
 			// 3.语法树分析
-			TreePlanter.getTrees(tokens);
+			TreeBuilder.getTrees(tokens);
 			// 4.根据语法树,判断语法
 			String syntax = SyntaxDefiner.getSyntax(tokens);
 
