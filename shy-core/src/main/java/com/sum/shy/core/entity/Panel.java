@@ -102,6 +102,7 @@ public class Panel {
 		String text = "for i=0; i<list.size(); i++ {";
 
 		Stmt stmt = Stmt.create(text);
+
 		new Panel().debug(stmt);
 
 	}
