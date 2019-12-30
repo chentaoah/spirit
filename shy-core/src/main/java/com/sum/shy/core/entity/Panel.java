@@ -66,7 +66,6 @@ public class Panel {
 
 		if (node == null)
 			return;
-
 		// 节点位置
 		int position = node.token.getPosition();
 		// 节点内容
