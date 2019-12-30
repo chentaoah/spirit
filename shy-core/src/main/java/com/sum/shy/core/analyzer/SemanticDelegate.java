@@ -104,9 +104,8 @@ public class SemanticDelegate {
 	 */
 	public static List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
-		for (String word : words) {
+		for (String word : words)
 			tokens.add(getToken(word));// 一般处理方式
-		}
 		return tokens;
 	}
 
