@@ -205,89 +205,64 @@ public class Stmt {
 			return "";
 
 		if (token.isKeyword()) {// 关键字一般后面加个空格
-			if ("try".equals(token.value)) {// try语句不动
-				return token.value.toString();
-			} else if ("else".equals(token.value) && size() == 3) {// } else { 语句
-				return token.value.toString();
-			} else if ("in".equals(token.value)) {// for xxx in xxx :
-				return " " + token.value + " ";
-			} else if ("continue".equals(token.value)) {
-				return token.value.toString();
-			} else if ("break".equals(token.value)) {
-				return token.value.toString();
-			} else if ("instanceof".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("return".equals(token.value) && size() == 2) {// return;
-				return token.value.toString();
-			} else if ("extends".equals(token.value)) {// extends
-				return " " + token.value + " ";
-			} else if ("impl".equals(token.value)) {// impl shy代码显示的更好看点
-				return " " + token.value + " ";
+			if ("try".equals(token.toString())) {// try语句不动
+				return token.toString();
+
+			} else if ("else".equals(token.toString()) && size() == 3) {// } else { 语句
+				return token.toString();
+
+			} else if ("return".equals(token.toString()) && size() == 2) {// return;
+				return token.toString();
+
+			} else if ("continue".equals(token.toString())) {
+				return token.toString();
+
+			} else if ("break".equals(token.toString())) {
+				return token.toString();
+
+			} else if ("in".equals(token.toString())) {// for xxx in xxx :
+				return " " + token + " ";
+
+			} else if ("extends".equals(token.toString())) {// extends
+				return " " + token + " ";
+
+			} else if ("impl".equals(token.toString())) {// impl shy代码显示的更好看点
+				return " " + token + " ";
+
 			} else {
-				return token.value + " ";
+				return token + " ";
 			}
 
-		} else if (token.isOperator()) {// 有些操作符两边加空格会好看些
-			if ("&&".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("||".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("=".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("==".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("!=".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if (">".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("<".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("<<".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("+".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("-".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("*".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("/".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if ("<=".equals(token.value)) {
-				return " " + token.value + " ";
-			} else if (">=".equals(token.value)) {
-				return " " + token.value + " ";
-			} else {
-				return token.value.toString();
-			}
 		} else if (token.isSeparator()) {// 末尾的括号前面加个空格
-			if (";".equals(token.value)) {// ;在后面加空格
-				return token.value + " ";
-			} else if (",".equals(token.value)) {// ,后面加空格
-				return token.value + " ";
-			} else if ("{".equals(token.value) && index == size() - 1) {// 如果{结尾,则在前面加个空格
-				return " " + token.value;
-			} else if ("}".equals(token.value) && index == 0 && size() != 1) {// 如果}是开头,并且不是孤零零的一个
-				return token.value + " ";
-			} else if (":".equals(token.value)) {// if xxx==xxx : print xxx
-				return " " + token.value + " ";
+			if (",".equals(token.toString())) {// ,后面加空格
+				return token + " ";
+
+			} else if (";".equals(token.toString())) {// ;在后面加空格
+				return token + " ";
+
+			} else if (":".equals(token.toString())) {// if xxx==xxx : print xxx
+				return " " + token + " ";
+
+			} else if ("{".equals(token.toString()) && index == size() - 1) {// 如果{结尾,则在前面加个空格
+				return " " + token;
+
+			} else if ("}".equals(token.toString()) && index == 0 && size() != 1) {// 如果}是开头,并且不是孤零零的一个
+				return token + " ";
+
 			} else {
-				return token.value.toString();
+				return token.toString();
 			}
 
-		} else if (token.isType()) {// 类型声明后面加空格
-			if (index - 1 > 0 && "instanceof".equals(get(index - 1))) {// 类型判断语句中类型后面不用加空格 a instanceof List
-				return token.value.toString();
-			} else if (index + 1 < size() && get(index + 1).startsWith(".")) {// Type.get()后面不用加空格了
-				return token.value.toString();
-			} else if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
-				return token.value + " ";
+		} else if (token.isType()) {
+			if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
+				return token + " ";
+
 			} else {
-				return token.value.toString();
+				return token.toString();
 			}
-		} else if (token.isCast()) {// 类型声明后面加空格
-			return token.value + " ";
+
 		} else {
-			return token.value.toString();
+			return token.toString();
 		}
 
 	}
