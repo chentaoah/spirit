@@ -107,7 +107,11 @@ public class SyntaxDefiner {
 				return Constants.DECLARE_SYNTAX;
 			}
 			if ("=".equals(second.toString())) {// 字段定义或者赋值语句
-				return Constants.ASSIGN_SYNTAX;
+				if (first.isVar()) {
+					return Constants.ASSIGN_SYNTAX;
+				} else if (first.isNode() && ((Token) first.value).isVisitField()) {
+					return Constants.FIELD_ASSIGN_SYNTAX;
+				}
 			}
 			if ("<<".equals(second.toString())) {
 				return Constants.FAST_ADD_SYNTAX;
