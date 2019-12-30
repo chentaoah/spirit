@@ -63,40 +63,51 @@ public class SemanticDelegate {
 	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 
 	/**
+	 * 获取结构体语义
+	 * 
+	 * @param syntax
+	 * @param words
+	 * @return
+	 */
+	public static List<Token> getAnnotationTokens(List<String> words) {
+		List<Token> tokens = new ArrayList<>();
+		tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0), null));
+		return tokens;
+	}
+
+	/**
+	 * 获取结构体语义
+	 * 
+	 * @param syntax
+	 * @param words
+	 * @return
+	 */
+	public static List<Token> getStructTokens(List<String> words) {
+		List<Token> tokens = new ArrayList<>();
+		// 关键字语句特殊处理
+		for (String word : words) {
+			Token token = new Token();
+			getStructTokenType(token, word);
+			token.value = word;
+			tokens.add(token);
+		}
+		return tokens;
+
+	}
+
+	/**
 	 * 语义分析
 	 * 
 	 * @param syntax
 	 * @param words
 	 * @return
 	 */
-	public static List<Token> getTokens(String syntax, List<String> words) {
-
+	public static List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
-
-		// 1.注解
-		if (Constants.ANNOTATION_SYNTAX.equals(syntax)) {
-			tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0), null));
-			return tokens;
-		}
-
-		// 2.关键字语句特殊处理
-		if (SyntaxDefiner.isStruct(syntax)) {
-			for (String word : words) {
-				Token token = new Token();
-				getStructTokenType(token, word);
-				token.value = word;
-				tokens.add(token);
-			}
-			return tokens;
-		}
-
-		// 3.一般的处理方式
 		for (String word : words) {
-			tokens.add(getToken(word));
+			tokens.add(getToken(word));// 一般处理方式
 		}
-
 		return tokens;
-
 	}
 
 	/**
@@ -323,7 +334,7 @@ public class SemanticDelegate {
 		// 分解内容
 		List<String> subWords = LexicalAnalyzer.getWords(content);
 		// 获取tokens
-		List<Token> subTokens = getTokens(null, subWords);
+		List<Token> subTokens = getTokens(subWords);
 		// 插入分隔符
 		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left, null));// 注意:这个符号不再是操作符,而是分隔符
 		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right, null));// 20191213 ct 修复>分隔符插入位置错误的问题

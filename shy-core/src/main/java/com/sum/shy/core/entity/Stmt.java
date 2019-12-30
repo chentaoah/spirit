@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.analyzer.LexicalAnalyzer;
 import com.sum.shy.core.analyzer.SemanticDelegate;
 import com.sum.shy.core.analyzer.SyntaxDefiner;
+import com.sum.shy.core.analyzer.TreePlanter;
 
 public class Stmt {
 
@@ -21,15 +22,35 @@ public class Stmt {
 	public static Stmt create(Line line) {
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(line.text);
-		// 2.语法分析,分析语句的语法
-		String syntax = SyntaxDefiner.getSyntax(words);
-		// 3.语义分析
-		List<Token> tokens = SemanticDelegate.getTokens(syntax, words);
-		// 4.生成抽象语法树
-//		if (!SyntaxDefiner.isStruct(syntax))
-//			tokens = TreePlanter.getTrees(syntax, tokens);
-		// 生成语句
-		return new Stmt(line, words, syntax, tokens);
+
+		if (SyntaxDefiner.isAnnotation(words)) {// 判断是否注解语法
+			// 2.语法分析
+			String syntax = Constants.ANNOTATION_SYNTAX;
+			// 3.语义分析
+			List<Token> tokens = SemanticDelegate.getAnnotationTokens(words);
+
+			return new Stmt(line, words, syntax, tokens);
+
+		} else if (SyntaxDefiner.isStruct(words)) {// 判断是否是结构语法
+			// 2.语法分析
+			String syntax = SyntaxDefiner.getStructSyntax(words);
+			// 3.语义分析
+			List<Token> tokens = SemanticDelegate.getStructTokens(words);
+
+			return new Stmt(line, words, syntax, tokens);
+
+		} else {
+			// 2.语义分析
+			List<Token> tokens = SemanticDelegate.getTokens(words);
+			// 3.语法树分析
+			tokens = TreePlanter.getTrees(tokens);
+			// 4.根据语法树,判断语法
+			String syntax = SyntaxDefiner.getSyntax(tokens);
+
+			return new Stmt(line, words, syntax, tokens);
+
+		}
+
 	}
 
 	public static Stmt create(String text) {

@@ -29,7 +29,7 @@ public class TreePlanter {
 		LEFT, RIGHT, DOUBLE
 	}
 
-	public static List<Token> getTrees(String syntax, List<Token> tokens) {
+	public static List<Token> getTrees(List<Token> tokens) {
 		// TODO Auto-generated method stub
 		return null;
 	}
