@@ -29,10 +29,22 @@ public class TreePlanter {
 	}
 
 	public static List<Token> getTrees(List<Token> tokens) {
-
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;
+		// 先处理子节点
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
+				Stmt subStmt = (Stmt) token.value;
+				getTrees(subStmt.tokens);
+			}
+		}
+		// 通过递归获取节点树
+		return getNodeByLoop(tokens);
+	}
+
+	public static List<Token> getNodeByLoop(List<Token> tokens) {
 
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
 		Token finalLastToken = null;
@@ -124,6 +136,21 @@ public class TreePlanter {
 		return getTrees(tokens);
 	}
 
+	public static int getPriority(String value) {
+		int count = 0;
+		for (String operator : OPERATORS) {
+			if (operator.equals(value)) {
+				return PRIORITY[count];
+			}
+			count++;
+		}
+		return -1;
+	}
+
+	public static Node getNode(Token token) {
+		return token.isNode() ? (Node) token.value : new Node(token);
+	}
+
 	/**
 	 * 语法树,并不能处理所有的语句,比如for循环语句,只能处理一个简单的表达式
 	 * 
@@ -134,7 +161,7 @@ public class TreePlanter {
 		// 为每个token计算位置
 		markPosition(0, stmt);
 		// 递归获取节点树
-		return getNodeByLoop(stmt);
+		return null;
 	}
 
 	public static void markPosition(int position, Stmt stmt) {
@@ -152,127 +179,6 @@ public class TreePlanter {
 			}
 			// 加上当前的长度
 			position += text.length();
-		}
-	}
-
-	private static Stmt getNodeByLoop(Stmt stmt) {
-
-		// 如果只有一个元素
-		if (stmt.size() == 1)
-			return stmt;
-
-		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
-		Token finalLastToken = null;
-		Token finalCurrToken = null;// 当前优先级最高的操作符
-		Token finalNextToken = null;
-		int maxPriority = -1;// 优先级
-		Category finalCategory = null;// 一元左元,一元右元,二元
-		int index = -1;
-
-		// 每个token在一行里面的位置
-		for (int i = 0; i < stmt.size(); i++) {
-
-			Token lastToken = i - 1 >= 0 ? stmt.getToken(i - 1) : null;
-			Token currToken = stmt.getToken(i);
-			Token nextToken = i + 1 < stmt.size() ? stmt.getToken(i + 1) : null;
-			int priority = -1;
-			Category category = null;
-
-//			1.括号，如 ( ) 和 [ ]
-//			2.一元运算符，如 -、++、--和 !
-//			3.算术运算符，如 *、/、%、+ 和 -
-//			4.关系运算符，如 >、>=、<、<=、== 和 !=
-//			5.逻辑运算符，如 &、^、|、&&、||
-//			6.条件运算符和赋值运算符，如 ? ：、=、*=、/=、+= 和 -=
-
-			if (currToken.isFluent()) {
-				priority = 50;// 优先级最高
-				category = Category.LEFT;
-
-			} else if (currToken.isOperator()) {// 如果是操作符
-				String value = currToken.value.toString();
-				// 优先级
-				priority = getPriority(value);
-				if ("++".equals(value) || "--".equals(value)) {
-					if (lastToken != null && lastToken.isVar()) {// 左元
-						category = Category.LEFT;
-					} else if (nextToken != null && nextToken.isVar()) {// 右元
-						category = Category.RIGHT;
-					}
-				} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-					category = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Category.RIGHT
-							: Category.DOUBLE;
-
-				} else if ("!".equals(value)) {// 右元
-					category = Category.RIGHT;
-
-				} else {// 一般操作符都是二元的
-					category = Category.DOUBLE;
-				}
-
-			} else if (currToken.isCast()) {
-				priority = 35;// 介于!和 *之间
-				category = Category.RIGHT;
-
-			} else if (currToken.isInstanceof()) {// instanceof
-				priority = 20;// 相当于一个==
-				category = Category.DOUBLE;
-
-			}
-
-			if (priority > maxPriority) {
-				finalLastToken = lastToken;
-				finalCurrToken = currToken;
-				finalNextToken = nextToken;
-				maxPriority = priority;
-				finalCategory = category;
-				index = i;
-			}
-
-		}
-		// 校验
-		if (finalCurrToken == null)
-			return stmt;
-
-		Node node = getNode(finalCurrToken);
-		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE) {
-			if (finalLastToken != null) {
-				node.left = getNode(finalLastToken);
-			}
-		}
-		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE) {
-			if (finalNextToken != null) {
-				node.right = getNode(finalNextToken);
-			}
-		}
-
-		int start = finalCategory == Category.LEFT || finalCategory == Category.DOUBLE ? index - 1 : index;
-		int end = finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE ? index + 1 + 1 : index + 1;
-
-		// 替换
-		stmt = stmt.replace(start, end, new Token(Constants.NODE_TOKEN, node, null));
-
-		// 递归
-		return getNodeByLoop(stmt);
-
-	}
-
-	public static int getPriority(String value) {
-		int count = 0;
-		for (String operator : OPERATORS) {
-			if (operator.equals(value)) {
-				return PRIORITY[count];
-			}
-			count++;
-		}
-		return -1;
-	}
-
-	public static Node getNode(Token token) {
-		if (token.isNode()) {
-			return (Node) token.value;
-		} else {
-			return new Node(token);
 		}
 	}
 
