@@ -52,13 +52,14 @@ public class TreePlanter {
 			Category category = null;
 
 			if (currToken.isFluent()) {
-				priority = 50;// 优先级最高
-				category = Category.LEFT;
-
+				// 优先级最高,但是左边不能是?号
+				if (lastToken != null && !"?".equals(lastToken.toString())) {
+					priority = 50;// 优先级最高
+					category = Category.LEFT;
+				}
 			} else if (currToken.isOperator()) {// 如果是操作符
-				String value = currToken.value.toString();
-				// 优先级
-				priority = getPriority(value);
+				String value = currToken.toString();
+				priority = getPriority(value);// 优先级
 				if ("++".equals(value) || "--".equals(value)) {
 					if (lastToken != null && lastToken.isVar()) {// 左元
 						category = Category.LEFT;
