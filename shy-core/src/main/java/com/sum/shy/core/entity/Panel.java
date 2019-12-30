@@ -18,7 +18,7 @@ public class Panel {
 	public void debug(Stmt stmt) {
 		markPosition(0, stmt);
 		buildTree(0, "", stmt);
-		show();
+		System.out.println(toString());
 	}
 
 	public static void markPosition(int position, Stmt stmt) {
@@ -49,23 +49,25 @@ public class Panel {
 	}
 
 	private void buildTree(int depth, String separator, Stmt stmt) {
-
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (!token.isNode()) {
-				print(depth, token.getPosition(), token.toString());
-
+			if (token.hasSubStmt()) {
+				buildTree(depth, separator, (Stmt) token.value);
 			} else {
-				buildTree(depth, separator, (Node) token.value);
+				if (!token.isNode()) {
+					print(depth, token.getPosition(), token.toString());
+				} else {
+					buildTree(depth, separator, (Node) token.value);
+				}
 			}
 		}
-
 	}
 
 	private void buildTree(int depth, String separator, Node node) {
 
 		if (node == null)
 			return;
+
 		// 节点位置
 		int position = node.token.getPosition();
 		// 节点内容
@@ -73,8 +75,12 @@ public class Panel {
 		// 获取上一行
 		if (StringUtils.isNotEmpty(separator))
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
-		// 打印
-		print(depth, position, text);
+
+		if (node.token.hasSubStmt()) {
+			buildTree(depth, "", (Stmt) node.token.value);
+		} else {
+			print(depth, position, text);
+		}
 
 		// 左边节点
 		buildTree(depth + 2, "/", node.left);
@@ -90,12 +96,13 @@ public class Panel {
 		line.text = sb.toString();
 	}
 
-	private void show() {
-		// 打印
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 		for (Line line : lines) {
 			if (!line.isIgnore())
-				System.out.println(line.text);
+				sb.append(line.text + "\n");
 		}
+		return sb.toString();
 	}
 
 	/**
@@ -115,7 +122,7 @@ public class Panel {
 //		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
-		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object";
+		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
 
