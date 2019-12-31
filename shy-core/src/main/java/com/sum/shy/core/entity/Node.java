@@ -20,7 +20,13 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "" + (left == null ? "" : left) + format() + (right == null ? "" : right);
+		StringBuilder sb = new StringBuilder();
+		List<Node> nodes = getNodes();
+		for (int i = 0; i < nodes.size(); i++) {
+			Node node = nodes.get(i);
+			sb.append(node.format());
+		}
+		return sb.toString().trim();
 	}
 
 	public String format() {
