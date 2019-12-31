@@ -60,7 +60,7 @@ public class JavaConverter {
 
 	}
 
-	public static Stmt convertEquals(CtClass clazz, Stmt stmt) {
+	public static void convertEquals(CtClass clazz, Stmt stmt) {
 
 		// 转换子语句
 		for (Token token : stmt.tokens) {
@@ -98,8 +98,6 @@ public class JavaConverter {
 		}
 		if (nodes.size() > 0)
 			clazz.addImport(StringUtils.class.getName());
-
-		return stmt;
 
 	}
 
