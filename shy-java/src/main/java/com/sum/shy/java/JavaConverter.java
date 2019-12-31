@@ -61,10 +61,6 @@ public class JavaConverter {
 	}
 
 	public static void convertEquals(CtClass clazz, Stmt stmt) {
-		// boolean b = (x + 1 > 0 && y < 100) && s == "test" && s instanceof Object
-		if ("boolean b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object".equals(stmt.toString())) {
-			System.out.println("");
-		}
 
 		// 转换子语句
 		for (Token token : stmt.tokens) {
