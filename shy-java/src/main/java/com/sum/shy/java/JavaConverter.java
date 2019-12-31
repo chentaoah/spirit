@@ -3,7 +3,6 @@ package com.sum.shy.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.analyzer.TreeBuilder;
 import com.sum.shy.core.clazz.impl.CtClass;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
@@ -51,6 +50,10 @@ public class JavaConverter {
 				// 添加依赖
 				clazz.addImport(Collection.class.getName());
 
+			} else if (token.isNode()) {
+				Node node = (Node) token.value;
+				convertCommon(clazz, node.toStmt());
+
 			}
 
 		}
@@ -58,18 +61,17 @@ public class JavaConverter {
 	}
 
 	public static Stmt convertEquals(CtClass clazz, Stmt stmt) {
-		// 先将子语句替换
+
+		// 转换子语句
 		for (Token token : stmt.tokens) {
 			if (token.hasSubStmt())
-				token.value = convertEquals(clazz, (Stmt) token.value);
+				convertEquals(clazz, (Stmt) token.value);
 		}
-		// 查找==节点
-		stmt = /* TreePlanter.grow(stmt) */stmt;
 		// 遍历所有顶点，收集==节点
 		List<Node> nodes = new ArrayList<>();
-		for (Node node : stmt.findNodes()) {
+		for (Node node : stmt.findNodes())
 			findEquals(node, nodes);
-		}
+
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
 			Token token = node.token;
@@ -102,39 +104,32 @@ public class JavaConverter {
 	}
 
 	public static void findEquals(Node node, List<Node> nodes) {
-		// 如果当前节点就是
-		if (node == null)
-			return;
-
-		Token token = node.token;
-		if (token.isLogicalOperator()) {// ! or && or ||
-			if (node.left != null) {
-				Type type = node.left.token.getTypeAtt();
-				if (type != null && type.isStr())
-					nodes.add(node.left);
-			}
-			if (node.right != null) {
-				Type type = node.right.token.getTypeAtt();
-				if (type != null && type.isStr())
-					nodes.add(node.right);
-			}
-		} else if (token.isEqualsOperator()) {// == or !=
-			if (node.left != null && node.right != null) {
-				Type type = node.left.token.getTypeAtt();
-				if (type != null && type.isStr()) {// 如果左边的类型是str
-					String value = node.right.token.value.toString();
-					if (!"null".equals(value)) {// 并且右边不是null
-						nodes.add(node);
+		// 将树形结构,转成数组,进行遍历
+		for (Node someNode : node.getNodes()) {
+			Token token = someNode.token;
+			if (token.isLogicalOperator()) {// ! or && or ||
+				if (node.left != null) {
+					Type type = node.left.token.getTypeAtt();
+					if (type != null && type.isStr())
+						nodes.add(node.left);
+				}
+				if (node.right != null) {
+					Type type = node.right.token.getTypeAtt();
+					if (type != null && type.isStr())
+						nodes.add(node.right);
+				}
+			} else if (token.isEqualsOperator()) {// == or !=
+				if (node.left != null && node.right != null) {
+					Type type = node.left.token.getTypeAtt();
+					if (type != null && type.isStr()) {// 如果左边的类型是str
+						String value = node.right.token.value.toString();
+						if (!"null".equals(value)) {// 并且右边不是null
+							nodes.add(node);
+						}
 					}
 				}
 			}
 		}
-		// 查找子节点
-		if (node.left != null)
-			findEquals(node.left, nodes);
-		if (node.right != null)
-			findEquals(node.right, nodes);
-
 	}
 
 	public static void insertBrackets(CtClass clazz, Stmt stmt) {
