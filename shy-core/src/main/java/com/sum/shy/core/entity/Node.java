@@ -60,16 +60,6 @@ public class Node {
 		return token.toString();
 	}
 
-	public List<Node> getNodes() {
-		List<Node> nodes = new ArrayList<>();
-		nodes.add(this);
-		if (left != null)
-			nodes.addAll(0, left.getNodes());
-		if (right != null)
-			nodes.addAll(right.getNodes());
-		return nodes;
-	}
-
 	public Stmt toStmt() {
 		return new Stmt(getTokens());
 	}
@@ -82,6 +72,16 @@ public class Node {
 		if (right != null)
 			tokens.addAll(right.getTokens());
 		return tokens;
+	}
+
+	public List<Node> getNodes() {
+		List<Node> nodes = new ArrayList<>();
+		nodes.add(this);
+		if (left != null)
+			nodes.addAll(0, left.getNodes());
+		if (right != null)
+			nodes.addAll(right.getNodes());
+		return nodes;
 	}
 
 }
