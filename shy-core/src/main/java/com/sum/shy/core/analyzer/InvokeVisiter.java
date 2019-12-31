@@ -11,6 +11,7 @@ import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.api.Type;
@@ -110,6 +111,11 @@ public class InvokeVisiter {
 			Type type = token.getTypeAtt();
 			Type returnType = visitMethod(clazz, type, "$array_index", null);
 			token.setTypeAtt(returnType);
+
+		} else if (token.isNode()) {// 如果是节点,则进行转换后,遍历
+			Node node = (Node) token.value;
+			visitStmt(clazz, node.toStmt());
+
 		}
 
 	}

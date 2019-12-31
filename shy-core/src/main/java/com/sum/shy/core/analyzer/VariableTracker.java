@@ -6,6 +6,7 @@ import com.sum.shy.core.clazz.impl.CtMethod;
 import com.sum.shy.core.clazz.impl.Param;
 import com.sum.shy.core.clazz.impl.Variable;
 import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.type.api.Type;
@@ -43,6 +44,10 @@ public class VariableTracker {
 			Type type = findType(clazz, method, block, name);
 			checkType(line, name, type);
 			token.setTypeAtt(type);
+
+		} else if (token.isNode()) {// 如果是节点,则进行转换后,遍历
+			Node node = (Node) token.value;
+			trackStmt(clazz, method, block, line, node.toStmt());
 
 		}
 		if (token.hasSubStmt()) {

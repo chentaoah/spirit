@@ -42,7 +42,7 @@ public class Stmt {
 		} else {
 			// 2.语义分析
 			List<Token> tokens = SemanticDelegate.getTokens(words);
-			// 3.语法树分析
+			// 3.构建语法树
 			TreeBuilder.getTrees(tokens);
 			// 4.根据语法树,判断语法
 			String syntax = SyntaxDefiner.getSyntax(tokens);
