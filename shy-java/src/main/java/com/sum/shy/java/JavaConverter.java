@@ -61,17 +61,27 @@ public class JavaConverter {
 	}
 
 	public static void convertEquals(CtClass clazz, Stmt stmt) {
+		// boolean b = (x + 1 > 0 && y < 100) && s == "test" && s instanceof Object
+		if ("boolean b = (x + 1 > 0 && y < 100) && s == \"test\" && s instanceof Object".equals(stmt.toString())) {
+			System.out.println("");
+		}
 
 		// 转换子语句
 		for (Token token : stmt.tokens) {
-			if (token.hasSubStmt())
+			if (token.hasSubStmt()) {
 				convertEquals(clazz, (Stmt) token.value);
+
+			} else if (token.isNode()) {
+				Node node = (Node) token.value;
+				convertEquals(clazz, node.toStmt());
+			}
 		}
+
 		// 遍历所有顶点，收集==节点
 		List<Node> nodes = new ArrayList<>();
-		for (Node node : stmt.findNodes())
+		for (Node node : stmt.findNodes()) {
 			findEquals(node, nodes);
-
+		}
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
 			Token token = node.token;
@@ -106,23 +116,23 @@ public class JavaConverter {
 		for (Node someNode : node.getNodes()) {
 			Token token = someNode.token;
 			if (token.isLogicalOperator()) {// ! or && or ||
-				if (node.left != null) {
-					Type type = node.left.token.getTypeAtt();
+				if (someNode.left != null) {
+					Type type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr())
-						nodes.add(node.left);
+						nodes.add(someNode.left);
 				}
-				if (node.right != null) {
-					Type type = node.right.token.getTypeAtt();
+				if (someNode.right != null) {
+					Type type = someNode.right.token.getTypeAtt();
 					if (type != null && type.isStr())
-						nodes.add(node.right);
+						nodes.add(someNode.right);
 				}
 			} else if (token.isEqualsOperator()) {// == or !=
-				if (node.left != null && node.right != null) {
-					Type type = node.left.token.getTypeAtt();
+				if (someNode.left != null && someNode.right != null) {
+					Type type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr()) {// 如果左边的类型是str
-						String value = node.right.token.value.toString();
+						String value = someNode.right.token.value.toString();
 						if (!"null".equals(value)) {// 并且右边不是null
-							nodes.add(node);
+							nodes.add(someNode);
 						}
 					}
 				}

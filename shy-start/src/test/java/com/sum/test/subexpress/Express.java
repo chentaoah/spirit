@@ -1,5 +1,6 @@
 package com.sum.test.subexpress;
 
+import com.sum.shy.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
@@ -13,7 +14,7 @@ public class Express {
 	public String s = "test";
 
 	public void testSubexpress() {
-		if (((x + 1 > 0) && (y < 100)) && s == "test") {
+		if (((x + 1 > 0) && (y < 100)) && StringUtils.equals(s, "test")) {
 			logger.info("hello");
 		}
 	}
@@ -25,7 +26,7 @@ public class Express {
 	}
 
 	public void testTree() {
-		boolean b = (x + 1 > 0 && y < 100) && s == "test" && s instanceof Object;
+		boolean b = (x + 1 > 0 && y < 100) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("test tree", b);
 		List<String> list = Collection.newArrayList("one", "two", "three");
 		boolean b1 = ((Object) list.get(1)).toString().length() + 100 > 0;
@@ -40,9 +41,9 @@ public class Express {
 		logger.info("{}", express);
 		Object express1 = ((Object) list.get(1));
 		logger.info("{}", express1);
-		boolean b11 = (x + 1 > 0 && y < 100) && list.get(0) == "test" && s instanceof Object;
+		boolean b11 = (x + 1 > 0 && y < 100) && StringUtils.equals(list.get(0), "test") && s instanceof Object;
 		logger.info("{}", b11);
-		boolean b111 = (s != "test") && s == "test" && list.get(0) && s && (!s);
+		boolean b111 = (!StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && StringUtils.isNotEmpty(list.get(0)) && StringUtils.isNotEmpty(s) && (!StringUtils.isNotEmpty(s));
 		logger.info("{}", b111);
 		String b222 = list.get(1).toString();
 		logger.info("{}", b222);
