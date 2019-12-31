@@ -34,6 +34,7 @@ public class JavaBuilder {
 
 		Converter.register("declare", new DeclareConverter());// 声明转换
 		Converter.register("assign", new AssignConverter());// 赋值转换
+		Converter.register("field_assign", new DefaultConverter());// 赋值转换
 		Converter.register("invoke", new DefaultConverter());// 方法调用
 		Converter.register("return", new DefaultConverter());// 返回
 
