@@ -101,7 +101,7 @@ public class MethodResolver {
 
 		} else if (stmt.isAssign()) {// var=list.get(0)
 			Token token = stmt.getToken(0);
-			Type type = VariableTracker.findType(clazz, method, block, token.value.toString());
+			Type type = VariableTracker.findType(clazz, method, block, token.toString());
 			token.setDeclaredAtt(type != null);
 			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
 
