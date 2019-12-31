@@ -3,14 +3,14 @@ package com.sum.shy.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.type.api.Type;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.entity.Constants;
+import com.sum.shy.entity.Node;
+import com.sum.shy.entity.Stmt;
+import com.sum.shy.entity.Token;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.type.api.Type;
 
 public class JavaConverter {
 

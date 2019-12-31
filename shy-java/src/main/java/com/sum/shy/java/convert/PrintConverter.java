@@ -3,15 +3,15 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.clazz.impl.CtField;
-import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.type.impl.CodeType;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.CtField;
+import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.entity.Constants;
+import com.sum.shy.entity.Line;
+import com.sum.shy.entity.Stmt;
+import com.sum.shy.entity.Token;
 import com.sum.shy.java.JavaConverter;
+import com.sum.shy.type.CodeType;
 
 public class PrintConverter extends DefaultConverter {
 

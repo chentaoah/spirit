@@ -1,15 +1,15 @@
 package com.sum.shy.java.convert;
 
-import com.sum.shy.core.analyzer.FastDerivator;
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.type.api.Type;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.core.deduce.FastDerivator;
+import com.sum.shy.entity.Constants;
+import com.sum.shy.entity.Line;
+import com.sum.shy.entity.Stmt;
+import com.sum.shy.entity.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.type.api.Type;
 
 public class ConditionConverter extends DefaultConverter {
 

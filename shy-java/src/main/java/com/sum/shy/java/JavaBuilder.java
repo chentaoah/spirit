@@ -1,15 +1,15 @@
 package com.sum.shy.java;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.analyzer.MethodResolver;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.CtField;
+import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.InnerClass;
+import com.sum.shy.clazz.api.Annotated;
 import com.sum.shy.core.api.Handler;
-import com.sum.shy.core.clazz.api.Annotated;
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.clazz.impl.CtField;
-import com.sum.shy.core.clazz.impl.CtMethod;
-import com.sum.shy.core.clazz.impl.InnerClass;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.proc.MethodResolver;
+import com.sum.shy.entity.Line;
+import com.sum.shy.entity.Stmt;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.java.convert.AssignConverter;
 import com.sum.shy.java.convert.CatchConverter;

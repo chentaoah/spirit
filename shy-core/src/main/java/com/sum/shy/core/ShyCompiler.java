@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.core.analyzer.AutoImporter;
-import com.sum.shy.core.analyzer.InvokeVisiter;
-import com.sum.shy.core.clazz.api.Member;
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.api.Member;
+import com.sum.shy.core.deduce.InvokeVisiter;
+import com.sum.shy.core.proc.AutoImporter;
+import com.sum.shy.entity.Context;
+import com.sum.shy.utils.TypeUtils;
 
 public class ShyCompiler {
 

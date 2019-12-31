@@ -6,20 +6,20 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.api.Parser;
-import com.sum.shy.core.clazz.impl.CtClass;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
-import com.sum.shy.core.parser.AnnotationParser;
-import com.sum.shy.core.parser.ClassParser;
-import com.sum.shy.core.parser.DeclareParser;
-import com.sum.shy.core.parser.FieldParser;
-import com.sum.shy.core.parser.FuncParser;
-import com.sum.shy.core.parser.ImportParser;
-import com.sum.shy.core.parser.InterfaceParser;
-import com.sum.shy.core.parser.PackageParser;
-import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.clazz.CtClass;
+import com.sum.shy.entity.Constants;
+import com.sum.shy.entity.Line;
+import com.sum.shy.entity.Stmt;
+import com.sum.shy.parser.AnnotationParser;
+import com.sum.shy.parser.ClassParser;
+import com.sum.shy.parser.DeclareParser;
+import com.sum.shy.parser.FieldParser;
+import com.sum.shy.parser.FuncParser;
+import com.sum.shy.parser.ImportParser;
+import com.sum.shy.parser.InterfaceParser;
+import com.sum.shy.parser.PackageParser;
+import com.sum.shy.parser.api.Parser;
+import com.sum.shy.utils.TypeUtils;
 
 public class ShyReader {
 
