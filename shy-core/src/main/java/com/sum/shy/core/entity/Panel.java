@@ -12,7 +12,7 @@ public class Panel {
 
 	public Panel() {
 		for (int i = 0; i < 20; i++)
-			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(100)));
+			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(150)));
 	}
 
 	public void debug(Stmt stmt) {
@@ -112,7 +112,7 @@ public class Panel {
 	 */
 	public static void main(String[] args) {
 
-//		String text = "var = true || (int)x++ > 100.0 && list.size()>100 && obj instanceof Object || !(x > 0 || y < 100)";
+		String text = "var =(x>100) ? true || (int)x++ > 100.0 && list.size((x+y>0))>100 && obj instanceof Object || !((x++) > 0 || y < 100)";
 //		String text = "((x+1>0)&&(y<100)) && s==\"test\"";
 //		String text = "(int)var + 1000 + list.size().toString()";
 //		String text = "(int)obj.toString().length+ 100";
@@ -122,7 +122,7 @@ public class Panel {
 //		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
-		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
+//		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
 
