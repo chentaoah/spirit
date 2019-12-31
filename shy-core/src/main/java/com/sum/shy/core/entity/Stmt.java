@@ -240,6 +240,9 @@ public class Stmt {
 			} else if ("<<".equals(token.toString())) {
 				return " " + token + " ";
 
+			} else if ("?".equals(token.toString())) {
+				return " " + token + " ";
+
 			} else {
 				return token.toString();
 			}
