@@ -54,24 +54,24 @@ public class LexicalAnalyzer {
 				start = i;
 
 			if (c == '"') {
-				replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
+				replaceWithWhole(chars, i, '"', '"', "$str", count++, replacedStrs);
 
 			} else if (c == '[') {
-				replaceString(chars, start >= 0 ? start : i, '[', ']', "$array_like", count++, replacedStrs);
+				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', "$array_like", count++, replacedStrs);
 				i = start >= 0 ? start : i;
 
 			} else if (c == '{') {
-				replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
+				replaceWithWhole(chars, i, '{', '}', "$map", count++, replacedStrs);
 
 			} else if (c == '(') {
-				replaceString(chars, start >= 0 ? start : i, '(', ')', "$invoke_like", count++, replacedStrs);
+				replaceWithWhole(chars, start >= 0 ? start : i, '(', ')', "$invoke_like", count++, replacedStrs);
 				i = start >= 0 ? start : i;
 
 			} else if (c == '<') {// 泛型声明
 				if (start >= 0) {
 					char e = chars.get(start);
 					if (e >= 'A' && e <= 'Z') {// 如果首字母是大写的话,才进行处理
-						replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
+						replaceWithWhole(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
 						i = start;
 					}
 				}
@@ -133,14 +133,14 @@ public class LexicalAnalyzer {
 				|| c == '.';
 	}
 
-	public static void replaceString(List<Character> chars, int index, char left, char right, String name, int number,
-			Map<String, String> replacedStrs) {
+	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, String name,
+			int number, Map<String, String> replacedStrs) {
 		int end = findEnd(chars, index, left, right);
 		doReplaceString(chars, index, end, name, number, replacedStrs);
 	}
 
-	public static void replaceString(List<Character> chars, int index, char left, char right, char left1, char right1,
-			String name, int number, Map<String, String> replacedStrs) {
+	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, char left1,
+			char right1, String name, int number, Map<String, String> replacedStrs) {
 		int end = findEnd(chars, index, left, right);
 		if (end != -1 && end + 1 < chars.size()) { // 判断后面的符号是否连续
 			char c = chars.get(end + 1);
