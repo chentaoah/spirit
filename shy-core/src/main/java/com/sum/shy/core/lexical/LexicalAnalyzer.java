@@ -112,9 +112,8 @@ public class LexicalAnalyzer {
 		// 7.重新将替换的字符串替换回来
 		for (int i = 0; i < words.size(); i++) {
 			String str = replacedStrs.get(words.get(i));
-			if (str != null) {
+			if (str != null)
 				words.set(i, str);
-			}
 		}
 
 		return words;
