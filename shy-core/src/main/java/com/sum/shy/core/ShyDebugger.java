@@ -8,8 +8,8 @@ import java.util.Map;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.utils.LineUtils;
 
 public class ShyDebugger {

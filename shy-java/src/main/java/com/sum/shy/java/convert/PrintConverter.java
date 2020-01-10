@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.CtField;
 import com.sum.shy.clazz.CtMethod;
-import com.sum.shy.entity.Constants;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.type.CodeType;
 

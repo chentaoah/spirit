@@ -1,9 +1,9 @@
 package com.sum.shy.type;
 
 import com.sum.shy.clazz.CtClass;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.lexical.SemanticDelegate;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
 import com.sum.shy.type.api.AbsType;
 
 public class CodeType extends AbsType {

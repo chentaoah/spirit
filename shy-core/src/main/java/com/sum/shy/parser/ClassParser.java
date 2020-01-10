@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.InnerClass;
-import com.sum.shy.entity.Context;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.parser.api.Parser;
 import com.sum.shy.utils.LineUtils;
 

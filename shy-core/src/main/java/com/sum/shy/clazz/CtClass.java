@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.clazz.api.AbsLinkable;
-import com.sum.shy.entity.Line;
+import com.sum.shy.core.entity.Line;
 
 public class CtClass extends AbsLinkable {
 	// 类别

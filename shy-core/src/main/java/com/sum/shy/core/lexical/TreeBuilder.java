@@ -2,10 +2,10 @@ package com.sum.shy.core.lexical;
 
 import java.util.List;
 
-import com.sum.shy.entity.Constants;
-import com.sum.shy.entity.Node;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Node;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 
 /**
  * 抽象语法树

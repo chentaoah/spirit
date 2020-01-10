@@ -7,8 +7,8 @@ import java.util.Map;
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.api.Member;
 import com.sum.shy.core.deduce.InvokeVisiter;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.processor.AutoImporter;
-import com.sum.shy.entity.Context;
 import com.sum.shy.utils.TypeUtils;
 
 public class ShyCompiler {

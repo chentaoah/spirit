@@ -3,8 +3,8 @@ package com.sum.shy.parser;
 import java.util.List;
 
 import com.sum.shy.clazz.CtClass;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.api.Parser;
 
 public class PackageParser implements Parser {

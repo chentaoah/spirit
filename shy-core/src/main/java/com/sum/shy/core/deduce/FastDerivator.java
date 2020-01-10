@@ -3,9 +3,9 @@ package com.sum.shy.core.deduce;
 import java.util.List;
 
 import com.sum.shy.clazz.CtClass;
-import com.sum.shy.entity.Node;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Node;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.Type;
 import com.sum.shy.utils.ReflectUtils;

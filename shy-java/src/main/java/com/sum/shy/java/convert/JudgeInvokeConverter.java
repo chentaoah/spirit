@@ -2,8 +2,8 @@ package com.sum.shy.java.convert;
 
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.CtMethod;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
 
 public class JudgeInvokeConverter extends DefaultConverter {
 

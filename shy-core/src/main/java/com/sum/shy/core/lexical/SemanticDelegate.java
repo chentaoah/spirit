@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.shy.entity.Constants;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.utils.ArrayUtils;
 
 /**

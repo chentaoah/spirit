@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.shy.clazz.CtClass;
-import com.sum.shy.entity.Context;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 

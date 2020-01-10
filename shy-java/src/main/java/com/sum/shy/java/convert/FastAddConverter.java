@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.CtMethod;
-import com.sum.shy.entity.Line;
-import com.sum.shy.entity.Stmt;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.type.api.Type;
 
 public class FastAddConverter extends DefaultConverter {

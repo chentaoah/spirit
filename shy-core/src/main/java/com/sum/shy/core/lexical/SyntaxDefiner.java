@@ -2,9 +2,9 @@ package com.sum.shy.core.lexical;
 
 import java.util.List;
 
-import com.sum.shy.entity.Constants;
-import com.sum.shy.entity.Node;
-import com.sum.shy.entity.Token;
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Node;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.utils.ArrayUtils;
 
 /**
