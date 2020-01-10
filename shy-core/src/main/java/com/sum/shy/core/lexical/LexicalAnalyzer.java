@@ -156,16 +156,14 @@ public class LexicalAnalyzer {
 			if (c == '"' && chars.get(i - 1 >= 0 ? i - 1 : i) != '\\') // 判断是否进入了字符串中
 				flag = !flag;
 			if (!flag) {
-				if (right == '"') {// 如果是字符串
+				if (right == '"')// 字符串是比较特殊的,含头不含尾,这里需要特殊处理
 					return i;
-				}
 				if (c == left) {
 					count++;
 				} else if (c == right) {
 					count--;
-					if (count == 0) {
+					if (count == 0)
 						return i;
-					}
 				}
 			}
 		}
@@ -180,8 +178,7 @@ public class LexicalAnalyzer {
 			return;
 
 		List<Character> subChars = chars.subList(start, end + 1);// 从字符串里面截取字符串
-		String text = Joiner.on("").join(subChars);
-		replacedStrs.put(name + number, text);
+		replacedStrs.put(name + number, Joiner.on("").join(subChars));
 
 		for (int j = 0; j < end - start + 1; j++)// 删除字符
 			chars.remove(start);
