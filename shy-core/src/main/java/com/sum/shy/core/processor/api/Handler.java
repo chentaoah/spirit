@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc.api;
+package com.sum.shy.core.processor.api;
 
 import com.sum.shy.clazz.CtClass;
 import com.sum.shy.clazz.CtMethod;

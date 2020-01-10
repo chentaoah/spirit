@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core.processor;
 
 import java.util.Map;
 

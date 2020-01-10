@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core.processor;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +9,7 @@ import com.sum.shy.clazz.Variable;
 import com.sum.shy.core.deduce.FastDerivator;
 import com.sum.shy.core.deduce.InvokeVisiter;
 import com.sum.shy.core.deduce.VariableTracker;
-import com.sum.shy.core.proc.api.Handler;
+import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.entity.Line;
 import com.sum.shy.entity.Stmt;
 import com.sum.shy.entity.Token;
