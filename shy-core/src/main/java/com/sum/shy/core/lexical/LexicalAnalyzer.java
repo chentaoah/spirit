@@ -22,9 +22,6 @@ import com.sum.shy.utils.LineUtils;
  */
 public class LexicalAnalyzer {
 
-	public static final char[] CHAR_SYMBOLS = new char[] { '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '!', '(',
-			')', '[', ']', '{', '}', ':', ',', '?' };
-
 	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", "<=", ">=", "&&", "[|]{2}", "<<", "\\!",
 			"=", "\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";",
 			"\\?" };
@@ -56,12 +53,10 @@ public class LexicalAnalyzer {
 		for (int i = 0, count = 0, start = -1; i < chars.size(); i++) {// i为游标
 
 			char c = chars.get(i);
-
-			if (start < 0) {// 如果是字符,则记下该位置
-				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '@') {
-					start = i;
-				}
-			}
+			// 如果是接续字符,则记录起始位置
+			if (start < 0 && isContinueChar(c))
+				start = i;
+			// .访问符会及时更新
 			if (c == '.')
 				start = i;
 
@@ -99,10 +94,9 @@ public class LexicalAnalyzer {
 					}
 				}
 			}
-			// 如果是其他东西的话,则结束标记
-			if (c == ' ' || isSymbols(c)) {
+			// 如果不是接续字符,则重置起始位置
+			if (!isContinueChar(c))
 				start = -1;
-			}
 
 		}
 
@@ -147,21 +141,22 @@ public class LexicalAnalyzer {
 
 	}
 
-	private static List<Character> getChars(String text) {
-		List<Character> list = new LinkedList<>();
-		for (char c : text.toCharArray()) {
-			list.add(c);
-		}
-		return list;
+	/**
+	 * 是否接续字符
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public static boolean isContinueChar(char c) {
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+				|| c == '.';
 	}
 
-	private static boolean isSymbols(char c) {
-		for (char cs : CHAR_SYMBOLS) {
-			if (c == cs) {
-				return true;
-			}
-		}
-		return false;
+	private static List<Character> getChars(String text) {
+		List<Character> list = new LinkedList<>();
+		for (char c : text.toCharArray())
+			list.add(c);
+		return list;
 	}
 
 }
