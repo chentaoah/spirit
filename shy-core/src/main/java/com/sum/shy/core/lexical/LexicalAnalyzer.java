@@ -35,67 +35,49 @@ public class LexicalAnalyzer {
 
 	public static List<String> getWords(String text) {
 
-		// 防止空字符串
-		if (text == null || text.length() == 0) {
+		if (text == null || text.length() == 0)
 			return new ArrayList<>();
-		}
 
-		// 拆分的单元
 		List<String> words = new ArrayList<>();
-		// 替换的字符串
-		Map<String, String> replacedStrs = new HashMap<>();
+		Map<String, String> replacedStrs = new HashMap<>();// 被替换的字符串
 
 		text = text.trim();
-		// 将text字符化
 		List<Character> chars = getChars(text);
-
 		// 1.整体替换
-		for (int i = 0, count = 0, start = -1; i < chars.size(); i++) {// i为游标
-
+		for (int i = 0, count = 0, start = -1; i < chars.size(); i++) {
 			char c = chars.get(i);
-			// 如果是接续字符,则记录起始位置
-			if (start < 0 && isContinueChar(c))
-				start = i;
-			// .访问符会及时更新
-			if (c == '.')
+
+			if (start < 0 && isContinueChar(c))// 如果是接续字符,则记录起始位置
 				start = i;
 
-			if (c == '"') {// 字符串
-				LineUtils.replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
+			if (c == '.')// .访问符会及时更新
+				start = i;
 
-			} else if (c == '[') {// array
-				// 如果没有前缀的话
-				if (start == -1) {
-					LineUtils.replaceString(chars, i, '[', ']', "$array", count++, replacedStrs);
-				} else {
-					// 不管大小写，都截取
-					LineUtils.replaceString(chars, start, '[', ']', "$array_like", count++, replacedStrs);
-					i = start;// 索引倒退一些
-				}
+			if (c == '"') {
+				replaceString(chars, i, '"', '"', "$str", count++, replacedStrs);
 
-			} else if (c == '{') {// map
-				LineUtils.replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
+			} else if (c == '[') {
+				replaceString(chars, start >= 0 ? start : i, '[', ']', "$array_like", count++, replacedStrs);
+				i = start >= 0 ? start : i;
 
-			} else if (c == '(') {// 方法调用
-				// 如果没有前缀的话
-				if (start == -1) {// 子表达式
-					LineUtils.replaceString(chars, i, '(', ')', "$subexpress", count++, replacedStrs);
-				} else {
-					LineUtils.replaceString(chars, start, '(', ')', "$invoke", count++, replacedStrs);
-					i = start;// 索引倒退一些
-				}
+			} else if (c == '{') {
+				replaceString(chars, i, '{', '}', "$map", count++, replacedStrs);
+
+			} else if (c == '(') {
+				replaceString(chars, start >= 0 ? start : i, '(', ')', "$invoke_like", count++, replacedStrs);
+				i = start >= 0 ? start : i;
 
 			} else if (c == '<') {// 泛型声明
 				if (start >= 0) {
 					char e = chars.get(start);
-					if (e >= 'A' && e <= 'Z') {// 如果前缀是大写的话,才进行处理
-						LineUtils.replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
+					if (e >= 'A' && e <= 'Z') {// 如果首字母是大写的话,才进行处理
+						replaceString(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
 						i = start;
 					}
 				}
 			}
-			// 如果不是接续字符,则重置起始位置
-			if (!isContinueChar(c))
+
+			if (!isContinueChar(c))// 如果不是接续字符,则重置起始位置
 				start = -1;
 
 		}
@@ -103,17 +85,15 @@ public class LexicalAnalyzer {
 		text = Joiner.on("").join(chars);
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (int i = 0; i < REGEX_SYMBOLS.length; i++) {
+		for (int i = 0; i < REGEX_SYMBOLS.length; i++)
 			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
-		}
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
 		// 4.将那些被分离的符号,紧贴在一起
-		for (String str : BAD_SYMBOLS) {
+		for (String str : BAD_SYMBOLS)
 			text = text.replaceAll(str, str.replaceAll(" ", ""));
-		}
 
 		// 5.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
@@ -141,22 +121,77 @@ public class LexicalAnalyzer {
 
 	}
 
-	/**
-	 * 是否接续字符
-	 * 
-	 * @param c
-	 * @return
-	 */
-	public static boolean isContinueChar(char c) {
-		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
-				|| c == '.';
-	}
-
 	private static List<Character> getChars(String text) {
 		List<Character> list = new LinkedList<>();
 		for (char c : text.toCharArray())
 			list.add(c);
 		return list;
+	}
+
+	public static boolean isContinueChar(char c) {// 是否接续字符
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+				|| c == '.';
+	}
+
+	public static void replaceString(List<Character> chars, int index, char left, char right, String name, int number,
+			Map<String, String> replacedStrs) {
+		int end = findEnd(chars, index, left, right);
+		doReplaceString(chars, index, end, name, number, replacedStrs);
+	}
+
+	public static void replaceString(List<Character> chars, int index, char left, char right, char left1, char right1,
+			String name, int number, Map<String, String> replacedStrs) {
+		int end = findEnd(chars, index, left, right);
+		if (end != -1 && end + 1 < chars.size()) { // 判断后面的符号是否连续
+			char c = chars.get(end + 1);
+			if (c == left1)
+				end = findEnd(chars, end + 1, left1, right1);
+		}
+		doReplaceString(chars, index, end, name, number, replacedStrs);
+	}
+
+	private static int findEnd(List<Character> chars, int index, char left, char right) {
+		boolean flag = false;// 是否进入"符号的范围内
+		for (int i = index, count = 0; i < chars.size(); i++) {
+			char c = chars.get(i);
+			if (c == '"' && chars.get(i - 1 >= 0 ? i - 1 : i) != '\\') // 判断是否进入了字符串中
+				flag = !flag;
+			if (!flag) {
+				if (right == '"') {// 如果是字符串
+					return i;
+				}
+				if (c == left) {
+					count++;
+				} else if (c == right) {
+					count--;
+					if (count == 0) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+
+	}
+
+	private static void doReplaceString(List<Character> chars, int start, int end, String name, int number,
+			Map<String, String> replacedStrs) {
+
+		if (end == -1)
+			return;
+
+		List<Character> subChars = chars.subList(start, end + 1);// 从字符串里面截取字符串
+		String text = Joiner.on("").join(subChars);
+		replacedStrs.put(name + number, text);
+
+		for (int j = 0; j < end - start + 1; j++)// 删除字符
+			chars.remove(start);
+
+		subChars = new ArrayList<>();
+		for (char c : (" " + name + number + " ").toCharArray())// 添加字符
+			subChars.add(c);
+
+		chars.addAll(start, subChars);
 	}
 
 }
