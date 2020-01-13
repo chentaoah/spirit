@@ -110,7 +110,7 @@ public class Stmt {
 	}
 
 	public String get(int index) {// 修改为从token获取字符串
-		return getToken(index).value.toString();
+		return getToken(index).toString();
 	}
 
 	public String frist() {
@@ -124,9 +124,8 @@ public class Stmt {
 	public int indexOf(String str) {
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
+			if ((token.isSeparator() || token.isOperator()) && str.equals(token.toString()))
 				return i;
-			}
 		}
 		return -1;
 	}
@@ -135,7 +134,7 @@ public class Stmt {
 		int index = -1;
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && str.equals(token.value)) {
+			if ((token.isSeparator() || token.isOperator()) && str.equals(token.toString())) {
 				index = i > index ? i : index;
 			}
 		}
@@ -155,7 +154,7 @@ public class Stmt {
 		List<Stmt> subStmts = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && separator.equals(token.value)) {// 分隔符
+			if ((token.isSeparator() || token.isOperator()) && separator.equals(token.toString())) {// 分隔符
 				Stmt subStmt = subStmt(last, i);
 				subStmts.add(subStmt);
 				last = i + 1;// 记录截取开始的地方
@@ -180,14 +179,6 @@ public class Stmt {
 		return new Stmt(newTokens);
 	}
 
-	public Node findNode() {
-		for (Token token : tokens) {
-			if (token.isNode())
-				return (Node) token.value;
-		}
-		return null;
-	}
-
 	public List<Node> findNodes() {
 		List<Node> nodes = new ArrayList<>();
 		for (Token token : tokens) {
@@ -208,10 +199,6 @@ public class Stmt {
 			sb.append(str);
 		}
 		return sb.toString();
-	}
-
-	public String format(Token token) {
-		return format(indexOf(token), token);
 	}
 
 	public String format(int index, Token token) {
@@ -298,9 +285,8 @@ public class Stmt {
 
 	public String debug() {
 		StringBuilder sb = new StringBuilder();
-		for (Token token : tokens) {
+		for (Token token : tokens)
 			sb.append(token.debug() + " ");
-		}
 		return sb.toString();
 	}
 

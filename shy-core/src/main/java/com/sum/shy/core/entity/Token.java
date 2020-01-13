@@ -138,12 +138,12 @@ public class Token {
 		return Constants.NODE_TOKEN.equals(type);
 	}
 
-	public boolean isCustomExpress() {
-		return Constants.CUSTOM_EXPRESS_TOKEN.equals(type);
-	}
-
 	public boolean isUnknown() {
 		return Constants.UNKNOWN.equals(type);
+	}
+
+	public boolean isCustomExpress() {
+		return Constants.CUSTOM_EXPRESS_TOKEN.equals(type);
 	}
 
 	// =================== 复合判断 =====================
