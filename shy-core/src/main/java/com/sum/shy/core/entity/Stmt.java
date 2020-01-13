@@ -9,7 +9,6 @@ import com.sum.shy.core.lexical.SyntaxDefiner;
 import com.sum.shy.core.lexical.TreeBuilder;
 
 public class Stmt {
-
 	// 一行
 	public Line line;
 	// 语法
@@ -27,7 +26,7 @@ public class Stmt {
 			// 3.语法分析
 			String syntax = Constants.ANNOTATION_SYNTAX;
 
-			return new Stmt(line, words, syntax, tokens);
+			return new Stmt(line, syntax, tokens);
 
 		} else if (SyntaxDefiner.isStruct(words)) {// 判断是否是结构语法
 			// 2.语义分析
@@ -35,7 +34,7 @@ public class Stmt {
 			// 3.语法分析
 			String syntax = SyntaxDefiner.getStructSyntax(words);
 
-			return new Stmt(line, words, syntax, tokens);
+			return new Stmt(line, syntax, tokens);
 
 		} else {
 			// 2.语义分析
@@ -45,7 +44,7 @@ public class Stmt {
 			// 4.根据语法树,判断语法
 			String syntax = SyntaxDefiner.getSyntax(tokens);
 
-			return new Stmt(line, words, syntax, tokens);
+			return new Stmt(line, syntax, tokens);
 
 		}
 
@@ -55,13 +54,13 @@ public class Stmt {
 		return create(new Line(null, text));
 	}
 
-	public Stmt(Line line, List<String> words, String syntax, List<Token> tokens) {
+	public Stmt(Line line, String syntax, List<Token> tokens) {
 		this.line = line;
 		this.syntax = syntax;
 		this.tokens = tokens;
 	}
 
-	public Stmt(String word, List<String> subWords, List<Token> subTokens) {
+	public Stmt(String word, List<Token> subTokens) {
 		this.line = new Line(null, word);
 		this.tokens = subTokens;
 	}

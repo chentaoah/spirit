@@ -328,7 +328,7 @@ public class SemanticDelegate {
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
 		// 生成子语句
-		return new Stmt(word, subWords, subTokens);
+		return new Stmt(word, subTokens);
 	}
 
 	private static void getAttachments(Token token, String word) {
