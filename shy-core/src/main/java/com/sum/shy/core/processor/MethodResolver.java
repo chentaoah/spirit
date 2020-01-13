@@ -92,23 +92,24 @@ public class MethodResolver {
 			processBridge(clazz, method, block, line, stmt, 2, 3, 3, null);
 
 		} else if (stmt.isForIn()) {// for item in list {
-			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1, new Filter() {
-				@Override
-				public Type processType(Type type) {// 如果是数组,则用数组内的类型
-					return type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
-				}
-			});
+			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1,
+					(Type type) -> type.isArray() ? new CodeType(clazz, type.getTypeName())
+							: type.getGenericTypes().get(0));
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
 			processBridge(clazz, method, block, line, stmt, stmt.indexOf("=") + 1, stmt.indexOf(";"), 1, null);
 
 		} else if (stmt.isAssign()) {// var=list.get(0)
+
 			Token token = stmt.getToken(0);
 			Type type = VariableTracker.findType(clazz, method, block, token.toString());
 			token.setDeclaredAtt(type != null);
+
 			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
 
-		} else {
+		} else
+
+		{
 			VariableTracker.trackStmt(clazz, method, block, line, stmt);
 			InvokeVisiter.visitStmt(clazz, stmt);
 		}
