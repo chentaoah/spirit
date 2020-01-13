@@ -167,7 +167,7 @@ public class JavaConverter {
 	}
 
 	public static void addLineEnd(CtClass clazz, Stmt stmt) {
-		stmt.tokens.add(new Token(Constants.SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
+		stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
 	}
 
 }

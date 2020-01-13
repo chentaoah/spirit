@@ -20,8 +20,8 @@ public class ConditionConverter extends DefaultConverter {
 		Type type = FastDerivator.deriveStmt(clazz, stmt);
 		if (type.isStr()) {
 			JavaConverter.convertCommon(clazz, stmt);
-			stmt.tokens.add(1, new Token(Constants.PREFIX_TOKEN, "StringUtils.isNotEmpty(", null));
-			stmt.tokens.add(stmt.size() - 1, new Token(Constants.SUFFIX_TOKEN, ")", null));
+			stmt.tokens.add(1, new Token(Constants.CUSTOM_PREFIX_TOKEN, "StringUtils.isNotEmpty(", null));
+			stmt.tokens.add(stmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")", null));
 			clazz.addImport(StringUtils.class.getName());
 		} else {
 			JavaConverter.convertCommon(clazz, stmt);
