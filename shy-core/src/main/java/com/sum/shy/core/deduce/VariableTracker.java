@@ -33,7 +33,7 @@ public class VariableTracker {
 		if (token.hasSubStmt())
 			trackStmt(clazz, method, block, line, token.getSubStmt());
 		if (token.isNode())
-			trackStmt(clazz, method, block, line, token.toNode().toStmt());
+			trackStmt(clazz, method, block, line, token.getNode().toStmt());
 
 		if (token.isVar()) {
 			String name = token.toString();

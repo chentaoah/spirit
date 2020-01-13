@@ -34,7 +34,7 @@ public class Token {
 		return value.toString();
 	}
 
-	public Node toNode() {
+	public Node getNode() {
 		return (Node) value;
 	}
 
