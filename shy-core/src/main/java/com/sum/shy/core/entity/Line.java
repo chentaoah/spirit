@@ -4,12 +4,16 @@ import com.sum.shy.utils.LineUtils;
 
 public class Line {
 
-	public Integer number;
+	public int number;
 
 	public String text;
 
-	public Line(Integer number, String text) {
+	public Line(int number, String text) {
 		this.number = number;
+		this.text = text;
+	}
+
+	public Line(String text) {
 		this.text = text;
 	}
 
