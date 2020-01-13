@@ -12,8 +12,6 @@ public class Stmt {
 
 	// 一行
 	public Line line;
-	// 词法
-	public List<String> words;
 	// 语法
 	public String syntax;
 	// 语义
@@ -59,26 +57,22 @@ public class Stmt {
 
 	public Stmt(Line line, List<String> words, String syntax, List<Token> tokens) {
 		this.line = line;
-		this.words = words;
 		this.syntax = syntax;
 		this.tokens = tokens;
 	}
 
 	public Stmt(String word, List<String> subWords, List<Token> subTokens) {
 		this.line = new Line(null, word);
-		this.words = subWords;
 		this.tokens = subTokens;
 	}
 
 	public Stmt(String text) {
 		this.line = new Line(null, text);
-		this.words = new ArrayList<>();
 		this.tokens = new ArrayList<>();
 	}
 
 	public Stmt(List<Token> tokens) {
 		this.line = null;
-		this.words = new ArrayList<>();
 		this.tokens = tokens;
 	}
 
