@@ -92,13 +92,13 @@ public class JavaConverter {
 					express = String.format(express, node.left, node.right);
 					node.left = null;
 					node.right = null;
-					node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+					node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express, null);
 				}
 			} else {
 				String express = String.format("StringUtils.isNotEmpty(%s)", node);
 				node.left = null;
 				node.right = null;
-				node.token = new Token(Constants.EXPRESS_TOKEN, express, null);
+				node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express, null);
 			}
 
 		}

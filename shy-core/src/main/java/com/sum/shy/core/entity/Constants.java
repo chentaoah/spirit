@@ -65,18 +65,17 @@ public class Constants {
 	public static final String INVOKE_METHOD_TOKEN = "invoke_method";
 	public static final String VISIT_ARRAY_INDEX_TOKEN = "visit_array_index";// 访问字段,并通过索引访问数组中的元素
 	public static final String ARRAY_INDEX_TOKEN = "array_index";// 访问字段,并通过索引访问数组中的元素
-
-	public static final String PREFIX_TOKEN = "prefix";// 分隔符前面的一串字符，统一称为前缀
-	public static final String SUFFIX_TOKEN = "suffix";// 后缀
-	public static final String EXPRESS_TOKEN = "express";// 表达式
 	public static final String NODE_TOKEN = "node";// 节点
+	public static final String PREFIX_TOKEN = "prefix";// 前缀
+
+	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
+	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
+	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
-	public static final String RETURN_TYPE_ATTACHMENT = "return_type";// 返回类型
 	public static final String TYPE_NAME_ATTACHMENT = "type_name";// 类名
 	public static final String MEMBER_NAME_ATTACHMENT = "member_name";// 成员名
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String POSITION_ATTACHMENT = "position";// 位置
-	public static final String STMT_ATTACHMENT = "stmt";// 指向语句的引用
 
 }

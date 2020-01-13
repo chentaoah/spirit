@@ -139,7 +139,7 @@ public class Token {
 	}
 
 	public boolean isExpress() {
-		return Constants.EXPRESS_TOKEN.equals(type);
+		return Constants.CUSTOM_EXPRESS_TOKEN.equals(type);
 	}
 
 	public boolean isUnknown() {
