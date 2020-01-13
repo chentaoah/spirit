@@ -165,7 +165,7 @@ public class MethodResolver {
 			type = filter.processType(type);
 		Token token = stmt.getToken(index);
 		token.setTypeAtt(type);
-		method.addVariable(new Variable(block, type, token.value.toString()));
+		method.addVariable(new Variable(block, type, token.toString()));
 	}
 
 	public static class Position {
