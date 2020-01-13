@@ -51,27 +51,49 @@ public class Stmt {
 	}
 
 	public static Stmt create(String text) {
-		return create(new Line(null, text));
+		return create(new Line(text));
 	}
 
+	/**
+	 * 一般的构造
+	 * 
+	 * @param line
+	 * @param syntax
+	 * @param tokens
+	 */
 	public Stmt(Line line, String syntax, List<Token> tokens) {
 		this.line = line;
 		this.syntax = syntax;
 		this.tokens = tokens;
 	}
 
+	/**
+	 * 子语句构造
+	 * 
+	 * @param word
+	 * @param subTokens
+	 */
 	public Stmt(String word, List<Token> subTokens) {
-		this.line = new Line(null, word);
+		this.line = new Line(word);
 		this.tokens = subTokens;
 	}
 
+	/**
+	 * 无语法和语义的语句
+	 * 
+	 * @param text
+	 */
 	public Stmt(String text) {
-		this.line = new Line(null, text);
+		this.line = new Line(text);
 		this.tokens = new ArrayList<>();
 	}
 
+	/**
+	 * 无语法的语句
+	 * 
+	 * @param tokens
+	 */
 	public Stmt(List<Token> tokens) {
-		this.line = null;
 		this.tokens = tokens;
 	}
 

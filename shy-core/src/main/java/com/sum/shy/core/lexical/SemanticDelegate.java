@@ -272,7 +272,7 @@ public class SemanticDelegate {
 			// 如果是泛型,则进行深度的拆分
 			if (word.contains("<") && word.contains(">")) {
 				// 获取子语句
-				Stmt subStmt = getSubStmt(token, word, "<", ">");
+				Stmt subStmt = getSubStmt(word, "<", ">");
 				// 将泛型中的?替换一下
 				int count = 0;
 				for (Token subToken : subStmt.tokens) {
@@ -288,15 +288,15 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isArrayInit() || token.isList()) {// 这里的拆分是为了更好的加上new这个关键字
-			token.value = getSubStmt(token, word, "[", "]");
+			token.value = getSubStmt(word, "[", "]");
 			return;
 
 		} else if (token.isMap()) {
-			token.value = getSubStmt(token, word, "{", "}");
+			token.value = getSubStmt(word, "{", "}");
 			return;
 
 		} else if (token.isSubexpress() || token.isInvoke()) {
-			token.value = getSubStmt(token, word, "(", ")");
+			token.value = getSubStmt(word, "(", ")");
 			return;
 
 		}
@@ -306,7 +306,7 @@ public class SemanticDelegate {
 
 	}
 
-	private static Stmt getSubStmt(Token token, String word, String left, String right) {
+	private static Stmt getSubStmt(String word, String left, String right) {
 		// 开始位置
 		int start = word.indexOf(left);
 		// 结束位置
@@ -351,12 +351,12 @@ public class SemanticDelegate {
 
 	}
 
-	private static String getCastType(String word) {
-		return word.substring(1, word.length() - 1);
-	}
-
 	private static String getArrayInitType(String word) {
 		return word.substring(0, word.indexOf("[")) + "[]";
+	}
+
+	private static String getCastType(String word) {
+		return word.substring(1, word.length() - 1);
 	}
 
 	public static String getMemberName(String word) {
