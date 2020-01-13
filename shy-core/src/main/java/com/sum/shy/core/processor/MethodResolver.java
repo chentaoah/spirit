@@ -107,11 +107,11 @@ public class MethodResolver {
 
 			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
 
-		} else
+		} else {
 
-		{
 			VariableTracker.trackStmt(clazz, method, block, line, stmt);
 			InvokeVisiter.visitStmt(clazz, stmt);
+
 		}
 
 		// 条件语句没必要那么快增加缩进
