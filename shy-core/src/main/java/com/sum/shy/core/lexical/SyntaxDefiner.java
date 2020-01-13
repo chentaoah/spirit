@@ -21,8 +21,8 @@ public class SyntaxDefiner {
 	public static final String[] STRUCT_KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
 			"func" };
 	// 关键字
-	public static final String[] KEYWORDS = new String[] { "if", "while", "try", "sync", "return", "break", "continue",
-			"throw", "print", "debug", "error" };
+	public static final String[] LINE_KEYWORDS = new String[] { "if", "while", "try", "sync", "return", "break",
+			"continue", "throw", "print", "debug", "error" };
 
 	/**
 	 * 是否注解
@@ -82,7 +82,7 @@ public class SyntaxDefiner {
 
 			// 第一个单词
 			Token first = tokens.get(0);
-			for (String keyword : KEYWORDS) {// 关键字语句
+			for (String keyword : LINE_KEYWORDS) {// 关键字语句
 				if (keyword.equals(first.toString()))
 					return keyword;
 			}
