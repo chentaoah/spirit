@@ -68,14 +68,14 @@ public class Constants {
 	public static final String NODE_TOKEN = "node";// 节点
 	public static final String PREFIX_TOKEN = "prefix";// 前缀
 
-	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
-	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
-	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
-
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String TYPE_NAME_ATTACHMENT = "type_name";// 类名
 	public static final String MEMBER_NAME_ATTACHMENT = "member_name";// 成员名
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String POSITION_ATTACHMENT = "position";// 位置
+
+	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
+	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
+	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
 
 }
