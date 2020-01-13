@@ -52,13 +52,14 @@ public class VariableTracker {
 	}
 
 	public static Type findType(CtClass clazz, CtMethod method, String block, String name) {
-		// this引用，指向的是这个类本身
-		if ("this".equals(name))
-			return new CodeType(clazz, clazz.getClassName(), clazz.typeName);// 这里可能是比较隐晦的逻辑，因为
 
 		// super引用,指向的是父类
 		if ("super".equals(name))
 			return new CodeType(clazz, clazz.superName);// 这里可能是比较隐晦的逻辑，因为
+
+		// this引用，指向的是这个类本身
+		if ("this".equals(name))
+			return new CodeType(clazz, clazz.getClassName(), clazz.typeName);// 这里可能是比较隐晦的逻辑，因为
 
 		// 先在最近的位置找变量
 		if (method != null) {
