@@ -147,29 +147,27 @@ public class SemanticDelegate {
 		} else if (isSeparator(word)) {// 是否分隔符
 			token.type = Constants.SEPARATOR_TOKEN;
 			return;
-		} else {
-			if (isType(word)) {// 是否类型说明
-				token.type = Constants.TYPE_TOKEN;
-				return;
-			} else if (isInit(word)) {// 初始化
-				token.type = getInitTokenType(word);
-				return;
-			} else if (isValue(word)) {// 字面值
-				token.type = getValueTokenType(word);
-				return;
-			} else if (isSubexpress(word)) {// 子表达式
-				token.type = getSubexpressTokenType(word);
-				return;
-			} else if (isVar(word)) {// 变量
-				token.type = Constants.VAR_TOKEN;
-				return;
-			} else if (isAccess(word)) {// 属性访问
-				token.type = getAccessTokenType(word);
-				return;
-			}
-			token.type = Constants.UNKNOWN;
+		} else if (isType(word)) {// 是否类型说明
+			token.type = Constants.TYPE_TOKEN;
+			return;
+		} else if (isInit(word)) {// 初始化
+			token.type = getInitTokenType(word);
+			return;
+		} else if (isValue(word)) {// 字面值
+			token.type = getValueTokenType(word);
+			return;
+		} else if (isSubexpress(word)) {// 子表达式
+			token.type = getSubexpressTokenType(word);
+			return;
+		} else if (isVar(word)) {// 变量
+			token.type = Constants.VAR_TOKEN;
+			return;
+		} else if (isAccess(word)) {// 属性访问
+			token.type = getAccessTokenType(word);
 			return;
 		}
+		token.type = Constants.UNKNOWN;
+		return;
 
 	}
 
