@@ -147,9 +147,8 @@ public class MethodResolver {
 		List<Integer> counts = position.counts;
 
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < depth.get(); i++) {
+		for (int i = 0; i < depth.get(); i++)
 			sb.append(counts.get(depth.get()) + "-");
-		}
 		if (sb.length() > 0)
 			sb.deleteCharAt(sb.length() - 1);
 
