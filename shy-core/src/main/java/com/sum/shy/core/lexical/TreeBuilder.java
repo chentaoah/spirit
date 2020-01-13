@@ -24,7 +24,7 @@ public class TreeBuilder {
 		LEFT, RIGHT, DOUBLE
 	}
 
-	public static List<Token> getTrees(List<Token> tokens) {
+	public static List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;
@@ -33,7 +33,7 @@ public class TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
 				Stmt subStmt = (Stmt) token.value;
-				getTrees(subStmt.tokens);
+				build(subStmt.tokens);
 			}
 		}
 		// 通过递归获取节点树
@@ -129,7 +129,7 @@ public class TreeBuilder {
 			tokens.remove(index - 1);
 
 		// 递归
-		return getTrees(tokens);
+		return build(tokens);
 	}
 
 	public static int getPriority(String value) {
