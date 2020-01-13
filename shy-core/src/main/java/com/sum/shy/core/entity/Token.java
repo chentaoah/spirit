@@ -138,7 +138,7 @@ public class Token {
 		return Constants.NODE_TOKEN.equals(type);
 	}
 
-	public boolean isExpress() {
+	public boolean isCustomExpress() {
 		return Constants.CUSTOM_EXPRESS_TOKEN.equals(type);
 	}
 
