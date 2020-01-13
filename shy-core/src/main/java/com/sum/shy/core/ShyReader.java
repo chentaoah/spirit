@@ -54,7 +54,7 @@ public class ShyReader {
 		return null;
 	}
 
-	private IClass readLines(File file, List<Line> lines) {
+	public IClass readLines(File file, List<Line> lines) {
 		// 这里有一个问题,如果要支持一个文件里面多个class的话,那么这里就需要解析多次
 		IClass mainClass = new IClass();
 		// 文件名即类名,如果类名和文件名不一致,则认为是该类的内部类
@@ -74,7 +74,7 @@ public class ShyReader {
 		return mainClass;
 	}
 
-	private void readScopeLines(IClass clazz, String scope, List<Line> lines) {
+	public void readScopeLines(IClass clazz, String scope, List<Line> lines) {
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {
 			// 取出第一个单词,判断是否在关键字中

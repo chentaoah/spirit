@@ -28,7 +28,7 @@ public class CodeType extends AbsType {
 		this.simpleName = simpleName;
 	}
 
-	private void resolve(IClass clazz, Token token) {
+	public void resolve(IClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
 				simpleName = (String) token.value;

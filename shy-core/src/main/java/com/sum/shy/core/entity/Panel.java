@@ -48,7 +48,7 @@ public class Panel {
 		}
 	}
 
-	private void buildTree(int depth, String separator, Stmt stmt) {
+	public void buildTree(int depth, String separator, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.hasSubStmt()) {
@@ -63,7 +63,7 @@ public class Panel {
 		}
 	}
 
-	private void buildTree(int depth, String separator, Node node) {
+	public void buildTree(int depth, String separator, Node node) {
 
 		if (node == null)
 			return;

@@ -101,7 +101,7 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildHead(IClass clazz) {
+	public String buildHead(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 		body.append(String.format("package %s;\n", clazz.packageStr));// package
@@ -115,7 +115,7 @@ public class JavaBuilder {
 		return body.toString();
 	}
 
-	private String buildInterface(IClass clazz) {
+	public String buildInterface(IClass clazz) {
 		StringBuilder body = new StringBuilder();
 		String extendsStr = clazz.interfaces.size() > 0
 				? String.format("extends %s ", Joiner.on(", ").join(clazz.interfaces))
@@ -144,7 +144,7 @@ public class JavaBuilder {
 	 * @param fields
 	 * @return
 	 */
-	private String buildClass(IClass clazz, String fields, String methods) {
+	public String buildClass(IClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
 		String desc = clazz instanceof InnerClass ? "static " : "";// 内部类需要是静态比较好
 		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
@@ -175,7 +175,7 @@ public class JavaBuilder {
 	 * @param element
 	 * @return
 	 */
-	private String buildAnnotations(String indent, Annotated annotated) {
+	public String buildAnnotations(String indent, Annotated annotated) {
 		StringBuilder body = new StringBuilder();
 		for (String annotation : annotated.getAnnotations()) {
 			body.append(indent + annotation + "\n");
@@ -189,7 +189,7 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildFields(IClass clazz) {
+	public String buildFields(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 
@@ -216,7 +216,7 @@ public class JavaBuilder {
 	 * @param field
 	 * @return
 	 */
-	private String buildField(IClass clazz, String desc, IField field) {
+	public String buildField(IClass clazz, String desc, IField field) {
 		if (StringUtils.isNotEmpty(desc)) {
 			JavaConverter.convertCommon(clazz, field.stmt);
 			return String.format("\tpublic %s %s %s;\n", desc, field.type, field.stmt);
@@ -233,7 +233,7 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildMethods(IClass clazz) {
+	public String buildMethods(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 		for (IMethod method : clazz.staticMethods) {
@@ -255,7 +255,7 @@ public class JavaBuilder {
 	 * @param field
 	 * @return
 	 */
-	private String buildMethod(IClass clazz, String desc, IMethod method) {
+	public String buildMethod(IClass clazz, String desc, IMethod method) {
 		StringBuilder body = new StringBuilder();
 		String paramStr = "";
 

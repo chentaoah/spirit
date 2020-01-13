@@ -121,7 +121,7 @@ public class InvokeVisiter {
 
 	}
 
-	private static List<Type> getParameterTypes(IClass clazz, Token token) {
+	public static List<Type> getParameterTypes(IClass clazz, Token token) {
 		List<Type> parameterTypes = new ArrayList<>();
 		Stmt stmt = (Stmt) token.value;
 		// 只取括号里的

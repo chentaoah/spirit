@@ -120,7 +120,7 @@ public class LexicalAnalyzer {
 
 	}
 
-	private static List<Character> getChars(String text) {
+	public static List<Character> getChars(String text) {
 		List<Character> list = new LinkedList<>();
 		for (char c : text.toCharArray())
 			list.add(c);
@@ -149,7 +149,7 @@ public class LexicalAnalyzer {
 		doReplaceString(chars, index, end, name, number, replacedStrs);
 	}
 
-	private static int findEnd(List<Character> chars, int index, char left, char right) {
+	public static int findEnd(List<Character> chars, int index, char left, char right) {
 		boolean flag = false;// 是否进入"符号的范围内
 		for (int i = index, count = 0; i < chars.size(); i++) {
 			char c = chars.get(i);
@@ -171,7 +171,7 @@ public class LexicalAnalyzer {
 
 	}
 
-	private static void doReplaceString(List<Character> chars, int start, int end, String name, int number,
+	public static void doReplaceString(List<Character> chars, int start, int end, String name, int number,
 			Map<String, String> replacedStrs) {
 
 		if (end == -1)

@@ -97,7 +97,7 @@ public class VariableTracker {
 
 	}
 
-	private static void checkType(Line line, String name, Type type) {
+	public static void checkType(Line line, String name, Type type) {
 		if (type == null)
 			throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
 					+ line.text.trim() + " ], var:[" + name + "]");

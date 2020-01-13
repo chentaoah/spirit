@@ -123,7 +123,7 @@ public class SemanticDelegate {
 		return token;
 	}
 
-	private static void getStructTokenType(Token token, String word) {
+	public static void getStructTokenType(Token token, String word) {
 		if (isKeyword(word)) {
 			token.type = Constants.KEYWORD_TOKEN;
 			return;
@@ -171,7 +171,7 @@ public class SemanticDelegate {
 
 	}
 
-	private static boolean isKeyword(String word) {
+	public static boolean isKeyword(String word) {
 		return ArrayUtils.contain(KEYWORDS, word);
 	}
 
@@ -189,12 +189,12 @@ public class SemanticDelegate {
 				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
-	private static boolean isInit(String word) {
+	public static boolean isInit(String word) {
 		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
-	private static String getInitTokenType(String word) {
+	public static String getInitTokenType(String word) {
 		if (BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;
 		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
@@ -204,13 +204,13 @@ public class SemanticDelegate {
 		return Constants.UNKNOWN;
 	}
 
-	private static boolean isValue(String word) {
+	public static boolean isValue(String word) {
 		return "null".equals(word) || BOOL_PATTERN.matcher(word).matches() || INT_PATTERN.matcher(word).matches()
 				|| DOUBLE_PATTERN.matcher(word).matches() || STR_PATTERN.matcher(word).matches()
 				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
-	private static String getValueTokenType(String word) {
+	public static String getValueTokenType(String word) {
 		if ("null".equals(word))
 			return Constants.NULL_TOKEN;
 		if (BOOL_PATTERN.matcher(word).matches())
@@ -228,11 +228,11 @@ public class SemanticDelegate {
 		return Constants.UNKNOWN;
 	}
 
-	private static boolean isSubexpress(String word) {
+	public static boolean isSubexpress(String word) {
 		return SUBEXPRESS_PATTERN.matcher(word).matches();
 	}
 
-	private static String getSubexpressTokenType(String word) {
+	public static String getSubexpressTokenType(String word) {
 		if (isType(getCastType(word)))
 			return Constants.CAST_TOKEN;
 		return Constants.SUBEXPRESS_TOKEN;
@@ -248,7 +248,7 @@ public class SemanticDelegate {
 				|| ARRAY_INDEX_PATTERN.matcher(word).matches();
 	}
 
-	private static String getAccessTokenType(String word) {
+	public static String getAccessTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return Constants.INVOKE_LOCAL_TOKEN;
 		if (VISIT_FIELD_PATTERN.matcher(word).matches())
@@ -266,7 +266,7 @@ public class SemanticDelegate {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 
-	private static void getTokenValue(Token token, String word) {
+	public static void getTokenValue(Token token, String word) {
 
 		if (token.isType()) {
 			// 如果是泛型,则进行深度的拆分
@@ -306,7 +306,7 @@ public class SemanticDelegate {
 
 	}
 
-	private static Stmt getSubStmt(String word, String left, String right) {
+	public static Stmt getSubStmt(String word, String left, String right) {
 		// 开始位置
 		int start = word.indexOf(left);
 		// 结束位置
@@ -329,7 +329,7 @@ public class SemanticDelegate {
 		return new Stmt(word, subTokens);
 	}
 
-	private static void getAttachments(Token token, String word) {
+	public static void getAttachments(Token token, String word) {
 
 		if (token.isArrayInit()) {// 数组构造
 			token.setTypeNameAtt(getArrayInitType(word));
@@ -351,11 +351,11 @@ public class SemanticDelegate {
 
 	}
 
-	private static String getArrayInitType(String word) {
+	public static String getArrayInitType(String word) {
 		return word.substring(0, word.indexOf("[")) + "[]";
 	}
 
-	private static String getCastType(String word) {
+	public static String getCastType(String word) {
 		return word.substring(1, word.length() - 1);
 	}
 

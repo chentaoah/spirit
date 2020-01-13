@@ -42,7 +42,7 @@ public class NativeLinker {
 		return null;
 	}
 
-	private static Type visitMember(IClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
+	public static Type visitMember(IClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])

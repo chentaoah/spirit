@@ -77,7 +77,7 @@ public class MethodResolver {
 
 	}
 
-	private static Object resolveStmt(IClass clazz, IMethod method, Handler handler, Position position, Line line,
+	public static Object resolveStmt(IClass clazz, IMethod method, Handler handler, Position position, Line line,
 			Stmt stmt) {
 
 		// 根据{和}重新计算位置
@@ -123,7 +123,7 @@ public class MethodResolver {
 
 	}
 
-	private static boolean calcPosition(Position position, Stmt stmt) {
+	public static boolean calcPosition(Position position, Stmt stmt) {
 
 		AtomicInteger depth = position.depth;
 		List<Integer> counts = position.counts;
@@ -142,7 +142,7 @@ public class MethodResolver {
 		return inCondition;
 	}
 
-	private static String getBlock(Position position) {
+	public static String getBlock(Position position) {
 
 		AtomicInteger depth = position.depth;
 		List<Integer> counts = position.counts;
@@ -156,7 +156,7 @@ public class MethodResolver {
 		return sb.toString();
 	}
 
-	private static void processBridge(IClass clazz, IMethod method, String block, Line line, Stmt stmt, int start,
+	public static void processBridge(IClass clazz, IMethod method, String block, Line line, Stmt stmt, int start,
 			int end, int index, Filter filter) {
 		Stmt subStmt = stmt.subStmt(start, end);
 		VariableTracker.trackStmt(clazz, method, block, line, subStmt);

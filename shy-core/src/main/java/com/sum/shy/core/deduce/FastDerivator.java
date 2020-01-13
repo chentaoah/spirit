@@ -34,7 +34,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static Type getType(IClass clazz, Node node) {
+	public static Type getType(IClass clazz, Node node) {
 
 		if (node == null)
 			return null;
@@ -76,7 +76,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static Type getArrayType(IClass clazz, Token token) {
+	public static Type getArrayType(IClass clazz, Token token) {
 		boolean isSame = true;// 所有元素是否都相同
 		Type genericType = null;
 		// 开始遍历
@@ -105,7 +105,7 @@ public class FastDerivator {
 		return finalType;
 	}
 
-	private static Type getMapType(IClass clazz, Token token) {
+	public static Type getMapType(IClass clazz, Token token) {
 		boolean isSameKey = true;
 		boolean isSameValue = true;
 		Type finalKeyType = null;
@@ -152,7 +152,7 @@ public class FastDerivator {
 	 * @param genericType
 	 * @return
 	 */
-	private static Type getWrapType(IClass clazz, Type genericType) {
+	public static Type getWrapType(IClass clazz, Type genericType) {
 		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
 		if (wrapType != null)
 			genericType = new CodeType(clazz, wrapType);

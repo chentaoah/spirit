@@ -41,7 +41,7 @@ public class ShyDebugger {
 
 	}
 
-	private void readLines(List<Line> lines) {
+	public void readLines(List<Line> lines) {
 
 		// 获取所有行
 		for (int i = 0; i < lines.size(); i++) {

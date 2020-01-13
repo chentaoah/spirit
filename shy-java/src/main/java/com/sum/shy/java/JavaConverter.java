@@ -149,7 +149,7 @@ public class JavaConverter {
 		}
 	}
 
-	private static int findKeyword(Stmt stmt) {
+	public static int findKeyword(Stmt stmt) {
 		int index = -1;
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
