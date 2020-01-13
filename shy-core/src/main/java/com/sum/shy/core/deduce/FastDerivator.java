@@ -2,7 +2,7 @@ package com.sum.shy.core.deduce;
 
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -21,7 +21,7 @@ import com.sum.shy.utils.ReflectUtils;
  */
 public class FastDerivator {
 
-	public static Type deriveStmt(CtClass clazz, Stmt stmt) {
+	public static Type deriveStmt(IClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
@@ -34,7 +34,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static Type getType(CtClass clazz, Node node) {
+	private static Type getType(IClass clazz, Node node) {
 
 		if (node == null)
 			return null;
@@ -57,7 +57,7 @@ public class FastDerivator {
 
 	}
 
-	public static Type getValueType(CtClass clazz, Token token) {
+	public static Type getValueType(IClass clazz, Token token) {
 		if (token.isNull()) {
 			return new CodeType(clazz, "Object");
 		} else if (token.isBool()) {
@@ -76,7 +76,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	private static Type getArrayType(CtClass clazz, Token token) {
+	private static Type getArrayType(IClass clazz, Token token) {
 		boolean isSame = true;// 所有元素是否都相同
 		Type genericType = null;
 		// 开始遍历
@@ -105,7 +105,7 @@ public class FastDerivator {
 		return finalType;
 	}
 
-	private static Type getMapType(CtClass clazz, Token token) {
+	private static Type getMapType(IClass clazz, Token token) {
 		boolean isSameKey = true;
 		boolean isSameValue = true;
 		Type finalKeyType = null;
@@ -152,7 +152,7 @@ public class FastDerivator {
 	 * @param genericType
 	 * @return
 	 */
-	private static Type getWrapType(CtClass clazz, Type genericType) {
+	private static Type getWrapType(IClass clazz, Type genericType) {
 		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
 		if (wrapType != null)
 			genericType = new CodeType(clazz, wrapType);

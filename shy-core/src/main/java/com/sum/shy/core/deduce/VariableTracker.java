@@ -1,8 +1,8 @@
 package com.sum.shy.core.deduce;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Param;
 import com.sum.shy.clazz.Variable;
 import com.sum.shy.core.entity.Line;
@@ -23,12 +23,12 @@ import com.sum.shy.type.api.Type;
  */
 public class VariableTracker {
 
-	public static void trackStmt(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
+	public static void trackStmt(IClass clazz, IMethod method, String block, Line line, Stmt stmt) {
 		for (Token token : stmt.tokens)
 			findType(clazz, method, block, line, stmt, token);
 	}
 
-	public static void findType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token) {
+	public static void findType(IClass clazz, IMethod method, String block, Line line, Stmt stmt, Token token) {
 
 		if (token.hasSubStmt())
 			trackStmt(clazz, method, block, line, token.getSubStmt());
@@ -51,7 +51,7 @@ public class VariableTracker {
 
 	}
 
-	public static Type findType(CtClass clazz, CtMethod method, String block, String name) {
+	public static Type findType(IClass clazz, IMethod method, String block, String name) {
 
 		// super引用,指向的是父类
 		if ("super".equals(name))
@@ -74,7 +74,7 @@ public class VariableTracker {
 			}
 		}
 		// 成员变量
-		for (CtField field : clazz.fields) {
+		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
 					field.type = InvokeVisiter.visitMember(clazz, field);
@@ -82,7 +82,7 @@ public class VariableTracker {
 			}
 		}
 		// 静态成员变量
-		for (CtField field : clazz.staticFields) {
+		for (IField field : clazz.staticFields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)// 可能连锁推导时，字段还没有经过推导
 					field.type = InvokeVisiter.visitMember(clazz, field);

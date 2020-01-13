@@ -2,7 +2,7 @@ package com.sum.shy.parser;
 
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.api.Parser;
@@ -10,7 +10,7 @@ import com.sum.shy.parser.api.Parser;
 public class ImportParser implements Parser {
 
 	@Override
-	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
+	public int parse(IClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 		// 类全名
 		String className = stmt.get(1);
 		// 类名

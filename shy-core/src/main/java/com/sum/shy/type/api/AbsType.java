@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.utils.TypeUtils;
 
 public abstract class AbsType implements Type {
 
-	public CtClass clazz;
+	public IClass clazz;
 
 	public List<Type> genericTypes = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public abstract class AbsType implements Type {
 	 * 
 	 * @param clazz
 	 */
-	public AbsType(CtClass clazz) {
+	public AbsType(IClass clazz) {
 		this.clazz = clazz;
 	}
 

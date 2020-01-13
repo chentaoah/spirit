@@ -6,10 +6,10 @@ package com.sum.shy.clazz;
  * @author chentao26275
  *
  */
-public class InnerClass extends CtClass {
+public class InnerClass extends IClass {
 
 	// 内部类指向主类的引用
-	public CtClass mainClass;
+	public IClass mainClass;
 
 	public String getPackage() {
 		return mainClass.getPackage();

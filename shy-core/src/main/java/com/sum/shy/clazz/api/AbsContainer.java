@@ -5,25 +5,25 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.type.api.Type;
 
 public abstract class AbsContainer extends AbsAnnotated implements Container {
 
 	// 静态字段
-	public List<CtField> staticFields = new ArrayList<>();
+	public List<IField> staticFields = new ArrayList<>();
 	// 静态方法
-	public List<CtMethod> staticMethods = new ArrayList<>();
+	public List<IMethod> staticMethods = new ArrayList<>();
 	// 字段
-	public List<CtField> fields = new ArrayList<>();
+	public List<IField> fields = new ArrayList<>();
 	// 方法
-	public List<CtMethod> methods = new ArrayList<>();
+	public List<IMethod> methods = new ArrayList<>();
 	// 内部类( typeName --> CtClass )
-	public Map<String, CtClass> innerClasses = new LinkedHashMap<>();
+	public Map<String, IClass> innerClasses = new LinkedHashMap<>();
 
-	public void addField(CtField field) {
+	public void addField(IField field) {
 		checkField(field);
 		if ("static".equals(field.scope)) {
 			staticFields.add(field);
@@ -32,7 +32,7 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 		}
 	}
 
-	public void addMethod(CtMethod method) {
+	public void addMethod(IMethod method) {
 		if ("static".equals(method.scope)) {
 			staticMethods.add(method);
 		} else {
@@ -40,14 +40,14 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 		}
 	}
 
-	public void checkField(CtField field) {
+	public void checkField(IField field) {
 		boolean flag = false;
-		for (CtField f : staticFields) {
+		for (IField f : staticFields) {
 			if (f.name.equals(field.name)) {
 				flag = true;
 			}
 		}
-		for (CtField f : fields) {
+		for (IField f : fields) {
 			if (f.name.equals(field.name)) {
 				flag = true;
 			}
@@ -58,12 +58,12 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 	}
 
 	public boolean existField(String fieldName) {
-		for (CtField field : staticFields) {
+		for (IField field : staticFields) {
 			if (field.name.equals(fieldName)) {
 				return true;
 			}
 		}
-		for (CtField field : fields) {
+		for (IField field : fields) {
 			if (field.name.equals(fieldName)) {
 				return true;
 			}
@@ -71,13 +71,13 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 		return false;
 	}
 
-	public CtField findField(String fieldName) {
-		for (CtField field : staticFields) {
+	public IField findField(String fieldName) {
+		for (IField field : staticFields) {
 			if (field.name.equals(fieldName)) {
 				return field;
 			}
 		}
-		for (CtField field : fields) {
+		for (IField field : fields) {
 			if (field.name.equals(fieldName)) {
 				return field;
 			}
@@ -87,12 +87,12 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 	}
 
 	public boolean existMethod(String methodName, List<Type> parameterTypes) {
-		for (CtMethod method : staticMethods) {
+		for (IMethod method : staticMethods) {
 			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
 		}
-		for (CtMethod method : methods) {
+		for (IMethod method : methods) {
 			if (method.isSame(methodName, parameterTypes)) {
 				return true;
 			}
@@ -100,13 +100,13 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 		return false;
 	}
 
-	public CtMethod findMethod(String methodName, List<Type> parameterTypes) {
-		for (CtMethod method : staticMethods) {
+	public IMethod findMethod(String methodName, List<Type> parameterTypes) {
+		for (IMethod method : staticMethods) {
 			if (method.isSame(methodName, parameterTypes)) {
 				return method;
 			}
 		}
-		for (CtMethod method : methods) {
+		for (IMethod method : methods) {
 			if (method.isSame(methodName, parameterTypes)) {
 				return method;
 			}

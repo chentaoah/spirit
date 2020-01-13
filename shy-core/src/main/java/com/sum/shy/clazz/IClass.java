@@ -6,7 +6,7 @@ import java.util.List;
 import com.sum.shy.clazz.api.AbsLinkable;
 import com.sum.shy.core.entity.Line;
 
-public class CtClass extends AbsLinkable {
+public class IClass extends AbsLinkable {
 	// 类别
 	public String category;
 	// 类名

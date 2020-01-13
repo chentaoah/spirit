@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.utils.ReflectUtils;
@@ -21,7 +21,7 @@ import com.sum.shy.utils.ReflectUtils;
  */
 public class AutoImporter {
 
-	public static void doImport(CtClass clazz, File file) {
+	public static void doImport(IClass clazz, File file) {
 		try {
 			// like Fatehr or G_Father
 			Pattern pattern = Pattern.compile("(?!((?<=\").*?(?=\")))\\b[A-Z]+\\w+\\b");

@@ -1,7 +1,7 @@
 package com.sum.shy.java.convert;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.core.deduce.FastDerivator;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
@@ -14,7 +14,7 @@ import com.sum.shy.type.api.Type;
 public class ConditionConverter extends DefaultConverter {
 
 	@Override
-	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 
 		// if str { // if list.get(0) {
 		Type type = FastDerivator.deriveStmt(clazz, stmt);

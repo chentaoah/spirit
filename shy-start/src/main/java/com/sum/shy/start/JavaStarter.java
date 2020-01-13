@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.ShyCompiler;
 import com.sum.shy.core.ShyDebugger;
 import com.sum.shy.core.processor.AliasReplacer;
@@ -41,9 +41,9 @@ public class JavaStarter {
 		}
 
 		// 3.如果不是debug模式,则解析成相应的数据结构
-		Map<String, CtClass> mainClasses = new ShyCompiler().compile(files);// compile
+		Map<String, IClass> mainClasses = new ShyCompiler().compile(files);// compile
 
-		for (CtClass clazz : mainClasses.values()) {
+		for (IClass clazz : mainClasses.values()) {
 			// 4.转换方法中的内容,并生成java代码
 			String code = new JavaBuilder().build(clazz);// build
 			// 替换类的别名

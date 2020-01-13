@@ -3,8 +3,8 @@ package com.sum.shy.java.api;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 
@@ -20,6 +20,6 @@ public interface Converter {
 		return converters.get(syntax);
 	}
 
-	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt);
+	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt);
 
 }

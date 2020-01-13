@@ -3,9 +3,9 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -16,7 +16,7 @@ import com.sum.shy.type.CodeType;
 public class PrintConverter extends DefaultConverter {
 
 	@Override
-	public Stmt convert(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 
 		JavaConverter.convertCommon(clazz, stmt);
 
@@ -40,7 +40,7 @@ public class PrintConverter extends DefaultConverter {
 			clazz.addImport(Logger.class.getName());
 			clazz.addImport(LoggerFactory.class.getName());
 			// 添加字段
-			clazz.addField(new CtField(null, "static", new CodeType(clazz, "Logger"), "logger",
+			clazz.addField(new IField(null, "static", new CodeType(clazz, "Logger"), "logger",
 					new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)")));
 		}
 

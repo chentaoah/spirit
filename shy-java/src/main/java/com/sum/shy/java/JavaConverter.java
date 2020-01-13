@@ -3,7 +3,7 @@ package com.sum.shy.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
@@ -14,7 +14,7 @@ import com.sum.shy.type.api.Type;
 
 public class JavaConverter {
 
-	public static void convertCommon(CtClass clazz, Stmt stmt) {
+	public static void convertCommon(IClass clazz, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 
@@ -60,7 +60,7 @@ public class JavaConverter {
 
 	}
 
-	public static void convertEquals(CtClass clazz, Stmt stmt) {
+	public static void convertEquals(IClass clazz, Stmt stmt) {
 
 		// 转换子语句
 		for (Token token : stmt.tokens) {
@@ -136,7 +136,7 @@ public class JavaConverter {
 		}
 	}
 
-	public static void insertBrackets(CtClass clazz, Stmt stmt) {
+	public static void insertBrackets(IClass clazz, Stmt stmt) {
 		// 第一个连续关键字之后，最后的分隔符之前
 		if (stmt.size() >= 2) {// if xxx { //print xxx,xxx //}catch Exception e{
 			int index = findKeyword(stmt);
@@ -166,7 +166,7 @@ public class JavaConverter {
 		return index;
 	}
 
-	public static void addLineEnd(CtClass clazz, Stmt stmt) {
+	public static void addLineEnd(IClass clazz, Stmt stmt) {
 		stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
 	}
 

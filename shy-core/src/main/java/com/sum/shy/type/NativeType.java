@@ -5,7 +5,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.type.api.AbsType;
 import com.sum.shy.type.api.Type;
 import com.sum.shy.utils.ReflectUtils;
@@ -20,19 +20,19 @@ public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
-	public NativeType(CtClass ctClass, Class<?> clazz, List<Type> genericTypes) {
+	public NativeType(IClass ctClass, Class<?> clazz, List<Type> genericTypes) {
 		super(ctClass);
 		this.clazz = clazz;
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
-	public NativeType(CtClass ctClass, Class<?> clazz) {
+	public NativeType(IClass ctClass, Class<?> clazz) {
 		super(ctClass);
 		this.clazz = clazz;
 		this.genericTypes = new ArrayList<>();
 	}
 
-	public NativeType(CtClass ctClass, Type type) {
+	public NativeType(IClass ctClass, Type type) {
 		super(ctClass);
 		this.clazz = ReflectUtils.getClass(type.getClassName());
 		this.genericTypes = new ArrayList<>();

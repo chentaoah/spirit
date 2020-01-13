@@ -3,8 +3,8 @@ package com.sum.shy.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Param;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
@@ -18,7 +18,7 @@ import com.sum.shy.utils.LineUtils;
 public class FuncParser implements Parser {
 
 	@Override
-	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
+	public int parse(IClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		boolean isSync = false;
 		String methodName = null;
@@ -58,7 +58,7 @@ public class FuncParser implements Parser {
 		}
 
 		// 这里不再直接推导返回类型
-		CtMethod method = new CtMethod(Context.get().getAnnotations(), scope, isSync, null, methodName, params,
+		IMethod method = new IMethod(Context.get().getAnnotations(), scope, isSync, null, methodName, params,
 				exceptions);
 		method.methodLines = LineUtils.getSubLines(lines, index);
 		clazz.addMethod(method);

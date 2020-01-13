@@ -2,8 +2,8 @@ package com.sum.shy.clazz.api;
 
 import java.util.List;
 
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.type.api.Type;
 
 /**
@@ -14,17 +14,17 @@ import com.sum.shy.type.api.Type;
  */
 public interface Container {
 
-	void addField(CtField field);
+	void addField(IField field);
 
-	void addMethod(CtMethod method);
+	void addMethod(IMethod method);
 
 	boolean existField(String fieldName);
 
 	boolean existMethod(String methodName, List<Type> parameterTypes);
 
-	CtField findField(String fieldName);
+	IField findField(String fieldName);
 
-	CtMethod findMethod(String methodName, List<Type> parameterTypes);
+	IMethod findMethod(String methodName, List<Type> parameterTypes);
 
 	List<Member> getAllMember();
 

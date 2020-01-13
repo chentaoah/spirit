@@ -1,9 +1,9 @@
 package com.sum.shy.java;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.InnerClass;
 import com.sum.shy.clazz.api.Annotated;
 import com.sum.shy.core.entity.Line;
@@ -65,7 +65,7 @@ public class JavaBuilder {
 
 	}
 
-	public String build(CtClass clazz) {
+	public String build(IClass clazz) {
 
 		System.out.println();
 		System.out.println("=================================== Java ========================================");
@@ -101,7 +101,7 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildHead(CtClass clazz) {
+	private String buildHead(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 		body.append(String.format("package %s;\n", clazz.packageStr));// package
@@ -115,7 +115,7 @@ public class JavaBuilder {
 		return body.toString();
 	}
 
-	private String buildInterface(CtClass clazz) {
+	private String buildInterface(IClass clazz) {
 		StringBuilder body = new StringBuilder();
 		String extendsStr = clazz.interfaces.size() > 0
 				? String.format("extends %s ", Joiner.on(", ").join(clazz.interfaces))
@@ -144,7 +144,7 @@ public class JavaBuilder {
 	 * @param fields
 	 * @return
 	 */
-	private String buildClass(CtClass clazz, String fields, String methods) {
+	private String buildClass(IClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
 		String desc = clazz instanceof InnerClass ? "static " : "";// 内部类需要是静态比较好
 		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
@@ -158,7 +158,7 @@ public class JavaBuilder {
 		body.append(fields);
 		body.append(methods);
 		// 在这里把内部类拼上
-		for (CtClass innerClass : clazz.innerClasses.values()) {
+		for (IClass innerClass : clazz.innerClasses.values()) {
 			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
 			// 删除最后一个缩进
 			if (body.charAt(body.length() - 1) == '\t')
@@ -189,15 +189,15 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildFields(CtClass clazz) {
+	private String buildFields(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
 
-		for (CtField field : clazz.staticFields) {
+		for (IField field : clazz.staticFields) {
 			body.append(buildAnnotations("\t", field));
 			body.append(buildField(clazz, "static", field));
 		}
-		for (CtField field : clazz.fields) {
+		for (IField field : clazz.fields) {
 			body.append(buildAnnotations("\t", field));
 			body.append(buildField(clazz, "", field));
 		}
@@ -216,7 +216,7 @@ public class JavaBuilder {
 	 * @param field
 	 * @return
 	 */
-	private String buildField(CtClass clazz, String desc, CtField field) {
+	private String buildField(IClass clazz, String desc, IField field) {
 		if (StringUtils.isNotEmpty(desc)) {
 			JavaConverter.convertCommon(clazz, field.stmt);
 			return String.format("\tpublic %s %s %s;\n", desc, field.type, field.stmt);
@@ -233,14 +233,14 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	private String buildMethods(CtClass clazz) {
+	private String buildMethods(IClass clazz) {
 
 		StringBuilder body = new StringBuilder();
-		for (CtMethod method : clazz.staticMethods) {
+		for (IMethod method : clazz.staticMethods) {
 			body.append(buildAnnotations("\t", method));
 			body.append(buildMethod(clazz, "static ", method));
 		}
-		for (CtMethod method : clazz.methods) {
+		for (IMethod method : clazz.methods) {
 			body.append(buildAnnotations("\t", method));
 			body.append(buildMethod(clazz, "", method));
 		}
@@ -255,7 +255,7 @@ public class JavaBuilder {
 	 * @param field
 	 * @return
 	 */
-	private String buildMethod(CtClass clazz, String desc, CtMethod method) {
+	private String buildMethod(IClass clazz, String desc, IMethod method) {
 		StringBuilder body = new StringBuilder();
 		String paramStr = "";
 
@@ -288,10 +288,10 @@ public class JavaBuilder {
 	 * @param clazz
 	 * @param method
 	 */
-	public static void convertMethod(StringBuilder body, CtClass clazz, CtMethod method) {
+	public static void convertMethod(StringBuilder body, IClass clazz, IMethod method) {
 		MethodResolver.resolve(clazz, method, new Handler() {
 			@Override
-			public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line, Stmt stmt) {
+			public Object handle(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 				try {
 					Converter converter = Converter.get(stmt.syntax);
 					stmt = converter.convert(clazz, method, indent, block, line, stmt);

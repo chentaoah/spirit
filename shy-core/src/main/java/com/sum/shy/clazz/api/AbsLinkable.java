@@ -3,7 +3,7 @@ package com.sum.shy.clazz.api;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
@@ -102,7 +102,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return true;
 
 		// 6.内部类不添加
-		for (CtClass innerClass : innerClasses.values()) {
+		for (IClass innerClass : innerClasses.values()) {
 			if (innerClass.getClassName().equals(className))
 				return true;
 		}

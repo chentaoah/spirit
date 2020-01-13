@@ -8,7 +8,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.NativeType;
@@ -16,7 +16,7 @@ import com.sum.shy.type.api.Type;
 
 public class NativeLinker {
 
-	public static Type visitField(CtClass ctClass, Type type, String fieldName) {
+	public static Type visitField(IClass ctClass, Type type, String fieldName) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
@@ -29,7 +29,7 @@ public class NativeLinker {
 		return null;
 	}
 
-	public static Type visitMethod(CtClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
+	public static Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
@@ -42,7 +42,7 @@ public class NativeLinker {
 		return null;
 	}
 
-	private static Type visitMember(CtClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
+	private static Type visitMember(IClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])

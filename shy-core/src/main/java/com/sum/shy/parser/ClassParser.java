@@ -3,7 +3,7 @@ package com.sum.shy.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.InnerClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
@@ -15,7 +15,7 @@ import com.sum.shy.utils.LineUtils;
 public class ClassParser implements Parser {
 
 	@Override
-	public int parse(CtClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
+	public int parse(IClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
 
 		// 这里这两个关键字的位置,可能并不是固定的,这就尴尬了
 		String typeName = null;

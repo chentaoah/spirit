@@ -3,9 +3,9 @@ package com.sum.shy.core.deduce;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtField;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
@@ -21,24 +21,24 @@ import com.sum.shy.type.api.Type;
 
 public class InvokeVisiter {
 
-	public static Type visitMember(CtClass clazz, Member member) {
+	public static Type visitMember(IClass clazz, Member member) {
 		// 上锁
 		member.lock();
 		Type type = member.getType();
 		if (type == null) {
-			if (member instanceof CtField) {
-				Stmt stmt = ((CtField) member).stmt;
+			if (member instanceof IField) {
+				Stmt stmt = ((IField) member).stmt;
 				if (stmt.isAssign()) {
 					VariableTracker.trackStmt(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
 					InvokeVisiter.visitStmt(clazz, stmt);
 					type = FastDerivator.deriveStmt(clazz, stmt);
 				}
 
-			} else if (member instanceof CtMethod) {// 如果是方法
+			} else if (member instanceof IMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
-				MethodResolver.resolve(clazz, (CtMethod) member, new Handler() {
+				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
 					@Override
-					public Object handle(CtClass clazz, CtMethod method, String indent, String block, Line line,
+					public Object handle(IClass clazz, IMethod method, String indent, String block, Line line,
 							Stmt stmt) {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
@@ -57,13 +57,13 @@ public class InvokeVisiter {
 		return type;
 	}
 
-	public static void visitStmt(CtClass clazz, Stmt stmt) {
+	public static void visitStmt(IClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			visitToken(clazz, stmt, i, stmt.getToken(i));
 		}
 	}
 
-	public static void visitToken(CtClass clazz, Stmt stmt, int index, Token token) {
+	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {
 		// 内部可能还需要推导
 		if (token.hasSubStmt())
 			visitStmt(clazz, (Stmt) token.value);
@@ -121,7 +121,7 @@ public class InvokeVisiter {
 
 	}
 
-	private static List<Type> getParameterTypes(CtClass clazz, Token token) {
+	private static List<Type> getParameterTypes(IClass clazz, Token token) {
 		List<Type> parameterTypes = new ArrayList<>();
 		Stmt stmt = (Stmt) token.value;
 		// 只取括号里的
@@ -135,7 +135,7 @@ public class InvokeVisiter {
 		return parameterTypes;
 	}
 
-	public static Type visitField(CtClass clazz, Type type, String fieldName) {
+	public static Type visitField(IClass clazz, Type type, String fieldName) {
 		if (type.isArray()) {
 			if ("length".equals(fieldName))
 				return new CodeType(clazz, "int");
@@ -143,13 +143,13 @@ public class InvokeVisiter {
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
-				CtClass typeClass = Context.get().findClass(className);
+				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(fieldName)) {
 					if ("class".equals(fieldName)) {
 						return new CodeType(typeClass, "Class<?>");
 					}
 					if (typeClass.existField(fieldName)) {
-						CtField field = typeClass.findField(fieldName);
+						IField field = typeClass.findField(fieldName);
 						return visitMember(typeClass, field);
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
@@ -163,7 +163,7 @@ public class InvokeVisiter {
 		return null;
 	}
 
-	public static Type visitMethod(CtClass clazz, Type type, String methodName, List<Type> parameterTypes) {
+	public static Type visitMethod(IClass clazz, Type type, String methodName, List<Type> parameterTypes) {
 		if (type.isArray()) {
 			if ("$array_index".equals(methodName))
 				return new CodeType(clazz, type.getTypeName());
@@ -171,7 +171,7 @@ public class InvokeVisiter {
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
-				CtClass typeClass = Context.get().findClass(className);
+				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(methodName)) {
 					if ("super".equals(methodName)) {
 						return new CodeType(typeClass, typeClass.superName);
@@ -180,7 +180,7 @@ public class InvokeVisiter {
 						return new CodeType(typeClass, typeClass.typeName);
 					}
 					if (typeClass.existMethod(methodName, parameterTypes)) {
-						CtMethod method = typeClass.findMethod(methodName, parameterTypes);
+						IMethod method = typeClass.findMethod(methodName, parameterTypes);
 						return visitMember(typeClass, method);
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {

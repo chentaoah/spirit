@@ -8,7 +8,7 @@ import com.sum.shy.clazz.api.AbsMember;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.type.api.Type;
 
-public class CtMethod extends AbsMember {
+public class IMethod extends AbsMember {
 
 	public boolean isSync;
 	// 参数名
@@ -32,7 +32,7 @@ public class CtMethod extends AbsMember {
 	 * @param params
 	 * @param exceptions
 	 */
-	public CtMethod(List<String> annotations, String scope, boolean isSync, Type returnType, String name,
+	public IMethod(List<String> annotations, String scope, boolean isSync, Type returnType, String name,
 			List<Param> params, List<String> exceptions) {
 		// 注解
 		setAnnotations(annotations);

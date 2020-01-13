@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 
 public class Context {
 
@@ -21,7 +21,7 @@ public class Context {
 	// 友元
 	public Set<String> friends;
 	// 友元 + 内部类
-	public Map<String, CtClass> classes;
+	public Map<String, IClass> classes;
 	// 当前解析到的注解
 	public List<String> annotations = new ArrayList<>();
 
@@ -65,7 +65,7 @@ public class Context {
 	 * 
 	 * @param className
 	 */
-	public CtClass findClass(String className) {
+	public IClass findClass(String className) {
 		return classes.get(className);
 	}
 

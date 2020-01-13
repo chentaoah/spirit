@@ -3,8 +3,8 @@ package com.sum.shy.core.processor;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.sum.shy.clazz.CtClass;
-import com.sum.shy.clazz.CtMethod;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Variable;
 import com.sum.shy.core.deduce.FastDerivator;
 import com.sum.shy.core.deduce.InvokeVisiter;
@@ -35,7 +35,7 @@ public class MethodResolver {
 	 * @param handler
 	 * @return
 	 */
-	public static Object resolve(CtClass clazz, CtMethod method, Handler handler) {
+	public static Object resolve(IClass clazz, IMethod method, Handler handler) {
 
 		Position position = new Position();
 
@@ -77,7 +77,7 @@ public class MethodResolver {
 
 	}
 
-	private static Object resolveStmt(CtClass clazz, CtMethod method, Handler handler, Position position, Line line,
+	private static Object resolveStmt(IClass clazz, IMethod method, Handler handler, Position position, Line line,
 			Stmt stmt) {
 
 		// 根据{和}重新计算位置
@@ -156,7 +156,7 @@ public class MethodResolver {
 		return sb.toString();
 	}
 
-	private static void processBridge(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, int start,
+	private static void processBridge(IClass clazz, IMethod method, String block, Line line, Stmt stmt, int start,
 			int end, int index, Filter filter) {
 		Stmt subStmt = stmt.subStmt(start, end);
 		VariableTracker.trackStmt(clazz, method, block, line, subStmt);

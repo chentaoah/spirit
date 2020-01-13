@@ -1,6 +1,6 @@
 package com.sum.shy.type;
 
-import com.sum.shy.clazz.CtClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.lexical.SemanticDelegate;
@@ -11,24 +11,24 @@ public class CodeType extends AbsType {
 	public String className;
 	public String simpleName;
 
-	public CodeType(CtClass clazz, Token token) {
+	public CodeType(IClass clazz, Token token) {
 		super(clazz);
 		resolve(clazz, token);
 	}
 
-	public CodeType(CtClass clazz, String type) {
+	public CodeType(IClass clazz, String type) {
 		super(clazz);
 		Token token = SemanticDelegate.getToken(type);// 语义分析器,会自动将泛型进行拆分
 		resolve(clazz, token);
 	}
 
-	public CodeType(CtClass clazz, String className, String simpleName) {
+	public CodeType(IClass clazz, String className, String simpleName) {
 		super(clazz);
 		this.className = className;
 		this.simpleName = simpleName;
 	}
 
-	private void resolve(CtClass clazz, Token token) {
+	private void resolve(IClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
 				simpleName = (String) token.value;
