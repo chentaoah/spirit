@@ -135,9 +135,8 @@ public class TreeBuilder {
 	public static int getPriority(String value) {
 		int count = 0;
 		for (String operator : OPERATORS) {
-			if (operator.equals(value)) {
+			if (operator.equals(value))
 				return PRIORITY[count];
-			}
 			count++;
 		}
 		return -1;
