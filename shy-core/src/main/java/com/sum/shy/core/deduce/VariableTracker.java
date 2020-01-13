@@ -25,16 +25,19 @@ import com.sum.shy.type.api.Type;
 public class VariableTracker {
 
 	public static void trackStmt(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt) {
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
+		for (Token token : stmt.tokens)
 			findType(clazz, method, block, line, stmt, token);
-		}
 	}
 
 	public static void findType(CtClass clazz, CtMethod method, String block, Line line, Stmt stmt, Token token) {
 
+		if (token.hasSubStmt())
+			trackStmt(clazz, method, block, line, token.getSubStmt());
+		if (token.isNode())
+			trackStmt(clazz, method, block, line, token.toNode().toStmt());
+
 		if (token.isVar()) {
-			String name = token.value.toString();
+			String name = token.toString();
 			Type type = findType(clazz, method, block, name);
 			checkType(line, name, type);
 			token.setTypeAtt(type);
@@ -49,9 +52,6 @@ public class VariableTracker {
 			Node node = (Node) token.value;
 			trackStmt(clazz, method, block, line, node.toStmt());
 
-		}
-		if (token.hasSubStmt()) {
-			trackStmt(clazz, method, block, line, (Stmt) token.value);
 		}
 
 	}

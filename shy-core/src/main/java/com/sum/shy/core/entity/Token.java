@@ -34,6 +34,14 @@ public class Token {
 		return value.toString();
 	}
 
+	public Node toNode() {
+		return (Node) value;
+	}
+
+	public Stmt getSubStmt() {
+		return (Stmt) value;
+	}
+
 	public String debug() {
 		return "<" + type + ", " + value + ">";
 	}
