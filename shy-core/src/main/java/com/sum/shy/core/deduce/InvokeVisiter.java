@@ -121,17 +121,17 @@ public class InvokeVisiter {
 	}
 
 	public static List<Type> getParamTypes(IClass clazz, Token token) {
-		List<Type> parameterTypes = new ArrayList<>();
+		List<Type> paramTypes = new ArrayList<>();
 		Stmt stmt = token.getSubStmt();
 		// 只取括号里的
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {
 				Type parameterType = FastDerivator.deriveStmt(clazz, subStmt);
-				parameterTypes.add(parameterType);
+				paramTypes.add(parameterType);
 			}
 		}
-		return parameterTypes;
+		return paramTypes;
 	}
 
 }
