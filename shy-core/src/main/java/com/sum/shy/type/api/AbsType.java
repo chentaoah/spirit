@@ -3,6 +3,7 @@ package com.sum.shy.type.api;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.clazz.IClass;
@@ -69,17 +70,17 @@ public abstract class AbsType implements Type {
 
 	@Override
 	public boolean isStr() {
-		return "String".equals(getSimpleName());
+		return String.class.getName().equals(getClassName());
 	}
 
 	@Override
 	public boolean isList() {
-		return "List".equals(getSimpleName());
+		return List.class.getName().equals(getClassName());
 	}
 
 	@Override
 	public boolean isMap() {
-		return "Map".equals(getSimpleName());
+		return Map.class.getName().equals(getClassName());
 	}
 
 	@Override
