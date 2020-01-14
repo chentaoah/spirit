@@ -5,13 +5,14 @@ import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Param;
 import com.sum.shy.clazz.Variable;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.Type;
-import com.sum.shy.visiter.CodeVisiter;
+import com.sum.shy.visiter.api.Visiter;
 
 /**
  * 变量追踪器
@@ -91,8 +92,10 @@ public class VariableTracker {
 			}
 		}
 		// 从继承里面去找
-		if (StringUtils.isNotEmpty(clazz.superName))
-			return CodeVisiter.visitField(clazz, new CodeType(clazz, clazz.superName), name);
+		if (StringUtils.isNotEmpty(clazz.superName)) {
+			Visiter visiter = Context.get().visiter;
+			return visiter.visitField(clazz, new CodeType(clazz, clazz.superName), name);
+		}
 
 		return null;
 

@@ -7,6 +7,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Node;
@@ -16,7 +17,7 @@ import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.Type;
-import com.sum.shy.visiter.CodeVisiter;
+import com.sum.shy.visiter.api.Visiter;
 
 public class InvokeVisiter {
 
@@ -63,6 +64,10 @@ public class InvokeVisiter {
 	}
 
 	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {
+
+		// 获取推导器
+		Visiter visiter = Context.get().visiter;
+
 		// 内部可能还需要推导
 		if (token.hasSubStmt())
 			visitStmt(clazz, (Stmt) token.value);
@@ -85,12 +90,12 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
-			Type returnType = CodeVisiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = CodeVisiter.visitField(clazz, type, token.getMemberNameAtt());
+			Type returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
@@ -98,18 +103,18 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
-			Type returnType = CodeVisiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = CodeVisiter.visitField(clazz, type, token.getMemberNameAtt());
-			returnType = CodeVisiter.visitMethod(clazz, returnType, "$array_index", null);
+			Type returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
+			returnType = visiter.visitMethod(clazz, returnType, "$array_index", null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isArrayIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = CodeVisiter.visitMethod(clazz, type, "$array_index", null);
+			Type returnType = visiter.visitMethod(clazz, type, "$array_index", null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isNode()) {// 如果是节点,则进行转换后,遍历

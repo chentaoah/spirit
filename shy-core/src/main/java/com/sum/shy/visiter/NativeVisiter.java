@@ -13,10 +13,11 @@ import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.NativeType;
 import com.sum.shy.type.api.Type;
+import com.sum.shy.visiter.api.Visiter;
 
-public class NativeVisiter {
+public class NativeVisiter implements Visiter {
 
-	public static Type visitField(IClass ctClass, Type type, String fieldName) {
+	public Type visitField(IClass ctClass, Type type, String fieldName) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
@@ -29,7 +30,7 @@ public class NativeVisiter {
 		return null;
 	}
 
-	public static Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
+	public Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
