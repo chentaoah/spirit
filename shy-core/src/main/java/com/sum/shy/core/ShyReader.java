@@ -42,7 +42,6 @@ public class ShyReader {
 			// 获取文件中的每一行
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 			List<Line> lines = new ArrayList<>();
-			// 开始遍历
 			for (int i = 0; i < fileLines.size(); i++) {
 				String fileLine = fileLines.get(i);
 				System.out.println(fileLine);
