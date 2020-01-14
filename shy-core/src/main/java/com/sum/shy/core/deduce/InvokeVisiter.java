@@ -57,9 +57,8 @@ public class InvokeVisiter {
 	}
 
 	public static void visitStmt(IClass clazz, Stmt stmt) {
-		for (int i = 0; i < stmt.size(); i++) {
+		for (int i = 0; i < stmt.size(); i++)
 			visitToken(clazz, stmt, i, stmt.getToken(i));
-		}
 	}
 
 	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {

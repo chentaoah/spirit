@@ -5,6 +5,7 @@ import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Param;
 import com.sum.shy.clazz.Variable;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -56,11 +57,11 @@ public class VariableTracker {
 	public static Type findType(IClass clazz, IMethod method, String block, String name) {
 
 		// super引用,指向的是父类
-		if ("super".equals(name))
+		if (Constants.SUPER_KEYWORD.equals(name))
 			return new CodeType(clazz, clazz.superName);// 这里可能是比较隐晦的逻辑，因为
 
 		// this引用，指向的是这个类本身
-		if ("this".equals(name))
+		if (Constants.THIS_KEYWORD.equals(name))
 			return new CodeType(clazz, clazz.getClassName(), clazz.typeName);// 这里可能是比较隐晦的逻辑，因为
 
 		// 先在最近的位置找变量
