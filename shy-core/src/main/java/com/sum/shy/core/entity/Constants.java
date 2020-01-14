@@ -20,6 +20,8 @@ public class Constants {
 	public static final String PACKAGE_SYNTAX = "package";
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
+	public static final String INTERFACE_SYNTAX = "interface";
+	public static final String ABSTRACT_SYNTAX = "abstract";
 	public static final String CLASS_SYNTAX = "class";
 	public static final String FUNC_SYNTAX = "func";
 	public static final String SUPER_SYNTAX = "super";// 父类构造

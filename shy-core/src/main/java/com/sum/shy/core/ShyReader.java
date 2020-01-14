@@ -25,15 +25,15 @@ import com.sum.shy.utils.TypeUtils;
 public class ShyReader {
 
 	static {
-		Parser.register("package", new PackageParser());
-		Parser.register("import", new ImportParser());
-		Parser.register("annotation", new AnnotationParser());// 注解
-		Parser.register("interface", new InterfaceParser());
-		Parser.register("abstract", new ClassParser());
-		Parser.register("class", new ClassParser());
-		Parser.register("declare", new DeclareParser());// 声明
-		Parser.register("assign", new FieldParser());
-		Parser.register("func", new FuncParser());
+		Parser.register(Constants.PACKAGE_SYNTAX, new PackageParser());
+		Parser.register(Constants.IMPORT_SYNTAX, new ImportParser());
+		Parser.register(Constants.ANNOTATION_SYNTAX, new AnnotationParser());
+		Parser.register(Constants.INTERFACE_SYNTAX, new InterfaceParser());
+		Parser.register(Constants.ABSTRACT_SYNTAX, new ClassParser());
+		Parser.register(Constants.CLASS_SYNTAX, new ClassParser());
+		Parser.register(Constants.DECLARE_SYNTAX, new DeclareParser());
+		Parser.register(Constants.ASSIGN_SYNTAX, new FieldParser());
+		Parser.register(Constants.FUNC_SYNTAX, new FuncParser());
 	}
 
 	public IClass read(File file) {
