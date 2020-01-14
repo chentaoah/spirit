@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.clazz.api.AbsLinkable;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 
 public class IClass extends AbsLinkable {
@@ -19,15 +20,15 @@ public class IClass extends AbsLinkable {
 	public List<Line> classLines = new ArrayList<>();
 
 	public boolean isInterface() {
-		return "interface".equals(category);
+		return Constants.INTERFACE_KEYWORD.equals(category);
 	}
 
 	public boolean isAbstract() {
-		return "abstract".equals(category);
+		return Constants.ABSTRACT_KEYWORD.equals(category);
 	}
 
 	public boolean isClass() {
-		return "class".equals(category);
+		return Constants.CLASS_KEYWORD.equals(category);
 	}
 
 	public String getClassName() {
