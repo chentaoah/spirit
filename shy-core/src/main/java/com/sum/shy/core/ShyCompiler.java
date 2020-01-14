@@ -19,7 +19,7 @@ public class ShyCompiler {
 		// 1.通过文件解析类信息
 		Map<String, IClass> mainClasses = resolveMainClasses(files);
 		// 2.从类里面取出所有内部类,供推导使用
-		Map<String, IClass> allClasses = addInnerClasses(mainClasses);
+		Map<String, IClass> allClasses = addCoopClasses(mainClasses);
 		// 设置所有类
 		Context.get().classes = allClasses;
 		// 3.推导字段和方法的类型
@@ -54,15 +54,15 @@ public class ShyCompiler {
 		return mainClasses;
 	}
 
-	public Map<String, IClass> addInnerClasses(Map<String, IClass> mainClasses) {
+	public Map<String, IClass> addCoopClasses(Map<String, IClass> mainClasses) {
 
 		Map<String, IClass> classes = new LinkedHashMap<>();
 		// 添加主类
 		classes.putAll(mainClasses);
 		// 添加内部类
 		for (IClass mainClass : mainClasses.values()) {
-			for (IClass innerClass : mainClass.coopClasses.values())
-				classes.put(innerClass.getClassName(), innerClass);
+			for (IClass coopClass : mainClass.coopClasses.values())
+				classes.put(coopClass.getClassName(), coopClass);
 		}
 		return classes;
 	}

@@ -48,13 +48,13 @@ public class ClassParser implements Parser {
 		// 判断是不是内部类,判断依据是类名和文件名是否一致
 		if (!clazz.typeName.equals(typeName)) {
 			// 新建一个内部类
-			CoopClass innerClass = new CoopClass();
+			CoopClass coopClass = new CoopClass();
 			// 内部类指向了主类
-			innerClass.mainClass = clazz;
+			coopClass.mainClass = clazz;
 			// 主类包含了内部类
-			clazz.coopClasses.put(typeName, innerClass);
+			clazz.coopClasses.put(typeName, coopClass);
 
-			clazz = innerClass;
+			clazz = coopClass;
 		}
 
 		// 设置类上面的注解

@@ -102,8 +102,8 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return true;
 
 		// 6.内部类不添加
-		for (IClass innerClass : coopClasses.values()) {
-			if (innerClass.getClassName().equals(className))
+		for (IClass coopClass : coopClasses.values()) {
+			if (coopClass.getClassName().equals(className))
 				return true;
 		}
 

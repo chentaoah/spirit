@@ -158,8 +158,8 @@ public class JavaBuilder {
 		body.append(fields);
 		body.append(methods);
 		// 在这里把内部类拼上
-		for (IClass innerClass : clazz.coopClasses.values()) {
-			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
+		for (IClass coopClass : clazz.coopClasses.values()) {
+			body.append("\t" + build(coopClass).replaceAll("\n", "\n\t"));
 			// 删除最后一个缩进
 			if (body.charAt(body.length() - 1) == '\t')
 				body.deleteCharAt(body.length() - 1);
