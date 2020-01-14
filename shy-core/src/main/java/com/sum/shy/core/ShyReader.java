@@ -63,14 +63,12 @@ public class ShyReader {
 		// 读取类的信息,包括静态方法,静态变量
 		readScopeLines(mainClass, Constants.STATIC_SCOPE, lines);
 		// 如果不是接口的话
-		if (!mainClass.isInterface()) {
-			// 继续读取类内部的信息
+		if (!mainClass.isInterface())
 			readScopeLines(mainClass, Constants.CLASS_SCOPE, mainClass.classLines);
-		}
+
 		// 遍历读取内部类的信息
-		for (IClass coopClass : mainClass.coopClasses.values()) {
+		for (IClass coopClass : mainClass.coopClasses.values())
 			readScopeLines(coopClass, Constants.CLASS_SCOPE, coopClass.classLines);
-		}
 
 		return mainClass;
 	}
