@@ -17,6 +17,12 @@ public class Constants {
 	public static final String CLASS_SCOPE = "class";
 	public static final String METHOD_SCOPE = "method";
 
+	public static final String INTERFACE_KEYWORD = "interface";// 高频出现的几个关键字
+	public static final String ABSTRACT_KEYWORD = "abstract";
+	public static final String CLASS_KEYWORD = "class";
+	public static final String EXTENDS_KEYWORD = "extends";
+	public static final String IMPL_KEYWORD = "impl";
+
 	public static final String PACKAGE_SYNTAX = "package";
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
