@@ -18,14 +18,12 @@ import com.sum.shy.parser.FieldParser;
 import com.sum.shy.parser.FuncParser;
 import com.sum.shy.parser.ImportParser;
 import com.sum.shy.parser.InterfaceParser;
-import com.sum.shy.parser.PackageParser;
 import com.sum.shy.parser.api.Parser;
 import com.sum.shy.utils.TypeUtils;
 
 public class ShyReader {
 
 	static {
-		Parser.register(Constants.PACKAGE_SYNTAX, new PackageParser());
 		Parser.register(Constants.IMPORT_SYNTAX, new ImportParser());
 		Parser.register(Constants.ANNOTATION_SYNTAX, new AnnotationParser());
 		Parser.register(Constants.INTERFACE_SYNTAX, new InterfaceParser());
