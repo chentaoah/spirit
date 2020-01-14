@@ -11,6 +11,11 @@ public class CoopClass extends IClass {
 	// 内部类指向主类的引用
 	public IClass mainClass;
 
+	public CoopClass(IClass mainClass, String typeName) {
+		this.mainClass = mainClass;
+		mainClass.coopClasses.put(typeName, this);// 主类包含了内部类
+	}
+
 	public String getPackage() {
 		return mainClass.getPackage();
 	}

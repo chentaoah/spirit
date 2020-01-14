@@ -23,12 +23,8 @@ public class ClassParser implements Parser {
 			stmt = stmt.subStmt(1, stmt.size());// 截取一下
 		// 类名
 		String typeName = stmt.get(1);
-		if (!clazz.typeName.equals(typeName)) {// 判断是不是内部类,判断依据是类名和文件名是否一致
-			CoopClass coopClass = new CoopClass();// 新建一个内部类
-			coopClass.mainClass = clazz;// 内部类指向了主类
-			clazz.coopClasses.put(typeName, coopClass);// 主类包含了内部类
-			clazz = coopClass;
-		}
+		if (!clazz.typeName.equals(typeName)) // 判断是不是内部类,判断依据是类名和文件名是否一致
+			clazz = new CoopClass(clazz, typeName);// 新建一个内部类
 
 		clazz.setAnnotations(Context.get().getAnnotations());
 		clazz.category = keyword;
