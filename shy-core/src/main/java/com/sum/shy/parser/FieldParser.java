@@ -31,7 +31,7 @@ public class FieldParser implements Parser {
 		} else if (stmt.isAssign()) {// s = User()
 			// 名称
 			String name = stmt.get(0);
-			// 字段
+			// 字段,这里不直接推导字段的类型
 			IField field = new IField(annotations, scope, null, name, stmt);
 			// 添加字段
 			clazz.addField(field);

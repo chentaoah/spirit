@@ -32,7 +32,7 @@ public class TreeBuilder {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
-				Stmt subStmt = (Stmt) token.value;
+				Stmt subStmt = token.getSubStmt();
 				build(subStmt.tokens);
 			}
 		}
@@ -143,7 +143,7 @@ public class TreeBuilder {
 	}
 
 	public static Node getNode(Token token) {
-		return token.isNode() ? (Node) token.value : new Node(token);
+		return token.isNode() ? token.getNode() : new Node(token);
 	}
 
 }

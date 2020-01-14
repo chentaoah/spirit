@@ -86,7 +86,7 @@ public class InvokeVisiter {
 			token.setTypeAtt(FastDerivator.getValueType(clazz, token));
 
 		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-			Stmt subStmt = (Stmt) token.value;
+			Stmt subStmt = token.getSubStmt();
 			token.setTypeAtt(FastDerivator.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
@@ -101,7 +101,7 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeMethod()) {
 			Token lastToken = stmt.getToken(index - 1);
-			if (lastToken.isOperator() && "?".equals(lastToken.value))
+			if (lastToken.isOperator() && "?".equals(lastToken.toString()))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
 			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
@@ -124,7 +124,7 @@ public class InvokeVisiter {
 
 	public static List<Type> getParamTypes(IClass clazz, Token token) {
 		List<Type> parameterTypes = new ArrayList<>();
-		Stmt stmt = (Stmt) token.value;
+		Stmt stmt = token.getSubStmt();
 		// 只取括号里的
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");

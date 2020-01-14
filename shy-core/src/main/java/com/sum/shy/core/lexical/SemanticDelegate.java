@@ -276,7 +276,7 @@ public class SemanticDelegate {
 				// 将泛型中的?替换一下
 				int count = 0;
 				for (Token subToken : subStmt.tokens) {
-					if ("?".equals(subToken.value))
+					if ("?".equals(subToken.toString()))
 						subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?", null));
 					count++;
 				}

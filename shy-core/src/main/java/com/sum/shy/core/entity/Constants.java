@@ -22,6 +22,9 @@ public class Constants {
 	public static final String CLASS_KEYWORD = "class";
 	public static final String EXTENDS_KEYWORD = "extends";
 	public static final String IMPL_KEYWORD = "impl";
+	public static final String FUNC_KEYWORD = "func";
+	public static final String SYNC_KEYWORD = "sync";
+	public static final String THROWS_KEYWORD = "throws";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";

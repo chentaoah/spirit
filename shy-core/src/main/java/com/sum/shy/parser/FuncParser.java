@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Param;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -27,14 +28,14 @@ public class FuncParser implements Parser {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isKeyword()) {
-				if ("func".equals(token.value)) {
+				if (Constants.FUNC_KEYWORD.equals(token.toString())) {
 					Token nextToken = stmt.getToken(i + 1);
-					if ("sync".equals(nextToken.value)) {// 如果是同步语句块
+					if ("sync".equals(nextToken.toString())) {// 如果是同步语句块
 						isSync = true;
 						nextToken = stmt.getToken(i + 2);
 					}
 					// func method(int num) throws exception
-					String methodDesc = nextToken.value.toString();
+					String methodDesc = nextToken.toString();
 					methodName = methodDesc.substring(0, methodDesc.indexOf("("));// 名称
 					List<String> list = LexicalAnalyzer
 							.getWords(methodDesc.substring(methodDesc.indexOf("(") + 1, methodDesc.indexOf(")")));
@@ -44,11 +45,11 @@ public class FuncParser implements Parser {
 						// 根据字符串字面意思,获取类型
 						params.add(new Param(new CodeType(clazz, type), name));
 					}
-				} else if ("throws".equals(token.value)) {
+				} else if ("throws".equals(token.toString())) {
 					for (int j = i + 1; j < stmt.size(); j++) {
 						Token nextToken = stmt.getToken(j);
 						if (nextToken.isKeywordParam()) {
-							exceptions.add(nextToken.value.toString());
+							exceptions.add(nextToken.toString());
 						} else if (nextToken.isKeyword()) {
 							break;
 						}

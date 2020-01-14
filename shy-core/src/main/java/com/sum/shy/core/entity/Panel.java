@@ -31,17 +31,17 @@ public class Panel {
 				token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
 				// 给子节点也计算位置
 				if (token.hasSubStmt())
-					markPosition(position, (Stmt) token.value);
+					markPosition(position, token.getSubStmt());
 				// 加上当前的长度
 				position += text.length();
 
 			} else {
-				List<Node> nodes = ((Node) token.value).getNodes();
+				List<Node> nodes = token.getNode().getNodes();
 				for (Node node : nodes) {
 					String text = node.format();
 					node.token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
 					if (node.token.hasSubStmt())
-						markPosition(position, (Stmt) node.token.value);
+						markPosition(position, node.token.getSubStmt());
 					position += text.length();
 				}
 			}
@@ -52,12 +52,12 @@ public class Panel {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.hasSubStmt()) {
-				buildTree(depth, separator, (Stmt) token.value);
+				buildTree(depth, separator, token.getSubStmt());
 			} else {
 				if (!token.isNode()) {
 					print(depth, token.getPosition(), token.toString());
 				} else {
-					buildTree(depth, separator, (Node) token.value);
+					buildTree(depth, separator, token.getNode());
 				}
 			}
 		}
@@ -77,7 +77,7 @@ public class Panel {
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
 		if (node.token.hasSubStmt()) {
-			buildTree(depth, "", (Stmt) node.token.value);
+			buildTree(depth, "", node.token.getSubStmt());
 		} else {
 			print(depth, position, text);
 		}

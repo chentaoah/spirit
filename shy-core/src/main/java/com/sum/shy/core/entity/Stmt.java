@@ -170,7 +170,7 @@ public class Stmt {
 		List<Node> nodes = new ArrayList<>();
 		for (Token token : tokens) {
 			if (token.isNode())
-				nodes.add((Node) token.value);
+				nodes.add(token.getNode());
 		}
 		return nodes;
 	}

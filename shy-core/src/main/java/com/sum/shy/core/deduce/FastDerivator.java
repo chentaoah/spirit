@@ -27,7 +27,7 @@ public class FastDerivator {
 				return token.getTypeAtt();
 
 			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
-				return getType(clazz, (Node) token.value);
+				return getType(clazz, token.getNode());
 
 			}
 		}
@@ -80,7 +80,7 @@ public class FastDerivator {
 		boolean isSame = true;// 所有元素是否都相同
 		Type genericType = null;
 		// 开始遍历
-		Stmt stmt = (Stmt) token.value;
+		Stmt stmt = token.getSubStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			Type type = deriveStmt(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
@@ -110,7 +110,7 @@ public class FastDerivator {
 		boolean isSameValue = true;
 		Type finalKeyType = null;
 		Type finalValueType = null;
-		Stmt stmt = (Stmt) token.value;
+		Stmt stmt = token.getSubStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
 			Type KeyType = deriveStmt(clazz, subStmts.get(0));
