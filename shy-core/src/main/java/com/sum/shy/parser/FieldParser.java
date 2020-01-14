@@ -16,7 +16,7 @@ public class FieldParser implements Parser {
 		// 注解
 		List<String> annotations = Context.get().getAnnotations();
 		// 名称
-		String name = stmt.get(1);
+		String name = stmt.get(0);
 		// 字段
 		IField field = new IField(annotations, scope, null, name, stmt);
 		// 添加字段
