@@ -23,7 +23,6 @@ public class Constants {
 	public static final String EXTENDS_KEYWORD = "extends";
 	public static final String IMPL_KEYWORD = "impl";
 
-	public static final String PACKAGE_SYNTAX = "package";
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
 	public static final String INTERFACE_SYNTAX = "interface";
