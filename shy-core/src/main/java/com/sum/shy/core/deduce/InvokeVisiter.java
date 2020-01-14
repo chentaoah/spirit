@@ -74,7 +74,7 @@ public class InvokeVisiter {
 			visitStmt(clazz, token.getNode().toStmt());
 
 		// 参数类型，为了像java那样支持重载
-		List<Type> parameterTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
+		List<Type> paramTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
 
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
@@ -91,7 +91,7 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
-			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
@@ -104,7 +104,7 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
-			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
