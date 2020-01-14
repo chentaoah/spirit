@@ -35,7 +35,7 @@ public class ShyCompiler {
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			// 类名,通过文件路径推导可得
 			String className = entry.getKey();
-
+			// 文件
 			File file = entry.getValue();
 			// 读取类结构信息
 			IClass mainClass = new ShyReader().read(file);
@@ -45,9 +45,7 @@ public class ShyCompiler {
 			AutoImporter.doImport(mainClass, file);
 			// 将内部类当做普通的类,添加到集合中
 			mainClasses.put(className, mainClass);
-
 		}
-
 		return mainClasses;
 	}
 
