@@ -86,28 +86,28 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 
 	}
 
-	public boolean existMethod(String methodName, List<Type> parameterTypes) {
+	public boolean existMethod(String methodName, List<Type> paramTypes) {
 		for (IMethod method : staticMethods) {
-			if (method.isSame(methodName, parameterTypes)) {
+			if (method.isSame(methodName, paramTypes)) {
 				return true;
 			}
 		}
 		for (IMethod method : methods) {
-			if (method.isSame(methodName, parameterTypes)) {
+			if (method.isSame(methodName, paramTypes)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public IMethod findMethod(String methodName, List<Type> parameterTypes) {
+	public IMethod findMethod(String methodName, List<Type> paramTypes) {
 		for (IMethod method : staticMethods) {
-			if (method.isSame(methodName, parameterTypes)) {
+			if (method.isSame(methodName, paramTypes)) {
 				return method;
 			}
 		}
 		for (IMethod method : methods) {
-			if (method.isSame(methodName, parameterTypes)) {
+			if (method.isSame(methodName, paramTypes)) {
 				return method;
 			}
 		}

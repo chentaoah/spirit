@@ -20,11 +20,11 @@ public interface Container {
 
 	boolean existField(String fieldName);
 
-	boolean existMethod(String methodName, List<Type> parameterTypes);
+	boolean existMethod(String methodName, List<Type> paramTypes);
 
 	IField findField(String fieldName);
 
-	IMethod findMethod(String methodName, List<Type> parameterTypes);
+	IMethod findMethod(String methodName, List<Type> paramTypes);
 
 	List<Member> getAllMember();
 
