@@ -22,9 +22,8 @@ public abstract class AbsMember extends AbsAnnotated implements Member {
 
 	@Override
 	public void lock() {
-		if (isLock) {
+		if (isLock)
 			throw new RuntimeException("There is a circular dependency!" + toString());
-		}
 		isLock = true;
 	}
 
