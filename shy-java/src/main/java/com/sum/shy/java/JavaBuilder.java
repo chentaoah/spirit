@@ -216,13 +216,17 @@ public class JavaBuilder {
 	 * @param field
 	 * @return
 	 */
-	public String buildField(IClass clazz, String desc, IField field) {
-		if (StringUtils.isNotEmpty(desc)) {
-			JavaConverter.convertCommon(clazz, field.stmt);
-			return String.format("\tpublic %s %s %s;\n", desc, field.type, field.stmt);
+	public String buildField(IClass clazz, String scope, IField field) {
+		if (field.stmt != null) {
+			if (StringUtils.isNotEmpty(scope)) {
+				JavaConverter.convertCommon(clazz, field.stmt);
+				return String.format("\tpublic %s %s %s;\n", scope, field.type, field.stmt);
+			} else {
+				JavaConverter.convertCommon(clazz, field.stmt);
+				return String.format("\tpublic %s %s;\n", field.type, field.stmt);
+			}
 		} else {
-			JavaConverter.convertCommon(clazz, field.stmt);
-			return String.format("\tpublic %s %s;\n", field.type, field.stmt);
+			return String.format("\tpublic %s %s;\n", field.type, field.name);
 		}
 
 	}
