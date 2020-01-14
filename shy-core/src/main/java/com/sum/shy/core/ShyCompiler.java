@@ -19,7 +19,7 @@ public class ShyCompiler {
 		Context.get().friends = files.keySet();
 
 		// 1.通过文件解析类信息
-		Map<String, IClass> mainClasses = resolveClassesFromFiles(files);
+		Map<String, IClass> mainClasses = resolveMainClasses(files);
 		// 2.从类里面取出所有内部类,供推导使用
 		Map<String, IClass> allClasses = addInnerClasses(mainClasses);
 
@@ -32,7 +32,7 @@ public class ShyCompiler {
 		return mainClasses;
 	}
 
-	public Map<String, IClass> resolveClassesFromFiles(Map<String, File> files) {
+	public Map<String, IClass> resolveMainClasses(Map<String, File> files) {
 
 		Map<String, IClass> mainClasses = new LinkedHashMap<>();
 
