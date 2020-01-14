@@ -92,7 +92,7 @@ public abstract class AbsType implements Type {
 			if (clazz.addImport(getClassName())) {
 				finalName = getSimpleName();
 			} else {
-				finalName = TypeUtils.getClassName(getClassName()) + (isArray() ? "[]" : "");
+				finalName = TypeUtils.removeDecoration(getClassName()) + (isArray() ? "[]" : "");
 			}
 		}
 		if (!isArray() && !isGenericType()) {// 普通类型

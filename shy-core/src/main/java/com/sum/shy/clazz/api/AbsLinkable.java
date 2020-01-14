@@ -86,7 +86,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 		className = className.replaceAll("\\$", ".");
 
 		// 如果是数组，则把修饰符号去掉
-		className = TypeUtils.getClassName(className);
+		className = TypeUtils.removeDecoration(className);
 
 		// 2.基本类className和simpleName相同
 		// 3.一般java.lang.包下的类不用引入

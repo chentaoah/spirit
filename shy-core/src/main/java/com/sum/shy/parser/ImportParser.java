@@ -6,6 +6,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.api.Parser;
+import com.sum.shy.utils.TypeUtils;
 
 public class ImportParser implements Parser {
 
@@ -15,7 +16,7 @@ public class ImportParser implements Parser {
 		String className = stmt.get(1);
 		// 根据是否有别名分别添加到不同容器中
 		if (stmt.size() == 2) {
-			String name = className.substring(className.lastIndexOf(".") + 1);
+			String name = TypeUtils.getTypeNameByClass(className);
 			clazz.importStrs.put(name, className);
 
 		} else if (stmt.size() == 3) {
