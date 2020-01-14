@@ -33,9 +33,13 @@ public class ShyCompiler {
 	}
 
 	public Map<String, IClass> resolveClassesFromFiles(Map<String, File> files) {
+
 		Map<String, IClass> mainClasses = new LinkedHashMap<>();
+
 		for (Map.Entry<String, File> entry : files.entrySet()) {
+			// 类名,通过文件路径推导可得
 			String className = entry.getKey();
+
 			File file = entry.getValue();
 			// 读取类结构信息
 			IClass mainClass = new ShyReader().read(file);
