@@ -6,6 +6,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.core.deduce.InvokeVisiter;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
@@ -17,16 +18,18 @@ public class CodeVisiter implements Visiter {
 	public Visiter nativeVisiter = new NativeVisiter();
 
 	public Type visitField(IClass clazz, Type type, String fieldName) {
+
 		if (type.isArray()) {
-			if ("length".equals(fieldName))
-				return new CodeType(clazz, "int");
+			if (Constants.$ARRAY_LENGTH.equals(fieldName))
+				return new CodeType(clazz, Constants.INT_TYPE);
 			throw new RuntimeException("Some functions of array are not supported yet!");
+
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
 				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(fieldName)) {
-					if ("class".equals(fieldName)) {
+					if (Constants.CLASS_KEYWORD.equals(fieldName)) {
 						return new CodeType(typeClass, "Class<?>");
 					}
 					if (typeClass.existField(fieldName)) {
@@ -45,19 +48,21 @@ public class CodeVisiter implements Visiter {
 	}
 
 	public Type visitMethod(IClass clazz, Type type, String methodName, List<Type> paramTypes) {
+
 		if (type.isArray()) {
-			if ("$array_index".equals(methodName))
+			if (Constants.$ARRAY_INDEX.equals(methodName))
 				return new CodeType(clazz, type.getTypeName());
 			throw new RuntimeException("Some functions of array are not supported yet!");
+
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
 				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(methodName)) {
-					if ("super".equals(methodName)) {
+					if (Constants.SUPER_KEYWORD.equals(methodName)) {
 						return new CodeType(typeClass, typeClass.superName);
 					}
-					if ("this".equals(methodName)) {
+					if (Constants.THIS_KEYWORD.equals(methodName)) {
 						return new CodeType(typeClass, typeClass.typeName);
 					}
 					if (typeClass.existMethod(methodName, paramTypes)) {

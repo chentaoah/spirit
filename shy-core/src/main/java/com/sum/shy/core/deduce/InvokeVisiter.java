@@ -109,12 +109,12 @@ public class InvokeVisiter {
 		} else if (token.isVisitArrayIndex()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
 			Type returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
-			returnType = visiter.visitMethod(clazz, returnType, "$array_index", null);
+			returnType = visiter.visitMethod(clazz, returnType, Constants.$ARRAY_INDEX, null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isArrayIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = visiter.visitMethod(clazz, type, "$array_index", null);
+			Type returnType = visiter.visitMethod(clazz, type, Constants.$ARRAY_INDEX, null);
 			token.setTypeAtt(returnType);
 
 		}
