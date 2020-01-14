@@ -21,7 +21,7 @@ public class ShyCompiler {
 		// 1.通过文件解析类信息
 		Map<String, IClass> mainClasses = resolveClassesFromFiles(files);
 		// 2.从类里面取出所有内部类,供推导使用
-		Map<String, IClass> allClasses = getAllClasses(mainClasses);
+		Map<String, IClass> allClasses = addInnerClasses(mainClasses);
 
 		// 设置所有类
 		Context.get().classes = allClasses;
@@ -55,7 +55,7 @@ public class ShyCompiler {
 		return mainClasses;
 	}
 
-	public Map<String, IClass> getAllClasses(Map<String, IClass> mainClasses) {
+	public Map<String, IClass> addInnerClasses(Map<String, IClass> mainClasses) {
 
 		Map<String, IClass> classes = new LinkedHashMap<>();
 		// 添加主类
