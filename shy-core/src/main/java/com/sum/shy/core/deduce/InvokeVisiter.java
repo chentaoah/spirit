@@ -32,7 +32,6 @@ public class InvokeVisiter {
 					InvokeVisiter.visitStmt(clazz, stmt);
 					type = FastDerivator.deriveStmt(clazz, stmt);
 				}
-
 			} else if (member instanceof IMethod) {// 如果是方法
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
 				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
