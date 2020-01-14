@@ -59,13 +59,13 @@ public abstract class AbsType implements Type {
 	}
 
 	@Override
-	public boolean isWildcard() {
-		return getClassName().equals(WildcardType.class.getName());
+	public boolean isArray() {
+		return getSimpleName().endsWith("[]");
 	}
 
 	@Override
-	public boolean isArray() {
-		return getSimpleName().endsWith("[]");
+	public boolean isWildcard() {
+		return WildcardType.class.getName().equals(getClassName());
 	}
 
 	@Override
