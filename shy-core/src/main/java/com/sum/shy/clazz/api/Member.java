@@ -2,7 +2,7 @@ package com.sum.shy.clazz.api;
 
 import com.sum.shy.type.api.Type;
 
-public interface Member extends Annotated {
+public interface Member {
 
 	Type getType();
 
