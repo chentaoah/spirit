@@ -1,4 +1,4 @@
-package com.sum.shy.core.deduce;
+package com.sum.shy.visiter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,7 +14,7 @@ import com.sum.shy.type.CodeType;
 import com.sum.shy.type.NativeType;
 import com.sum.shy.type.api.Type;
 
-public class NativeLinker {
+public class NativeVisiter {
 
 	public static Type visitField(IClass ctClass, Type type, String fieldName) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;

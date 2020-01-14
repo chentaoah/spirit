@@ -11,6 +11,7 @@ import com.sum.shy.core.entity.Token;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.Type;
+import com.sum.shy.visiter.CodeVisiter;
 
 /**
  * 变量追踪器
@@ -91,7 +92,7 @@ public class VariableTracker {
 		}
 		// 从继承里面去找
 		if (StringUtils.isNotEmpty(clazz.superName))
-			return InvokeVisiter.visitField(clazz, new CodeType(clazz, clazz.superName), name);
+			return CodeVisiter.visitField(clazz, new CodeType(clazz, clazz.superName), name);
 
 		return null;
 

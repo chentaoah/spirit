@@ -7,7 +7,6 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Node;
@@ -15,9 +14,9 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
-import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.Type;
+import com.sum.shy.visiter.CodeVisiter;
 
 public class InvokeVisiter {
 
@@ -86,12 +85,12 @@ public class InvokeVisiter {
 
 		} else if (token.isInvokeLocal()) {// 本地调用
 			Type type = new CodeType(clazz, clazz.typeName);
-			Type returnType = visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = CodeVisiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = visitField(clazz, type, token.getMemberNameAtt());
+			Type returnType = CodeVisiter.visitField(clazz, type, token.getMemberNameAtt());
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
@@ -99,18 +98,18 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.value))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			Type type = lastToken.getTypeAtt();
-			Type returnType = visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
+			Type returnType = CodeVisiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
 			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = visitField(clazz, type, token.getMemberNameAtt());
-			returnType = visitMethod(clazz, returnType, "$array_index", null);
+			Type returnType = CodeVisiter.visitField(clazz, type, token.getMemberNameAtt());
+			returnType = CodeVisiter.visitMethod(clazz, returnType, "$array_index", null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isArrayIndex()) {
 			Type type = token.getTypeAtt();
-			Type returnType = visitMethod(clazz, type, "$array_index", null);
+			Type returnType = CodeVisiter.visitMethod(clazz, type, "$array_index", null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isNode()) {// 如果是节点,则进行转换后,遍历
@@ -133,66 +132,6 @@ public class InvokeVisiter {
 			}
 		}
 		return parameterTypes;
-	}
-
-	public static Type visitField(IClass clazz, Type type, String fieldName) {
-		if (type.isArray()) {
-			if ("length".equals(fieldName))
-				return new CodeType(clazz, "int");
-			throw new RuntimeException("Some functions of array are not supported yet!");
-		} else {
-			String className = type.getClassName();
-			if (Context.get().contains(className)) {
-				IClass typeClass = Context.get().findClass(className);
-				if (StringUtils.isNotEmpty(fieldName)) {
-					if ("class".equals(fieldName)) {
-						return new CodeType(typeClass, "Class<?>");
-					}
-					if (typeClass.existField(fieldName)) {
-						IField field = typeClass.findField(fieldName);
-						return visitMember(typeClass, field);
-
-					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-						return visitField(typeClass, new CodeType(typeClass, typeClass.superName), fieldName);
-					}
-				}
-			} else {
-				return NativeLinker.visitField(clazz, type, fieldName);
-			}
-		}
-		return null;
-	}
-
-	public static Type visitMethod(IClass clazz, Type type, String methodName, List<Type> parameterTypes) {
-		if (type.isArray()) {
-			if ("$array_index".equals(methodName))
-				return new CodeType(clazz, type.getTypeName());
-			throw new RuntimeException("Some functions of array are not supported yet!");
-		} else {
-			String className = type.getClassName();
-			if (Context.get().contains(className)) {
-				IClass typeClass = Context.get().findClass(className);
-				if (StringUtils.isNotEmpty(methodName)) {
-					if ("super".equals(methodName)) {
-						return new CodeType(typeClass, typeClass.superName);
-					}
-					if ("this".equals(methodName)) {
-						return new CodeType(typeClass, typeClass.typeName);
-					}
-					if (typeClass.existMethod(methodName, parameterTypes)) {
-						IMethod method = typeClass.findMethod(methodName, parameterTypes);
-						return visitMember(typeClass, method);
-
-					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-						return visitMethod(typeClass, new CodeType(typeClass, typeClass.superName), methodName,
-								parameterTypes);
-					}
-				}
-			} else {
-				return NativeLinker.visitMethod(clazz, type, methodName, parameterTypes);
-			}
-		}
-		return null;
 	}
 
 }
