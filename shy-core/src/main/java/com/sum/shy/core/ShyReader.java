@@ -13,7 +13,6 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.AnnotationParser;
 import com.sum.shy.parser.ClassParser;
-import com.sum.shy.parser.DeclareParser;
 import com.sum.shy.parser.FieldParser;
 import com.sum.shy.parser.FuncParser;
 import com.sum.shy.parser.ImportParser;
