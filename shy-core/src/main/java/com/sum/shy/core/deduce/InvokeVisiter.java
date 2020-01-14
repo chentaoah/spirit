@@ -74,7 +74,7 @@ public class InvokeVisiter {
 			visitStmt(clazz, token.getNode().toStmt());
 
 		// 参数类型，为了像java那样支持重载
-		List<Type> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
+		List<Type> parameterTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
 
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
@@ -122,7 +122,7 @@ public class InvokeVisiter {
 
 	}
 
-	public static List<Type> getParameterTypes(IClass clazz, Token token) {
+	public static List<Type> getParamTypes(IClass clazz, Token token) {
 		List<Type> parameterTypes = new ArrayList<>();
 		Stmt stmt = (Stmt) token.value;
 		// 只取括号里的
