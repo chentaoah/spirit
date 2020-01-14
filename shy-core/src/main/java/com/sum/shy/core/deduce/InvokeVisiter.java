@@ -27,7 +27,7 @@ public class InvokeVisiter {
 		if (type == null) {
 			if (member instanceof IField) {
 				Stmt stmt = ((IField) member).stmt;
-				if (stmt.isAssign()) {
+				if (stmt != null && stmt.isAssign()) {
 					VariableTracker.trackStmt(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
 					InvokeVisiter.visitStmt(clazz, stmt);
 					type = FastDerivator.deriveStmt(clazz, stmt);
