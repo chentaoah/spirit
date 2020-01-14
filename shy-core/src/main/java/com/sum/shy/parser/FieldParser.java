@@ -13,10 +13,14 @@ public class FieldParser implements Parser {
 
 	@Override
 	public int parse(IClass clazz, String scope, List<Line> lines, int index, Line line, Stmt stmt) {
-		// 变量名
-		String name = stmt.get(0);
-		// 这里不再直接推导类型
-		clazz.addField(new IField(Context.get().getAnnotations(), scope, null, name, stmt));
+		// 注解
+		List<String> annotations = Context.get().getAnnotations();
+		// 名称
+		String name = stmt.get(1);
+		// 字段
+		IField field = new IField(annotations, scope, null, name, stmt);
+		// 添加字段
+		clazz.addField(field);
 
 		return 0;
 	}
