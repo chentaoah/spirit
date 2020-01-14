@@ -65,7 +65,6 @@ public class ShyReader {
 		// 如果不是接口的话
 		if (!mainClass.isInterface())
 			readScopeLines(mainClass, Constants.CLASS_SCOPE, mainClass.classLines);
-
 		// 遍历读取内部类的信息
 		for (IClass coopClass : mainClass.coopClasses.values())
 			readScopeLines(coopClass, Constants.CLASS_SCOPE, coopClass.classLines);
