@@ -41,10 +41,6 @@ public class ClassParser implements Parser {
 						Token nextToken = stmt.getToken(j);
 						if (nextToken.isKeywordParam()) {
 							clazz.interfaces.add(nextToken.toString());
-
-						} else if (nextToken.isKeyword()) {
-							break;
-
 						}
 					}
 				}
