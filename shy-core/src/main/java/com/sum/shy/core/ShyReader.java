@@ -29,7 +29,7 @@ public class ShyReader {
 		Parser.register(Constants.INTERFACE_SYNTAX, new InterfaceParser());
 		Parser.register(Constants.ABSTRACT_SYNTAX, new ClassParser());
 		Parser.register(Constants.CLASS_SYNTAX, new ClassParser());
-		Parser.register(Constants.DECLARE_SYNTAX, new DeclareParser());
+		Parser.register(Constants.DECLARE_SYNTAX, new FieldParser());
 		Parser.register(Constants.ASSIGN_SYNTAX, new FieldParser());
 		Parser.register(Constants.FUNC_SYNTAX, new FuncParser());
 	}
