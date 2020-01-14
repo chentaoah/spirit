@@ -10,7 +10,6 @@ import com.sum.shy.clazz.api.Member;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.MethodResolver;
@@ -70,7 +69,9 @@ public class InvokeVisiter {
 
 		// 内部可能还需要推导
 		if (token.hasSubStmt())
-			visitStmt(clazz, (Stmt) token.value);
+			visitStmt(clazz, token.getSubStmt());
+		if (token.isNode())
+			visitStmt(clazz, token.getNode().toStmt());
 
 		// 参数类型，为了像java那样支持重载
 		List<Type> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
@@ -116,10 +117,6 @@ public class InvokeVisiter {
 			Type type = token.getTypeAtt();
 			Type returnType = visiter.visitMethod(clazz, type, "$array_index", null);
 			token.setTypeAtt(returnType);
-
-		} else if (token.isNode()) {// 如果是节点,则进行转换后,遍历
-			Node node = (Node) token.value;
-			visitStmt(clazz, node.toStmt());
 
 		}
 
