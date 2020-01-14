@@ -6,7 +6,7 @@ package com.sum.shy.clazz;
  * @author chentao26275
  *
  */
-public class InnerClass extends IClass {
+public class CoopClass extends IClass {
 
 	// 内部类指向主类的引用
 	public IClass mainClass;

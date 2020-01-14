@@ -60,8 +60,8 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return !isArray ? className : "[L" + className + ";";
 
 		// 3.内部类
-		if (innerClasses.containsKey(typeName))
-			return innerClasses.get(typeName).getClassName();
+		if (coopClasses.containsKey(typeName))
+			return coopClasses.get(typeName).getClassName();
 
 		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
@@ -102,7 +102,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 			return true;
 
 		// 6.内部类不添加
-		for (IClass innerClass : innerClasses.values()) {
+		for (IClass innerClass : coopClasses.values()) {
 			if (innerClass.getClassName().equals(className))
 				return true;
 		}

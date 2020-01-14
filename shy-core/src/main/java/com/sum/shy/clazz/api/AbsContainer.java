@@ -20,8 +20,8 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 	public List<IField> fields = new ArrayList<>();
 	// 方法
 	public List<IMethod> methods = new ArrayList<>();
-	// 内部类( typeName --> CtClass )
-	public Map<String, IClass> innerClasses = new LinkedHashMap<>();
+	// 内部类( typeName --> IClass )
+	public Map<String, IClass> coopClasses = new LinkedHashMap<>();
 
 	public void addField(IField field) {
 		checkField(field);

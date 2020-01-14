@@ -68,7 +68,7 @@ public class ShyReader {
 			readScopeLines(mainClass, Constants.CLASS_SCOPE, mainClass.classLines);
 		}
 		// 遍历读取内部类的信息
-		for (IClass innerClass : mainClass.innerClasses.values()) {
+		for (IClass innerClass : mainClass.coopClasses.values()) {
 			readScopeLines(innerClass, Constants.CLASS_SCOPE, innerClass.classLines);
 		}
 

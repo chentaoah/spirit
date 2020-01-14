@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.InnerClass;
+import com.sum.shy.clazz.CoopClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -48,11 +48,11 @@ public class ClassParser implements Parser {
 		// 判断是不是内部类,判断依据是类名和文件名是否一致
 		if (!clazz.typeName.equals(typeName)) {
 			// 新建一个内部类
-			InnerClass innerClass = new InnerClass();
+			CoopClass innerClass = new CoopClass();
 			// 内部类指向了主类
 			innerClass.mainClass = clazz;
 			// 主类包含了内部类
-			clazz.innerClasses.put(typeName, innerClass);
+			clazz.coopClasses.put(typeName, innerClass);
 
 			clazz = innerClass;
 		}

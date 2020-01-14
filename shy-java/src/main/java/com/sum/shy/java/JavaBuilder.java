@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
-import com.sum.shy.clazz.InnerClass;
+import com.sum.shy.clazz.CoopClass;
 import com.sum.shy.clazz.api.Annotated;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
@@ -77,7 +77,7 @@ public class JavaBuilder {
 
 		} else {
 			// 构建java代码是倒过来的,这样能够在构建的时候,再重建一部分class信息
-			if (!(clazz instanceof InnerClass)) {
+			if (!(clazz instanceof CoopClass)) {
 				String methods = buildMethods(clazz);
 				String fields = buildFields(clazz);
 				String classStr = buildClass(clazz, fields, methods);
@@ -146,7 +146,7 @@ public class JavaBuilder {
 	 */
 	public String buildClass(IClass clazz, String fields, String methods) {
 		StringBuilder body = new StringBuilder();
-		String desc = clazz instanceof InnerClass ? "static " : "";// 内部类需要是静态比较好
+		String desc = clazz instanceof CoopClass ? "static " : "";// 内部类需要是静态比较好
 		String abstractStr = "abstract".equals(clazz.category) ? "abstract " : "";
 		String extendsStr = clazz.superName != null ? String.format("extends %s ", clazz.superName) : "";
 		String implementsStr = clazz.interfaces.size() > 0
@@ -158,7 +158,7 @@ public class JavaBuilder {
 		body.append(fields);
 		body.append(methods);
 		// 在这里把内部类拼上
-		for (IClass innerClass : clazz.innerClasses.values()) {
+		for (IClass innerClass : clazz.coopClasses.values()) {
 			body.append("\t" + build(innerClass).replaceAll("\n", "\n\t"));
 			// 删除最后一个缩进
 			if (body.charAt(body.length() - 1) == '\t')
