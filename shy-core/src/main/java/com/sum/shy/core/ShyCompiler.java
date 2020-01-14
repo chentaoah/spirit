@@ -69,13 +69,10 @@ public class ShyCompiler {
 	}
 
 	public void deriveTypeOfMembers(Map<String, IClass> allClasses) {
-		for (IClass clazz : allClasses.values())
-			visitClass(clazz);
-	}
-
-	public static void visitClass(IClass clazz) {
-		for (Member member : clazz.getAllMember())
-			member.setType(InvokeVisiter.visitMember(clazz, member));
+		for (IClass clazz : allClasses.values()) {
+			for (Member member : clazz.getAllMember())
+				member.setType(InvokeVisiter.visitMember(clazz, member));
+		}
 	}
 
 }
