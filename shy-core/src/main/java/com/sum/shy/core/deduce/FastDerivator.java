@@ -101,7 +101,7 @@ public class FastDerivator {
 		if (!isSame || genericType == null)
 			return new CodeType(clazz, "List<Object>");
 
-		Type finalType = new CodeType(clazz, "List");
+		Type finalType = new CodeType(clazz, Constants.LIST_TYPE);
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -136,10 +136,11 @@ public class FastDerivator {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, "Object") : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, "Object") : finalValueType;
+		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, Constants.OBJECT_TYPE) : finalKeyType;
+		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, Constants.OBJECT_TYPE)
+				: finalValueType;
 
-		Type finalType = new CodeType(clazz, "Map");
+		Type finalType = new CodeType(clazz, Constants.MAP_TYPE);
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;

@@ -34,6 +34,8 @@ public class Constants {
 	public static final String DOUBLE_TYPE = "double";
 	public static final String OBJECT_TYPE = "Object";
 	public static final String STRING_TYPE = "String";
+	public static final String LIST_TYPE = "List";
+	public static final String MAP_TYPE = "Map";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
