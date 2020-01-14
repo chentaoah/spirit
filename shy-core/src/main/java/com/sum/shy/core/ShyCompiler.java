@@ -14,18 +14,14 @@ import com.sum.shy.utils.TypeUtils;
 public class ShyCompiler {
 
 	public Map<String, IClass> compile(Map<String, File> files) {
-
 		// 设置友元
 		Context.get().friends = files.keySet();
-
 		// 1.通过文件解析类信息
 		Map<String, IClass> mainClasses = resolveMainClasses(files);
 		// 2.从类里面取出所有内部类,供推导使用
 		Map<String, IClass> allClasses = addInnerClasses(mainClasses);
-
 		// 设置所有类
 		Context.get().classes = allClasses;
-
 		// 3.推导字段和方法的类型
 		deriveTypeOfMembers(allClasses);
 
