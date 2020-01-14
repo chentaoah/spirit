@@ -7,6 +7,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Line;
@@ -33,7 +34,7 @@ public class InvokeVisiter {
 					type = FastDerivator.deriveStmt(clazz, stmt);
 				}
 			} else if (member instanceof IMethod) {// 如果是方法
-				Holder<Type> holder = new Holder<>(new CodeType(clazz, "void"));
+				Holder<Type> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
 				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
 					@Override
 					public Object handle(IClass clazz, IMethod method, String indent, String block, Line line,

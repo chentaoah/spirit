@@ -3,6 +3,7 @@ package com.sum.shy.core.deduce;
 import java.util.List;
 
 import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
@@ -42,7 +43,7 @@ public class FastDerivator {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogicalOperator() || token.isJudgeOperator() || token.isInstanceof()) {
-			return new CodeType(clazz, "boolean");
+			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 
 		} else if (token.isCalcOperator()) {
 			// 先取左边的，再取右边的
@@ -58,16 +59,16 @@ public class FastDerivator {
 	}
 
 	public static Type getValueType(IClass clazz, Token token) {
-		if (token.isNull()) {
-			return new CodeType(clazz, "Object");
-		} else if (token.isBool()) {
-			return new CodeType(clazz, "boolean");
+		if (token.isBool()) {
+			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 		} else if (token.isInt()) {
-			return new CodeType(clazz, "int");
+			return new CodeType(clazz, Constants.INT_TYPE);
 		} else if (token.isDouble()) {
-			return new CodeType(clazz, "double");
+			return new CodeType(clazz, Constants.DOUBLE_TYPE);
+		} else if (token.isNull()) {
+			return new CodeType(clazz, Constants.OBJECT_TYPE);
 		} else if (token.isStr()) {
-			return new CodeType(clazz, "String");
+			return new CodeType(clazz, Constants.STRING_TYPE);
 		} else if (token.isList()) {
 			return getArrayType(clazz, token);
 		} else if (token.isMap()) {

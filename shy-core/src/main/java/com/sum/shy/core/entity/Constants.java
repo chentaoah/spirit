@@ -28,6 +28,13 @@ public class Constants {
 	public static final String SUPER_KEYWORD = "super";
 	public static final String THIS_KEYWORD = "this";
 
+	public static final String VOID_TYPE = "void";// 常用的类型
+	public static final String BOOLEAN_TYPE = "boolean";
+	public static final String INT_TYPE = "int";
+	public static final String DOUBLE_TYPE = "double";
+	public static final String OBJECT_TYPE = "Object";
+	public static final String STRING_TYPE = "String";
+
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
 	public static final String INTERFACE_SYNTAX = "interface";
