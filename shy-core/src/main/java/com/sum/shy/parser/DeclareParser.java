@@ -22,7 +22,7 @@ public class DeclareParser implements Parser {
 		// 名称
 		String name = stmt.get(1);
 		// 字段
-		IField field = new IField(annotations, scope, type, name, null);
+		IField field = new IField(annotations, scope, type, name, stmt);
 		// 添加字段
 		clazz.addField(field);
 
