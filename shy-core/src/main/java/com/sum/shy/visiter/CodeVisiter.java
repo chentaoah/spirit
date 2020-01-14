@@ -44,7 +44,7 @@ public class CodeVisiter implements Visiter {
 		return null;
 	}
 
-	public Type visitMethod(IClass clazz, Type type, String methodName, List<Type> parameterTypes) {
+	public Type visitMethod(IClass clazz, Type type, String methodName, List<Type> paramTypes) {
 		if (type.isArray()) {
 			if ("$array_index".equals(methodName))
 				return new CodeType(clazz, type.getTypeName());
@@ -60,17 +60,17 @@ public class CodeVisiter implements Visiter {
 					if ("this".equals(methodName)) {
 						return new CodeType(typeClass, typeClass.typeName);
 					}
-					if (typeClass.existMethod(methodName, parameterTypes)) {
-						IMethod method = typeClass.findMethod(methodName, parameterTypes);
+					if (typeClass.existMethod(methodName, paramTypes)) {
+						IMethod method = typeClass.findMethod(methodName, paramTypes);
 						return InvokeVisiter.visitMember(typeClass, method);
 
 					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
 						return visitMethod(typeClass, new CodeType(typeClass, typeClass.superName), methodName,
-								parameterTypes);
+								paramTypes);
 					}
 				}
 			} else {
-				return nativeVisiter.visitMethod(clazz, type, methodName, parameterTypes);
+				return nativeVisiter.visitMethod(clazz, type, methodName, paramTypes);
 			}
 		}
 		return null;

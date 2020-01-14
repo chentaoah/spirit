@@ -30,11 +30,11 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> parameterTypes) {
+	public Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> paramTypes) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
-				Method method = nativeType.findMethod(methodName, parameterTypes);
+				Method method = nativeType.findMethod(methodName, paramTypes);
 				return visitMember(ctClass, nativeType, method.getGenericReturnType());
 			}
 		} catch (Exception e) {

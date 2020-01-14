@@ -9,6 +9,6 @@ public interface Visiter {
 
 	Type visitField(IClass clazz, Type type, String fieldName);
 
-	Type visitMethod(IClass clazz, Type type, String methodName, List<Type> parameterTypes);
+	Type visitMethod(IClass clazz, Type type, String methodName, List<Type> paramTypes);
 
 }
