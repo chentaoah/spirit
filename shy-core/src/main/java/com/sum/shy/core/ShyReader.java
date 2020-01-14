@@ -1,6 +1,7 @@
 package com.sum.shy.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,19 +37,20 @@ public class ShyReader {
 	}
 
 	public IClass read(File file) {
-		System.out.println("=================================== Shy ========================================");
 		try {
+			System.out.println("=================================== Shy ========================================");
 			// 获取文件中的每一行
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 			List<Line> lines = new ArrayList<>();
 			// 开始遍历
-			for (int index = 0; index < fileLines.size(); index++) {
-				lines.add(new Line(index + 1, fileLines.get(index)));
-				System.out.println(lines.get(index).text);
+			for (int i = 0; i < fileLines.size(); i++) {
+				String fileLine = fileLines.get(i);
+				System.out.println(fileLine);
+				lines.add(new Line(i + 1, fileLine));
 			}
 			return readLines(file, lines);
 
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;

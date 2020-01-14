@@ -39,12 +39,17 @@ public class ShyCompiler {
 			File file = entry.getValue();
 			// 读取类结构信息
 			IClass mainClass = new ShyReader().read(file);
-			// 追加包名
-			mainClass.packageStr = TypeUtils.getPackage(className);
-			// 自动引入友元,和常用的一些类
-			AutoImporter.doImport(mainClass, file);
-			// 将内部类当做普通的类,添加到集合中
-			mainClasses.put(className, mainClass);
+
+			if (mainClass != null) {
+				// 追加包名
+				mainClass.packageStr = TypeUtils.getPackage(className);
+				// 自动引入友元,和常用的一些类
+				AutoImporter.doImport(mainClass, file);
+				// 将内部类当做普通的类,添加到集合中
+				mainClasses.put(className, mainClass);
+
+			}
+
 		}
 		return mainClasses;
 	}
