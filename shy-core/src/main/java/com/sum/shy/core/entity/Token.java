@@ -134,10 +134,6 @@ public class Token {
 		return Constants.ARRAY_INDEX_TOKEN.equals(type);
 	}
 
-	public boolean isInstanceof() {
-		return isKeyword() && "instanceof".equals(value.toString());
-	}
-
 	public boolean isPrefix() {
 		return Constants.PREFIX_TOKEN.equals(type);
 	}
@@ -178,6 +174,10 @@ public class Token {
 
 	public boolean hasSubStmt() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
+	}
+
+	public boolean isInstanceof() {
+		return isKeyword() && "instanceof".equals(value.toString());
 	}
 
 	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
