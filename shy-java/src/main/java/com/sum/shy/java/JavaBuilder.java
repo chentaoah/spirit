@@ -14,7 +14,6 @@ import com.sum.shy.java.api.Converter;
 import com.sum.shy.java.convert.AssignConverter;
 import com.sum.shy.java.convert.ConditionConverter;
 import com.sum.shy.java.convert.FastAddConverter;
-import com.sum.shy.java.convert.ForConverter;
 import com.sum.shy.java.convert.ForInConverter;
 import com.sum.shy.java.convert.JudgeInvokeConverter;
 import com.sum.shy.java.convert.PrintConverter;
@@ -25,39 +24,39 @@ public class JavaBuilder {
 
 	static {
 
-		Converter.register("super", new SimpleConverter());// 调用父类构造方法
-		Converter.register("this", new SimpleConverter());// 调用构造方法
+		Converter.register("super", new SimpleConverter());
+		Converter.register("this", new SimpleConverter());
 
-		Converter.register("declare", new SimpleConverter());// 声明转换
-		Converter.register("assign", new AssignConverter());// 赋值转换
-		Converter.register("field_assign", new SimpleConverter());// 赋值转换
-		Converter.register("invoke", new SimpleConverter());// 方法调用
-		Converter.register("return", new SimpleConverter());// 返回
+		Converter.register("declare", new SimpleConverter());
+		Converter.register("assign", new AssignConverter());
+		Converter.register("field_assign", new SimpleConverter());
+		Converter.register("invoke", new SimpleConverter());
+		Converter.register("return", new SimpleConverter());
 
-		Converter.register("if", new ConditionConverter());// 条件转换
+		Converter.register("if", new ConditionConverter());
 		Converter.register("elseif", new ConditionConverter());
-		Converter.register("else", new SimpleConverter());// 什么都不做
-		Converter.register("end", new SimpleConverter());// 什么都不做
+		Converter.register("else", new SimpleConverter());
+		Converter.register("end", new SimpleConverter());
 
-		Converter.register("for", new ForConverter());// for语句
-		Converter.register("for_in", new ForInConverter());// for in语句
+		Converter.register("for", new SimpleConverter());
+		Converter.register("for_in", new ForInConverter());
 
-		Converter.register("while", new ConditionConverter());// while循环
-		Converter.register("continue", new SimpleConverter());// continue
-		Converter.register("break", new SimpleConverter());// break
+		Converter.register("while", new ConditionConverter());
+		Converter.register("continue", new SimpleConverter());
+		Converter.register("break", new SimpleConverter());
 
-		Converter.register("try", new SimpleConverter());// 什么都不做
-		Converter.register("catch", new SimpleConverter());// catch语句
-		Converter.register("throw", new SimpleConverter());// throw
+		Converter.register("try", new SimpleConverter());
+		Converter.register("catch", new SimpleConverter());
+		Converter.register("throw", new SimpleConverter());
 
-		Converter.register("sync", new SimpleConverter());// 同步语句
+		Converter.register("sync", new SimpleConverter());
 
-		Converter.register("print", new PrintConverter());// 日志
-		Converter.register("debug", new PrintConverter());// 日志
-		Converter.register("error", new PrintConverter());// 日志
+		Converter.register("print", new PrintConverter());
+		Converter.register("debug", new PrintConverter());
+		Converter.register("error", new PrintConverter());
 
-		Converter.register("fast_add", new FastAddConverter());// 快速添加
-		Converter.register("judge_invoke", new JudgeInvokeConverter());// 判空调用
+		Converter.register("fast_add", new FastAddConverter());
+		Converter.register("judge_invoke", new JudgeInvokeConverter());
 
 	}
 
