@@ -63,12 +63,12 @@ public class JavaConverter {
 		findEquals(nodes, token.getNode());
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
-			Token token1 = node.token;
-			if (token1.isEquals()) {
+			Token someToken = node.token;
+			if (someToken.isEquals()) {
 				String express = null;
-				if ("==".equals(token1.value)) {
+				if ("==".equals(someToken.toString())) {
 					express = "StringUtils.equals(%s, %s)";
-				} else if ("!=".equals(token1.value)) {
+				} else if ("!=".equals(someToken.toString())) {
 					express = "!StringUtils.equals(%s, %s)";
 				}
 				if (express != null) {
@@ -109,10 +109,9 @@ public class JavaConverter {
 				if (someNode.left != null && someNode.right != null) {
 					Type type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr()) {// 如果左边的类型是str
-						String value = someNode.right.token.value.toString();
-						if (!"null".equals(value)) {// 并且右边不是null
+						Token rightToken = someNode.right.token;
+						if (!rightToken.isNull()) // 并且右边不是null
 							nodes.add(someNode);
-						}
 					}
 				}
 			}

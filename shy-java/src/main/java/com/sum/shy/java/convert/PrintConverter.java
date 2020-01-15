@@ -21,15 +21,15 @@ public class PrintConverter extends DefaultConverter {
 		JavaConverter.convert(clazz, stmt);
 
 		Token token = stmt.getToken(0);
-		if ("print".equals(token.value)) {
+		if ("print".equals(token.toString())) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.info("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
-		} else if ("debug".equals(token.value)) {
+		} else if ("debug".equals(token.toString())) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.debug("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
-		} else if ("error".equals(token.value)) {
+		} else if ("error".equals(token.toString())) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.error("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 

@@ -12,7 +12,7 @@ public class ForInConverter extends DefaultConverter {
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 		Token var = stmt.getToken(1);
 		String express = stmt.subStmt(3, stmt.size() - 1).toString();
-		String text = String.format("for (%s %s : %s) {", var.getTypeAtt(), var.value, express);
+		String text = String.format("for (%s %s : %s) {", var.getTypeAtt(), var.toString(), express);
 		// 直接返回拼接的字符串
 		return new Stmt(text);
 	}

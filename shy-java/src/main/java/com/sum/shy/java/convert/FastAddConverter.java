@@ -20,11 +20,11 @@ public class FastAddConverter extends DefaultConverter {
 		List<Stmt> subStmt = stmt.split("<<");
 		if (type.isList()) {// 这一行自动加了缩进,后面的需要手动加上
 			for (int i = 1; i < subStmt.size(); i++)
-				sb.append(String.format("%s%s.add(%s);\n", i == 1 ? "" : indent, var.value, subStmt.get(i)));
+				sb.append(String.format("%s%s.add(%s);\n", i == 1 ? "" : indent, var.toString(), subStmt.get(i)));
 
 		} else if (type.isMap()) {
 			for (int i = 1; i < subStmt.size(); i++)
-				sb.append(String.format("%s%s.put(%s);\n", i == 1 ? "" : indent, var.value, subStmt.get(i)));
+				sb.append(String.format("%s%s.put(%s);\n", i == 1 ? "" : indent, var.toString(), subStmt.get(i)));
 
 		}
 		// 删除最后一个换行符

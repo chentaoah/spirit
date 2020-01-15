@@ -31,7 +31,7 @@ public class CodeType extends AbsType {
 	public void resolve(IClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
-				simpleName = (String) token.value;
+				simpleName = token.toString();
 
 			} else if (token.value instanceof Stmt) {
 				Stmt subStmt = token.getSubStmt();
