@@ -6,6 +6,7 @@ import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.CoopClass;
 import com.sum.shy.clazz.api.Annotated;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.processor.MethodResolver;
@@ -23,39 +24,39 @@ public class JavaBuilder {
 
 	static {
 
-		Converter.register("super", new SimpleConverter());
-		Converter.register("this", new SimpleConverter());
+		Converter.register(Constants.SUPER_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.THIS_SYNTAX, new SimpleConverter());
 
-		Converter.register("declare", new SimpleConverter());
-		Converter.register("assign", new AssignConverter());
-		Converter.register("field_assign", new SimpleConverter());
-		Converter.register("invoke", new SimpleConverter());
-		Converter.register("return", new SimpleConverter());
+		Converter.register(Constants.DECLARE_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.ASSIGN_SYNTAX, new AssignConverter());// --assign
+		Converter.register(Constants.FIELD_ASSIGN_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.INVOKE_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.RETURN_SYNTAX, new SimpleConverter());
 
-		Converter.register("if", new ConditionConverter());
-		Converter.register("elseif", new ConditionConverter());
-		Converter.register("else", new SimpleConverter());
-		Converter.register("end", new SimpleConverter());
+		Converter.register(Constants.IF_SYNTAX, new ConditionConverter());// --condition
+		Converter.register(Constants.ELSEIF_SYNTAX, new ConditionConverter());// --condition
+		Converter.register(Constants.ELSE_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.END_SYNTAX, new SimpleConverter());
 
-		Converter.register("for", new SimpleConverter());
-		Converter.register("for_in", new SimpleConverter());
+		Converter.register(Constants.FOR_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.FOR_IN_SYNTAX, new SimpleConverter());
 
-		Converter.register("while", new ConditionConverter());
-		Converter.register("continue", new SimpleConverter());
-		Converter.register("break", new SimpleConverter());
+		Converter.register(Constants.WHILE_SYNTAX, new ConditionConverter());// --condition
+		Converter.register(Constants.CONTINUE_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.BREAK_SYNTAX, new SimpleConverter());
 
-		Converter.register("try", new SimpleConverter());
-		Converter.register("catch", new SimpleConverter());
-		Converter.register("throw", new SimpleConverter());
+		Converter.register(Constants.TRY_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.CATCH_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.THROW_SYNTAX, new SimpleConverter());
 
-		Converter.register("sync", new SimpleConverter());
+		Converter.register(Constants.SYNC_SYNTAX, new SimpleConverter());
 
-		Converter.register("print", new PrintConverter());
-		Converter.register("debug", new PrintConverter());
-		Converter.register("error", new PrintConverter());
+		Converter.register("print", new PrintConverter());// --print
+		Converter.register("debug", new PrintConverter());// --print
+		Converter.register("error", new PrintConverter());// --print
 
-		Converter.register("fast_add", new FastAddConverter());
-		Converter.register("judge_invoke", new JudgeInvokeConverter());
+		Converter.register(Constants.FAST_ADD_SYNTAX, new FastAddConverter());// --fast_add
+		Converter.register(Constants.JUDGE_INVOKE_SYNTAX, new JudgeInvokeConverter());// --judge_invoke
 
 	}
 
