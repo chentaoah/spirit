@@ -25,7 +25,7 @@ public class ConditionConverter extends DefaultConverter {
 			clazz.addImport(StringUtils.class.getName());
 		} else {
 			JavaConverter.convert(clazz, stmt);
-			JavaConverter.convertEquals(clazz, stmt);// 这个比较特别，stmt的替换是通过处理Node实现的，其实是操作副本完成的
+//			JavaConverter.convertEquals(clazz, stmt);// 这个比较特别，stmt的替换是通过处理Node实现的，其实是操作副本完成的
 		}
 
 		JavaConverter.insertBrackets(clazz, stmt);// 插入括号

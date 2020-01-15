@@ -180,26 +180,26 @@ public class Token {
 		return isKeyword() && "instanceof".equals(value.toString());
 	}
 
-	public boolean isLogicalOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+	public boolean isLogical() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
 		if (isOperator())
 			return "!".equals(value) || "&&".equals(value) || "||".equals(value);
 		return false;
 	}
 
-	public boolean isJudgeOperator() {
+	public boolean isJudge() {
 		if (isOperator())
 			return "==".equals(value) || "!=".equals(value) || ">=".equals(value) || "<=".equals(value)
 					|| ">".equals(value) || "<".equals(value);
 		return false;
 	}
 
-	public boolean isEqualsOperator() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+	public boolean isEquals() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
 		if (isOperator())
 			return "==".equals(value) || "!=".equals(value);
 		return false;
 	}
 
-	public boolean isCalcOperator() {
+	public boolean isCalculate() {
 		if (isOperator())
 			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
 					|| "*".equals(value) || "/".equals(value) || "%".equals(value);

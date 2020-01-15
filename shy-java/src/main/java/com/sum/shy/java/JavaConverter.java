@@ -46,8 +46,10 @@ public class JavaConverter {
 				}
 				subStmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newHashMap("));
 				subStmt.tokens.set(subStmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
-				// 添加依赖
-				clazz.addImport(Collection.class.getName());
+				clazz.addImport(Collection.class.getName());// 添加依赖
+
+			} else if (token.isNode()) {
+				convertNode(clazz, token);
 
 			}
 
@@ -55,32 +57,18 @@ public class JavaConverter {
 
 	}
 
-	public static void convertEquals(IClass clazz, Stmt stmt) {
-
-		// 转换子语句
-		for (Token token : stmt.tokens) {
-			if (token.hasSubStmt()) {
-				convertEquals(clazz, (Stmt) token.value);
-
-			} else if (token.isNode()) {
-				Node node = (Node) token.value;
-				convertEquals(clazz, node.toStmt());
-			}
-		}
-
-		// 遍历所有顶点，收集==节点
+	private static void convertNode(IClass clazz, Token token) {
+		// 查找符合条件的逻辑判断
 		List<Node> nodes = new ArrayList<>();
-		for (Node node : stmt.findNodes()) {
-			findEquals(node, nodes);
-		}
+		findEquals(nodes, token.getNode());
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
-			Token token = node.token;
-			if (token.isEqualsOperator()) {
+			Token token1 = node.token;
+			if (token1.isEquals()) {
 				String express = null;
-				if ("==".equals(token.value)) {
+				if ("==".equals(token1.value)) {
 					express = "StringUtils.equals(%s, %s)";
-				} else if ("!=".equals(token.value)) {
+				} else if ("!=".equals(token1.value)) {
 					express = "!StringUtils.equals(%s, %s)";
 				}
 				if (express != null) {
@@ -102,11 +90,11 @@ public class JavaConverter {
 
 	}
 
-	public static void findEquals(Node node, List<Node> nodes) {
+	public static void findEquals(List<Node> nodes, Node node) {
 		// 将树形结构,转成数组,进行遍历
 		for (Node someNode : node.getNodes()) {
 			Token token = someNode.token;
-			if (token.isLogicalOperator()) {// ! or && or ||
+			if (token.isLogical()) {// ! or && or ||
 				if (someNode.left != null) {
 					Type type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr())
@@ -117,7 +105,7 @@ public class JavaConverter {
 					if (type != null && type.isStr())
 						nodes.add(someNode.right);
 				}
-			} else if (token.isEqualsOperator()) {// == or !=
+			} else if (token.isEquals()) {// == or !=
 				if (someNode.left != null && someNode.right != null) {
 					Type type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr()) {// 如果左边的类型是str
