@@ -68,11 +68,14 @@ class Block {
 	
 	func testTry(){
 		try{
-			throw Exception("test")
+			if s=="hello" : throw Exception("test")
+			return s
 		}catch Exception e{
-			//here need error keyword
+			error "error is",e
+		}finally{
+			print "hello"
 		}
-	
+		return null
 	}
 	
 	func sync testSync(){
