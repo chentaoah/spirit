@@ -69,6 +69,16 @@ public abstract class AbsType implements Type {
 	}
 
 	@Override
+	public boolean isVoid() {
+		return void.class.getName().equals(getClassName());
+	}
+
+	@Override
+	public boolean isObj() {
+		return Object.class.getName().equals(getClassName());
+	}
+
+	@Override
 	public boolean isStr() {
 		return String.class.getName().equals(getClassName());
 	}

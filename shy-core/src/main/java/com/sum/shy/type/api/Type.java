@@ -54,6 +54,20 @@ public interface Type {
 	boolean isWildcard();
 
 	/**
+	 * 是否没有类型
+	 * 
+	 * @return
+	 */
+	boolean isVoid();
+
+	/**
+	 * 是否对象
+	 * 
+	 * @return
+	 */
+	boolean isObj();
+
+	/**
 	 * 是否数组
 	 * 
 	 * @return

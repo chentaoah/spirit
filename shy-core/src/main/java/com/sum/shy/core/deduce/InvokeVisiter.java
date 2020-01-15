@@ -34,6 +34,7 @@ public class InvokeVisiter {
 					type = FastDerivator.deriveStmt(clazz, stmt);
 				}
 			} else if (member instanceof IMethod) {// 如果是方法
+
 				Holder<Type> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
 				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
 					@Override
@@ -42,14 +43,18 @@ public class InvokeVisiter {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
 							Type returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
-							if (returnType != null)
-								holder.obj = returnType;
+							if (holder.obj.isVoid() || holder.obj.isObj()) {
+								if (returnType != null)
+									holder.obj = returnType;
+							}
 						}
 						return null;
 					}
 				});
 				type = holder.obj;
+
 			}
+
 		}
 		// 解锁
 		member.unLock();
