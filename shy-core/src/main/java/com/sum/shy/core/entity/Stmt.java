@@ -357,4 +357,8 @@ public class Stmt {
 		return Constants.THROW_SYNTAX.equals(syntax);
 	}
 
+	public boolean isJudgeInvoke() {
+		return Constants.JUDGE_INVOKE_SYNTAX.equals(syntax);
+	}
+
 }

@@ -27,6 +27,9 @@ public class Constants {
 	public static final String THROWS_KEYWORD = "throws";
 	public static final String SUPER_KEYWORD = "super";
 	public static final String THIS_KEYWORD = "this";
+	public static final String PRINT_KEYWORD = "print";
+	public static final String DEBUG_KEYWORD = "debug";
+	public static final String ERROR_KEYWORD = "error";
 
 	public static final String VOID_TYPE = "void";// 常用的类型
 	public static final String BOOLEAN_TYPE = "boolean";

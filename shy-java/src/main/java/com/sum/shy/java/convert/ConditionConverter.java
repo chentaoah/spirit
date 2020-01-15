@@ -24,8 +24,8 @@ public class ConditionConverter implements Converter {
 			if (type.isStr())
 				flag = true;
 		}
-		// 转换
-		JavaConverter.convert(clazz, stmt);
+
+		JavaConverter.convert(clazz, stmt);// 转换
 
 		if (flag) {
 			stmt.tokens.add(1, new Token(Constants.CUSTOM_PREFIX_TOKEN, "StringUtils.isNotEmpty("));

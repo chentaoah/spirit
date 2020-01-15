@@ -55,6 +55,12 @@ public class SimpleConverter implements Converter {
 			JavaConverter.addLineEnd(clazz, stmt);
 			return stmt;
 
+		} else if (stmt.isJudgeInvoke()) {// obj?.invoke()
+			String var = stmt.get(0);
+			String invoke = stmt.get(2);
+			String text = String.format("if (%s != null)\n%s%s%s;", var, indent + "\t", var, invoke);
+			return new Stmt(text);
+
 		}
 
 		System.out.println(stmt);

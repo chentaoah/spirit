@@ -14,7 +14,6 @@ import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.java.convert.ConditionConverter;
 import com.sum.shy.java.convert.FastAddConverter;
-import com.sum.shy.java.convert.JudgeInvokeConverter;
 import com.sum.shy.java.convert.PrintConverter;
 import com.sum.shy.java.convert.SimpleConverter;
 import com.sum.shy.lib.StringUtils;
@@ -55,7 +54,7 @@ public class JavaBuilder {
 		Converter.register(Constants.ERROR_SYNTAX, new PrintConverter());// --print
 
 		Converter.register(Constants.FAST_ADD_SYNTAX, new FastAddConverter());// --fast_add
-		Converter.register(Constants.JUDGE_INVOKE_SYNTAX, new JudgeInvokeConverter());// --judge_invoke
+		Converter.register(Constants.JUDGE_INVOKE_SYNTAX, new SimpleConverter());
 
 	}
 
