@@ -17,7 +17,7 @@ public class AssignConverter implements Converter {
 		// this.name=xxx // name=xxx
 		Token token = stmt.getToken(0);
 		if (token.isVar() && !token.isDeclaredAtt()) {
-			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));
+			stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
 		}
 		JavaConverter.convert(clazz, stmt);
 //		JavaConverter.convertEquals(clazz, stmt);// 这个比较特别，stmt的替换是通过处理Node实现的，其实是操作副本完成的

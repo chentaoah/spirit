@@ -71,7 +71,7 @@ public class SemanticDelegate {
 	 */
 	public static List<Token> getAnnotationTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
-		tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0), null));
+		tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0)));
 		return tokens;
 	}
 
@@ -277,7 +277,7 @@ public class SemanticDelegate {
 				int count = 0;
 				for (Token subToken : subStmt.tokens) {
 					if ("?".equals(subToken.toString()))
-						subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?", null));
+						subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?"));
 					count++;
 				}
 				// 生成子语句
@@ -320,11 +320,11 @@ public class SemanticDelegate {
 		// 获取tokens
 		List<Token> subTokens = getTokens(subWords);
 		// 插入分隔符
-		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left, null));// 注意:这个符号不再是操作符,而是分隔符
-		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right, null));// 20191213 ct 修复>分隔符插入位置错误的问题
+		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
+		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));// 20191213 ct 修复>分隔符插入位置错误的问题
 		// 追加一个元素在头部
 		if (prefix != null)
-			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix, null));
+			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
 		// 生成子语句
 		return new Stmt(word, subTokens);
 	}

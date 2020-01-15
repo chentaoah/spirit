@@ -124,7 +124,7 @@ public class TreeBuilder {
 		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE)
 			tokens.remove(index + 1);
 		tokens.remove(index);
-		tokens.add(index, new Token(Constants.NODE_TOKEN, node, null));
+		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
 		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE)
 			tokens.remove(index - 1);
 

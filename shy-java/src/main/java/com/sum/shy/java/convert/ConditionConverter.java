@@ -21,8 +21,8 @@ public class ConditionConverter implements Converter {
 		Type type = FastDerivator.deriveStmt(clazz, stmt);
 		if (type.isStr()) {
 			JavaConverter.convert(clazz, stmt);
-			stmt.tokens.add(1, new Token(Constants.CUSTOM_PREFIX_TOKEN, "StringUtils.isNotEmpty(", null));
-			stmt.tokens.add(stmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")", null));
+			stmt.tokens.add(1, new Token(Constants.CUSTOM_PREFIX_TOKEN, "StringUtils.isNotEmpty("));
+			stmt.tokens.add(stmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
 			clazz.addImport(StringUtils.class.getName());
 		} else {
 			JavaConverter.convert(clazz, stmt);
