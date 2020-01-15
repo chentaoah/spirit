@@ -12,7 +12,6 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.java.api.Converter;
-import com.sum.shy.java.convert.AssignConverter;
 import com.sum.shy.java.convert.ConditionConverter;
 import com.sum.shy.java.convert.FastAddConverter;
 import com.sum.shy.java.convert.JudgeInvokeConverter;
@@ -28,7 +27,7 @@ public class JavaBuilder {
 		Converter.register(Constants.THIS_SYNTAX, new SimpleConverter());
 
 		Converter.register(Constants.DECLARE_SYNTAX, new SimpleConverter());
-		Converter.register(Constants.ASSIGN_SYNTAX, new AssignConverter());// --assign
+		Converter.register(Constants.ASSIGN_SYNTAX, new SimpleConverter());
 		Converter.register(Constants.FIELD_ASSIGN_SYNTAX, new SimpleConverter());
 		Converter.register(Constants.INVOKE_SYNTAX, new SimpleConverter());
 		Converter.register(Constants.RETURN_SYNTAX, new SimpleConverter());

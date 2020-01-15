@@ -46,6 +46,15 @@ public class SimpleConverter implements Converter {
 			Token collection = stmt.getToken(3);
 			String text = String.format("for (%s %s : %s) {", item.getTypeAtt(), item, collection);
 			return new Stmt(text);
+
+		} else if (stmt.isAssign()) {// var = list.get(0)
+			Token token = stmt.getToken(0);
+			if (token.isVar() && !token.isDeclaredAtt())
+				stmt.tokens.add(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
+			JavaConverter.convert(clazz, stmt);
+			JavaConverter.addLineEnd(clazz, stmt);
+			return stmt;
+
 		}
 
 		System.out.println(stmt);
