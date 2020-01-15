@@ -14,7 +14,7 @@ public class SimpleConverter implements Converter {
 	@Override
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 
-		if (stmt.isElse() || stmt.isEnd() || stmt.isTry()) {// } else { // } // try {
+		if (stmt.isElse() || stmt.isEnd() || stmt.isTry() || stmt.isFinally()) {// } else { // } // try { // } finally {
 			return stmt;
 
 		} else if (stmt.isSuper() || stmt.isThis() || stmt.isFieldAssign() || stmt.isInvoke() || stmt.isReturn()

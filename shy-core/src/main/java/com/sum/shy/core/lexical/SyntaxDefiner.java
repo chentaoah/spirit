@@ -88,10 +88,12 @@ public class SyntaxDefiner {
 			if (tokens.size() == 1 && "}".equals(first.toString())) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isInvokeLocal() && "super".equals(first.getMemberNameAtt())) {// 只有一个语素,并且以super开头
+			if (tokens.size() == 1 && first.isInvokeLocal()
+					&& Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {// 只有一个语素,并且以super开头
 				return Constants.SUPER_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isInvokeLocal() && "this".equals(first.getMemberNameAtt())) {// 只有一个语素,并且以this开头
+			if (tokens.size() == 1 && first.isInvokeLocal()
+					&& Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {// 只有一个语素,并且以this开头
 				return Constants.THIS_SYNTAX;
 			}
 			if (tokens.size() == 1 && first.isInvokeLocal()) {// 调用本地方法
@@ -125,21 +127,26 @@ public class SyntaxDefiner {
 
 			// 第三个单词
 			Token third = tokens.get(2);
-			if ("for".equals(first.toString())) {
-				if ("in".equals(third.toString())) {
+			if (Constants.FOR_KEYWORD.equals(first.toString())) {
+				if (Constants.IN_KEYWORD.equals(third.toString())) {
 					return Constants.FOR_IN_SYNTAX;
 				}
 				return Constants.FOR_SYNTAX;
 			}
 			if ("}".equals(first.toString())) {// else if语句
-				if ("else".equals(second.toString())) {
-					if ("if".equals(third.toString())) {
+				if (Constants.ELSE_KEYWORD.equals(second.toString())) {
+					if (Constants.IF_KEYWORD.equals(third.toString())) {
 						return Constants.ELSEIF_SYNTAX;
 					} else {
 						return Constants.ELSE_SYNTAX;
 					}
-				} else if ("catch".equals(second.toString())) {
+
+				} else if (Constants.CATCH_KEYWORD.equals(second.toString())) {
 					return Constants.CATCH_SYNTAX;
+
+				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {
+					return Constants.FINALLY_SYNTAX;
+
 				}
 			}
 

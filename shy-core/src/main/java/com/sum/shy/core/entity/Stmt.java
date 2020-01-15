@@ -218,6 +218,9 @@ public class Stmt {
 			} else if ("impl".equals(token.toString())) {// impl shy代码显示的更好看点
 				return " " + token + " ";
 
+			} else if ("finally".equals(token.toString())) {// impl shy代码显示的更好看点
+				return token.toString();
+
 			} else {
 				return token + " ";
 			}
@@ -327,6 +330,10 @@ public class Stmt {
 
 	public boolean isTry() {
 		return Constants.TRY_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFinally() {
+		return Constants.FINALLY_SYNTAX.equals(syntax);
 	}
 
 	public boolean isSuper() {

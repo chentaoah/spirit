@@ -45,6 +45,7 @@ public class JavaBuilder {
 
 		Converter.register(Constants.TRY_SYNTAX, new SimpleConverter());
 		Converter.register(Constants.CATCH_SYNTAX, new SimpleConverter());
+		Converter.register(Constants.FINALLY_SYNTAX, new SimpleConverter());
 		Converter.register(Constants.THROW_SYNTAX, new SimpleConverter());
 
 		Converter.register(Constants.SYNC_SYNTAX, new SimpleConverter());

@@ -78,11 +78,18 @@ public class Block {
 		}
 	}
 
-	public void testTry() {
+	public Object testTry() {
 		try {
-			throw new Exception("test");
+			if (StringUtils.equals(s, "hello")) {
+				throw new Exception("test");
+			}
+			return s;
 		} catch (Exception e) {
+			logger.error("error is", e);
+		} finally {
+			logger.info("hello");
 		}
+		return null;
 	}
 
 	public synchronized void testSync() {

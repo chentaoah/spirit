@@ -22,15 +22,21 @@ public class Constants {
 	public static final String CLASS_KEYWORD = "class";
 	public static final String EXTENDS_KEYWORD = "extends";
 	public static final String IMPL_KEYWORD = "impl";
+	public static final String STATIC_KEYWORD = "static";
 	public static final String FUNC_KEYWORD = "func";
-	public static final String SYNC_KEYWORD = "sync";
 	public static final String THROWS_KEYWORD = "throws";
 	public static final String SUPER_KEYWORD = "super";
 	public static final String THIS_KEYWORD = "this";
+	public static final String IF_KEYWORD = "if";
+	public static final String ELSE_KEYWORD = "else";
+	public static final String FOR_KEYWORD = "for";
+	public static final String IN_KEYWORD = "in";
+	public static final String CATCH_KEYWORD = "catch";
+	public static final String FINALLY_KEYWORD = "finally";
+	public static final String SYNC_KEYWORD = "sync";
 	public static final String PRINT_KEYWORD = "print";
 	public static final String DEBUG_KEYWORD = "debug";
 	public static final String ERROR_KEYWORD = "error";
-	public static final String STATIC_KEYWORD = "static";
 
 	public static final String VOID_TYPE = "void";// 常用的类型
 	public static final String BOOLEAN_TYPE = "boolean";
@@ -66,6 +72,7 @@ public class Constants {
 	public static final String BREAK_SYNTAX = "break";
 	public static final String TRY_SYNTAX = "try";
 	public static final String CATCH_SYNTAX = "catch";
+	public static final String FINALLY_SYNTAX = "finally";
 	public static final String THROW_SYNTAX = "throw";
 	public static final String SYNC_SYNTAX = "sync";// 同步语句
 	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
