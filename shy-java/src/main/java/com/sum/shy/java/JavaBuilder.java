@@ -51,9 +51,9 @@ public class JavaBuilder {
 
 		Converter.register(Constants.SYNC_SYNTAX, new SimpleConverter());
 
-		Converter.register("print", new PrintConverter());// --print
-		Converter.register("debug", new PrintConverter());// --print
-		Converter.register("error", new PrintConverter());// --print
+		Converter.register(Constants.PRINT_SYNTAX, new PrintConverter());// --print
+		Converter.register(Constants.DEBUG_SYNTAX, new PrintConverter());// --print
+		Converter.register(Constants.ERROR_SYNTAX, new PrintConverter());// --print
 
 		Converter.register(Constants.FAST_ADD_SYNTAX, new FastAddConverter());// --fast_add
 		Converter.register(Constants.JUDGE_INVOKE_SYNTAX, new JudgeInvokeConverter());// --judge_invoke
