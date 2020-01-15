@@ -64,7 +64,7 @@ public class JavaConverter {
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
 			Token someToken = node.token;
-			if (someToken.isEquals()) {
+			if (someToken.isEquals()) {// 二元操作符
 				String express = null;
 				if ("==".equals(someToken.toString())) {
 					express = "StringUtils.equals(%s, %s)";
@@ -75,13 +75,13 @@ public class JavaConverter {
 					express = String.format(express, node.left, node.right);
 					node.left = null;
 					node.right = null;
-					node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express, null);
+					node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express);
 				}
-			} else {
+			} else {// 单独的一个str
 				String express = String.format("StringUtils.isNotEmpty(%s)", node);
 				node.left = null;
 				node.right = null;
-				node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express, null);
+				node.token = new Token(Constants.CUSTOM_EXPRESS_TOKEN, express);
 			}
 
 		}
@@ -122,11 +122,11 @@ public class JavaConverter {
 		// 第一个连续关键字之后，最后的分隔符之前
 		if (stmt.size() >= 2) {// if xxx { //print xxx,xxx //}catch Exception e{
 			int index = findKeyword(stmt);
-			stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "(", null));
+			stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
 			if ("{".equals(stmt.last())) {
-				stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")", null));
+				stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")"));
 			} else {
-				stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")", null));
+				stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")"));
 			}
 		}
 	}

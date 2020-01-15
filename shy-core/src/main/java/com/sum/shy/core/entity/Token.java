@@ -20,6 +20,8 @@ public class Token {
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;
+		if (attachments == null)
+			throw new RuntimeException("Please use another construction method Token(String type, Object value)");
 		this.attachments = attachments == null ? new HashMap<>() : attachments;
 	}
 

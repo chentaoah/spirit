@@ -44,6 +44,7 @@ public class Node {
 				if (operator.equals(value))
 					return " " + value + " ";
 			}
+
 		} else if (token.isCast()) {// 类型转换
 			return token + " ";
 
