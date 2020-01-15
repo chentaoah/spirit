@@ -37,7 +37,7 @@ public class SimpleConverter implements Converter {
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
 			Token token = stmt.getToken(1);
-			stmt.tokens.add(1, new Token(Constants.TYPE_TOKEN, token.getTypeAtt(), null));
+			stmt.tokens.add(1, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
 			JavaConverter.insertBrackets(clazz, stmt);
 			return stmt;
 
@@ -48,7 +48,10 @@ public class SimpleConverter implements Converter {
 			return new Stmt(text);
 		}
 
-		return stmt;
+		System.out.println(stmt);
+		System.out.println(stmt.syntax);
+		throw new RuntimeException("The syntax statement is not supported!");
+
 	}
 
 }

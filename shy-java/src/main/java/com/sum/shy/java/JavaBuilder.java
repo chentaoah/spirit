@@ -14,7 +14,6 @@ import com.sum.shy.java.api.Converter;
 import com.sum.shy.java.convert.AssignConverter;
 import com.sum.shy.java.convert.ConditionConverter;
 import com.sum.shy.java.convert.FastAddConverter;
-import com.sum.shy.java.convert.ForInConverter;
 import com.sum.shy.java.convert.JudgeInvokeConverter;
 import com.sum.shy.java.convert.PrintConverter;
 import com.sum.shy.java.convert.SimpleConverter;
@@ -39,7 +38,7 @@ public class JavaBuilder {
 		Converter.register("end", new SimpleConverter());
 
 		Converter.register("for", new SimpleConverter());
-		Converter.register("for_in", new ForInConverter());
+		Converter.register("for_in", new SimpleConverter());
 
 		Converter.register("while", new ConditionConverter());
 		Converter.register("continue", new SimpleConverter());
