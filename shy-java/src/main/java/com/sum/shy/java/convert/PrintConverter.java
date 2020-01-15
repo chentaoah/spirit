@@ -18,20 +18,20 @@ public class PrintConverter extends DefaultConverter {
 	@Override
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
 
-		JavaConverter.convertCommon(clazz, stmt);
+		JavaConverter.convert(clazz, stmt);
 
 		Token token = stmt.getToken(0);
 		if ("print".equals(token.value)) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.info("));// 替换
-			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
+			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
 		} else if ("debug".equals(token.value)) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.debug("));// 替换
-			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
+			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
 		} else if ("error".equals(token.value)) {
 			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.error("));// 替换
-			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
+			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
 		}
 		// 如果不存在

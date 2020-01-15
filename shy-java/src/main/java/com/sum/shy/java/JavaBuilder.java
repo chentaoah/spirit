@@ -219,10 +219,10 @@ public class JavaBuilder {
 	public String buildField(IClass clazz, String scope, IField field) {
 		if (field.stmt != null) {
 			if (StringUtils.isNotEmpty(scope)) {
-				JavaConverter.convertCommon(clazz, field.stmt);
+				JavaConverter.convert(clazz, field.stmt);
 				return String.format("\tpublic %s %s %s;\n", scope, field.type, field.stmt);
 			} else {
-				JavaConverter.convertCommon(clazz, field.stmt);
+				JavaConverter.convert(clazz, field.stmt);
 				return String.format("\tpublic %s %s;\n", field.type, field.stmt);
 			}
 		} else {

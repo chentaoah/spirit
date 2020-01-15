@@ -19,12 +19,12 @@ public class ConditionConverter extends DefaultConverter {
 		// if str { // if list.get(0) {
 		Type type = FastDerivator.deriveStmt(clazz, stmt);
 		if (type.isStr()) {
-			JavaConverter.convertCommon(clazz, stmt);
+			JavaConverter.convert(clazz, stmt);
 			stmt.tokens.add(1, new Token(Constants.CUSTOM_PREFIX_TOKEN, "StringUtils.isNotEmpty(", null));
 			stmt.tokens.add(stmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")", null));
 			clazz.addImport(StringUtils.class.getName());
 		} else {
-			JavaConverter.convertCommon(clazz, stmt);
+			JavaConverter.convert(clazz, stmt);
 			JavaConverter.convertEquals(clazz, stmt);// 这个比较特别，stmt的替换是通过处理Node实现的，其实是操作副本完成的
 		}
 

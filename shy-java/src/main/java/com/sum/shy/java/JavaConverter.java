@@ -14,45 +14,40 @@ import com.sum.shy.type.api.Type;
 
 public class JavaConverter {
 
-	public static void convertCommon(IClass clazz, Stmt stmt) {
+	public static void convert(IClass clazz, Stmt stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
-
 			Token token = stmt.getToken(i);
 
 			if (token.hasSubStmt())
-				convertCommon(clazz, (Stmt) token.value);
+				convert(clazz, token.getSubStmt());
+			if (token.isNode())
+				convert(clazz, token.getNode().toStmt());
 
 			if (token.isArrayInit()) {// 数组初始化,是没有子语句的
-				Stmt subStmt = (Stmt) token.value;
-				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+				Stmt subStmt = token.getSubStmt();
+				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new"));
 
 			} else if (token.isTypeInit()) {// 在所有的构造函数前面都加个new
-				Stmt subStmt = (Stmt) token.value;
-				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new", null));
+				Stmt subStmt = token.getSubStmt();
+				subStmt.tokens.add(0, new Token(Constants.KEYWORD_TOKEN, "new"));
 
 			} else if (token.isList()) {// 将所有的array和map都转换成方法调用
-				Stmt subStmt = (Stmt) token.value;
-				subStmt.getToken(0).value = "Collection.newArrayList(";
-				subStmt.getToken(subStmt.size() - 1).value = ")";
-				// 添加依赖
-				clazz.addImport(Collection.class.getName());
+				Stmt subStmt = token.getSubStmt();
+				subStmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newArrayList("));
+				subStmt.tokens.set(subStmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
+				clazz.addImport(Collection.class.getName());// 添加依赖
 
 			} else if (token.isMap()) {
-				Stmt subStmt = (Stmt) token.value;
+				Stmt subStmt = token.getSubStmt();
 				for (Token subToken : subStmt.tokens) {// 将map里面的冒号分隔符,转换成逗号分隔
-					if (subToken.isSeparator() && ":".equals(subToken.value)) {
+					if (subToken.isSeparator() && ":".equals(subToken.toString()))
 						subToken.value = ",";
-					}
 				}
-				subStmt.getToken(0).value = "Collection.newHashMap(";
-				subStmt.getToken(subStmt.size() - 1).value = ")";
+				subStmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newHashMap("));
+				subStmt.tokens.set(subStmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
 				// 添加依赖
 				clazz.addImport(Collection.class.getName());
-
-			} else if (token.isNode()) {
-				Node node = (Node) token.value;
-				convertCommon(clazz, node.toStmt());
 
 			}
 
