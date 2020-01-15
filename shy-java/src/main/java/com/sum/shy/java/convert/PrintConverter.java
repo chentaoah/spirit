@@ -22,15 +22,15 @@ public class PrintConverter extends DefaultConverter {
 
 		Token token = stmt.getToken(0);
 		if ("print".equals(token.value)) {
-			stmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, "logger.info(", null));// 替换
+			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.info("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
 
 		} else if ("debug".equals(token.value)) {
-			stmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, "logger.debug(", null));// 替换
+			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.debug("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
 
 		} else if ("error".equals(token.value)) {
-			stmt.tokens.set(0, new Token(Constants.PREFIX_TOKEN, "logger.error(", null));// 替换
+			stmt.tokens.set(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.error("));// 替换
 			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");", null));
 
 		}
