@@ -11,9 +11,10 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
+import com.sum.shy.java.api.Converter;
 import com.sum.shy.type.CodeType;
 
-public class PrintConverter extends DefaultConverter {
+public class PrintConverter implements Converter {
 
 	@Override
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {

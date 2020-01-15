@@ -7,8 +7,9 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
+import com.sum.shy.java.api.Converter;
 
-public class AssignConverter extends DefaultConverter {
+public class AssignConverter implements Converter {
 
 	@Override
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {

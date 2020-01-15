@@ -59,6 +59,11 @@ public class Constants {
 	public static final String FOR_IN_SYNTAX = "for_in";
 	public static final String FOR_SYNTAX = "for";// 原生java的语法
 	public static final String WHILE_SYNTAX = "while";
+	public static final String TRY_SYNTAX = "try";
+	public static final String SYNC_SYNTAX = "sync";// 同步语句
+	public static final String CONTINUE_SYNTAX = "continue";
+	public static final String BREAK_SYNTAX = "break";
+	public static final String THROW_SYNTAX = "throw";
 	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
 	public static final String JUDGE_INVOKE_SYNTAX = "judge_invoke";// 判空调用
 

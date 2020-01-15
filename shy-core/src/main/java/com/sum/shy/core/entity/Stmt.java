@@ -321,4 +321,40 @@ public class Stmt {
 		return Constants.WHILE_SYNTAX.equals(syntax);
 	}
 
+	public boolean isSync() {
+		return Constants.SYNC_SYNTAX.equals(syntax);
+	}
+
+	public boolean isTry() {
+		return Constants.TRY_SYNTAX.equals(syntax);
+	}
+
+	public boolean isSuper() {
+		return Constants.SUPER_SYNTAX.equals(syntax);
+	}
+
+	public boolean isThis() {
+		return Constants.THIS_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFieldAssign() {
+		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isInvoke() {
+		return Constants.INVOKE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isContinue() {
+		return Constants.CONTINUE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isBreak() {
+		return Constants.BREAK_SYNTAX.equals(syntax);
+	}
+
+	public boolean isThrow() {
+		return Constants.THROW_SYNTAX.equals(syntax);
+	}
+
 }

@@ -12,49 +12,45 @@ import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.java.convert.AssignConverter;
-import com.sum.shy.java.convert.CatchConverter;
 import com.sum.shy.java.convert.ConditionConverter;
-import com.sum.shy.java.convert.DeclareConverter;
-import com.sum.shy.java.convert.DefaultConverter;
 import com.sum.shy.java.convert.FastAddConverter;
 import com.sum.shy.java.convert.ForConverter;
 import com.sum.shy.java.convert.ForInConverter;
 import com.sum.shy.java.convert.JudgeInvokeConverter;
-import com.sum.shy.java.convert.NoneConverter;
 import com.sum.shy.java.convert.PrintConverter;
-import com.sum.shy.java.convert.SyncConverter;
+import com.sum.shy.java.convert.SimpleConverter;
 import com.sum.shy.lib.StringUtils;
 
 public class JavaBuilder {
 
 	static {
 
-		Converter.register("super", new DefaultConverter());// 调用父类构造方法
-		Converter.register("this", new DefaultConverter());// 调用构造方法
+		Converter.register("super", new SimpleConverter());// 调用父类构造方法
+		Converter.register("this", new SimpleConverter());// 调用构造方法
 
-		Converter.register("declare", new DeclareConverter());// 声明转换
+		Converter.register("declare", new SimpleConverter());// 声明转换
 		Converter.register("assign", new AssignConverter());// 赋值转换
-		Converter.register("field_assign", new DefaultConverter());// 赋值转换
-		Converter.register("invoke", new DefaultConverter());// 方法调用
-		Converter.register("return", new DefaultConverter());// 返回
+		Converter.register("field_assign", new SimpleConverter());// 赋值转换
+		Converter.register("invoke", new SimpleConverter());// 方法调用
+		Converter.register("return", new SimpleConverter());// 返回
 
 		Converter.register("if", new ConditionConverter());// 条件转换
 		Converter.register("elseif", new ConditionConverter());
-		Converter.register("else", new NoneConverter());// 什么都不做
-		Converter.register("end", new NoneConverter());// 什么都不做
+		Converter.register("else", new SimpleConverter());// 什么都不做
+		Converter.register("end", new SimpleConverter());// 什么都不做
 
 		Converter.register("for", new ForConverter());// for语句
 		Converter.register("for_in", new ForInConverter());// for in语句
 
 		Converter.register("while", new ConditionConverter());// while循环
-		Converter.register("continue", new DefaultConverter());// continue
-		Converter.register("break", new DefaultConverter());// break
+		Converter.register("continue", new SimpleConverter());// continue
+		Converter.register("break", new SimpleConverter());// break
 
-		Converter.register("try", new NoneConverter());// 什么都不做
-		Converter.register("catch", new CatchConverter());// catch语句
-		Converter.register("throw", new DefaultConverter());// throw
+		Converter.register("try", new SimpleConverter());// 什么都不做
+		Converter.register("catch", new SimpleConverter());// catch语句
+		Converter.register("throw", new SimpleConverter());// throw
 
-		Converter.register("sync", new SyncConverter());// 同步语句
+		Converter.register("sync", new SimpleConverter());// 同步语句
 
 		Converter.register("print", new PrintConverter());// 日志
 		Converter.register("debug", new PrintConverter());// 日志

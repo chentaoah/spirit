@@ -7,9 +7,10 @@ import com.sum.shy.clazz.IMethod;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.java.api.Converter;
 import com.sum.shy.type.api.Type;
 
-public class FastAddConverter extends DefaultConverter {
+public class FastAddConverter implements Converter {
 
 	@Override
 	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
