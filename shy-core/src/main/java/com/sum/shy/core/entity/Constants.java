@@ -30,6 +30,7 @@ public class Constants {
 	public static final String PRINT_KEYWORD = "print";
 	public static final String DEBUG_KEYWORD = "debug";
 	public static final String ERROR_KEYWORD = "error";
+	public static final String STATIC_KEYWORD = "static";
 
 	public static final String VOID_TYPE = "void";// 常用的类型
 	public static final String BOOLEAN_TYPE = "boolean";
