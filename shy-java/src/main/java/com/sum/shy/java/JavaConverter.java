@@ -61,6 +61,9 @@ public class JavaConverter {
 		// 查找符合条件的逻辑判断
 		List<Node> nodes = new ArrayList<>();
 		findEquals(nodes, token.getNode());
+		// 添加依赖
+		if (nodes.size() > 0)
+			clazz.addImport(StringUtils.class.getName());
 		// 遍历所有==节点，转换该节点
 		for (Node node : nodes) {
 			Token someToken = node.token;
@@ -85,8 +88,6 @@ public class JavaConverter {
 			}
 
 		}
-		if (nodes.size() > 0)
-			clazz.addImport(StringUtils.class.getName());
 
 	}
 
@@ -149,7 +150,7 @@ public class JavaConverter {
 	}
 
 	public static void addLineEnd(IClass clazz, Stmt stmt) {
-		stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ";", null));// 这个添加的后缀,使得后面不会加上空格
+		stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
 	}
 
 }
