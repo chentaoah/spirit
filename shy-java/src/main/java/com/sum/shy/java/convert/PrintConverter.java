@@ -41,8 +41,9 @@ public class PrintConverter implements Converter {
 			clazz.addImport(Logger.class.getName());
 			clazz.addImport(LoggerFactory.class.getName());
 			// 添加字段
-			clazz.addField(new IField(null, "static", new CodeType(clazz, "Logger"), "logger",
-					new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)")));
+			Stmt fieldStmt = new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)");
+			IField field = new IField(null, "static", new CodeType(clazz, "Logger"), "logger", fieldStmt);
+			clazz.staticFields.add(0, field);
 		}
 
 		return stmt;
