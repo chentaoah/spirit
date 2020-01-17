@@ -10,7 +10,7 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class JavaConverter {
 
@@ -97,18 +97,18 @@ public class JavaConverter {
 			Token token = someNode.token;
 			if (token.isLogical()) {// ! or && or ||
 				if (someNode.left != null) {
-					Type type = someNode.left.token.getTypeAtt();
+					IType type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr())
 						nodes.add(someNode.left);
 				}
 				if (someNode.right != null) {
-					Type type = someNode.right.token.getTypeAtt();
+					IType type = someNode.right.token.getTypeAtt();
 					if (type != null && type.isStr())
 						nodes.add(someNode.right);
 				}
 			} else if (token.isEquals()) {// == or !=
 				if (someNode.left != null && someNode.right != null) {
-					Type type = someNode.left.token.getTypeAtt();
+					IType type = someNode.left.token.getTypeAtt();
 					if (type != null && type.isStr()) {// 如果左边的类型是str
 						Token rightToken = someNode.right.token;
 						if (!rightToken.isNull()) // 并且右边不是null

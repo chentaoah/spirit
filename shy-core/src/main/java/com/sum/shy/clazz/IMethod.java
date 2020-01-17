@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.shy.clazz.api.AbsMember;
 import com.sum.shy.core.entity.Line;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class IMethod extends AbsMember {
 
@@ -32,7 +32,7 @@ public class IMethod extends AbsMember {
 	 * @param params
 	 * @param exceptions
 	 */
-	public IMethod(List<String> annotations, String scope, boolean isSync, Type returnType, String name,
+	public IMethod(List<String> annotations, String scope, boolean isSync, IType returnType, String name,
 			List<Param> params, List<String> exceptions) {
 		// 注解
 		setAnnotations(annotations);
@@ -67,7 +67,7 @@ public class IMethod extends AbsMember {
 		variables.add(variable);
 	}
 
-	public boolean isSame(String methodName, List<Type> parameterTypes) {
+	public boolean isSame(String methodName, List<IType> parameterTypes) {
 		if (name.equals(methodName)) {
 			if (params.size() == parameterTypes.size()) {
 				int count = 0;

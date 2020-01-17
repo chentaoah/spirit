@@ -10,7 +10,7 @@ import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class ConditionConverter implements Converter {
 
@@ -20,7 +20,7 @@ public class ConditionConverter implements Converter {
 		// 如果只有三个元素,并且中间这个元素的类型为字符串
 		boolean flag = false;
 		if (stmt.size() == 3) {// if str { // if list.get(0) {
-			Type type = FastDerivator.deriveStmt(clazz, stmt);
+			IType type = FastDerivator.deriveStmt(clazz, stmt);
 			if (type.isStr())
 				flag = true;
 		}

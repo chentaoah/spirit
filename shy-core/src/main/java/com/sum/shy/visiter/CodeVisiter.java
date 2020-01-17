@@ -10,14 +10,14 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.visiter.api.Visiter;
 
 public class CodeVisiter implements Visiter {
 
 	public Visiter nativeVisiter = new NativeVisiter();
 
-	public Type visitField(IClass clazz, Type type, String fieldName) {
+	public IType visitField(IClass clazz, IType type, String fieldName) {
 
 		if (type.isArray()) {
 			if (Constants.$ARRAY_LENGTH.equals(fieldName))
@@ -47,7 +47,7 @@ public class CodeVisiter implements Visiter {
 		return null;
 	}
 
-	public Type visitMethod(IClass clazz, Type type, String methodName, List<Type> paramTypes) {
+	public IType visitMethod(IClass clazz, IType type, String methodName, List<IType> paramTypes) {
 
 		if (type.isArray()) {
 			if (Constants.$ARRAY_INDEX.equals(methodName))

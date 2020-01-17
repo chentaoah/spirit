@@ -3,7 +3,7 @@ package com.sum.shy.core.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class Token {
 
@@ -210,11 +210,11 @@ public class Token {
 
 	// =================== 类型 =====================
 
-	public Type getTypeAtt() {
-		return (Type) attachments.get(Constants.TYPE_ATTACHMENT);
+	public IType getTypeAtt() {
+		return (IType) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
 
-	public void setTypeAtt(Type type) {
+	public void setTypeAtt(IType type) {
 		if (type == null)
 			throw new RuntimeException("Type cannot be null!token:" + this.toString());
 		attachments.put(Constants.TYPE_ATTACHMENT, type);

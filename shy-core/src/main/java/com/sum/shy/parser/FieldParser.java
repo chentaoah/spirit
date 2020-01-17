@@ -9,7 +9,7 @@ import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.api.Parser;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class FieldParser implements Parser {
 
@@ -20,7 +20,7 @@ public class FieldParser implements Parser {
 		// User user
 		if (stmt.isDeclare()) {
 			// 类型
-			Type type = new CodeType(clazz, stmt.getToken(0));
+			IType type = new CodeType(clazz, stmt.getToken(0));
 			// 名称
 			String name = stmt.get(1);
 			// 字段

@@ -8,7 +8,7 @@ import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.utils.ReflectUtils;
 
 /**
@@ -22,7 +22,7 @@ import com.sum.shy.utils.ReflectUtils;
  */
 public class FastDerivator {
 
-	public static Type deriveStmt(IClass clazz, Stmt stmt) {
+	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
@@ -35,7 +35,7 @@ public class FastDerivator {
 		return null;
 	}
 
-	public static Type getType(IClass clazz, Node node) {
+	public static IType getType(IClass clazz, Node node) {
 
 		if (node == null)
 			return null;
@@ -58,7 +58,7 @@ public class FastDerivator {
 
 	}
 
-	public static Type getValueType(IClass clazz, Token token) {
+	public static IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
 			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 		} else if (token.isInt()) {
@@ -77,13 +77,13 @@ public class FastDerivator {
 		return null;
 	}
 
-	public static Type getArrayType(IClass clazz, Token token) {
+	public static IType getArrayType(IClass clazz, Token token) {
 		boolean isSame = true;// 所有元素是否都相同
-		Type genericType = null;
+		IType genericType = null;
 		// 开始遍历
 		Stmt stmt = token.getSubStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			Type type = deriveStmt(clazz, subStmt);
+			IType type = deriveStmt(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (genericType != null) {
 					if (!genericType.equals(type)) {// 如果存在多个类型
@@ -101,21 +101,21 @@ public class FastDerivator {
 		if (!isSame || genericType == null)
 			return new CodeType(clazz, "List<Object>");
 
-		Type finalType = new CodeType(clazz, Constants.LIST_TYPE);
+		IType finalType = new CodeType(clazz, Constants.LIST_TYPE);
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
 
-	public static Type getMapType(IClass clazz, Token token) {
+	public static IType getMapType(IClass clazz, Token token) {
 		boolean isSameKey = true;
 		boolean isSameValue = true;
-		Type finalKeyType = null;
-		Type finalValueType = null;
+		IType finalKeyType = null;
+		IType finalValueType = null;
 		Stmt stmt = token.getSubStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
-			Type KeyType = deriveStmt(clazz, subStmts.get(0));
-			Type valueType = deriveStmt(clazz, subStmts.get(1));
+			IType KeyType = deriveStmt(clazz, subStmts.get(0));
+			IType valueType = deriveStmt(clazz, subStmts.get(1));
 			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
 				if (finalKeyType != null) {
 					if (!finalKeyType.equals(KeyType)) {// 如果存在多个类型
@@ -140,7 +140,7 @@ public class FastDerivator {
 		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, Constants.OBJECT_TYPE)
 				: finalValueType;
 
-		Type finalType = new CodeType(clazz, Constants.MAP_TYPE);
+		IType finalType = new CodeType(clazz, Constants.MAP_TYPE);
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
@@ -154,7 +154,7 @@ public class FastDerivator {
 	 * @param genericType
 	 * @return
 	 */
-	public static Type getWrapType(IClass clazz, Type genericType) {
+	public static IType getWrapType(IClass clazz, IType genericType) {
 		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
 		if (wrapType != null)
 			genericType = new CodeType(clazz, wrapType);

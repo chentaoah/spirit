@@ -12,7 +12,7 @@ import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.visiter.api.Visiter;
 
 /**
@@ -40,13 +40,13 @@ public class VariableTracker {
 
 		if (token.isVar()) {
 			String name = token.toString();
-			Type type = findType(clazz, method, block, name);
+			IType type = findType(clazz, method, block, name);
 			checkType(line, name, type);
 			token.setTypeAtt(type);
 
 		} else if (token.isArrayIndex()) {
 			String name = token.getMemberNameAtt();
-			Type type = findType(clazz, method, block, name);
+			IType type = findType(clazz, method, block, name);
 			checkType(line, name, type);
 			token.setTypeAtt(type);
 
@@ -54,7 +54,7 @@ public class VariableTracker {
 
 	}
 
-	public static Type findType(IClass clazz, IMethod method, String block, String name) {
+	public static IType findType(IClass clazz, IMethod method, String block, String name) {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
@@ -102,7 +102,7 @@ public class VariableTracker {
 
 	}
 
-	public static void checkType(Line line, String name, Type type) {
+	public static void checkType(Line line, String name, IType type) {
 		if (type == null)
 			throw new RuntimeException("Variable must be declared!number:[" + line.number + "], text:[ "
 					+ line.text.trim() + " ], var:[" + name + "]");

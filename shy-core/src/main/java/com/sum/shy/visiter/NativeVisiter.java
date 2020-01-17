@@ -3,6 +3,7 @@ package com.sum.shy.visiter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
@@ -12,12 +13,12 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.NativeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.visiter.api.Visiter;
 
 public class NativeVisiter implements Visiter {
 
-	public Type visitField(IClass iClass, Type type, String fieldName) {
+	public IType visitField(IClass iClass, IType type, String fieldName) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(iClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
@@ -30,7 +31,7 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public Type visitMethod(IClass iClass, Type type, String methodName, List<Type> paramTypes) {
+	public IType visitMethod(IClass iClass, IType type, String methodName, List<IType> paramTypes) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(iClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
@@ -43,7 +44,7 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public static Type visitMember(IClass iClass, NativeType nativeType, java.lang.reflect.Type type) {
+	public static IType visitMember(IClass iClass, NativeType nativeType, Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])
@@ -64,9 +65,9 @@ public class NativeVisiter implements Visiter {
 			// 类型
 			Class<?> clazz = (Class<?>) parameterizedType.getRawType();
 			// 泛型集合
-			List<Type> genericTypes = new ArrayList<>();
+			List<IType> genericTypes = new ArrayList<>();
 			// 获取该类型里面的泛型
-			for (java.lang.reflect.Type actualType : parameterizedType.getActualTypeArguments()) {
+			for (Type actualType : parameterizedType.getActualTypeArguments()) {
 				// 递归
 				genericTypes.add(visitMember(iClass, nativeType, actualType));
 			}

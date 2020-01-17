@@ -1,12 +1,12 @@
 package com.sum.shy.clazz.api;
 
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public interface Member {
 
-	Type getType();
+	IType getType();
 
-	void setType(Type type);
+	void setType(IType type);
 
 	void lock();
 

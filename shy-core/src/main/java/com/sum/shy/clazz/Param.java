@@ -1,14 +1,14 @@
 package com.sum.shy.clazz;
 
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public class Param {
 
-	public Type type;
+	public IType type;
 
 	public String name;
 
-	public Param(Type type, String name) {
+	public Param(IType type, String name) {
 		this.type = type;
 		this.name = name;
 	}

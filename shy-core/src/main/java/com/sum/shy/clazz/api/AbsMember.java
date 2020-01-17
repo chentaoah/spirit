@@ -1,22 +1,22 @@
 package com.sum.shy.clazz.api;
 
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public abstract class AbsMember extends AbsAnnotated implements Member {
 	// 域
 	public String scope;
 	// 类型
-	public Type type;
+	public IType type;
 	// 锁
 	public volatile boolean isLock = false;
 
 	@Override
-	public Type getType() {
+	public IType getType() {
 		return type;
 	}
 
 	@Override
-	public void setType(Type type) {
+	public void setType(IType type) {
 		this.type = type;
 	}
 

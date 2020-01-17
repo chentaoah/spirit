@@ -8,7 +8,7 @@ import java.util.Map;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 
 public abstract class AbsContainer extends AbsAnnotated implements Container {
 
@@ -86,7 +86,7 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 
 	}
 
-	public boolean existMethod(String methodName, List<Type> paramTypes) {
+	public boolean existMethod(String methodName, List<IType> paramTypes) {
 		for (IMethod method : staticMethods) {
 			if (method.isSame(methodName, paramTypes)) {
 				return true;
@@ -100,7 +100,7 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 		return false;
 	}
 
-	public IMethod findMethod(String methodName, List<Type> paramTypes) {
+	public IMethod findMethod(String methodName, List<IType> paramTypes) {
 		for (IMethod method : staticMethods) {
 			if (method.isSame(methodName, paramTypes)) {
 				return method;

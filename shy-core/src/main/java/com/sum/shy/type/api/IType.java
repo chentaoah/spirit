@@ -2,7 +2,7 @@ package com.sum.shy.type.api;
 
 import java.util.List;
 
-public interface Type {
+public interface IType {
 
 	/**
 	 * 获取全名
@@ -30,7 +30,7 @@ public interface Type {
 	 * 
 	 * @return
 	 */
-	List<Type> getGenericTypes();
+	List<IType> getGenericTypes();
 
 	/**
 	 * 是否基本类型

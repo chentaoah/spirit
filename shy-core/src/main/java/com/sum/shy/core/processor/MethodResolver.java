@@ -15,7 +15,7 @@ import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.utils.LineUtils;
 
 /**
@@ -93,7 +93,7 @@ public class MethodResolver {
 
 		} else if (stmt.isForIn()) {// for item in list {
 			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1,
-					(Type type) -> type.isArray() ? new CodeType(clazz, type.getTypeName())
+					(IType type) -> type.isArray() ? new CodeType(clazz, type.getTypeName())
 							: type.getGenericTypes().get(0));
 
 		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
@@ -102,7 +102,7 @@ public class MethodResolver {
 		} else if (stmt.isAssign()) {// var=list.get(0)
 
 			Token token = stmt.getToken(0);
-			Type type = VariableTracker.findType(clazz, method, block, token.toString());
+			IType type = VariableTracker.findType(clazz, method, block, token.toString());
 			token.setDeclaredAtt(type != null);
 
 			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
@@ -161,7 +161,7 @@ public class MethodResolver {
 		Stmt subStmt = stmt.subStmt(start, end);
 		VariableTracker.trackStmt(clazz, method, block, line, subStmt);
 		InvokeVisiter.visitStmt(clazz, subStmt);
-		Type type = FastDerivator.deriveStmt(clazz, subStmt);
+		IType type = FastDerivator.deriveStmt(clazz, subStmt);
 		if (filter != null)
 			type = filter.processType(type);
 		Token token = stmt.getToken(index);
@@ -177,7 +177,7 @@ public class MethodResolver {
 	}
 
 	public static interface Filter {
-		Type processType(Type type);
+		IType processType(IType type);
 	}
 
 }

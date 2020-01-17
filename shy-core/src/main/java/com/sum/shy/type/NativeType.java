@@ -2,12 +2,13 @@ package com.sum.shy.type;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.type.api.AbsType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.utils.ReflectUtils;
 
 /**
@@ -20,7 +21,7 @@ public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
-	public NativeType(IClass iClass, Class<?> clazz, List<Type> genericTypes) {
+	public NativeType(IClass iClass, Class<?> clazz, List<IType> genericTypes) {
 		super(iClass);
 		this.clazz = clazz;
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
@@ -32,11 +33,11 @@ public class NativeType extends AbsType {
 		this.genericTypes = new ArrayList<>();
 	}
 
-	public NativeType(IClass iClass, Type type) {
+	public NativeType(IClass iClass, IType type) {
 		super(iClass);
 		this.clazz = ReflectUtils.getClass(type.getClassName());
 		this.genericTypes = new ArrayList<>();
-		for (Type genericType : type.getGenericTypes()) {
+		for (IType genericType : type.getGenericTypes()) {
 			genericTypes.add(new NativeType(iClass, genericType));
 		}
 	}
@@ -51,7 +52,7 @@ public class NativeType extends AbsType {
 		return clazz.getSimpleName();
 	}
 
-	public Method findMethod(String methodName, List<Type> paramTypes) {
+	public Method findMethod(String methodName, List<IType> paramTypes) {
 		if (methodName.equals("put"))
 			System.out.println();
 		// 如果只有一个方法的话,则直接用该方法
@@ -68,7 +69,13 @@ public class NativeType extends AbsType {
 				boolean flag = true;
 				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
-					Type type = paramTypes.get(count++);
+
+					// 泛型获取真正的类型
+					if (parameter.getParameterizedType() instanceof TypeVariable) {
+
+					}
+
+					IType type = paramTypes.get(count++);
 					Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 					if (!(clazz == parameter.getType() || clazz.isAssignableFrom(parameter.getType()))) {
 						flag = false;

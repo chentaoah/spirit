@@ -16,15 +16,15 @@ import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.Type;
+import com.sum.shy.type.api.IType;
 import com.sum.shy.visiter.api.Visiter;
 
 public class InvokeVisiter {
 
-	public static Type visitMember(IClass clazz, Member member) {
+	public static IType visitMember(IClass clazz, Member member) {
 		// 上锁
 		member.lock();
-		Type type = member.getType();
+		IType type = member.getType();
 		if (type == null) {
 			if (member instanceof IField) {
 				Stmt stmt = ((IField) member).stmt;
@@ -35,14 +35,14 @@ public class InvokeVisiter {
 				}
 			} else if (member instanceof IMethod) {// 如果是方法
 
-				Holder<Type> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
+				Holder<IType> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
 				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
 					@Override
 					public Object handle(IClass clazz, IMethod method, String indent, String block, Line line,
 							Stmt stmt) {
 						// 有效返回，才是返回
 						if (stmt.isReturn()) {
-							Type returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
+							IType returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
 							if (holder.obj.isVoid() || holder.obj.isObj()) {
 								if (returnType != null)
 									holder.obj = returnType;
@@ -78,7 +78,7 @@ public class InvokeVisiter {
 			visitStmt(clazz, token.getNode().toStmt());
 
 		// 参数类型，为了像java那样支持重载
-		List<Type> paramTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
+		List<IType> paramTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
 
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
@@ -94,46 +94,46 @@ public class InvokeVisiter {
 			token.setTypeAtt(FastDerivator.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isInvokeLocal()) {// 本地调用
-			Type type = new CodeType(clazz, clazz.typeName);
-			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
+			IType type = new CodeType(clazz, clazz.typeName);
+			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
-			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
+			IType type = stmt.getToken(index - 1).getTypeAtt();
+			IType returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
 			Token lastToken = stmt.getToken(index - 1);
 			if (lastToken.isOperator() && "?".equals(lastToken.toString()))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
-			Type type = lastToken.getTypeAtt();
-			Type returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
+			IType type = lastToken.getTypeAtt();
+			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
-			Type type = stmt.getToken(index - 1).getTypeAtt();
-			Type returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
+			IType type = stmt.getToken(index - 1).getTypeAtt();
+			IType returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
 			returnType = visiter.visitMethod(clazz, returnType, Constants.$ARRAY_INDEX, null);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isArrayIndex()) {
-			Type type = token.getTypeAtt();
-			Type returnType = visiter.visitMethod(clazz, type, Constants.$ARRAY_INDEX, null);
+			IType type = token.getTypeAtt();
+			IType returnType = visiter.visitMethod(clazz, type, Constants.$ARRAY_INDEX, null);
 			token.setTypeAtt(returnType);
 
 		}
 
 	}
 
-	public static List<Type> getParamTypes(IClass clazz, Token token) {
-		List<Type> paramTypes = new ArrayList<>();
+	public static List<IType> getParamTypes(IClass clazz, Token token) {
+		List<IType> paramTypes = new ArrayList<>();
 		Stmt stmt = token.getSubStmt();
 		// 只取括号里的
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {
-				Type parameterType = FastDerivator.deriveStmt(clazz, subStmt);
+				IType parameterType = FastDerivator.deriveStmt(clazz, subStmt);
 				paramTypes.add(parameterType);
 			}
 		}

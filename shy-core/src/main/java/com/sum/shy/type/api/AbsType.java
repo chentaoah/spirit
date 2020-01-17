@@ -9,11 +9,11 @@ import com.google.common.base.Joiner;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.utils.TypeUtils;
 
-public abstract class AbsType implements Type {
+public abstract class AbsType implements IType {
 
 	public IClass clazz;
 
-	public List<Type> genericTypes = new ArrayList<>();
+	public List<IType> genericTypes = new ArrayList<>();
 
 	/**
 	 * 要求子类必须传入IClass
@@ -30,18 +30,18 @@ public abstract class AbsType implements Type {
 	}
 
 	@Override
-	public List<Type> getGenericTypes() {
+	public List<IType> getGenericTypes() {
 		return genericTypes;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Type) {
-			Type type = (Type) obj;
+		if (obj instanceof IType) {
+			IType type = (IType) obj;
 			boolean flag = getClassName().equals(type.getClassName());
 			if (flag) {
 				int count = 0;
-				for (Type genericType : getGenericTypes()) {
+				for (IType genericType : getGenericTypes()) {
 					if (!genericType.equals(type.getGenericTypes().get(count++))) {
 						flag = false;
 						break;
