@@ -1,4 +1,6 @@
 
+import java.util.HashMap
+
 @Deprecated
 class Type {
 	@Deprecated
@@ -51,6 +53,11 @@ class Type {
 		//测试this
 		self=this
 		print "test this {}",self
+
+		//测试泛型类型
+		hmap=HashMap<String,String>()
+		hmap.put("key","value")
+		
 
 
 	}
