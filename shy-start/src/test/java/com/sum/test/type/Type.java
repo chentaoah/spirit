@@ -55,4 +55,8 @@ public class Type {
 		hmap.put("key", "value");
 	}
 
+	public String testParam(@Deprecated String str) {
+		return "yes";
+	}
+
 }
