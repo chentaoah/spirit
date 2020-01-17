@@ -60,7 +60,7 @@ public class Stmt {
 	 * @param text
 	 * @return
 	 */
-	public static Stmt createSimple(String text) {
+	public static Stmt createByClip(String text) {
 		// 1.词法分析,将语句拆分成多个单元
 		List<String> words = LexicalAnalyzer.getWords(text);
 		// 2.语义分析

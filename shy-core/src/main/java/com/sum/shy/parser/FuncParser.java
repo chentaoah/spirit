@@ -11,7 +11,6 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Line;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.lexical.LexicalAnalyzer;
 import com.sum.shy.parser.api.Parser;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.utils.CuttingUtils;
@@ -49,7 +48,7 @@ public class FuncParser implements Parser {
 					// 参数
 					String content = CuttingUtils.getContent(methodDesc);
 					// 拆分
-					Stmt contentStmt = Stmt.createSimple(content);
+					Stmt contentStmt = Stmt.createByClip(content);
 					for (Stmt subStmt : contentStmt.split(",")) {
 						List<String> paramAnnotations = new ArrayList<>();
 						for (Token subToken : subStmt.tokens) {
