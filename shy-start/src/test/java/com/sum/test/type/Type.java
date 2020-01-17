@@ -1,5 +1,6 @@
 package com.sum.test.type;
 
+import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
@@ -50,6 +51,8 @@ public class Type {
 		logger.info("test class {}", clz);
 		Type self = this;
 		logger.info("test this {}", self);
+		HashMap<String, String> hmap = new HashMap<String,String>();
+		hmap.put("key", "value");
 	}
 
 }

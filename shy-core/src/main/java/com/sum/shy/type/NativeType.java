@@ -20,24 +20,24 @@ public class NativeType extends AbsType {
 
 	public Class<?> clazz;// 类名
 
-	public NativeType(IClass ctClass, Class<?> clazz, List<Type> genericTypes) {
-		super(ctClass);
+	public NativeType(IClass iClass, Class<?> clazz, List<Type> genericTypes) {
+		super(iClass);
 		this.clazz = clazz;
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
-	public NativeType(IClass ctClass, Class<?> clazz) {
-		super(ctClass);
+	public NativeType(IClass iClass, Class<?> clazz) {
+		super(iClass);
 		this.clazz = clazz;
 		this.genericTypes = new ArrayList<>();
 	}
 
-	public NativeType(IClass ctClass, Type type) {
-		super(ctClass);
+	public NativeType(IClass iClass, Type type) {
+		super(iClass);
 		this.clazz = ReflectUtils.getClass(type.getClassName());
 		this.genericTypes = new ArrayList<>();
 		for (Type genericType : type.getGenericTypes()) {
-			genericTypes.add(new NativeType(ctClass, genericType));
+			genericTypes.add(new NativeType(iClass, genericType));
 		}
 	}
 
@@ -52,11 +52,19 @@ public class NativeType extends AbsType {
 	}
 
 	public Method findMethod(String methodName, List<Type> paramTypes) {
-		if(methodName.equals("put"))
+		if (methodName.equals("put"))
 			System.out.println();
+		// 如果只有一个方法的话,则直接用该方法
+		// 如果存在多个的话,则再判断参数类型是否匹配
+		List<Method> methods = new ArrayList<>();
 		for (Method method : clazz.getMethods()) {
-			if (method.getName().equals(methodName) && method.getParameterCount() == paramTypes.size()) {
-				// 假设就是这个方法
+			if (method.getName().equals(methodName) && method.getParameterCount() == paramTypes.size())
+				methods.add(method);
+		}
+		if (methods.size() > 0) {
+//			if (methods.size() == 1)
+//				return methods.get(0);
+			for (Method method : methods) {
 				boolean flag = true;
 				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
@@ -71,6 +79,7 @@ public class NativeType extends AbsType {
 					return method;
 			}
 		}
+
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 

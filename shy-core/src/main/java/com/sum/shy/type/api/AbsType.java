@@ -16,7 +16,7 @@ public abstract class AbsType implements Type {
 	public List<Type> genericTypes = new ArrayList<>();
 
 	/**
-	 * 要求子类必须传入CtClass
+	 * 要求子类必须传入IClass
 	 * 
 	 * @param clazz
 	 */

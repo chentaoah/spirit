@@ -17,12 +17,12 @@ import com.sum.shy.visiter.api.Visiter;
 
 public class NativeVisiter implements Visiter {
 
-	public Type visitField(IClass ctClass, Type type, String fieldName) {
-		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
+	public Type visitField(IClass iClass, Type type, String fieldName) {
+		NativeType nativeType = type instanceof CodeType ? new NativeType(iClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
 				Field field = nativeType.clazz.getField(fieldName);
-				return visitMember(ctClass, nativeType, field.getGenericType());
+				return visitMember(iClass, nativeType, field.getGenericType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,12 +30,12 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public Type visitMethod(IClass ctClass, Type type, String methodName, List<Type> paramTypes) {
-		NativeType nativeType = type instanceof CodeType ? new NativeType(ctClass, type) : (NativeType) type;
+	public Type visitMethod(IClass iClass, Type type, String methodName, List<Type> paramTypes) {
+		NativeType nativeType = type instanceof CodeType ? new NativeType(iClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
 				Method method = nativeType.findMethod(methodName, paramTypes);
-				return visitMember(ctClass, nativeType, method.getGenericReturnType());
+				return visitMember(iClass, nativeType, method.getGenericReturnType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public static Type visitMember(IClass ctClass, NativeType nativeType, java.lang.reflect.Type type) {
+	public static Type visitMember(IClass iClass, NativeType nativeType, java.lang.reflect.Type type) {
 		// int --> Class<?>(int)
 		// class [I --> Class<?>(int[])
 		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])
@@ -51,7 +51,7 @@ public class NativeVisiter implements Visiter {
 		// E --> TypeVariableImpl
 
 		if (type instanceof Class) {// 一部分类型可以直接转换
-			return new NativeType(ctClass, (Class<?>) type);
+			return new NativeType(iClass, (Class<?>) type);
 
 		} else if (type instanceof TypeVariable) {// 对象的其中一个泛型参数
 			String paramName = type.toString();// 泛型参数名称 E or K or V
@@ -68,13 +68,13 @@ public class NativeVisiter implements Visiter {
 			// 获取该类型里面的泛型
 			for (java.lang.reflect.Type actualType : parameterizedType.getActualTypeArguments()) {
 				// 递归
-				genericTypes.add(visitMember(ctClass, nativeType, actualType));
+				genericTypes.add(visitMember(iClass, nativeType, actualType));
 			}
-			return new NativeType(ctClass, clazz, genericTypes);
+			return new NativeType(iClass, clazz, genericTypes);
 
 		} else if (type instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
 			// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
-			return new NativeType(ctClass, WildcardType.class);
+			return new NativeType(iClass, WildcardType.class);
 		}
 
 		return null;
