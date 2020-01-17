@@ -22,7 +22,7 @@ public class Stmt {
 
 		if (SyntaxDefiner.isAnnotation(words)) {// 判断是否注解语法
 			// 2.语义分析
-			List<Token> tokens = SemanticDelegate.getAnnotationTokens(words);
+			List<Token> tokens = SemanticDelegate.getTokens(words);
 			// 3.语法分析
 			String syntax = Constants.ANNOTATION_SYNTAX;
 
@@ -52,6 +52,21 @@ public class Stmt {
 
 	public static Stmt create(String text) {
 		return create(new Line(text));
+	}
+
+	/**
+	 * 简单创建,完全不管语法
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static Stmt createSimple(String text) {
+		// 1.词法分析,将语句拆分成多个单元
+		List<String> words = LexicalAnalyzer.getWords(text);
+		// 2.语义分析
+		List<Token> tokens = SemanticDelegate.getTokens(words);
+
+		return new Stmt(text, tokens);
 	}
 
 	/**

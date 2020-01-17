@@ -49,12 +49,16 @@ public class FuncParser implements Parser {
 					// 参数
 					String content = CuttingUtils.getContent(methodDesc);
 					// 拆分
-					List<String> list = LexicalAnalyzer.getWords(content);
-					for (int j = 0; j < list.size(); j = j + 3) {
-						String type = list.get(j);
-						String name = list.get(j + 1);
-						// 根据字符串字面意思,获取类型
-						params.add(new Param(new CodeType(clazz, type), name));
+					Stmt contentStmt = Stmt.createSimple(content);
+					for (Stmt subStmt : contentStmt.split(",")) {
+						List<String> paramAnnotations = new ArrayList<>();
+						for (Token subToken : subStmt.tokens) {
+							if (subToken.isAnnotation())
+								paramAnnotations.add(subToken.toString());
+						}
+						Token typeToken = subStmt.getToken(subStmt.size() - 2);
+						Token varToken = subStmt.getToken(subStmt.size() - 1);
+						params.add(new Param(paramAnnotations, new CodeType(clazz, typeToken), varToken.toString()));
 					}
 				} else if (Constants.THROWS_KEYWORD.equals(token.toString())) {
 					for (int j = i + 1; j < stmt.size(); j++) {

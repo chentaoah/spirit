@@ -48,6 +48,10 @@ public class Token {
 		return "<" + type + ", " + value + ">";
 	}
 
+	public boolean isAnnotation() {
+		return Constants.ANNOTATION_TOKEN.equals(type);
+	}
+
 	public boolean isKeyword() {
 		return Constants.KEYWORD_TOKEN.equals(type);
 	}

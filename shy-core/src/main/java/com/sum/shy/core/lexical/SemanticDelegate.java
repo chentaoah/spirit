@@ -30,6 +30,10 @@ public class SemanticDelegate {
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", ",", ";" };
 
+	// ============================== 注解 ================================
+
+	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
+
 	// ============================== 类型 ================================
 
 	public static final String TYPE_ENUM = "boolean|char|short|int|long|float|double|byte|"
@@ -62,19 +66,6 @@ public class SemanticDelegate {
 	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
 	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
-
-	/**
-	 * 获取结构体语义
-	 * 
-	 * @param syntax
-	 * @param words
-	 * @return
-	 */
-	public static List<Token> getAnnotationTokens(List<String> words) {
-		List<Token> tokens = new ArrayList<>();
-		tokens.add(new Token(Constants.ANNOTATION_TOKEN, words.get(0)));
-		return tokens;
-	}
 
 	/**
 	 * 获取结构体语义
@@ -139,7 +130,10 @@ public class SemanticDelegate {
 
 	public static void getTokenType(Token token, String word) {
 
-		if (isKeyword(word)) {// 关键字
+		if (isAnnotation(word)) {
+			token.type = Constants.ANNOTATION_TOKEN;
+			return;
+		} else if (isKeyword(word)) {// 关键字
 			token.type = Constants.KEYWORD_TOKEN;
 			return;
 		} else if (isOperator(word)) {// 是否操作符
@@ -170,6 +164,10 @@ public class SemanticDelegate {
 		token.type = Constants.UNKNOWN;
 		return;
 
+	}
+
+	private static boolean isAnnotation(String word) {
+		return ANNOTATION_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isKeyword(String word) {
@@ -287,10 +285,8 @@ public class SemanticDelegate {
 			return;
 
 		}
-
 		token.value = word;
 		return;
-
 	}
 
 	public static Object getTypeStmtIfNeed(String word) {

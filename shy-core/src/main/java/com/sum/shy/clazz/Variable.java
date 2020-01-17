@@ -7,7 +7,7 @@ public class Variable extends Param {
 	public String block;
 
 	public Variable(String block, IType type, String name) {
-		super(type, name);
+		super(null, type, name);
 		this.block = block;
 	}
 
