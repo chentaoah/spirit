@@ -40,11 +40,11 @@ public class SemanticDelegate {
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");// 类型数组
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");// 泛型
 
-	// ============================== 值 ================================
+	// ============================== 赋值 ================================
 
 	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
-	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+[\\w<>]+\\([\\s\\S]*\\)$");// 构造方法
+	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");

@@ -54,13 +54,36 @@ public abstract class AbsType implements Type {
 	}
 
 	@Override
-	public boolean isGenericType() {
-		return getGenericTypes().size() > 0;
+	public boolean isPrimitive() {
+		switch (getClassName()) {
+		case "boolean":
+			return true;
+		case "char":
+			return true;
+		case "short":
+			return true;
+		case "int":
+			return true;
+		case "long":
+			return true;
+		case "float":
+			return true;
+		case "double":
+			return true;
+		case "byte":
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean isArray() {
 		return getSimpleName().endsWith("[]");
+	}
+
+	@Override
+	public boolean isGenericType() {
+		return getGenericTypes().size() > 0;
 	}
 
 	@Override

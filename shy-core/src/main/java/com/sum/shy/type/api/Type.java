@@ -33,11 +33,11 @@ public interface Type {
 	List<Type> getGenericTypes();
 
 	/**
-	 * 是否泛型
+	 * 是否基本类型
 	 * 
 	 * @return
 	 */
-	boolean isGenericType();
+	boolean isPrimitive();
 
 	/**
 	 * 是否数组
@@ -45,6 +45,13 @@ public interface Type {
 	 * @return
 	 */
 	boolean isArray();
+
+	/**
+	 * 是否泛型
+	 * 
+	 * @return
+	 */
+	boolean isGenericType();
 
 	/**
 	 * 是否未知数

@@ -65,7 +65,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 
 		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
-			className = ReflectUtils.getCommonType(simpleName);
+			className = ReflectUtils.getClassBySimpleName(simpleName);
 		if (className == null)
 			className = ReflectUtils.getCollectionType(typeName);
 		if (className != null)
@@ -90,7 +90,7 @@ public abstract class AbsLinkable extends AbsContainer implements Linkable {
 
 		// 2.基本类className和simpleName相同
 		// 3.一般java.lang.包下的类不用引入
-		if (ReflectUtils.getCommonType(className) != null || className.startsWith("java.lang."))
+		if (ReflectUtils.getClassBySimpleName(className) != null || className.startsWith("java.lang."))
 			return true;
 
 		// 4.别名,不添加
