@@ -57,9 +57,13 @@ class Type {
 		//测试泛型类型
 		hmap=HashMap<String,String>()
 		hmap.put("key","value")
-		
 
 
+
+	}
+
+	func testParam(@Deprecated String str){
+		return "yes"
 	}
 	
 }
