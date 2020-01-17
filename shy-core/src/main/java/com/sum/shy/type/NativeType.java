@@ -54,29 +54,24 @@ public class NativeType extends AbsType {
 
 	public Method findMethod(String methodName, List<IType> paramTypes) {
 
-		// 无论如何都会判断参数类型
-		List<Method> methods = new ArrayList<>();
 		for (Method method : clazz.getMethods()) {
-			if (method.getName().equals(methodName) && method.getParameterCount() == paramTypes.size())
-				methods.add(method);
-		}
-		for (Method method : methods) {
-			boolean flag = true;
-			int count = 0;
-			for (Parameter parameter : method.getParameters()) {
-				NativeType nativeType = (NativeType) NativeVisiter.visitMember(super.clazz, this,
-						parameter.getParameterizedType());
-				IType type = paramTypes.get(count++);
-				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-				if (!(clazz.isAssignableFrom(nativeType.clazz))) {
-					flag = false;
-					break;
+			if (method.getName().equals(methodName) && method.getParameterCount() == paramTypes.size()) {
+				boolean flag = true;
+				int count = 0;
+				for (Parameter parameter : method.getParameters()) {
+					NativeType nativeType = (NativeType) NativeVisiter.visitMember(super.clazz, this,
+							parameter.getParameterizedType());
+					IType type = paramTypes.get(count++);
+					Class<?> clazz = ReflectUtils.getClass(type.getClassName());
+					if (!(clazz.isAssignableFrom(nativeType.clazz))) {
+						flag = false;
+						break;
+					}
 				}
+				if (flag)
+					return method;
 			}
-			if (flag)
-				return method;
 		}
-
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
