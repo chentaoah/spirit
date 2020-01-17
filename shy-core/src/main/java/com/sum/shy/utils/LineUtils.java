@@ -13,17 +13,21 @@ public class LineUtils {
 		List<Line> list = new ArrayList<>();
 		for (int i = index + 1, count = 1; i < lines.size(); i++) {
 			String text = lines.get(i).text;
-			// 遍历
+			boolean flag = false;// 是否进入"符号的范围内
 			for (int j = 0; j < text.length(); j++) {
-				if (text.charAt(j) == '{') {
-					count++;
-				} else if (text.charAt(j) == '}') {
-					count--;
+				char c = text.charAt(j);
+				if (c == '"' && text.charAt(j - 1 >= 0 ? j - 1 : j) != '\\') // 判断是否进入了字符串中
+					flag = !flag;
+				if (!flag) {
+					if (c == '{') {
+						count++;
+					} else if (c == '}') {
+						count--;
+					}
 				}
 			}
-			if (count == 0) {
+			if (count == 0)
 				break;
-			}
 			list.add(lines.get(i));
 		}
 		return list;
@@ -33,17 +37,22 @@ public class LineUtils {
 		List<Line> list = new ArrayList<>();
 		for (int i = index, count = 0; i < lines.size(); i++) {
 			String text = lines.get(i).text;
+			boolean flag = false;// 是否进入"符号的范围内
 			for (int j = 0; j < text.length(); j++) {
-				if (text.charAt(j) == '{') {
-					count++;
-				} else if (text.charAt(j) == '}') {
-					count--;
+				char c = text.charAt(j);
+				if (c == '"' && text.charAt(j - 1 >= 0 ? j - 1 : j) != '\\') // 判断是否进入了字符串中
+					flag = !flag;
+				if (!flag) {
+					if (c == '{') {
+						count++;
+					} else if (c == '}') {
+						count--;
+					}
 				}
 			}
 			list.add(lines.get(i));
-			if (count == 0) {
+			if (count == 0)
 				break;
-			}
 		}
 		return list;
 	}
