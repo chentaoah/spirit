@@ -102,4 +102,13 @@ public class Block {
 		return s;
 	}
 
+	public void testGetLines() {
+		if (StringUtils.equals(s, "hello\\")) {
+			logger.info("test");
+		}
+		if (StringUtils.equals(s, "hello")) {
+			logger.info("test}");
+		}
+	}
+
 }

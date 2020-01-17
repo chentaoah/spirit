@@ -89,4 +89,17 @@ class Block {
 		return s
 	}
 
+	func testGetLines(){
+		//测试转义对字符串的影响
+		if s=="hello\\" {
+			print "test"
+		}
+		//测试行截取
+		if s=="hello" {
+			print "test}"
+		}
+	}
+
+
+
 }

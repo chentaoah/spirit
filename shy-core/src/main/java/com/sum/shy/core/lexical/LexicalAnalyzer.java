@@ -35,6 +35,10 @@ public class LexicalAnalyzer {
 
 	public static List<String> getWords(String text) {
 
+		if (text.trim().equals("if s==\"hello\\\\\" {")) {
+			System.out.println();
+		}
+
 		if (text == null || text.length() == 0)
 			return new ArrayList<>();
 
@@ -153,7 +157,7 @@ public class LexicalAnalyzer {
 		boolean flag = false;// 是否进入"符号的范围内
 		for (int i = index, count = 0; i < chars.size(); i++) {
 			char c = chars.get(i);
-			if (c == '"' && chars.get(i - 1 >= 0 ? i - 1 : i) != '\\') // 判断是否进入了字符串中
+			if (c == '"' && isBoundary(chars, i)) // 判断是否进入了字符串中
 				flag = !flag;
 			if (!flag) {
 				if (right == '"')// 字符串是比较特殊的,含头不含尾,这里需要特殊处理
@@ -169,6 +173,18 @@ public class LexicalAnalyzer {
 		}
 		return -1;
 
+	}
+
+	public static boolean isBoundary(List<Character> chars, int i) {
+		int count = 0;
+		while (--i >= 0) {
+			if (chars.get(i) == '\\') {
+				count++;
+			} else {
+				break;
+			}
+		}
+		return count % 2 == 0;
 	}
 
 	public static void doReplaceString(List<Character> chars, int start, int end, String name, int number,

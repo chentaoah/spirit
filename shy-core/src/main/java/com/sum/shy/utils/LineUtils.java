@@ -16,7 +16,7 @@ public class LineUtils {
 			boolean flag = false;// 是否进入"符号的范围内
 			for (int j = 0; j < text.length(); j++) {
 				char c = text.charAt(j);
-				if (c == '"' && text.charAt(j - 1 >= 0 ? j - 1 : j) != '\\') // 判断是否进入了字符串中
+				if (c == '"' && isBoundary(text, j)) // 判断是否进入了字符串中
 					flag = !flag;
 				if (!flag) {
 					if (c == '{') {
@@ -40,7 +40,7 @@ public class LineUtils {
 			boolean flag = false;// 是否进入"符号的范围内
 			for (int j = 0; j < text.length(); j++) {
 				char c = text.charAt(j);
-				if (c == '"' && text.charAt(j - 1 >= 0 ? j - 1 : j) != '\\') // 判断是否进入了字符串中
+				if (c == '"' && isBoundary(text, j)) // 判断是否进入了字符串中
 					flag = !flag;
 				if (!flag) {
 					if (c == '{') {
@@ -55,6 +55,18 @@ public class LineUtils {
 				break;
 		}
 		return list;
+	}
+
+	public static boolean isBoundary(String text, int i) {
+		int count = 0;
+		while (--i >= 0) {
+			if (text.charAt(i) == '\\') {
+				count++;
+			} else {
+				break;
+			}
+		}
+		return count % 2 == 0;
 	}
 
 	// 去掉多余的空格
