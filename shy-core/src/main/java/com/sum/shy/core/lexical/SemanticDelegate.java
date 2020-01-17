@@ -269,22 +269,7 @@ public class SemanticDelegate {
 	public static void getTokenValue(Token token, String word) {
 
 		if (token.isType()) {
-			// 如果是泛型,则进行深度的拆分
-			if (word.contains("<") && word.contains(">")) {
-				// 获取子语句
-				Stmt subStmt = getSubStmt(word, "<", ">");
-				// 将泛型中的?替换一下
-				int count = 0;
-				for (Token subToken : subStmt.tokens) {
-					if ("?".equals(subToken.toString()))
-						subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?"));
-					count++;
-				}
-				// 生成子语句
-				token.value = subStmt;
-				return;
-			}
-			token.value = word;
+			token.value = getTypeStmtIfNeed(word);
 			return;
 
 		} else if (token.isArrayInit() || token.isList()) {// 这里的拆分是为了更好的加上new这个关键字
@@ -306,13 +291,27 @@ public class SemanticDelegate {
 
 	}
 
+	public static Object getTypeStmtIfNeed(String word) {
+		if (word.contains("<") && word.contains(">")) {
+			Stmt subStmt = getSubStmt(word, "<", ">");
+			int count = 0;
+			for (Token subToken : subStmt.tokens) {
+				if ("?".equals(subToken.toString()))
+					subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?"));
+				count++;
+			}
+			return subStmt;
+		}
+		return word;
+	}
+
 	public static Stmt getSubStmt(String word, String left, String right) {
 		// 开始位置
 		int start = word.indexOf(left);
 		// 结束位置
 		int end = word.lastIndexOf(right);
-		// 前缀
-		String prefix = start != 0 ? word.substring(0, start) : null;
+		// 前缀,这里兼容了泛型的类型声明
+		Object prefix = start != 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
 		// 内容
 		String content = word.substring(start + 1, end);
 		// 分解内容

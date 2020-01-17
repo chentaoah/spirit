@@ -51,7 +51,7 @@ public class Type {
 		logger.info("test class {}", clz);
 		Type self = this;
 		logger.info("test this {}", self);
-		HashMap<String, String> hmap = new HashMap<String,String>();
+		HashMap<String, String> hmap = new HashMap<String, String>();
 		hmap.put("key", "value");
 	}
 
