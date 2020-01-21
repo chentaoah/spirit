@@ -35,10 +35,6 @@ public class LexicalAnalyzer {
 
 	public static List<String> getWords(String text) {
 
-		if (text.trim().equals("if s==\"hello\\\\\" {")) {
-			System.out.println();
-		}
-
 		if (text == null || text.length() == 0)
 			return new ArrayList<>();
 
