@@ -6,6 +6,8 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.metadata.Symbol;
+import com.sum.shy.metadata.SymbolTable;
 
 /**
  * 抽象语法树
@@ -14,16 +16,6 @@ import com.sum.shy.core.entity.Token;
  *
  */
 public class TreeBuilder {
-
-	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "<<", ">>", "==",
-			"!=", "<", ">", "<=", ">=", "&", "^", "|", "&&", "||", "=" };
-
-	public static final int[] PRIORITY = new int[] { 40, 40, 40, 35, 35, 35, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15,
-			15, 15, 10, 10, 5 };
-
-	public enum Category {
-		LEFT, RIGHT, DOUBLE
-	}
 
 	public static List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
@@ -48,7 +40,7 @@ public class TreeBuilder {
 		Token finalCurrToken = null;// 当前优先级最高的操作符
 		Token finalNextToken = null;
 		int maxPriority = -1;// 优先级
-		Category finalCategory = null;// 一元左元,一元右元,二元
+		int finalCategory = Symbol.NONE;// 一元左元,一元右元,二元
 		int index = -1;
 
 		// 每个token在一行里面的位置
@@ -58,41 +50,40 @@ public class TreeBuilder {
 			Token currToken = tokens.get(i);
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 			int priority = -1;
-			Category category = null;
+			int category = Symbol.NONE;
 
 			if (currToken.isFluent()) {
 				// 优先级最高,但是左边不能是?号
 				if (lastToken != null && !"?".equals(lastToken.toString())) {
 					priority = 50;// 优先级最高
-					category = Category.LEFT;
+					category = Symbol.LEFT;
 				}
 			} else if (currToken.isOperator()) {// 如果是操作符
 				String value = currToken.toString();
-				priority = getPriority(value);// 优先级
-				if ("++".equals(value) || "--".equals(value)) {
-					if (lastToken != null && lastToken.isVar()) {// 左元
-						category = Category.LEFT;
-					} else if (nextToken != null && nextToken.isVar()) {// 右元
-						category = Category.RIGHT;
+				Symbol symbol = SymbolTable.selectSymbol(value);
+				priority = symbol.priority;// 优先级
+				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
+					if ("++".equals(value) || "--".equals(value)) {
+						if (lastToken != null && lastToken.isVar()) {// 左元
+							category = Symbol.LEFT;
+						} else if (nextToken != null && nextToken.isVar()) {// 右元
+							category = Symbol.RIGHT;
+						}
+					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
+						category = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Symbol.RIGHT
+								: Symbol.DOUBLE;
 					}
-				} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-					category = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Category.RIGHT
-							: Category.DOUBLE;
-
-				} else if ("!".equals(value)) {// 右元
-					category = Category.RIGHT;
-
-				} else {// 一般操作符都是二元的
-					category = Category.DOUBLE;
+				} else {
+					category = symbol.category;
 				}
 
 			} else if (currToken.isCast()) {
 				priority = 35;// 介于!和 *之间
-				category = Category.RIGHT;
+				category = Symbol.RIGHT;
 
 			} else if (currToken.isInstanceof()) {// instanceof
 				priority = 20;// 相当于一个==
-				category = Category.DOUBLE;
+				category = Symbol.DOUBLE;
 
 			}
 
@@ -112,35 +103,25 @@ public class TreeBuilder {
 
 		// 构建节点结构
 		Node node = getNode(finalCurrToken);
-		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE) {
+		if (finalCategory == Symbol.LEFT || finalCategory == Symbol.DOUBLE) {
 			if (finalLastToken != null)
 				node.left = getNode(finalLastToken);
 		}
-		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE) {
+		if (finalCategory == Symbol.RIGHT || finalCategory == Symbol.DOUBLE) {
 			if (finalNextToken != null)
 				node.right = getNode(finalNextToken);
 		}
 
 		// 移除,并添加
-		if (finalCategory == Category.RIGHT || finalCategory == Category.DOUBLE)
+		if (finalCategory == Symbol.RIGHT || finalCategory == Symbol.DOUBLE)
 			tokens.remove(index + 1);
 		tokens.remove(index);
 		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
-		if (finalCategory == Category.LEFT || finalCategory == Category.DOUBLE)
+		if (finalCategory == Symbol.LEFT || finalCategory == Symbol.DOUBLE)
 			tokens.remove(index - 1);
 
 		// 递归
 		return build(tokens);
-	}
-
-	public static int getPriority(String value) {
-		int count = 0;
-		for (String operator : OPERATORS) {
-			if (operator.equals(value))
-				return PRIORITY[count];
-			count++;
-		}
-		return -1;
 	}
 
 	public static Node getNode(Token token) {

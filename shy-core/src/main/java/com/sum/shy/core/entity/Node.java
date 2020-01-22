@@ -3,10 +3,12 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.metadata.Symbol;
+import com.sum.shy.metadata.SymbolTable;
+
 public class Node {
 
-	public static final String[] BINARY_OPERATOR = new String[] { "+", "-", "*", "/", "%", "==", "!=", "<", ">", "<=",
-			">=", "&&", "||", "<<", ">>", "&", "^", "|", "=" };
+	public static final List<Symbol> BINARY_OPERATOR = SymbolTable.selectBinaryOperator();
 
 	public Token token;
 
@@ -40,8 +42,8 @@ public class Node {
 			} else if ("!".equals(value)) {
 				return value;
 			}
-			for (String operator : BINARY_OPERATOR) {// 二元操作符
-				if (operator.equals(value))
+			for (Symbol symbol : BINARY_OPERATOR) {// 二元操作符
+				if (symbol.value.equals(value))
 					return " " + value + " ";
 			}
 

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
+import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.utils.ArrayUtils;
 
 /**
@@ -24,11 +25,6 @@ public class SemanticDelegate {
 	public static final String[] KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
 			"extends", "impl", "func", "throws", "if", "else", "for", "in", "do", "while", "try", "catch", "finally",
 			"sync", "return", "continue", "break", "throw", "instanceof", "print", "debug", "error" };
-	// 操作符
-	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
-			"%", "<", ">", "!", "++", "--", "<<", ">>", "?", "&", "^", "|" };
-	// 分隔符
-	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", ",", ";" };
 
 	// ============================== 注解 ================================
 
@@ -176,11 +172,11 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isOperator(String word) {
-		return ArrayUtils.contain(OPERATORS, word);
+		return SymbolTable.isOperator(word);
 	}
 
 	public static boolean isSeparator(String word) {
-		return ArrayUtils.contain(SEPARATORS, word);
+		return SymbolTable.isSeparator(word);
 	}
 
 	public static boolean isType(String word) {

@@ -1,4 +1,4 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.metadata;
 
 public class Symbol {
 
@@ -39,6 +39,30 @@ public class Symbol {
 		this.value = value;
 		this.priority = priority;
 		this.category = category;
+	}
+
+	public boolean isOperator() {
+		return type == OPERATOR;
+	}
+
+	public boolean isSeparator() {
+		return type == SEPARATOR;
+	}
+
+	public boolean isLeft() {
+		return category == LEFT;
+	}
+
+	public boolean isRight() {
+		return category == RIGHT;
+	}
+
+	public boolean isDouble() {
+		return category == DOUBLE;
+	}
+
+	public boolean isMultiple() {
+		return category == MULTIPLE;
 	}
 
 }

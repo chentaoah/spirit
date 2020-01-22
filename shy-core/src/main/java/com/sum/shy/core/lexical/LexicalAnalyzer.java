@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.entity.Symbol;
+import com.sum.shy.metadata.Symbol;
+import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.utils.LineUtils;
 
 /**
@@ -22,16 +23,6 @@ import com.sum.shy.utils.LineUtils;
  * @date: 2019年10月29日
  */
 public class LexicalAnalyzer {
-
-//	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "[|]{2}", "<<", ">>", "=",
-//			"\\!", "\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";",
-//			"\\?", "&", "\\^", "[|]{1}" };
-//
-//	public static final String[] SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "||", "<<", ">>", "=", "!", "+",
-//			"-", "*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";", "?", "&", "^", "|" };
-//	
-//	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "< =", "> =", "\\+ \\+", "- -", "< <",
-//	"> >", "& &", "\\| \\|" };
 
 	public static final List<Symbol> SINGLE_SYMBOLS = SymbolTable.selectSingleSymbols();// 选取只有一个字符的符号
 

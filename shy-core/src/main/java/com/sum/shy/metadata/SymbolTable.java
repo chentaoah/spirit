@@ -1,11 +1,9 @@
-package com.sum.shy.core.lexical;
+package com.sum.shy.metadata;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.sum.shy.core.entity.Symbol;
 
 public class SymbolTable {
 
@@ -51,7 +49,7 @@ public class SymbolTable {
 
 	}
 
-	public static List<Symbol> selectSingleSymbols() {
+	public static List<Symbol> selectSingleSymbols() {// 单字符
 		List<Symbol> list = new ArrayList<>();
 		for (Symbol symbol : symbols.values()) {
 			if (symbol.value.length() == 1)
@@ -60,13 +58,50 @@ public class SymbolTable {
 		return list;
 	}
 
-	public static List<Symbol> selectDoubleSymbols() {
+	public static List<Symbol> selectDoubleSymbols() {// 双字符
 		List<Symbol> list = new ArrayList<>();
 		for (Symbol symbol : symbols.values()) {
 			if (symbol.value.length() == 2)
 				list.add(symbol);
 		}
 		return list;
+	}
+
+	public static List<Symbol> selectBinaryOperator() {// 查询二元操作符
+		List<Symbol> list = new ArrayList<>();
+		for (Symbol symbol : symbols.values()) {
+			if (symbol.isDouble())
+				list.add(symbol);
+		}
+		return list;
+	}
+
+	public static Symbol selectSymbol(String value) {// 根据值来查找符号
+		return symbols.get(value);
+	}
+
+	public static boolean isOperator(String value) {// 是否操作符
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isOperator();
+		}
+		return false;
+	}
+
+	public static boolean isSeparator(String value) {// 是否分隔符
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isSeparator();
+		}
+		return false;
+	}
+
+	public static int selectPriority(String value) {// 获取优先级
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.priority;
+		}
+		return -1;
 	}
 
 }
