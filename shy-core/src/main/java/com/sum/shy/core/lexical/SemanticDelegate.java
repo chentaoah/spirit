@@ -26,7 +26,7 @@ public class SemanticDelegate {
 			"sync", "return", "continue", "break", "throw", "instanceof", "print", "debug", "error" };
 	// 操作符
 	public static final String[] OPERATORS = new String[] { "==", "!=", "<=", ">=", "&&", "||", "=", "+", "-", "*", "/",
-			"%", "<", ">", "!", "++", "--", "<<", "?" };
+			"%", "<", ">", "!", "++", "--", "<<", ">>", "?" };
 	// 分隔符
 	public static final String[] SEPARATORS = new String[] { "[", "]", "{", "}", "(", ")", ":", ",", ";" };
 

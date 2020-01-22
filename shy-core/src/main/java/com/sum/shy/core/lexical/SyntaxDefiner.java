@@ -102,6 +102,9 @@ public class SyntaxDefiner {
 			if (tokens.size() == 1 && first.isNode() && first.getNode().token.isInvokeMethod()) {// 调用方法
 				return Constants.INVOKE_SYNTAX;
 			}
+			if (tokens.size() == 1 && first.isNode() && first.getNode().token.isOperator()) {// 操作符重载
+				return Constants.INVOKE_SYNTAX;
+			}
 
 			// 第二个单词
 			Token second = tokens.get(1);
@@ -117,9 +120,6 @@ public class SyntaxDefiner {
 				} else if (first.isNode() && first.getNode().token.isVisitField()) {
 					return Constants.FIELD_ASSIGN_SYNTAX;
 				}
-			}
-			if ("<<".equals(second.toString())) {
-				return Constants.FAST_ADD_SYNTAX;
 			}
 			if ("?".equals(second.toString())) {
 				return Constants.JUDGE_INVOKE_SYNTAX;

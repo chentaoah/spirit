@@ -6,7 +6,7 @@ import java.util.List;
 public class Node {
 
 	public static final String[] BINARY_OPERATOR = new String[] { "+", "-", "*", "/", "%", "==", "!=", "<", ">", "<=",
-			">=", "&&", "||" };
+			">=", "&&", "||", "<<", ">>" };
 
 	public Token token;
 

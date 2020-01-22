@@ -25,13 +25,13 @@ class Type {
 	@Deprecated
 	func testType(){
 
-		list << "fourth"
+		//list << "fourth"
 		//测试不同类型
-		list1 << 100.0
+		//list1 << 100.0
 
-		map << "key3",100
+		//map <<< "key3",100
 		//测试不同类型
-		map1 << "key3",100.0
+		//map1 << "key3",100.0
 
 		//测试数组返回
 		a1=bArray[0]
@@ -55,12 +55,16 @@ class Type {
 		print "test this {}",self
 
 		//测试泛型类型
-		hmap=HashMap<String,String>()
+		hmap=(Map)HashMap<String,String>()
 		hmap.put("key","value")
 
 		//测试long
 		long1=100L
 		print "long1 is ",long1
+
+		//测试位操作符
+		mask= 1L << 8
+		print "mask",mask
 
 
 
