@@ -32,10 +32,6 @@ public class Type {
 
 	@Deprecated
 	public void testType() {
-		list.add("fourth");
-		list1.add(100.0);
-		map.put("key3", 100);
-		map1.put("key3", 100.0);
 		boolean a1 = bArray[0];
 		char a2 = cArray[0];
 		short a3 = sArray[0];
@@ -55,6 +51,8 @@ public class Type {
 		hmap.put("key", "value");
 		long long1 = 100L;
 		logger.info("long1 is ", long1);
+		long mask = 1L << 8;
+		logger.info("mask", mask);
 	}
 
 	public String testParam(@Deprecated String str) {

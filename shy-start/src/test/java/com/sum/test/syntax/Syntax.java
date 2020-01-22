@@ -13,10 +13,6 @@ public class Syntax {
 	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
 
 	public void testFastAdd() {
-		list.add("first");
-		list.add("second");
-		map.put("user1", 123);
-		map.put("user2", 456);
 	}
 
 	public void testJudge() {
