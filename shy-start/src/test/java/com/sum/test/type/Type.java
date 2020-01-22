@@ -53,6 +53,8 @@ public class Type {
 		logger.info("test this {}", self);
 		HashMap<String, String> hmap = new HashMap<String, String>();
 		hmap.put("key", "value");
+		long long1 = 100L;
+		logger.info("long1 is ", long1);
 	}
 
 	public String testParam(@Deprecated String str) {

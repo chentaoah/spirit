@@ -37,7 +37,7 @@ contexts:
       scope: keyword
 
     # Number
-    - match: '\b\d+(\.\d+)?\b'
+    - match: '\b\d+(\.\d+)?(L)?\b'
       scope: constant.numeric
 
     # Type

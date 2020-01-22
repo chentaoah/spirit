@@ -167,7 +167,7 @@ public class Token {
 	}
 
 	public boolean isValue() {
-		return isNull() || isBool() || isInt() || isDouble() || isStr() || isList() || isMap();
+		return isNull() || isBool() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
 	}
 
 	public boolean isAccess() {

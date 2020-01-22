@@ -206,9 +206,9 @@ public class SemanticDelegate {
 
 	public static boolean isValue(String word) {
 		return NULL_PATTERN.matcher(word).matches() || BOOL_PATTERN.matcher(word).matches()
-				|| INT_PATTERN.matcher(word).matches() || DOUBLE_PATTERN.matcher(word).matches()
-				|| STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches()
-				|| MAP_PATTERN.matcher(word).matches();
+				|| INT_PATTERN.matcher(word).matches() || LONG_PATTERN.matcher(word).matches()
+				|| DOUBLE_PATTERN.matcher(word).matches() || STR_PATTERN.matcher(word).matches()
+				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
 	public static String getValueTokenType(String word) {
