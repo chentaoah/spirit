@@ -63,6 +63,8 @@ public class FastDerivator {
 			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 		} else if (token.isInt()) {
 			return new CodeType(clazz, Constants.INT_TYPE);
+		} else if (token.isLong()) {
+			return new CodeType(clazz, Constants.LONG_TYPE);
 		} else if (token.isDouble()) {
 			return new CodeType(clazz, Constants.DOUBLE_TYPE);
 		} else if (token.isNull()) {

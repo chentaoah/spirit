@@ -52,6 +52,7 @@ public class SemanticDelegate {
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
+	public static final Pattern LONG_PATTERN = Pattern.compile("^\\d+L$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
@@ -211,12 +212,14 @@ public class SemanticDelegate {
 	}
 
 	public static String getValueTokenType(String word) {
-		if ("null".equals(word))
+		if (NULL_PATTERN.matcher(word).matches())
 			return Constants.NULL_TOKEN;
 		if (BOOL_PATTERN.matcher(word).matches())
 			return Constants.BOOL_TOKEN;
 		if (INT_PATTERN.matcher(word).matches())
 			return Constants.INT_TOKEN;
+		if (LONG_PATTERN.matcher(word).matches())
+			return Constants.LONG_TOKEN;
 		if (DOUBLE_PATTERN.matcher(word).matches())
 			return Constants.DOUBLE_TOKEN;
 		if (STR_PATTERN.matcher(word).matches())

@@ -92,6 +92,10 @@ public class Token {
 		return Constants.INT_TOKEN.equals(type);
 	}
 
+	public boolean isLong() {
+		return Constants.LONG_TOKEN.equals(type);
+	}
+
 	public boolean isDouble() {
 		return Constants.DOUBLE_TOKEN.equals(type);
 	}

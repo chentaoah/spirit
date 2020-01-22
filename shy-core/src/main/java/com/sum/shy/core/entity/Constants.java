@@ -41,6 +41,7 @@ public class Constants {
 	public static final String VOID_TYPE = "void";// 常用的类型
 	public static final String BOOLEAN_TYPE = "boolean";
 	public static final String INT_TYPE = "int";
+	public static final String LONG_TYPE = "long";
 	public static final String DOUBLE_TYPE = "double";
 	public static final String OBJECT_TYPE = "Object";
 	public static final String STRING_TYPE = "String";
