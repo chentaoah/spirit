@@ -6,7 +6,7 @@ import java.util.List;
 public class Node {
 
 	public static final String[] BINARY_OPERATOR = new String[] { "+", "-", "*", "/", "%", "==", "!=", "<", ">", "<=",
-			">=", "&&", "||", "<<", ">>" };
+			">=", "&&", "||", "<<", ">>", "&", "^", "|", "=" };
 
 	public Token token;
 
@@ -48,8 +48,9 @@ public class Node {
 		} else if (token.isCast()) {// 类型转换
 			return token + " ";
 
-		} else if (token.isInstanceof()) {// 关键字
+		} else if (token.isInstanceof()) {// 类型判断
 			return " " + token + " ";
+
 		}
 		// 其他
 		return token.toString();

@@ -16,10 +16,10 @@ import com.sum.shy.core.entity.Token;
 public class TreeBuilder {
 
 	public static final String[] OPERATORS = new String[] { "++", "--", "!", "*", "/", "%", "+", "-", "<<", ">>", "==",
-			"!=", "<", ">", "<=", ">=", "&&", "||" };
+			"!=", "<", ">", "<=", ">=", "&", "^", "|", "&&", "||", "=" };
 
 	public static final int[] PRIORITY = new int[] { 40, 40, 40, 35, 35, 35, 30, 30, 25, 25, 20, 20, 20, 20, 20, 20, 15,
-			15 };
+			15, 15, 10, 10, 5 };
 
 	public enum Category {
 		LEFT, RIGHT, DOUBLE

@@ -54,7 +54,7 @@ public class ShyDebugger {
 //					System.out.print("");
 //				}
 				Stmt stmt = Stmt.create(line);
-				System.out.println(line.text + LineUtils.getSpaceByNumber(50 - line.text.length()) + ">>> "
+				System.out.println(line.text + LineUtils.getSpaceByNumber(100 - line.text.length()) + ">>> "
 						+ stmt.syntax + " " + stmt.debug());
 			}
 

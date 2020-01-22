@@ -203,23 +203,35 @@ public class Token {
 		return false;
 	}
 
-	public boolean isCalculate() {
-		if (isOperator())
-			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
-					|| "*".equals(value) || "/".equals(value) || "%".equals(value) || "<<".equals(value)
-					|| ">>".equals(value);
-		return false;
-	}
-
 	public boolean isEquals() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
 		if (isOperator())
 			return "==".equals(value) || "!=".equals(value);
 		return false;
 	}
 
+	public boolean isCalculate() {
+		if (isOperator())
+			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
+					|| "*".equals(value) || "/".equals(value) || "%".equals(value) || "<<".equals(value)
+					|| ">>".equals(value) || "&".equals(value) || "^".equals(value) || "|".equals(value);
+		return false;
+	}
+
 	public boolean isShift() {// 是否位移操作符
 		if (isOperator())
 			return "<<".equals(value) || ">>".equals(value);
+		return false;
+	}
+
+	public boolean isBitwise() {// 是否按位操作符
+		if (isOperator())
+			return "&".equals(value) || "^".equals(value) || "|".equals(value);
+		return false;
+	}
+
+	public boolean isAssign() {// 是否赋值操作符
+		if (isOperator())
+			return "=".equals(value);
 		return false;
 	}
 
