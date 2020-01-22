@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
+import com.sum.shy.core.entity.Symbol;
 import com.sum.shy.utils.LineUtils;
 
 /**
@@ -22,15 +23,19 @@ import com.sum.shy.utils.LineUtils;
  */
 public class LexicalAnalyzer {
 
-	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "[|]{2}", "<<", ">>", "=",
-			"\\!", "\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";",
-			"\\?", "&", "\\^", "[|]{1}" };
+//	public static final String[] REGEX_SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "[|]{2}", "<<", ">>", "=",
+//			"\\!", "\\+", "-", "\\*", "/", "%", "<", ">", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\:", ",", ";",
+//			"\\?", "&", "\\^", "[|]{1}" };
+//
+//	public static final String[] SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "||", "<<", ">>", "=", "!", "+",
+//			"-", "*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";", "?", "&", "^", "|" };
+//	
+//	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "< =", "> =", "\\+ \\+", "- -", "< <",
+//	"> >", "& &", "\\| \\|" };
 
-	public static final String[] SYMBOLS = new String[] { "==", "!=", ">=", "<=", "&&", "||", "<<", ">>", "=", "!", "+",
-			"-", "*", "/", "%", "<", ">", "[", "]", "{", "}", "(", ")", ":", ",", ";", "?", "&", "^", "|" };
+	public static final List<Symbol> SINGLE_SYMBOLS = SymbolTable.selectSingleSymbols();// 选取只有一个字符的符号
 
-	public static final String[] BAD_SYMBOLS = new String[] { "= =", "! =", "< =", "> =", "\\+ \\+", "- -", "< <",
-			"> >", "& &", "\\| \\|" };
+	public static final List<Symbol> DOUBLE_SYMBOLS = SymbolTable.selectDoubleSymbols();// 选取两个字符的符号
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+.[A-Z]+\\w+$");
 
@@ -86,15 +91,15 @@ public class LexicalAnalyzer {
 		text = Joiner.on("").join(chars);
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (int i = 0; i < REGEX_SYMBOLS.length; i++)
-			text = text.replaceAll(REGEX_SYMBOLS[i], " " + SYMBOLS[i] + " ");
+		for (Symbol symbol : SINGLE_SYMBOLS)
+			text = text.replaceAll(symbol.regex, " " + symbol.value + " ");
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
 		// 4.将那些被分离的符号,紧贴在一起
-		for (String str : BAD_SYMBOLS)
-			text = text.replaceAll(str, str.replaceAll(" ", ""));
+		for (Symbol symbol : DOUBLE_SYMBOLS)
+			text = text.replaceAll(symbol.badRegex, symbol.value);
 
 		// 5.根据操作符,进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
