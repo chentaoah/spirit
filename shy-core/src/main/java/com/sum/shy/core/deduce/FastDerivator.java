@@ -42,10 +42,10 @@ public class FastDerivator {
 
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
-		if (token.isLogical() || token.isJudge() || token.isInstanceof()) {
+		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
 			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 
-		} else if (token.isCalculate()) {
+		} else if (token.isArithmetic()) {
 			// 先取左边的，再取右边的
 			if (node.left != null) {
 				return getType(clazz, node.left);

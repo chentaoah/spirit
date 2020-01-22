@@ -40,7 +40,7 @@ public class TreeBuilder {
 		Token finalCurrToken = null;// 当前优先级最高的操作符
 		Token finalNextToken = null;
 		int maxPriority = -1;// 优先级
-		int finalCategory = Symbol.NONE;// 一元左元,一元右元,二元
+		int finalOperand = Symbol.NONE;// 一元左元,一元右元,二元
 		int index = -1;
 
 		// 每个token在一行里面的位置
@@ -50,13 +50,13 @@ public class TreeBuilder {
 			Token currToken = tokens.get(i);
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 			int priority = -1;
-			int category = Symbol.NONE;
+			int operand = Symbol.NONE;
 
 			if (currToken.isFluent()) {
 				// 优先级最高,但是左边不能是?号
 				if (lastToken != null && !"?".equals(lastToken.toString())) {
 					priority = 50;// 优先级最高
-					category = Symbol.LEFT;
+					operand = Symbol.LEFT;
 				}
 			} else if (currToken.isOperator()) {// 如果是操作符
 				String value = currToken.toString();
@@ -65,25 +65,25 @@ public class TreeBuilder {
 				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
 					if ("++".equals(value) || "--".equals(value)) {
 						if (lastToken != null && lastToken.isVar()) {// 左元
-							category = Symbol.LEFT;
+							operand = Symbol.LEFT;
 						} else if (nextToken != null && nextToken.isVar()) {// 右元
-							category = Symbol.RIGHT;
+							operand = Symbol.RIGHT;
 						}
 					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-						category = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Symbol.RIGHT
+						operand = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Symbol.RIGHT
 								: Symbol.DOUBLE;
 					}
 				} else {
-					category = symbol.category;
+					operand = symbol.operand;
 				}
 
 			} else if (currToken.isCast()) {
 				priority = 35;// 介于!和 *之间
-				category = Symbol.RIGHT;
+				operand = Symbol.RIGHT;
 
 			} else if (currToken.isInstanceof()) {// instanceof
 				priority = 20;// 相当于一个==
-				category = Symbol.DOUBLE;
+				operand = Symbol.DOUBLE;
 
 			}
 
@@ -92,7 +92,7 @@ public class TreeBuilder {
 				finalCurrToken = currToken;
 				finalNextToken = nextToken;
 				maxPriority = priority;
-				finalCategory = category;
+				finalOperand = operand;
 				index = i;
 			}
 
@@ -103,21 +103,21 @@ public class TreeBuilder {
 
 		// 构建节点结构
 		Node node = getNode(finalCurrToken);
-		if (finalCategory == Symbol.LEFT || finalCategory == Symbol.DOUBLE) {
+		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.DOUBLE) {
 			if (finalLastToken != null)
 				node.left = getNode(finalLastToken);
 		}
-		if (finalCategory == Symbol.RIGHT || finalCategory == Symbol.DOUBLE) {
+		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE) {
 			if (finalNextToken != null)
 				node.right = getNode(finalNextToken);
 		}
 
 		// 移除,并添加
-		if (finalCategory == Symbol.RIGHT || finalCategory == Symbol.DOUBLE)
+		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE)
 			tokens.remove(index + 1);
 		tokens.remove(index);
 		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
-		if (finalCategory == Symbol.LEFT || finalCategory == Symbol.DOUBLE)
+		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.DOUBLE)
 			tokens.remove(index - 1);
 
 		// 递归

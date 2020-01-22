@@ -12,40 +12,41 @@ public class SymbolTable {
 	static {
 
 		// 运算符
-		symbols.put("++", new Symbol(Symbol.OPERATOR, "\\+\\+", "\\+ \\+", "++", 40, Symbol.MULTIPLE));
-		symbols.put("--", new Symbol(Symbol.OPERATOR, "--", "- -", "--", 40, Symbol.MULTIPLE));
-		symbols.put("!", new Symbol(Symbol.OPERATOR, "\\!", "!", 40, Symbol.RIGHT));
-		symbols.put("*", new Symbol(Symbol.OPERATOR, "\\*", "*", 35, Symbol.DOUBLE));
-		symbols.put("/", new Symbol(Symbol.OPERATOR, "/", "/", 35, Symbol.DOUBLE));
-		symbols.put("%", new Symbol(Symbol.OPERATOR, "%", "%", 35, Symbol.DOUBLE));
-		symbols.put("+", new Symbol(Symbol.OPERATOR, "\\+", "+", 30, Symbol.DOUBLE));
-		symbols.put("-", new Symbol(Symbol.OPERATOR, "-", "-", 30, Symbol.MULTIPLE));
-		symbols.put("<<", new Symbol(Symbol.OPERATOR, "<<", "< <", "<<", 25, Symbol.DOUBLE));
-		symbols.put(">>", new Symbol(Symbol.OPERATOR, ">>", "> >", ">>", 25, Symbol.DOUBLE));
-		symbols.put("&", new Symbol(Symbol.OPERATOR, "&", "&", 20, Symbol.DOUBLE));
-		symbols.put("^", new Symbol(Symbol.OPERATOR, "\\^", "^", 20, Symbol.DOUBLE));
-		symbols.put("|", new Symbol(Symbol.OPERATOR, "[|]{1}", "|", 20, Symbol.DOUBLE));
-		symbols.put("==", new Symbol(Symbol.OPERATOR, "==", "= =", "==", 15, Symbol.DOUBLE));
-		symbols.put("!=", new Symbol(Symbol.OPERATOR, "!=", "! =", "!=", 15, Symbol.DOUBLE));
-		symbols.put("<=", new Symbol(Symbol.OPERATOR, "<=", "< =", "<=", 15, Symbol.DOUBLE));
-		symbols.put(">=", new Symbol(Symbol.OPERATOR, ">=", "> =", ">=", 15, Symbol.DOUBLE));
-		symbols.put("<", new Symbol(Symbol.OPERATOR, "<", "<", 15, Symbol.DOUBLE));
-		symbols.put(">", new Symbol(Symbol.OPERATOR, ">", ">", 15, Symbol.DOUBLE));
-		symbols.put("&&", new Symbol(Symbol.OPERATOR, "&&", "& &", "&&", 10, Symbol.DOUBLE));
-		symbols.put("||", new Symbol(Symbol.OPERATOR, "[|]{2}", "\\| \\|", "||", 10, Symbol.DOUBLE));
-		symbols.put("?", new Symbol(Symbol.OPERATOR, "\\?", "?", 5, Symbol.DOUBLE));
-		symbols.put("=", new Symbol(Symbol.OPERATOR, "=", "=", 5, Symbol.DOUBLE));
+		symbols.put("++",
+				new Symbol(Symbol.OPERATOR, "\\+\\+", "\\+ \\+", "++", 40, Symbol.MULTIPLE, Symbol.ARITHMETIC));
+		symbols.put("--", new Symbol(Symbol.OPERATOR, "--", "- -", "--", 40, Symbol.MULTIPLE, Symbol.ARITHMETIC));
+		symbols.put("!", new Symbol(Symbol.OPERATOR, "\\!", "!", 40, Symbol.RIGHT, Symbol.LOGICAL));
+		symbols.put("*", new Symbol(Symbol.OPERATOR, "\\*", "*", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
+		symbols.put("/", new Symbol(Symbol.OPERATOR, "/", "/", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
+		symbols.put("%", new Symbol(Symbol.OPERATOR, "%", "%", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
+		symbols.put("+", new Symbol(Symbol.OPERATOR, "\\+", "+", 30, Symbol.DOUBLE, Symbol.ARITHMETIC));
+		symbols.put("-", new Symbol(Symbol.OPERATOR, "-", "-", 30, Symbol.MULTIPLE, Symbol.ARITHMETIC));
+		symbols.put("<<", new Symbol(Symbol.OPERATOR, "<<", "< <", "<<", 25, Symbol.DOUBLE, Symbol.BITWISE));
+		symbols.put(">>", new Symbol(Symbol.OPERATOR, ">>", "> >", ">>", 25, Symbol.DOUBLE, Symbol.BITWISE));
+		symbols.put("&", new Symbol(Symbol.OPERATOR, "&", "&", 20, Symbol.DOUBLE, Symbol.BITWISE));
+		symbols.put("^", new Symbol(Symbol.OPERATOR, "\\^", "^", 20, Symbol.DOUBLE, Symbol.BITWISE));
+		symbols.put("|", new Symbol(Symbol.OPERATOR, "[|]{1}", "|", 20, Symbol.DOUBLE, Symbol.BITWISE));
+		symbols.put("==", new Symbol(Symbol.OPERATOR, "==", "= =", "==", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put("!=", new Symbol(Symbol.OPERATOR, "!=", "! =", "!=", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put("<=", new Symbol(Symbol.OPERATOR, "<=", "< =", "<=", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put(">=", new Symbol(Symbol.OPERATOR, ">=", "> =", ">=", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put("<", new Symbol(Symbol.OPERATOR, "<", "<", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put(">", new Symbol(Symbol.OPERATOR, ">", ">", 15, Symbol.DOUBLE, Symbol.RELATION));
+		symbols.put("&&", new Symbol(Symbol.OPERATOR, "&&", "& &", "&&", 10, Symbol.DOUBLE, Symbol.LOGICAL));
+		symbols.put("||", new Symbol(Symbol.OPERATOR, "[|]{2}", "\\| \\|", "||", 10, Symbol.DOUBLE, Symbol.LOGICAL));
+		symbols.put("?", new Symbol(Symbol.OPERATOR, "\\?", "?", 5, Symbol.DOUBLE, Symbol.CONDITIONAL));
+		symbols.put("=", new Symbol(Symbol.OPERATOR, "=", "=", 5, Symbol.DOUBLE, Symbol.ASSIGN));
 		// 分隔符
-		symbols.put("[", new Symbol(Symbol.SEPARATOR, "\\[", "[", 0, Symbol.NONE));
-		symbols.put("]", new Symbol(Symbol.SEPARATOR, "\\]", "]", 0, Symbol.NONE));
-		symbols.put("{", new Symbol(Symbol.SEPARATOR, "\\{", "{", 0, Symbol.NONE));
-		symbols.put("}", new Symbol(Symbol.SEPARATOR, "\\}", "}", 0, Symbol.NONE));
-		symbols.put("(", new Symbol(Symbol.SEPARATOR, "\\(", "(", 0, Symbol.NONE));
-		symbols.put(")", new Symbol(Symbol.SEPARATOR, "\\)", ")", 0, Symbol.NONE));
-		symbols.put(":", new Symbol(Symbol.SEPARATOR, "\\:", ":", 0, Symbol.NONE));
-		symbols.put("::", new Symbol(Symbol.SEPARATOR, "[:]{2}", "\\: \\:", "::", 0, Symbol.NONE));
-		symbols.put(",", new Symbol(Symbol.SEPARATOR, ",", ",", 0, Symbol.NONE));
-		symbols.put(";", new Symbol(Symbol.SEPARATOR, ";", ";", 0, Symbol.NONE));
+		symbols.put("[", new Symbol(Symbol.SEPARATOR, "\\[", "[", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put("]", new Symbol(Symbol.SEPARATOR, "\\]", "]", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put("{", new Symbol(Symbol.SEPARATOR, "\\{", "{", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put("}", new Symbol(Symbol.SEPARATOR, "\\}", "}", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put("(", new Symbol(Symbol.SEPARATOR, "\\(", "(", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put(")", new Symbol(Symbol.SEPARATOR, "\\)", ")", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put(":", new Symbol(Symbol.SEPARATOR, "\\:", ":", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put("::", new Symbol(Symbol.SEPARATOR, "[:]{2}", "\\: \\:", "::", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put(",", new Symbol(Symbol.SEPARATOR, ",", ",", 0, Symbol.NONE, Symbol.NONE));
+		symbols.put(";", new Symbol(Symbol.SEPARATOR, ";", ";", 0, Symbol.NONE, Symbol.NONE));
 
 	}
 
@@ -80,6 +81,14 @@ public class SymbolTable {
 		return symbols.get(value);
 	}
 
+	public static int selectPriority(String value) {// 获取优先级
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.priority;
+		}
+		return -1;
+	}
+
 	public static boolean isOperator(String value) {// 是否操作符
 		if (symbols.containsKey(value)) {
 			Symbol symbol = symbols.get(value);
@@ -96,12 +105,52 @@ public class SymbolTable {
 		return false;
 	}
 
-	public static int selectPriority(String value) {// 获取优先级
+	public static boolean isArithmetic(String value) {
 		if (symbols.containsKey(value)) {
 			Symbol symbol = symbols.get(value);
-			return symbol.priority;
+			return symbol.isArithmetic();
 		}
-		return -1;
+		return false;
+	}
+
+	public static boolean isBitwise(String value) {
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isBitwise();
+		}
+		return false;
+	}
+
+	public static boolean isRelation(String value) {
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isRelation();
+		}
+		return false;
+	}
+
+	public static boolean isLogical(String value) {
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isLogical();
+		}
+		return false;
+	}
+
+	public static boolean isConditional(String value) {
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isConditional();
+		}
+		return false;
+	}
+
+	public static boolean isAssign(String value) {
+		if (symbols.containsKey(value)) {
+			Symbol symbol = symbols.get(value);
+			return symbol.isAssign();
+		}
+		return false;
 	}
 
 }

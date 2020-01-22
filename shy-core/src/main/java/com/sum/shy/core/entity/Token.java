@@ -3,6 +3,7 @@ package com.sum.shy.core.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.type.api.IType;
 
 public class Token {
@@ -190,17 +191,24 @@ public class Token {
 		return isKeyword() && "instanceof".equals(value.toString());
 	}
 
-	public boolean isLogical() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
-		if (isOperator())
-			return "!".equals(value) || "&&".equals(value) || "||".equals(value);
-		return false;
+	public boolean isArithmetic() {
+		return isOperator() && SymbolTable.isArithmetic(value.toString());
 	}
 
-	public boolean isJudge() {
-		if (isOperator())
-			return "==".equals(value) || "!=".equals(value) || ">=".equals(value) || "<=".equals(value)
-					|| ">".equals(value) || "<".equals(value);
-		return false;
+	public boolean isBitwise() {// 是否按位操作符
+		return isOperator() && SymbolTable.isBitwise(value.toString());
+	}
+
+	public boolean isRelation() {// 关系运算符
+		return isOperator() && SymbolTable.isRelation(value.toString());
+	}
+
+	public boolean isLogical() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+		return isOperator() && SymbolTable.isLogical(value.toString());
+	}
+
+	public boolean isAssign() {// 是否赋值操作符
+		return isOperator() && SymbolTable.isAssign(value.toString());
 	}
 
 	public boolean isEquals() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
@@ -209,29 +217,9 @@ public class Token {
 		return false;
 	}
 
-	public boolean isCalculate() {
-		if (isOperator())
-			return "++".equals(value) || "--".equals(value) || "+".equals(value) || "-".equals(value)
-					|| "*".equals(value) || "/".equals(value) || "%".equals(value) || "<<".equals(value)
-					|| ">>".equals(value) || "&".equals(value) || "^".equals(value) || "|".equals(value);
-		return false;
-	}
-
 	public boolean isShift() {// 是否位移操作符
 		if (isOperator())
 			return "<<".equals(value) || ">>".equals(value);
-		return false;
-	}
-
-	public boolean isBitwise() {// 是否按位操作符
-		if (isOperator())
-			return "&".equals(value) || "^".equals(value) || "|".equals(value);
-		return false;
-	}
-
-	public boolean isAssign() {// 是否赋值操作符
-		if (isOperator())
-			return "=".equals(value);
 		return false;
 	}
 
