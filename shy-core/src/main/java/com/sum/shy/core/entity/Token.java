@@ -171,6 +171,10 @@ public class Token {
 		return isNull() || isBool() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
 	}
 
+	public boolean isNumber() {
+		return isInt() || isLong() || isDouble();
+	}
+
 	public boolean isAccess() {
 		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
 	}

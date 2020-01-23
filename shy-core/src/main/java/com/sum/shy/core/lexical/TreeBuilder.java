@@ -70,8 +70,11 @@ public class TreeBuilder {
 							operand = Symbol.RIGHT;
 						}
 					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-						operand = (lastToken == null || lastToken.isOperator()) && nextToken != null ? Symbol.RIGHT
-								: Symbol.DOUBLE;
+						if (lastToken != null && lastToken.isNumber()) {
+							operand = Symbol.DOUBLE;
+						} else {
+							operand = Symbol.RIGHT;
+						}
 					}
 				} else {
 					operand = symbol.operand;
