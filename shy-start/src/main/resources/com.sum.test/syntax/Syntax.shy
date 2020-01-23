@@ -21,7 +21,7 @@ class Syntax {
 	
 	//判断调用
 	func testJudgeInvoke(){
-		list?.get(100)
+		//list?.get(100)
 	}
 	
 	//异常处理
