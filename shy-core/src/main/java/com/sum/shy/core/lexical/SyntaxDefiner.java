@@ -3,6 +3,7 @@ package com.sum.shy.core.lexical;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.utils.ArrayUtils;
 
@@ -85,24 +86,33 @@ public class SyntaxDefiner {
 				if (keyword.equals(first.toString()))
 					return keyword;
 			}
+			// 语句结束
 			if (tokens.size() == 1 && "}".equals(first.toString())) {// 语句块的结束
 				return Constants.END_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isInvokeLocal()
-					&& Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {// 只有一个语素,并且以super开头
-				return Constants.SUPER_SYNTAX;
-			}
-			if (tokens.size() == 1 && first.isInvokeLocal()
-					&& Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {// 只有一个语素,并且以this开头
-				return Constants.THIS_SYNTAX;
-			}
+			// 本地方法调用
 			if (tokens.size() == 1 && first.isInvokeLocal()) {// 调用本地方法
+				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
+					return Constants.SUPER_SYNTAX;
+				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
+					return Constants.THIS_SYNTAX;
+				}
 				return Constants.INVOKE_SYNTAX;
 			}
-			if (tokens.size() == 1 && first.isNode() && first.getNode().token.isInvokeMethod()) {// 调用方法
-				return Constants.INVOKE_SYNTAX;
-			}
-			if (tokens.size() == 1 && first.isNode() && first.getNode().token.isOperator()) {// 操作符重载
+			// 聚合以后的抽象语法树
+			if (tokens.size() == 1 && first.isNode()) {
+				Node node = first.getNode();
+				Token token = node.token;
+				if (token.isInvokeMethod()) {// 只有方法调用
+					return Constants.INVOKE_SYNTAX;
+				} else if (token.isAssign()) {// 如果顶点是=
+					Token leftToken = node.left.token;
+					if (leftToken.isVar()) {// 如果是变量,则为赋值语句
+						return Constants.ASSIGN_SYNTAX;
+					} else if (leftToken.isVisitField()) {// 如果是字段访问,则是字段赋值语句
+						return Constants.FIELD_ASSIGN_SYNTAX;
+					}
+				}
 				return Constants.INVOKE_SYNTAX;
 			}
 
@@ -114,13 +124,7 @@ public class SyntaxDefiner {
 			if (tokens.size() == 2 && first.isType() && second.isInvokeLocal()) {// 如果是类型,则是类型说明语句
 				return Constants.FUNC_DECLARE_SYNTAX;
 			}
-			if ("=".equals(second.toString())) {// 字段定义或者赋值语句
-				if (first.isVar()) {
-					return Constants.ASSIGN_SYNTAX;
-				} else if (first.isNode() && first.getNode().token.isVisitField()) {
-					return Constants.FIELD_ASSIGN_SYNTAX;
-				}
-			}
+
 			if ("?".equals(second.toString())) {
 				return Constants.JUDGE_INVOKE_SYNTAX;
 			}
