@@ -290,8 +290,13 @@ public class Stmt {
 
 	public String debug() {
 		StringBuilder sb = new StringBuilder();
-		for (Token token : tokens)
-			sb.append(token.debug() + " ");
+		for (Token token : tokens) {
+			if (token.isNode()) {
+				sb.append(token.getNode().toStmt().debug());
+			} else {
+				sb.append(token.debug() + " ");
+			}
+		}
 		return sb.toString();
 	}
 
