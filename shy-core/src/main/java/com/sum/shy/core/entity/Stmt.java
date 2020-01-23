@@ -292,12 +292,12 @@ public class Stmt {
 		StringBuilder sb = new StringBuilder();
 		for (Token token : tokens) {
 			if (token.isNode()) {
-				sb.append(token.getNode().toStmt().debug());
+				sb.append(token.debug() + "[" + token.getNode().toStmt().debug() + "]");
 			} else {
 				sb.append(token.debug() + " ");
 			}
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	public boolean isAssign() {

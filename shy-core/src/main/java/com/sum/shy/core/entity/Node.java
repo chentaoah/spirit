@@ -39,9 +39,11 @@ public class Node {
 					return value + " ";
 				if (right != null)
 					return " " + value;
+
 			} else if ("!".equals(value)) {
 				return value;
 			}
+
 			for (Symbol symbol : BINARY_OPERATOR) {// 二元操作符
 				if (symbol.value.equals(value))
 					return " " + value + " ";
