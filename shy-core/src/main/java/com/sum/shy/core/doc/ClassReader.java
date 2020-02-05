@@ -23,15 +23,10 @@ public class ClassReader {
 			}
 			// 2.遍历每行line
 			Document document = new Document(file);
-			for (int i = 0; i < lines.size(); i++) {
-				Line line = lines.get(i);
-				if (line.isIgnore())
-					continue;
-				i += readLine(document, line, lines, i);
-			}
-			// 打印日志
+			readLines(lines, document);
+			// 3.打印日志
 			document.debug();
-			// 3.生成Class对象
+			// 4.生成Class对象
 			IClass clazz = new IClass(document);
 			return clazz;
 
@@ -42,7 +37,16 @@ public class ClassReader {
 
 	}
 
-	public int readLine(List<Element> father, Line line, List<Line> lines, int index) {
+	private void readLines(List<Line> lines, List<Element> father) {
+		for (int i = 0; i < lines.size(); i++) {
+			Line line = lines.get(i);
+			if (line.isIgnore())
+				continue;
+			i += readLine(lines, i, father, line);
+		}
+	}
+
+	public int readLine(List<Line> lines, int index, List<Element> father, Line line) {
 		// 1.解析一行
 		Element element = new Element(line);
 		if (father != null)
@@ -50,14 +54,8 @@ public class ClassReader {
 		if (element.hasChild()) {
 			// 2.解析子行
 			List<Line> subLines = LineUtils.getSubLines(lines, index);
-			int jump = subLines.size();
-			for (int i = 0; i < subLines.size(); i++) {
-				Line subLine = subLines.get(i);
-				if (subLine.isIgnore())
-					continue;
-				jump += readLine(element, subLine, lines, index + i + 1);
-			}
-			return jump;
+			readLines(subLines, element);
+			return subLines.size();
 		}
 		return 0;
 	}

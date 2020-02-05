@@ -31,7 +31,7 @@ public class JavaStarter {
 		FileUtils.getFiles(inputPath, "", files);
 
 		// 2.如果不是debug模式,则解析成相应的数据结构
-		Map<String, IClass> mainClasses = new ShyCompiler().compile(files);// compile
+		Map<String, IClass> mainClasses = new ShyCompiler().compile(files);
 
 //		for (IClass clazz : mainClasses.values()) {
 //			// 4.转换方法中的内容,并生成java代码
