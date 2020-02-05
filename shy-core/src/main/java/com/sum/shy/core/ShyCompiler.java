@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sum.shy.clazz.api.Member;
 import com.sum.shy.core.deduce.InvokeVisiter;
+import com.sum.shy.core.doc.ClassReader;
 import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.processor.AutoImporter;
@@ -18,12 +19,12 @@ public class ShyCompiler {
 		Context.get().friends = files.keySet();
 		// 1.通过文件解析类信息
 		Map<String, IClass> mainClasses = resolveMainClasses(files);
-		// 2.从类里面取出所有内部类,供推导使用
-		Map<String, IClass> allClasses = addCoopClasses(mainClasses);
-		// 设置所有类
-		Context.get().classes = allClasses;
-		// 3.推导字段和方法的类型
-		deriveTypeOfMembers(allClasses);
+//		// 2.从类里面取出所有内部类,供推导使用
+//		Map<String, IClass> allClasses = addCoopClasses(mainClasses);
+//		// 设置所有类
+//		Context.get().classes = allClasses;
+//		// 3.推导字段和方法的类型
+//		deriveTypeOfMembers(allClasses);
 
 		return mainClasses;
 	}
@@ -38,17 +39,17 @@ public class ShyCompiler {
 			// 文件
 			File file = entry.getValue();
 			// 读取类结构信息
-			IClass mainClass = new ShyReader().read(file);
+			IClass mainClass = new ClassReader().read(file);
 
-			if (mainClass != null) {
-				// 追加包名
-				mainClass.packageStr = TypeUtils.getPackage(className);
-				// 自动引入友元,和常用的一些类
-				AutoImporter.doImport(mainClass, file);
-				// 将内部类当做普通的类,添加到集合中
-				mainClasses.put(className, mainClass);
-
-			}
+//			if (mainClass != null) {
+//				// 追加包名
+//				mainClass.packageStr = TypeUtils.getPackage(className);
+//				// 自动引入友元,和常用的一些类
+//				AutoImporter.doImport(mainClass, file);
+//				// 将内部类当做普通的类,添加到集合中
+//				mainClasses.put(className, mainClass);
+//
+//			}
 
 		}
 		return mainClasses;

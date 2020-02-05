@@ -30,19 +30,19 @@ public class JavaStarter {
 		Map<String, File> files = new LinkedHashMap<>();
 		FileUtils.getFiles(inputPath, "", files);
 
-		// 3.如果不是debug模式,则解析成相应的数据结构
+		// 2.如果不是debug模式,则解析成相应的数据结构
 		Map<String, IClass> mainClasses = new ShyCompiler().compile(files);// compile
 
-		for (IClass clazz : mainClasses.values()) {
-			// 4.转换方法中的内容,并生成java代码
-			String code = new JavaBuilder().build(clazz);// build
-			// 替换类的别名
-			code = AliasReplacer.replace(clazz, code);
-			// 打印
-			System.out.println(code);
-			// 输出到指定文件夹下
-			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
-		}
+//		for (IClass clazz : mainClasses.values()) {
+//			// 4.转换方法中的内容,并生成java代码
+//			String code = new JavaBuilder().build(clazz);// build
+//			// 替换类的别名
+//			code = AliasReplacer.replace(clazz, code);
+//			// 打印
+//			System.out.println(code);
+//			// 输出到指定文件夹下
+//			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
+//		}
 
 	}
 

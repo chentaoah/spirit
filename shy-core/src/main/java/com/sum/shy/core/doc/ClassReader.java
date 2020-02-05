@@ -11,30 +11,37 @@ import com.sum.shy.utils.LineUtils;
 
 public class ClassReader {
 
-	public static IClass readFile(File file) throws IOException {
-		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-		List<Line> lines = new ArrayList<>();
-		// 1.遍历文件每行，转换成line对象
-		for (int i = 0; i < fileLines.size(); i++) {
-			String text = fileLines.get(i);
-			Line line = new Line(i + 1, text);
-			lines.add(line);
+	public IClass read(File file) {
+		try {
+			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
+			List<Line> lines = new ArrayList<>();
+			// 1.遍历文件每行，转换成line对象
+			for (int i = 0; i < fileLines.size(); i++) {
+				String text = fileLines.get(i);
+				Line line = new Line(i + 1, text);
+				lines.add(line);
+			}
+			// 2.遍历每行line
+			Document document = new Document(file);
+			for (int i = 0; i < lines.size(); i++) {
+				Line line = lines.get(i);
+				if (line.isIgnore())
+					continue;
+				i += readLine(document, line, lines, i);
+			}
+			document.debug();
+			// 3.生成Class对象
+			IClass clazz = new IClass(document);
+			return clazz;
+
+		} catch (IOException e) {
+			// ignore
 		}
-		// 2.遍历每行line
-		Document document = new Document(file);
-		for (int i = 0; i < lines.size(); i++) {
-			Line line = lines.get(i);
-			if (line.isIgnore())
-				continue;
-			i += readLine(document, line, lines, i);
-		}
-		document.debug();
-		// 3.生成Class对象
-		IClass clazz = new IClass(document);
-		return clazz;
+		return null;
+
 	}
 
-	public static int readLine(List<Element> father, Line line, List<Line> lines, int index) {
+	public int readLine(List<Element> father, Line line, List<Line> lines, int index) {
 		// 1.解析一行
 		Element element = new Element(line);
 		if (father != null)
