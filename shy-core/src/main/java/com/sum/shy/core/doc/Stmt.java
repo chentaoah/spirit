@@ -1,113 +1,15 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.doc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.lexical.LexicalAnalyzer;
-import com.sum.shy.core.lexical.SemanticDelegate;
-import com.sum.shy.core.lexical.SyntaxDefiner;
-import com.sum.shy.core.lexical.TreeBuilder;
+import com.sum.shy.core.entity.Node;
+import com.sum.shy.core.entity.Token;
 
 public class Stmt {
-	// 一行
-	public Line line;
-	// 语法
-	public String syntax;
-	// 语义
+
 	public List<Token> tokens;
 
-	public static Stmt create(Line line) {
-		// 1.词法分析,将语句拆分成多个单元
-		List<String> words = LexicalAnalyzer.getWords(line.text);
-
-		if (SyntaxDefiner.isAnnotation(words)) {// 判断是否注解语法
-			// 2.语义分析
-			List<Token> tokens = SemanticDelegate.getTokens(words);
-			// 3.语法分析
-			String syntax = Constants.ANNOTATION_SYNTAX;
-
-			return new Stmt(line, syntax, tokens);
-
-		} else if (SyntaxDefiner.isStruct(words)) {// 判断是否是结构语法
-			// 2.语义分析
-			List<Token> tokens = SemanticDelegate.getStructTokens(words);
-			// 3.语法分析
-			String syntax = SyntaxDefiner.getStructSyntax(words);
-
-			return new Stmt(line, syntax, tokens);
-
-		} else {
-			// 2.语义分析
-			List<Token> tokens = SemanticDelegate.getTokens(words);
-			// 3.构建语法树
-			TreeBuilder.build(tokens);
-			// 4.根据语法树,判断语法
-			String syntax = SyntaxDefiner.getSyntax(tokens);
-
-			return new Stmt(line, syntax, tokens);
-
-		}
-
-	}
-
-	public static Stmt create(String text) {
-		return create(new Line(text));
-	}
-
-	/**
-	 * 简单创建,完全不管语法
-	 * 
-	 * @param text
-	 * @return
-	 */
-	public static Stmt createByClip(String text) {
-		// 1.词法分析,将语句拆分成多个单元
-		List<String> words = LexicalAnalyzer.getWords(text);
-		// 2.语义分析
-		List<Token> tokens = SemanticDelegate.getTokens(words);
-
-		return new Stmt(text, tokens);
-	}
-
-	/**
-	 * 一般的构造
-	 * 
-	 * @param line
-	 * @param syntax
-	 * @param tokens
-	 */
-	public Stmt(Line line, String syntax, List<Token> tokens) {
-		this.line = line;
-		this.syntax = syntax;
-		this.tokens = tokens;
-	}
-
-	/**
-	 * 子语句构造
-	 * 
-	 * @param word
-	 * @param subTokens
-	 */
-	public Stmt(String word, List<Token> subTokens) {
-		this.line = new Line(word);
-		this.tokens = subTokens;
-	}
-
-	/**
-	 * 无语法和语义的语句
-	 * 
-	 * @param text
-	 */
-	public Stmt(String text) {
-		this.line = new Line(text);
-		this.tokens = new ArrayList<>();
-	}
-
-	/**
-	 * 无语法的语句
-	 * 
-	 * @param tokens
-	 */
 	public Stmt(List<Token> tokens) {
 		this.tokens = tokens;
 	}
@@ -192,9 +94,9 @@ public class Stmt {
 
 	@Override
 	public String toString() {
-		// 如果没有token,则直接返回line
-		if (size() == 0)
-			return line.text;
+//		// 如果没有token,则直接返回line
+//		if (size() == 0)
+//			return line.text;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size(); i++) {
 			String str = format(i, getToken(i));
@@ -275,16 +177,17 @@ public class Stmt {
 			}
 
 		} else if (token.isType()) {
-			if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
-				return token + " ";
-
-			} else {
-				return token.toString();
-			}
+//			if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
+//				return token + " ";
+//
+//			} else {
+//				return token.toString();
+//			}
 
 		} else {
 			return token.toString();
 		}
+		return null;
 
 	}
 
@@ -300,92 +203,92 @@ public class Stmt {
 		return sb.toString().trim();
 	}
 
-	public boolean isAssign() {
-		return Constants.ASSIGN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isIf() {
-		return Constants.IF_SYNTAX.equals(syntax);
-	}
-
-	public boolean isElseIf() {
-		return Constants.ELSEIF_SYNTAX.equals(syntax);
-	}
-
-	public boolean isElse() {
-		return Constants.ELSE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isEnd() {
-		return Constants.END_SYNTAX.equals(syntax);
-	}
-
-	public boolean isReturn() {
-		return Constants.RETURN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isDeclare() {
-		return Constants.DECLARE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isCatch() {
-		return Constants.CATCH_SYNTAX.equals(syntax);
-	}
-
-	public boolean isForIn() {
-		return Constants.FOR_IN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFor() {
-		return Constants.FOR_SYNTAX.equals(syntax);
-	}
-
-	public boolean isWhile() {
-		return Constants.WHILE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isSync() {
-		return Constants.SYNC_SYNTAX.equals(syntax);
-	}
-
-	public boolean isTry() {
-		return Constants.TRY_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFinally() {
-		return Constants.FINALLY_SYNTAX.equals(syntax);
-	}
-
-	public boolean isSuper() {
-		return Constants.SUPER_SYNTAX.equals(syntax);
-	}
-
-	public boolean isThis() {
-		return Constants.THIS_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFieldAssign() {
-		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isInvoke() {
-		return Constants.INVOKE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isContinue() {
-		return Constants.CONTINUE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isBreak() {
-		return Constants.BREAK_SYNTAX.equals(syntax);
-	}
-
-	public boolean isThrow() {
-		return Constants.THROW_SYNTAX.equals(syntax);
-	}
-
-	public boolean isJudgeInvoke() {
-		return Constants.JUDGE_INVOKE_SYNTAX.equals(syntax);
-	}
+//	public boolean isAssign() {
+//		return Constants.ASSIGN_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isIf() {
+//		return Constants.IF_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isElseIf() {
+//		return Constants.ELSEIF_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isElse() {
+//		return Constants.ELSE_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isEnd() {
+//		return Constants.END_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isReturn() {
+//		return Constants.RETURN_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isDeclare() {
+//		return Constants.DECLARE_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isCatch() {
+//		return Constants.CATCH_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isForIn() {
+//		return Constants.FOR_IN_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isFor() {
+//		return Constants.FOR_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isWhile() {
+//		return Constants.WHILE_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isSync() {
+//		return Constants.SYNC_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isTry() {
+//		return Constants.TRY_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isFinally() {
+//		return Constants.FINALLY_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isSuper() {
+//		return Constants.SUPER_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isThis() {
+//		return Constants.THIS_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isFieldAssign() {
+//		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isInvoke() {
+//		return Constants.INVOKE_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isContinue() {
+//		return Constants.CONTINUE_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isBreak() {
+//		return Constants.BREAK_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isThrow() {
+//		return Constants.THROW_SYNTAX.equals(syntax);
+//	}
+//
+//	public boolean isJudgeInvoke() {
+//		return Constants.JUDGE_INVOKE_SYNTAX.equals(syntax);
+//	}
 
 }

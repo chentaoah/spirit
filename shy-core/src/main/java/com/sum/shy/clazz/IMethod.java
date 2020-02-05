@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.clazz.api.AbsMember;
-import com.sum.shy.core.entity.Line;
+import com.sum.shy.core.doc.Line;
 import com.sum.shy.type.api.IType;
 
 public class IMethod extends AbsMember {

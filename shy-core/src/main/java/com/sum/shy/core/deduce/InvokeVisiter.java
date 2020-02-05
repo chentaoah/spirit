@@ -3,15 +3,15 @@ package com.sum.shy.core.deduce;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.Holder;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
@@ -23,42 +23,42 @@ public class InvokeVisiter {
 
 	public static IType visitMember(IClass clazz, Member member) {
 		// 上锁
-		member.lock();
-		IType type = member.getType();
-		if (type == null) {
-			if (member instanceof IField) {
-				Stmt stmt = ((IField) member).stmt;
-				if (stmt != null && stmt.isAssign()) {
-					VariableTracker.trackStmt(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
-					InvokeVisiter.visitStmt(clazz, stmt);
-					type = FastDerivator.deriveStmt(clazz, stmt);
-				}
-			} else if (member instanceof IMethod) {// 如果是方法
-
-				Holder<IType> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
-				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
-					@Override
-					public Object handle(IClass clazz, IMethod method, String indent, String block, Line line,
-							Stmt stmt) {
-						// 有效返回，才是返回
-						if (stmt.isReturn()) {
-							IType returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
-							if (holder.obj.isVoid() || holder.obj.isObj()) {
-								if (returnType != null)
-									holder.obj = returnType;
-							}
-						}
-						return null;
-					}
-				});
-				type = holder.obj;
-
-			}
-
-		}
+//		member.lock();
+//		IType type = member.getType();
+//		if (type == null) {
+//			if (member instanceof IField) {
+//				Stmt stmt = ((IField) member).stmt;
+//				if (stmt != null && stmt.isAssign()) {
+//					VariableTracker.trackStmt(clazz, null, null, stmt.line, stmt.subStmt(2, stmt.size()));
+//					InvokeVisiter.visitStmt(clazz, stmt);
+//					type = FastDerivator.deriveStmt(clazz, stmt);
+//				}
+//			} else if (member instanceof IMethod) {// 如果是方法
+//
+//				Holder<IType> holder = new Holder<>(new CodeType(clazz, Constants.VOID_TYPE));
+//				MethodResolver.resolve(clazz, (IMethod) member, new Handler() {
+//					@Override
+//					public Object handle(IClass clazz, IMethod method, String indent, String block, Line line,
+//							Stmt stmt) {
+//						// 有效返回，才是返回
+//						if (stmt.isReturn()) {
+//							IType returnType = FastDerivator.deriveStmt(clazz, stmt.subStmt(1, stmt.size()));
+//							if (holder.obj.isVoid() || holder.obj.isObj()) {
+//								if (returnType != null)
+//									holder.obj = returnType;
+//							}
+//						}
+//						return null;
+//					}
+//				});
+//				type = holder.obj;
+//
+//			}
+//
+//		}
 		// 解锁
 		member.unLock();
-		return type;
+		return null;
 	}
 
 	public static void visitStmt(IClass clazz, Stmt stmt) {

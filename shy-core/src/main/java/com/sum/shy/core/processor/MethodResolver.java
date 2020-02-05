@@ -3,14 +3,14 @@ package com.sum.shy.core.processor;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Variable;
 import com.sum.shy.core.deduce.FastDerivator;
 import com.sum.shy.core.deduce.InvokeVisiter;
 import com.sum.shy.core.deduce.VariableTracker;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.lib.Collection;
@@ -45,31 +45,31 @@ public class MethodResolver {
 			if (line.isIgnore())
 				continue;
 
-			Stmt stmt = Stmt.create(line);
-
-			// 处理单行语句,拆分成多行语句
-			if (stmt.isIf() || stmt.isFor() || stmt.isForIn() || stmt.isWhile()) {
-				if (!"{".equals(stmt.last())) {
-					List<Stmt> subStmts = stmt.split(":");
-					int count = 0;
-					for (Stmt subStmt : subStmts) {
-						String text = subStmt.toString();
-						if (count == 0)
-							text = text + " {";
-						resolveStmt(clazz, method, handler, position, line, Stmt.create(text));
-						count++;
-					}
-					resolveStmt(clazz, method, handler, position, line, Stmt.create("}"));
-					continue;
-				}
-			}
+//			Stmt stmt = Stmt.create(line);
+//
+//			// 处理单行语句,拆分成多行语句
+//			if (stmt.isIf() || stmt.isFor() || stmt.isForIn() || stmt.isWhile()) {
+//				if (!"{".equals(stmt.last())) {
+//					List<Stmt> subStmts = stmt.split(":");
+//					int count = 0;
+//					for (Stmt subStmt : subStmts) {
+//						String text = subStmt.toString();
+//						if (count == 0)
+//							text = text + " {";
+//						resolveStmt(clazz, method, handler, position, line, Stmt.create(text));
+//						count++;
+//					}
+//					resolveStmt(clazz, method, handler, position, line, Stmt.create("}"));
+//					continue;
+//				}
+//			}
 
 			// 其他语句走默认分支
-			Object result = resolveStmt(clazz, method, handler, position, line, stmt);
-			if (result != null) {
-				method.variables.clear();// 返回前,清理掉所有的变量
-				return result;
-			}
+//			Object result = resolveStmt(clazz, method, handler, position, line, stmt);
+//			if (result != null) {
+//				method.variables.clear();// 返回前,清理掉所有的变量
+//				return result;
+//			}
 
 		}
 		method.variables.clear();// 返回前,清理掉所有的变量
@@ -85,34 +85,34 @@ public class MethodResolver {
 		// 根据位置生成块的标记
 		String block = getBlock(position);
 
-		if (stmt.isDeclare()) {// Type type
-			processBridge(clazz, method, block, line, stmt, 0, 1, 1, null);
-
-		} else if (stmt.isCatch()) {// }catch Exception e{
-			processBridge(clazz, method, block, line, stmt, 2, 3, 3, null);
-
-		} else if (stmt.isForIn()) {// for item in list {
-			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1,
-					(IType type) -> type.isArray() ? new CodeType(clazz, type.getTypeName())
-							: type.getGenericTypes().get(0));
-
-		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
-			processBridge(clazz, method, block, line, stmt, stmt.indexOf("=") + 1, stmt.indexOf(";"), 1, null);
-
-		} else if (stmt.isAssign()) {// var=list.get(0)
-
-			Token token = stmt.getToken(0);
-			IType type = VariableTracker.findType(clazz, method, block, token.toString());
-			token.setDeclaredAtt(type != null);
-
-			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
-
-		} else {
-
-			VariableTracker.trackStmt(clazz, method, block, line, stmt);
-			InvokeVisiter.visitStmt(clazz, stmt);
-
-		}
+//		if (stmt.isDeclare()) {// Type type
+//			processBridge(clazz, method, block, line, stmt, 0, 1, 1, null);
+//
+//		} else if (stmt.isCatch()) {// }catch Exception e{
+//			processBridge(clazz, method, block, line, stmt, 2, 3, 3, null);
+//
+//		} else if (stmt.isForIn()) {// for item in list {
+//			processBridge(clazz, method, block, line, stmt, 3, stmt.size() - 1, 1,
+//					(IType type) -> type.isArray() ? new CodeType(clazz, type.getTypeName())
+//							: type.getGenericTypes().get(0));
+//
+//		} else if (stmt.isFor()) {// for i=0; i<100; i++ {
+//			processBridge(clazz, method, block, line, stmt, stmt.indexOf("=") + 1, stmt.indexOf(";"), 1, null);
+//
+//		} else if (stmt.isAssign()) {// var=list.get(0)
+//
+//			Token token = stmt.getToken(0);
+//			IType type = VariableTracker.findType(clazz, method, block, token.toString());
+//			token.setDeclaredAtt(type != null);
+//
+//			processBridge(clazz, method, block, line, stmt, 2, stmt.size(), 0, null);
+//
+//		} else {
+//
+//			VariableTracker.trackStmt(clazz, method, block, line, stmt);
+//			InvokeVisiter.visitStmt(clazz, stmt);
+//
+//		}
 
 		// 条件语句没必要那么快增加缩进
 		String indent = LineUtils

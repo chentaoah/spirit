@@ -3,6 +3,8 @@ package com.sum.shy.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.utils.LineUtils;
 
@@ -125,12 +127,12 @@ public class Panel {
 //		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
-		String text = "sequence = (sequence + 1) & sequenceMask";
-
-		Stmt stmt = Stmt.create(text);
-		System.out.println(stmt.debug());
-		System.out.println(stmt.toString());
-		new Panel().debug(stmt);
+//		String text = "sequence = (sequence + 1) & sequenceMask";
+//
+//		Stmt stmt = Stmt.create(text);
+//		System.out.println(stmt.debug());
+//		System.out.println(stmt.toString());
+//		new Panel().debug(stmt);
 
 	}
 

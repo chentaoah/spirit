@@ -1,4 +1,4 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.doc;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ public class Document extends ArrayList<Element> {
 
 	}
 
-	public void show() {
+	public void debug() {
 		for (Element element : this)
-			element.show();
+			element.debug();
 	}
 
 }

@@ -3,7 +3,7 @@ package com.sum.shy.clazz.api;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;

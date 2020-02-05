@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
+import com.sum.shy.core.doc.IClass;
 import com.sum.shy.type.api.IType;
 
 public abstract class AbsContainer extends AbsAnnotated implements Container {
@@ -52,9 +52,9 @@ public abstract class AbsContainer extends AbsAnnotated implements Container {
 				flag = true;
 			}
 		}
-		if (flag)
-			throw new RuntimeException("Cannot have duplicate fields!number:[" + field.stmt.line.number + "], text:[ "
-					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
+//		if (flag)
+//			throw new RuntimeException("Cannot have duplicate fields!number:[" + field.stmt.line.number + "], text:[ "
+//					+ field.stmt.line.text.trim() + " ], var:[" + field.name + "]");
 	}
 
 	public boolean existField(String fieldName) {

@@ -1,5 +1,7 @@
 package com.sum.shy.clazz;
 
+import com.sum.shy.core.doc.IClass;
+
 /**
  * 内部类对象
  * 

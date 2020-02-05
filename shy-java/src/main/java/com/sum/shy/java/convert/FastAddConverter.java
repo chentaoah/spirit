@@ -2,10 +2,10 @@ package com.sum.shy.java.convert;
 
 import java.util.List;
 
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IMethod;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;
@@ -35,7 +35,7 @@ public class FastAddConverter implements Converter {
 
 		sb.deleteCharAt(sb.length() - 1);// 删除最后一个换行符
 
-		return new Stmt(sb.toString());
+		return null;
 	}
 
 }

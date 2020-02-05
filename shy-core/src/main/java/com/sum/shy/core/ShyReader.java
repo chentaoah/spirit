@@ -7,10 +7,10 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.parser.AnnotationParser;
 import com.sum.shy.parser.ClassParser;
 import com.sum.shy.parser.FieldParser;
@@ -77,16 +77,16 @@ public class ShyReader {
 			if (line.isIgnore())
 				continue;
 
-			Stmt stmt = Stmt.create(line);
-			try {
-				Parser parser = Parser.get(stmt.syntax);
-				int jump = parser.parse(clazz, scope, lines, i, line, stmt);
-				i = i + jump;
-			} catch (Exception e) {
-				System.out.println(stmt);
-				System.out.println(stmt.syntax);
-				throw e;
-			}
+//			Stmt stmt = Stmt.create(line);
+//			try {
+//				Parser parser = Parser.get(stmt.syntax);
+//				int jump = parser.parse(clazz, scope, lines, i, line, stmt);
+//				i = i + jump;
+//			} catch (Exception e) {
+//				System.out.println(stmt);
+//				System.out.println(stmt.syntax);
+//				throw e;
+//			}
 
 		}
 

@@ -1,4 +1,4 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.doc;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,12 +7,11 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.entity.Line;
 import com.sum.shy.utils.LineUtils;
 
 public class ClassReader {
 
-	public static Document readFile(File file) throws IOException {
+	public static IClass readFile(File file) throws IOException {
 		List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 		List<Line> lines = new ArrayList<>();
 		// 1.遍历文件每行，转换成line对象
@@ -27,23 +26,31 @@ public class ClassReader {
 			Line line = lines.get(i);
 			if (line.isIgnore())
 				continue;
-			readLine(document, line, lines, i);
+			i += readLine(document, line, lines, i);
 		}
-		return document;
+		document.debug();
+		// 3.生成Class对象
+		IClass clazz = new IClass(document);
+		return clazz;
 	}
 
-	public static void readLine(List<Element> father, Line line, List<Line> lines, int index) {
+	public static int readLine(List<Element> father, Line line, List<Line> lines, int index) {
+		// 1.解析一行
 		Element element = new Element(line);
 		if (father != null)
 			father.add(element);
 		if (element.hasChild()) {
+			// 2.解析子行
 			List<Line> subLines = LineUtils.getSubLines(lines, index);
+			int jump = subLines.size();
 			for (int i = 0; i < subLines.size(); i++) {
 				Line subLine = subLines.get(i);
 				if (subLine.isIgnore())
 					continue;
-				readLine(element, subLine, lines, index + i + 1);
+				jump += readLine(element, subLine, lines, index + i + 1);
 			}
+			return jump;
 		}
+		return 0;
 	}
 }

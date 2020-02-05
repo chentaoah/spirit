@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.utils.ArrayUtils;
@@ -26,8 +26,9 @@ public class SemanticDelegate {
 			"extends", "impl", "func", "throws", "if", "else", "for", "in", "do", "while", "try", "catch", "finally",
 			"sync", "return", "continue", "break", "throw", "instanceof", "print", "debug", "error" };
 
-	// ============================== 注解 ================================
+	// ============================== 特殊 ================================
 
+	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
 
 	// ============================== 类型 ================================
@@ -57,32 +58,12 @@ public class SemanticDelegate {
 	// ============================== 表达式 ================================
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*$");
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*$");
-	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
-	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+[a-zA-Z0-9]*\\[\\d+\\]$");
-
-	/**
-	 * 获取结构体语义
-	 * 
-	 * @param syntax
-	 * @param words
-	 * @return
-	 */
-	public static List<Token> getStructTokens(List<String> words) {
-		List<Token> tokens = new ArrayList<>();
-		// 关键字语句特殊处理
-		for (String word : words) {
-			Token token = new Token();
-			getStructTokenType(token, word);
-			token.value = word;
-			tokens.add(token);
-		}
-		return tokens;
-
-	}
+	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
+	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
+	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*$");
+	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
+	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\[\\d+\\]$");
+	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+\\w*\\[\\d+\\]$");
 
 	/**
 	 * 语义分析
@@ -112,22 +93,12 @@ public class SemanticDelegate {
 		return token;
 	}
 
-	public static void getStructTokenType(Token token, String word) {
-		if (isKeyword(word)) {
-			token.type = Constants.KEYWORD_TOKEN;
-			return;
-		} else if (isSeparator(word)) {
-			token.type = Constants.SEPARATOR_TOKEN;
-			return;
-		} else {
-			token.type = Constants.KEYWORD_PARAM_TOKEN;
-			return;
-		}
-	}
-
 	public static void getTokenType(Token token, String word) {
 
-		if (isAnnotation(word)) {
+		if (isPath(word)) {// 是否类型全路径
+			token.type = Constants.PATH_TOKEN;
+			return;
+		} else if (isAnnotation(word)) {
 			token.type = Constants.ANNOTATION_TOKEN;
 			return;
 		} else if (isKeyword(word)) {// 关键字
@@ -161,6 +132,10 @@ public class SemanticDelegate {
 		token.type = Constants.UNKNOWN;
 		return;
 
+	}
+
+	private static boolean isPath(String word) {
+		return PATH_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isAnnotation(String word) {
@@ -322,7 +297,7 @@ public class SemanticDelegate {
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
 		// 生成子语句
-		return new Stmt(word, subTokens);
+		return new Stmt(subTokens);
 	}
 
 	public static void getAttachments(Token token, String word) {

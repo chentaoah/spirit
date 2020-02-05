@@ -2,9 +2,10 @@ package com.sum.shy.core.lexical;
 
 import java.util.List;
 
+import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.doc.Tree;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.metadata.Symbol;
 import com.sum.shy.metadata.SymbolTable;
@@ -17,7 +18,12 @@ import com.sum.shy.metadata.SymbolTable;
  */
 public class TreeBuilder {
 
-	public static List<Token> build(List<Token> tokens) {
+	public static Tree build(Stmt stmt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static List<Token> buildTree(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;
@@ -26,7 +32,7 @@ public class TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
 				Stmt subStmt = token.getSubStmt();
-				build(subStmt.tokens);
+				buildTree(subStmt.tokens);
 			}
 		}
 		// 通过递归获取节点树
@@ -124,7 +130,7 @@ public class TreeBuilder {
 			tokens.remove(index - 1);
 
 		// 递归
-		return build(tokens);
+		return buildTree(tokens);
 	}
 
 	public static Node getNode(Token token) {

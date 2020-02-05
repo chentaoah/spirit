@@ -2,7 +2,7 @@ package com.sum.shy.core.processor;
 
 import java.util.Map;
 
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.IClass;
 
 public class AliasReplacer {
 

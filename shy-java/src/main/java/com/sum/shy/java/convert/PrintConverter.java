@@ -3,12 +3,12 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;
@@ -36,15 +36,15 @@ public class PrintConverter implements Converter {
 
 		}
 		// 如果不存在
-		if (!clazz.existField("logger")) {
-			// 添加依赖
-			clazz.addImport(Logger.class.getName());
-			clazz.addImport(LoggerFactory.class.getName());
-			// 添加字段
-			Stmt fieldStmt = new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)");
-			IField field = new IField(null, "static", new CodeType(clazz, "Logger"), "logger", fieldStmt);
-			clazz.staticFields.add(0, field);
-		}
+//		if (!clazz.existField("logger")) {
+//			// 添加依赖
+//			clazz.addImport(Logger.class.getName());
+//			clazz.addImport(LoggerFactory.class.getName());
+//			// 添加字段
+//			Stmt fieldStmt = new Stmt("logger = LoggerFactory.getLogger(" + clazz.typeName + ".class)");
+//			IField field = new IField(null, "static", new CodeType(clazz, "Logger"), "logger", fieldStmt);
+//			clazz.staticFields.add(0, field);
+//		}
 
 		return stmt;
 	}

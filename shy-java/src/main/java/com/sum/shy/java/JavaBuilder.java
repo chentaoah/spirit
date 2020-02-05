@@ -1,14 +1,14 @@
 package com.sum.shy.java;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.CoopClass;
 import com.sum.shy.clazz.api.Annotated;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.processor.MethodResolver;
 import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.java.api.Converter;
@@ -287,21 +287,21 @@ public class JavaBuilder {
 	 * @param method
 	 */
 	public static void convertMethod(StringBuilder body, IClass clazz, IMethod method) {
-		MethodResolver.resolve(clazz, method, new Handler() {
-			@Override
-			public Object handle(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
-				try {
-					Converter converter = Converter.get(stmt.syntax);
-					stmt = converter.convert(clazz, method, indent, block, line, stmt);
-					body.append(indent + stmt + "\n");
-					return null;// 必须返回null,才能够持续进行下去
-				} catch (Exception e) {
-					System.out.println(stmt);
-					System.out.println(stmt.syntax);
-					throw e;
-				}
-			}
-		});
+//		MethodResolver.resolve(clazz, method, new Handler() {
+//			@Override
+//			public Object handle(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
+//				try {
+//					Converter converter = Converter.get(stmt.syntax);
+//					stmt = converter.convert(clazz, method, indent, block, line, stmt);
+//					body.append(indent + stmt + "\n");
+//					return null;// 必须返回null,才能够持续进行下去
+//				} catch (Exception e) {
+//					System.out.println(stmt);
+//					System.out.println(stmt.syntax);
+//					throw e;
+//				}
+//			}
+//		});
 
 	}
 

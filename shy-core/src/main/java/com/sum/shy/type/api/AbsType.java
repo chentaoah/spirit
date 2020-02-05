@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.IClass;
 import com.sum.shy.utils.TypeUtils;
 
 public abstract class AbsType implements IType {

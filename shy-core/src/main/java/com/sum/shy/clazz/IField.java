@@ -3,7 +3,7 @@ package com.sum.shy.clazz;
 import java.util.List;
 
 import com.sum.shy.clazz.api.AbsMember;
-import com.sum.shy.core.entity.Stmt;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.type.api.IType;
 
 public class IField extends AbsMember {

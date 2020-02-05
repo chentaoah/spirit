@@ -1,11 +1,10 @@
-package com.sum.shy.clazz;
+package com.sum.shy.core.doc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.clazz.api.AbsLinkable;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Line;
 
 public class IClass extends AbsLinkable {
 	// 类别
@@ -18,6 +17,17 @@ public class IClass extends AbsLinkable {
 	public List<String> interfaces = new ArrayList<>();
 	// class域
 	public List<Line> classLines = new ArrayList<>();
+
+	public IClass() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public IClass(Document document) {
+		// 1.解析基本结构
+		// 2.变量追踪
+		// 3.访问推导
+
+	}
 
 	public boolean isInterface() {
 		return Constants.INTERFACE_KEYWORD.equals(category);

@@ -1,4 +1,4 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.doc;
 
 import com.sum.shy.utils.LineUtils;
 

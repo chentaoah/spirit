@@ -82,6 +82,7 @@ public class Constants {
 	public static final String DEBUG_SYNTAX = "debug";
 	public static final String ERROR_SYNTAX = "error";
 
+	public static final String PATH_TOKEN = "path";// 类访问全路径
 	public static final String ANNOTATION_TOKEN = "annotation";// 数组或者集合的快速索引
 	public static final String KEYWORD_TOKEN = "keyword";
 	public static final String KEYWORD_PARAM_TOKEN = "keyword_param";

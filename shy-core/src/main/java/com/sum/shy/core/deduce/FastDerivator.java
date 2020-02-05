@@ -2,10 +2,10 @@ package com.sum.shy.core.deduce;
 
 import java.util.List;
 
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.IClass;
+import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.IType;
