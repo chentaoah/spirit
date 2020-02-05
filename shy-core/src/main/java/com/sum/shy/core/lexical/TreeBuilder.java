@@ -1,5 +1,6 @@
 package com.sum.shy.core.lexical;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.doc.Stmt;
@@ -19,11 +20,13 @@ import com.sum.shy.metadata.SymbolTable;
 public class TreeBuilder {
 
 	public static Tree build(Stmt stmt) {
-		// TODO Auto-generated method stub
-		return null;
+		// 1.拷贝
+		List<Token> tokens = new ArrayList<>(stmt.tokens);
+		// 2.生成树
+		return new Tree(build(tokens));
 	}
 
-	public static List<Token> buildTree(List<Token> tokens) {
+	public static List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;
@@ -32,7 +35,7 @@ public class TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
 				Stmt subStmt = token.getSubStmt();
-				buildTree(subStmt.tokens);
+				build(subStmt.tokens);
 			}
 		}
 		// 通过递归获取节点树
@@ -58,12 +61,20 @@ public class TreeBuilder {
 			int priority = -1;
 			int operand = Symbol.NONE;
 
-			if (currToken.isFluent()) {
+			if (currToken.isType()) {
+				// 优先级最高,但是左边不能是?号
+				if (lastToken != null && lastToken.isVar()) {
+					priority = 55;// 优先级最高
+					operand = Symbol.RIGHT;
+				}
+
+			} else if (currToken.isFluent()) {
 				// 优先级最高,但是左边不能是?号
 				if (lastToken != null && !"?".equals(lastToken.toString())) {
-					priority = 50;// 优先级最高
+					priority = 50;
 					operand = Symbol.LEFT;
 				}
+
 			} else if (currToken.isOperator()) {// 如果是操作符
 				String value = currToken.toString();
 				Symbol symbol = SymbolTable.selectSymbol(value);
@@ -130,7 +141,7 @@ public class TreeBuilder {
 			tokens.remove(index - 1);
 
 		// 递归
-		return buildTree(tokens);
+		return build(tokens);
 	}
 
 	public static Node getNode(Token token) {

@@ -29,6 +29,7 @@ public class ClassReader {
 					continue;
 				i += readLine(document, line, lines, i);
 			}
+			// 打印日志
 			document.debug();
 			// 3.生成Class对象
 			IClass clazz = new IClass(document);
