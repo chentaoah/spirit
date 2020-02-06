@@ -41,8 +41,10 @@ public class Tree {
 			if (tokens.size() == 1 && first.isLocalMethod()) {// 调用本地方法
 				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.SUPER_SYNTAX;
+
 				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.THIS_SYNTAX;
+
 				}
 				return Constants.INVOKE_SYNTAX;
 			}
@@ -50,14 +52,29 @@ public class Tree {
 			if (tokens.size() == 1 && first.isNode()) {
 				Node node = first.getNode();
 				Token token = node.token;
-				if (token.isInvokeMethod()) {// 只有方法调用
+				if (token.isType()) {// 如果顶点是类型 String text //String test()
+					Token rightToken = node.right.token;
+					if (rightToken.isVar()) {
+						return Constants.DECLARE_SYNTAX;
+
+					} else if (rightToken.isLocalMethod()) {
+						return Constants.FUNC_DECLARE_SYNTAX;
+
+					}
+				} else if (token.isInvokeMethod()) {// 如果顶点是方法调用 list.get(0)
 					return Constants.INVOKE_SYNTAX;
+
 				} else if (token.isAssign()) {// 如果顶点是=
 					Token leftToken = node.left.token;
-					if (leftToken.isVar()) {// 如果是变量,则为赋值语句
+					if (leftToken.isType()) {// 声明并且赋值 String text = "abc"
+						return Constants.DECLARE_ASSIGN_SYNTAX;
+
+					} else if (leftToken.isVar()) {// 如果是变量,则为赋值语句 text = "abc"
 						return Constants.ASSIGN_SYNTAX;
-					} else if (leftToken.isVisitField()) {// 如果是字段访问,则是字段赋值语句
+
+					} else if (leftToken.isVisitField()) {// 如果是字段访问,则是字段赋值语句 var.text = "abc"
 						return Constants.FIELD_ASSIGN_SYNTAX;
+
 					}
 				}
 				return Constants.INVOKE_SYNTAX;
@@ -65,17 +82,6 @@ public class Tree {
 
 			// 第二个单词
 			Token second = tokens.get(1);
-			if (tokens.size() == 2 && first.isType() && second.isVar()) {// 如果是类型,则是类型说明语句
-				return Constants.DECLARE_SYNTAX;
-			}
-			if (tokens.size() == 2 && first.isType() && second.isLocalMethod()) {// 如果是类型,则是类型说明语句
-				return Constants.FUNC_DECLARE_SYNTAX;
-			}
-
-			if ("?".equals(second.toString())) {
-				return Constants.JUDGE_INVOKE_SYNTAX;
-			}
-
 			// 第三个单词
 			Token third = tokens.get(2);
 			if (Constants.FOR_KEYWORD.equals(first.toString())) {
