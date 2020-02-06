@@ -98,7 +98,7 @@ public class Stmt {
 		StringBuilder sb = new StringBuilder();
 		// 1.插入空格
 		List<Token> tokens = new ArrayList<>(this.tokens);
-		for (int i = tokens.size() - 1; i >= 1; i--) {
+		for (int i = tokens.size() - 1; i >= 0; i--) {
 			Token token = tokens.get(i);
 			if (token.isSeparator()) {
 				if ("[".equals(token.toString()) || "{".equals(token.toString()) || "(".equals(token.toString())
@@ -110,7 +110,8 @@ public class Stmt {
 					}
 				}
 			} else {
-				tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+				if (i != 0)
+					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 			}
 		}
 		// 2.开始拼接字符串
