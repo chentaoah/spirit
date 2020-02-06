@@ -7,7 +7,6 @@ import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Token;
 
 public class Tree {
-
 	// 关键字
 	public static final String[] LINE_KEYWORDS = new String[] { "if", "while", "try", "sync", "return", "break",
 			"continue", "throw", "print", "debug", "error" };
@@ -30,8 +29,12 @@ public class Tree {
 				if (keyword.equals(first.toString()))
 					return keyword;
 			}
+			// 注解
+			if (tokens.size() == 1 && first.isAnnotation()) {
+				return Constants.ANNOTATION_SYNTAX;
+			}
 			// 语句结束
-			if (tokens.size() == 1 && "}".equals(first.toString())) {// 语句块的结束
+			if (tokens.size() == 1 && "}".equals(first.toString())) {
 				return Constants.END_SYNTAX;
 			}
 			// 本地方法调用

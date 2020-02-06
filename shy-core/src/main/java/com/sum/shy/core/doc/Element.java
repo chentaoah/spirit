@@ -30,15 +30,14 @@ public class Element extends ArrayList<Element> {
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.按照基本类型,获取tokens
 		this.stmt = new Stmt(SemanticDelegate.getTokens(words));
-
+		// 3.基础语法
 		String syntax = StructRecognizer.getStructSyntax(words);
 		if (syntax != null) {
-			// 3.设置语法
 			this.syntax = syntax;
 		} else {
-			// 3.建立抽象语法树
+			// 4.建立抽象语法树
 			this.tree = TreeBuilder.build(stmt);
-			// 4.设置语法
+			// 5.获取语法
 			this.syntax = tree.getSyntax();
 		}
 
