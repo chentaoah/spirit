@@ -224,7 +224,7 @@ public class SemanticDelegate {
 
 	public static String getAccessTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_LOCAL_TOKEN;
+			return Constants.LOCAL_METHOD_TOKEN;
 		if (VISIT_FIELD_PATTERN.matcher(word).matches())
 			return Constants.VISIT_FIELD_TOKEN;
 		if (INVOKE_METHOD_PATTERN.matcher(word).matches())

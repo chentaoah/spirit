@@ -126,8 +126,8 @@ public class Token {
 		return Constants.VAR_TOKEN.equals(type);
 	}
 
-	public boolean isInvokeLocal() {
-		return Constants.INVOKE_LOCAL_TOKEN.equals(type);
+	public boolean isLocalMethod() {
+		return Constants.LOCAL_METHOD_TOKEN.equals(type);
 	}
 
 	public boolean isVisitField() {
@@ -177,11 +177,11 @@ public class Token {
 	}
 
 	public boolean isAccess() {
-		return isInvokeLocal() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
+		return isLocalMethod() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isInvokeLocal() || isInvokeMethod();
+		return isTypeInit() || isLocalMethod() || isInvokeMethod();
 	}
 
 	public boolean isFluent() {

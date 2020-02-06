@@ -38,7 +38,7 @@ public class Tree {
 				return Constants.END_SYNTAX;
 			}
 			// 本地方法调用
-			if (tokens.size() == 1 && first.isInvokeLocal()) {// 调用本地方法
+			if (tokens.size() == 1 && first.isLocalMethod()) {// 调用本地方法
 				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.SUPER_SYNTAX;
 				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
@@ -68,7 +68,7 @@ public class Tree {
 			if (tokens.size() == 2 && first.isType() && second.isVar()) {// 如果是类型,则是类型说明语句
 				return Constants.DECLARE_SYNTAX;
 			}
-			if (tokens.size() == 2 && first.isType() && second.isInvokeLocal()) {// 如果是类型,则是类型说明语句
+			if (tokens.size() == 2 && first.isType() && second.isLocalMethod()) {// 如果是类型,则是类型说明语句
 				return Constants.FUNC_DECLARE_SYNTAX;
 			}
 
