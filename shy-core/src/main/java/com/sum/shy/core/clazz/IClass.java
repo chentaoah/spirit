@@ -32,14 +32,14 @@ public class IClass {
 
 	private void init(Document document) {
 		// 1.解析基本结构
-		initRootElement(document);
+		initRootElement(document, document.name);
 		// 2.解析成员
 		initMemberElements(document, root);
 		// 3.解析内部类
 		initCoopClasses(document);
 	}
 
-	private void initRootElement(Document document) {
+	private void initRootElement(Document document, String name) {
 		List<Element> annotations = new ArrayList<>();
 		for (Element element : document) {
 			if (element.isAnnotation()) {
@@ -57,7 +57,7 @@ public class IClass {
 				break;
 
 			} else if (Constants.CLASS_SYNTAX.equals(element.syntax)) {
-				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
+				if (name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
 					this.annotations = annotations;
 					this.root = element;
 					break;
