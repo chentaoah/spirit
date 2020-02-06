@@ -1,4 +1,4 @@
-package com.sum.shy.clazz;
+package com.sum.shy.core.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +50,18 @@ public class IClass {
 				this.annotations = annotations;
 				this.root = element;
 				break;
+
 			} else if (Constants.ABSTRACT_SYNTAX.equals(element.syntax)) {
 				this.annotations = annotations;
 				this.root = element;
 				break;
+
 			} else if (Constants.CLASS_SYNTAX.equals(element.syntax)) {
 				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
 					this.annotations = annotations;
 					this.root = element;
 					break;
+
 				}
 			}
 		}

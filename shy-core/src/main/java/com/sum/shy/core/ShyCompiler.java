@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.deduce.InvokeVisiter;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.processor.AutoImporter;
+import com.sum.shy.core.proc.AutoImporter;
 import com.sum.shy.utils.TypeUtils;
 
 public class ShyCompiler {
@@ -53,24 +53,24 @@ public class ShyCompiler {
 		return mainClasses;
 	}
 
-	public Map<String, IClass> addCoopClasses(Map<String, IClass> mainClasses) {
-
-		Map<String, IClass> classes = new LinkedHashMap<>();
-		// 添加主类
-		classes.putAll(mainClasses);
-		// 添加内部类
-		for (IClass mainClass : mainClasses.values()) {
-			for (IClass coopClass : mainClass.coopClasses.values())
-				classes.put(coopClass.getClassName(), coopClass);
-		}
-		return classes;
-	}
-
-	public void deriveTypeOfMembers(Map<String, IClass> allClasses) {
-		for (IClass clazz : allClasses.values()) {
-			for (Member member : clazz.getAllMember())
-				member.setType(InvokeVisiter.visitMember(clazz, member));
-		}
-	}
+//	public Map<String, IClass> addCoopClasses(Map<String, IClass> mainClasses) {
+//
+//		Map<String, IClass> classes = new LinkedHashMap<>();
+//		// 添加主类
+//		classes.putAll(mainClasses);
+//		// 添加内部类
+//		for (IClass mainClass : mainClasses.values()) {
+//			for (IClass coopClass : mainClass.coopClasses.values())
+//				classes.put(coopClass.getClassName(), coopClass);
+//		}
+//		return classes;
+//	}
+//
+//	public void deriveTypeOfMembers(Map<String, IClass> allClasses) {
+//		for (IClass clazz : allClasses.values()) {
+//			for (Member member : clazz.getAllMember())
+//				member.setType(InvokeVisiter.visitMember(clazz, member));
+//		}
+//	}
 
 }

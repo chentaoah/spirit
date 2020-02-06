@@ -3,25 +3,19 @@ package com.sum.shy.core.deduce;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.IField;
-import com.sum.shy.clazz.IMethod;
-import com.sum.shy.clazz.api.Member;
-import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.clazz.AbsMember;
+import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.entity.Holder;
 import com.sum.shy.core.entity.Token;
-import com.sum.shy.core.processor.MethodResolver;
-import com.sum.shy.core.processor.api.Handler;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.api.IType;
 import com.sum.shy.visiter.api.Visiter;
 
 public class InvokeVisiter {
 
-	public static IType visitMember(IClass clazz, Member member) {
+	public static IType visitMember(IClass clazz, AbsMember member) {
 		// 上锁
 //		member.lock();
 //		IType type = member.getType();
@@ -94,7 +88,7 @@ public class InvokeVisiter {
 			token.setTypeAtt(FastDerivator.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isLocalMethod()) {// 本地调用
-			IType type = new CodeType(clazz, clazz.typeName);
+			IType type = new CodeType(clazz, clazz.getTypeName());
 			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
 			token.setTypeAtt(returnType);
 

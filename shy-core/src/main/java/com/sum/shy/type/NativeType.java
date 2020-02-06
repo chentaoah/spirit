@@ -5,7 +5,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.type.api.AbsType;
 import com.sum.shy.type.api.IType;
 import com.sum.shy.utils.ReflectUtils;
