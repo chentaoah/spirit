@@ -61,9 +61,6 @@ public class Tree {
 						return Constants.FUNC_DECLARE_SYNTAX;
 
 					}
-				} else if (token.isInvokeMethod()) {// 如果顶点是方法调用 list.get(0)
-					return Constants.INVOKE_SYNTAX;
-
 				} else if (token.isAssign()) {// 如果顶点是=
 					Token leftToken = node.left.token;
 					if (leftToken.isType()) {// 声明并且赋值 String text = "abc"
@@ -76,6 +73,9 @@ public class Tree {
 						return Constants.FIELD_ASSIGN_SYNTAX;
 
 					}
+				} else if (token.isInvokeMethod()) {// 如果顶点是方法调用 list.get(0)
+					return Constants.INVOKE_SYNTAX;
+
 				}
 				return Constants.INVOKE_SYNTAX;
 			}
@@ -107,7 +107,9 @@ public class Tree {
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			// ignore
 		}
 
