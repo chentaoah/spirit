@@ -107,9 +107,7 @@ public class Tree {
 				}
 			}
 
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			// ignore
 		}
 
