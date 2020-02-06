@@ -3,6 +3,7 @@ package com.sum.shy.core.doc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;
 import com.sum.shy.core.entity.Token;
 
@@ -95,15 +96,22 @@ public class Stmt {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < size(); i++) {
-			String str = format(i, getToken(i));
-			sb.append(str);
+		// 1.插入空格
+		List<Token> tokens = new ArrayList<>(this.tokens);
+		for (int i = size() - 1; i >= 1; i--) {
+			Token token = tokens.get(i);
+			if (token.isOperator()) {
+				if (",".equals(token.toString()))
+					continue;
+			} else {
+				tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+			}
 		}
-		return sb.toString();
-	}
+		// 2.开始拼接字符串
+		for (int i = 0; i < tokens.size(); i++)
+			sb.append(tokens.get(i));
 
-	public String format(int index, Token token) {
-		return token.toString();
+		return sb.toString();
 	}
 
 	public String debug() {

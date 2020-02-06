@@ -28,7 +28,7 @@ public class Panel {
 			Token token = stmt.getToken(i);
 			if (!token.isNode()) {
 				// 格式化的长度
-				String text = stmt.format(i, token);
+				String text = ""/* stmt.format(i, token) */;
 				// 先使用位置,再将自己的长度追加到位置中
 				token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
 				// 给子节点也计算位置
