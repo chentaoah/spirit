@@ -1,4 +1,4 @@
-package com.sum.shy.metadata;
+package com.sum.shy.core.meta;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

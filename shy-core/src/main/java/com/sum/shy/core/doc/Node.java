@@ -3,8 +3,8 @@ package com.sum.shy.core.doc;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.metadata.Symbol;
-import com.sum.shy.metadata.SymbolTable;
+import com.sum.shy.core.meta.Symbol;
+import com.sum.shy.core.meta.SymbolTable;
 
 public class Node {
 

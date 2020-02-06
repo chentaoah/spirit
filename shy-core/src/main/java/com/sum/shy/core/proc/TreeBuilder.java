@@ -8,8 +8,8 @@ import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.doc.Tree;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.metadata.Symbol;
-import com.sum.shy.metadata.SymbolTable;
+import com.sum.shy.core.meta.Symbol;
+import com.sum.shy.core.meta.SymbolTable;
 
 /**
  * 抽象语法树
