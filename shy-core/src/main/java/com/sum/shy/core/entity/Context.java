@@ -24,8 +24,6 @@ public class Context {
 	public Set<String> friends;
 	// 友元 + 内部类
 	public Map<String, IClass> classes;
-	// 当前解析到的注解
-	public List<String> annotations = new ArrayList<>();
 	// 推导器
 	public Visiter visiter = new CodeVisiter();
 
@@ -71,17 +69,6 @@ public class Context {
 	 */
 	public IClass findClass(String className) {
 		return classes.get(className);
-	}
-
-	/**
-	 * 返回上下文中等待处理的注解
-	 * 
-	 * @return
-	 */
-	public List<String> getAnnotations() {
-		List<String> result = annotations;
-		annotations = new ArrayList<>();
-		return result;
 	}
 
 }

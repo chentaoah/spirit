@@ -1,5 +1,6 @@
 package com.sum.shy.core.clazz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.doc.Element;
@@ -18,7 +19,7 @@ public abstract class AbsMember {
 	public volatile boolean isLock = false;
 
 	public AbsMember(List<Element> annotations, boolean isStatic, Element element) {
-		this.annotations = annotations;
+		this.annotations = new ArrayList<>(annotations);// 拷贝一份
 		this.isStatic = isStatic;
 		this.element = element;
 	}
