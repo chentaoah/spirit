@@ -8,9 +8,9 @@ import com.sum.shy.core.entity.Constants;
 
 public class IClass {
 
-	public Document document;
-
 	public String packageStr;
+
+	public Document document;
 
 	public Element root;
 
