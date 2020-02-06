@@ -19,11 +19,11 @@ public class IClass {
 
 	public Element root;
 
-	public List<IField> fields;
+	public List<IField> fields = new ArrayList<>();
 
-	public List<IMethod> methods;
+	public List<IMethod> methods = new ArrayList<>();
 
-	public List<IClass> coopClasses;
+	public List<IClass> coopClasses = new ArrayList<>();
 
 	public IClass(Document document) {
 		this.document = document;
