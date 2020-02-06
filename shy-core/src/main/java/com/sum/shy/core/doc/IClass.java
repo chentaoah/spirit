@@ -45,4 +45,12 @@ public class IClass {
 		return element != null;
 	}
 
+	public String getTypeName() {
+		return document.name;
+	}
+
+	public String getClassName() {
+		return packageStr + "." + getTypeName();
+	}
+
 }
