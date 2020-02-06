@@ -24,7 +24,9 @@ public class IClass extends AbsLinkable {
 
 	public IClass(Document document) {
 		// 1.解析基本结构
+
 		// 2.变量追踪
+
 		// 3.访问推导
 
 	}
