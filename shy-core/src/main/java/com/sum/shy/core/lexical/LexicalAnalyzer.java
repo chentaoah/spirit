@@ -26,7 +26,7 @@ public class LexicalAnalyzer {
 
 	public static final List<Symbol> SINGLE_SYMBOLS = SymbolTable.selectSingleSymbols();// 选取只有一个字符的符号
 	public static final List<Symbol> DOUBLE_SYMBOLS = SymbolTable.selectDoubleSymbols();// 选取两个字符的符号
-	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+.[A-Z]+\\w+$");
+	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
 	public static List<String> getWords(String text) {
 
