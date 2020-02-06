@@ -91,6 +91,7 @@ public class Element extends ArrayList<Element> {
 						if (subStmt.size() == 1)
 							params.add(subStmt.get(0));
 					}
+					return params;
 				}
 			}
 		}
