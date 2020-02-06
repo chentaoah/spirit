@@ -3,6 +3,7 @@ package com.sum.shy.core.doc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.LexicalAnalyzer;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.lexical.StructRecognizer;
@@ -54,6 +55,94 @@ public class Element extends ArrayList<Element> {
 				+ stmt.debug());
 		for (Element element : this)
 			element.debug();
+	}
+
+	public boolean isAssign() {
+		return Constants.ASSIGN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isIf() {
+		return Constants.IF_SYNTAX.equals(syntax);
+	}
+
+	public boolean isElseIf() {
+		return Constants.ELSEIF_SYNTAX.equals(syntax);
+	}
+
+	public boolean isElse() {
+		return Constants.ELSE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isEnd() {
+		return Constants.END_SYNTAX.equals(syntax);
+	}
+
+	public boolean isReturn() {
+		return Constants.RETURN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isDeclare() {
+		return Constants.DECLARE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isCatch() {
+		return Constants.CATCH_SYNTAX.equals(syntax);
+	}
+
+	public boolean isForIn() {
+		return Constants.FOR_IN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFor() {
+		return Constants.FOR_SYNTAX.equals(syntax);
+	}
+
+	public boolean isWhile() {
+		return Constants.WHILE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isSync() {
+		return Constants.SYNC_SYNTAX.equals(syntax);
+	}
+
+	public boolean isTry() {
+		return Constants.TRY_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFinally() {
+		return Constants.FINALLY_SYNTAX.equals(syntax);
+	}
+
+	public boolean isSuper() {
+		return Constants.SUPER_SYNTAX.equals(syntax);
+	}
+
+	public boolean isThis() {
+		return Constants.THIS_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFieldAssign() {
+		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
+	}
+
+	public boolean isInvoke() {
+		return Constants.INVOKE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isContinue() {
+		return Constants.CONTINUE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isBreak() {
+		return Constants.BREAK_SYNTAX.equals(syntax);
+	}
+
+	public boolean isThrow() {
+		return Constants.THROW_SYNTAX.equals(syntax);
+	}
+
+	public boolean isJudgeInvoke() {
+		return Constants.JUDGE_INVOKE_SYNTAX.equals(syntax);
 	}
 
 }
