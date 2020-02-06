@@ -62,7 +62,6 @@ public class TreeBuilder {
 			int operand = Symbol.NONE;
 
 			if (currToken.isType()) {
-				// 优先级最高,但是左边不能是?号
 				if (lastToken != null && lastToken.isVar()) {
 					priority = 55;// 优先级最高
 					operand = Symbol.RIGHT;
