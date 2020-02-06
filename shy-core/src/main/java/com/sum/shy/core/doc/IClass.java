@@ -26,6 +26,7 @@ public class IClass {
 	private void init(Document document) {
 		// 1.解析基本结构
 		initRootElement(document);
+		// 2.解析成员
 		initMemberElements(document);
 	}
 
