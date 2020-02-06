@@ -18,6 +18,8 @@ public class IClass {
 
 	public List<IMethod> methods;
 
+	public List<IClass> coopClasses;
+
 	public IClass(Document document) {
 		this.document = document;
 		init(document);
@@ -27,7 +29,9 @@ public class IClass {
 		// 1.解析基本结构
 		initRootElement(document);
 		// 2.解析成员
-		initMemberElements(document);
+		initMemberElements(document, root);
+		// 3.解析内部类
+		initCoopClasses(document);
 	}
 
 	private void initRootElement(Document document) {
@@ -48,7 +52,11 @@ public class IClass {
 		throw new RuntimeException("Unable to get class information!");
 	}
 
-	private void initMemberElements(Document document) {
+	private void initMemberElements(Document document, Element root) {
+		// TODO Auto-generated method stub
+	}
+
+	private void initCoopClasses(Document document2) {
 		// TODO Auto-generated method stub
 
 	}
