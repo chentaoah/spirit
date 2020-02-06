@@ -52,7 +52,7 @@ public class Tree {
 			if (tokens.size() == 1 && first.isNode()) {
 				Node node = first.getNode();
 				Token token = node.token;
-				if (token.isType()) {// 如果顶点是类型 String text //String test()
+				if (token.isType()) {// 如果顶点是类型 //String text //String test()
 					Token rightToken = node.right.token;
 					if (rightToken.isVar()) {
 						return Constants.DECLARE_SYNTAX;
