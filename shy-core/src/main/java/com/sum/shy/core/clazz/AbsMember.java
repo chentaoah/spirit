@@ -17,6 +17,12 @@ public abstract class AbsMember {
 	// 锁
 	public volatile boolean isLock = false;
 
+	public AbsMember(List<Element> annotations, boolean isStatic, Element element) {
+		this.annotations = annotations;
+		this.isStatic = isStatic;
+		this.element = element;
+	}
+
 	public IType getType() {
 		return type;
 	}
