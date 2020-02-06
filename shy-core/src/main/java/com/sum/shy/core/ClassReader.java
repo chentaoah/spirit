@@ -1,4 +1,4 @@
-package com.sum.shy.core.doc;
+package com.sum.shy.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,10 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.core.doc.Document;
+import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.doc.Line;
 import com.sum.shy.utils.LineUtils;
 
 public class ClassReader {

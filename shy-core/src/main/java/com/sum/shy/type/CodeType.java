@@ -1,6 +1,6 @@
 package com.sum.shy.type;
 
-import com.sum.shy.core.doc.IClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.lexical.SemanticDelegate;

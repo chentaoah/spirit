@@ -3,10 +3,10 @@ package com.sum.shy.core.deduce;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.api.Member;
-import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;

@@ -3,12 +3,12 @@ package com.sum.shy.core.processor;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.Variable;
 import com.sum.shy.core.deduce.FastDerivator;
 import com.sum.shy.core.deduce.InvokeVisiter;
 import com.sum.shy.core.deduce.VariableTracker;
-import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Token;

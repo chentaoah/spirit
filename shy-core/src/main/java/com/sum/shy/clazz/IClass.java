@@ -1,16 +1,21 @@
-package com.sum.shy.core.doc;
+package com.sum.shy.clazz;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.IField;
-import com.sum.shy.clazz.IMethod;
+import com.sum.shy.core.doc.Document;
+import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.entity.Constants;
 
 public class IClass {
 
+	public Document document;
+
 	public String packageStr;
 
-	public Document document;
+	public List<Element> imports;
+
+	public List<Element> annotations;
 
 	public Element root;
 
@@ -35,15 +40,23 @@ public class IClass {
 	}
 
 	private void initRootElement(Document document) {
+		List<Element> annotations = new ArrayList<>();
 		for (Element element : document) {
+			if (element.isAnnotation()) {
+				annotations.add(element);
+				continue;
+			}
 			if (Constants.INTERFACE_SYNTAX.equals(element.syntax)) {
+				this.annotations = annotations;
 				this.root = element;
 				break;
 			} else if (Constants.ABSTRACT_SYNTAX.equals(element.syntax)) {
+				this.annotations = annotations;
 				this.root = element;
 				break;
 			} else if (Constants.CLASS_SYNTAX.equals(element.syntax)) {
 				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
+					this.annotations = annotations;
 					this.root = element;
 					break;
 				}
@@ -53,7 +66,37 @@ public class IClass {
 	}
 
 	private void initMemberElements(Document document, Element root) {
-		// TODO Auto-generated method stub
+		List<Element> annotations = new ArrayList<>();
+		for (Element element : document) {
+			if (element.isAnnotation()) {
+				annotations.add(element);
+				continue;
+			}
+			if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
+				fields.add(new IField(annotations, true, element));
+				annotations.clear();
+
+			} else if (element.isFunc()) {
+				methods.add(new IMethod(annotations, true, element));
+				annotations.clear();
+
+			}
+		}
+		for (Element element : root) {
+			if (element.isAnnotation()) {
+				annotations.add(element);
+				continue;
+			}
+			if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
+				fields.add(new IField(annotations, false, element));
+				annotations.clear();
+
+			} else if (element.isFunc()) {
+				methods.add(new IMethod(annotations, false, element));
+				annotations.clear();
+
+			}
+		}
 	}
 
 	private void initCoopClasses(Document document) {

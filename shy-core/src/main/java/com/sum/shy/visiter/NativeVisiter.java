@@ -9,7 +9,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.doc.IClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.type.CodeType;
 import com.sum.shy.type.NativeType;

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.sum.shy.core.doc.IClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.visiter.CodeVisiter;
 import com.sum.shy.visiter.api.Visiter;
 

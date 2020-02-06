@@ -4,10 +4,8 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.clazz.api.Member;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.deduce.InvokeVisiter;
-import com.sum.shy.core.doc.ClassReader;
-import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.processor.AutoImporter;
 import com.sum.shy.utils.TypeUtils;

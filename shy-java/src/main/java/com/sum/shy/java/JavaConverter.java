@@ -3,7 +3,7 @@ package com.sum.shy.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.doc.IClass;
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Node;

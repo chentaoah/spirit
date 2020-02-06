@@ -3,9 +3,9 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
-import com.sum.shy.core.doc.IClass;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.entity.Constants;
