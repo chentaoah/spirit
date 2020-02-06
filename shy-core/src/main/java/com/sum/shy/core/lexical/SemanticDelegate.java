@@ -135,7 +135,7 @@ public class SemanticDelegate {
 	}
 
 	private static boolean isPath(String word) {
-		return PATH_PATTERN.matcher(word).matches();
+		return !DOUBLE_PATTERN.matcher(word).matches() && PATH_PATTERN.matcher(word).matches();
 	}
 
 	private static boolean isAnnotation(String word) {

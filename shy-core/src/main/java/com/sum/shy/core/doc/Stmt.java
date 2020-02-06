@@ -94,9 +94,6 @@ public class Stmt {
 
 	@Override
 	public String toString() {
-//		// 如果没有token,则直接返回line
-//		if (size() == 0)
-//			return line.text;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size(); i++) {
 			String str = format(i, getToken(i));
@@ -106,89 +103,7 @@ public class Stmt {
 	}
 
 	public String format(int index, Token token) {
-
-		if (token == null)
-			return "";
-
-		if (token.isKeyword()) {// 关键字一般后面加个空格
-			if ("try".equals(token.toString())) {// try语句不动
-				return token.toString();
-
-			} else if ("else".equals(token.toString()) && size() == 3) {// } else { 语句
-				return token.toString();
-
-			} else if ("return".equals(token.toString()) && size() == 2) {// return;
-				return token.toString();
-
-			} else if ("continue".equals(token.toString())) {
-				return token.toString();
-
-			} else if ("break".equals(token.toString())) {
-				return token.toString();
-
-			} else if ("in".equals(token.toString())) {// for xxx in xxx :
-				return " " + token + " ";
-
-			} else if ("extends".equals(token.toString())) {// extends
-				return " " + token + " ";
-
-			} else if ("impl".equals(token.toString())) {// impl shy代码显示的更好看点
-				return " " + token + " ";
-
-			} else if ("finally".equals(token.toString())) {// impl shy代码显示的更好看点
-				return token.toString();
-
-			} else {
-				return token + " ";
-			}
-
-		} else if (token.isOperator()) {
-			if ("=".equals(token.toString())) {
-				return " " + token + " ";
-
-			} else if ("<<".equals(token.toString())) {
-				return " " + token + " ";
-
-			} else if ("?".equals(token.toString())) {
-				return " " + token + " ";
-
-			} else {
-				return token.toString();
-			}
-
-		} else if (token.isSeparator()) {// 末尾的括号前面加个空格
-			if (",".equals(token.toString())) {// ,后面加空格
-				return token + " ";
-
-			} else if (";".equals(token.toString())) {// ;在后面加空格
-				return token + " ";
-
-			} else if (":".equals(token.toString())) {// if xxx==xxx : print xxx
-				return " " + token + " ";
-
-			} else if ("{".equals(token.toString()) && index == size() - 1) {// 如果{结尾,则在前面加个空格
-				return " " + token;
-
-			} else if ("}".equals(token.toString()) && index == 0 && size() != 1) {// 如果}是开头,并且不是孤零零的一个
-				return token + " ";
-
-			} else {
-				return token.toString();
-			}
-
-		} else if (token.isType()) {
-//			if (syntax != null) {// 泛型里面的类型后面就不用加空格了,判断条件时,子语句是的语法参数是null
-//				return token + " ";
-//
-//			} else {
-//				return token.toString();
-//			}
-
-		} else {
-			return token.toString();
-		}
-		return null;
-
+		return token.toString();
 	}
 
 	public String debug() {
