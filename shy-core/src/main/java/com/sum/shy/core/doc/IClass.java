@@ -56,7 +56,7 @@ public class IClass {
 		// TODO Auto-generated method stub
 	}
 
-	private void initCoopClasses(Document document2) {
+	private void initCoopClasses(Document document) {
 		// TODO Auto-generated method stub
 
 	}
