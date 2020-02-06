@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.visiter.CodeVisiter;
-import com.sum.shy.visiter.api.Visiter;
+import com.sum.shy.core.visiter.CodeVisiter;
+import com.sum.shy.core.visiter.api.Visiter;
 
 public class Context {
 

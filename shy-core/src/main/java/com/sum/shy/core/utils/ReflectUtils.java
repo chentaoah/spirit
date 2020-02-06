@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.shy.core.utils;
 
 import java.lang.reflect.WildcardType;
 import java.util.List;

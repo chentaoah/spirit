@@ -1,4 +1,4 @@
-package com.sum.shy.type.api;
+package com.sum.shy.core.type.api;
 
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.shy.core.utils.TypeUtils;
 
 public abstract class AbsType implements IType {
 

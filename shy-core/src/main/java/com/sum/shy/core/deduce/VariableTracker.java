@@ -7,10 +7,10 @@ import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.type.CodeType;
+import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.visiter.api.Visiter;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.CodeType;
-import com.sum.shy.type.api.IType;
-import com.sum.shy.visiter.api.Visiter;
 
 /**
  * 变量追踪器

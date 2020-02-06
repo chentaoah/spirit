@@ -1,4 +1,4 @@
-package com.sum.shy.type;
+package com.sum.shy.core.type;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.type.api.AbsType;
-import com.sum.shy.type.api.IType;
-import com.sum.shy.utils.ReflectUtils;
-import com.sum.shy.visiter.NativeVisiter;
+import com.sum.shy.core.type.api.AbsType;
+import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.core.visiter.NativeVisiter;
 
 /**
  * 本地类型

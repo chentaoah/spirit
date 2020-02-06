@@ -10,9 +10,9 @@ import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.type.CodeType;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;
-import com.sum.shy.type.CodeType;
 
 public class PrintConverter implements Converter {
 

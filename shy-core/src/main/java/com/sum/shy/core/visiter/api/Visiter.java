@@ -1,9 +1,9 @@
-package com.sum.shy.visiter.api;
+package com.sum.shy.core.visiter.api;
 
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.type.api.IType;
+import com.sum.shy.core.type.api.IType;
 
 public interface Visiter {
 

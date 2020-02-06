@@ -10,8 +10,8 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.utils.ReflectUtils;
 
 /**
  * 自动引入器

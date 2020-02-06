@@ -1,4 +1,4 @@
-package com.sum.shy.visiter;
+package com.sum.shy.core.visiter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.type.CodeType;
+import com.sum.shy.core.type.NativeType;
+import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.visiter.api.Visiter;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.CodeType;
-import com.sum.shy.type.NativeType;
-import com.sum.shy.type.api.IType;
-import com.sum.shy.visiter.api.Visiter;
 
 public class NativeVisiter implements Visiter {
 

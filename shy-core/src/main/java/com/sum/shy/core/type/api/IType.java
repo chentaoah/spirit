@@ -1,4 +1,4 @@
-package com.sum.shy.type.api;
+package com.sum.shy.core.type.api;
 
 import java.util.List;
 

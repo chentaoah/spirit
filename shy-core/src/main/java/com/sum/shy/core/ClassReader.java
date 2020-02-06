@@ -11,7 +11,7 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Document;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Line;
-import com.sum.shy.utils.LineUtils;
+import com.sum.shy.core.utils.LineUtils;
 
 public class ClassReader {
 

@@ -3,7 +3,7 @@ package com.sum.shy.core.clazz;
 import java.util.List;
 
 import com.sum.shy.core.doc.Element;
-import com.sum.shy.type.api.IType;
+import com.sum.shy.core.type.api.IType;
 
 public abstract class AbsMember {
 	// 注解

@@ -8,7 +8,7 @@ import com.sum.shy.core.proc.LexicalAnalyzer;
 import com.sum.shy.core.proc.SemanticDelegate;
 import com.sum.shy.core.proc.StructRecognizer;
 import com.sum.shy.core.proc.TreeBuilder;
-import com.sum.shy.utils.LineUtils;
+import com.sum.shy.core.utils.LineUtils;
 
 @SuppressWarnings("serial")
 public class Element extends ArrayList<Element> {

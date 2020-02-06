@@ -8,9 +8,9 @@ import com.sum.shy.core.doc.Node;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.type.api.IType;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.api.IType;
 
 public class JavaConverter {
 

@@ -1,6 +1,6 @@
 package com.sum.shy.core.doc;
 
-import com.sum.shy.utils.LineUtils;
+import com.sum.shy.core.utils.LineUtils;
 
 public class Line {
 

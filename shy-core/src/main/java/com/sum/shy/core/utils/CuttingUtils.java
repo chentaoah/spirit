@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.shy.core.utils;
 
 /**
  * 字符串剪切工具
