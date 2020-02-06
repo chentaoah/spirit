@@ -1,9 +1,9 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.doc;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.type.api.IType;
 

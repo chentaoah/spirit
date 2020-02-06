@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Token;
 import com.sum.shy.metadata.SymbolTable;
 import com.sum.shy.utils.ArrayUtils;
 

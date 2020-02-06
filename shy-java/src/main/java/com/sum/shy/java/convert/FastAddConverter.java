@@ -6,7 +6,7 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.entity.Token;
+import com.sum.shy.core.doc.Token;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;
 import com.sum.shy.type.api.IType;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.proc.LexicalAnalyzer;
 import com.sum.shy.core.proc.SemanticDelegate;
 import com.sum.shy.core.proc.StructRecognizer;

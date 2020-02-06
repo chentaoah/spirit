@@ -3,11 +3,11 @@ package com.sum.shy.core.proc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.doc.Node;
 import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.doc.Tree;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Token;
 import com.sum.shy.metadata.Symbol;
 import com.sum.shy.metadata.SymbolTable;
 

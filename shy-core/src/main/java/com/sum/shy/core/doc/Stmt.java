@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Token;
 
 public class Stmt {
 

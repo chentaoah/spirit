@@ -1,9 +1,8 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.core.doc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.metadata.Symbol;
 import com.sum.shy.metadata.SymbolTable;
 

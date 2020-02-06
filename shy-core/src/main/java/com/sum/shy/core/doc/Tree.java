@@ -3,8 +3,6 @@ package com.sum.shy.core.doc;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Node;
-import com.sum.shy.core.entity.Token;
 
 public class Tree {
 	// 关键字
