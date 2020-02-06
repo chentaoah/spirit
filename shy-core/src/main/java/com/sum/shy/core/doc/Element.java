@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Token;
 import com.sum.shy.core.lexical.LexicalAnalyzer;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.lexical.StructRecognizer;
@@ -55,6 +56,19 @@ public class Element extends ArrayList<Element> {
 				+ stmt.debug());
 		for (Element element : this)
 			element.debug();
+	}
+
+	public String getKeywordParam(String keyword) {
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.tokens.get(i);
+			if (token.isKeyword() && keyword.equals(token.toString())) {
+				if (i + 1 < stmt.size()) {
+					Token nextToken = stmt.tokens.get(i + 1);
+					return nextToken.toString();
+				}
+			}
+		}
+		return null;
 	}
 
 	public boolean isAssign() {
