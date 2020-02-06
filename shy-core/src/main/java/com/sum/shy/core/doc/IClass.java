@@ -79,4 +79,8 @@ public class IClass {
 		return root.getKeywordParam(Constants.EXTENDS_KEYWORD);
 	}
 
+	public List<String> getInterfaces() {
+		return root.getKeywordParams(Constants.IMPL_KEYWORD);
+	}
+
 }

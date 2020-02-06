@@ -71,6 +71,32 @@ public class Element extends ArrayList<Element> {
 		return null;
 	}
 
+	public List<String> getKeywordParams(String keyword) {
+		List<String> params = new ArrayList<>();
+		for (int i = 0; i < stmt.size(); i++) {
+			Token token = stmt.tokens.get(i);
+			if (token.isKeyword() && keyword.equals(token.toString())) {
+				int end = -1;
+				for (int j = i + 1; j < stmt.size(); j++) {
+					Token endToken = stmt.tokens.get(j);
+					if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
+						end = j;
+					} else if (j == stmt.size() - 1) {
+						end = j + 1;
+					}
+				}
+				if (end != -1) {
+					List<Stmt> subStmts = stmt.subStmt(i + 1, end).split(",");
+					for (Stmt subStmt : subStmts) {
+						if (subStmt.size() == 1)
+							params.add(subStmt.get(0));
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public boolean isAssign() {
 		return Constants.ASSIGN_SYNTAX.equals(syntax);
 	}
