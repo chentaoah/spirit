@@ -1,4 +1,4 @@
-package com.sum.shy.core.entity;
+package com.sum.shy.utils;
 
 public class Holder<T> {
 
