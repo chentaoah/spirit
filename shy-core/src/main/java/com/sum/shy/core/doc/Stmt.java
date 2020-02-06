@@ -98,11 +98,17 @@ public class Stmt {
 		StringBuilder sb = new StringBuilder();
 		// 1.插入空格
 		List<Token> tokens = new ArrayList<>(this.tokens);
-		for (int i = size() - 1; i >= 1; i--) {
+		for (int i = tokens.size() - 1; i >= 1; i--) {
 			Token token = tokens.get(i);
-			if (token.isOperator()) {
-				if (",".equals(token.toString()))
-					continue;
+			if (token.isSeparator()) {
+				if ("[".equals(token.toString()) || "{".equals(token.toString()) || "(".equals(token.toString())
+						|| "<".equals(token.toString())) {
+					if (i + 1 < tokens.size()) {
+						Token nextToken = tokens.get(i + 1);
+						if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
+							tokens.remove(i + 1);
+					}
+				}
 			} else {
 				tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 			}
