@@ -25,15 +25,11 @@ public class IClass {
 
 	private void init(Document document) {
 		// 1.解析基本结构
-		findRootElement(document);
-
-		// 2.变量追踪
-
-		// 3.访问推导
-
+		initRootElement(document);
+		initMemberElements(document);
 	}
 
-	private void findRootElement(Document document) {
+	private void initRootElement(Document document) {
 		for (Element element : document) {
 			if (Constants.INTERFACE_SYNTAX.equals(element.syntax)) {
 				this.root = element;
@@ -49,6 +45,11 @@ public class IClass {
 			}
 		}
 		throw new RuntimeException("Unable to get class information!");
+	}
+
+	private void initMemberElements(Document document) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public String findImport(String simpleName) {
