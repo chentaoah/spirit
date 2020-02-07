@@ -35,13 +35,9 @@ public class VariableTracker {
 
 			if (token.isVar()) {
 				String name = token.toString();
-				IType type = findType(clazz, method, block, name);
-				token.setTypeAtt(type);
 
 			} else if (token.isArrayIndex()) {
 				String name = token.getMemberNameAtt();
-				IType type = findType(clazz, method, block, name);
-				token.setTypeAtt(type);
 
 			}
 
