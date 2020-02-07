@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.proc.MemberDeducer;
 import com.sum.shy.core.utils.TypeUtils;
 
 public class ShyCompiler {
@@ -19,8 +20,8 @@ public class ShyCompiler {
 		Map<String, IClass> allClasses = addCoopClasses(mainClasses);
 		// 设置所有类
 		Context.get().classes = allClasses;
-		// 3.推导字段和方法的类型
-		deriveTypeOfMembers(allClasses);
+		// 3.推导成员的返回类型
+		MemberDeducer.derive(allClasses);
 
 		return mainClasses;
 	}
@@ -51,13 +52,6 @@ public class ShyCompiler {
 				classes.put(coopClass.getClassName(), coopClass);
 		}
 		return classes;
-	}
-
-	public void deriveTypeOfMembers(Map<String, IClass> allClasses) {
-//		for (IClass clazz : allClasses.values()) {
-//			for (AbsMember member : clazz.getAllMembers())
-//				member.setType(InvokeVisiter.visitMember(clazz, member));
-//		}
 	}
 
 }
