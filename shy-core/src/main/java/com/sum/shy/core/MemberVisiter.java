@@ -12,7 +12,7 @@ import com.sum.shy.core.proc.StmtPreviewer;
 import com.sum.shy.core.proc.VariableTracker;
 import com.sum.shy.core.type.api.IType;
 
-public class MemberDeducer {
+public class MemberVisiter {
 
 	public static void derive(Map<String, IClass> allClasses) {
 		for (IClass clazz : allClasses.values()) {

@@ -20,7 +20,7 @@ public class ShyCompiler {
 		// 设置所有类
 		Context.get().classes = allClasses;
 		// 3.推导成员的返回类型
-		MemberDeducer.derive(allClasses);
+		MemberVisiter.derive(allClasses);
 
 		return mainClasses;
 	}
