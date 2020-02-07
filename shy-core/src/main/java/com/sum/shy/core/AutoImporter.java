@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core;
 
 import java.io.File;
 import java.io.IOException;
