@@ -13,7 +13,7 @@ public class MemberDeducer {
 	public static void derive(Map<String, IClass> allClasses) {
 		for (IClass clazz : allClasses.values()) {
 			for (AbsMember member : clazz.getAllMembers())
-				member.setType(visitMember(clazz, member));
+				visitMember(clazz, member);
 		}
 	}
 
