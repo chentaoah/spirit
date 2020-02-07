@@ -13,9 +13,9 @@ public class IClass {
 
 	public String packageStr;
 
-	public List<Element> imports;
+	public List<Element> imports = new ArrayList<>();
 
-	public List<Element> annotations;
+	public List<Element> annotations = new ArrayList<>();
 
 	public Element root;
 
@@ -24,88 +24,6 @@ public class IClass {
 	public List<IMethod> methods = new ArrayList<>();
 
 	public List<IClass> coopClasses = new ArrayList<>();
-
-	public IClass(Document document) {
-		this.document = document;
-		init(document);
-	}
-
-	private void init(Document document) {
-		// 1.解析基本结构
-		initRootElement(document, document.name);
-		// 2.解析成员
-		initMemberElements(document, root);
-		// 3.解析内部类
-		initCoopClasses(document);
-	}
-
-	private void initRootElement(Document document, String name) {
-		List<Element> annotations = new ArrayList<>();
-		for (Element element : document) {
-			if (element.isAnnotation()) {
-				annotations.add(element);
-				continue;
-			}
-			if (Constants.INTERFACE_SYNTAX.equals(element.syntax)) {
-				this.annotations = annotations;
-				this.root = element;
-				break;
-
-			} else if (Constants.ABSTRACT_SYNTAX.equals(element.syntax)) {
-				this.annotations = annotations;
-				this.root = element;
-				break;
-
-			} else if (Constants.CLASS_SYNTAX.equals(element.syntax)) {
-				if (name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
-					this.annotations = annotations;
-					this.root = element;
-					break;
-
-				}
-			}
-		}
-		throw new RuntimeException("Unable to get class information!");
-	}
-
-	private void initMemberElements(Document document, Element root) {
-		List<Element> annotations = new ArrayList<>();
-		for (Element element : document) {
-			if (element.isAnnotation()) {
-				annotations.add(element);
-				continue;
-			}
-			if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				fields.add(new IField(annotations, true, element));
-				annotations.clear();
-
-			} else if (element.isFunc()) {
-				methods.add(new IMethod(annotations, true, element));
-				annotations.clear();
-
-			}
-		}
-		for (Element element : root) {
-			if (element.isAnnotation()) {
-				annotations.add(element);
-				continue;
-			}
-			if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				fields.add(new IField(annotations, false, element));
-				annotations.clear();
-
-			} else if (element.isFunc()) {
-				methods.add(new IMethod(annotations, false, element));
-				annotations.clear();
-
-			}
-		}
-	}
-
-	private void initCoopClasses(Document document) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public String findImport(String simpleName) {
 		return null;
@@ -124,11 +42,9 @@ public class IClass {
 	}
 
 	public String getTypeName() {
-		return document.name;
-	}
-
-	public String getClassName() {
-		return packageStr + "." + getTypeName();
+		if (root == null)
+			return document.name;
+		return root.getKeywordParam(Constants.CLASS_KEYWORD);
 	}
 
 	public String getSuperName() {
@@ -137,6 +53,10 @@ public class IClass {
 
 	public List<String> getInterfaces() {
 		return root.getKeywordParams(Constants.IMPL_KEYWORD);
+	}
+
+	public String getClassName() {
+		return packageStr + "." + getTypeName();
 	}
 
 }

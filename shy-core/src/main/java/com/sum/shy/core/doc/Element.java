@@ -97,8 +97,24 @@ public class Element extends ArrayList<Element> {
 		return null;
 	}
 
+	public boolean isImport() {
+		return Constants.IMPORT_SYNTAX.equals(syntax);
+	}
+
 	public boolean isAnnotation() {
 		return Constants.ANNOTATION_SYNTAX.equals(syntax);
+	}
+
+	public boolean isInterface() {
+		return Constants.INTERFACE_SYNTAX.equals(syntax);
+	}
+
+	public boolean isAbstract() {
+		return Constants.ABSTRACT_SYNTAX.equals(syntax);
+	}
+
+	public boolean isClass() {
+		return Constants.CLASS_SYNTAX.equals(syntax);
 	}
 
 	public boolean isDeclare() {
@@ -113,12 +129,24 @@ public class Element extends ArrayList<Element> {
 		return Constants.ASSIGN_SYNTAX.equals(syntax);
 	}
 
-	public boolean isFieldAssign() {
-		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
+	public boolean isFuncDeclare() {
+		return Constants.FUNC_DECLARE_SYNTAX.equals(syntax);
 	}
 
 	public boolean isFunc() {
 		return Constants.FUNC_SYNTAX.equals(syntax);
+	}
+
+	public boolean isSuper() {
+		return Constants.SUPER_SYNTAX.equals(syntax);
+	}
+
+	public boolean isThis() {
+		return Constants.THIS_SYNTAX.equals(syntax);
+	}
+
+	public boolean isFieldAssign() {
+		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
 	}
 
 	public boolean isReturn() {
@@ -169,14 +197,6 @@ public class Element extends ArrayList<Element> {
 		return Constants.SYNC_SYNTAX.equals(syntax);
 	}
 
-	public boolean isSuper() {
-		return Constants.SUPER_SYNTAX.equals(syntax);
-	}
-
-	public boolean isThis() {
-		return Constants.THIS_SYNTAX.equals(syntax);
-	}
-
 	public boolean isInvoke() {
 		return Constants.INVOKE_SYNTAX.equals(syntax);
 	}
@@ -191,10 +211,6 @@ public class Element extends ArrayList<Element> {
 
 	public boolean isThrow() {
 		return Constants.THROW_SYNTAX.equals(syntax);
-	}
-
-	public boolean isJudgeInvoke() {
-		return Constants.JUDGE_INVOKE_SYNTAX.equals(syntax);
 	}
 
 }

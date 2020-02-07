@@ -31,7 +31,7 @@ public class ClassReader {
 			// 3.打印日志
 			document.debug();
 			// 4.生成Class对象
-			IClass clazz = new IClass(document);
+			IClass clazz = ClassFactory.create(document);
 			return clazz;
 
 		} catch (IOException e) {
