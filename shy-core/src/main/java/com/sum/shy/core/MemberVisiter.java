@@ -8,7 +8,6 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.proc.InvokeVisiter;
-import com.sum.shy.core.proc.StmtPreviewer;
 import com.sum.shy.core.proc.TypeDeducer;
 import com.sum.shy.core.proc.VariableTracker;
 import com.sum.shy.core.type.api.IType;
@@ -27,10 +26,10 @@ public class MemberVisiter {
 		IType type = member.getType();
 		if (type == null) {
 			if (member instanceof IField) {
-				type = visitElement(clazz, member.element);
+				type = visitField(clazz, (IField) member);
 
 			} else if (member instanceof IMethod) {
-
+				type = visitMethod(clazz, (IMethod) member);
 			}
 			if (type != null)
 				member.setType(type);
@@ -39,6 +38,16 @@ public class MemberVisiter {
 		}
 		member.unLock();
 		return type;
+	}
+
+	private static IType visitField(IClass clazz, IField field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static IType visitMethod(IClass clazz, IMethod method) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public static IType visitElement(IClass clazz, Element element) {
