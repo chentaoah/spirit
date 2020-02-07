@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.proc.MemberDeducer;
 import com.sum.shy.core.utils.TypeUtils;
 
 public class ShyCompiler {
