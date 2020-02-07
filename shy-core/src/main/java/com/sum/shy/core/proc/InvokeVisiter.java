@@ -1,4 +1,4 @@
-package com.sum.shy.core.deduce;
+package com.sum.shy.core.proc;
 
 import java.util.ArrayList;
 import java.util.List;

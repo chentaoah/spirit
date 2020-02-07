@@ -1,4 +1,4 @@
-package com.sum.shy.core.deduce;
+package com.sum.shy.core.proc;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IMethod;

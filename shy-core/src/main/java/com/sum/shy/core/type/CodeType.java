@@ -3,7 +3,7 @@ package com.sum.shy.core.type;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
-import com.sum.shy.core.proc.SemanticDelegate;
+import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.type.api.AbsType;
 
 public class CodeType extends AbsType {
