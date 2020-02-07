@@ -24,9 +24,8 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static void track(IClass clazz, Element element) {
+	public static void trackStmt(IClass clazz, Stmt stmt) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public static void trackStmt(IClass clazz, IMethod method, String block, Line line, Stmt stmt) {

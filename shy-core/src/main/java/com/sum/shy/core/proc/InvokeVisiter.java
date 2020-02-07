@@ -15,11 +15,6 @@ import com.sum.shy.core.visiter.api.Visiter;
 
 public class InvokeVisiter {
 
-	public static void visit(IClass clazz, Element element) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static void visitStmt(IClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++)
 			visitToken(clazz, stmt, i, stmt.getToken(i));

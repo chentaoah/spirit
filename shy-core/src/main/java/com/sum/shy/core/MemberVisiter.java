@@ -45,9 +45,9 @@ public class MemberVisiter {
 		// 1.预览,为一些特殊语句提前声明一些变量
 		StmtPreviewer.preview(clazz, element);
 		// 2.变量追踪
-		VariableTracker.track(clazz, element);
+		VariableTracker.trackStmt(clazz, element.stmt);
 		// 3.调用推导
-		InvokeVisiter.visit(clazz, element);
+		InvokeVisiter.visitStmt(clazz, element.stmt);
 		// 4.类型进行推导
 		return TypeDeducer.derive(clazz, element);
 	}
