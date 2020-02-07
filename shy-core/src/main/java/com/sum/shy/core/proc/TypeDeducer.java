@@ -20,7 +20,7 @@ import com.sum.shy.core.utils.ReflectUtils;
  * @author: chentao26275
  * @date: 2019年11月15日
  */
-public class FastDerivator {
+public class TypeDeducer {
 
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {

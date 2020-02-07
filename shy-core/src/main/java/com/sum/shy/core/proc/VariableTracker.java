@@ -2,6 +2,7 @@ package com.sum.shy.core.proc;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
@@ -22,6 +23,11 @@ import com.sum.shy.lib.StringUtils;
  * @date: 2019年11月1日
  */
 public class VariableTracker {
+
+	public static void track(IClass clazz, Element element) {
+		// TODO Auto-generated method stub
+
+	}
 
 	public static void trackStmt(IClass clazz, IMethod method, String block, Line line, Stmt stmt) {
 		for (Token token : stmt.tokens)
