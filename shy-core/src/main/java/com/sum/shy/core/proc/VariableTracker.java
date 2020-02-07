@@ -24,47 +24,40 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
+	public static void track(IClass clazz, Element element) {
+
+	}
+
 	public static void trackStmt(IClass clazz, Stmt stmt) {
-		// TODO Auto-generated method stub
-	}
+		for (Token token : stmt.tokens) {
+			if (token.hasSubStmt())
+				trackStmt(clazz, token.getSubStmt());
 
-	public static void trackStmt(IClass clazz, IMethod method, String block, Line line, Stmt stmt) {
-		for (Token token : stmt.tokens)
-			findType(clazz, method, block, line, stmt, token);
-	}
+			if (token.isVar()) {
+				String name = token.toString();
+				IType type = findType(clazz, method, block, name);
+				token.setTypeAtt(type);
 
-	public static void findType(IClass clazz, IMethod method, String block, Line line, Stmt stmt, Token token) {
+			} else if (token.isArrayIndex()) {
+				String name = token.getMemberNameAtt();
+				IType type = findType(clazz, method, block, name);
+				token.setTypeAtt(type);
 
-		if (token.hasSubStmt())
-			trackStmt(clazz, method, block, line, token.getSubStmt());
-		if (token.isNode())
-			trackStmt(clazz, method, block, line, token.getNode().toStmt());
-
-		if (token.isVar()) {
-			String name = token.toString();
-			IType type = findType(clazz, method, block, name);
-			checkType(line, name, type);
-			token.setTypeAtt(type);
-
-		} else if (token.isArrayIndex()) {
-			String name = token.getMemberNameAtt();
-			IType type = findType(clazz, method, block, name);
-			checkType(line, name, type);
-			token.setTypeAtt(type);
+			}
 
 		}
 
 	}
 
-	public static IType findType(IClass clazz, IMethod method, String block, String name) {
+	public static IType findType(IClass clazz, Element element, String name) {
 
 		// super引用,指向的是父类
-		if (Constants.SUPER_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getSuperName());// 这里可能是比较隐晦的逻辑，因为
-
-		// this引用，指向的是这个类本身
-		if (Constants.THIS_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getClassName(), clazz.getTypeName());// 这里可能是比较隐晦的逻辑，因为
+//		if (Constants.SUPER_KEYWORD.equals(name))
+//			return new CodeType(clazz, clazz.getSuperName());// 这里可能是比较隐晦的逻辑，因为
+//
+//		// this引用，指向的是这个类本身
+//		if (Constants.THIS_KEYWORD.equals(name))
+//			return new CodeType(clazz, clazz.getClassName(), clazz.getTypeName());// 这里可能是比较隐晦的逻辑，因为
 
 		// 先在最近的位置找变量
 //		if (method != null) {
@@ -95,10 +88,10 @@ public class VariableTracker {
 //			}
 //		}
 		// 从继承里面去找
-		if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			Visiter visiter = Context.get().visiter;
-			return visiter.visitField(clazz, new CodeType(clazz, clazz.getSuperName()), name);
-		}
+//		if (StringUtils.isNotEmpty(clazz.getSuperName())) {
+//			Visiter visiter = Context.get().visiter;
+//			return visiter.visitField(clazz, new CodeType(clazz, clazz.getSuperName()), name);
+//		}
 
 		return null;
 

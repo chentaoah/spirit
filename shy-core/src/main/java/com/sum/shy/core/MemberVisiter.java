@@ -42,12 +42,12 @@ public class MemberVisiter {
 	}
 
 	public static IType visitElement(IClass clazz, Element element) {
-		// 1.预览,为一些特殊语句提前声明一些变量
-		StmtPreviewer.preview(clazz, element);
-		// 2.变量追踪
+		// 1.变量追踪
 		VariableTracker.trackStmt(clazz, element.stmt);
-		// 3.调用推导
+		// 2.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
+		// 3.预览,为一些特殊语句提前声明一些变量
+//		StmtPreviewer.preview(clazz, element);
 		// 4.类型进行推导
 		return TypeDeducer.derive(clazz, element);
 	}
