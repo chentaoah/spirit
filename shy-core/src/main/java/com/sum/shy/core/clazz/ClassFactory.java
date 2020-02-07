@@ -1,12 +1,8 @@
-package com.sum.shy.core;
+package com.sum.shy.core.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.clazz.CoopClass;
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.doc.Document;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.entity.Constants;
