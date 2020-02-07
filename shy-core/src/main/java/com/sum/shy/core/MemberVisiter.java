@@ -6,6 +6,11 @@ import com.sum.shy.core.clazz.AbsMember;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.proc.InvokeVisiter;
+import com.sum.shy.core.proc.StmtPreviewer;
+import com.sum.shy.core.proc.TypeDeducer;
+import com.sum.shy.core.proc.VariableTracker;
 import com.sum.shy.core.type.api.IType;
 
 public class MemberVisiter {
@@ -19,29 +24,32 @@ public class MemberVisiter {
 
 	public static IType visitMember(IClass clazz, AbsMember member) {
 		member.lock();
-		if (member.getType() == null) {
+		IType type = member.getType();
+		if (type == null) {
 			if (member instanceof IField) {
-//				IType type = process(clazz, member);
-//				member.setType(type);
+				type = visitElement(clazz, member.element);
 
 			} else if (member instanceof IMethod) {
-//				IType type = process(clazz, member);
-//				member.setType(type);
+
 			}
+			if (type != null)
+				member.setType(type);
+
+			throw new RuntimeException("Failed to derive member type!");
 		}
 		member.unLock();
-		return member.getType();
+		return type;
 	}
 
-//	public static IType process(IClass clazz, Element element) {
-//		// 1.预览,为一些特殊语句提前声明一些变量
-//		StmtPreviewer.preview(element);
-//		// 2.变量追踪
-//		VariableTracker.track(clazz, element);
-//		// 3.调用推导
-//		InvokeVisiter.visit(clazz, element);
-//		// 4.对
-//		return null;
-//	}
+	public static IType visitElement(IClass clazz, Element element) {
+		// 1.预览,为一些特殊语句提前声明一些变量
+		StmtPreviewer.preview(clazz, element);
+		// 2.变量追踪
+		VariableTracker.track(clazz, element);
+		// 3.调用推导
+		InvokeVisiter.visit(clazz, element);
+		// 4.类型进行推导
+		return TypeDeducer.derive(clazz, element);
+	}
 
 }
