@@ -73,12 +73,18 @@ public class IClass {
 	}
 
 	public IField getField(String name) {
-
+		for (IField field : fields) {
+			if (name.equals(field.getName()))
+				return field;
+		}
 		return null;
 	}
 
-	public IMethod getMethod(String name, List<IType> types) {
-
+	public IMethod getMethod(String name, List<IType> paramTypes) {
+		for (IMethod method : methods) {
+			if (method.isMatch(name, paramTypes))
+				return method;
+		}
 		return null;
 	}
 
