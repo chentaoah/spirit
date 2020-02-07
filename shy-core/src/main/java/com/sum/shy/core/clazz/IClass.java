@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.doc.Document;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.type.api.IType;
 
 public class IClass {
 
@@ -29,16 +30,20 @@ public class IClass {
 		return null;
 	}
 
+	public boolean addImport(String className) {
+		return true;
+	}
+
 	public boolean isInterface() {// 接口里不允许嵌套别的东西
-		return Constants.INTERFACE_SYNTAX.equals(root.syntax);
+		return root.isInterface();
 	}
 
 	public boolean isAbstract() {// 抽象类里也不允许嵌套
-		return Constants.ABSTRACT_SYNTAX.equals(root.syntax);
+		return root.isAbstract();
 	}
 
 	public boolean isClass() {
-		return Constants.CLASS_SYNTAX.equals(root.syntax);
+		return root.isClass();
 	}
 
 	public String getTypeName() {
@@ -57,6 +62,31 @@ public class IClass {
 
 	public String getClassName() {
 		return packageStr + "." + getTypeName();
+	}
+
+	public List<IField> getFields() {
+		return fields;
+	}
+
+	public List<IMethod> getMethods() {
+		return methods;
+	}
+
+	public IField getField(String name) {
+
+		return null;
+	}
+
+	public IMethod getMethod(String name, List<IType> types) {
+
+		return null;
+	}
+
+	public List<AbsMember> getAllMembers() {
+		List<AbsMember> members = new ArrayList<>();
+		members.addAll(getFields());
+		members.addAll(getMethods());
+		return members;
 	}
 
 }
