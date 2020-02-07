@@ -4,10 +4,8 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sum.shy.core.clazz.AbsMember;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.proc.AutoImporter;
 import com.sum.shy.core.utils.TypeUtils;
 
 public class ShyCompiler {
