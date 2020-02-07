@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.sum.shy.core.ShyCompiler;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.proc.AliasReplacer;
 import com.sum.shy.core.utils.FileUtils;
+import com.sum.shy.java.AliasReplacer;
 import com.sum.shy.java.JavaBuilder;
 
 /**
