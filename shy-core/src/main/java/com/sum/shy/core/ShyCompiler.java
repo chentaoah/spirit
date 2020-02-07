@@ -39,7 +39,6 @@ public class ShyCompiler {
 //			AutoImporter.doImport(mainClass, file);
 			// 将内部类当做普通的类,添加到集合中
 			mainClasses.put(className, mainClass);
-
 		}
 		return mainClasses;
 	}
