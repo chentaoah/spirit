@@ -1,8 +1,11 @@
-package com.sum.shy.core.doc;
+package com.sum.shy.core.factory;
 
 import java.io.File;
 import java.util.List;
 
+import com.sum.shy.core.doc.Document;
+import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.utils.LineUtils;
 
 public class DocumentFactory {

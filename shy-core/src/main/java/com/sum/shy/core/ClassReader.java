@@ -7,11 +7,11 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.clazz.ClassFactory;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Document;
-import com.sum.shy.core.doc.DocumentFactory;
 import com.sum.shy.core.doc.Line;
+import com.sum.shy.core.factory.ClassFactory;
+import com.sum.shy.core.factory.DocumentFactory;
 
 public class ClassReader {
 
