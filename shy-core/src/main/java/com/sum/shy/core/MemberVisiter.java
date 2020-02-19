@@ -8,6 +8,7 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.proc.InvokeVisiter;
+import com.sum.shy.core.proc.StmtPreviewer;
 import com.sum.shy.core.proc.TypeDeducer;
 import com.sum.shy.core.proc.VariableTracker;
 import com.sum.shy.core.type.api.IType;
@@ -30,6 +31,7 @@ public class MemberVisiter {
 
 			} else if (member instanceof IMethod) {
 				type = visitMethod(clazz, (IMethod) member);
+				
 			}
 			if (type != null)
 				member.setType(type);
@@ -51,12 +53,12 @@ public class MemberVisiter {
 	}
 
 	public static IType visitElement(IClass clazz, Element element) {
-		// 1.变量追踪
+		// 1.预览,为一些特殊语句提前声明一些变量
+		StmtPreviewer.preview(clazz, element);
+		// 2.变量追踪
 		VariableTracker.trackStmt(clazz, element.stmt);
-		// 2.调用推导
+		// 3.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
-		// 3.预览,为一些特殊语句提前声明一些变量
-//		StmtPreviewer.preview(clazz, element);
 		// 4.类型进行推导
 		return TypeDeducer.derive(clazz, element);
 	}

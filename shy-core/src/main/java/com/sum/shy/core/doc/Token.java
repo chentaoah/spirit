@@ -19,6 +19,12 @@ public class Token {
 		attachments = new HashMap<>();
 	}
 
+	public Token(String type, Object value) {
+		this.type = type;
+		this.value = value;
+		this.attachments = new HashMap<>();
+	}
+
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;
@@ -27,23 +33,17 @@ public class Token {
 		this.attachments = attachments == null ? new HashMap<>() : attachments;
 	}
 
-	public Token(String type, Object value) {
-		this.type = type;
-		this.value = value;
-		this.attachments = new HashMap<>();
-	}
-
 	@Override
 	public String toString() {
 		return value.toString();
 	}
 
-	public Node getNode() {
-		return (Node) value;
-	}
-
 	public Stmt getSubStmt() {
 		return (Stmt) value;
+	}
+
+	public Node getNode() {
+		return (Node) value;
 	}
 
 	public String debug() {
@@ -217,15 +217,11 @@ public class Token {
 	}
 
 	public boolean isEquals() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
-		if (isOperator())
-			return "==".equals(value) || "!=".equals(value);
-		return false;
+		return isOperator() && ("==".equals(value) || "!=".equals(value));
 	}
 
 	public boolean isShift() {// 是否位移操作符
-		if (isOperator())
-			return "<<".equals(value) || ">>".equals(value);
-		return false;
+		return isOperator() && ("<<".equals(value) || ">>".equals(value));
 	}
 
 	// =================== 类型 =====================
