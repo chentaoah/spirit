@@ -45,18 +45,16 @@ public class MemberVisiter {
 
 	private static IType visitField(IClass clazz, IField field) {
 		Element element = field.element;
-		if (element.isDeclare() || element.isDeclareAssign()) {
-			// 1.类型声明者
-			TypeDeclarer.declareStmt(clazz, element.stmt);
-		}
+		// 1.类型声明者
+		TypeDeclarer.declareStmt(clazz, element.stmt);
 		// 2.特殊语句的处理
-
+		SpecialDeclarer.declare(clazz, element);
 		// 3.变量追踪
 		VariableTracker.trackStmt(clazz, element.stmt);
 		// 4.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
-
-		return null;
+		// 5.快速推导
+		return FastDeducer.deriveStmt(clazz, element.stmt);
 	}
 
 	private static IType visitMethod(IClass clazz, IMethod method) {

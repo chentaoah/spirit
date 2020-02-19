@@ -3,7 +3,6 @@ package com.sum.shy.core.proc;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Node;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
@@ -22,11 +21,6 @@ import com.sum.shy.core.utils.ReflectUtils;
  * @date: 2019年11月15日
  */
 public class FastDeducer {
-
-	public static IType derive(IClass clazz, Element element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {

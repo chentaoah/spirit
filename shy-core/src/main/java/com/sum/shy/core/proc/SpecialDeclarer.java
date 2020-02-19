@@ -8,7 +8,7 @@ import com.sum.shy.core.type.api.IType;
 
 public class SpecialDeclarer {
 
-	public static void preview(IClass clazz, Element element) {
+	public static void declare(IClass clazz, Element element) {
 
 		if (element.isAssign()) {// text = "abc"
 			Stmt stmt = element.stmt;
@@ -29,7 +29,7 @@ public class SpecialDeclarer {
 			varToken.setTypeAtt(type);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
-
+			
 		}
 
 	}
