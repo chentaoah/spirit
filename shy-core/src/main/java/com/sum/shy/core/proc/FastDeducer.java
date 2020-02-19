@@ -21,7 +21,7 @@ import com.sum.shy.core.utils.ReflectUtils;
  * @author: chentao26275
  * @date: 2019年11月15日
  */
-public class TypeDeducer {
+public class FastDeducer {
 
 	public static IType derive(IClass clazz, Element element) {
 		// TODO Auto-generated method stub
