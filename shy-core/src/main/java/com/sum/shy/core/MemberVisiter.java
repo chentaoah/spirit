@@ -34,10 +34,12 @@ public class MemberVisiter {
 				type = visitMethod(clazz, (IMethod) member);
 
 			}
-			if (type != null)
+			if (type != null) {
 				member.setType(type);
+			} else {
+				throw new RuntimeException("Failed to derive member type!");
+			}
 
-			throw new RuntimeException("Failed to derive member type!");
 		}
 		member.unLock();
 		return type;
@@ -60,10 +62,6 @@ public class MemberVisiter {
 	private static IType visitMethod(IClass clazz, IMethod method) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public static void visitElement(IClass clazz, Element element) {
-
 	}
 
 }
