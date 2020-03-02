@@ -1,47 +1,105 @@
 package com.sum.shy.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
+import com.sum.shy.core.clazz.CoopClass;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IField;
+import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.doc.Document;
-import com.sum.shy.core.doc.Line;
-import com.sum.shy.core.factory.ClassFactory;
-import com.sum.shy.core.factory.DocumentFactory;
+import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.entity.Constants;
 
 public class ClassReader {
 
 	public IClass read(File file) {
-		try {
-			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-			// 1.遍历文件每行，转换成line对象
-			List<Line> lines = convertFileLines(fileLines);
-			// 2.遍历每行line
-			Document document = DocumentFactory.create(file, lines);
-			// 3.打印日志
-			document.debug();
-			// 4.生成Class对象
-			return ClassFactory.create(document);
-
-		} catch (IOException e) {
-			// ignore
-		}
-		return null;
-
+		// 1.生成docment对象
+		Document document = new DocumentReader().read(file);
+		// 2.打印日志
+		document.debug();
+		// 3.生成Class对象
+		return read(document);
 	}
 
-	private List<Line> convertFileLines(List<String> fileLines) {
-		List<Line> lines = new ArrayList<>();
-		for (int i = 0; i < fileLines.size(); i++) {
-			String text = fileLines.get(i);
-			Line line = new Line(i + 1, text);
-			lines.add(line);
+	public IClass read(Document document) {
+		// 主类
+		IClass mainClass = new IClass();
+		// 文档
+		mainClass.document = document;
+		// 上下文注解,用完要及时清理
+		List<Element> annotations = new ArrayList<>();
+
+		for (Element element : document) {
+			if (element.isImport()) {
+				mainClass.imports.add(element);
+
+			} else if (element.isAnnotation()) {
+				annotations.add(element);
+
+			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
+				mainClass.fields.add(new IField(annotations, true, element));
+				annotations.clear();
+
+			} else if (element.isFuncDeclare() || element.isFunc()) {
+				mainClass.methods.add(new IMethod(annotations, true, element));
+				annotations.clear();
+
+			} else if (element.isInterface()) {
+				mainClass.annotations.addAll(annotations);
+				annotations.clear();
+				mainClass.root = element;
+				readRootElement(mainClass);
+
+			} else if (element.isAbstract()) {
+				mainClass.annotations.addAll(annotations);
+				annotations.clear();
+				mainClass.root = element;
+				readRootElement(mainClass);
+
+			} else if (element.isClass()) {
+				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
+					mainClass.annotations.addAll(annotations);
+					annotations.clear();
+					mainClass.root = element;
+					readRootElement(mainClass);
+
+				} else {// 协同内部类
+					IClass coopClass = new CoopClass(mainClass);
+					coopClass.annotations.addAll(annotations);
+					annotations.clear();
+					coopClass.root = element;
+					readRootElement(coopClass);
+					// 添加到主类中
+					mainClass.coopClasses.add(coopClass);
+
+				}
+
+			}
+
 		}
-		return lines;
+		return mainClass;
+	}
+
+	private void readRootElement(IClass clazz) {
+		List<Element> annotations = new ArrayList<>();
+		for (Element element : clazz.root) {
+			if (element.isAnnotation()) {
+				annotations.add(element);
+
+			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
+				clazz.fields.add(new IField(annotations, false, element));
+				annotations.clear();
+
+			} else if (element.isFuncDeclare() || element.isFunc()) {
+				clazz.methods.add(new IMethod(annotations, false, element));
+				annotations.clear();
+
+			}
+
+		}
+
 	}
 
 }
