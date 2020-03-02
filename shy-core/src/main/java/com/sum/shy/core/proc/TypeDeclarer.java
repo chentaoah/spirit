@@ -6,13 +6,12 @@ import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.type.CodeType;
 
 public class TypeDeclarer {
-
+	// String text
+	// String text = "abc"
+	// }catch Exception e{
+	// String test(String str)
+	// func test(String str)
 	public static void declareStmt(IClass clazz, Stmt stmt) {
-		// String text
-		// String text = "abc"
-		// }catch Exception e{
-		// String test(String str)
-		// func test(String str)
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.hasSubStmt()) {

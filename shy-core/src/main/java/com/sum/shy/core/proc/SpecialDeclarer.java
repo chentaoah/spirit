@@ -29,6 +29,7 @@ public class SpecialDeclarer {
 			varToken.setTypeAtt(type);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
+			Stmt stmt = element.stmt;
 
 		}
 
