@@ -56,7 +56,7 @@ public class MemberVisiter {
 		// 4.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
 		// 5.快速推导
-		return FastDeducer.deriveStmt(clazz, element.stmt);
+		return FastDeducer.derive(clazz, element);
 	}
 
 	private static IType visitMethod(IClass clazz, IMethod method) {
