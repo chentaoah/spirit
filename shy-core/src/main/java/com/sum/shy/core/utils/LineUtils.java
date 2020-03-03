@@ -33,30 +33,6 @@ public class LineUtils {
 		return list;
 	}
 
-	public static List<Line> getAllLines(List<Line> lines, int index) {
-		List<Line> list = new ArrayList<>();
-		for (int i = index, count = 0; i < lines.size(); i++) {
-			String text = lines.get(i).text;
-			boolean flag = false;// 是否进入"符号的范围内
-			for (int j = 0; j < text.length(); j++) {
-				char c = text.charAt(j);
-				if (c == '"' && isBoundary(text, j)) // 判断是否进入了字符串中
-					flag = !flag;
-				if (!flag) {
-					if (c == '{') {
-						count++;
-					} else if (c == '}') {
-						count--;
-					}
-				}
-			}
-			list.add(lines.get(i));
-			if (count == 0)
-				break;
-		}
-		return list;
-	}
-
 	public static boolean isBoundary(String text, int i) {
 		int count = 0;
 		while (--i >= 0) {
