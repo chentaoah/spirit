@@ -1,5 +1,7 @@
 package com.sum.shy.core;
 
+import java.util.Map;
+
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Element;
@@ -8,7 +10,6 @@ import com.sum.shy.core.proc.FastDeducer;
 import com.sum.shy.core.proc.InvokeVisiter;
 import com.sum.shy.core.proc.TypeDeclarer;
 import com.sum.shy.core.proc.VariableTracker;
-import com.sum.shy.core.type.api.IType;
 
 public class ElementVisiter {
 
@@ -20,7 +21,7 @@ public class ElementVisiter {
 	 * @param element
 	 * @return
 	 */
-	public static IType visit(IClass clazz, MethodContext context, Element element) {
+	public static Map<String, Object> visit(IClass clazz, MethodContext context, Element element) {
 		// 1.类型声明者
 		TypeDeclarer.declareStmt(clazz, element.stmt);
 		// 2.特殊语句的处理

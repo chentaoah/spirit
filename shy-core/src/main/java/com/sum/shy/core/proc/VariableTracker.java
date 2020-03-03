@@ -61,7 +61,7 @@ public class VariableTracker {
 		if (method != null) {
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			for (Variable variable : context.variables) {
-				if (variable.blockId.equals(context.blockId) && variable.name.equals(name))
+				if (variable.blockId.equals(context.getBlockId()) && variable.name.equals(name))
 					return variable.type;
 			}
 			// 如果在成员变量中没有声明,则查看方法内是否声明
@@ -87,8 +87,7 @@ public class VariableTracker {
 			return findType(father, null, name);
 		}
 
-		throw new RuntimeException("Variable must be declared!number:[" + context.line.number + "], text:[ "
-				+ context.line.text.trim() + " ], var:[" + name + "]");
+		throw new RuntimeException("Variable must be declared!");
 
 	}
 

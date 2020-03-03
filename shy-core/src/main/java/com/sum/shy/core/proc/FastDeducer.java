@@ -1,6 +1,7 @@
 package com.sum.shy.core.proc;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Element;
@@ -23,8 +24,10 @@ import com.sum.shy.core.utils.ReflectUtils;
  */
 public class FastDeducer {
 
-	public static IType derive(IClass clazz, Element element) {
-		// TODO Auto-generated method stub
+	public static final String TYPE = "type";
+	public static final String NAME = "name";
+
+	public static Map<String, Object> derive(IClass clazz, Element element) {
 		return null;
 	}
 

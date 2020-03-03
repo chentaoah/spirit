@@ -95,4 +95,12 @@ public interface IType {
 	 */
 	boolean isMap();
 
+	/**
+	 * 判断是否是一个类的父类
+	 * 
+	 * @param returnType
+	 * @return
+	 */
+	boolean isAssignableFrom(IType returnType);
+
 }
