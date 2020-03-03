@@ -15,6 +15,8 @@ public abstract class AbsMember {
 	public Element element;
 	// 类型
 	public IType type;
+	// 名称
+	public String name;
 	// 锁
 	public volatile boolean isLock = false;
 

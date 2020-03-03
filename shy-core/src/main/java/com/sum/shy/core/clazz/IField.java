@@ -10,8 +10,4 @@ public class IField extends AbsMember {
 		super(annotations, isStatic, element);
 	}
 
-	public String getName() {
-		return null;
-	}
-
 }

@@ -51,10 +51,13 @@ public class MemberVisiter {
 	}
 
 	private static IType visitField(IClass clazz, IField field) {
-		return (IType) ElementVisiter.visit(clazz, null, field.element).get(FastDeducer.TYPE);
+		Map<String, Object> result = ElementVisiter.visit(clazz, null, field.element);
+		field.name = (String) result.get(FastDeducer.NAME);
+		return (IType) result.get(FastDeducer.TYPE);
 	}
 
 	private static IType visitMethod(IClass clazz, IMethod method) {
+		// TODO 在这里解析method方法名，和参数信息
 		MethodContext context = new MethodContext();
 		context.method = method;
 		visitChildElement(clazz, context, method.element);

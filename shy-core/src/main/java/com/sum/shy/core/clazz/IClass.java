@@ -74,7 +74,7 @@ public class IClass {
 
 	public IField getField(String name) {
 		for (IField field : fields) {
-			if (name.equals(field.getName()))
+			if (name.equals(field.name))
 				return field;
 		}
 		return null;
