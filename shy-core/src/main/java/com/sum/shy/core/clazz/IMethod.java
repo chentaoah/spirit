@@ -9,6 +9,7 @@ public class IMethod extends AbsMember {
 
 	public IMethod(List<Element> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
+		// TODO 在这里解析method方法名，和参数信息
 	}
 
 	public List<IParameter> getParameters() {
