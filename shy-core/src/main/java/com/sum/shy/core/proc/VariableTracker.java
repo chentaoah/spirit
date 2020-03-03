@@ -24,10 +24,6 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static void track(IClass clazz, Element element) {
-
-	}
-
 	public static void trackStmt(IClass clazz, Stmt stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.hasSubStmt())

@@ -1,12 +1,14 @@
 package com.sum.shy.core.proc;
 
+import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.type.api.IType;
 
-public class SpecialDeclarer {
+public class ExpressDeclarer {
 
 	public static void declare(IClass clazz, Element element) {
 
@@ -30,7 +32,10 @@ public class SpecialDeclarer {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Stmt stmt = element.stmt;
-
+			Stmt subStmt = stmt.subStmt(1, stmt.indexOf(";"));
+			Element subElement = new Element(new Line(subStmt.toString()));
+			subElement.stmt = subStmt;// 替换一下
+			ElementVisiter.visit(clazz, subElement);
 		}
 
 	}
