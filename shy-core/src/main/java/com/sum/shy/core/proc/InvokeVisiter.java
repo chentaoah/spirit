@@ -80,7 +80,6 @@ public class InvokeVisiter {
 	public static List<IType> getParamTypes(IClass clazz, Token token) {
 		List<IType> paramTypes = new ArrayList<>();
 		Stmt stmt = token.getSubStmt();
-		// 只取括号里的
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {
