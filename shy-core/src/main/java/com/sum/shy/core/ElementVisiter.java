@@ -11,11 +11,12 @@ import com.sum.shy.core.proc.VariableTracker;
 import com.sum.shy.core.type.api.IType;
 
 public class ElementVisiter {
+
 	/**
 	 * 处理element对象，并根据语法返回类型，如果有的话
 	 * 
 	 * @param clazz
-	 * @param element
+	 * @param context
 	 * @param element
 	 * @return
 	 */
@@ -23,9 +24,9 @@ public class ElementVisiter {
 		// 1.类型声明者
 		TypeDeclarer.declareStmt(clazz, element.stmt);
 		// 2.特殊语句的处理
-		ExpressDeclarer.declare(clazz, element);
+		ExpressDeclarer.declare(clazz, context, element);
 		// 3.变量追踪
-		VariableTracker.trackStmt(clazz, element.stmt);
+		VariableTracker.trackStmt(clazz, context, element.stmt);
 		// 4.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
 		// 5.快速推导

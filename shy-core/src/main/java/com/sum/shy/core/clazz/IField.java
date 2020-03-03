@@ -10,8 +10,7 @@ public class IField extends AbsMember {
 		super(annotations, isStatic, element);
 	}
 
-	public Object getName() {
-		// TODO Auto-generated method stub
+	public String getName() {
 		return null;
 	}
 

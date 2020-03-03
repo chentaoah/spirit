@@ -7,6 +7,7 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
+import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.type.api.IType;
 
 public class MemberVisiter {
@@ -51,7 +52,8 @@ public class MemberVisiter {
 
 	public class MethodContext {// 方法上下文
 		public IMethod method;
-		public Map<String, IParameter> params;
+		public Map<String, Variable> variables;
+		public String blockId;// 块位置id
 	}
 
 }

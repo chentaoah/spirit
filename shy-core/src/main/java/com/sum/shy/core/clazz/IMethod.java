@@ -11,6 +11,14 @@ public class IMethod extends AbsMember {
 		super(annotations, isStatic, element);
 	}
 
+	public String getName() {
+		return null;
+	}
+
+	public List<IParameter> getParameters() {
+		return null;
+	}
+
 	public boolean isMatch(String name, List<IType> paramTypes) {
 		// TODO Auto-generated method stub
 		return false;
