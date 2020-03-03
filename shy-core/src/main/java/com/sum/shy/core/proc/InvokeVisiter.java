@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.visiter.CodeVisiter;
 import com.sum.shy.core.visiter.api.Visiter;
 
 public class InvokeVisiter {
+
+	// 推导器
+	public static Visiter visiter = new CodeVisiter();
 
 	public static void visitStmt(IClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++)
@@ -21,9 +23,6 @@ public class InvokeVisiter {
 	}
 
 	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {
-
-		// 获取推导器
-		Visiter visiter = Context.get().visiter;
 
 		// 内部可能还需要推导
 		if (token.hasSubStmt())

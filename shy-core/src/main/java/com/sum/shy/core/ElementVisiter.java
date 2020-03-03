@@ -1,5 +1,6 @@
 package com.sum.shy.core;
 
+import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.proc.ExpressDeclarer;
@@ -15,9 +16,10 @@ public class ElementVisiter {
 	 * 
 	 * @param clazz
 	 * @param element
+	 * @param element
 	 * @return
 	 */
-	public static IType visit(IClass clazz, Element element) {
+	public static IType visit(IClass clazz, MethodContext context, Element element) {
 		// 1.类型声明者
 		TypeDeclarer.declareStmt(clazz, element.stmt);
 		// 2.特殊语句的处理

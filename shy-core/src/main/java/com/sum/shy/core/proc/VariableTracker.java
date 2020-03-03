@@ -41,7 +41,7 @@ public class VariableTracker {
 
 	}
 
-	public static IType findType(IClass clazz, Element element, String name) {
+	public static IType findType(IClass clazz, String name) {
 
 		// super引用,指向的是父类
 //		if (Constants.SUPER_KEYWORD.equals(name))

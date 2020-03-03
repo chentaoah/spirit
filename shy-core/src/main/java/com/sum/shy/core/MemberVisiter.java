@@ -6,6 +6,7 @@ import com.sum.shy.core.clazz.AbsMember;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.type.api.IType;
 
 public class MemberVisiter {
@@ -40,12 +41,17 @@ public class MemberVisiter {
 	}
 
 	private static IType visitField(IClass clazz, IField field) {
-		return ElementVisiter.visit(clazz, field.element);
+		return ElementVisiter.visit(clazz, null, field.element);
 	}
 
 	private static IType visitMethod(IClass clazz, IMethod method) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public class MethodContext {// 方法上下文
+		public IMethod method;
+		public Map<String, IParameter> params;
 	}
 
 }

@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.visiter.CodeVisiter;
-import com.sum.shy.core.visiter.api.Visiter;
 
 public class Context {
 
@@ -22,8 +20,6 @@ public class Context {
 	public Set<String> friends;
 	// 友元 + 内部类
 	public Map<String, IClass> classes;
-	// 推导器
-	public Visiter visiter = new CodeVisiter();
 
 	/**
 	 * 查询引入的类型
