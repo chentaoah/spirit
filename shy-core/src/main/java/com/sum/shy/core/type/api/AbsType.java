@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.utils.TypeUtils;
 
 public abstract class AbsType implements IType {
 
@@ -114,6 +113,12 @@ public abstract class AbsType implements IType {
 	@Override
 	public boolean isMap() {
 		return Map.class.getName().equals(getClassName());
+	}
+
+	@Override
+	public boolean isAssignableFrom(IType returnType) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

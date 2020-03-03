@@ -73,7 +73,7 @@ public class VariableTracker {
 
 		// 成员变量
 		for (IField field : clazz.fields) {
-			if (field.getName().equals(name)) {
+			if (field.name.equals(name)) {
 				if (field.type == null)
 					field.type = MemberVisiter.visitMember(clazz, field);
 				return field.type;

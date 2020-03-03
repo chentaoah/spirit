@@ -11,10 +11,6 @@ public class IMethod extends AbsMember {
 		super(annotations, isStatic, element);
 	}
 
-	public String getName() {
-		return null;
-	}
-
 	public List<IParameter> getParameters() {
 		return null;
 	}
