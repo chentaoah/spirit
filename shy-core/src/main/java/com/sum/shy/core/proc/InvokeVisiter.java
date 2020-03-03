@@ -27,8 +27,6 @@ public class InvokeVisiter {
 		// 内部可能还需要推导
 		if (token.hasSubStmt())
 			visitStmt(clazz, token.getSubStmt());
-		if (token.isNode())
-			visitStmt(clazz, token.getNode().toStmt());
 
 		// 参数类型，为了像java那样支持重载
 		List<IType> paramTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
