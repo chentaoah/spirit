@@ -20,7 +20,11 @@ public class ClassReader {
 		// 2.打印日志
 		document.debug();
 		// 3.生成Class对象
-		return read(document);
+		IClass clazz = read(document);
+		// 4.打印日志
+		clazz.debug();
+
+		return clazz;
 	}
 
 	public IClass read(Document document) {

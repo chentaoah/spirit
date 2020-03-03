@@ -95,4 +95,9 @@ public class IClass {
 		return members;
 	}
 
+	public void debug() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
