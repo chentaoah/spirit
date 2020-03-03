@@ -3,11 +3,11 @@ package com.sum.shy.core.visiter;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IMethod;
+//import com.sum.shy.core.clazz.IField;
+//import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.proc.InvokeVisiter;
+//import com.sum.shy.core.proc.InvokeVisiter;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.api.Visiter;
@@ -57,7 +57,7 @@ public class CodeVisiter implements Visiter {
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
-				IClass typeClass = Context.get().findClass(className);
+//				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(methodName)) {
 //					if (Constants.SUPER_KEYWORD.equals(methodName)) {
 //						return new CodeType(typeClass, typeClass.superName);
