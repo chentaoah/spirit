@@ -8,7 +8,9 @@ import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Node;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.doc.Tree;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.utils.ReflectUtils;
@@ -32,7 +34,8 @@ public class FastDeducer {
 	}
 
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
-		for (Token token : stmt.tokens) {
+		// 构建树形结构
+		for (Token token : TreeBuilder.build(stmt.tokens)) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
 

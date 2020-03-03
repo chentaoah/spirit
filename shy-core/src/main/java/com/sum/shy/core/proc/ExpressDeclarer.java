@@ -1,8 +1,11 @@
 package com.sum.shy.core.proc;
 
+import java.util.Map;
+
 import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.doc.Line;
 import com.sum.shy.core.doc.Stmt;
@@ -36,7 +39,14 @@ public class ExpressDeclarer {
 			Stmt subStmt = stmt.subStmt(1, stmt.indexOf(";"));
 			Element subElement = new Element(new Line(subStmt.toString()));
 			subElement.stmt = subStmt;// 替换一下
-			ElementVisiter.visit(clazz, context, subElement);
+			Map<String, Object> result = ElementVisiter.visit(clazz, context, subElement);
+			if (result != null) {
+				Variable variable = new Variable();
+				variable.type = (IType) result.get(FastDeducer.TYPE);
+				variable.name = (String) result.get(FastDeducer.NAME);
+				variable.blockId = context.getBlockId();
+				context.variables.add(variable);
+			}
 		}
 
 	}
