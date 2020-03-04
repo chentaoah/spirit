@@ -21,20 +21,12 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
-	public int indexOf(Token token) {
-		return tokens.indexOf(token);
-	}
-
 	public String get(int index) {// 修改为从token获取字符串
 		return getToken(index).toString();
 	}
 
-	public String frist() {
-		return get(0);
-	}
-
-	public String last() {
-		return get(size() - 1);
+	public int indexOf(Token token) {
+		return tokens.indexOf(token);
 	}
 
 	public int indexOf(String str) {
@@ -57,8 +49,7 @@ public class Stmt {
 		return index;
 	}
 
-	public Stmt subStmt(int start, int end) {
-		// 这里一定要new一个,不然subList返回的是原来集合的一个视图
+	public Stmt subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
 		return new Stmt(new ArrayList<>(tokens.subList(start, end)));
 	}
 
