@@ -11,7 +11,7 @@ public class TypeDeclarer {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.hasSubStmt()) {
-				declareStmt(clazz, token.getSubStmt());
+				declareStmt(clazz, token.getStmt());
 
 			} else if (token.isType()) {
 				if (i + 1 < stmt.size()) {

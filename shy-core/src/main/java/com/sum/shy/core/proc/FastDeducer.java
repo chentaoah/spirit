@@ -133,7 +133,7 @@ public class FastDeducer {
 		boolean isSame = true;// 所有元素是否都相同
 		IType genericType = null;
 		// 开始遍历
-		Stmt stmt = token.getSubStmt();
+		Stmt stmt = token.getStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			IType type = deriveStmt(clazz, subStmt);
 			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
@@ -163,7 +163,7 @@ public class FastDeducer {
 		boolean isSameValue = true;
 		IType finalKeyType = null;
 		IType finalValueType = null;
-		Stmt stmt = token.getSubStmt();
+		Stmt stmt = token.getStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
 			IType KeyType = deriveStmt(clazz, subStmts.get(0));

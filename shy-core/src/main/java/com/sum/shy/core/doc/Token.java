@@ -38,7 +38,7 @@ public class Token {
 		return value.toString();
 	}
 
-	public Stmt getSubStmt() {
+	public Stmt getStmt() {
 		return (Stmt) value;
 	}
 

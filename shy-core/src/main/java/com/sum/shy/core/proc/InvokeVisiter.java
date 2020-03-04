@@ -26,7 +26,7 @@ public class InvokeVisiter {
 
 		// 内部可能还需要推导
 		if (token.hasSubStmt())
-			visitStmt(clazz, token.getSubStmt());
+			visitStmt(clazz, token.getStmt());
 
 		// 参数类型，为了像java那样支持重载
 		List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
@@ -41,7 +41,7 @@ public class InvokeVisiter {
 			token.setTypeAtt(FastDeducer.getValueType(clazz, token));
 
 		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-			Stmt subStmt = token.getSubStmt();
+			Stmt subStmt = token.getStmt();
 			token.setTypeAtt(FastDeducer.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
 
 		} else if (token.isLocalMethod()) {// 本地调用
@@ -79,7 +79,7 @@ public class InvokeVisiter {
 
 	public static List<IType> getParameterTypes(IClass clazz, Token token) {
 		List<IType> parameterTypes = new ArrayList<>();
-		Stmt stmt = token.getSubStmt();
+		Stmt stmt = token.getStmt();
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {

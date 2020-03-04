@@ -1,17 +1,47 @@
 package com.sum.shy.core.clazz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 
 public class IMethod extends AbsMember {
 
-	public List<IParameter> parameters;
+	public List<IParameter> parameters = new ArrayList<>();
 
-	public IMethod(List<Element> annotations, boolean isStatic, Element element) {
+	/**
+	 * 构造方法
+	 * 
+	 * @param clazz       这里需要传入的原因是要确定参数的类型
+	 * @param annotations
+	 * @param isStatic
+	 * @param element
+	 */
+	public IMethod(IClass clazz, List<Element> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
-		// TODO 在这里解析method方法名，和参数信息
+		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
+		name = methodToken.getMemberNameAtt();
+		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
+		for (Stmt paramStmt : subStmts) {
+			for (Token token : paramStmt.tokens) {
+				IParameter parameter = new IParameter();
+				if (token.isAnnotation()) {// TODO 这里暂时不处理注解
+					continue;
+				} else if (token.isType()) {
+					parameter.type = new CodeType(clazz, token);
+				} else if (token.isVar()) {
+					parameter.name = token.toString();
+				}
+				parameters.add(parameter);
+			}
+
+		}
+
 	}
 
 	public List<IParameter> getParameters() {

@@ -48,15 +48,12 @@ public class Element extends ArrayList<Element> {
 		return line.text.trim().endsWith("{");
 	}
 
-	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaceByNumber(100 - line.text.length()) + ">>> " + syntax + " "
-				+ stmt.debug());
-		for (Element element : this)
-			element.debug();
-	}
-
 	public String getStr(int index) {
 		return stmt.get(index);
+	}
+
+	public Token findToken(String type) {
+		return stmt.findToken(type);
 	}
 
 	public String getKeywordParam(String keyword) {
@@ -97,6 +94,13 @@ public class Element extends ArrayList<Element> {
 			}
 		}
 		return null;
+	}
+
+	public void debug() {
+		System.out.println(line.text + LineUtils.getSpaceByNumber(100 - line.text.length()) + ">>> " + syntax + " "
+				+ stmt.debug());
+		for (Element element : this)
+			element.debug();
 	}
 
 	public boolean isImport() {

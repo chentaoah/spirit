@@ -33,7 +33,7 @@ public class TreeBuilder {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
-				Stmt subStmt = token.getSubStmt();
+				Stmt subStmt = token.getStmt();
 				List<Token> subTokens = build(subStmt.tokens);
 				// 重新创建一个token，而不影响原来的token
 				Stmt newStmt = new Stmt(subTokens);

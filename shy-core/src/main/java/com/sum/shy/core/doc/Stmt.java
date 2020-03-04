@@ -21,6 +21,14 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
+	public Token findToken(String type) {
+		for (Token token : tokens) {
+			if (token.type.equals(type))
+				return token;
+		}
+		return null;
+	}
+
 	public String get(int index) {// 修改为从token获取字符串
 		return getToken(index).toString();
 	}
