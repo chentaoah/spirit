@@ -15,7 +15,7 @@ public class IMethod extends AbsMember {
 	public List<IParameter> parameters = new ArrayList<>();
 
 	/**
-	 * 构造方法
+	 * 构造方法，这个时候，还不知道方法的返回类型是什么
 	 * 
 	 * @param clazz       这里需要传入的原因是要确定参数的类型
 	 * @param annotations
@@ -45,11 +45,18 @@ public class IMethod extends AbsMember {
 	}
 
 	public List<IParameter> getParameters() {
-		return null;
+		return parameters;
 	}
 
 	public boolean isMatch(String methodName, List<IType> parameterTypes) {
-		// TODO Auto-generated method stub
+		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
+			int count = 0;
+			for (IParameter parameter : parameters) {
+				if (!parameter.type.equals(parameterTypes.get(count++)))
+					return false;
+			}
+			return true;
+		}
 		return false;
 	}
 
