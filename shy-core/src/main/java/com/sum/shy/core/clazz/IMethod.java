@@ -7,6 +7,8 @@ import com.sum.shy.core.type.api.IType;
 
 public class IMethod extends AbsMember {
 
+	public List<IParameter> parameters;
+
 	public IMethod(List<Element> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
 		// TODO 在这里解析method方法名，和参数信息
