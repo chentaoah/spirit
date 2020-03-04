@@ -1,5 +1,6 @@
 package com.sum.shy.core.proc;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,48 @@ public class FastDeducer {
 	public static final String TYPE = "type";
 	public static final String NAME = "name";
 
+	/**
+	 * 根据语法返回，类型和变量名称，这里只是尽量做到
+	 * 
+	 * @param clazz
+	 * @param element
+	 * @return
+	 */
 	public static Map<String, Object> derive(IClass clazz, Element element) {
+		if (element.isDeclare() || element.isDeclareAssign()) {
+			Stmt stmt = element.stmt;
+			Token varToken = stmt.getToken(1);
+			Map<String, Object> result = new HashMap<>();
+			result.put(TYPE, varToken.getTypeAtt());
+			result.put(NAME, varToken.toString());
+			return result;
+
+		} else if (element.isAssign()) {
+			Stmt stmt = element.stmt;
+			Token varToken = stmt.getToken(0);
+			Map<String, Object> result = new HashMap<>();
+			result.put(TYPE, varToken.getTypeAtt());
+			result.put(NAME, varToken.toString());
+			return result;
+
+		} else if (element.isReturn()) {
+			Stmt stmt = element.stmt;
+			Stmt subStmt = stmt.subStmt(1, stmt.size());
+			Map<String, Object> result = new HashMap<>();
+			result.put(TYPE, deriveStmt(clazz, subStmt));
+			return result;
+
+		}
 		return null;
 	}
 
+	/**
+	 * 推导表达式的返回值类型，这里的表达式只是一个语句的一部分
+	 * 
+	 * @param clazz
+	 * @param stmt
+	 * @return
+	 */
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		// 构建树形结构
 		for (Token token : TreeBuilder.build(stmt.tokens)) {
