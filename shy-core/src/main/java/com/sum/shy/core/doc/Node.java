@@ -60,20 +60,6 @@ public class Node {
 		return token.toString();
 	}
 
-	public Stmt toStmt() {
-		return new Stmt(getTokens());
-	}
-
-	public List<Token> getTokens() {
-		List<Token> tokens = new ArrayList<>();
-		tokens.add(token);
-		if (left != null)
-			tokens.addAll(0, left.getTokens());
-		if (right != null)
-			tokens.addAll(right.getTokens());
-		return tokens;
-	}
-
 	public List<Node> getNodes() {
 		List<Node> nodes = new ArrayList<>();
 		nodes.add(this);
