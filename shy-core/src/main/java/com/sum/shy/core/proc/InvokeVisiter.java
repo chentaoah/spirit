@@ -29,7 +29,7 @@ public class InvokeVisiter {
 			visitStmt(clazz, token.getSubStmt());
 
 		// 参数类型，为了像java那样支持重载
-		List<IType> paramTypes = token.isInvoke() ? getParamTypes(clazz, token) : null;
+		List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
 		if (token.isType()) {
 			token.setTypeAtt(new CodeType(clazz, token));
@@ -46,7 +46,7 @@ public class InvokeVisiter {
 
 		} else if (token.isLocalMethod()) {// 本地调用
 			IType type = new CodeType(clazz, clazz.getTypeName());
-			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
+			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitField()) {
@@ -59,7 +59,7 @@ public class InvokeVisiter {
 			if (lastToken.isOperator() && "?".equals(lastToken.toString()))
 				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
 			IType type = lastToken.getTypeAtt();
-			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), paramTypes);
+			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 
 		} else if (token.isVisitArrayIndex()) {
@@ -77,17 +77,17 @@ public class InvokeVisiter {
 
 	}
 
-	public static List<IType> getParamTypes(IClass clazz, Token token) {
-		List<IType> paramTypes = new ArrayList<>();
+	public static List<IType> getParameterTypes(IClass clazz, Token token) {
+		List<IType> parameterTypes = new ArrayList<>();
 		Stmt stmt = token.getSubStmt();
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Stmt subStmt : subStmts) {
 				IType parameterType = FastDeducer.deriveStmt(clazz, subStmt);
-				paramTypes.add(parameterType);
+				parameterTypes.add(parameterType);
 			}
 		}
-		return paramTypes;
+		return parameterTypes;
 	}
 
 }

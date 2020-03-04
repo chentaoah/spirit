@@ -31,11 +31,11 @@ public class NativeVisiter implements Visiter {
 		return null;
 	}
 
-	public IType visitMethod(IClass iClass, IType type, String methodName, List<IType> paramTypes) {
+	public IType visitMethod(IClass iClass, IType type, String methodName, List<IType> parameterTypes) {
 		NativeType nativeType = type instanceof CodeType ? new NativeType(iClass, type) : (NativeType) type;
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
-				Method method = nativeType.findMethod(methodName, paramTypes);
+				Method method = nativeType.findMethod(methodName, parameterTypes);
 				return visitMember(iClass, nativeType, method.getGenericReturnType());
 			}
 		} catch (Exception e) {

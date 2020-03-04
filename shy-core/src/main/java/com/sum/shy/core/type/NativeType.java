@@ -52,16 +52,16 @@ public class NativeType extends AbsType {
 		return clazz.getSimpleName();
 	}
 
-	public Method findMethod(String methodName, List<IType> paramTypes) {
+	public Method findMethod(String methodName, List<IType> parameterTypes) {
 
 		for (Method method : clazz.getMethods()) {
-			if (method.getName().equals(methodName) && method.getParameterCount() == paramTypes.size()) {
+			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
 				boolean flag = true;
 				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
 					NativeType nativeType = (NativeType) NativeVisiter.visitMember(super.clazz, this,
 							parameter.getParameterizedType());
-					IType type = paramTypes.get(count++);
+					IType type = parameterTypes.get(count++);
 					Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 					if (!(clazz.isAssignableFrom(nativeType.clazz))) {
 						flag = false;
