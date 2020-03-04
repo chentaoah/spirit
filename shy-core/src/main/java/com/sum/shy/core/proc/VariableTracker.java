@@ -10,9 +10,9 @@ import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.doc.Stmt;
 import com.sum.shy.core.doc.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.visiter.CodeVisiter;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -25,6 +25,8 @@ import com.sum.shy.lib.StringUtils;
  * @date: 2019年11月1日
  */
 public class VariableTracker {
+
+	public static CodeVisiter visiter = new CodeVisiter();
 
 	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {
@@ -82,12 +84,10 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			String className = clazz.findImport(clazz.getSuperName());
-			IClass father = Context.get().findClass(className);
-			return findType(father, null, name);
+			return visiter.visitField(clazz, new CodeType(clazz, clazz.getSuperName()), name);
 		}
 
-		throw new RuntimeException("Variable must be declared!");
+		throw new RuntimeException("Variable must be declared!name:" + name);
 
 	}
 
