@@ -55,6 +55,10 @@ public class Element extends ArrayList<Element> {
 			element.debug();
 	}
 
+	public String getStr(int index) {
+		return stmt.get(index);
+	}
+
 	public String getKeywordParam(String keyword) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.tokens.get(i);
@@ -74,7 +78,7 @@ public class Element extends ArrayList<Element> {
 			Token token = stmt.tokens.get(i);
 			if (token.isKeyword() && keyword.equals(token.toString())) {
 				int end = -1;
-				for (int j = i + 1; j < stmt.size(); j++) {
+				for (int j = i + 1; j < stmt.size(); j++) {// 查询到结束的位置
 					Token endToken = stmt.tokens.get(j);
 					if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
 						end = j;
