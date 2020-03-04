@@ -20,22 +20,25 @@ import com.sum.shy.core.meta.SymbolTable;
 public class TreeBuilder {
 
 	public static Tree build(Stmt stmt) {
-		// 1.拷贝
-		List<Token> tokens = new ArrayList<>(stmt.tokens);
-		// 2.生成树
-		return new Tree(build(tokens));
+		return new Tree(build(stmt.tokens));
 	}
 
 	public static List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;
+		// 拷贝一份
+		tokens = new ArrayList<>(tokens);
 		// 先处理子节点
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.hasSubStmt()) {// 如果有子节点,则对子节点进行转换
 				Stmt subStmt = token.getSubStmt();
-				build(subStmt.tokens);
+				List<Token> subTokens = build(subStmt.tokens);
+				// 重新创建一个token，而不影响原来的token
+				Stmt newStmt = new Stmt(subTokens);
+				Token newToken = new Token(token.type, newStmt, token.attachments);
+				tokens.set(i, newToken);
 			}
 		}
 		// 通过递归获取节点树
