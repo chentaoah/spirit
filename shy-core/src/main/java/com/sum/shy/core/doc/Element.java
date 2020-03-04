@@ -56,6 +56,10 @@ public class Element extends ArrayList<Element> {
 		return stmt.findToken(type);
 	}
 
+	public boolean contain(int index) {
+		return index < stmt.size();
+	}
+
 	public String getKeywordParam(String keyword) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.tokens.get(i);

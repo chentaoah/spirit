@@ -40,7 +40,7 @@ public class ReflectUtils {
 		return null;
 	}
 
-	public static String getClassBySimpleName(String simpleName) {
+	public static String getClassName(String simpleName) {
 
 		switch (simpleName) {
 		// 空类型

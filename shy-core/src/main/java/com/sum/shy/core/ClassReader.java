@@ -8,6 +8,7 @@ import com.sum.shy.core.clazz.CoopClass;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.doc.Document;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.entity.Constants;
@@ -37,7 +38,7 @@ public class ClassReader {
 
 		for (Element element : document) {
 			if (element.isImport()) {
-				mainClass.imports.add(element);
+				mainClass.imports.add(new Import(element));
 
 			} else if (element.isAnnotation()) {
 				annotations.add(element);

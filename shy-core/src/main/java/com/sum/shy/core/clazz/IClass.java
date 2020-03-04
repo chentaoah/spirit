@@ -6,7 +6,10 @@ import java.util.List;
 import com.sum.shy.core.doc.Document;
 import com.sum.shy.core.doc.Element;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.core.utils.TypeUtils;
 
 public class IClass {
 
@@ -14,7 +17,7 @@ public class IClass {
 
 	public String packageStr;
 
-	public List<Element> imports = new ArrayList<>();
+	public List<Import> imports = new ArrayList<>();
 
 	public List<Element> annotations = new ArrayList<>();
 
@@ -27,7 +30,43 @@ public class IClass {
 	public List<IClass> coopClasses = new ArrayList<>();
 
 	public String findImport(String simpleName) {
-		return null;
+		// 如果本身传入的就是一个全名的话，直接返回
+		if (simpleName.contains("."))
+			return simpleName;
+
+		// 如果传进来是个数组，那么处理一下
+		boolean isArray = TypeUtils.isArray(simpleName);
+		String typeName = TypeUtils.getTypeName(simpleName);
+
+		// 1.首先先去引入里面找
+		for (Import iImport : imports) {
+			if (iImport.name.equals(typeName))
+				return iImport.className;
+		}
+
+		String className = null;
+		// 2.友元,注意这个类本身也在所有类之中
+		if (className == null)
+			className = Context.get().findFriend(typeName);
+		if (className != null)
+			return !isArray ? className : "[L" + className + ";";
+
+		// 3.内部类
+		for (IClass clazz : coopClasses) {
+			if (clazz.getTypeName().equals(typeName))
+				return clazz.getClassName();
+		}
+
+		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
+		if (className == null)
+			className = ReflectUtils.getClassName(simpleName);
+		if (className == null)
+			className = ReflectUtils.getCollectionType(typeName);
+		if (className != null)
+			return className;
+
+		// 如果一直没有找到就抛出异常
+		throw new RuntimeException("No import info found!simpleName:[" + simpleName + "]");
 	}
 
 	public boolean addImport(String className) {
