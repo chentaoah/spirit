@@ -80,7 +80,7 @@ public class VariableTracker {
 			}
 		}
 
-		// 从继承里面去找
+		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName())) {
 			String className = clazz.findImport(clazz.getSuperName());
 			IClass father = Context.get().findClass(className);

@@ -87,8 +87,8 @@ public class MemberVisiter {
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
 				context.decreaseDepth();
-			}
 
+			}
 		}
 	}
 
