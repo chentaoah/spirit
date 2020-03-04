@@ -82,15 +82,6 @@ public class Stmt {
 		return subStmts;
 	}
 
-	public List<Node> findNodes() {
-		List<Node> nodes = new ArrayList<>();
-		for (Token token : tokens) {
-			if (token.isNode())
-				nodes.add(token.getNode());
-		}
-		return nodes;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
