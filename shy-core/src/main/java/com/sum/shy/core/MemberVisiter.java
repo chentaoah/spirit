@@ -50,19 +50,19 @@ public class MemberVisiter {
 		return type;
 	}
 
-	private static IType visitField(IClass clazz, IField field) {
+	public static IType visitField(IClass clazz, IField field) {
 		Map<String, Object> result = ElementVisiter.visit(clazz, null, field.element);
 		return (IType) result.get(FastDeducer.TYPE);
 	}
 
-	private static IType visitMethod(IClass clazz, IMethod method) {
+	public static IType visitMethod(IClass clazz, IMethod method) {
 		MethodContext context = new MethodContext();
 		context.method = method;
 		visitChildElement(clazz, context, method.element);
 		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID_TYPE);
 	}
 
-	private static void visitChildElement(IClass clazz, MethodContext context, Element father) {
+	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
 		for (Element element : father) {
 			Map<String, Object> result = ElementVisiter.visit(clazz, context, element);
 			if (!element.isReturn() && result != null) {

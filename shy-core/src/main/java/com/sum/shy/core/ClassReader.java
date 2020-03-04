@@ -86,7 +86,7 @@ public class ClassReader {
 		return mainClass;
 	}
 
-	private void readRootElement(IClass clazz) {
+	public void readRootElement(IClass clazz) {
 		List<Element> annotations = new ArrayList<>();
 		for (Element element : clazz.root) {
 			if (element.isAnnotation()) {

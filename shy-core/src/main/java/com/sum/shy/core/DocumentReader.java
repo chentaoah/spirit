@@ -31,7 +31,7 @@ public class DocumentReader {
 		return null;
 	}
 
-	private List<Line> convertLines(List<String> fileLines) {
+	public List<Line> convertLines(List<String> fileLines) {
 		List<Line> lines = new ArrayList<>();
 		for (int i = 0; i < fileLines.size(); i++) {
 			String text = fileLines.get(i);
@@ -41,7 +41,7 @@ public class DocumentReader {
 		return lines;
 	}
 
-	private void readLines(List<Element> father, List<Line> lines) {
+	public void readLines(List<Element> father, List<Line> lines) {
 		for (int i = 0; i < lines.size(); i++) {
 			Line line = lines.get(i);
 			if (line.isIgnore())

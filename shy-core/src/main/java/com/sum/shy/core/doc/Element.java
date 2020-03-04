@@ -26,7 +26,7 @@ public class Element extends ArrayList<Element> {
 		init(line);
 	}
 
-	private void init(Line line) {
+	public void init(Line line) {
 		// 1.单词拆分
 		List<String> words = LexicalAnalyzer.getWords(line.text);
 		// 2.按照基本类型,获取tokens

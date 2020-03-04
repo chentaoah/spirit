@@ -57,7 +57,7 @@ public class JavaConverter {
 //
 //	}
 //
-//	private static void convertNode(IClass clazz, Token token) {
+//	public static void convertNode(IClass clazz, Token token) {
 //		// 查找符合条件的逻辑判断
 //		List<Node> nodes = new ArrayList<>();
 //		findEquals(nodes, token.getNode());
