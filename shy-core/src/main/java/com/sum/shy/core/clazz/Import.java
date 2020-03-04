@@ -9,13 +9,31 @@ public class Import {
 
 	public String name;
 
+	public String alias;
+
 	public Import(Element element) {
 		className = element.getStr(1);
-		if (!element.contain(2)) {
-			name = TypeUtils.getTypeNameByClass(className);
-		} else {
-			name = element.getStr(2);// 如果有别名，则使用别名
+		name = TypeUtils.getTypeNameByClassName(className);
+		if (element.contain(2))
+			alias = element.getStr(2);// 如果有别名，则使用别名
+	}
+
+	public Import(String className, String name) {
+		this.className = className;
+		this.name = name;
+	}
+
+	public boolean hasAlias() {
+		return alias != null;
+	}
+
+	public boolean isMatch(String typeName) {
+		if (alias != null) {// 如果有别名，则以别名的匹配结果为准
+			return alias.equals(typeName);
+		} else if (name != null) {
+			return name.equals(typeName);
 		}
+		return false;
 	}
 
 }

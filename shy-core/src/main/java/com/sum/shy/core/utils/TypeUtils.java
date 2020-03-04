@@ -8,20 +8,20 @@ public class TypeUtils {
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
-	public static String getTypeNameByFile(File file) {
-		return file.getName().replace(".shy", "");
-	}
-
-	public static String getTypeNameByClass(String className) {
-		return className.substring(className.lastIndexOf(".") + 1);
-	}
-
 	public static boolean isArray(String simpleName) {
 		return simpleName.endsWith("[]");
 	}
 
+	public static String getTypeNameByFile(File file) {
+		return file.getName().replace(".shy", "");
+	}
+
 	public static String getTypeName(String simpleName) {
 		return isArray(simpleName) ? simpleName.substring(0, simpleName.indexOf("[")) : simpleName;
+	}
+
+	public static String getTypeNameByClassName(String className) {
+		return className.substring(className.lastIndexOf(".") + 1);
 	}
 
 	public static String removeDecoration(String className) {

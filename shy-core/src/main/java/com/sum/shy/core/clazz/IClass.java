@@ -40,22 +40,27 @@ public class IClass {
 
 		// 1.首先先去引入里面找
 		for (Import iImport : imports) {
-			if (iImport.name.equals(typeName))
+			if (iImport.isMatch(typeName))
 				return iImport.className;
 		}
 
-		String className = null;
-		// 2.友元,注意这个类本身也在所有类之中
-		if (className == null)
-			className = Context.get().findFriend(typeName);
-		if (className != null)
-			return !isArray ? className : "[L" + className + ";";
+		// 2.如果是本身，则直接返回本身
+		if (getTypeName().equals(typeName)) {
+			return getClassName();
+		}
 
 		// 3.内部类
 		for (IClass clazz : coopClasses) {
 			if (clazz.getTypeName().equals(typeName))
 				return clazz.getClassName();
 		}
+
+		String className = null;
+		// 4.友元,注意这个类本身也在所有类之中
+		if (className == null)
+			className = Context.get().findFriend(typeName);
+		if (className != null)
+			return !isArray ? className : "[L" + className + ";";
 
 		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
@@ -70,6 +75,43 @@ public class IClass {
 	}
 
 	public boolean addImport(String className) {
+		// 1.基本类型数组,不添加
+		if (className.startsWith("[") && !className.startsWith("[L"))
+			return true;
+
+		// 如果是内部类 xxx.xxx.xxx$xxx
+		className = className.replaceAll("\\$", ".");
+		// 如果是数组，则把修饰符号去掉
+		className = TypeUtils.removeDecoration(className);
+		// 获取类名
+		String typeName = TypeUtils.getTypeNameByClassName(className);
+
+		// 2.基本类className和simpleName相同
+		// 3.一般java.lang.包下的类不用引入
+		if (ReflectUtils.getClassName(className) != null || className.startsWith("java.lang."))
+			return true;
+
+		// 4.如果是本身,不添加
+		if (getClassName().equals(className))
+			return true;
+
+		// 5.内部类不添加
+		for (IClass clazz : coopClasses) {
+			if (clazz.getClassName().equals(className))
+				return true;
+		}
+
+		// 6.如果引入了，则不必再添加了
+		// 7.如果没有引入，但是typeName相同，则无法引入
+		for (Import iImport : imports) {
+			if (iImport.className.equals(className)) {// 重复添加，也是成功
+				return true;
+			} else if (!iImport.hasAlias() && iImport.name.equals(typeName)) {
+				return false;
+			}
+		}
+
+		imports.add(new Import(className, typeName));
 		return true;
 	}
 
