@@ -72,17 +72,25 @@ public class IClass {
 		return methods;
 	}
 
-	public IField getField(String name) {
+	public boolean existField(String fieldName) {
+		return getField(fieldName) != null;
+	}
+
+	public IField getField(String fieldName) {
 		for (IField field : fields) {
-			if (name.equals(field.name))
+			if (field.name.equals(fieldName))
 				return field;
 		}
 		return null;
 	}
 
-	public IMethod getMethod(String name, List<IType> paramTypes) {
+	public boolean existMethod(String methodName, List<IType> parameterTypes) {
+		return getMethod(methodName, parameterTypes) != null;
+	}
+
+	public IMethod getMethod(String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
-			if (method.isMatch(name, paramTypes))
+			if (method.isMatch(methodName, parameterTypes))
 				return method;
 		}
 		return null;

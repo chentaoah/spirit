@@ -16,7 +16,7 @@ public class IMethod extends AbsMember {
 		return null;
 	}
 
-	public boolean isMatch(String name, List<IType> paramTypes) {
+	public boolean isMatch(String methodName, List<IType> parameterTypes) {
 		// TODO Auto-generated method stub
 		return false;
 	}

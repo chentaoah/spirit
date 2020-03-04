@@ -2,12 +2,12 @@ package com.sum.shy.core.visiter;
 
 import java.util.List;
 
+import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.clazz.IClass;
-//import com.sum.shy.core.clazz.IField;
-//import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.IField;
+import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-//import com.sum.shy.core.proc.InvokeVisiter;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.api.Visiter;
@@ -32,13 +32,13 @@ public class CodeVisiter implements Visiter {
 					if (Constants.CLASS_KEYWORD.equals(fieldName)) {
 						return new CodeType(typeClass, "Class<?>");
 					}
-//					if (typeClass.existField(fieldName)) {
-//						IField field = typeClass.findField(fieldName);
-//						return InvokeVisiter.visitMember(typeClass, field);
-//
-//					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-//						return visitField(typeClass, new CodeType(typeClass, typeClass.superName), fieldName);
-//					}
+					if (typeClass.existField(fieldName)) {
+						IField field = typeClass.getField(fieldName);
+						return MemberVisiter.visitMember(typeClass, field);
+
+					} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+						return visitField(typeClass, new CodeType(typeClass, typeClass.getSuperName()), fieldName);
+					}
 				}
 			} else {
 				return nativeVisiter.visitField(clazz, type, fieldName);
@@ -47,7 +47,7 @@ public class CodeVisiter implements Visiter {
 		return null;
 	}
 
-	public IType visitMethod(IClass clazz, IType type, String methodName, List<IType> paramTypes) {
+	public IType visitMethod(IClass clazz, IType type, String methodName, List<IType> parameterTypes) {
 
 		if (type.isArray()) {
 			if (Constants.$ARRAY_INDEX.equals(methodName))
@@ -57,25 +57,25 @@ public class CodeVisiter implements Visiter {
 		} else {
 			String className = type.getClassName();
 			if (Context.get().contains(className)) {
-//				IClass typeClass = Context.get().findClass(className);
+				IClass typeClass = Context.get().findClass(className);
 				if (StringUtils.isNotEmpty(methodName)) {
-//					if (Constants.SUPER_KEYWORD.equals(methodName)) {
-//						return new CodeType(typeClass, typeClass.superName);
-//					}
-//					if (Constants.THIS_KEYWORD.equals(methodName)) {
-//						return new CodeType(typeClass, typeClass.typeName);
-//					}
-//					if (typeClass.existMethod(methodName, paramTypes)) {
-//						IMethod method = typeClass.findMethod(methodName, paramTypes);
-//						return InvokeVisiter.visitMember(typeClass, method);
-//
-//					} else if (StringUtils.isNotEmpty(typeClass.superName)) {
-//						return visitMethod(typeClass, new CodeType(typeClass, typeClass.superName), methodName,
-//								paramTypes);
-//					}
+					if (Constants.SUPER_KEYWORD.equals(methodName)) {
+						return new CodeType(typeClass, typeClass.getSuperName());
+					}
+					if (Constants.THIS_KEYWORD.equals(methodName)) {
+						return new CodeType(typeClass, typeClass.getTypeName());
+					}
+					if (typeClass.existMethod(methodName, parameterTypes)) {
+						IMethod method = typeClass.getMethod(methodName, parameterTypes);
+						return MemberVisiter.visitMember(typeClass, method);
+
+					} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+						return visitMethod(typeClass, new CodeType(typeClass, typeClass.getSuperName()), methodName,
+								parameterTypes);
+					}
 				}
 			} else {
-				return nativeVisiter.visitMethod(clazz, type, methodName, paramTypes);
+				return nativeVisiter.visitMethod(clazz, type, methodName, parameterTypes);
 			}
 		}
 		return null;
