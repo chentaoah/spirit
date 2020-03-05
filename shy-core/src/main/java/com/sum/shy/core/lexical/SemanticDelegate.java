@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.SymbolTable;
-import com.sum.shy.core.utils.ArrayUtils;
 
 /**
  * 语义分析器
@@ -143,7 +144,7 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isKeyword(String word) {
-		return ArrayUtils.contain(KEYWORDS, word);
+		return ArrayUtils.contains(KEYWORDS, word);
 	}
 
 	public static boolean isOperator(String word) {
