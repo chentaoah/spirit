@@ -131,6 +131,11 @@ public class Element extends ArrayList<Element> {
 			element.debug();
 	}
 
+	@Override
+	public String toString() {
+		return stmt.toString();
+	}
+
 	public boolean isImport() {
 		return Constants.IMPORT_SYNTAX.equals(syntax);
 	}

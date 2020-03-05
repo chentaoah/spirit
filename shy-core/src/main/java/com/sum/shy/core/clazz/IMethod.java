@@ -31,8 +31,8 @@ public class IMethod extends AbsMember {
 		name = methodToken.getMemberNameAtt();
 		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
 		for (Stmt paramStmt : subStmts) {
+			IParameter parameter = new IParameter();
 			for (Token token : paramStmt.tokens) {
-				IParameter parameter = new IParameter();
 				if (token.isAnnotation()) {
 					parameter.annotations.add(new IAnnotation(token));
 				} else if (token.isType()) {
@@ -40,8 +40,8 @@ public class IMethod extends AbsMember {
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
 				}
-				parameters.add(parameter);
 			}
+			parameters.add(parameter);
 
 		}
 

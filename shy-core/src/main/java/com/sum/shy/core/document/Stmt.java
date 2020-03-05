@@ -66,7 +66,7 @@ public class Stmt {
 	}
 
 	public Stmt subStmt(String left, String right) {
-		return subStmt(indexOf(left), lastIndexOf(right));
+		return subStmt(indexOf(left) + 1, lastIndexOf(right));
 	}
 
 	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
