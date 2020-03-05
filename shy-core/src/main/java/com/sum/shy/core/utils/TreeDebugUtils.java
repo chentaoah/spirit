@@ -50,10 +50,8 @@ public class TreeDebugUtils {
 	}
 
 	public void buildTree(int depth, String separator, Node node) {
-
 		if (node == null)
 			return;
-
 		// 节点位置
 		int position = node.token.getPosition();
 		// 节点内容
