@@ -9,11 +9,11 @@ import com.sum.shy.core.document.Node;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.lib.StringUtils;
 
-public class TreeDebugUtils {
+public class TreePanel {
 
 	public List<Line> lines = new ArrayList<>();
 
-	public TreeDebugUtils() {
+	public TreePanel() {
 		for (int i = 0; i < 20; i++)
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(150)));
 	}
@@ -24,7 +24,7 @@ public class TreeDebugUtils {
 		System.out.println(toString());
 	}
 
-	public static void markPosition(int position, List<Token> tokens) {
+	public void markPosition(int position, List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setPosition(position);
@@ -50,18 +50,19 @@ public class TreeDebugUtils {
 	}
 
 	public void buildTree(int depth, String separator, Node node) {
+
 		if (node == null)
 			return;
-		// 节点位置
-		int position = node.token.getPosition();
-		// 节点内容
-		String text = node.token.toString();
+
+		Token token = node.token;
+		int position = token.getPosition();// 节点位置
+		String text = token.toString(); // 节点内容
 		// 获取上一行
 		if (StringUtils.isNotEmpty(separator))
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
-		if (node.token.hasStmt()) {// 如果有语句，则先打印子语句
-			buildTree(depth, "", node.token.getStmt().tokens);
+		if (token.hasStmt()) {// 如果有语句，则先打印子语句
+			buildTree(depth, "", token.getStmt().tokens);
 		} else {
 			print(depth, position, text);
 		}
@@ -103,18 +104,18 @@ public class TreeDebugUtils {
 //		String text = "list.get(1)";
 //		String text = "map={\"key1\":100}.getSize().toString()+100>0";
 //		String text = "b= x >= 100";
-//		String text = "b=((String)list.get(1)).length() <= 100";
+		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
 //		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";
-//
-//		Stmt stmt = Stmt.create(text);
-//		System.out.println(stmt.debug());
-//		System.out.println(stmt.toString());
-//		new Panel().debug(stmt);
+
+		Element element = new Element(new Line(text));
+		System.out.println(element.stmt.debug());
+		System.out.println(element.stmt.toString());
+		new TreePanel().debug(element);
 
 	}
 
