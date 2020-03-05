@@ -53,18 +53,18 @@ public class VariableTracker {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getSuperName());// 这里可能是比较隐晦的逻辑，因为
+			return new CodeType(clazz, clazz.getSuperName());
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getClassName(), clazz.getTypeName());// 这里可能是比较隐晦的逻辑，因为
+			return new CodeType(clazz, clazz.getTypeName());
 
 		// 先在方法上下文中找
 		IMethod method = context.method;
 		if (method != null) {
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			for (Variable variable : context.variables) {
-				if (variable.blockId.equals(context.getBlockId()) && variable.name.equals(name))
+				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))
 					return variable.type;
 			}
 			// 如果在成员变量中没有声明,则查看方法内是否声明

@@ -22,12 +22,6 @@ public class CodeType extends AbsType {
 		resolve(clazz, token);
 	}
 
-	public CodeType(IClass clazz, String className, String simpleName) {
-		super(clazz);
-		this.className = className;
-		this.simpleName = simpleName;
-	}
-
 	public void resolve(IClass clazz, Token token) {
 		if (token.isType()) {
 			if (token.value instanceof String) {
