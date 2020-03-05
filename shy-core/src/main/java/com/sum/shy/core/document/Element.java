@@ -72,6 +72,18 @@ public class Element extends ArrayList<Element> {
 		return index < stmt.size();
 	}
 
+	public int indexOf(String str) {
+		return stmt.indexOf(str);
+	}
+
+	public int lastIndexOf(String str) {
+		return stmt.lastIndexOf(str);
+	}
+
+	public List<Stmt> split(String separator) {
+		return stmt.split(separator);
+	}
+
 	public String getKeywordParam(String keyword) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.tokens.get(i);

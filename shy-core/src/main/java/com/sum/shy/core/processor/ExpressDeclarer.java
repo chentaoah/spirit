@@ -15,26 +15,27 @@ public class ExpressDeclarer {
 	public static void declare(IClass clazz, MethodContext context, Element element) {
 
 		if (element.isAssign()) {// text = "abc"
-			Stmt stmt = element.stmt;
-			Stmt subStmt = stmt.subStmt(2, stmt.size());
+			Stmt subStmt = element.subStmt(2, element.getSize());
 			VariableTracker.trackStmt(clazz, context, subStmt);
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
-			Token varToken = element.stmt.getToken(0);
-			varToken.setTypeAtt(type);
+			Token varToken = element.getToken(0);
+			Variable variable = new Variable(context.getBlockId(), type, varToken.toString());
+			context.variables.add(variable);
 
 		} else if (element.isForIn()) {// for item in list {
-			Stmt stmt = element.stmt;
-			Stmt subStmt = stmt.subStmt(3, stmt.size() - 1);
+			Stmt subStmt = element.subStmt(3, element.getSize() - 1);
 			VariableTracker.trackStmt(clazz, context, subStmt);
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
-			Token varToken = element.stmt.getToken(1);
-			varToken.setTypeAtt(type);
+			// TODO 这里还要对集合和数组进行内部类型的推导
+
+			Token varToken = element.getToken(1);
+			Variable variable = new Variable(context.getBlockId(), type, varToken.toString());
+			context.variables.add(variable);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
-			Stmt stmt = element.stmt;
-			Stmt subStmt = stmt.subStmt(1, stmt.indexOf(";"));
+			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
 			Element subElement = new Element(new Line(subStmt.toString()));
 			subElement.stmt = subStmt;// 替换一下
 			Variable variable = ElementVisiter.visit(clazz, context, subElement);
