@@ -76,6 +76,10 @@ public class Element extends ArrayList<Element> {
 		return stmt.indexOf(str);
 	}
 
+	public boolean contains(String str) {
+		return indexOf(str) >= 0;
+	}
+
 	public int lastIndexOf(String str) {
 		return stmt.lastIndexOf(str);
 	}

@@ -50,6 +50,10 @@ public class Stmt {
 		return -1;
 	}
 
+	public boolean contains(String str) {
+		return indexOf(str) >= 0;
+	}
+
 	public int lastIndexOf(String str) {
 		int index = -1;
 		for (int i = 0; i < size(); i++) {
