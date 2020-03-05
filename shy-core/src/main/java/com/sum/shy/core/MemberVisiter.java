@@ -12,7 +12,6 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 
@@ -51,8 +50,8 @@ public class MemberVisiter {
 	}
 
 	public static IType visitField(IClass clazz, IField field) {
-		Map<String, Object> result = ElementVisiter.visit(clazz, null, field.element);
-		return (IType) result.get(FastDeducer.TYPE);
+		Variable variable = ElementVisiter.visit(clazz, null, field.element);
+		return variable.type;
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
@@ -64,30 +63,20 @@ public class MemberVisiter {
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
 		for (Element element : father) {
-			Map<String, Object> result = ElementVisiter.visit(clazz, context, element);
-			if (!element.isReturn() && result != null) {
-				Variable variable = new Variable();
-				variable.type = (IType) result.get(FastDeducer.TYPE);
-				variable.name = (String) result.get(FastDeducer.NAME);
-				variable.blockId = context.getBlockId();
+			Variable variable = ElementVisiter.visit(clazz, context, element);
+			if (!element.isReturn() && variable != null) {
 				context.variables.add(variable);
 
-			} else if (element.isReturn() && result != null) {
-				IType returnType = (IType) result.get(FastDeducer.TYPE);
-				if (context.returnType == null) {
-					context.returnType = returnType;
-				} else {
-					// 如果返回值更加抽象，则取代原来的
-					if (returnType.isAssignableFrom(context.returnType))
-						context.returnType = returnType;
-				}
+			} else if (element.isReturn() && variable != null) {
+				// 如果返回值更加抽象，则取代原来的
+				if (context.returnType == null || variable.type.isAssignableFrom(context.returnType))
+					context.returnType = variable.type;
 			}
 			if (element.size() > 0) {
 				context.increaseDepth();
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
 				context.decreaseDepth();
-
 			}
 		}
 	}

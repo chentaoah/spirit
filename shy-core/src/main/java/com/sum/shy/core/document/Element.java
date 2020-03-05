@@ -52,6 +52,14 @@ public class Element extends ArrayList<Element> {
 		return stmt.getStr(index);
 	}
 
+	public int getSize() {
+		return stmt.size();
+	}
+
+	public Stmt subStmt(int start, int end) {
+		return stmt.subStmt(start, end);
+	}
+
 	public Token findToken(String type) {
 		return stmt.findToken(type);
 	}
@@ -60,7 +68,7 @@ public class Element extends ArrayList<Element> {
 		return stmt.getToken(index);
 	}
 
-	public boolean contain(int index) {
+	public boolean contains(int index) {
 		return index < stmt.size();
 	}
 

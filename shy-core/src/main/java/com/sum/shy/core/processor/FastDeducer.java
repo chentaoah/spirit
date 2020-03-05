@@ -1,10 +1,10 @@
 package com.sum.shy.core.processor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Node;
 import com.sum.shy.core.document.Stmt;
@@ -26,39 +26,26 @@ import com.sum.shy.core.utils.ReflectUtils;
  */
 public class FastDeducer {
 
-	public static final String TYPE = "type";
-	public static final String NAME = "name";
-
 	/**
 	 * 根据语法返回，类型和变量名称，这里只是尽量做到
 	 * 
 	 * @param clazz
+	 * @param context
 	 * @param element
 	 * @return
 	 */
-	public static Map<String, Object> derive(IClass clazz, Element element) {
+	public static Variable derive(IClass clazz, MethodContext context, Element element) {
 		if (element.isDeclare() || element.isDeclareAssign()) {
-			Stmt stmt = element.stmt;
-			Token varToken = stmt.getToken(1);
-			Map<String, Object> result = new HashMap<>();
-			result.put(TYPE, varToken.getTypeAtt());
-			result.put(NAME, varToken.toString());
-			return result;
+			Token varToken = element.getToken(1);
+			return new Variable(context.getBlockId(), varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isAssign()) {
-			Stmt stmt = element.stmt;
-			Token varToken = stmt.getToken(0);
-			Map<String, Object> result = new HashMap<>();
-			result.put(TYPE, varToken.getTypeAtt());
-			result.put(NAME, varToken.toString());
-			return result;
+			Token varToken = element.getToken(0);
+			return new Variable(context.getBlockId(), varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
-			Stmt stmt = element.stmt;
-			Stmt subStmt = stmt.subStmt(1, stmt.size());
-			Map<String, Object> result = new HashMap<>();
-			result.put(TYPE, deriveStmt(clazz, subStmt));
-			return result;
+			Stmt subStmt = element.subStmt(1, element.getSize());
+			return new Variable(context.getBlockId(), deriveStmt(clazz, subStmt), null);
 
 		}
 		return null;

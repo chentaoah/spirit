@@ -1,7 +1,5 @@
 package com.sum.shy.core.processor;
 
-import java.util.Map;
-
 import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
@@ -39,14 +37,10 @@ public class ExpressDeclarer {
 			Stmt subStmt = stmt.subStmt(1, stmt.indexOf(";"));
 			Element subElement = new Element(new Line(subStmt.toString()));
 			subElement.stmt = subStmt;// 替换一下
-			Map<String, Object> result = ElementVisiter.visit(clazz, context, subElement);
-			if (result != null) {
-				Variable variable = new Variable();
-				variable.type = (IType) result.get(FastDeducer.TYPE);
-				variable.name = (String) result.get(FastDeducer.NAME);
-				variable.blockId = context.getBlockId();
+			Variable variable = ElementVisiter.visit(clazz, context, subElement);
+			if (variable != null)
 				context.variables.add(variable);
-			}
+
 		}
 
 	}

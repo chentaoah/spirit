@@ -14,7 +14,7 @@ public class Import {
 	public Import(Element element) {
 		className = element.getStr(1);
 		name = TypeUtils.getTypeNameByClassName(className);
-		if (element.contain(2))
+		if (element.contains(2))
 			alias = element.getStr(2);// 如果有别名，则使用别名
 	}
 

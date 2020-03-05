@@ -1,9 +1,8 @@
 package com.sum.shy.core;
 
-import java.util.Map;
-
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.processor.ExpressDeclarer;
 import com.sum.shy.core.processor.FastDeducer;
@@ -21,7 +20,7 @@ public class ElementVisiter {
 	 * @param element
 	 * @return
 	 */
-	public static Map<String, Object> visit(IClass clazz, MethodContext context, Element element) {
+	public static Variable visit(IClass clazz, MethodContext context, Element element) {
 		// 1.类型声明者
 		TypeDeclarer.declareStmt(clazz, element.stmt);
 		// 2.特殊语句的处理
@@ -31,7 +30,7 @@ public class ElementVisiter {
 		// 4.调用推导
 		InvokeVisiter.visitStmt(clazz, element.stmt);
 		// 5.快速推导
-		return FastDeducer.derive(clazz, element);
+		return FastDeducer.derive(clazz, context, element);
 	}
 
 }
