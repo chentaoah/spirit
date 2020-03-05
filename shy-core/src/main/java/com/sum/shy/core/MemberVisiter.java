@@ -10,9 +10,9 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Variable;
-import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.proc.FastDeducer;
+import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 

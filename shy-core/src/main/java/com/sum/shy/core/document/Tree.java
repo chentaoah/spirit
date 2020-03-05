@@ -1,4 +1,4 @@
-package com.sum.shy.core.doc;
+package com.sum.shy.core.document;
 
 import java.util.List;
 

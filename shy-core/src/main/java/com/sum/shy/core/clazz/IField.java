@@ -2,7 +2,7 @@ package com.sum.shy.core.clazz;
 
 import java.util.List;
 
-import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.document.Element;
 
 public class IField extends AbsMember {
 

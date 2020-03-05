@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core.processor;
 
 import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
@@ -7,8 +7,8 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.Variable;
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;

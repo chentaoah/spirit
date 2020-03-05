@@ -1,8 +1,8 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core.processor;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.type.CodeType;
 
 public class TypeDeclarer {

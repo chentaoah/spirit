@@ -3,13 +3,13 @@ package com.sum.shy.core.lexical;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.doc.Node;
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
-import com.sum.shy.core.doc.Tree;
+import com.sum.shy.core.document.Node;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
+import com.sum.shy.core.document.Tree;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.meta.Symbol;
-import com.sum.shy.core.meta.SymbolTable;
+import com.sum.shy.core.metadata.Symbol;
+import com.sum.shy.core.metadata.SymbolTable;
 
 /**
  * 抽象语法树

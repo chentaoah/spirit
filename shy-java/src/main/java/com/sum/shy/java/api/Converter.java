@@ -5,8 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IMethod;
-import com.sum.shy.core.doc.Line;
-import com.sum.shy.core.doc.Stmt;
+import com.sum.shy.core.document.Line;
+import com.sum.shy.core.document.Stmt;
 
 public interface Converter {
 

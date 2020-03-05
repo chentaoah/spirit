@@ -3,8 +3,8 @@ package com.sum.shy.core.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.doc.Document;
-import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.document.Document;
+import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.api.IType;

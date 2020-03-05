@@ -1,4 +1,4 @@
-package com.sum.shy.core.proc;
+package com.sum.shy.core.processor;
 
 import java.util.Map;
 
@@ -6,10 +6,10 @@ import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.Variable;
-import com.sum.shy.core.doc.Element;
-import com.sum.shy.core.doc.Line;
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.document.Element;
+import com.sum.shy.core.document.Line;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.type.api.IType;
 
 public class ExpressDeclarer {

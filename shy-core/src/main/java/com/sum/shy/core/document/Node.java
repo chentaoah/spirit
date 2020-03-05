@@ -1,10 +1,10 @@
-package com.sum.shy.core.doc;
+package com.sum.shy.core.document;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.meta.Symbol;
-import com.sum.shy.core.meta.SymbolTable;
+import com.sum.shy.core.metadata.Symbol;
+import com.sum.shy.core.metadata.SymbolTable;
 
 public class Node {
 

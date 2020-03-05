@@ -1,6 +1,6 @@
 package com.sum.shy.core.clazz;
 
-import com.sum.shy.core.doc.Element;
+import com.sum.shy.core.document.Element;
 import com.sum.shy.core.utils.TypeUtils;
 
 public class Import {

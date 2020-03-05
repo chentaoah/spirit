@@ -2,11 +2,11 @@ package com.sum.shy.java.convert;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IMethod;
-import com.sum.shy.core.doc.Line;
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.document.Line;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.proc.FastDeducer;
+import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.java.JavaConverter;
 import com.sum.shy.java.api.Converter;

@@ -4,12 +4,12 @@ import java.util.Map;
 
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.doc.Element;
-import com.sum.shy.core.proc.ExpressDeclarer;
-import com.sum.shy.core.proc.FastDeducer;
-import com.sum.shy.core.proc.InvokeVisiter;
-import com.sum.shy.core.proc.TypeDeclarer;
-import com.sum.shy.core.proc.VariableTracker;
+import com.sum.shy.core.document.Element;
+import com.sum.shy.core.processor.ExpressDeclarer;
+import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.processor.InvokeVisiter;
+import com.sum.shy.core.processor.TypeDeclarer;
+import com.sum.shy.core.processor.VariableTracker;
 
 public class ElementVisiter {
 

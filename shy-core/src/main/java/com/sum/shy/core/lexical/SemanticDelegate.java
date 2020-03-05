@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.doc.Stmt;
-import com.sum.shy.core.doc.Token;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.meta.SymbolTable;
+import com.sum.shy.core.metadata.SymbolTable;
 import com.sum.shy.core.utils.ArrayUtils;
 
 /**

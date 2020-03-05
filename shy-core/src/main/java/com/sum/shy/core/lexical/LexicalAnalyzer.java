@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.meta.Symbol;
-import com.sum.shy.core.meta.SymbolTable;
+import com.sum.shy.core.metadata.Symbol;
+import com.sum.shy.core.metadata.SymbolTable;
 import com.sum.shy.core.utils.LineUtils;
 
 /**
