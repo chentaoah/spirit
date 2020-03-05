@@ -1,5 +1,5 @@
 
-abstract class AbsService impl Service{
+abstract AbsService impl Service{
 	
 
 
