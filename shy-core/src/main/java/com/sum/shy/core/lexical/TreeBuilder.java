@@ -33,12 +33,10 @@ public class TreeBuilder {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.hasStmt()) {// 如果有子节点,则对子节点进行转换
+				token = token.copy();// 拷贝一份
 				Stmt subStmt = token.getStmt();
-				List<Token> subTokens = build(subStmt.tokens);
-				// 重新创建一个token，而不影响原来的token
-				Stmt newStmt = new Stmt(subTokens);
-				Token newToken = new Token(token.type, newStmt, token.attachments);
-				tokens.set(i, newToken);
+				subStmt.tokens = build(subStmt.tokens);
+				tokens.set(i, token); // 替换原来的
 			}
 		}
 		// 通过递归获取节点树

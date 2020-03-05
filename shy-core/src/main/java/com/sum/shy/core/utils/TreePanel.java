@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Node;
+import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.lib.StringUtils;
 
@@ -19,17 +20,18 @@ public class TreePanel {
 	}
 
 	public void debug(Element element) {
-		markPosition(0, element.stmt.format());
+		markPosition(0, element.stmt);
 		buildTree(0, "", element.tree.tokens);
 		System.out.println(toString());
 	}
 
-	public void markPosition(int position, List<Token> tokens) {
+	public void markPosition(int position, Stmt stmt) {
+		List<Token> tokens = stmt.format();// 获取到插入空格后
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setPosition(position);
 			if (token.hasStmt())
-				markPosition(position, token.getStmt().tokens);
+				markPosition(position, token.getStmt());
 			position += token.toString().length();
 		}
 	}
@@ -104,10 +106,10 @@ public class TreePanel {
 //		String text = "list.get(1)";
 //		String text = "map={\"key1\":100}.getSize().toString()+100>0";
 //		String text = "b= x >= 100";
-		String text = "b=((String)list.get(1)).length() <= 100";
+//		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
-//		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
+		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";

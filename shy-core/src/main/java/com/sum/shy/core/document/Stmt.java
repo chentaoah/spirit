@@ -13,6 +13,10 @@ public class Stmt {
 		this.tokens = tokens;
 	}
 
+	public Stmt copy() {
+		return new Stmt(tokens);
+	}
+
 	public int size() {
 		return tokens.size();
 	}
@@ -104,6 +108,9 @@ public class Stmt {
 							tokens.remove(i + 1);
 					}
 				}
+			} else if (token.isFluent()) {// 属性访问，则什么都不做
+				continue;
+
 			} else {
 				if (i != 0)
 					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));

@@ -33,9 +33,12 @@ public class Token {
 		this.attachments = attachments == null ? new HashMap<>() : attachments;
 	}
 
-	@Override
-	public String toString() {
-		return value.toString();
+	public Token copy() {// 拷贝内容，但是是一个新的实例
+		if (hasStmt()) {
+			return new Token(type, getStmt().copy(), attachments);
+		} else {
+			return new Token(type, value, attachments);
+		}
 	}
 
 	public Stmt getStmt() {
@@ -44,6 +47,11 @@ public class Token {
 
 	public Node getNode() {
 		return (Node) value;
+	}
+
+	@Override
+	public String toString() {
+		return value.toString();
 	}
 
 	public String debug() {
