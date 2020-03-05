@@ -188,7 +188,6 @@ public class IClass {
 
 	public void debug() {
 		// TODO Auto-generated method stub
-
 	}
 
 }
