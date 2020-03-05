@@ -9,13 +9,13 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
-import com.sum.shy.core.visiter.CodeVisiter;
+import com.sum.shy.core.visiter.AdaptiveVisiter;
 import com.sum.shy.core.visiter.api.Visiter;
 
 public class InvokeVisiter {
 
 	// 推导器
-	public static Visiter visiter = new CodeVisiter();
+	public static Visiter visiter = new AdaptiveVisiter();
 
 	public static void visitStmt(IClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++)

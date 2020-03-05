@@ -12,7 +12,8 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
-import com.sum.shy.core.visiter.CodeVisiter;
+import com.sum.shy.core.visiter.AdaptiveVisiter;
+import com.sum.shy.core.visiter.api.Visiter;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -26,7 +27,7 @@ import com.sum.shy.lib.StringUtils;
  */
 public class VariableTracker {
 
-	public static CodeVisiter visiter = new CodeVisiter();
+	public static Visiter visiter = new AdaptiveVisiter();
 
 	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {

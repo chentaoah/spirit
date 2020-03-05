@@ -15,8 +15,6 @@ import com.sum.shy.lib.StringUtils;
 
 public class CodeVisiter implements Visiter {
 
-	public Visiter nativeVisiter = new NativeVisiter();
-
 	public IType visitField(IClass clazz, IType type, String fieldName) {
 
 		if (type.isArray()) {
@@ -26,22 +24,18 @@ public class CodeVisiter implements Visiter {
 
 		} else {
 			String className = type.getClassName();
-			if (Context.get().contains(className)) {
-				IClass typeClass = Context.get().findClass(className);
-				if (StringUtils.isNotEmpty(fieldName)) {
-					if (Constants.CLASS_KEYWORD.equals(fieldName)) {
-						return new CodeType(typeClass, "Class<?>");
-					}
-					if (typeClass.existField(fieldName)) {
-						IField field = typeClass.getField(fieldName);
-						return MemberVisiter.visitMember(typeClass, field);
-
-					} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
-						return visitField(typeClass, new CodeType(typeClass, typeClass.getSuperName()), fieldName);
-					}
+			IClass typeClass = Context.get().findClass(className);
+			if (StringUtils.isNotEmpty(fieldName)) {
+				if (Constants.CLASS_KEYWORD.equals(fieldName)) {
+					return new CodeType(typeClass, "Class<?>");
 				}
-			} else {
-				return nativeVisiter.visitField(clazz, type, fieldName);
+				if (typeClass.existField(fieldName)) {
+					IField field = typeClass.getField(fieldName);
+					return MemberVisiter.visitMember(typeClass, field);
+
+				} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+					return visitField(typeClass, new CodeType(typeClass, typeClass.getSuperName()), fieldName);
+				}
 			}
 		}
 		return null;
@@ -56,26 +50,22 @@ public class CodeVisiter implements Visiter {
 
 		} else {
 			String className = type.getClassName();
-			if (Context.get().contains(className)) {
-				IClass typeClass = Context.get().findClass(className);
-				if (StringUtils.isNotEmpty(methodName)) {
-					if (Constants.SUPER_KEYWORD.equals(methodName)) {
-						return new CodeType(typeClass, typeClass.getSuperName());
-					}
-					if (Constants.THIS_KEYWORD.equals(methodName)) {
-						return new CodeType(typeClass, typeClass.getTypeName());
-					}
-					if (typeClass.existMethod(methodName, parameterTypes)) {
-						IMethod method = typeClass.getMethod(methodName, parameterTypes);
-						return MemberVisiter.visitMember(typeClass, method);
-
-					} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
-						return visitMethod(typeClass, new CodeType(typeClass, typeClass.getSuperName()), methodName,
-								parameterTypes);
-					}
+			IClass typeClass = Context.get().findClass(className);
+			if (StringUtils.isNotEmpty(methodName)) {
+				if (Constants.SUPER_KEYWORD.equals(methodName)) {
+					return new CodeType(typeClass, typeClass.getSuperName());
 				}
-			} else {
-				return nativeVisiter.visitMethod(clazz, type, methodName, parameterTypes);
+				if (Constants.THIS_KEYWORD.equals(methodName)) {
+					return new CodeType(typeClass, typeClass.getTypeName());
+				}
+				if (typeClass.existMethod(methodName, parameterTypes)) {
+					IMethod method = typeClass.getMethod(methodName, parameterTypes);
+					return MemberVisiter.visitMember(typeClass, method);
+
+				} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+					return visitMethod(typeClass, new CodeType(typeClass, typeClass.getSuperName()), methodName,
+							parameterTypes);
+				}
 			}
 		}
 		return null;
