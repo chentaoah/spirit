@@ -23,7 +23,7 @@ public class ElementVisiter {
 	public static Variable visit(IClass clazz, MethodContext context, Element element) {
 		try {
 			// 1.类型声明者
-			TypeDeclarer.declareStmt(clazz, element.stmt);
+			TypeDeclarer.declare(clazz, element);
 			// 2.特殊语句的处理
 			ExpressDeclarer.declare(clazz, context, element);
 			// 3.变量追踪
