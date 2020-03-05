@@ -8,7 +8,7 @@ import com.sum.shy.core.type.api.IType;
 
 public abstract class AbsMember {
 	// 注解
-	public List<Element> annotations;
+	public List<IAnnotation> annotations;
 	// 是否静态
 	public boolean isStatic;
 	// 节点
@@ -20,7 +20,7 @@ public abstract class AbsMember {
 	// 锁
 	public volatile boolean isLock = false;
 
-	public AbsMember(List<Element> annotations, boolean isStatic, Element element) {
+	public AbsMember(List<IAnnotation> annotations, boolean isStatic, Element element) {
 		this.annotations = new ArrayList<>(annotations);// 拷贝一份
 		this.isStatic = isStatic;
 		this.element = element;

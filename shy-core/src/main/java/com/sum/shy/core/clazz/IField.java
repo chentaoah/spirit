@@ -6,7 +6,7 @@ import com.sum.shy.core.doc.Element;
 
 public class IField extends AbsMember {
 
-	public IField(List<Element> annotations, boolean isStatic, Element element) {
+	public IField(List<IAnnotation> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			name = element.getStr(1);

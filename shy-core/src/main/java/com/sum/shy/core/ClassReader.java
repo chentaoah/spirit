@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.CoopClass;
+import com.sum.shy.core.clazz.IAnnotation;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
@@ -34,14 +35,14 @@ public class ClassReader {
 		// 文档
 		mainClass.document = document;
 		// 上下文注解,用完要及时清理
-		List<Element> annotations = new ArrayList<>();
+		List<IAnnotation> annotations = new ArrayList<>();
 
 		for (Element element : document) {
 			if (element.isImport()) {
 				mainClass.imports.add(new Import(element));
 
 			} else if (element.isAnnotation()) {
-				annotations.add(element);
+				annotations.add(new IAnnotation(element));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 				mainClass.fields.add(new IField(annotations, true, element));
@@ -88,10 +89,10 @@ public class ClassReader {
 	}
 
 	public void readRootElement(IClass clazz) {
-		List<Element> annotations = new ArrayList<>();
+		List<IAnnotation> annotations = new ArrayList<>();
 		for (Element element : clazz.root) {
 			if (element.isAnnotation()) {
-				annotations.add(element);
+				annotations.add(new IAnnotation(element));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 				clazz.fields.add(new IField(annotations, false, element));

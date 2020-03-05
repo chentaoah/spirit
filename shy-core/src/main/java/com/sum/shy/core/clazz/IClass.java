@@ -19,7 +19,7 @@ public class IClass {
 
 	public List<Import> imports = new ArrayList<>();
 
-	public List<Element> annotations = new ArrayList<>();
+	public List<IAnnotation> annotations = new ArrayList<>();
 
 	public Element root;
 
@@ -104,7 +104,7 @@ public class IClass {
 		// 6.如果引入了，则不必再添加了
 		// 7.如果没有引入，但是typeName相同，则无法引入
 		for (Import iImport : imports) {
-			if (iImport.className.equals(className)) {// 重复添加，也是成功
+			if (!iImport.hasAlias() && iImport.className.equals(className)) {// 重复添加，也是成功
 				return true;
 			} else if (!iImport.hasAlias() && iImport.name.equals(typeName)) {
 				return false;

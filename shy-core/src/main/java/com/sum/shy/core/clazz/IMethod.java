@@ -22,7 +22,7 @@ public class IMethod extends AbsMember {
 	 * @param isStatic
 	 * @param element
 	 */
-	public IMethod(IClass clazz, List<Element> annotations, boolean isStatic, Element element) {
+	public IMethod(IClass clazz, List<IAnnotation> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
 		name = methodToken.getMemberNameAtt();
