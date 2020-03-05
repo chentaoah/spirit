@@ -8,6 +8,7 @@ import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
+import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 
 public class ExpressDeclarer {
@@ -28,8 +29,8 @@ public class ExpressDeclarer {
 			VariableTracker.trackStmt(clazz, context, subStmt);
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
-			// TODO 这里还要对集合和数组进行内部类型的推导
-
+			// 这里从数组或集合中获取类型
+			type = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			Variable variable = new Variable(context.getBlockId(), type, varToken.toString());
 			context.variables.add(variable);
