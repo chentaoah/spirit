@@ -84,7 +84,14 @@ public class Stmt {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		// 1.插入空格
+		List<Token> tokens = format();
+		for (int i = 0; i < tokens.size(); i++)
+			sb.append(tokens.get(i));
+		return sb.toString();
+	}
+
+	public List<Token> format() {
+		// 拷贝一份，并插入空格
 		List<Token> tokens = new ArrayList<>(this.tokens);
 		for (int i = tokens.size() - 1; i >= 0; i--) {
 			Token token = tokens.get(i);
@@ -102,11 +109,7 @@ public class Stmt {
 					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 			}
 		}
-		// 2.开始拼接字符串
-		for (int i = 0; i < tokens.size(); i++)
-			sb.append(tokens.get(i));
-
-		return sb.toString();
+		return tokens;
 	}
 
 	public String debug() {

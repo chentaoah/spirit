@@ -3,6 +3,7 @@ package com.sum.shy.core.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Node;
 import com.sum.shy.core.document.Stmt;
@@ -18,48 +19,32 @@ public class TreeDebugUtils {
 			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(150)));
 	}
 
-	public void debug(Stmt stmt) {
-		markPosition(0, stmt);
-		buildTree(0, "", stmt);
+	public void debug(Element element) {
+		markPosition(0, element.stmt);
+		buildTree(0, "", element.tree.tokens);
 		System.out.println(toString());
 	}
 
 	public static void markPosition(int position, Stmt stmt) {
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			if (!token.isNode()) {
-				// 格式化的长度
-				String text = ""/* stmt.format(i, token) */;
-				// 先使用位置,再将自己的长度追加到位置中
-				token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
-				// 给子节点也计算位置
-				if (token.hasSubStmt())
-					markPosition(position, token.getStmt());
-				// 加上当前的长度
-				position += text.length();
-
-			} else {
-				List<Node> nodes = token.getNode().getNodes();
-				for (Node node : nodes) {
-					String text = node.format();
-					node.token.setPosition(position + (text.startsWith(" ") ? 1 : 0));
-					if (node.token.hasSubStmt())
-						markPosition(position, node.token.getStmt());
-					position += text.length();
-				}
-			}
+		List<Token> tokens = stmt.format();// 获取插入了空格的tokens
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			token.setPosition(position);
+			if (token.hasSubStmt())
+				markPosition(position, token.getStmt());
+			position += token.toString().length();
 		}
 	}
 
-	public void buildTree(int depth, String separator, Stmt stmt) {
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
-			if (token.hasSubStmt()) {
-				buildTree(depth, separator, token.getStmt());
+	public void buildTree(int depth, String separator, List<Token> tokens) {
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token.hasSubStmt()) {// 有子节点先打印子节点
+				buildTree(depth, separator, token.getStmt().tokens);
 			} else {
-				if (!token.isNode()) {
+				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
 					print(depth, token.getPosition(), token.toString());
-				} else {
+				} else {// 如果是聚合以后的节点，则构建树结构
 					buildTree(depth, separator, token.getNode());
 				}
 			}
@@ -79,8 +64,8 @@ public class TreeDebugUtils {
 		if (StringUtils.isNotEmpty(separator))
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
-		if (node.token.hasSubStmt()) {
-			buildTree(depth, "", node.token.getStmt());
+		if (node.token.hasSubStmt()) {// 如果有语句，则先打印子语句
+			buildTree(depth, "", node.token.getStmt().tokens);
 		} else {
 			print(depth, position, text);
 		}
