@@ -35,17 +35,20 @@ public class FastDeducer {
 	 * @return
 	 */
 	public static Variable derive(IClass clazz, MethodContext context, Element element) {
+
+		String blockId = context != null ? context.getBlockId() : null;
+
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
-			return new Variable(context.getBlockId(), varToken.getTypeAtt(), varToken.toString());
+			return new Variable(blockId, varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isAssign()) {
 			Token varToken = element.getToken(0);
-			return new Variable(context.getBlockId(), varToken.getTypeAtt(), varToken.toString());
+			return new Variable(blockId, varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
 			Stmt subStmt = element.subStmt(1, element.getSize());
-			return new Variable(context.getBlockId(), deriveStmt(clazz, subStmt), null);
+			return new Variable(blockId, deriveStmt(clazz, subStmt), null);
 
 		}
 		return null;

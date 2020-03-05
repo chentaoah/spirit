@@ -33,8 +33,8 @@ public class IMethod extends AbsMember {
 		for (Stmt paramStmt : subStmts) {
 			for (Token token : paramStmt.tokens) {
 				IParameter parameter = new IParameter();
-				if (token.isAnnotation()) {// TODO 这里暂时不处理注解
-					continue;
+				if (token.isAnnotation()) {
+					parameter.annotations.add(new IAnnotation(token));
 				} else if (token.isType()) {
 					parameter.type = new CodeType(clazz, token);
 				} else if (token.isVar()) {

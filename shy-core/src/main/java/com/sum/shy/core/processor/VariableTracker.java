@@ -34,12 +34,12 @@ public class VariableTracker {
 			if (token.hasStmt())
 				trackStmt(clazz, context, token.getStmt());
 
-			if (token.isVar()) {
+			if (token.isVar() && token.getTypeAtt() == null) {// 如果没有设置类型的话
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				token.setTypeAtt(type);
 
-			} else if (token.isArrayIndex()) {
+			} else if (token.isArrayIndex() && token.getTypeAtt() == null) {// 如果没有设置类型的话
 				String name = token.getMemberNameAtt();
 				IType type = findType(clazz, context, name);
 				token.setTypeAtt(type);
@@ -60,8 +60,8 @@ public class VariableTracker {
 			return new CodeType(clazz, clazz.getTypeName());
 
 		// 先在方法上下文中找
-		IMethod method = context.method;
-		if (method != null) {
+		if (context != null) {
+			IMethod method = context.method;
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
 			for (Variable variable : context.variables) {
 				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))

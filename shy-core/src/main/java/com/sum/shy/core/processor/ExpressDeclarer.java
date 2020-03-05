@@ -14,6 +14,8 @@ import com.sum.shy.core.type.api.IType;
 public class ExpressDeclarer {
 
 	public static void declare(IClass clazz, MethodContext context, Element element) {
+		// context上下文可能为空
+		String blockId = context != null ? context.getBlockId() : null;
 
 		if (element.isAssign()) {// text = "abc"
 			Stmt subStmt = element.subStmt(2, element.getSize());
@@ -21,8 +23,11 @@ public class ExpressDeclarer {
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
 			Token varToken = element.getToken(0);
-			Variable variable = new Variable(context.getBlockId(), type, varToken.toString());
-			context.variables.add(variable);
+			if (context == null) {// 如果是字段的话，则直接给变量设置类型
+				varToken.setTypeAtt(type);
+			} else {// 如果是方法的话，则直接添加到上下文中
+				context.variables.add(new Variable(blockId, type, varToken.toString()));
+			}
 
 		} else if (element.isForIn()) {// for item in list {
 			Stmt subStmt = element.subStmt(3, element.getSize() - 1);
@@ -32,7 +37,7 @@ public class ExpressDeclarer {
 			// 这里从数组或集合中获取类型
 			type = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
-			Variable variable = new Variable(context.getBlockId(), type, varToken.toString());
+			Variable variable = new Variable(blockId, type, varToken.toString());
 			context.variables.add(variable);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
