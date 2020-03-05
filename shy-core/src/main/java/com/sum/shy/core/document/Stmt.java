@@ -29,7 +29,7 @@ public class Stmt {
 		return null;
 	}
 
-	public String get(int index) {// 修改为从token获取字符串
+	public String getStr(int index) {// 修改为从token获取字符串
 		return getToken(index).toString();
 	}
 

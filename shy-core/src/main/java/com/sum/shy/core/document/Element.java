@@ -49,11 +49,15 @@ public class Element extends ArrayList<Element> {
 	}
 
 	public String getStr(int index) {
-		return stmt.get(index);
+		return stmt.getStr(index);
 	}
 
 	public Token findToken(String type) {
 		return stmt.findToken(type);
+	}
+
+	public Token getToken(int index) {
+		return stmt.getToken(index);
 	}
 
 	public boolean contain(int index) {
@@ -91,7 +95,7 @@ public class Element extends ArrayList<Element> {
 					List<Stmt> subStmts = stmt.subStmt(i + 1, end).split(",");
 					for (Stmt subStmt : subStmts) {
 						if (subStmt.size() == 1)
-							params.add(subStmt.get(0));
+							params.add(subStmt.getStr(0));
 					}
 					return params;
 				}

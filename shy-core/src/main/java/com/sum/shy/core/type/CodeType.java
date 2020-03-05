@@ -35,7 +35,7 @@ public class CodeType extends AbsType {
 
 			} else if (token.value instanceof Stmt) {
 				Stmt subStmt = token.getStmt();
-				simpleName = subStmt.get(0);// 前缀
+				simpleName = subStmt.getStr(0);// 前缀
 				for (int i = 1; i < subStmt.size(); i++) {
 					Token subToken = subStmt.getToken(i);
 					if (subToken.isType())
