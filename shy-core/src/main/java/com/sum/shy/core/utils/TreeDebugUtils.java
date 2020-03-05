@@ -6,7 +6,6 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Node;
-import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.lib.StringUtils;
 
@@ -20,18 +19,17 @@ public class TreeDebugUtils {
 	}
 
 	public void debug(Element element) {
-		markPosition(0, element.stmt);
+		markPosition(0, element.stmt.format());
 		buildTree(0, "", element.tree.tokens);
 		System.out.println(toString());
 	}
 
-	public static void markPosition(int position, Stmt stmt) {
-		List<Token> tokens = stmt.format();// 获取插入了空格的tokens
+	public static void markPosition(int position, List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setPosition(position);
-			if (token.hasSubStmt())
-				markPosition(position, token.getStmt());
+			if (token.hasStmt())
+				markPosition(position, token.getStmt().tokens);
 			position += token.toString().length();
 		}
 	}
@@ -39,7 +37,7 @@ public class TreeDebugUtils {
 	public void buildTree(int depth, String separator, List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.hasSubStmt()) {// 有子节点先打印子节点
+			if (token.hasStmt()) {// 有子节点先打印子节点
 				buildTree(depth, separator, token.getStmt().tokens);
 			} else {
 				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
@@ -64,7 +62,7 @@ public class TreeDebugUtils {
 		if (StringUtils.isNotEmpty(separator))
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
-		if (node.token.hasSubStmt()) {// 如果有语句，则先打印子语句
+		if (node.token.hasStmt()) {// 如果有语句，则先打印子语句
 			buildTree(depth, "", node.token.getStmt().tokens);
 		} else {
 			print(depth, position, text);

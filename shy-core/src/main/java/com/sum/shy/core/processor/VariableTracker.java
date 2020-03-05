@@ -31,7 +31,7 @@ public class VariableTracker {
 
 	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {
-			if (token.hasSubStmt())
+			if (token.hasStmt())
 				trackStmt(clazz, context, token.getStmt());
 
 			if (token.isVar()) {

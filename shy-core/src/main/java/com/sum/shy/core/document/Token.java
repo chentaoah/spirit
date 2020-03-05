@@ -188,7 +188,7 @@ public class Token {
 		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
 	}
 
-	public boolean hasSubStmt() {
+	public boolean hasStmt() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
 

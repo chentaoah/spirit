@@ -10,7 +10,7 @@ public class TypeDeclarer {
 	public static void declareStmt(IClass clazz, Stmt stmt) {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (token.hasSubStmt()) {
+			if (token.hasStmt()) {
 				declareStmt(clazz, token.getStmt());
 
 			} else if (token.isType()) {

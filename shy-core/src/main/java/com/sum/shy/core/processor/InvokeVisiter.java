@@ -25,7 +25,7 @@ public class InvokeVisiter {
 	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {
 
 		// 内部可能还需要推导
-		if (token.hasSubStmt())
+		if (token.hasStmt())
 			visitStmt(clazz, token.getStmt());
 
 		// 参数类型，为了像java那样支持重载
