@@ -42,30 +42,22 @@ public class CodeVisiter implements Visiter {
 	}
 
 	public IType visitMethod(IClass clazz, IType type, String methodName, List<IType> parameterTypes) {
+		String className = type.getClassName();
+		IClass typeClass = Context.get().findClass(className);
+		if (StringUtils.isNotEmpty(methodName)) {
+			if (Constants.SUPER_KEYWORD.equals(methodName)) {
+				return new CodeType(typeClass, typeClass.getSuperName());
+			}
+			if (Constants.THIS_KEYWORD.equals(methodName)) {
+				return new CodeType(typeClass, typeClass.getTypeName());
+			}
+			if (typeClass.existMethod(methodName, parameterTypes)) {
+				IMethod method = typeClass.getMethod(methodName, parameterTypes);
+				return MemberVisiter.visitMember(typeClass, method);
 
-		if (type.isArray()) {
-			if (Constants.$ARRAY_INDEX.equals(methodName))
-				return new CodeType(clazz, type.getTypeName());
-			throw new RuntimeException("Some functions of array are not supported yet!");
-
-		} else {
-			String className = type.getClassName();
-			IClass typeClass = Context.get().findClass(className);
-			if (StringUtils.isNotEmpty(methodName)) {
-				if (Constants.SUPER_KEYWORD.equals(methodName)) {
-					return new CodeType(typeClass, typeClass.getSuperName());
-				}
-				if (Constants.THIS_KEYWORD.equals(methodName)) {
-					return new CodeType(typeClass, typeClass.getTypeName());
-				}
-				if (typeClass.existMethod(methodName, parameterTypes)) {
-					IMethod method = typeClass.getMethod(methodName, parameterTypes);
-					return MemberVisiter.visitMember(typeClass, method);
-
-				} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
-					return visitMethod(typeClass, new CodeType(typeClass, typeClass.getSuperName()), methodName,
-							parameterTypes);
-				}
+			} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+				return visitMethod(typeClass, new CodeType(typeClass, typeClass.getSuperName()), methodName,
+						parameterTypes);
 			}
 		}
 		return null;

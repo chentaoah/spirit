@@ -43,9 +43,10 @@ public class VariableTracker {
 
 			} else if (token.isArrayIndex() && token.getTypeAtt() == null) {// 如果没有设置类型的话
 				String name = token.getMemberNameAtt();
-				IType type = findType(clazz, context, name);
+				IType type = findType(clazz, context, name);// 返回的数组类型
 				if (type == null)
 					throw new RuntimeException("Variable must be declared!name:" + name);
+				type = new CodeType(clazz, type.getTypeName());// 转换成数组内的类型
 				token.setTypeAtt(type);
 			}
 
