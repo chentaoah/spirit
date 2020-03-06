@@ -43,8 +43,7 @@ public class InvokeVisiter {
 				token.setTypeAtt(FastDeducer.getValueType(clazz, token));
 
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-				Stmt subStmt = token.getStmt();
-				token.setTypeAtt(FastDeducer.deriveStmt(clazz, subStmt.subStmt(1, subStmt.size() - 1)));
+				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
 				IType type = new CodeType(clazz, clazz.getTypeName());
