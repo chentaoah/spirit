@@ -34,20 +34,25 @@ public class VariableTracker {
 			if (token.hasStmt())
 				trackStmt(clazz, context, token.getStmt());
 
-			if (token.isVar() && token.getTypeAtt() == null) {// 如果没有设置类型的话
-				String name = token.toString();
-				IType type = findType(clazz, context, name);
-				if (type == null)
-					throw new RuntimeException("Variable must be declared!name:" + name);
-				token.setTypeAtt(type);
+			if (token.getTypeAtt() == null) {
 
-			} else if (token.isArrayIndex() && token.getTypeAtt() == null) {// 如果没有设置类型的话
-				String name = token.getMemberNameAtt();
-				IType type = findType(clazz, context, name);// 返回的数组类型
-				if (type == null)
-					throw new RuntimeException("Variable must be declared!name:" + name);
-				type = new CodeType(clazz, type.getTypeName());// 转换成数组内的类型
-				token.setTypeAtt(type);
+				if (token.isVar()) {// 如果没有设置类型的话
+					String name = token.toString();
+					IType type = findType(clazz, context, name);
+					if (type == null)
+						throw new RuntimeException("Variable must be declared!name:" + name);
+					token.setTypeAtt(type);
+
+				} else if (token.isArrayIndex()) {// 如果没有设置类型的话
+					String name = token.getMemberNameAtt();
+					IType type = findType(clazz, context, name);// 返回的数组类型
+					if (type == null)
+						throw new RuntimeException("Variable must be declared!name:" + name);
+					type = new CodeType(clazz, type.getTypeName());// 转换成数组内的类型
+					token.setTypeAtt(type);
+
+				}
+
 			}
 
 		}
