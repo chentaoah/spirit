@@ -20,7 +20,7 @@ public class CoopClass extends IClass {
 
 	@Override
 	public String getClassName() {
-		return mainClass.getClassName();
+		return mainClass.getClassName() + getTypeName();
 	}
 
 }
