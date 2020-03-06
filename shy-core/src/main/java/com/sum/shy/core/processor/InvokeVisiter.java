@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.AdaptiveVisiter;
@@ -48,7 +49,12 @@ public class InvokeVisiter {
 
 			} else if (token.isVisitField()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
+				IType returnType = null;
+				if (type.isArray() && Constants.ARRAY_LENGTH.equals(token.getMemberNameAtt())) {// 访问数组length直接返回int类型
+					returnType = new CodeType(clazz, Constants.INT_TYPE);
+				} else {
+					returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
+				}
 				token.setTypeAtt(returnType);
 
 			} else if (token.isInvokeMethod()) {

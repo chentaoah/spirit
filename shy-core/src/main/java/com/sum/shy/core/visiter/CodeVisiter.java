@@ -16,26 +16,18 @@ import com.sum.shy.lib.StringUtils;
 public class CodeVisiter implements Visiter {
 
 	public IType visitField(IClass clazz, IType type, String fieldName) {
+		String className = type.getClassName();
+		IClass typeClass = Context.get().findClass(className);
+		if (StringUtils.isNotEmpty(fieldName)) {
+			if (Constants.CLASS_KEYWORD.equals(fieldName)) {
+				return new CodeType(typeClass, "Class<?>");
+			}
+			if (typeClass.existField(fieldName)) {
+				IField field = typeClass.getField(fieldName);
+				return MemberVisiter.visitMember(typeClass, field);
 
-		if (type.isArray()) {
-			if (Constants.$ARRAY_LENGTH.equals(fieldName))
-				return new CodeType(clazz, Constants.INT_TYPE);
-			throw new RuntimeException("Some functions of array are not supported yet!");
-
-		} else {
-			String className = type.getClassName();
-			IClass typeClass = Context.get().findClass(className);
-			if (StringUtils.isNotEmpty(fieldName)) {
-				if (Constants.CLASS_KEYWORD.equals(fieldName)) {
-					return new CodeType(typeClass, "Class<?>");
-				}
-				if (typeClass.existField(fieldName)) {
-					IField field = typeClass.getField(fieldName);
-					return MemberVisiter.visitMember(typeClass, field);
-
-				} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
-					return visitField(typeClass, new CodeType(typeClass, typeClass.getSuperName()), fieldName);
-				}
+			} else if (StringUtils.isNotEmpty(typeClass.getSuperName())) {
+				return visitField(typeClass, new CodeType(typeClass, typeClass.getSuperName()), fieldName);
 			}
 		}
 		return null;

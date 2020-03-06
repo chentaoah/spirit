@@ -117,7 +117,7 @@ public class Constants {
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String POSITION_ATTACHMENT = "position";// 位置
 
-	public static final String $ARRAY_LENGTH = "length";// 数组长度字段名称
+	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
 	public static final String $ARRAY_INDEX = "$array_index";// 数组访问虚构方法名
 
 	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
