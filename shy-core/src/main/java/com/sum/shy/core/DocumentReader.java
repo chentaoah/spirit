@@ -10,6 +10,7 @@ import com.google.common.io.Files;
 import com.sum.shy.core.document.Document;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
+import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.utils.LineUtils;
 
 public class DocumentReader {
@@ -51,17 +52,38 @@ public class DocumentReader {
 	}
 
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
-		// 1.解析一行
 		Element element = new Element(line);
+		List<Line> sublines = cutLine(element);// what like "if xxx : xxx : xxx"
+		if (lines != null && lines.size() > 0)
+			return doReadLine(father, sublines, 0, new Element(sublines.get(0)));
+		return doReadLine(father, lines, index, element);
+	}
+
+	public int doReadLine(List<Element> father, List<Line> lines, int index, Element element) {
 		if (father != null)
 			father.add(element);
 		if (element.hasChild()) {
-			// 2.解析子行
-			List<Line> subLines = LineUtils.getSubLines(lines, index);
+			List<Line> subLines = LineUtils.getSubLines(lines, index);// 解析子行
 			readLines(element, subLines);
 			return subLines.size();
 		}
 		return 0;
+	}
+
+	public List<Line> cutLine(Element element) {
+		// 这几种语法可以合并成一行
+		if (element.isFor() || element.isForIn() || element.isWhile() || element.isIf()) {
+			if (element.contains(":")) {
+				List<Line> subLines = new ArrayList<>();
+				List<Stmt> subStmts = element.split(":");
+				subLines.add(new Line(subStmts.get(0).toString() + "{"));
+				for (int i = 1; i < subStmts.size(); i++)
+					subLines.add(new Line(subStmts.get(i).toString()));
+				subLines.add(new Line("}"));
+				return subLines;
+			}
+		}
+		return null;
 	}
 
 }

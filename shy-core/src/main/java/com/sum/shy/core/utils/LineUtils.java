@@ -9,7 +9,6 @@ public class LineUtils {
 
 	// 返回子块
 	public static List<Line> getSubLines(List<Line> lines, int index) {
-		// 找到子域的结束符"}"
 		List<Line> list = new ArrayList<>();
 		for (int i = index + 1, count = 1; i < lines.size(); i++) {
 			String text = lines.get(i).text;
@@ -19,7 +18,7 @@ public class LineUtils {
 				if (c == '"' && isBoundary(text, j)) // 判断是否进入了字符串中
 					flag = !flag;
 				if (!flag) {
-					if (c == '{') {
+					if (c == '{') {// 找到子域的结束符"}"
 						count++;
 					} else if (c == '}') {
 						count--;
