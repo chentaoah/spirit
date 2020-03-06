@@ -43,8 +43,10 @@ public class ExpressDeclarer {
 			Element subElement = new Element(new Line(subStmt.toString()));
 			subElement.stmt = subStmt;// 替换一下
 			Variable variable = ElementVisiter.visit(clazz, context, subElement);
-			if (variable != null)
+			if (variable != null) {
+				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
+			}
 
 		}
 
