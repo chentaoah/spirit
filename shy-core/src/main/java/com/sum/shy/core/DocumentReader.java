@@ -54,7 +54,7 @@ public class DocumentReader {
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
 		Element element = new Element(line);
 		List<Line> sublines = cutLine(element);// what like "if xxx : xxx : xxx"
-		if (lines != null && lines.size() > 0)
+		if (sublines != null && sublines.size() > 0)
 			return doReadLine(father, sublines, 0, new Element(sublines.get(0)));
 		return doReadLine(father, lines, index, element);
 	}
