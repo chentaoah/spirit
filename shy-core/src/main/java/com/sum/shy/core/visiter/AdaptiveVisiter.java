@@ -24,7 +24,7 @@ public class AdaptiveVisiter implements Visiter {
 	}
 
 	public Visiter choiceVisiter(IType type) {
-		return type.isArray() || Context.get().contains(type.getClassName()) ? codeVisiter : nativeVisiter;
+		return Context.get().contains(type.getClassName()) ? codeVisiter : nativeVisiter;
 	}
 
 }
