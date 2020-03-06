@@ -54,8 +54,10 @@ public class DocumentReader {
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
 		Element element = new Element(line);
 		List<Line> sublines = cutLine(element);// what like "if xxx : xxx : xxx"
-		if (sublines != null && sublines.size() > 0)
-			return doReadLine(father, sublines, 0, new Element(sublines.get(0)));
+		if (sublines != null && sublines.size() > 0) {
+			readLines(father, sublines);
+			return 0;
+		}
 		return doReadLine(father, lines, index, element);
 	}
 
@@ -74,12 +76,14 @@ public class DocumentReader {
 		// 这几种语法可以合并成一行
 		if (element.isFor() || element.isForIn() || element.isWhile() || element.isIf()) {
 			if (element.contains(":")) {
+				// 获取缩进
+				String indent = element.line.getIndent();
 				List<Line> subLines = new ArrayList<>();
 				List<Stmt> subStmts = element.split(":");
-				subLines.add(new Line(subStmts.get(0).toString() + "{"));
+				subLines.add(new Line(indent + subStmts.get(0).toString() + " {"));
 				for (int i = 1; i < subStmts.size(); i++)
-					subLines.add(new Line(subStmts.get(i).toString()));
-				subLines.add(new Line("}"));
+					subLines.add(new Line(indent + "\t" + subStmts.get(i).toString()));
+				subLines.add(new Line(indent + "}"));
 				return subLines;
 			}
 		}

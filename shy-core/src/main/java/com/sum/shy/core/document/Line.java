@@ -21,6 +21,11 @@ public class Line {
 		return text.trim().startsWith("//") || text.trim().length() == 0;
 	}
 
+	public String getIndent() {
+		char firstChar = text.trim().charAt(0);
+		return text.substring(0, text.indexOf(firstChar));
+	}
+
 	@Override
 	public String toString() {
 		return number + ":" + LineUtils.getSpaceByNumber(6 - (number + ":").length()) + text;

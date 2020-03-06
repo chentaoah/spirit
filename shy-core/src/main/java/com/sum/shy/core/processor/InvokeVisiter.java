@@ -55,10 +55,7 @@ public class InvokeVisiter {
 			token.setTypeAtt(returnType);
 
 		} else if (token.isInvokeMethod()) {
-			Token lastToken = stmt.getToken(index - 1);
-			if (lastToken.isOperator() && "?".equals(lastToken.toString()))
-				lastToken = stmt.getToken(index - 2);// 如果是判空语句,则向前倒两位 like obj?.do()
-			IType type = lastToken.getTypeAtt();
+			IType type = stmt.getToken(index - 1).getTypeAtt();
 			IType returnType = visiter.visitMethod(clazz, type, token.getMemberNameAtt(), parameterTypes);
 			token.setTypeAtt(returnType);
 

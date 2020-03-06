@@ -22,6 +22,8 @@ public class LineUtils {
 						count++;
 					} else if (c == '}') {
 						count--;
+						if (count == 0)
+							return list;
 					}
 				}
 			}
