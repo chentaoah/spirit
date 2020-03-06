@@ -32,7 +32,11 @@ public class InvokeVisiter {
 		List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
 		if (token.getTypeAtt() == null) {
-			if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
+
+			if (token.isType()) {// 静态访问 String.valueOf(123)
+				token.setTypeAtt(new CodeType(clazz, token));
+
+			} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
 				token.setTypeAtt(new CodeType(clazz, token.getTypeNameAtt()));
 
 			} else if (token.isValue()) {
