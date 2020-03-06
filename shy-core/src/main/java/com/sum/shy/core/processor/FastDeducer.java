@@ -39,7 +39,7 @@ public class FastDeducer {
 			return new Variable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isCatch()) {
-			Token varToken = element.getToken(2);
+			Token varToken = element.getToken(3);
 			return new Variable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isAssign()) {
