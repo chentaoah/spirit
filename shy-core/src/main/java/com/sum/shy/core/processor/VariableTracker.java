@@ -1,5 +1,6 @@
 package com.sum.shy.core.processor;
 
+import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
@@ -80,8 +81,8 @@ public class VariableTracker {
 		// 成员变量
 		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
-				if (field.type != null)
-					return field.type;
+				if (field.type == null)
+					return MemberVisiter.visitField(clazz, field);
 			}
 		}
 

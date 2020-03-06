@@ -17,8 +17,10 @@ public class ExpressDeclarer {
 
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.getToken(0);
-			// 先在上下文中，找一下
-			IType type = VariableTracker.findType(clazz, context, varToken.toString());
+			// 如果是field，那么直接推导，如果在方法中，则先从上下文中找一下
+			IType type = null;
+			if (context != null)
+				type = VariableTracker.findType(clazz, context, varToken.toString());
 			if (type == null) {
 				Stmt subStmt = element.subStmt(2, element.getSize());
 				VariableTracker.trackStmt(clazz, context, subStmt);
