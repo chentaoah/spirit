@@ -21,7 +21,7 @@ public class IClass {
 
 	public List<IAnnotation> annotations = new ArrayList<>();
 
-	public Element root;
+	public Element root;// 这个可能为null
 
 	public List<IField> fields = new ArrayList<>();
 
@@ -118,15 +118,15 @@ public class IClass {
 	}
 
 	public boolean isInterface() {// 接口里不允许嵌套别的东西
-		return root.isInterface();
+		return root != null && root.isInterface();
 	}
 
 	public boolean isAbstract() {// 抽象类里也不允许嵌套
-		return root.isAbstract();
+		return root != null && root.isAbstract();
 	}
 
 	public boolean isClass() {
-		return root.isClass();
+		return root == null || root.isClass();
 	}
 
 	public String getTypeName() {
@@ -136,11 +136,11 @@ public class IClass {
 	}
 
 	public String getSuperName() {
-		return root.getKeywordParam(Constants.EXTENDS_KEYWORD);
+		return root != null ? root.getKeywordParam(Constants.EXTENDS_KEYWORD) : null;
 	}
 
 	public List<String> getInterfaces() {
-		return root.getKeywordParams(Constants.IMPL_KEYWORD);
+		return root != null ? root.getKeywordParams(Constants.IMPL_KEYWORD) : null;
 	}
 
 	public String getClassName() {
