@@ -50,8 +50,7 @@ public class MemberVisiter {
 	}
 
 	public static IType visitField(IClass clazz, IField field) {
-		Variable variable = ElementVisiter.visit(clazz, null, field.element);
-		return variable.type;
+		return ElementVisiter.visit(clazz, null, field.element).type;
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
@@ -65,6 +64,7 @@ public class MemberVisiter {
 		for (Element element : father) {
 			Variable variable = ElementVisiter.visit(clazz, context, element);
 			if (!element.isReturn() && variable != null) {
+				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
 
 			} else if (element.isReturn() && variable != null) {

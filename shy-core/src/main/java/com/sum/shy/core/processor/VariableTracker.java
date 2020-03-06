@@ -37,11 +37,15 @@ public class VariableTracker {
 			if (token.isVar() && token.getTypeAtt() == null) {// 如果没有设置类型的话
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
+				if (type == null)
+					throw new RuntimeException("Variable must be declared!name:" + name);
 				token.setTypeAtt(type);
 
 			} else if (token.isArrayIndex() && token.getTypeAtt() == null) {// 如果没有设置类型的话
 				String name = token.getMemberNameAtt();
 				IType type = findType(clazz, context, name);
+				if (type == null)
+					throw new RuntimeException("Variable must be declared!name:" + name);
 				token.setTypeAtt(type);
 			}
 
@@ -84,11 +88,10 @@ public class VariableTracker {
 		}
 
 		// 从继承里面去找，注意这里的父类可能是native的
-		if (StringUtils.isNotEmpty(clazz.getSuperName())) {
+		if (StringUtils.isNotEmpty(clazz.getSuperName()))
 			return visiter.visitField(clazz, new CodeType(clazz, clazz.getSuperName()), name);
-		}
 
-		throw new RuntimeException("Variable must be declared!name:" + name);
+		return null;
 
 	}
 

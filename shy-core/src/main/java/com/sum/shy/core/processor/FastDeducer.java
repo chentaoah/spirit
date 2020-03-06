@@ -2,7 +2,6 @@ package com.sum.shy.core.processor;
 
 import java.util.List;
 
-import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
@@ -27,28 +26,33 @@ import com.sum.shy.core.utils.ReflectUtils;
 public class FastDeducer {
 
 	/**
-	 * 根据语法返回，类型和变量名称，这里只是尽量做到
+	 * 根据语法，返回语句中定义的变量，
 	 * 
 	 * @param clazz
-	 * @param context
 	 * @param element
 	 * @return
 	 */
-	public static Variable derive(IClass clazz, MethodContext context, Element element) {
-
-		String blockId = context != null ? context.getBlockId() : null;
+	public static Variable derive(IClass clazz, Element element) {
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
-			return new Variable(blockId, varToken.getTypeAtt(), varToken.toString());
+			return new Variable(varToken.getTypeAtt(), varToken.toString());
+
+		} else if (element.isCatch()) {
+			Token varToken = element.getToken(2);
+			return new Variable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isAssign()) {
 			Token varToken = element.getToken(0);
-			return new Variable(blockId, varToken.getTypeAtt(), varToken.toString());
+			return new Variable(varToken.getTypeAtt(), varToken.toString());
+
+		} else if (element.isForIn()) {
+			Token varToken = element.getToken(1);
+			return new Variable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
 			Stmt subStmt = element.subStmt(1, element.getSize());
-			return new Variable(blockId, deriveStmt(clazz, subStmt), null);
+			return new Variable(deriveStmt(clazz, subStmt), null);
 
 		}
 		return null;

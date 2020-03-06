@@ -31,7 +31,7 @@ public class ElementVisiter {
 			// 4.调用推导
 			InvokeVisiter.visitStmt(clazz, element.stmt);
 			// 5.快速推导
-			return FastDeducer.derive(clazz, context, element);
+			return FastDeducer.derive(clazz, element);
 
 		} catch (Exception e) {
 			System.out.println("An exception has occurred!");

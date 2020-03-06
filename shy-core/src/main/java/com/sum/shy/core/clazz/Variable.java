@@ -19,4 +19,9 @@ public class Variable {
 		this.name = name;
 	}
 
+	public Variable(IType type, String name) {
+		this.type = type;
+		this.name = name;
+	}
+
 }
