@@ -76,7 +76,7 @@ public class FastDeducer {
 
 			}
 		}
-		return null;
+		throw new RuntimeException("Cannot deduce type!stmt:" + stmt.toString());
 	}
 
 	public static IType getType(IClass clazz, Node node) {
@@ -89,7 +89,7 @@ public class FastDeducer {
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
 			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
 
-		} else if (token.isArithmetic()) {
+		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的
 			if (node.left != null) {
 				return getType(clazz, node.left);

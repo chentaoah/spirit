@@ -26,9 +26,12 @@ public class IMethod extends AbsMember {
 		super(annotations, isStatic, element);
 		// 方法可能本地方法，也可能是构造方法
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
-		if (methodToken == null)
+		if (methodToken == null) {
 			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
-		name = methodToken.getMemberNameAtt();
+			name = methodToken.getTypeNameAtt();
+		} else {
+			name = methodToken.getMemberNameAtt();
+		}
 		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
 		for (Stmt paramStmt : subStmts) {
 			IParameter parameter = new IParameter();

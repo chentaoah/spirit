@@ -67,6 +67,13 @@ public class IClass {
 			className = ReflectUtils.getClassName(simpleName);
 		if (className == null)
 			className = ReflectUtils.getCollectionType(typeName);
+		if (className == null) {
+			try {
+				className = ReflectUtils.getClass("java.lang." + typeName).getName();
+			} catch (Exception e) {
+				// ignore
+			}
+		}
 		if (className != null)
 			return className;
 

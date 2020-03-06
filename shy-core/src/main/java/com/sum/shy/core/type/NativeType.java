@@ -53,7 +53,7 @@ public class NativeType extends AbsType {
 	}
 
 	public Method findMethod(String methodName, List<IType> parameterTypes) {
-
+		// 这里要处理Object...这种形式
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
 				boolean flag = true;
@@ -70,6 +70,11 @@ public class NativeType extends AbsType {
 				}
 				if (flag)
 					return method;
+			}
+		}
+		for (Method method : clazz.getMethods()) {
+			if (method.getName().equals(methodName)) {
+				return method;
 			}
 		}
 		throw new RuntimeException("The method was not found!method:" + methodName);
