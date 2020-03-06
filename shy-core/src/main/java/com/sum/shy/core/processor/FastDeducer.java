@@ -87,7 +87,7 @@ public class FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
+			return new CodeType(clazz, Constants.BOOLEAN);
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的
@@ -104,17 +104,17 @@ public class FastDeducer {
 
 	public static IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return new CodeType(clazz, Constants.BOOLEAN_TYPE);
+			return new CodeType(clazz, Constants.BOOLEAN);
 		} else if (token.isInt()) {
-			return new CodeType(clazz, Constants.INT_TYPE);
+			return new CodeType(clazz, Constants.INT);
 		} else if (token.isLong()) {
-			return new CodeType(clazz, Constants.LONG_TYPE);
+			return new CodeType(clazz, Constants.LONG);
 		} else if (token.isDouble()) {
-			return new CodeType(clazz, Constants.DOUBLE_TYPE);
+			return new CodeType(clazz, Constants.DOUBLE);
 		} else if (token.isNull()) {
-			return new CodeType(clazz, Constants.OBJECT_TYPE);
+			return new CodeType(clazz, Constants.OBJECT);
 		} else if (token.isStr()) {
-			return new CodeType(clazz, Constants.STRING_TYPE);
+			return new CodeType(clazz, Constants.STRING);
 		} else if (token.isList()) {
 			return getArrayType(clazz, token);
 		} else if (token.isMap()) {
@@ -147,7 +147,7 @@ public class FastDeducer {
 		if (!isSame || genericType == null)
 			return new CodeType(clazz, "List<Object>");
 
-		IType finalType = new CodeType(clazz, Constants.LIST_TYPE);
+		IType finalType = new CodeType(clazz, Constants.LIST);
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -182,11 +182,11 @@ public class FastDeducer {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, Constants.OBJECT_TYPE) : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, Constants.OBJECT_TYPE)
+		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, Constants.OBJECT) : finalKeyType;
+		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, Constants.OBJECT)
 				: finalValueType;
 
-		IType finalType = new CodeType(clazz, Constants.MAP_TYPE);
+		IType finalType = new CodeType(clazz, Constants.MAP);
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;

@@ -13,10 +13,6 @@ public class Constants {
 
 	public static final String UNKNOWN = "unknown";
 
-	public static final String STATIC_SCOPE = "static";
-	public static final String CLASS_SCOPE = "class";
-	public static final String METHOD_SCOPE = "method";
-
 	public static final String INTERFACE_KEYWORD = "interface";// 高频出现的几个关键字
 	public static final String ABSTRACT_KEYWORD = "abstract";
 	public static final String CLASS_KEYWORD = "class";
@@ -38,15 +34,15 @@ public class Constants {
 	public static final String DEBUG_KEYWORD = "debug";
 	public static final String ERROR_KEYWORD = "error";
 
-	public static final String VOID_TYPE = "void";// 常用的类型
-	public static final String BOOLEAN_TYPE = "boolean";
-	public static final String INT_TYPE = "int";
-	public static final String LONG_TYPE = "long";
-	public static final String DOUBLE_TYPE = "double";
-	public static final String OBJECT_TYPE = "Object";
-	public static final String STRING_TYPE = "String";
-	public static final String LIST_TYPE = "List";
-	public static final String MAP_TYPE = "Map";
+	public static final String VOID = "void";// 常用的类型
+	public static final String BOOLEAN = "boolean";
+	public static final String INT = "int";
+	public static final String LONG = "long";
+	public static final String DOUBLE = "double";
+	public static final String OBJECT = "Object";
+	public static final String STRING = "String";
+	public static final String LIST = "List";
+	public static final String MAP = "Map";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
@@ -77,8 +73,6 @@ public class Constants {
 	public static final String FINALLY_SYNTAX = "finally";
 	public static final String THROW_SYNTAX = "throw";
 	public static final String SYNC_SYNTAX = "sync";// 同步语句
-	public static final String FAST_ADD_SYNTAX = "fast_add";// 快速添加语法
-	public static final String JUDGE_INVOKE_SYNTAX = "judge_invoke";// 判空调用
 	public static final String PRINT_SYNTAX = "print";
 	public static final String DEBUG_SYNTAX = "debug";
 	public static final String ERROR_SYNTAX = "error";
@@ -103,9 +97,9 @@ public class Constants {
 	public static final String VAR_TOKEN = "var";
 	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
-	public static final String LOCAL_METHOD_TOKEN = "local_method";
-	public static final String VISIT_FIELD_TOKEN = "visit_field";
-	public static final String INVOKE_METHOD_TOKEN = "invoke_method";
+	public static final String LOCAL_METHOD_TOKEN = "local_method";// 本地方法
+	public static final String VISIT_FIELD_TOKEN = "visit_field";// 访问字段
+	public static final String INVOKE_METHOD_TOKEN = "invoke_method";// 调用方法
 	public static final String VISIT_ARRAY_INDEX_TOKEN = "visit_array_index";// 访问字段,并通过索引访问数组中的元素
 	public static final String ARRAY_INDEX_TOKEN = "array_index";// 访问字段,并通过索引访问数组中的元素
 	public static final String NODE_TOKEN = "node";// 节点
@@ -118,7 +112,6 @@ public class Constants {
 	public static final String POSITION_ATTACHMENT = "position";// 位置
 
 	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
-	public static final String $ARRAY_INDEX = "$array_index";// 数组访问虚构方法名
 
 	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
 	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀

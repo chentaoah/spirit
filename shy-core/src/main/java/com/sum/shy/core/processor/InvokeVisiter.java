@@ -51,7 +51,7 @@ public class InvokeVisiter {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
 				IType returnType = null;
 				if (type.isArray() && Constants.ARRAY_LENGTH.equals(token.getMemberNameAtt())) {// 访问数组length直接返回int类型
-					returnType = new CodeType(clazz, Constants.INT_TYPE);
+					returnType = new CodeType(clazz, Constants.INT);
 				} else {
 					returnType = visiter.visitField(clazz, type, token.getMemberNameAtt());
 				}

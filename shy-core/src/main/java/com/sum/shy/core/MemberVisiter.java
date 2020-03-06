@@ -57,7 +57,7 @@ public class MemberVisiter {
 		MethodContext context = new MethodContext();
 		context.method = method;
 		visitChildElement(clazz, context, method.element);
-		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID_TYPE);
+		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
 	}
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
