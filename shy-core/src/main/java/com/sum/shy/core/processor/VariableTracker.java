@@ -82,7 +82,8 @@ public class VariableTracker {
 		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
-					return MemberVisiter.visitField(clazz, field);
+					field.type = MemberVisiter.visitField(clazz, field);
+				return field.type;
 			}
 		}
 
