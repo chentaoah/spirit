@@ -16,11 +16,15 @@ public class JavaBuilder {
 
 	public String build(IClass clazz) {
 		StringBuilder sb = new StringBuilder();
-		buildClass(sb, clazz);
+		String body = buildBody(clazz);// 这里构建body的原因是在构建时，还要动态添加import
+		String head = buildHead(clazz);
+		sb.append(head);
+		sb.append(body);
 		return sb.toString();
 	}
 
-	public void buildClass(StringBuilder sb, IClass clazz) {
+	public String buildHead(IClass clazz) {
+		StringBuilder sb = new StringBuilder();
 		// 包名
 		sb.append(String.format("package %s;\n\n", clazz.packageStr));
 		// 引入
@@ -32,18 +36,18 @@ public class JavaBuilder {
 		// 注解
 		for (IAnnotation annotation : clazz.annotations)
 			sb.append(annotation.token + "\n");
+		return sb.toString();
+	}
+
+	public String buildBody(IClass clazz) {
+		StringBuilder sb = new StringBuilder();
 		// 类名
 		sb.append(clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
 				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 		// 字段
 		for (IField field : clazz.fields) {// public static type + element
-			String format = "public %s%s%s;\n\n";
-			Element element = field.element;
-			if (element.isDeclare() || element.isDeclareAssign()) {
-				sb.append(String.format(format, field.isStatic ? "static " : "", "", field.element));
-			} else if (element.isAssign()) {
-				sb.append(String.format(format, field.isStatic ? "static " : "", field.type + " ", field.element));
-			}
+			String format = "public %s%s;\n\n";
+			sb.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
 		// 方法
 		for (IMethod method : clazz.methods) {// public static type + element
@@ -56,6 +60,7 @@ public class JavaBuilder {
 			sb.append("}\n\n");
 		}
 		sb.append("\n}\n");
+		return sb.toString();
 	}
 
 	public void convertElement(StringBuilder sb, String indent, IClass clazz, Element father) {
@@ -70,7 +75,7 @@ public class JavaBuilder {
 		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
 		TokenConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
-		SymbolConverter.convert(clazz, element);// TODO
+		SymbolConverter.convertStmt(clazz, element.stmt);// TODO
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
 		// 5.特殊语句的特殊处理
