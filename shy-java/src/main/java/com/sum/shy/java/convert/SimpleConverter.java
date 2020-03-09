@@ -1,18 +1,6 @@
 package com.sum.shy.java.convert;
 
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IMethod;
-import com.sum.shy.core.document.Line;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.java.JavaConverter;
-import com.sum.shy.java.api.Converter;
-
-public class SimpleConverter implements Converter {
-
-	@Override
-	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
+public class SimpleConverter {
 
 //		if (stmt.isElse() || stmt.isEnd() || stmt.isTry() || stmt.isFinally()) {// } else { // } // try { // } finally {
 //			return stmt;
@@ -65,8 +53,5 @@ public class SimpleConverter implements Converter {
 
 //		System.out.println(stmt);
 //		System.out.println(stmt.syntax);
-		throw new RuntimeException("The syntax statement is not supported!");
-
-	}
 
 }

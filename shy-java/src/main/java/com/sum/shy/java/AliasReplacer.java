@@ -1,9 +1,5 @@
 package com.sum.shy.java;
 
-import java.util.Map;
-
-import com.sum.shy.core.clazz.IClass;
-
 public class AliasReplacer {
 
 //	public static String replace(IClass clazz, String text) {

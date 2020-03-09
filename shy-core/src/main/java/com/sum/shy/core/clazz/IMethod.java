@@ -12,6 +12,10 @@ import com.sum.shy.core.type.api.IType;
 
 public class IMethod extends AbsMember {
 
+	public boolean isInit;
+
+	public boolean isSync;
+
 	public List<IParameter> parameters = new ArrayList<>();
 
 	/**
@@ -28,8 +32,12 @@ public class IMethod extends AbsMember {
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
 		if (methodToken == null) {
 			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
+			isInit = true;
+			isSync = false;
 			name = methodToken.getTypeNameAtt();
 		} else {
+			isInit = false;
+			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);
 			name = methodToken.getMemberNameAtt();
 		}
 		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");

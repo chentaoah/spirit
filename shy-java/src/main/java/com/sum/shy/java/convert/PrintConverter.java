@@ -1,23 +1,6 @@
 package com.sum.shy.java.convert;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IMethod;
-import com.sum.shy.core.document.Line;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.CodeType;
-import com.sum.shy.java.JavaConverter;
-import com.sum.shy.java.api.Converter;
-
-public class PrintConverter implements Converter {
-
-	@Override
-	public Stmt convert(IClass clazz, IMethod method, String indent, String block, Line line, Stmt stmt) {
+public class PrintConverter {
 
 //		JavaConverter.convert(clazz, stmt);
 //
@@ -35,7 +18,7 @@ public class PrintConverter implements Converter {
 //			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 //
 //		}
-		// 如果不存在
+	// 如果不存在
 //		if (!clazz.existField("logger")) {
 //			// 添加依赖
 //			clazz.addImport(Logger.class.getName());
@@ -45,8 +28,5 @@ public class PrintConverter implements Converter {
 //			IField field = new IField(null, "static", new CodeType(clazz, "Logger"), "logger", fieldStmt);
 //			clazz.staticFields.add(0, field);
 //		}
-
-		return stmt;
-	}
 
 }

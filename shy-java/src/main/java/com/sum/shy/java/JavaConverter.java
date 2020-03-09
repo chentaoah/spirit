@@ -1,17 +1,5 @@
 package com.sum.shy.java;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.document.Node;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.api.IType;
-import com.sum.shy.lib.Collection;
-import com.sum.shy.lib.StringUtils;
-
 public class JavaConverter {
 
 //	public static void convert(IClass clazz, Stmt stmt) {

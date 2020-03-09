@@ -9,6 +9,7 @@ import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.lexical.StructRecognizer;
 import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.utils.LineUtils;
+import com.sum.shy.lib.StringUtils;
 
 @SuppressWarnings("serial")
 public class Element extends ArrayList<Element> {
@@ -74,12 +75,12 @@ public class Element extends ArrayList<Element> {
 		return index < stmt.size();
 	}
 
-	public int indexOf(String str) {
-		return stmt.indexOf(str);
-	}
-
 	public boolean contains(String str) {
 		return indexOf(str) >= 0;
+	}
+
+	public int indexOf(String str) {
+		return stmt.indexOf(str);
 	}
 
 	public int lastIndexOf(String str) {
@@ -90,41 +91,67 @@ public class Element extends ArrayList<Element> {
 		return stmt.split(separator);
 	}
 
-	public String getKeywordParam(String keyword) {
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.tokens.get(i);
-			if (token.isKeyword() && keyword.equals(token.toString())) {
-				if (i + 1 < stmt.size()) {
-					Token nextToken = stmt.tokens.get(i + 1);
-					return nextToken.toString();
-				}
+	public int findKeywordIndex(String keyword) {
+		for (int i = 0; i < getSize(); i++) {
+			Token token = getToken(i);
+			if (token.isKeyword() && keyword.equals(token.toString()))
+				return i;
+		}
+		return -1;
+	}
+
+	public boolean containsKeyword(String keyword) {
+		return findKeywordIndex(keyword) != -1;
+	}
+
+	public Element replaceKeyword(String keyword, String text) {
+		int index = findKeywordIndex(keyword);
+		if (index != -1) {
+			if (StringUtils.isNotEmpty(text)) {
+				stmt.tokens.set(index, new Token(Constants.KEYWORD_TOKEN, text));
+			} else {
+				stmt.tokens.remove(index);// 如果为空的话，则删除该关键字
 			}
 		}
-		return null;
+		return this;
+	}
+
+	public Element removeKeyword(String keyword) {
+		return replaceKeyword(keyword, "");
+	}
+
+	public Element insertAfterKeyword(String keyword, String text) {
+		int index = findKeywordIndex(keyword);
+		if (index != -1)
+			stmt.tokens.add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
+		return this;
+	}
+
+	public String getKeywordParam(String keyword) {
+		int index = findKeywordIndex(keyword);
+		return index != -1 && contains(index + 1) ? getToken(index + 1).toString() : null;
 	}
 
 	public List<String> getKeywordParams(String keyword) {
 		List<String> params = new ArrayList<>();
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.tokens.get(i);
-			if (token.isKeyword() && keyword.equals(token.toString())) {
-				int end = -1;
-				for (int j = i + 1; j < stmt.size(); j++) {// 查询到结束的位置
-					Token endToken = stmt.tokens.get(j);
-					if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
-						end = j;
-					} else if (j == stmt.size() - 1) {
-						end = j + 1;
-					}
+		int index = findKeywordIndex(keyword);
+		if (index != -1) {
+			int end = -1;
+			for (int i = index + 1; i < getSize(); i++) {// 查询到结束的位置
+				Token endToken = getToken(i);
+				if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
+					end = i;
+				} else if (i == getSize() - 1) {
+					end = i + 1;
 				}
-				if (end != -1) {
-					List<Stmt> subStmts = stmt.subStmt(i + 1, end).split(",");
-					for (Stmt subStmt : subStmts) {
-						if (subStmt.size() == 1)
-							params.add(subStmt.getStr(0));
-					}
-					return params;
+			}
+			if (end != -1) {
+				List<Stmt> subStmts = stmt.subStmt(index + 1, end).split(",");
+				for (Stmt subStmt : subStmts) {
+					if (subStmt.size() == 1)
+						params.add(subStmt.getStr(0));
 				}
+				return params;
 			}
 		}
 		return null;
