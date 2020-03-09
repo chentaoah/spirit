@@ -38,9 +38,9 @@ public class Element extends ArrayList<Element> {
 		if (syntax != null) {
 			this.syntax = syntax;
 		} else {
-			// 4.建立抽象语法树
+			// 5.建立抽象语法树
 			this.tree = TreeBuilder.build(stmt);
-			// 5.获取语法
+			// 6.获取语法
 			this.syntax = tree.getSyntax();
 		}
 

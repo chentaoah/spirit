@@ -20,15 +20,19 @@ public class StructRecognizer {
 			"func" };
 
 	public static String getStructSyntax(List<Token> tokens) {
-		// 第一个单词
 		Token first = tokens.get(0);
-		for (String keyword : STRUCT_KEYWORDS) {// 关键字语句
+		// 关键字语句
+		for (String keyword : STRUCT_KEYWORDS) {
 			if (keyword.equals(first.toString()))
 				return keyword;
 		}
+		// 语句结束
+		if (tokens.size() == 1 && "}".equals(first.toString()))
+			return Constants.END_SYNTAX;
 		// 注解
 		if (tokens.size() == 1 && first.isAnnotation())
 			return Constants.ANNOTATION_SYNTAX;
+
 		// 未知
 		return null;
 	}

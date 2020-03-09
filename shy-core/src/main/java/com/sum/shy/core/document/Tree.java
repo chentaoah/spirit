@@ -17,20 +17,13 @@ public class Tree {
 
 	public String getSyntax() {
 		try {
-			// 空校验
-			if (tokens == null || tokens.size() == 0)
-				return Constants.UNKNOWN;
-
 			// 第一个单词
 			Token first = tokens.get(0);
 			for (String keyword : LINE_KEYWORDS) {// 关键字语句
 				if (keyword.equals(first.toString()))
 					return keyword;
 			}
-			// 语句结束
-			if (tokens.size() == 1 && "}".equals(first.toString())) {
-				return Constants.END_SYNTAX;
-			}
+
 			// 本地方法调用
 			if (tokens.size() == 1 && first.isLocalMethod()) {// 调用本地方法
 				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
@@ -42,16 +35,17 @@ public class Tree {
 				}
 				return Constants.INVOKE_SYNTAX;
 			}
+
 			// 聚合以后的抽象语法树
 			if (tokens.size() == 1 && first.isNode()) {
 				Node node = first.getNode();
 				Token token = node.token;
-				if (token.isType()) {// 如果顶点是类型 //String text //String test()
+				if (token.isType()) {// 如果顶点是类型
 					Token rightToken = node.right.token;
-					if (rightToken.isVar()) {
+					if (rightToken.isVar()) { // String text
 						return Constants.DECLARE_SYNTAX;
 
-					} else if (rightToken.isLocalMethod()) {
+					} else if (rightToken.isLocalMethod()) { // String test()
 						return Constants.FUNC_DECLARE_SYNTAX;
 
 					}
