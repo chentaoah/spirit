@@ -45,7 +45,7 @@ public class IClass {
 		String className = null;
 		// 2.在所有类里面找，包括这个类本身也在其中
 		if (className == null)
-			className = Context.get().findClassName(typeName);
+			className = Context.get().getClassName(typeName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
 

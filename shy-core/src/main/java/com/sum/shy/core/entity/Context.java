@@ -25,7 +25,7 @@ public class Context {
 		return classes.get(className);
 	}
 
-	public String findClassName(String typeName) {
+	public String getClassName(String typeName) {
 		for (String className : classes.keySet()) {
 			if (className.endsWith("." + typeName))
 				return className;
