@@ -25,6 +25,10 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
+	public String last() {
+		return getStr(size() - 1);
+	}
+
 	public Token findToken(String type) {
 		for (Token token : tokens) {
 			if (token.type.equals(type))
@@ -41,6 +45,10 @@ public class Stmt {
 		return tokens.indexOf(token);
 	}
 
+	public boolean contains(String str) {
+		return indexOf(str) >= 0;
+	}
+
 	public int indexOf(String str) {
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
@@ -48,10 +56,6 @@ public class Stmt {
 				return i;
 		}
 		return -1;
-	}
-
-	public boolean contains(String str) {
-		return indexOf(str) >= 0;
 	}
 
 	public int lastIndexOf(String str) {

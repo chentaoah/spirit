@@ -2,23 +2,6 @@ package com.sum.shy.java.processor;
 
 public class SimpleConverter {
 
-//		if (stmt.isElse() || stmt.isEnd() || stmt.isTry() || stmt.isFinally()) {// } else { // } // try { // } finally {
-//			return stmt;
-//
-//		} else if (stmt.isSuper() || stmt.isThis() || stmt.isFieldAssign() || stmt.isInvoke() || stmt.isReturn()
-//				|| stmt.isContinue() || stmt.isBreak() || stmt.isThrow()) {
-//			JavaConverter.convert(clazz, stmt);
-//			JavaConverter.addLineEnd(clazz, stmt);
-//			return stmt;
-//
-//		} else if (stmt.isDeclare()) {// String str
-//			JavaConverter.addLineEnd(clazz, stmt);
-//			return stmt;
-//
-//		} else if (stmt.isCatch()) {// }catch Exception e {
-//			JavaConverter.insertBrackets(clazz, stmt);
-//			return stmt;
-//
 //		} else if (stmt.isSync()) {// sync obj {
 //			String text = String.format("synchronized (%s) {", stmt.get(1));
 //			return new Stmt(text);
@@ -43,15 +26,6 @@ public class SimpleConverter {
 //			JavaConverter.addLineEnd(clazz, stmt);
 //			return stmt;
 //
-//		} else if (stmt.isJudgeInvoke()) {// obj?.invoke()
-//			String var = stmt.get(0);
-//			String invoke = stmt.get(2);
-//			String text = String.format("if (%s != null)\n%s%s%s;", var, indent + "\t", var, invoke);
-//			return new Stmt(text);
-//
-//		}
-
-//		System.out.println(stmt);
-//		System.out.println(stmt.syntax);
+//		} 
 
 }

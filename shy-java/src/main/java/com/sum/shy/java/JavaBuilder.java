@@ -7,12 +7,10 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.java.converter.KeywordConverter;
 import com.sum.shy.java.converter.SeparatorConverter;
 import com.sum.shy.java.converter.StmtConverter;
 import com.sum.shy.java.converter.SymbolConverter;
 import com.sum.shy.java.converter.TokenConverter;
-import com.sum.shy.java.converter.TypeConverter;
 
 public class JavaBuilder {
 
@@ -72,15 +70,11 @@ public class JavaBuilder {
 		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
 		TokenConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
-		SymbolConverter.convert(clazz, element);
-		// 3.特殊语句的特殊处理，如日志打印
-		StmtConverter.convert(clazz, element);
+		SymbolConverter.convert(clazz, element);// TODO
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
-		// 5.添加类型声明，赋值语法
-		TypeConverter.convert(clazz, element);
-		// 6.替换某些关键字
-		KeywordConverter.convert(clazz, element);
+		// 5.特殊语句的特殊处理
+		StmtConverter.convert(clazz, element);// TODO
 
 		return element;
 	}
