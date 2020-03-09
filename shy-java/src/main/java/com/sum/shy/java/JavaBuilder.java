@@ -1,46 +1,14 @@
 package com.sum.shy.java;
 
+import com.sum.shy.core.clazz.IClass;
+
 public class JavaBuilder {
 
-//	static {
-//
-//		Converter.register(Constants.SUPER_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.THIS_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.DECLARE_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.ASSIGN_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.FIELD_ASSIGN_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.INVOKE_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.RETURN_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.IF_SYNTAX, new ConditionConverter());// --condition
-//		Converter.register(Constants.ELSEIF_SYNTAX, new ConditionConverter());// --condition
-//		Converter.register(Constants.ELSE_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.END_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.FOR_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.FOR_IN_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.WHILE_SYNTAX, new ConditionConverter());// --condition
-//		Converter.register(Constants.CONTINUE_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.BREAK_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.TRY_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.CATCH_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.FINALLY_SYNTAX, new SimpleConverter());
-//		Converter.register(Constants.THROW_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.SYNC_SYNTAX, new SimpleConverter());
-//
-//		Converter.register(Constants.PRINT_SYNTAX, new PrintConverter());// --print
-//		Converter.register(Constants.DEBUG_SYNTAX, new PrintConverter());// --print
-//		Converter.register(Constants.ERROR_SYNTAX, new PrintConverter());// --print
-//
-//		Converter.register(Constants.FAST_ADD_SYNTAX, new FastAddConverter());// --fast_add
-//		Converter.register(Constants.JUDGE_INVOKE_SYNTAX, new SimpleConverter());
-//
-//	}
-//
+	public String build(IClass clazz) {
+		
+		return null;
+	}
+
 //	public String build(IClass clazz) {
 //
 //		System.out.println();

@@ -27,8 +27,6 @@ public class IClass {
 
 	public List<IMethod> methods = new ArrayList<>();
 
-	public List<IClass> coopClasses = new ArrayList<>();
-
 	public String findImport(String simpleName) {
 		// 如果本身传入的就是一个全名的话，直接返回
 		if (simpleName.contains("."))
@@ -44,25 +42,14 @@ public class IClass {
 				return iImport.className;
 		}
 
-		// 2.如果是本身，则直接返回本身
-		if (getTypeName().equals(typeName)) {
-			return getClassName();
-		}
-
-		// 3.内部类
-		for (IClass clazz : coopClasses) {
-			if (clazz.getTypeName().equals(typeName))
-				return clazz.getClassName();
-		}
-
 		String className = null;
-		// 4.友元,注意这个类本身也在所有类之中
+		// 2.在所有类里面找，包括这个类本身也在其中
 		if (className == null)
 			className = Context.get().findFriend(typeName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
 
-		// 4.如果没有引入的话，可能是一些基本类型java.lang包下的
+		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
 		if (className == null)
 			className = ReflectUtils.getClassName(simpleName);
 		if (className == null)
@@ -102,14 +89,8 @@ public class IClass {
 		if (getClassName().equals(className))
 			return true;
 
-		// 5.内部类不添加
-		for (IClass clazz : coopClasses) {
-			if (clazz.getClassName().equals(className))
-				return true;
-		}
-
-		// 6.如果引入了，则不必再添加了
-		// 7.如果没有引入，但是typeName相同，则无法引入
+		// 5.如果引入了，则不必再添加了
+		// 6.如果没有引入，但是typeName相同，则无法引入
 		for (Import iImport : imports) {
 			if (!iImport.hasAlias()) {
 				if (iImport.className.equals(className)) {// 重复添加，也是成功
