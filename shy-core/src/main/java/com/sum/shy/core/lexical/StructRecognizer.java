@@ -2,6 +2,9 @@ package com.sum.shy.core.lexical;
 
 import java.util.List;
 
+import com.sum.shy.core.document.Token;
+import com.sum.shy.core.entity.Constants;
+
 /**
  * 语法分析器
  *
@@ -16,13 +19,16 @@ public class StructRecognizer {
 	public static final String[] STRUCT_KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
 			"func" };
 
-	public static String getStructSyntax(List<String> words) {
+	public static String getStructSyntax(List<Token> tokens) {
 		// 第一个单词
-		String first = words.get(0);
+		Token first = tokens.get(0);
 		for (String keyword : STRUCT_KEYWORDS) {// 关键字语句
-			if (keyword.equals(first))
+			if (keyword.equals(first.toString()))
 				return keyword;
 		}
+		// 注解
+		if (tokens.size() == 1 && first.isAnnotation())
+			return Constants.ANNOTATION_SYNTAX;
 		// 未知
 		return null;
 	}

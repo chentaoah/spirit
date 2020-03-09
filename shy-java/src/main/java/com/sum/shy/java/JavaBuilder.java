@@ -1,12 +1,30 @@
 package com.sum.shy.java;
 
+import com.sum.shy.core.clazz.IAnnotation;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.Import;
 
 public class JavaBuilder {
 
 	public String build(IClass clazz) {
+		StringBuilder sb = new StringBuilder();
+		// 构造头部
+		buildHead(sb, clazz);
+		return sb.toString();
+	}
+
+	public void buildHead(StringBuilder sb, IClass clazz) {
+		// 包名
+		sb.append(String.format("package %s;", clazz.packageStr));
+		// 引入
+		for (Import iImport : clazz.imports) {
+			if (!iImport.hasAlias())
+				sb.append(iImport.element);
+		}
+		// 注解
+		for (IAnnotation annotation : clazz.annotations)
+			sb.append(annotation.token);
 		
-		return null;
 	}
 
 //	public String build(IClass clazz) {

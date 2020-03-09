@@ -39,7 +39,7 @@ public class IClass {
 		// 1.首先先去引入里面找
 		for (Import iImport : imports) {
 			if (iImport.isMatch(typeName))
-				return iImport.className;
+				return iImport.getClassName();
 		}
 
 		String className = null;
@@ -93,15 +93,15 @@ public class IClass {
 		// 6.如果没有引入，但是typeName相同，则无法引入
 		for (Import iImport : imports) {
 			if (!iImport.hasAlias()) {
-				if (iImport.className.equals(className)) {// 重复添加，也是成功
+				if (iImport.getClassName().equals(className)) {// 重复添加，也是成功
 					return true;
-				} else if (iImport.name.equals(typeName)) {
+				} else if (iImport.getTypeName().equals(typeName)) {
 					return false;
 				}
 			}
 		}
 
-		imports.add(new Import(className, typeName));
+		imports.add(new Import(className));
 		return true;
 	}
 

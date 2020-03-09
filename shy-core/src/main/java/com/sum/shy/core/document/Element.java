@@ -27,12 +27,14 @@ public class Element extends ArrayList<Element> {
 	}
 
 	public void init(Line line) {
-		// 1.单词拆分
+		// 1.词法拆分
 		List<String> words = LexicalAnalyzer.getWords(line.text);
-		// 2.按照基本类型,获取tokens
-		this.stmt = new Stmt(SemanticDelegate.getTokens(words));
-		// 3.基础语法
-		String syntax = StructRecognizer.getStructSyntax(words);
+		// 2.token流
+		List<Token> tokens = SemanticDelegate.getTokens(words);
+		// 3.生成语句
+		this.stmt = new Stmt(tokens);
+		// 4.一些基本的结构语法，不需要复杂分析的
+		String syntax = StructRecognizer.getStructSyntax(tokens);
 		if (syntax != null) {
 			this.syntax = syntax;
 		} else {

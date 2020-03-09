@@ -27,10 +27,6 @@ public class Tree {
 				if (keyword.equals(first.toString()))
 					return keyword;
 			}
-			// 注解
-			if (tokens.size() == 1 && first.isAnnotation()) {
-				return Constants.ANNOTATION_SYNTAX;
-			}
 			// 语句结束
 			if (tokens.size() == 1 && "}".equals(first.toString())) {
 				return Constants.END_SYNTAX;
