@@ -47,20 +47,36 @@ public class JavaBuilder {
 			sb.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
 					!method.isInit ? method.type + " " : "",
 					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
-			buildMethod(sb, clazz, method);// 构建方法体
+			// 构建方法体
+			convertElement(sb, "\t", method.element);
 			sb.append("}\n\n");
 		}
 		sb.append("\n}\n");
 	}
 
-	public void buildMethod(StringBuilder sb, IClass clazz, IMethod method) {
-		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
-		// 2.重载了字符串的==操作，和判空
-		// 3.特殊语句的特殊处理，如日志打印
-		// 4.替换某些关键字
-		// 5.添加类型声明，赋值语法
-		// 6.添加括号和行结束符
+	public void convertElement(StringBuilder sb, String indent, Element father) {
+		for (Element element : father) {
+			sb.append(indent + convert(element));
+			if (element.size() > 0)
+				convertElement(sb, indent + "\t", element);
+		}
+	}
 
+	public Element convert(Element element) {
+		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
+		TokenConverter.convert(element);
+		// 2.重载了字符串的==操作，和判空
+		SymbolConverter.convert(element);
+		// 3.特殊语句的特殊处理，如日志打印
+		StmtConverter.convert(element);
+		// 4.添加括号和行结束符
+		SeparatorConverter.convert(element);
+		// 5.添加类型声明，赋值语法
+		TypeConverter.convert(element);
+		// 6.替换某些关键字
+		KeywordConverter.convert(element);
+
+		return element;
 	}
 
 }
