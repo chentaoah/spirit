@@ -78,7 +78,7 @@ public class JavaBuilder {
 		// 2.重载了字符串的==操作，和判空
 		SymbolConverter.convertStmt(clazz, element.stmt);
 		// 3.类型隐喻
-		MetaphorConverter.convert(clazz, element);
+		MetaphorConverter.convertStmt(clazz, element.stmt);
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
 		// 5.特殊语句的特殊处理
