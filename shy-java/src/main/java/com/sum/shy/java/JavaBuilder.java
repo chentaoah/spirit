@@ -75,7 +75,7 @@ public class JavaBuilder {
 		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
 		TokenConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
-		SymbolConverter.convertStmt(clazz, element.stmt);// TODO
+		SymbolConverter.convertStmt(clazz, element.stmt);
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
 		// 5.特殊语句的特殊处理
