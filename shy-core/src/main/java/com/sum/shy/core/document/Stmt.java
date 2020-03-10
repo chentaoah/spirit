@@ -93,6 +93,12 @@ public class Stmt {
 		return subStmts;
 	}
 
+	public void replace(int start, int end, Token token) {
+		for (int i = end - 1; i >= start; i--)
+			tokens.remove(i);
+		tokens.add(start, token);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

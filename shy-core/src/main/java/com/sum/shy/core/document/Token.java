@@ -28,8 +28,6 @@ public class Token {
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;
-		if (attachments == null)
-			throw new RuntimeException("Please use another construction method Token(String type, Object value)");
 		this.attachments = attachments == null ? new HashMap<>() : attachments;
 	}
 
@@ -283,6 +281,16 @@ public class Token {
 
 	public void setPosition(int position) {
 		attachments.put(Constants.POSITION_ATTACHMENT, position);
+	}
+
+	// =================== 在语法树中的位置 =====================
+
+	public String getTreeId() {
+		return (String) attachments.get(Constants.TREE_ID_ATTACHMENT);
+	}
+
+	public void setTreeId(String treeId) {
+		attachments.put(Constants.TREE_ID_ATTACHMENT, treeId);
 	}
 
 }

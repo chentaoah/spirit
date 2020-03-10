@@ -13,6 +13,22 @@ public class Tree {
 
 	public Tree(List<Token> tokens) {
 		this.tokens = tokens;
+		int count = 0;
+		for (Token token : tokens) {
+			if (token.isNode()) {
+				markTreeId(count + "", token.getNode());
+				count++;
+			}
+		}
+	}
+
+	public void markTreeId(String treeId, Node node) {
+		// 注意：这里操作树节点token的attachments,实际上也是操作原来的token
+		node.token.setTreeId(treeId);
+		if (node.left != null)
+			markTreeId(treeId + "-" + "0", node.left);
+		if (node.right != null)
+			markTreeId(treeId + "-" + "1", node.right);
 	}
 
 	public String getSyntax() {
