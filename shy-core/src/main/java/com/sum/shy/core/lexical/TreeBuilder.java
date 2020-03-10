@@ -141,7 +141,7 @@ public class TreeBuilder {
 			tokens.remove(index - 1);
 
 		// 递归
-		return build(tokens);
+		return getNodeByLoop(tokens);
 	}
 
 	public static Node getNode(Token token) {
