@@ -44,7 +44,13 @@ public class SymbolConverter {
 						}
 					}
 					Stmt nextSubStmt = stmt.subStmt(i, end);
-					String text = String.format("StringUtils.equals(%s, %s)", lastSubStmt, nextSubStmt);
+					String format = null;
+					if ("==".equals(token.toString())) {
+						format = "StringUtils.equals(%s, %s)";
+					} else if ("!=".equals(token.toString())) {
+						format = "!StringUtils.equals(%s, %s)";
+					}
+					String text = String.format(format, lastSubStmt, nextSubStmt);
 					stmt.replace(start, end, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 					clazz.addImport(StringUtils.class.getName());
 				}

@@ -7,6 +7,7 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.java.converter.MetaphorConverter;
 import com.sum.shy.java.converter.SeparatorConverter;
 import com.sum.shy.java.converter.StmtConverter;
 import com.sum.shy.java.converter.SymbolConverter;
@@ -76,6 +77,8 @@ public class JavaBuilder {
 		TokenConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
 		SymbolConverter.convertStmt(clazz, element.stmt);
+		// 3.类型隐喻
+		MetaphorConverter.convert(clazz, element);
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
 		// 5.特殊语句的特殊处理
