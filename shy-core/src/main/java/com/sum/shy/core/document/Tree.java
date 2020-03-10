@@ -13,6 +13,10 @@ public class Tree {
 
 	public Tree(List<Token> tokens) {
 		this.tokens = tokens;
+		markTreeId(tokens);
+	}
+
+	public void markTreeId(List<Token> tokens) {
 		int count = 0;
 		for (Token token : tokens) {
 			if (token.isNode()) {
@@ -29,6 +33,9 @@ public class Tree {
 			markTreeId(treeId + "-" + "0", node.left);
 		if (node.right != null)
 			markTreeId(treeId + "-" + "1", node.right);
+		// 子语句则重新计数
+		if (node.token.hasStmt())
+			markTreeId(node.token.getStmt().tokens);
 	}
 
 	public String getSyntax() {
