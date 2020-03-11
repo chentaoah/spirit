@@ -7,7 +7,6 @@ import java.util.Map;
 import com.sum.shy.core.ShyCompiler;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.utils.FileUtils;
-import com.sum.shy.java.AliasReplacer;
 import com.sum.shy.java.JavaBuilder;
 
 /**
@@ -31,18 +30,18 @@ public class JavaStarter {
 		FileUtils.getFiles(inputPath, "", files);
 
 		// 2.如果不是debug模式,则解析成相应的数据结构
-		Map<String, IClass> mainClasses = new ShyCompiler().compile(files);
+		Map<String, IClass> allClasses = new ShyCompiler().compile(files);
 
-//		for (IClass clazz : mainClasses.values()) {
-//			// 4.转换方法中的内容,并生成java代码
-//			String code = new JavaBuilder().build(clazz);// build
-//			// 替换类的别名
+		for (IClass clazz : allClasses.values()) {
+			// 4.转换方法中的内容,并生成java代码
+			String code = new JavaBuilder().build(clazz);// build
+			// 替换类的别名
 //			code = AliasReplacer.replace(clazz, code);
-//			// 打印
-//			System.out.println(code);
-//			// 输出到指定文件夹下
-//			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.typeName, code);
-//		}
+			// 打印
+			System.out.println(code);
+			// 输出到指定文件夹下
+			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getTypeName(), code);
+		}
 
 	}
 
