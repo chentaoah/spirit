@@ -7,8 +7,11 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
+import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.type.api.IType;
 
 public class StmtConverter {
 
@@ -24,8 +27,8 @@ public class StmtConverter {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
-			Token collection = element.getToken(3);
-			String text = String.format("for (%s %s : %s) {", item.getTypeAtt(), item, collection);
+			Stmt subStmt = element.subStmt(3, element.getSize() - 1);
+			String text = String.format("for (%s %s : %s) {", item.getTypeAtt(), item, subStmt);
 			element.replace(0, element.getSize(), new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
@@ -34,7 +37,12 @@ public class StmtConverter {
 				element.addToken(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
-			// TODO 添加字符串的转义
+			Stmt subStmt = element.subStmt(1, element.getSize() - 1);
+			IType type = FastDeducer.deriveStmt(clazz, subStmt);
+			if (type.isStr()) {
+				String text = String.format("StringUtils.isNotEmpty(%s)", subStmt);
+				element.replace(1, element.getSize() - 1, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
+			}
 
 		} else if (element.isPrint() || element.isDebug() || element.isError()) {
 			if (element.isPrint()) {
