@@ -21,7 +21,7 @@ public abstract class AbsMember {
 	public volatile boolean isLock = false;
 
 	public AbsMember(List<IAnnotation> annotations, boolean isStatic, Element element) {
-		this.annotations = new ArrayList<>(annotations);// 拷贝一份
+		this.annotations = annotations != null ? new ArrayList<>(annotations) : new ArrayList<>();
 		this.isStatic = isStatic;
 		this.element = element;
 	}

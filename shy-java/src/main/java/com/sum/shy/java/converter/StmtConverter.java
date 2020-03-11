@@ -33,8 +33,8 @@ public class StmtConverter {
 			if (token.isVar() && !token.isDeclaredAtt())
 				element.addToken(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
 
-		} else if (element.isIf()||element.isWhile()) {// if s { // while s {
-			//TODO 添加字符串的转义
+		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
+			// TODO 添加字符串的转义
 
 		} else if (element.isPrint() || element.isDebug() || element.isError()) {
 			if (element.isPrint()) {
@@ -51,8 +51,9 @@ public class StmtConverter {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
 				// 添加字段
-				Element element1 = new Element(new Line("Logger logger = LoggerFactory.getLogger(" + clazz.getTypeName() + ".class)"));
-				IField field = new IField(null, true,  element1);
+				Element element1 = new Element(
+						new Line("Logger logger = LoggerFactory.getLogger(" + clazz.getTypeName() + ".class)"));
+				IField field = new IField(null, true, element1);
 				clazz.fields.add(0, field);
 			}
 
