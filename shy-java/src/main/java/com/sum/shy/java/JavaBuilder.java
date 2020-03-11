@@ -79,10 +79,10 @@ public class JavaBuilder {
 		SymbolConverter.convertStmt(clazz, element.stmt);
 		// 3.类型隐喻
 		MetaphorConverter.convertStmt(clazz, element.stmt);
+		// 5.特殊语句的特殊处理
+		StmtConverter.convert(clazz, element);
 		// 4.添加括号和行结束符
 		SeparatorConverter.convert(clazz, element);
-		// 5.特殊语句的特殊处理
-		StmtConverter.convert(clazz, element);// TODO
 
 		return element;
 	}

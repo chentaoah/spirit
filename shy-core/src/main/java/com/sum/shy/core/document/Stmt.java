@@ -25,6 +25,18 @@ public class Stmt {
 		return tokens.get(index);
 	}
 
+	public void addToken(int index, Token token) {
+		tokens.add(index, token);
+	}
+
+	public void addToken(Token token) {
+		tokens.add(token);
+	}
+
+	public void setToken(int index, Token token) {
+		tokens.set(index, token);
+	}
+
 	public String last() {
 		return getStr(size() - 1);
 	}

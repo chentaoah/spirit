@@ -71,6 +71,18 @@ public class Element extends ArrayList<Element> {
 		return stmt.getToken(index);
 	}
 
+	public void addToken(int index, Token token) {
+		stmt.addToken(index, token);
+	}
+
+	public void addToken(Token token) {
+		stmt.addToken(token);
+	}
+
+	public void setToken(int index, Token token) {
+		stmt.setToken(index, token);
+	}
+
 	public boolean contains(int index) {
 		return index < stmt.size();
 	}
@@ -89,6 +101,10 @@ public class Element extends ArrayList<Element> {
 
 	public List<Stmt> split(String separator) {
 		return stmt.split(separator);
+	}
+
+	public void replace(int start, int end, Token token) {
+		stmt.replace(start, end, token);
 	}
 
 	public int findKeywordIndex(String keyword) {
@@ -283,6 +299,18 @@ public class Element extends ArrayList<Element> {
 
 	public boolean isThrow() {
 		return Constants.THROW_SYNTAX.equals(syntax);
+	}
+
+	public boolean isPrint() {
+		return Constants.PRINT_SYNTAX.equals(syntax);
+	}
+
+	public boolean isDebug() {
+		return Constants.DEBUG_SYNTAX.equals(syntax);
+	}
+
+	public boolean isError() {
+		return Constants.ERROR_SYNTAX.equals(syntax);
 	}
 
 }
