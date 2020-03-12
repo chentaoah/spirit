@@ -52,7 +52,7 @@ public class ClassReader {
 				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				mainClass.methods.add(new IMethod(mainClass, annotations, true, element));
+				mainClass.methods.add(new IMethod(annotations, true, element));
 				annotations.clear();
 
 			} else if (element.isInterface()) {
@@ -105,7 +105,7 @@ public class ClassReader {
 				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				clazz.methods.add(new IMethod(clazz, annotations, false, element));
+				clazz.methods.add(new IMethod(annotations, false, element));
 				annotations.clear();
 
 			}

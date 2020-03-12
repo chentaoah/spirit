@@ -26,7 +26,7 @@ public class IMethod extends AbsMember {
 	 * @param isStatic
 	 * @param element
 	 */
-	public IMethod(IClass clazz, List<IAnnotation> annotations, boolean isStatic, Element element) {
+	public IMethod(List<IAnnotation> annotations, boolean isStatic, Element element) {
 		super(annotations, isStatic, element);
 		// 方法可能本地方法，也可能是构造方法
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
@@ -40,6 +40,14 @@ public class IMethod extends AbsMember {
 			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);
 			name = methodToken.getMemberNameAtt();
 		}
+
+	}
+
+	public void initParameter(IClass clazz) {
+		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
+		if (methodToken == null)
+			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
+		// 这个时候，所有的class还没有解析完成，查询className会报空指针
 		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
 		for (Stmt paramStmt : subStmts) {
 			IParameter parameter = new IParameter();
@@ -53,13 +61,7 @@ public class IMethod extends AbsMember {
 				}
 			}
 			parameters.add(parameter);
-
 		}
-
-	}
-
-	public List<IParameter> getParameters() {
-		return parameters;
 	}
 
 	public boolean isMatch(String methodName, List<IType> parameterTypes) {

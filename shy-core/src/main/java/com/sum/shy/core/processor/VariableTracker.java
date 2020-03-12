@@ -78,7 +78,7 @@ public class VariableTracker {
 					return variable.type;
 			}
 			// 如果在成员变量中没有声明,则查看方法内是否声明
-			for (IParameter parameter : method.getParameters()) {
+			for (IParameter parameter : method.parameters) {
 				if (parameter.name.equals(name))
 					return parameter.type;
 			}
