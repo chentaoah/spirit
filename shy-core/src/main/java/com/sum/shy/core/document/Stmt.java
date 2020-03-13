@@ -133,7 +133,14 @@ public class Stmt {
 						if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
 							tokens.remove(i + 1);
 					}
+					if (i != 0)
+						tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+
+				} else if (":".equals(token.toString())) {
+					if (i != 0)
+						tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 				}
+
 			} else if (token.isFluent()) {// 属性访问，则什么都不做
 				continue;
 

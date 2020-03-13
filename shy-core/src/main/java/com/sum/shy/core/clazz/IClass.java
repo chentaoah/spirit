@@ -3,6 +3,7 @@ package com.sum.shy.core.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.document.Document;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
@@ -168,6 +169,9 @@ public class IClass {
 
 	public IMethod getMethod(String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
+			// 如果这个方法还没有解析过，则先解析
+			if (method.type == null)
+				MemberVisiter.visitMember(this, method);
 			if (method.isMatch(methodName, parameterTypes))
 				return method;
 		}
