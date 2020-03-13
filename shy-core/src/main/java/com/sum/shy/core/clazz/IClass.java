@@ -169,9 +169,6 @@ public class IClass {
 
 	public IMethod getMethod(String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
-			// 如果这个方法还没有解析过，则先解析
-			if (method.type == null)
-				MemberVisiter.visitMember(this, method);
 			if (method.isMatch(methodName, parameterTypes))
 				return method;
 		}
