@@ -43,27 +43,6 @@ public class IMethod extends AbsMember {
 
 	}
 
-	public void initParameter(IClass clazz) {
-		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
-		if (methodToken == null)
-			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
-		// 这个时候，所有的class还没有解析完成，查询className会报空指针
-		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
-		for (Stmt paramStmt : subStmts) {
-			IParameter parameter = new IParameter();
-			for (Token token : paramStmt.tokens) {
-				if (token.isAnnotation()) {
-					parameter.annotations.add(new IAnnotation(token));
-				} else if (token.isType()) {
-					parameter.type = new CodeType(clazz, token);
-				} else if (token.isVar()) {
-					parameter.name = token.toString();
-				}
-			}
-			parameters.add(parameter);
-		}
-	}
-
 	public boolean isMatch(String methodName, List<IType> parameterTypes) {
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;

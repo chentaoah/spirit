@@ -6,11 +6,15 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.AbsMember;
+import com.sum.shy.core.clazz.IAnnotation;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
@@ -36,14 +40,12 @@ public class MemberVisiter {
 
 			} else if (member instanceof IMethod) {
 				type = visitMethod(clazz, (IMethod) member);
-
 			}
 			if (type != null) {
 				member.setType(type);
 			} else {
 				throw new RuntimeException("Failed to derive member type!");
 			}
-
 		}
 		member.unLock();
 		return type;
@@ -54,10 +56,36 @@ public class MemberVisiter {
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
+		// 解析参数信息
+		method.parameters = visitParameters(clazz, method.element);
+		// 解析返回类型
 		MethodContext context = new MethodContext();
 		context.method = method;
 		visitChildElement(clazz, context, method.element);
 		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
+	}
+
+	public static List<IParameter> visitParameters(IClass clazz, Element element) {
+		List<IParameter> parameters = new ArrayList<>();
+		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
+		if (methodToken == null)
+			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
+		// 这个时候，所有的class还没有解析完成，查询className会报空指针
+		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
+		for (Stmt paramStmt : subStmts) {
+			IParameter parameter = new IParameter();
+			for (Token token : paramStmt.tokens) {
+				if (token.isAnnotation()) {
+					parameter.annotations.add(new IAnnotation(token));
+				} else if (token.isType()) {
+					parameter.type = new CodeType(clazz, token);
+				} else if (token.isVar()) {
+					parameter.name = token.toString();
+				}
+			}
+			parameters.add(parameter);
+		}
+		return parameters;
 	}
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
