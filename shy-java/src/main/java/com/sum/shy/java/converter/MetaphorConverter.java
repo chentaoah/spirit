@@ -5,6 +5,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.lib.StringUtils;
 
@@ -73,7 +74,9 @@ public class MetaphorConverter {
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextSubStmt);
-			stmt.replace(index + 1, end, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
+			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
+			expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+			stmt.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 

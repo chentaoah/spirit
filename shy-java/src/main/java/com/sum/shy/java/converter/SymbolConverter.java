@@ -5,6 +5,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.lib.StringUtils;
 
@@ -43,7 +44,7 @@ public class SymbolConverter {
 							break;
 						}
 					}
-					Stmt nextSubStmt = stmt.subStmt(i, end);
+					Stmt nextSubStmt = stmt.subStmt(i + 1, end);
 					String format = null;
 					if ("==".equals(token.toString())) {
 						format = "StringUtils.equals(%s, %s)";
@@ -51,7 +52,9 @@ public class SymbolConverter {
 						format = "!StringUtils.equals(%s, %s)";
 					}
 					String text = String.format(format, lastSubStmt, nextSubStmt);
-					stmt.replace(start, end, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
+					Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
+					expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+					stmt.replace(start, end, expressToken);
 					clazz.addImport(StringUtils.class.getName());
 				}
 			}
