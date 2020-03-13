@@ -33,7 +33,8 @@ public class JavaBuilder {
 			if (!iImport.hasAlias())
 				sb.append(iImport.element + ";\n");
 		}
-		sb.append("\n");
+		if (clazz.imports.size() > 0)
+			sb.append("\n");
 		// 注解
 		for (IAnnotation annotation : clazz.annotations)
 			sb.append(annotation.token + "\n");
@@ -47,20 +48,20 @@ public class JavaBuilder {
 				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 		// 字段
 		for (IField field : clazz.fields) {// public static type + element
-			String format = "public %s%s;\n\n";
+			String format = "\tpublic %s%s\n\n";
 			sb.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
 		// 方法
 		for (IMethod method : clazz.methods) {// public static type + element
-			String format = "public %s%s%s%s\n";
+			String format = "\tpublic %s%s%s%s\n";
 			sb.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
 					!method.isInit ? method.type + " " : "",
 					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 			// 构建方法体
-			convertElement(sb, "\t", clazz, method.element);
-			sb.append("}\n\n");
+			convertElement(sb, "\t\t", clazz, method.element);
+			sb.append("\n\t}\n\n");
 		}
-		sb.append("\n}\n");
+		sb.append("}\n");
 		return sb.toString();
 	}
 
