@@ -87,9 +87,7 @@ public class ClassReader {
 					classes.add(partner);
 
 				}
-
 			}
-
 		}
 		return classes;
 	}

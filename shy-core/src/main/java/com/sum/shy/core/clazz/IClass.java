@@ -120,7 +120,14 @@ public class IClass {
 	public String getTypeName() {
 		if (root == null)
 			return document.name;
-		return root.getKeywordParam(Constants.CLASS_KEYWORD);
+		if (isInterface()) {
+			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+		} else if (isAbstract()) {
+			return root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
+		} else if (isClass()) {
+			return root.getKeywordParam(Constants.CLASS_KEYWORD);
+		}
+		throw new RuntimeException("Cannot get type name!");
 	}
 
 	public String getSuperName() {

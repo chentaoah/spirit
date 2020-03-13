@@ -1,13 +1,10 @@
 package com.sum.shy.core.clazz;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.CodeType;
 import com.sum.shy.core.type.api.IType;
 
 public class IMethod extends AbsMember {
@@ -16,7 +13,7 @@ public class IMethod extends AbsMember {
 
 	public boolean isSync;
 
-	public List<IParameter> parameters = new ArrayList<>();
+	public List<IParameter> parameters;
 
 	/**
 	 * 构造方法，这个时候，还不知道方法的返回类型是什么
