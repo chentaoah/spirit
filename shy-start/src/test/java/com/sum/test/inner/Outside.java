@@ -17,7 +17,8 @@ class Outside {
 	}
 
 	public int testInner() {
-		Inner inner = new Inner();		return inner.getAge();
+		Inner inner = new Inner();
+		return inner.getAge();
 	}
 
 }

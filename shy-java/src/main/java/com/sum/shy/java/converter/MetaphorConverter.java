@@ -53,7 +53,10 @@ public class MetaphorConverter {
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastSubStmt);
-			stmt.replace(start, index, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
+			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
+			expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+			expressToken.setTreeId(token.getTreeId() + "-0");
+			stmt.replace(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 
@@ -76,6 +79,7 @@ public class MetaphorConverter {
 			String text = String.format(format, nextSubStmt);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+			expressToken.setTreeId(token.getTreeId() + "-1");
 			stmt.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}

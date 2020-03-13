@@ -59,7 +59,7 @@ public class JavaBuilder {
 					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 			// 构建方法体
 			convertElement(sb, "\t\t", clazz, method.element);
-			sb.append("\n\t}\n\n");
+			sb.append("\t}\n\n");
 		}
 		sb.append("}\n");
 		return sb.toString();
@@ -67,7 +67,7 @@ public class JavaBuilder {
 
 	public void convertElement(StringBuilder sb, String indent, IClass clazz, Element father) {
 		for (Element element : father) {
-			sb.append(indent + convert(clazz, element));
+			sb.append(indent + convert(clazz, element) + "\n");
 			if (element.size() > 0)
 				convertElement(sb, indent + "\t", clazz, element);
 		}

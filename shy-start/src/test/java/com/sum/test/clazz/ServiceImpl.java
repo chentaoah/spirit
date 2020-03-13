@@ -9,7 +9,8 @@ class ServiceImpl extends AbsService {
 	}
 
 	public ServiceImpl(String name) {
-		super();		this.name = name;
+		super();
+		this.name = name;
 	}
 
 	public String one() {

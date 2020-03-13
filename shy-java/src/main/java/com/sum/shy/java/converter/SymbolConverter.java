@@ -54,6 +54,7 @@ public class SymbolConverter {
 					String text = String.format(format, lastSubStmt, nextSubStmt);
 					Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 					expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+					expressToken.setTreeId(token.getTreeId());
 					stmt.replace(start, end, expressToken);
 					clazz.addImport(StringUtils.class.getName());
 				}
