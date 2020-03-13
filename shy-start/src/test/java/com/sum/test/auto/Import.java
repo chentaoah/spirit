@@ -3,7 +3,7 @@ package com.sum.test.auto;
 import com.sum.test.auto.Friend;
 import com.sum.test.auto.Alias;
 
-class Import {
+public class Import {
 
 	public Friend f = new Friend();
 

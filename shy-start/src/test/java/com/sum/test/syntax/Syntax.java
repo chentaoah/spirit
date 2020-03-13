@@ -1,13 +1,15 @@
 package com.sum.test.syntax;
 
-import com.sum.shy.lib.Collection;
-import java.util.List;
-import java.util.Map;
 import com.sum.shy.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.sum.shy.lib.Collection;
+import java.util.List;
+import java.util.Map;
 
-class Syntax {
+public class Syntax {
+
+	public static Logger logger = LoggerFactory.getLogger(Syntax.class);
 
 	public List<String> list = Collection.newArrayList( "first", "second" );
 
@@ -20,11 +22,11 @@ class Syntax {
 		String b = !StringUtils.equals(list.get(1), null);
 		boolean bb = list instanceof Object;
 		if(StringUtils.isNotEmpty(b) && bb) {
-			logger.info( "yes" );;
-		};
+			logger.info( "yes" );
+		}
 		if(!StringUtils.equals(list.get(1), null) && list instanceof Object) {
-			logger.info( "test success" );;
-		};
+			logger.info( "test success" );
+		}
 	}
 
 	public void testJudgeInvoke() {
@@ -32,12 +34,12 @@ class Syntax {
 
 	public void testLog() {
 		try {
-			logger.info( "test print keyword" );;
-			logger.debug( "test debug keyword" );;
+			logger.info( "test print keyword" );
+			logger.debug( "test debug keyword" );
 			throw new Exception("test");
 		} catch(Exception e) {
-			logger.error( "There is a Exception!", e );;
-		};
+			logger.error( "There is a Exception!", e );
+		}
 	}
 
 }

@@ -1,5 +1,5 @@
 package com.sum.test.clazz;
 
-interface Service {
+public interface Service {
 
 }

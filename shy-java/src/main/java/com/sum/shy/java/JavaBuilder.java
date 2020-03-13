@@ -42,27 +42,31 @@ public class JavaBuilder {
 	}
 
 	public String buildBody(IClass clazz) {
-		StringBuilder sb = new StringBuilder();
+		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
+		StringBuilder methodsStr = new StringBuilder();
+		// 方法
+		for (IMethod method : clazz.methods) {// public static type + element
+			String format = "\tpublic %s%s%s%s\n";
+			methodsStr.append(String.format(format, method.isStatic ? "static " : "",
+					method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
+					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+			// 构建方法体
+			convertElement(methodsStr, "\t\t", clazz, method.element);
+			methodsStr.append("\t}\n\n");
+		}
+		methodsStr.append("}\n");
+
+		StringBuilder fieldsStr = new StringBuilder();
 		// 类名
-		sb.append(clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
+		fieldsStr.append("public " + clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
 				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 		// 字段
 		for (IField field : clazz.fields) {// public static type + element
 			String format = "\tpublic %s%s\n\n";
-			sb.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
+			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
-		// 方法
-		for (IMethod method : clazz.methods) {// public static type + element
-			String format = "\tpublic %s%s%s%s\n";
-			sb.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
-					!method.isInit ? method.type + " " : "",
-					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
-			// 构建方法体
-			convertElement(sb, "\t\t", clazz, method.element);
-			sb.append("\t}\n\n");
-		}
-		sb.append("}\n");
-		return sb.toString();
+
+		return fieldsStr.append(methodsStr).toString();
 	}
 
 	public void convertElement(StringBuilder sb, String indent, IClass clazz, Element father) {

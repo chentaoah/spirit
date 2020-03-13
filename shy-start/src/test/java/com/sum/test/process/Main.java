@@ -4,7 +4,9 @@ import com.sum.shy.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class Main {
+public class Main {
+
+	public static Logger logger = LoggerFactory.getLogger(Main.class);
 
 	public static int x = 100;
 
@@ -17,9 +19,9 @@ class Main {
 	public static boolean doSomething() {
 		String s = "hello";
 		if(StringUtils.equals(s, "hello")) {
-			logger.info( "hi!" );;
+			logger.info( "hi!" );
 			return true;
-		};
+		}
 		return false;
 	}
 

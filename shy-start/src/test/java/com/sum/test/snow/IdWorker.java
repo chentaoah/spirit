@@ -1,6 +1,6 @@
 package com.sum.test.snow;
 
-class IdWorker {
+public class IdWorker {
 
 	public long twepoch = 1420041600000L;
 
@@ -34,11 +34,11 @@ class IdWorker {
 		if(workerId > maxWorkerId || workerId < 0) {
 			String message = String.format("worker Id can't be greater than %d or less than 0", maxWorkerId);
 			throw new IllegalArgumentException(message);
-		};
+		}
 		if(datacenterId > maxDatacenterId || datacenterId < 0) {
 			String message = String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId);
 			throw new IllegalArgumentException(message);
-		};
+		}
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
 	}
@@ -48,15 +48,15 @@ class IdWorker {
 		if(timestamp < lastTimestamp) {
 			String message = String.format("Clock moved backwards.Refusing to generate id for %d milliseconds", lastTimestamp - timestamp);
 			throw new RuntimeException(message);
-		};
+		}
 		if(timestamp == lastTimestamp) {
 			sequence = (sequence + 1) & sequenceMask;
 			if(sequence == 0) {
 				timestamp = tilNextMillis(lastTimestamp);
-			};
+			}
 		} else {
 			sequence = 0L;
-		};
+		}
 		lastTimestamp = timestamp;
 		return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << datacenterIdShift) | (workerId << workerIdShift) | sequence;
 	}
@@ -65,7 +65,7 @@ class IdWorker {
 		long timestamp = timeGen();
 		while(timestamp <= lastTimestamp) {
 			timestamp = timeGen();
-		};
+		}
 		return timestamp;
 	}
 

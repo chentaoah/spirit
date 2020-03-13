@@ -13,7 +13,12 @@ public class SeparatorConverter {
 				|| element.isSync()) {
 			insertBrackets(clazz, element.stmt);
 		}
-		addLineEnd(clazz, element.stmt);
+		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign()
+				|| element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis()
+				|| element.isThrow() || element.isContinue() || element.isBreak()) {
+			addLineEnd(clazz, element.stmt);
+		}
+
 	}
 
 	public static void insertBrackets(IClass clazz, Stmt stmt) {

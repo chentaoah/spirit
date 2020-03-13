@@ -5,7 +5,9 @@ import com.sum.test.deduce.Father;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class Child extends Father {
+public class Child extends Father {
+
+	public static Logger logger = LoggerFactory.getLogger(Child.class);
 
 	public Father father = new Father();
 
@@ -25,7 +27,7 @@ class Child extends Father {
 		String a = getFather().getChild().getFather().name;
 		String b = father.child.father.child.father.name;
 		Child c = father.getChild();
-		logger.info( "test members {} {}", a, b, c );;
+		logger.info( "test members {} {}", a, b, c );
 		return this.sayHello();
 	}
 

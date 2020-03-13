@@ -1,14 +1,16 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Deprecated
-class Type {
+public class Type {
+
+	public static Logger logger = LoggerFactory.getLogger(Type.class);
 
 	public boolean b = true;
 
@@ -55,19 +57,19 @@ class Type {
 		double a6 = dArray[0];
 		Object a7 = objArray[0];
 		String a8 = strArray[0];
-		logger.info( "test array{}{}{}{}{}{}{}{}{}", a1, a2, a3, a4, a5, a6, a7, a8 );;
+		logger.info( "test array{}{}{}{}{}{}{}{}{}", a1, a2, a3, a4, a5, a6, a7, a8 );
 		Class<?> clazz;
 		clazz = Type.class;
 		Class<?> clz = clazz;
-		logger.info( "test class {}", clz );;
+		logger.info( "test class {}", clz );
 		Type self = this;
-		logger.info( "test this {}", self );;
+		logger.info( "test this {}", self );
 		HashMap<String, String> hmap = new HashMap<String, String>();
 		hmap.put("key", "value");
 		long long1 = 100L;
-		logger.info( "long1 is ", long1 );;
+		logger.info( "long1 is ", long1 );
 		long mask = 1L << 8;
-		logger.info( "mask", mask );;
+		logger.info( "mask", mask );
 	}
 
 	public String testParam(@Deprecated String str) {

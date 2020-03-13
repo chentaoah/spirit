@@ -2,7 +2,7 @@ package com.sum.test.inner;
 
 import com.sum.test.inner.Inner;
 
-class Inner {
+public class Inner {
 
 	public String f1 = "I am Inner!";
 

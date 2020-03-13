@@ -2,7 +2,7 @@ package com.sum.test.inner;
 
 import com.sum.test.inner.Inner;
 
-class InnerInvoker {
+public class InnerInvoker {
 
 	public Inner inner = new Inner();
 
