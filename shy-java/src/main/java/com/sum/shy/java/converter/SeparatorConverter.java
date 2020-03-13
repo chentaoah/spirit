@@ -46,7 +46,7 @@ public class SeparatorConverter {
 
 	public static void addLineEnd(IClass clazz, Stmt stmt) {
 		if (!"{".equals(stmt.last()))
-			stmt.tokens.add(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
+			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
 	}
 
 }
