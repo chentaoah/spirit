@@ -1,9 +1,10 @@
 package com.sum.test.auto;
 
-public class Alias {
 
-	public String getName() {
-		return "I am alias";
-	}
+class Alias {
+
+public String getName() {
+	return "I am alias" ;}
+
 
 }
