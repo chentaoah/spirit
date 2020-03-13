@@ -22,13 +22,16 @@ import com.sum.shy.core.type.api.IType;
 public class MemberVisiter {
 
 	public static void visit(Map<String, IClass> allClasses) {
-		for (IClass clazz : allClasses.values())
-			visit(clazz);
-	}
-
-	public static void visit(IClass clazz) {
-		for (AbsMember member : clazz.getAllMembers())
-			visitMember(clazz, member);
+		// 先解析方法入参类型
+		for (IClass clazz : allClasses.values()) {
+			for (IMethod method : clazz.methods)
+				visitParameters(clazz, method);
+		}
+		// 开始推导返回类型
+		for (IClass clazz : allClasses.values()) {
+			for (AbsMember member : clazz.getAllMembers())
+				visitMember(clazz, member);
+		}
 	}
 
 	public static IType visitMember(IClass clazz, AbsMember member) {
@@ -51,22 +54,8 @@ public class MemberVisiter {
 		return type;
 	}
 
-	public static IType visitField(IClass clazz, IField field) {
-		return ElementVisiter.visit(clazz, null, field.element).type;
-	}
-
-	public static IType visitMethod(IClass clazz, IMethod method) {
-		// 解析参数信息
-		method.parameters = visitParameters(clazz, method.element);
-		// 解析返回类型
-		MethodContext context = new MethodContext();
-		context.method = method;
-		visitChildElement(clazz, context, method.element);
-		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
-	}
-
-	public static List<IParameter> visitParameters(IClass clazz, Element element) {
-		List<IParameter> parameters = new ArrayList<>();
+	public static void visitParameters(IClass clazz, IMethod method) {
+		Element element = method.element;
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
 		if (methodToken == null)
 			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
@@ -83,9 +72,20 @@ public class MemberVisiter {
 					parameter.name = token.toString();
 				}
 			}
-			parameters.add(parameter);
+			method.parameters.add(parameter);
 		}
-		return parameters;
+	}
+
+	public static IType visitField(IClass clazz, IField field) {
+		return ElementVisiter.visit(clazz, null, field.element).type;
+	}
+
+	public static IType visitMethod(IClass clazz, IMethod method) {
+		// 解析返回类型
+		MethodContext context = new MethodContext();
+		context.method = method;
+		visitChildElement(clazz, context, method.element);
+		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
 	}
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {

@@ -1,5 +1,6 @@
 package com.sum.shy.core.clazz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.document.Element;
@@ -13,7 +14,7 @@ public class IMethod extends AbsMember {
 
 	public boolean isSync;
 
-	public List<IParameter> parameters;
+	public List<IParameter> parameters = new ArrayList<>();
 
 	/**
 	 * 构造方法，这个时候，还不知道方法的返回类型是什么

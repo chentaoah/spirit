@@ -36,7 +36,7 @@ public abstract class AbsMember {
 
 	public void lock() {
 		if (isLock)
-			throw new RuntimeException("There is a circular dependency!" + toString());
+			throw new RuntimeException("There is a circular dependency!name:" + name);
 		isLock = true;
 	}
 
