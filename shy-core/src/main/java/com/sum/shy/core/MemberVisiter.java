@@ -83,7 +83,6 @@ public class MemberVisiter {
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
-		// 解析返回类型
 		MethodContext context = new MethodContext();
 		context.method = method;
 		visitChildElement(clazz, context, method.element);

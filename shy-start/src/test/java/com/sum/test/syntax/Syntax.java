@@ -19,9 +19,9 @@ public class Syntax {
 	}
 
 	public void testJudge() {
-		String b = !StringUtils.equals(list.get(1), null);
+		boolean b = !StringUtils.equals(list.get(1), null);
 		boolean bb = list instanceof Object;
-		if(StringUtils.isNotEmpty(b) && bb) {
+		if(b && bb) {
 			logger.info( "yes" );
 		}
 		if(!StringUtils.equals(list.get(1), null) && list instanceof Object) {

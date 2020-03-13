@@ -50,6 +50,7 @@ public class Symbol {
 		this.value = value;
 		this.priority = priority;
 		this.operand = operand;
+		this.category = category;
 	}
 
 	public boolean isOperator() {

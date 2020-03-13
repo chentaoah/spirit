@@ -109,7 +109,7 @@ public class TreePanel {
 //		String text = "b=((String)list.get(1)).length() <= 100";
 //		String text = "b=x>=((String)list.get(1)).length().get().set()";
 //		String text = "(x >= 0 && y<100)";
-		String text = "b = (x + 1 > 0 && y < 100) && s == \"test\" && list.get(100==a || a>10)";
+		String text = "b=list.get(1) != null";
 //		String text = "print \"test print\", list.get(1)==\"test\", ((String)list.get(1)).length() <= 100";
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";
