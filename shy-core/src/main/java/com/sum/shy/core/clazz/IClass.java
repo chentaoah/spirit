@@ -3,17 +3,15 @@ package com.sum.shy.core.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.document.Document;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.lib.StringUtils;
 
 public class IClass {
-
-	public Document document;
 
 	public String packageStr;
 
@@ -120,10 +118,16 @@ public class IClass {
 	public String getTypeName() {
 		if (isInterface()) {
 			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+
 		} else if (isAbstract()) {
-			return root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
+			String typeName = root.getKeywordParam(Constants.CLASS_KEYWORD);
+			if (StringUtils.isEmpty(typeName))
+				typeName = root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
+			return typeName;
+
 		} else if (isClass()) {
 			return root.getKeywordParam(Constants.CLASS_KEYWORD);
+
 		}
 		throw new RuntimeException("Cannot get type name!");
 	}

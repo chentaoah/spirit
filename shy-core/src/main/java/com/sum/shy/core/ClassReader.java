@@ -34,8 +34,6 @@ public class ClassReader {
 		IClass mainClass = new IClass();
 		// 添加到集合中
 		classes.add(mainClass);
-		// 文档
-		mainClass.document = document;
 		// 包名
 		mainClass.packageStr = packageStr;
 		// 上下文注解,用完要及时清理
@@ -77,7 +75,6 @@ public class ClassReader {
 
 				} else {
 					IClass partner = new IClass();
-					partner.document = document;
 					partner.packageStr = packageStr;
 					partner.imports = mainClass.imports;
 					partner.annotations.addAll(annotations);
