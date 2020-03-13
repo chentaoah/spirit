@@ -10,12 +10,11 @@ class Import {
 	public G_Alias a = new G_Alias() ;
 
 	public String testFriend() {
-	return f.sayHello() ;
-}
+		return f.sayHello() ;
+	}
 
 	public String testAlias() {
-	return a.getName() ;
-}
-
+		return a.getName() ;
+	}
 
 }
