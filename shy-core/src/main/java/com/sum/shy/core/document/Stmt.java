@@ -128,13 +128,17 @@ public class Stmt {
 			if (token.isSeparator()) {
 				if ("[".equals(token.toString()) || "{".equals(token.toString()) || "(".equals(token.toString())
 						|| "<".equals(token.toString())) {
+					// 删除后面多余的空格
 					if (i + 1 < tokens.size()) {
 						Token nextToken = tokens.get(i + 1);
 						if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
 							tokens.remove(i + 1);
 					}
-					if (i != 0)
-						tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+					// 最后一个前面加空格
+					if ("{".equals(token.toString())) {
+						if (i == tokens.size() - 1)
+							tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+					}
 
 				} else if (":".equals(token.toString())) {
 					if (i != 0)
