@@ -59,7 +59,7 @@ public class Block {
 			logger.info( "thank {} very much!", "you" );
 			continue;
 		}
-		for(i = 0; i < list.size(); i ++) {
+		for(int i = 0; i < list.size(); i ++) {
 			s = list.get(i);
 			s = String.valueOf(12345);
 			s = "caixukun";

@@ -91,6 +91,10 @@ public class MemberVisiter {
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
 		for (Element element : father) {
+
+			if (element.size() > 0)
+				context.increaseDepth();// 提前深度+1
+
 			Variable variable = ElementVisiter.visit(clazz, context, element);
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();
@@ -101,8 +105,8 @@ public class MemberVisiter {
 				if (context.returnType == null || variable.type.isAssignableFrom(context.returnType))
 					context.returnType = variable.type;
 			}
+
 			if (element.size() > 0) {
-				context.increaseDepth();
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
 				context.decreaseDepth();

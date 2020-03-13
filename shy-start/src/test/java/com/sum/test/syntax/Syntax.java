@@ -15,9 +15,6 @@ public class Syntax {
 
 	public Map<String, Integer> map = Collection.newHashMap( "key", 100, "key", 100 );
 
-	public void testFastAdd() {
-	}
-
 	public void testJudge() {
 		boolean b = !StringUtils.equals(list.get(1), null);
 		boolean bb = list instanceof Object;
@@ -27,9 +24,6 @@ public class Syntax {
 		if(!StringUtils.equals(list.get(1), null) && list instanceof Object) {
 			logger.info( "test success" );
 		}
-	}
-
-	public void testJudgeInvoke() {
 	}
 
 	public void testLog() {
