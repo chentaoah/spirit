@@ -11,6 +11,7 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.document.Document;
 import com.sum.shy.core.document.Element;
+import com.sum.shy.core.document.Line;
 import com.sum.shy.core.entity.Constants;
 
 public class ClassReader {
@@ -89,6 +90,10 @@ public class ClassReader {
 				}
 			}
 		}
+		// 如果不存在主类的声明，则虚拟一个Element
+		if (mainClass.root == null)
+			mainClass.root = new Element(new Line("class " + document.name + " {"));
+
 		return classes;
 	}
 
