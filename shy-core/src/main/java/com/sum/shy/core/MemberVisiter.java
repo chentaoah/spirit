@@ -34,26 +34,6 @@ public class MemberVisiter {
 		}
 	}
 
-	public static IType visitMember(IClass clazz, AbsMember member) {
-		member.lock();
-		IType type = member.getType();
-		if (type == null) {
-			if (member instanceof IField) {
-				type = visitField(clazz, (IField) member);
-
-			} else if (member instanceof IMethod) {
-				type = visitMethod(clazz, (IMethod) member);
-			}
-			if (type != null) {
-				member.setType(type);
-			} else {
-				throw new RuntimeException("Failed to derive member type!");
-			}
-		}
-		member.unLock();
-		return type;
-	}
-
 	public static void visitParameters(IClass clazz, IMethod method) {
 		Element element = method.element;
 		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
@@ -74,6 +54,26 @@ public class MemberVisiter {
 			}
 			method.parameters.add(parameter);
 		}
+	}
+
+	public static IType visitMember(IClass clazz, AbsMember member) {
+		member.lock();
+		IType type = member.getType();
+		if (type == null) {
+			if (member instanceof IField) {
+				type = visitField(clazz, (IField) member);
+
+			} else if (member instanceof IMethod) {
+				type = visitMethod(clazz, (IMethod) member);
+			}
+			if (type != null) {
+				member.setType(type);
+			} else {
+				throw new RuntimeException("Failed to derive member type!");
+			}
+		}
+		member.unLock();
+		return type;
 	}
 
 	public static IType visitField(IClass clazz, IField field) {
