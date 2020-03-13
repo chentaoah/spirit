@@ -41,7 +41,7 @@ public class MetaphorConverter {
 		int start = 0;
 		for (int j = index - 1; j >= 0; j--) {
 			Token lastToken = stmt.getToken(j);
-			if (lastToken.getTreeId().startsWith(token.getTreeId())) {
+			if (lastToken.getTreeId() != null && lastToken.getTreeId().startsWith(token.getTreeId())) {
 				start = j;
 			} else {
 				break;
@@ -62,7 +62,7 @@ public class MetaphorConverter {
 		int end = stmt.size();
 		for (int j = index + 1; j < stmt.size(); j++) {
 			Token nextToken = stmt.getToken(j);
-			if (nextToken.getTreeId().startsWith(token.getTreeId())) {
+			if (nextToken.getTreeId() != null && nextToken.getTreeId().startsWith(token.getTreeId())) {
 				end = j;
 			} else {
 				break;
