@@ -29,8 +29,10 @@ public class MemberVisiter {
 		}
 		// 开始推导返回类型
 		for (IClass clazz : allClasses.values()) {
-			for (AbsMember member : clazz.getAllMembers())
-				visitMember(clazz, member);
+			for (IField field : clazz.fields)
+				visitMember(clazz, field);
+			for (IMethod method : clazz.methods)
+				visitMember(clazz, method);
 		}
 	}
 

@@ -174,13 +174,6 @@ public class IClass {
 		return null;
 	}
 
-	public List<AbsMember> getAllMembers() {
-		List<AbsMember> members = new ArrayList<>();
-		members.addAll(getFields());
-		members.addAll(getMethods());
-		return members;
-	}
-
 	public void debug() {
 		// TODO Auto-generated method stub
 	}
