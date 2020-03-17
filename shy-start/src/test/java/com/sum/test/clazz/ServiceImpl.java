@@ -1,5 +1,7 @@
 package com.sum.test.clazz;
 
+import com.sum.test.clazz.AbsService;
+
 public class ServiceImpl extends AbsService {
 
 	public String name;
