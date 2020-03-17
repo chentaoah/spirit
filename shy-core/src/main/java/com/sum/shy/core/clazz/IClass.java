@@ -91,9 +91,13 @@ public class IClass {
 		// 6.如果没有引入，但是typeName相同，则无法引入
 		for (Import iImport : imports) {
 			if (!iImport.hasAlias()) {
-				if (iImport.getClassName().equals(className)) {// 重复添加，也是成功
+				if (iImport.getClassName().equals(className)) {
 					return true;
 				} else if (iImport.getTypeName().equals(typeName)) {
+					return false;
+				}
+			} else {// 如果是别名，则不用添加了
+				if (iImport.getClassName().equals(className)) {
 					return false;
 				}
 			}

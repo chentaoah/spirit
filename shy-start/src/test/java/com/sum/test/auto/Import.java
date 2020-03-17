@@ -1,7 +1,6 @@
 package com.sum.test.auto;
 
 import com.sum.test.auto.Friend;
-import com.sum.test.auto.Alias;
 
 public class Import {
 
