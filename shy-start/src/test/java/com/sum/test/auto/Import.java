@@ -10,9 +10,9 @@ public class Import {
 
 	public Friend f = new Friend();
 
-	public com.sum.test.auto.Alias a = new com.sum.test.auto.Alias();
+	public com.sum.test.auto.Alias a = new G_Alias();
 
-	public String s = "Clock moved backwards.com.sum.test.auto.Alias to generate id for %d milliseconds";
+	public String s = "Clock moved backwards.G_Alias to generate id for %d milliseconds";
 
 	public String testFriend() {
 		return f.sayHello();

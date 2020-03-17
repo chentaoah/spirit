@@ -51,18 +51,4 @@ public class AutoImporter {
 
 	}
 
-	public static void main(String[] args) {
-		String text = "message = String.format(\"Clock moved backwards.Refusing to generate id for %d milliseconds\", lastTimestamp - timestamp)";
-		text = text.replaceAll("(?<=\").*?(?=\")", "");
-		System.out.println(text);
-		Pattern pattern = Pattern.compile("(\\b[A-Z]+\\w+\\b)");
-		Matcher matcher = pattern.matcher(text);
-		while (matcher.find()) {
-			if (matcher.groupCount() > 0) {
-				System.out.println(matcher.group(matcher.groupCount() - 1));
-			}
-		}
-
-	}
-
 }
