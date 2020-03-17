@@ -22,29 +22,29 @@ public class AutoImporter {
 	}
 
 	public static void doImport(IClass clazz, File file) {
-		try {
-			// 不在字符串内，并且大写开头的单词
-			Pattern pattern = Pattern.compile("(?!((?<=\").*?(?=\")))\\b[A-Z]+\\w+\\b");
-			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-			for (int index = 0; index < fileLines.size(); index++) {
-				String line = fileLines.get(index);
-				// 1.不为空 2.不是注释 3.不是包名 4.不是引入
-				if (StringUtils.isNotEmpty(line) && !line.trim().startsWith("//") && !line.trim().startsWith("package")
-						&& !line.trim().startsWith("import")) {
-					Matcher matcher = pattern.matcher(line);
-					while (matcher.find()) {// 这里的find方法并不会一次找到所有的
-						String typeName = matcher.group(matcher.groupCount() - 1);
-						String className = clazz.findImport(typeName);
-						// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
-						clazz.addImport(className);
-						System.out.println("Automatically add a import info!class:[" + className + "]");
-					}
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			// 不在字符串内，并且大写开头的单词
+//			Pattern pattern = Pattern.compile("(?!((?<=\").*?(?=\")))\\b[A-Z]+\\w+\\b");
+//			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
+//			for (int index = 0; index < fileLines.size(); index++) {
+//				String line = fileLines.get(index);
+//				// 1.不为空 2.不是注释 3.不是包名 4.不是引入
+//				if (StringUtils.isNotEmpty(line) && !line.trim().startsWith("//") && !line.trim().startsWith("package")
+//						&& !line.trim().startsWith("import")) {
+//					Matcher matcher = pattern.matcher(line);
+//					while (matcher.find()) {// 这里的find方法并不会一次找到所有的
+//						String typeName = matcher.group(matcher.groupCount() - 1);
+//						String className = clazz.findImport(typeName);
+//						// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
+//						clazz.addImport(className);
+//						System.out.println("Automatically add a import info!class:[" + className + "]");
+//					}
+//				}
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 

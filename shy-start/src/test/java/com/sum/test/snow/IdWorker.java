@@ -32,11 +32,11 @@ public class IdWorker {
 
 	public IdWorker(long workerId, long datacenterId) {
 		if(workerId > maxWorkerId || workerId < 0) {
-			String message = String.format("worker Id can't be greater than %d or less than 0", maxWorkerId);
+			String message = String.format("worker id can't be greater than %d or less than 0", maxWorkerId);
 			throw new IllegalArgumentException(message);
 		}
 		if(datacenterId > maxDatacenterId || datacenterId < 0) {
-			String message = String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId);
+			String message = String.format("datacenter id can't be greater than %d or less than 0", maxDatacenterId);
 			throw new IllegalArgumentException(message);
 		}
 		this.workerId = workerId;

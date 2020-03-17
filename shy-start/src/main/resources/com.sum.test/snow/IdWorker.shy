@@ -32,11 +32,11 @@ class IdWorker {
 
 	func IdWorker(long workerId, long datacenterId){
 		if workerId > maxWorkerId || workerId < 0 {
-			message = String.format("worker Id can't be greater than %d or less than 0", maxWorkerId)
+			message = String.format("worker id can't be greater than %d or less than 0", maxWorkerId)
 			throw IllegalArgumentException(message)
 		}
 		if datacenterId > maxDatacenterId || datacenterId < 0 {
-			message = String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId)
+			message = String.format("datacenter id can't be greater than %d or less than 0", maxDatacenterId)
 			throw IllegalArgumentException(message)
 		}	
 		this.workerId = workerId

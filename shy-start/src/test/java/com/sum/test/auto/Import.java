@@ -7,7 +7,7 @@ public class Import {
 
 	public Friend f = new Friend();
 
-	public G_Alias a = new G_Alias();
+	public com.sum.test.auto.Alias a = new com.sum.test.auto.Alias();
 
 	public String testFriend() {
 		return f.sayHello();
