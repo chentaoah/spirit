@@ -12,8 +12,12 @@ import com.sum.shy.core.utils.TypeUtils;
 public class ShyCompiler {
 
 	public Map<String, IClass> compile(Map<String, File> files) {
+		// 1.初步解析所有的class对象
 		Map<String, IClass> allClasses = resolveClasses(files);
 		Context.get().classes = allClasses;
+		// 2.自动引入同个工程下的类，包括List,Map等常用集合
+		AutoImporter.doImport(allClasses, files);
+		// 3.推导字段和方法的返回类型
 		MemberVisiter.visit(allClasses);
 		return allClasses;
 	}
@@ -21,16 +25,10 @@ public class ShyCompiler {
 	public Map<String, IClass> resolveClasses(Map<String, File> files) {
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
 		for (Map.Entry<String, File> entry : files.entrySet()) {
-			// 获取包名
 			String packageStr = TypeUtils.getPackage(entry.getKey());
-			// 读取类结构信息
 			List<IClass> classes = new ClassReader().read(packageStr, entry.getValue());
-			// TODO 自动引入
-
-			// 添加到集合中
 			for (IClass clazz : classes)
 				allClasses.put(clazz.getClassName(), clazz);
-
 		}
 		return allClasses;
 	}

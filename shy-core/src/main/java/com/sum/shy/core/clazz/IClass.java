@@ -118,13 +118,16 @@ public class IClass {
 	public String getTypeName() {
 		if (isInterface()) {
 			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+
 		} else if (isAbstract()) {
 			String typeName = root.getKeywordParam(Constants.CLASS_KEYWORD);
 			if (StringUtils.isEmpty(typeName))
 				typeName = root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
 			return typeName;
+
 		} else if (isClass()) {
 			return root.getKeywordParam(Constants.CLASS_KEYWORD);
+
 		}
 		throw new RuntimeException("Cannot get type name!");
 	}

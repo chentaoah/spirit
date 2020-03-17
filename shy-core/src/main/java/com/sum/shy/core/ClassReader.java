@@ -54,13 +54,7 @@ public class ClassReader {
 				mainClass.methods.add(new IMethod(annotations, true, element));
 				annotations.clear();
 
-			} else if (element.isInterface()) {
-				mainClass.annotations.addAll(annotations);
-				annotations.clear();
-				mainClass.root = element;
-				readRootElement(mainClass);
-
-			} else if (element.isAbstract()) {
+			} else if (element.isInterface() || element.isAbstract()) {
 				mainClass.annotations.addAll(annotations);
 				annotations.clear();
 				mainClass.root = element;
@@ -76,14 +70,13 @@ public class ClassReader {
 				} else {
 					IClass partner = new IClass();
 					partner.packageStr = packageStr;
-					partner.imports = mainClass.imports;
+					partner.imports = mainClass.imports;// 共用！
 					partner.annotations.addAll(annotations);
 					annotations.clear();
 					partner.root = element;
 					readRootElement(partner);
 					// 添加协同的类
 					classes.add(partner);
-
 				}
 			}
 		}

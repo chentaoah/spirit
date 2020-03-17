@@ -21,6 +21,7 @@ public class TypeUtils {
 	}
 
 	public static String getTypeNameByClassName(String className) {
+		className = removeDecoration(className);
 		return className.substring(className.lastIndexOf(".") + 1);
 	}
 
