@@ -6,7 +6,7 @@ class Import {
 
 	f=Friend()
 	a=G_Alias()
-	s="xxxxx.G_Alias"
+	s="Clock moved backwards.G_Alias to generate id for %d milliseconds"
 
 	func testFriend(){
 		return f.sayHello()
