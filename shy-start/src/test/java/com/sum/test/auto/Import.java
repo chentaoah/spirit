@@ -12,7 +12,7 @@ public class Import {
 
 	public com.sum.test.auto.Alias a = new com.sum.test.auto.Alias();
 
-	public String s = "G_Alias";
+	public String s = "xxxxx.G_Alias";
 
 	public String testFriend() {
 		return f.sayHello();

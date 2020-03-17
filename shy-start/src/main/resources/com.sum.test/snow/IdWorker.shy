@@ -46,7 +46,7 @@ class IdWorker {
 	func sync nextId(){
 		timestamp = timeGen()
 		if timestamp < lastTimestamp {
-			message = String.format("Clock moved backwards.refusing to generate id for %d milliseconds", lastTimestamp - timestamp)
+			message = String.format("Clock moved backwards.Refusing to generate id for %d milliseconds", lastTimestamp - timestamp)
 			throw RuntimeException(message)
 		}
 		if timestamp == lastTimestamp {

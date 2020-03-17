@@ -8,7 +8,7 @@ public class AliasReplacer {
 	public static String replace(IClass clazz, String text) {
 		for (Import iImport : clazz.imports) {
 			if (iImport.hasAlias()) {
-				String pattern = String.format("(?!((?<=\").*?(?=\")))\\b%s\\b", iImport.getAlias());
+				String pattern = String.format("(?<!\")(\\b%s\\b)(?!\")", iImport.getAlias());
 				text = text.replaceAll(pattern, iImport.getClassName());
 			}
 		}

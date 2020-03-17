@@ -6,7 +6,7 @@ class Import {
 
 	f=Friend()
 	a=G_Alias()
-	s="G_Alias"
+	s="xxxxx.G_Alias"
 
 	func testFriend(){
 		return f.sayHello()

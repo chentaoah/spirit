@@ -46,7 +46,7 @@ public class IdWorker {
 	public synchronized long nextId() {
 		long timestamp = timeGen();
 		if(timestamp < lastTimestamp) {
-			String message = String.format("Clock moved backwards.refusing to generate id for %d milliseconds", lastTimestamp - timestamp);
+			String message = String.format("Clock moved backwards.Refusing to generate id for %d milliseconds", lastTimestamp - timestamp);
 			throw new RuntimeException(message);
 		}
 		if(timestamp == lastTimestamp) {
