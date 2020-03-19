@@ -12,6 +12,7 @@ public class Type {
 
 	public static Logger logger = LoggerFactory.getLogger(Type.class);
 
+	@Deprecated
 	public boolean b = true;
 
 	public boolean b1 = false;
@@ -48,6 +49,7 @@ public class Type {
 
 	public String s111 = "I am a new assign syntax!";
 
+	@Deprecated
 	public void testType() {
 		boolean a1 = bArray[0];
 		char a2 = cArray[0];

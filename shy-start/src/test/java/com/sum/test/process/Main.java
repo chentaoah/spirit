@@ -12,7 +12,7 @@ public class Main {
 
 	public static double y = 100.0;
 
-	public static void main() {
+	public static void main(String[] args) {
 		doSomething();
 	}
 

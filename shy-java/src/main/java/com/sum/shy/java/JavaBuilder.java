@@ -46,12 +46,21 @@ public class JavaBuilder {
 		StringBuilder methodsStr = new StringBuilder();
 		// 方法
 		for (IMethod method : clazz.methods) {// public static type + element
-			String format = "\tpublic %s%s%s%s\n";
-			methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-					method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
-					method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+			// 先拼接注解
+			for (IAnnotation annotation : method.annotations)
+				methodsStr.append("\t" + annotation + "\n");
+			// 如果是主方法，则使用java的主方法样式
+			if (method.isStatic && "main".equals(method.name)) {
+				methodsStr.append("\tpublic static void main(String[] args) {\n");
+			} else {
+				String format = "\tpublic %s%s%s%s\n";
+				methodsStr.append(String.format(format, method.isStatic ? "static " : "",
+						method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
+						method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+			}
+
 			// 构建方法体
-			convertElement(methodsStr, "\t\t", clazz, method.element);
+			convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 			methodsStr.append("\t}\n\n");
 		}
 		methodsStr.append("}\n");
@@ -62,6 +71,9 @@ public class JavaBuilder {
 				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 		// 字段
 		for (IField field : clazz.fields) {// public static type + element
+			// 先拼接注解
+			for (IAnnotation annotation : field.annotations)
+				fieldsStr.append("\t" + annotation + "\n");
 			String format = "\tpublic %s%s\n\n";
 			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
@@ -69,11 +81,11 @@ public class JavaBuilder {
 		return fieldsStr.append(methodsStr).toString();
 	}
 
-	public void convertElement(StringBuilder sb, String indent, IClass clazz, Element father) {
+	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {
 		for (Element element : father) {
 			sb.append(indent + convert(clazz, element) + "\n");
 			if (element.size() > 0)
-				convertElement(sb, indent + "\t", clazz, element);
+				convertMethodElement(sb, indent + "\t", clazz, element);
 		}
 	}
 
@@ -82,7 +94,7 @@ public class JavaBuilder {
 		TokenConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
 		SymbolConverter.convertStmt(clazz, element.stmt);
-		// 3.类型隐喻
+		// 3.类型隐喻,逻辑符在操作字符串时，字符串转换为判空
 		MetaphorConverter.convertStmt(clazz, element.stmt);
 		// 4.特殊语句的特殊处理
 		StmtConverter.convert(clazz, element);

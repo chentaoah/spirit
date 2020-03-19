@@ -15,4 +15,9 @@ public class IAnnotation {
 		this.token = token;
 	}
 
+	@Override
+	public String toString() {
+		return token.toString();
+	}
+
 }
