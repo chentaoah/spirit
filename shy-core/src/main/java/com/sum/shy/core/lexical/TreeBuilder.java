@@ -78,15 +78,15 @@ public class TreeBuilder {
 				priority = symbol.priority;// 优先级
 				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
 					if ("++".equals(value) || "--".equals(value)) {
-						if (lastToken != null && lastToken.isVar()) {// 左元
+						if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {// 左元
 							operand = Symbol.LEFT;
-						} else if (nextToken != null && nextToken.isVar()) {// 右元
+						} else if (nextToken != null && (lastToken.isVar() || lastToken.isNode())) {// 右元
 							operand = Symbol.RIGHT;
 						}
 						currToken.setOperand(operand);// 标记一下
 
 					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-						if (lastToken != null && (lastToken.isNumber() || lastToken.isVar())) {
+						if (lastToken != null && (lastToken.isNumber() || lastToken.isVar() || lastToken.isNode())) {
 							operand = Symbol.DOUBLE;
 						} else {
 							operand = Symbol.RIGHT;
