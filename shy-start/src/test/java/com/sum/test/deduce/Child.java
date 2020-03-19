@@ -8,11 +8,8 @@ import org.slf4j.LoggerFactory;
 public class Child extends Father {
 
 	public static Logger logger = LoggerFactory.getLogger(Child.class);
-
 	public Father father = new Father();
-
 	public int age = 18;
-
 	public ClassGenericTest t = new ClassGenericTest();
 
 	public String sayHello() {

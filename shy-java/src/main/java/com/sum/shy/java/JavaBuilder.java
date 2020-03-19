@@ -42,9 +42,13 @@ public class JavaBuilder {
 	}
 
 	public String buildBody(IClass clazz) {
+		// 类名
+		StringBuilder classStr = new StringBuilder();
+		classStr.append("public " + clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
+				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
+
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
 		StringBuilder methodsStr = new StringBuilder();
-		// 方法
 		for (IMethod method : clazz.methods) {// public static type + element
 			// 先拼接注解
 			for (IAnnotation annotation : method.annotations)
@@ -58,27 +62,25 @@ public class JavaBuilder {
 						method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
 						method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 			}
-
 			// 构建方法体
 			convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 			methodsStr.append("\t}\n\n");
 		}
-		methodsStr.append("}\n");
 
-		StringBuilder fieldsStr = new StringBuilder();
-		// 类名
-		fieldsStr.append("public " + clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
-				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 		// 字段
+		StringBuilder fieldsStr = new StringBuilder();
 		for (IField field : clazz.fields) {// public static type + element
 			// 先拼接注解
 			for (IAnnotation annotation : field.annotations)
 				fieldsStr.append("\t" + annotation + "\n");
-			String format = "\tpublic %s%s\n\n";
+			String format = "\tpublic %s%s\n";
 			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
+		if (fieldsStr.length() > 0)
+			fieldsStr.append("\n");
 
-		return fieldsStr.append(methodsStr).toString();
+		classStr.append(fieldsStr).append(methodsStr).append("}\n");
+		return classStr.toString();
 	}
 
 	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {

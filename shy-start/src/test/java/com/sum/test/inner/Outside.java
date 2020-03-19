@@ -5,7 +5,6 @@ import com.sum.test.inner.Inner;
 public class Outside {
 
 	public int f1 = 100;
-
 	public double f2 = 100.01;
 
 	public String getName() {

@@ -11,7 +11,6 @@ import java.util.List;
 public class Block {
 
 	public static Logger logger = LoggerFactory.getLogger(Block.class);
-
 	public String s = "hello";
 
 	public void testIf() {

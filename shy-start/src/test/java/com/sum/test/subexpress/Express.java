@@ -9,11 +9,8 @@ import java.util.List;
 public class Express {
 
 	public static Logger logger = LoggerFactory.getLogger(Express.class);
-
 	public int x = 1;
-
 	public int y = 100;
-
 	public String s = "test";
 
 	public void testSubexpress() {

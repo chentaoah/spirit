@@ -3,31 +3,18 @@ package com.sum.test.snow;
 public class IdWorker {
 
 	public long twepoch = 1420041600000L;
-
 	public long workerIdBits = 5L;
-
 	public long datacenterIdBits = 5L;
-
 	public long maxWorkerId = - 1L ^ (- 1L << workerIdBits);
-
 	public long maxDatacenterId = - 1L ^ (- 1L << datacenterIdBits);
-
 	public long sequenceBits = 12L;
-
 	public long workerIdShift = sequenceBits;
-
 	public long datacenterIdShift = sequenceBits + workerIdBits;
-
 	public long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
-
 	public long sequenceMask = - 1L ^ (- 1L << sequenceBits);
-
 	public long workerId;
-
 	public long datacenterId;
-
 	public long sequence = 0L;
-
 	public long lastTimestamp = - 1L;
 
 	public IdWorker(long workerId, long datacenterId) {

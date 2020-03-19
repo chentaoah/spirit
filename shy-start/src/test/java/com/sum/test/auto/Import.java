@@ -7,11 +7,8 @@ import org.slf4j.LoggerFactory;
 public class Import {
 
 	public static Logger logger = LoggerFactory.getLogger(Import.class);
-
 	public Friend f = new Friend();
-
 	public com.sum.test.auto.Alias a = new com.sum.test.auto.Alias();
-
 	public String xxxxG_Alias = "Clock moved backwards.G_Alias to generate id for %d milliseconds";
 
 	public String testFriend() {
