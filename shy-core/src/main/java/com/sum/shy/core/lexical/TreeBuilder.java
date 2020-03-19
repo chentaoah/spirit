@@ -69,11 +69,8 @@ public class TreeBuilder {
 				}
 
 			} else if (currToken.isFluent()) {
-				// 优先级最高,但是左边不能是?号
-				if (lastToken != null && !"?".equals(lastToken.toString())) {
-					priority = 50;
-					operand = Symbol.LEFT;
-				}
+				priority = 50;
+				operand = Symbol.LEFT;
 
 			} else if (currToken.isOperator()) {// 如果是操作符
 				String value = currToken.toString();
@@ -86,12 +83,16 @@ public class TreeBuilder {
 						} else if (nextToken != null && nextToken.isVar()) {// 右元
 							operand = Symbol.RIGHT;
 						}
+						currToken.setOperand(operand);// 标记一下
+
 					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-						if (lastToken != null && lastToken.isNumber()) {
+						if (lastToken != null && (lastToken.isNumber() || lastToken.isVar())) {
 							operand = Symbol.DOUBLE;
 						} else {
 							operand = Symbol.RIGHT;
 						}
+						currToken.setOperand(operand);// 标记一下
+
 					}
 				} else {
 					operand = symbol.operand;

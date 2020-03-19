@@ -16,8 +16,8 @@ public class Main {
 
 	public static boolean doSomething() {
 		String s = "hello";
-		if(StringUtils.equals(s, "hello")) {
-			logger.info( "hi!" );
+		if (StringUtils.equals(s, "hello")) {
+			logger.info("hi!");
 			return true;
 		}
 		return false;

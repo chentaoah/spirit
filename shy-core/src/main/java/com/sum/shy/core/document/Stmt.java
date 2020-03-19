@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.metadata.Symbol;
 
 public class Stmt {
 
@@ -123,37 +124,70 @@ public class Stmt {
 	public List<Token> format() {
 		// 拷贝一份，并插入空格
 		List<Token> tokens = new ArrayList<>(this.tokens);
+		// 首个token前面不用插入
 		for (int i = tokens.size() - 1; i >= 0; i--) {
 			Token token = tokens.get(i);
 			if (token.isSeparator()) {
 				if ("[".equals(token.toString()) || "{".equals(token.toString()) || "(".equals(token.toString())
 						|| "<".equals(token.toString())) {
-					// 删除后面多余的空格
-					if (i + 1 < tokens.size()) {
-						Token nextToken = tokens.get(i + 1);
-						if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
-							tokens.remove(i + 1);
-					}
-					// 最后一个前面加空格
-					if ("{".equals(token.toString())) {
+
+					removeAfterSpace(tokens, i);
+
+					if ("(".equals(token.toString()) && i - 1 >= 0) {// 如果前面是关键字，则添加个括号，if (expression) {
+						Token lastToken = tokens.get(i - 1);
+						if (lastToken.isKeyword())
+							tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+
+					} else if ("{".equals(token.toString())) {// 最后一个前面加空格
 						if (i == tokens.size() - 1)
 							tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 					}
 
 				} else if (":".equals(token.toString())) {
-					if (i != 0)
-						tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 				}
 
-			} else if (token.isFluent()) {// 属性访问，则什么都不做
+			} else if (token.isOperator()) {
+				if ("!".equals(token.toString())) {
+					removeAfterSpace(tokens, i);
+
+				} else if ("++".equals(token.toString()) || "--".equals(token.toString())) {
+					if (token.getOperand() == Symbol.LEFT) {
+						continue;
+					} else if (token.getOperand() == Symbol.RIGHT) {
+						removeAfterSpace(tokens, i);
+					}
+
+				} else if ("-".equals(token.toString())) {
+					if (token.getOperand() == Symbol.RIGHT) {
+						removeAfterSpace(tokens, i);
+					}
+					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+
+				} else {
+					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+				}
+
+			} else if (token.isCustomPrefix()) {
+				removeAfterSpace(tokens, i);
+
+			} else if (token.isFluent() || token.isCustomSuffix()) {// 属性访问，则什么都不做
 				continue;
 
-			} else {
-				if (i != 0)
-					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+			} else if (i >= 1) {// 第一个前面不用加空格
+				tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 			}
+
 		}
 		return tokens;
+	}
+
+	public void removeAfterSpace(List<Token> tokens, int index) {
+		if (index + 1 < tokens.size()) {// 删除后面多余的空格
+			Token nextToken = tokens.get(index + 1);
+			if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
+				tokens.remove(index + 1);
+		}
 	}
 
 	public String debug() {

@@ -10,27 +10,27 @@ import java.util.Map;
 public class Syntax {
 
 	public static Logger logger = LoggerFactory.getLogger(Syntax.class);
-	public List<String> list = Collection.newArrayList( "first", "second" );
-	public Map<String, Integer> map = Collection.newHashMap( "key", 100, "key", 100 );
+	public List<String> list = Collection.newArrayList("first", "second");
+	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
 
 	public void testJudge() {
 		boolean b = !StringUtils.equals(list.get(1), null);
 		boolean bb = list instanceof Object;
-		if(b && bb) {
-			logger.info( "yes" );
+		if (b && bb) {
+			logger.info("yes");
 		}
-		if(!StringUtils.equals(list.get(1), null) && list instanceof Object) {
-			logger.info( "test success" );
+		if (!StringUtils.equals(list.get(1), null) && list instanceof Object) {
+			logger.info("test success");
 		}
 	}
 
 	public void testLog() {
 		try {
-			logger.info( "test print keyword" );
-			logger.debug( "test debug keyword" );
+			logger.info("test print keyword");
+			logger.debug("test debug keyword");
 			throw new Exception("test");
-		} catch(Exception e) {
-			logger.error( "There is a Exception!", e );
+		} catch (Exception e) {
+			logger.error("There is a Exception!", e);
 		}
 	}
 

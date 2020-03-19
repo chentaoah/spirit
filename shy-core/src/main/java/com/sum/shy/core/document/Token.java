@@ -164,6 +164,14 @@ public class Token {
 		return Constants.UNKNOWN.equals(type);
 	}
 
+	public boolean isCustomPrefix() {
+		return Constants.CUSTOM_PREFIX_TOKEN.equals(type);
+	}
+
+	public boolean isCustomSuffix() {
+		return Constants.CUSTOM_SUFFIX_TOKEN.equals(type);
+	}
+
 	public boolean isCustomExpress() {
 		return Constants.CUSTOM_EXPRESS_TOKEN.equals(type);
 	}
@@ -291,6 +299,16 @@ public class Token {
 
 	public void setTreeId(String treeId) {
 		attachments.put(Constants.TREE_ID_ATTACHMENT, treeId);
+	}
+
+	// =================== 操作符操作数 =====================
+
+	public int getOperand() {
+		return (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
+	}
+
+	public void setOperand(int operand) {
+		attachments.put(Constants.OPERAND_ATTACHMENT, operand);
 	}
 
 }

@@ -20,7 +20,7 @@ public class Import {
 	}
 
 	public void testStr() {
-		logger.info( xxxxG_Alias );
+		logger.info(xxxxG_Alias);
 	}
 
 }

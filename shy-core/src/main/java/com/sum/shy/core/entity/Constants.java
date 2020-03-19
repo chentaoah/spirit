@@ -111,6 +111,7 @@ public class Constants {
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String POSITION_ATTACHMENT = "position";// 位置
 	public static final String TREE_ID_ATTACHMENT = "tree_id";// 树节点id
+	public static final String OPERAND_ATTACHMENT = "operand";// 操作数
 
 	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
 
