@@ -50,6 +50,8 @@ public class JavaBuilder {
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
 		StringBuilder methodsStr = new StringBuilder();
 		for (IMethod method : clazz.methods) {// public static type + element
+			// 元素
+			Element element = method.element;
 			// 先拼接注解
 			for (IAnnotation annotation : method.annotations)
 				methodsStr.append("\t" + annotation + "\n");
@@ -57,14 +59,22 @@ public class JavaBuilder {
 			if (method.isStatic && "main".equals(method.name)) {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
 			} else {
-				String format = "\tpublic %s%s%s%s\n";
-				methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-						method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
-						method.element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+				if (element.isFunc()) {
+					String format = "\tpublic %s%s%s%s\n";
+					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
+							method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
+							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+
+				} else if (element.isFuncDeclare()) {
+					String format = element.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
+					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
+							method.isSync ? "synchronized " : "", element.removeKeyword(Constants.SYNC_KEYWORD)));
+				}
 			}
-			// 构建方法体
-			convertMethodElement(methodsStr, "\t\t", clazz, method.element);
-			methodsStr.append("\t}\n\n");
+			if (element.size() > 0) {// 构建方法体
+				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
+				methodsStr.append("\t}\n\n");
+			}
 		}
 
 		// 字段
@@ -81,6 +91,7 @@ public class JavaBuilder {
 
 		classStr.append(fieldsStr).append(methodsStr).append("}\n");
 		return classStr.toString();
+
 	}
 
 	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {

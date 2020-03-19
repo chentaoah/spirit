@@ -63,7 +63,7 @@ public class TreeBuilder {
 			int operand = Symbol.NONE;
 
 			if (currToken.isType()) {
-				if (nextToken != null && nextToken.isVar()) {
+				if (nextToken != null && (nextToken.isVar() || nextToken.isLocalMethod())) {
 					priority = 55;// 优先级最高
 					operand = Symbol.RIGHT;
 				}

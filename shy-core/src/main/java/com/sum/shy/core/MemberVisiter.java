@@ -83,10 +83,16 @@ public class MemberVisiter {
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
-		MethodContext context = new MethodContext();
-		context.method = method;
-		visitChildElement(clazz, context, method.element);
-		return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
+		if (method.element.isFuncDeclare()) {// 声明了返回类型的方法，直接返回类型
+			return new CodeType(clazz, method.element.getToken(0));
+
+		} else if (method.element.isFunc()) {
+			MethodContext context = new MethodContext();
+			context.method = method;
+			visitChildElement(clazz, context, method.element);
+			return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
+		}
+		return null;
 	}
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
