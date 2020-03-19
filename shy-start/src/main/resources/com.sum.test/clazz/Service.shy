@@ -8,5 +8,12 @@ interface Service{
 	
 	byte[] three()
 	
-	
+}
+
+func main(){
+	print "haha"
+}
+
+func doSomething(String text){
+	print "hello"
 }
