@@ -45,7 +45,7 @@ contexts:
       scope: entity.name.class
 
     # Accessible Entity
-    - match: '\b[a-z]+[A-Za-z0-9]*\b'
+    - match: '\b[a-z]+\w*\b'
       scope: storage.type
 
     # Comment

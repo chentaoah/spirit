@@ -12,7 +12,7 @@ public class Import {
 
 	public com.sum.test.auto.Alias a = new com.sum.test.auto.Alias();
 
-	public String s = "Clock moved backwards.G_Alias to generate id for %d milliseconds";
+	public String xxxxG_Alias = "Clock moved backwards.G_Alias to generate id for %d milliseconds";
 
 	public String testFriend() {
 		return f.sayHello();
@@ -23,7 +23,7 @@ public class Import {
 	}
 
 	public void testStr() {
-		logger.info( s );
+		logger.info( xxxxG_Alias );
 	}
 
 }
