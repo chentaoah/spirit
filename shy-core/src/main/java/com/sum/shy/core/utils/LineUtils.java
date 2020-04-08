@@ -46,17 +46,15 @@ public class LineUtils {
 		return count % 2 == 0;
 	}
 
-	// 去掉多余的空格
-	public static String removeSpace(String line) {
-		// 去掉首尾
-		line = line.trim();
+	public static String removeSpace(String line) {// 去掉多余的空格
+		line = line.trim();// 去掉首尾
 		while (line.contains("  ")) {
 			line = line.replaceAll("  ", " ");
 		}
 		return line;
 	}
 
-	public static String getSpaceByNumber(int number) {
+	public static String getSpace(int number) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < number; i++) {
 			sb.append(" ");
@@ -64,7 +62,7 @@ public class LineUtils {
 		return sb.toString();
 	}
 
-	public static String getIndentByNumber(int number) {
+	public static String getIndent(int number) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < number; i++) {
 			sb.append("\t");

@@ -16,7 +16,7 @@ public class TreePanel {
 
 	public TreePanel() {
 		for (int i = 0; i < 20; i++)
-			lines.add(new Line(i + 1, LineUtils.getSpaceByNumber(150)));
+			lines.add(new Line(i + 1, LineUtils.getSpace(150)));
 	}
 
 	public void debug(Element element) {

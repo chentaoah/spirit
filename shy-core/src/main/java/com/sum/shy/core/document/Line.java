@@ -31,7 +31,7 @@ public class Line {
 	}
 
 	public String debug() {
-		return number + ":" + LineUtils.getSpaceByNumber(6 - (number + ":").length()) + text;
+		return number + ":" + LineUtils.getSpace(6 - (number + ":").length()) + text;
 	}
 
 	@Override

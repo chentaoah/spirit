@@ -174,7 +174,7 @@ public class Element extends ArrayList<Element> {
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaceByNumber(100 - line.text.length()) + ">>> " + syntax + " "
+		System.out.println(line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " "
 				+ stmt.debug());
 		for (Element element : this)
 			element.debug();
