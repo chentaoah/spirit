@@ -19,7 +19,6 @@ public class IMethod extends AbsMember {
 	/**
 	 * 构造方法，这个时候，还不知道方法的返回类型是什么
 	 * 
-	 * @param clazz       这里需要传入的原因是要确定参数的类型
 	 * @param annotations
 	 * @param isStatic
 	 * @param element

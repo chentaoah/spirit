@@ -38,9 +38,9 @@ public class MemberVisiter {
 
 	public static void visitParameters(IClass clazz, IMethod method) {
 		Element element = method.element;
-		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
+		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);// invoke()
 		if (methodToken == null)
-			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
+			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN); // User()
 		// 这个时候，所有的class还没有解析完成，查询className会报空指针
 		List<Stmt> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
 		for (Stmt paramStmt : subStmts) {
