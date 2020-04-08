@@ -14,11 +14,13 @@ public class ShyCompiler {
 	public Map<String, IClass> compile(Map<String, File> files) {
 		// 1.初步解析所有的class对象
 		Map<String, IClass> allClasses = resolveClasses(files);
+		// 放到上下文
 		Context.get().classes = allClasses;
 		// 2.自动引入同个工程下的类，包括List,Map等常用集合
 		AutoImporter.doImport(allClasses, files);
 		// 3.推导字段和方法的返回类型
 		MemberVisiter.visit(allClasses);
+
 		return allClasses;
 	}
 
