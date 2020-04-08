@@ -117,7 +117,7 @@ public abstract class AbsType implements IType {
 	}
 
 	@Override
-	public boolean isAssignableFrom(IType returnType) {
+	public boolean isAssignableFrom(IType type) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -26,6 +26,13 @@ public interface IType {
 	String getTypeName();
 
 	/**
+	 * 是否泛型
+	 * 
+	 * @return
+	 */
+	boolean isGenericType();
+
+	/**
 	 * 获取泛型
 	 * 
 	 * @return
@@ -40,18 +47,12 @@ public interface IType {
 	boolean isPrimitive();
 
 	/**
-	 * 是否数组
+	 * 判断是否是一个类的父类
 	 * 
+	 * @param returnType
 	 * @return
 	 */
-	boolean isArray();
-
-	/**
-	 * 是否泛型
-	 * 
-	 * @return
-	 */
-	boolean isGenericType();
+	boolean isAssignableFrom(IType type);
 
 	/**
 	 * 是否未知数
@@ -59,6 +60,13 @@ public interface IType {
 	 * @return
 	 */
 	boolean isWildcard();
+
+	/**
+	 * 是否数组
+	 * 
+	 * @return
+	 */
+	boolean isArray();
 
 	/**
 	 * 是否没有类型
@@ -94,13 +102,5 @@ public interface IType {
 	 * @return
 	 */
 	boolean isMap();
-
-	/**
-	 * 判断是否是一个类的父类
-	 * 
-	 * @param returnType
-	 * @return
-	 */
-	boolean isAssignableFrom(IType returnType);
 
 }
