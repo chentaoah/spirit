@@ -53,10 +53,10 @@ public class DocumentReader {
 
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
 		Element element = new Element(line);
-		List<Line> sublines = cutLine(element);// what like "if xxx : xxx : xxx"
+		List<Line> sublines = splitLine(element);// what like "if xxx : xxx : xxx"
 		if (sublines != null && sublines.size() > 0) {
 			readLines(father, sublines);
-			return 0;
+			return 0;// 这里返回了，则不再执行doReadLine
 		}
 		return doReadLine(father, lines, index, element);
 	}
@@ -72,14 +72,15 @@ public class DocumentReader {
 		return 0;
 	}
 
-	public List<Line> cutLine(Element element) {
+	public List<Line> splitLine(Element element) {
 		// 这几种语法可以合并成一行
 		if (element.isFor() || element.isForIn() || element.isWhile() || element.isIf()) {
 			if (element.contains(":")) {
-				// 获取缩进
-				String indent = element.line.getIndent();
 				List<Line> subLines = new ArrayList<>();
 				List<Stmt> subStmts = element.split(":");
+				// 获取缩进
+				String indent = element.line.getIndent();
+				// 第一行，添加后缀分隔
 				subLines.add(new Line(indent + subStmts.get(0).toString() + " {"));
 				for (int i = 1; i < subStmts.size(); i++)
 					subLines.add(new Line(indent + "\t" + subStmts.get(i).toString()));

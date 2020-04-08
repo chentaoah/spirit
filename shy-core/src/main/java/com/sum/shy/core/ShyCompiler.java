@@ -27,8 +27,11 @@ public class ShyCompiler {
 	public Map<String, IClass> resolveClasses(Map<String, File> files) {
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
 		for (Map.Entry<String, File> entry : files.entrySet()) {
+			// 获取包名
 			String packageStr = TypeUtils.getPackage(entry.getKey());
+			// 读取文件
 			List<IClass> classes = new ClassReader().read(packageStr, entry.getValue());
+			// 遍历，并添加到集合中
 			for (IClass clazz : classes)
 				allClasses.put(clazz.getClassName(), clazz);
 		}

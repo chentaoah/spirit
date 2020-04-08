@@ -21,14 +21,22 @@ public class Line {
 		return text.trim().startsWith("//") || text.trim().length() == 0;
 	}
 
+	public boolean hasChild() {
+		return text.trim().endsWith("{");
+	}
+
 	public String getIndent() {
 		char firstChar = text.trim().charAt(0);
 		return text.substring(0, text.indexOf(firstChar));
 	}
 
+	public String debug() {
+		return number + ":" + LineUtils.getSpaceByNumber(6 - (number + ":").length()) + text;
+	}
+
 	@Override
 	public String toString() {
-		return number + ":" + LineUtils.getSpaceByNumber(6 - (number + ":").length()) + text;
+		return text;
 	}
 
 }

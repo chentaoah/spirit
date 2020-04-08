@@ -48,7 +48,7 @@ public class Element extends ArrayList<Element> {
 	}
 
 	public boolean hasChild() {
-		return line.text.trim().endsWith("{");
+		return line.hasChild();
 	}
 
 	public String getStr(int index) {
