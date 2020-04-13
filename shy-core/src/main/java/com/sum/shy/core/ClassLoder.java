@@ -14,7 +14,7 @@ import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.entity.Constants;
 
-public class ClassReader {
+public class ClassLoder {
 
 	public List<IClass> read(String packageStr, File file) {
 		// 1.生成docment对象
