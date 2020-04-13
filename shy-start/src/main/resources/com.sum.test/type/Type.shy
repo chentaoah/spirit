@@ -67,7 +67,11 @@ class Type {
 		mask= 1L << 8
 		print "mask",mask
 
-
+		//测试新的数组声明方式
+		ints=int[]{123, 456, 789}
+		strs=String[]{"hello", "hello", "hello"}
+		print "ints{}", ints
+		print "strs{}", strs[0]
 
 	}
 
