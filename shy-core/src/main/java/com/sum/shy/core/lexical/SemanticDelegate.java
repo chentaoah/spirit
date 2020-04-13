@@ -298,7 +298,8 @@ public class SemanticDelegate {
 		// 前缀,这里兼容了泛型的类型声明
 		Object prefix = start != 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
 		List<Token> subTokens = getSubTokens(word, left, right);
-		subTokens.addAll(getSubTokens(word, left1, right1));
+		if (StringUtils.isNotEmpty(left) && StringUtils.isNotEmpty(left))
+			subTokens.addAll(getSubTokens(word, left1, right1));
 		// 追加一个元素在头部
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
