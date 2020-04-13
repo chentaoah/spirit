@@ -292,10 +292,6 @@ public class SemanticDelegate {
 		return word;
 	}
 
-	public static Stmt getSubStmt(String word, String left, String right) {
-		return getSubStmt(word, left, right, null, null);
-	}
-
 	public static Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
 		// 开始位置
 		int start = word.indexOf(left);
@@ -309,6 +305,10 @@ public class SemanticDelegate {
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
 		// 生成子语句
 		return new Stmt(subTokens);
+	}
+
+	public static Stmt getSubStmt(String word, String left, String right) {
+		return getSubStmt(word, left, right, null, null);
 	}
 
 	public static List<Token> getSubTokens(String word, String left, String right) {
