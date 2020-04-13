@@ -38,7 +38,7 @@ public class MetaphorConverter {
 
 	}
 
-	private static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {
+	public static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {
 		int start = 0;
 		for (int j = index - 1; j >= 0; j--) {
 			Token lastToken = stmt.getToken(j);
@@ -62,7 +62,7 @@ public class MetaphorConverter {
 
 	}
 
-	private static void replaceFollowingStr(IClass clazz, Stmt stmt, int index, Token token) {
+	public static void replaceFollowingStr(IClass clazz, Stmt stmt, int index, Token token) {
 		int end = stmt.size();
 		for (int j = index + 1; j < stmt.size(); j++) {
 			Token nextToken = stmt.getToken(j);
