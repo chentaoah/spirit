@@ -17,7 +17,6 @@ import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.CodeType;
 
 public class MemberVisiter {
 
@@ -49,7 +48,7 @@ public class MemberVisiter {
 				if (token.isAnnotation()) {
 					parameter.annotations.add(new IAnnotation(token));
 				} else if (token.isType()) {
-					parameter.type = new CodeType(clazz, token);
+					parameter.type = TypeFactory.resolve(clazz, token);
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
 				}
@@ -84,13 +83,13 @@ public class MemberVisiter {
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
 		if (method.element.isFuncDeclare()) {// 声明了返回类型的方法，直接返回类型
-			return new CodeType(clazz, method.element.getToken(0));
+			return TypeFactory.resolve(clazz, method.element.getToken(0));
 
 		} else if (method.element.isFunc()) {
 			MethodContext context = new MethodContext();
 			context.method = method;
 			visitChildElement(clazz, context, method.element);
-			return context.returnType != null ? context.returnType : new CodeType(clazz, Constants.VOID);
+			return context.returnType != null ? context.returnType : TypeFactory.resolve(clazz, Constants.VOID);
 		}
 		return null;
 	}
@@ -108,7 +107,7 @@ public class MemberVisiter {
 
 			} else if (element.isReturn() && variable != null) {
 				// 如果返回值更加抽象，则取代原来的
-				if (context.returnType == null || variable.type.isAssignableFrom(context.returnType))
+				if (context.returnType == null || TypeLinker.isAssignableFrom(variable.type, context.returnType))
 					context.returnType = variable.type;
 			}
 

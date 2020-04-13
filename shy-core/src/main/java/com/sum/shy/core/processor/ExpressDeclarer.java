@@ -1,6 +1,7 @@
 package com.sum.shy.core.processor;
 
 import com.sum.shy.core.ElementVisiter;
+import com.sum.shy.core.TypeFactory;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
@@ -9,7 +10,6 @@ import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
-import com.sum.shy.core.type.CodeType;
 
 public class ExpressDeclarer {
 
@@ -36,7 +36,7 @@ public class ExpressDeclarer {
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
 			// 这里从数组或集合中获取类型
-			type = type.isArray() ? new CodeType(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
+			type = type.isArray() ? TypeFactory.resolve(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			varToken.setTypeAtt(type);
 

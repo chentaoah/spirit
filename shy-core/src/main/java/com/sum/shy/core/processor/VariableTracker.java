@@ -2,6 +2,8 @@ package com.sum.shy.core.processor;
 
 import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
+import com.sum.shy.core.TypeFactory;
+import com.sum.shy.core.TypeLinker;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
@@ -11,9 +13,6 @@ import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.visiter.AdaptiveVisiter;
-import com.sum.shy.core.visiter.api.Visiter;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -26,8 +25,6 @@ import com.sum.shy.lib.StringUtils;
  * @date: 2019年11月1日
  */
 public class VariableTracker {
-
-	public static Visiter visiter = new AdaptiveVisiter();
 
 	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {
@@ -48,7 +45,7 @@ public class VariableTracker {
 					IType type = findType(clazz, context, name);// 返回的数组类型
 					if (type == null)
 						throw new RuntimeException("Variable must be declared!name:" + name);
-					type = new CodeType(clazz, type.getTypeName());// 转换成数组内的类型
+					type = TypeFactory.resolve(clazz, type.getTypeName());// 转换成数组内的类型
 					token.setTypeAtt(type);
 
 				}
@@ -63,11 +60,11 @@ public class VariableTracker {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getSuperName());
+			return TypeFactory.resolve(clazz, clazz.getSuperName());
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return new CodeType(clazz, clazz.getTypeName());
+			return TypeFactory.resolve(clazz, clazz.getTypeName());
 
 		// 先在方法上下文中找
 		if (context != null) {
@@ -95,7 +92,7 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName()))
-			return visiter.visitField(clazz, new CodeType(clazz, clazz.getSuperName()), name);
+			return TypeLinker.visitField(TypeFactory.resolve(clazz, clazz.getSuperName()), name);
 
 		return null;
 

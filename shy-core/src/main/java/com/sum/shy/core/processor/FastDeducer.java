@@ -1,7 +1,6 @@
 package com.sum.shy.core.processor;
 
-import java.util.List;
-
+import com.sum.shy.core.TypeFactory;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
@@ -11,8 +10,6 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.TreeBuilder;
-import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.utils.ReflectUtils;
 
 /**
  * 快速推导器
@@ -87,7 +84,7 @@ public class FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return new CodeType(clazz, Constants.BOOLEAN);
+			return TypeFactory.resolve(clazz, Constants.BOOLEAN);
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的
@@ -100,111 +97,6 @@ public class FastDeducer {
 
 		return token.getTypeAtt();
 
-	}
-
-	public static IType getValueType(IClass clazz, Token token) {
-		if (token.isBool()) {
-			return new CodeType(clazz, Constants.BOOLEAN);
-		} else if (token.isInt()) {
-			return new CodeType(clazz, Constants.INT);
-		} else if (token.isLong()) {
-			return new CodeType(clazz, Constants.LONG);
-		} else if (token.isDouble()) {
-			return new CodeType(clazz, Constants.DOUBLE);
-		} else if (token.isNull()) {
-			return new CodeType(clazz, Constants.OBJECT);
-		} else if (token.isStr()) {
-			return new CodeType(clazz, Constants.STRING);
-		} else if (token.isList()) {
-			return getArrayType(clazz, token);
-		} else if (token.isMap()) {
-			return getMapType(clazz, token);
-		}
-		return null;
-	}
-
-	public static IType getArrayType(IClass clazz, Token token) {
-		boolean isSame = true;// 所有元素是否都相同
-		IType genericType = null;
-		// 开始遍历
-		Stmt stmt = token.getStmt();
-		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			IType type = deriveStmt(clazz, subStmt);
-			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (genericType != null) {
-					if (!genericType.equals(type)) {// 如果存在多个类型
-						isSame = false;
-						break;
-					}
-				} else {
-					genericType = type;
-				}
-			}
-		}
-
-		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
-		// 2.可能是个空的集合
-		if (!isSame || genericType == null)
-			return new CodeType(clazz, "List<Object>");
-
-		IType finalType = new CodeType(clazz, Constants.LIST);
-		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
-		return finalType;
-	}
-
-	public static IType getMapType(IClass clazz, Token token) {
-		boolean isSameKey = true;
-		boolean isSameValue = true;
-		IType finalKeyType = null;
-		IType finalValueType = null;
-		Stmt stmt = token.getStmt();
-		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			List<Stmt> subStmts = subStmt.split(":");
-			IType KeyType = deriveStmt(clazz, subStmts.get(0));
-			IType valueType = deriveStmt(clazz, subStmts.get(1));
-			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (finalKeyType != null) {
-					if (!finalKeyType.equals(KeyType)) {// 如果存在多个类型
-						isSameKey = false;
-					}
-				} else {
-					finalKeyType = KeyType;
-				}
-			}
-			if (valueType != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (finalValueType != null) {
-					if (!finalValueType.equals(valueType)) {// 如果存在多个类型
-						isSameValue = false;
-					}
-				} else {
-					finalValueType = valueType;
-				}
-			}
-		}
-		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? new CodeType(clazz, Constants.OBJECT) : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? new CodeType(clazz, Constants.OBJECT)
-				: finalValueType;
-
-		IType finalType = new CodeType(clazz, Constants.MAP);
-		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
-		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
-		return finalType;
-
-	}
-
-	/**
-	 * 获取封装类
-	 * 
-	 * @param clazz
-	 * @param genericType
-	 * @return
-	 */
-	public static IType getWrapType(IClass clazz, IType genericType) {
-		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
-		if (wrapType != null)
-			genericType = new CodeType(clazz, wrapType);
-		return genericType;
 	}
 
 }
