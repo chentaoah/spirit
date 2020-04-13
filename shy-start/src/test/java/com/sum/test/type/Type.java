@@ -54,6 +54,10 @@ public class Type {
 		logger.info("long1 is ", long1);
 		long mask = 1L << 8;
 		logger.info("mask", mask);
+		int[] ints = new int[]{123, 456, 789};
+		String[] strs = new String[]{"hello", "hello", "hello"};
+		logger.info("ints{}", ints);
+		logger.info("strs{}", strs[0]);
 	}
 
 	public String testParam(@Deprecated String str) {
