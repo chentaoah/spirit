@@ -30,7 +30,7 @@ public class ShyCompiler {
 			// 获取包名
 			String packageStr = TypeUtils.getPackage(entry.getKey());
 			// 读取文件
-			List<IClass> classes = new ClassLoder().read(packageStr, entry.getValue());
+			List<IClass> classes = new ClassLoder().load(packageStr, entry.getValue());
 			// 遍历，并添加到集合中
 			for (IClass clazz : classes)
 				allClasses.put(clazz.getClassName(), clazz);

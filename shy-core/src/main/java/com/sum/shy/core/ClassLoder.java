@@ -16,7 +16,7 @@ import com.sum.shy.core.entity.Constants;
 
 public class ClassLoder {
 
-	public List<IClass> read(String packageStr, File file) {
+	public List<IClass> load(String packageStr, File file) {
 		// 1.生成docment对象
 		Document document = new DocumentReader().read(file);
 		// 2.打印日志
