@@ -84,7 +84,7 @@ public class FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return TypeFactory.resolve(clazz, Constants.BOOLEAN);
+			return TypeFactory.create(clazz, Constants.BOOLEAN);
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的

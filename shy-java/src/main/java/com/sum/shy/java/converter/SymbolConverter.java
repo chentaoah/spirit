@@ -1,12 +1,12 @@
 package com.sum.shy.java.converter;
 
+import com.sum.shy.core.TypeFactory;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.processor.FastDeducer;
-import com.sum.shy.core.type.CodeType;
 import com.sum.shy.lib.StringUtils;
 
 public class SymbolConverter {
@@ -53,7 +53,7 @@ public class SymbolConverter {
 					}
 					String text = String.format(format, lastSubStmt, nextSubStmt);
 					Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
-					expressToken.setTypeAtt(new CodeType(clazz, Constants.BOOLEAN));
+					expressToken.setTypeAtt(TypeFactory.create(clazz, Constants.BOOLEAN));
 					expressToken.setTreeId(token.getTreeId());
 					stmt.replace(start, end, expressToken);
 					clazz.addImport(StringUtils.class.getName());

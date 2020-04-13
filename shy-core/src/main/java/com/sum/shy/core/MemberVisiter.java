@@ -89,7 +89,7 @@ public class MemberVisiter {
 			MethodContext context = new MethodContext();
 			context.method = method;
 			visitChildElement(clazz, context, method.element);
-			return context.returnType != null ? context.returnType : TypeFactory.resolve(clazz, Constants.VOID);
+			return context.returnType != null ? context.returnType : TypeFactory.create(clazz, Constants.VOID);
 		}
 		return null;
 	}

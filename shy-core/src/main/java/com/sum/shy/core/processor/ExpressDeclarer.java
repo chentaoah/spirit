@@ -36,7 +36,7 @@ public class ExpressDeclarer {
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
 			// 这里从数组或集合中获取类型
-			type = type.isArray() ? TypeFactory.resolve(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
+			type = type.isArray() ? TypeFactory.create(clazz, type.getTypeName()) : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			varToken.setTypeAtt(type);
 

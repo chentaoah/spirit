@@ -36,7 +36,7 @@ public class InvokeVisiter {
 				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
-				IType type = TypeFactory.resolve(clazz, clazz.getTypeName());
+				IType type = TypeFactory.create(clazz, clazz.getTypeName());
 				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
@@ -44,7 +44,7 @@ public class InvokeVisiter {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
 				IType returnType = null;
 				if (type.isArray() && Constants.ARRAY_LENGTH.equals(token.getMemberNameAtt())) {// 访问数组length直接返回int类型
-					returnType = TypeFactory.resolve(clazz, Constants.INT);
+					returnType = TypeFactory.create(clazz, Constants.INT);
 				} else {
 					returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
 				}
@@ -58,7 +58,7 @@ public class InvokeVisiter {
 			} else if (token.isVisitArrayIndex()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
 				IType returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
-				returnType = TypeFactory.resolve(clazz, returnType.getTypeName());
+				returnType = TypeFactory.create(clazz, returnType.getTypeName());
 				token.setTypeAtt(returnType);
 
 			}

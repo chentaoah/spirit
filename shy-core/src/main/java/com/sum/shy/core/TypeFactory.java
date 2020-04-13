@@ -20,7 +20,7 @@ public class TypeFactory {
 
 	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
 
-	public static IType resolve(IClass clazz, String text) {
+	public static IType create(IClass clazz, String text) {
 		return resolve(clazz, SemanticDelegate.getToken(text));
 	}
 
@@ -51,7 +51,7 @@ public class TypeFactory {
 					type.setGenericTypes(new ArrayList<>());
 					type.setWildcard(false);
 					type.setDeclarer(clazz);
-					type.setNative(Context.get().contains(type.getClassName()));
+					type.setNative(!Context.get().contains(type.getClassName()));
 
 				}
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
@@ -66,13 +66,13 @@ public class TypeFactory {
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));// 递归下去
 				type.setWildcard(false);
 				type.setDeclarer(clazz);
-				type.setNative(Context.get().contains(type.getClassName()));
+				type.setNative(!Context.get().contains(type.getClassName()));
 
 			}
 			return type;
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return resolve(clazz, token.getTypeNameAtt());
+			return create(clazz, token.getTypeNameAtt());
 
 		} else if (token.isValue()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);
@@ -92,17 +92,17 @@ public class TypeFactory {
 
 	public static IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return resolve(clazz, Constants.BOOLEAN);
+			return create(clazz, Constants.BOOLEAN);
 		} else if (token.isInt()) {
-			return resolve(clazz, Constants.INT);
+			return create(clazz, Constants.INT);
 		} else if (token.isLong()) {
-			return resolve(clazz, Constants.LONG);
+			return create(clazz, Constants.LONG);
 		} else if (token.isDouble()) {
-			return resolve(clazz, Constants.DOUBLE);
+			return create(clazz, Constants.DOUBLE);
 		} else if (token.isNull()) {
-			return resolve(clazz, Constants.OBJECT);
+			return create(clazz, Constants.OBJECT);
 		} else if (token.isStr()) {
-			return resolve(clazz, Constants.STRING);
+			return create(clazz, Constants.STRING);
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -132,9 +132,9 @@ public class TypeFactory {
 		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
 		// 2.可能是个空的集合
 		if (!isSame || genericType == null)
-			return resolve(clazz, "List<Object>");
+			return create(clazz, "List<Object>");
 
-		IType finalType = resolve(clazz, Constants.LIST);
+		IType finalType = create(clazz, Constants.LIST);
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -169,10 +169,10 @@ public class TypeFactory {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? resolve(clazz, Constants.OBJECT) : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? resolve(clazz, Constants.OBJECT) : finalValueType;
+		finalKeyType = !isSameKey || finalKeyType == null ? create(clazz, Constants.OBJECT) : finalKeyType;
+		finalValueType = !isSameValue || finalValueType == null ? create(clazz, Constants.OBJECT) : finalValueType;
 
-		IType finalType = resolve(clazz, Constants.MAP);
+		IType finalType = create(clazz, Constants.MAP);
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
@@ -189,7 +189,7 @@ public class TypeFactory {
 	public static IType getWrapType(IClass clazz, IType genericType) {
 		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
 		if (wrapType != null)
-			genericType = resolve(clazz, wrapType);
+			genericType = create(clazz, wrapType);
 		return genericType;
 	}
 
