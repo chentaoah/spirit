@@ -26,6 +26,20 @@ public interface IType {
 	String getTypeName();
 
 	/**
+	 * 是否基本类型
+	 * 
+	 * @return
+	 */
+	boolean isPrimitive();
+
+	/**
+	 * 是否数组
+	 * 
+	 * @return
+	 */
+	boolean isArray();
+
+	/**
 	 * 是否泛型
 	 * 
 	 * @return
@@ -38,13 +52,6 @@ public interface IType {
 	 * @return
 	 */
 	List<IType> getGenericTypes();
-
-	/**
-	 * 是否基本类型
-	 * 
-	 * @return
-	 */
-	boolean isPrimitive();
 
 	/**
 	 * 判断是否是一个类的父类
@@ -60,13 +67,6 @@ public interface IType {
 	 * @return
 	 */
 	boolean isWildcard();
-
-	/**
-	 * 是否数组
-	 * 
-	 * @return
-	 */
-	boolean isArray();
 
 	/**
 	 * 是否没有类型
