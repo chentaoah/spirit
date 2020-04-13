@@ -45,9 +45,11 @@ public class SemanticDelegate {
 
 	// ============================== 赋值 ================================
 
-	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern
-			.compile("^(" + TYPE_ENUM + ")\\[\\d+\\](\\{[\\s\\S]*\\})?$");// 基础类型数组声明
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\](\\{[\\s\\S]*\\})?$");// 类型数组声明
+	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
+	public static final Pattern BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern
+			.compile("^(" + TYPE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
+	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]\\{[\\s\\S]*\\}$");// String[]{"text"}
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
@@ -164,14 +166,20 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isInit(String word) {
-		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
-				|| TYPE_INIT_PATTERN.matcher(word).matches();
+		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
+				|| BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
+				|| TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
+				|| TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
 	public static String getInitTokenType(String word) {
 		if (BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;
+		if (BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
+			return Constants.ARRAY_INIT_TOKEN;
 		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
+			return Constants.ARRAY_INIT_TOKEN;
+		if (TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;
 		if (TYPE_INIT_PATTERN.matcher(word).matches())
 			return Constants.TYPE_INIT_TOKEN;
@@ -317,11 +325,11 @@ public class SemanticDelegate {
 	public static void getAttachments(Token token, String word) {
 
 		if (token.isArrayInit()) {// 数组构造
-			token.setTypeNameAtt(getArrayInitType(word));
+			token.setTypeNameAtt(getPrefix(word) + "[]");
 			return;
 
 		} else if (token.isTypeInit()) {// 构造
-			token.setTypeNameAtt(getMemberName(word));
+			token.setTypeNameAtt(getPrefix(word));
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
@@ -329,30 +337,29 @@ public class SemanticDelegate {
 			return;
 
 		} else if (token.isAccess()) {// 属性访问
-			token.setMemberNameAtt(getMemberName(word));
+			token.setMemberNameAtt(getPrefix(word));
 			return;
 
 		}
 
 	}
 
-	public static String getArrayInitType(String word) {
-		return word.substring(0, word.indexOf("[")) + "[]";
+	public static String getPrefix(String word) {
+		int start = word.startsWith(".") ? 1 : 0;
+		int end = word.length();
+		if (word.contains("[")) {
+			int index = word.indexOf("[");
+			end = index < end ? index : end;
+		}
+		if (word.contains("(")) {
+			int index = word.indexOf("(");
+			end = index < end ? index : end;
+		}
+		return word.substring(start, end);
 	}
 
 	public static String getCastType(String word) {
 		return word.substring(1, word.length() - 1);
-	}
-
-	public static String getMemberName(String word) {
-		int start = word.startsWith(".") ? 1 : 0;
-		int end = word.length();
-		if (word.contains("[")) {
-			end = word.indexOf("[");
-		} else if (word.contains("(")) {
-			end = word.indexOf("(");
-		}
-		return word.substring(start, end);
 	}
 
 }

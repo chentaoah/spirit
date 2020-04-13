@@ -189,7 +189,7 @@ public class LexicalAnalyzer {
 		List<Character> subChars = chars.subList(start, end + 1);// 从字符串里面截取字符串
 		replacedStrs.put(name + number, Joiner.on("").join(subChars));
 
-		for (int j = 0; j < end - start + 1; j++)// 删除字符
+		for (int i = 0; i < end - start + 1; i++)// 删除字符
 			chars.remove(start);
 
 		subChars = new ArrayList<>();
