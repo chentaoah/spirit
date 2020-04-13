@@ -3,6 +3,7 @@ package com.sum.shy.core.processor;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Node;
@@ -11,7 +12,6 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 /**

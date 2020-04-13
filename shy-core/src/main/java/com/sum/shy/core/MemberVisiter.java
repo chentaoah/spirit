@@ -11,13 +11,13 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.type.api.IType;
 
 public class MemberVisiter {
 

@@ -3,8 +3,8 @@ package com.sum.shy.core.visiter;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.api.Visiter;
 
 public class AdaptiveVisiter implements Visiter {

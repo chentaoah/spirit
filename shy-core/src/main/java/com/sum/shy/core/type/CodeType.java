@@ -3,11 +3,11 @@ package com.sum.shy.core.type;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.type.api.AbsType;
-import com.sum.shy.core.type.api.IType;
 
 public class CodeType extends AbsType {
 
@@ -54,29 +54,6 @@ public class CodeType extends AbsType {
 	@Override
 	public String getSimpleName() {
 		return simpleName;
-	}
-
-	@Override
-	public String getSuperName() {
-		return null;
-	}
-
-	@Override
-	public IType getSuper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getInterfaceNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<IType> getInterfaces() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

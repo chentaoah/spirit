@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.type.api.AbsType;
-import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 /**

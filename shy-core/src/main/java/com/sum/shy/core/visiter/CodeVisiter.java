@@ -6,10 +6,10 @@ import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.api.Visiter;
 import com.sum.shy.lib.StringUtils;
 

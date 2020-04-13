@@ -3,13 +3,13 @@ package com.sum.shy.core.processor;
 import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.type.api.IType;
 
 public class ExpressDeclarer {
 

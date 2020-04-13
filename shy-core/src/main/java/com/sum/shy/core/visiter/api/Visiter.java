@@ -3,7 +3,7 @@ package com.sum.shy.core.visiter.api;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.type.api.IType;
+import com.sum.shy.core.clazz.IType;
 
 public interface Visiter {
 

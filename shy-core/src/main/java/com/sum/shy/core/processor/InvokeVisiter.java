@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.type.CodeType;
-import com.sum.shy.core.type.api.IType;
 import com.sum.shy.core.visiter.AdaptiveVisiter;
 import com.sum.shy.core.visiter.api.Visiter;
 
