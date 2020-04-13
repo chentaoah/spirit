@@ -26,6 +26,13 @@ public interface IType {
 	String getTypeName();
 
 	/**
+	 * 获取父类名称
+	 * 
+	 * @return
+	 */
+	String getSuperName();
+
+	/**
 	 * 是否基本类型
 	 * 
 	 * @return

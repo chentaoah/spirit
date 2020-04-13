@@ -35,8 +35,9 @@ public class SemanticDelegate {
 
 	// ============================== 类型 ================================
 
-	public static final String TYPE_ENUM = "boolean|char|short|int|long|float|double|byte|"
-			+ "Boolean|Character|Short|Integer|Long|Float|Double|Byte|" + "Object|String";// 类型枚举
+	public static final String BASIC_TYPE_ENUM = "boolean|char|short|int|long|float|double|byte";// 基础类型
+	public static final String BASIC_WRAPPER_TYPE_ENUM = "Boolean|Character|Short|Integer|Long|Float|Double|Byte";// 基础类型封装
+	public static final String TYPE_ENUM = BASIC_TYPE_ENUM + "|" + BASIC_WRAPPER_TYPE_ENUM + "|Object|String";// 类型枚举
 	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|" + TYPE_ENUM + ")$");// 基本类型
 	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\]$");// 基本类型数组
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");// 普通类型

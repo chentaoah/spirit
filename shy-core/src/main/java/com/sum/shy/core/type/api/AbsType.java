@@ -4,12 +4,16 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.utils.TypeUtils;
 
 public abstract class AbsType implements IType {
+
+	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
 
 	public IClass clazz;
 
@@ -55,25 +59,7 @@ public abstract class AbsType implements IType {
 
 	@Override
 	public boolean isPrimitive() {
-		switch (getClassName()) {
-		case "boolean":
-			return true;
-		case "char":
-			return true;
-		case "short":
-			return true;
-		case "int":
-			return true;
-		case "long":
-			return true;
-		case "float":
-			return true;
-		case "double":
-			return true;
-		case "byte":
-			return true;
-		}
-		return false;
+		return BASIC_TYPE_PATTERN.matcher(getClassName()).matches();
 	}
 
 	@Override
@@ -114,6 +100,12 @@ public abstract class AbsType implements IType {
 	@Override
 	public boolean isMap() {
 		return Map.class.getName().equals(getClassName());
+	}
+
+	@Override
+	public String getSuperName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
