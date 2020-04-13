@@ -51,10 +51,16 @@ public class LexicalAnalyzer {
 			if (c == '"') {
 				replaceWithWhole(chars, i, '"', '"', "$str", count++, replacedStrs);
 
-			} else if (c == '{') {
-				replaceWithWhole(chars, i, '{', '}', "$map", count++, replacedStrs);
+			} else if (c == '<') {// 泛型声明
+				if (start >= 0) {// 必须有前缀
+					char e = chars.get(start);
+					if (e >= 'A' && e <= 'Z') {// 如果首字母是大写的话,才进行处理
+						replaceWithWhole(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
+						i = start;
+					}
+				}
 
-			} else if (c == '[') {
+			} else if (c == '[') {// 注意：不能声明泛型数组，并且带"{"和"}"，不能声明length
 				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', '{', '}', "$array_like", count++,
 						replacedStrs);
 				i = start >= 0 ? start : i;
@@ -63,14 +69,9 @@ public class LexicalAnalyzer {
 				replaceWithWhole(chars, start >= 0 ? start : i, '(', ')', "$invoke_like", count++, replacedStrs);
 				i = start >= 0 ? start : i;
 
-			} else if (c == '<') {// 泛型声明
-				if (start >= 0) {
-					char e = chars.get(start);
-					if (e >= 'A' && e <= 'Z') {// 如果首字母是大写的话,才进行处理
-						replaceWithWhole(chars, start, '<', '>', '(', ')', "$generic", count++, replacedStrs);
-						i = start;
-					}
-				}
+			} else if (c == '{') {
+				replaceWithWhole(chars, i, '{', '}', "$map", count++, replacedStrs);
+
 			}
 
 			if (!isContinueChar(c))// 如果不是接续字符,则重置起始位置
