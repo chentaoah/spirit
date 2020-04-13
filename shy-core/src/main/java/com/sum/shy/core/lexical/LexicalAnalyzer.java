@@ -55,7 +55,8 @@ public class LexicalAnalyzer {
 				replaceWithWhole(chars, i, '{', '}', "$map", count++, replacedStrs);
 
 			} else if (c == '[') {
-				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', "$array_like", count++, replacedStrs);
+				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', '{', '}', "$array_like", count++,
+						replacedStrs);
 				i = start >= 0 ? start : i;
 
 			} else if (c == '(') {

@@ -10,6 +10,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 语义分析器
@@ -44,8 +45,9 @@ public class SemanticDelegate {
 
 	// ============================== 赋值 ================================
 
-	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
+	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern
+			.compile("^(" + TYPE_ENUM + ")\\[\\d+\\](\\{[\\s\\S]*\\})?$");// 基础类型数组声明
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\](\\{[\\s\\S]*\\})?$");// 类型数组声明
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
@@ -247,7 +249,11 @@ public class SemanticDelegate {
 			token.value = getTypeStmtIfNeed(word);
 			return;
 
-		} else if (token.isArrayInit() || token.isList()) {// 这里的拆分是为了更好的加上new这个关键字
+		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
+			token.value = getSubStmt(word, "[", "]", "{", "}");
+			return;
+
+		} else if (token.isList()) {
 			token.value = getSubStmt(word, "[", "]");
 			return;
 
@@ -279,26 +285,33 @@ public class SemanticDelegate {
 	}
 
 	public static Stmt getSubStmt(String word, String left, String right) {
+		return getSubStmt(word, left, right, null, null);
+	}
+
+	public static Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
 		// 开始位置
 		int start = word.indexOf(left);
-		// 结束位置
-		int end = word.lastIndexOf(right);
 		// 前缀,这里兼容了泛型的类型声明
 		Object prefix = start != 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
-		// 内容
-		String content = word.substring(start + 1, end);
-		// 分解内容
-		List<String> subWords = LexicalAnalyzer.getWords(content);
-		// 获取tokens
-		List<Token> subTokens = getTokens(subWords);
-		// 插入分隔符
-		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
-		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));// 20191213 ct 修复>分隔符插入位置错误的问题
+		List<Token> subTokens = getSubTokens(word, left, right);
+		if (StringUtils.isNotEmpty(left1) && StringUtils.isNotEmpty(right1))
+			subTokens.addAll(getSubTokens(word, left1, right1));
 		// 追加一个元素在头部
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
 		// 生成子语句
 		return new Stmt(subTokens);
+	}
+
+	public static List<Token> getSubTokens(String word, String left, String right) {
+		int start = word.indexOf(left);
+		int end = word.lastIndexOf(right);
+		String content = word.substring(start + 1, end);
+		List<String> subWords = LexicalAnalyzer.getWords(content);
+		List<Token> subTokens = getTokens(subWords);
+		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
+		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
+		return subTokens;
 	}
 
 	public static void getAttachments(Token token, String word) {
