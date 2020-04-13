@@ -33,6 +33,27 @@ public interface IType {
 	String getSuperName();
 
 	/**
+	 * 获取父类
+	 * 
+	 * @return
+	 */
+	IType getSuper();
+
+	/**
+	 * 获取父类名称
+	 * 
+	 * @return
+	 */
+	List<String> getInterfaceNames();
+
+	/**
+	 * 获取父类
+	 * 
+	 * @return
+	 */
+	List<IType> getInterfaces();
+
+	/**
 	 * 是否基本类型
 	 * 
 	 * @return

@@ -136,16 +136,19 @@ public class IClass {
 		throw new RuntimeException("Cannot get type name!");
 	}
 
+	public String getClassName() {
+		return packageStr + "." + getTypeName();
+	}
+
 	public String getSuperName() {
-		return root.getKeywordParam(Constants.EXTENDS_KEYWORD);
+		return findImport(root.getKeywordParam(Constants.EXTENDS_KEYWORD));
 	}
 
 	public List<String> getInterfaces() {
-		return root.getKeywordParams(Constants.IMPL_KEYWORD);
-	}
-
-	public String getClassName() {
-		return packageStr + "." + getTypeName();
+		List<String> interfaces = new ArrayList<>();
+		for (String inter : root.getKeywordParams(Constants.IMPL_KEYWORD))
+			interfaces.add(findImport(inter));
+		return interfaces;
 	}
 
 	public List<IField> getFields() {

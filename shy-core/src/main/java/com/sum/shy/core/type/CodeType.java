@@ -1,24 +1,25 @@
 package com.sum.shy.core.type;
 
+import java.util.List;
+
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.type.api.AbsType;
+import com.sum.shy.core.type.api.IType;
 
 public class CodeType extends AbsType {
 
 	public String className;
 	public String simpleName;
 
-	public CodeType(IClass clazz, Token token) {
-		super(clazz);
+	public CodeType(IClass clazz, String type) {
+		Token token = SemanticDelegate.getToken(type);// 语义分析器,会自动将泛型进行拆分
 		resolve(clazz, token);
 	}
 
-	public CodeType(IClass clazz, String type) {
-		super(clazz);
-		Token token = SemanticDelegate.getToken(type);// 语义分析器,会自动将泛型进行拆分
+	public CodeType(IClass clazz, Token token) {
 		resolve(clazz, token);
 	}
 
@@ -53,6 +54,29 @@ public class CodeType extends AbsType {
 	@Override
 	public String getSimpleName() {
 		return simpleName;
+	}
+
+	@Override
+	public String getSuperName() {
+		return null;
+	}
+
+	@Override
+	public IType getSuper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getInterfaceNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IType> getInterfaces() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
