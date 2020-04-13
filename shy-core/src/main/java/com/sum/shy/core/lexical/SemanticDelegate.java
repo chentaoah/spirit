@@ -298,8 +298,7 @@ public class SemanticDelegate {
 		// 前缀,这里兼容了泛型的类型声明
 		Object prefix = start != 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
 		List<Token> subTokens = getSubTokens(word, left, right);
-		if (StringUtils.isNotEmpty(left1) && StringUtils.isNotEmpty(right1))
-			subTokens.addAll(getSubTokens(word, left1, right1));
+		subTokens.addAll(getSubTokens(word, left1, right1));
 		// 追加一个元素在头部
 		if (prefix != null)
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
@@ -312,14 +311,19 @@ public class SemanticDelegate {
 	}
 
 	public static List<Token> getSubTokens(String word, String left, String right) {
-		int start = word.indexOf(left);
-		int end = word.lastIndexOf(right);
-		String content = word.substring(start + 1, end);
-		List<String> subWords = LexicalAnalyzer.getWords(content);
-		List<Token> subTokens = getTokens(subWords);
-		subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
-		subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
-		return subTokens;
+		if (StringUtils.isNotEmpty(left) && StringUtils.isNotEmpty(left)) {// 校验
+			if (word.contains(left) && word.contains(right)) {
+				int start = word.indexOf(left);
+				int end = word.lastIndexOf(right);
+				String content = word.substring(start + 1, end);
+				List<String> subWords = LexicalAnalyzer.getWords(content);
+				List<Token> subTokens = getTokens(subWords);
+				subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
+				subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
+				return subTokens;
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	public static void getAttachments(Token token, String word) {
