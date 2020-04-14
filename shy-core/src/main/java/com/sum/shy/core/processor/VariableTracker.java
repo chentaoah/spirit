@@ -6,13 +6,13 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.type.TypeFactory;
+import com.sum.shy.core.clazz.type.TypeLinker;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.type.IType;
-import com.sum.shy.core.type.TypeFactory;
-import com.sum.shy.core.type.link.TypeLinker;
 import com.sum.shy.lib.StringUtils;
 
 /**

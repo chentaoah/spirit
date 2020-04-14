@@ -1,12 +1,12 @@
 package com.sum.shy.java.converter;
 
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.clazz.IType;
+import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.processor.FastDeducer;
-import com.sum.shy.core.type.IType;
-import com.sum.shy.core.type.TypeFactory;
 import com.sum.shy.lib.StringUtils;
 
 public class MetaphorConverter {

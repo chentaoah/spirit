@@ -1,4 +1,4 @@
-package com.sum.shy.core.type.link;
+package com.sum.shy.core.clazz.type;
 
 import java.util.List;
 
@@ -6,10 +6,9 @@ import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.type.IType;
-import com.sum.shy.core.type.TypeFactory;
 import com.sum.shy.lib.StringUtils;
 
 public class CodeLinker {

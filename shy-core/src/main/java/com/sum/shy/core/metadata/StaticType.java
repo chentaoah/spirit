@@ -1,6 +1,6 @@
 package com.sum.shy.core.metadata;
 
-import com.sum.shy.core.type.IType;
+import com.sum.shy.core.clazz.IType;
 
 public class StaticType {
 

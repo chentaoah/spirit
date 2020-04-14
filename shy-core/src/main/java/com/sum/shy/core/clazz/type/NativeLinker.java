@@ -1,4 +1,4 @@
-package com.sum.shy.core.type.link;
+package com.sum.shy.core.clazz.type;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,8 +10,8 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.metadata.StaticType;
-import com.sum.shy.core.type.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.lib.StringUtils;
 

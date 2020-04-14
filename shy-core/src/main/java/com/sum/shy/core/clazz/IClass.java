@@ -6,7 +6,6 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.type.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;
