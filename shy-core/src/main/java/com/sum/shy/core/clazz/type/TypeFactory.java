@@ -1,4 +1,4 @@
-package com.sum.shy.core;
+package com.sum.shy.core.clazz.type;
 
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;

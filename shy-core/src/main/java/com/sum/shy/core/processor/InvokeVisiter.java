@@ -3,10 +3,10 @@ package com.sum.shy.core.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.TypeFactory;
-import com.sum.shy.core.TypeLinker;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
+import com.sum.shy.core.clazz.type.TypeFactory;
+import com.sum.shy.core.clazz.type.TypeLinker;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;

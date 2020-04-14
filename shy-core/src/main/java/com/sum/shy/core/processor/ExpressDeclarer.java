@@ -1,11 +1,11 @@
 package com.sum.shy.core.processor;
 
 import com.sum.shy.core.ElementVisiter;
-import com.sum.shy.core.TypeFactory;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Stmt;

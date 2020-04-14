@@ -1,7 +1,8 @@
-package com.sum.shy.core;
+package com.sum.shy.core.clazz.type;
 
 import java.util.List;
 
+import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;

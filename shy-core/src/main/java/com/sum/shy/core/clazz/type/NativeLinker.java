@@ -1,4 +1,4 @@
-package com.sum.shy.core;
+package com.sum.shy.core.clazz.type;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,12 +10,11 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.lib.StringUtils;
 
-public class NativeVisiter {
+public class NativeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
 		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
@@ -49,7 +48,7 @@ public class NativeVisiter {
 				boolean flag = true;
 				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
-					IType paramType = NativeVisiter.visitMember(type, parameter.getParameterizedType());
+					IType paramType = NativeLinker.visitMember(type, parameter.getParameterizedType());
 					IType parameterType = parameterTypes.get(count++);
 					if (!(TypeLinker.isAssignableFrom(paramType, parameterType))) {
 						flag = false;
@@ -67,52 +66,43 @@ public class NativeVisiter {
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
-	public static IType visitMember(IType type, Type returnType) {
-		// int --> Class<?>(int)
-		// class [I --> Class<?>(int[])
-		// class [Ljava.lang.String; --> Class<?>(java.lang.String[])
-		// java.util.List<java.lang.String> --> parameterTypeImpl
-		// E --> TypeVariableImpl
-//		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-//		if (returnType instanceof Class) {// 一部分类型可以直接转换
-//			return (Class<?>) type;
-//
-//		} else if (returnType instanceof TypeVariable) {// 对象的其中一个泛型参数
-//			String paramName = type.toString();// 泛型参数名称 E or K or V
-//			int index = getTypeVariableIndex(clazz, paramName);
-//			return type.getGenericTypes().get(index);
-//
-//		} else if (returnType instanceof ParameterizedType) {// 泛型
-//			// 转换为泛型类型
-//			ParameterizedType parameterizedType = (ParameterizedType) type;
-//			// 类型
-//			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
-//			// 泛型集合
-//			List<IType> genericTypes = new ArrayList<>();
-//			// 获取该类型里面的泛型
-//			for (Type actualType : parameterizedType.getActualTypeArguments()) {
-//				// 递归
-//				genericTypes.add(visitMember(type, actualType));
-//			}
-//			return new NativeType(clazz, genericTypes);
-//
-//		} else if (returnType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
-//			// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
-//			return new NativeType(WildcardType.class);
-//		}
+	public static IType visitMember(IType type, Type memberType) {
+
+		if (memberType instanceof Class) {// 一部分类型可以直接转换
+			return createNativeType((Class<?>) memberType, null);
+
+		} else if (memberType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
+			return createNativeType(WildcardType.class, null);// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
+
+		} else if (memberType instanceof TypeVariable) {// 泛型参数 E or K or V
+			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
+			int index = getTypeVariableIndex(clazz, memberType.toString());// 获取这个泛型名称在类中的index
+			return type.getGenericTypes().get(index);
+
+		} else if (memberType instanceof ParameterizedType) {// 泛型 List<E>
+			ParameterizedType parameterizedType = (ParameterizedType) memberType;
+			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
+			List<IType> genericTypes = new ArrayList<>();
+			for (Type actualType : parameterizedType.getActualTypeArguments())
+				genericTypes.add(visitMember(type, actualType));
+			return createNativeType(rawType, genericTypes);
+		}
 
 		return null;
-
 	}
 
-	public static int getTypeVariableIndex(Class<?> clazz, String paramName) {
-		TypeVariable<?>[] params = clazz.getTypeParameters();
-		for (int i = 0; i < params.length; i++) {
-			TypeVariable<?> param = params[i];
-			if (param.toString().equals(paramName))
+	public static int getTypeVariableIndex(Class<?> clazz, String typeVariableName) {
+		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
+		for (int i = 0; i < typeVariables.length; i++) {
+			TypeVariable<?> typeVariable = typeVariables[i];
+			if (typeVariable.toString().equals(typeVariableName))
 				return i;
 		}
 		return -1;
+	}
+
+	public static IType createNativeType(Class<?> clazz, List<IType> genericTypes) {
+		return null;
 	}
 
 }
