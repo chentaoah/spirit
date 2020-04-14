@@ -47,8 +47,8 @@ public class TypeLinker {
 
 		} else {
 			if (father.isNative()) {// 按照编译规则，Native类是不可能够访问到未曾编译的代码
-				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 				Class<?> fatherClass = ReflectUtils.getClass(father.getClassName());
+				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 				return fatherClass.isAssignableFrom(clazz);
 			}
 		}
