@@ -1,6 +1,5 @@
 package com.sum.shy.core.clazz.type;
 
-import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -12,6 +11,7 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.lexical.SemanticDelegate;
+import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
@@ -41,18 +41,10 @@ public class TypeFactory {
 	public static IType create(IClass clazz, Token token) {
 		if (token.isType()) {
 			IType type = new IType();
-			if (token.value instanceof String) {// String // String[]
+			if (token.value instanceof String) {// String // String[] //?
 				String simpleName = (String) token.value;
 				if ("?".equals(simpleName)) {// 未知类型
-					type.setClassName(WildcardType.class.getName());
-					type.setSimpleName("?");
-					type.setTypeName("?");
-					type.setPrimitive(false);
-					type.setArray(false);
-					type.setGenericTypes(null);
-					type.setWildcard(true);
-					type.setDeclarer(clazz);
-					type.setNative(true);
+					type = StaticType.WILDCARD_TYPE;
 
 				} else {// 一般类型
 					type.setClassName(clazz.findImport(simpleName));
@@ -103,17 +95,17 @@ public class TypeFactory {
 
 	public static IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return create(clazz, Constants.BOOLEAN);
+			return StaticType.BOOLEAN_TYPE;
 		} else if (token.isInt()) {
-			return create(clazz, Constants.INT);
+			return StaticType.INT_TYPE;
 		} else if (token.isLong()) {
-			return create(clazz, Constants.LONG);
+			return StaticType.LONG_TYPE;
 		} else if (token.isDouble()) {
-			return create(clazz, Constants.DOUBLE);
+			return StaticType.DOUBLE_TYPE;
 		} else if (token.isNull()) {
-			return create(clazz, Constants.OBJECT);
+			return StaticType.OBJECT_TYPE;
 		} else if (token.isStr()) {
-			return create(clazz, Constants.STRING);
+			return StaticType.STRING_TYPE;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {

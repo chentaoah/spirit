@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IType;
+import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.lib.StringUtils;
 
@@ -72,7 +73,7 @@ public class NativeLinker {
 			return createNativeType(type, (Class<?>) nativeType, null);
 
 		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
-			return createNativeType(type, WildcardType.class, null);// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
+			return StaticType.WILDCARD_TYPE;// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
 
 		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
@@ -103,28 +104,15 @@ public class NativeLinker {
 
 	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
 		IType nativeType = new IType();
-		if (clazz == WildcardType.class) {
-			nativeType.setClassName(WildcardType.class.getName());
-			nativeType.setSimpleName("?");
-			nativeType.setTypeName("?");
-			nativeType.setPrimitive(false);
-			nativeType.setArray(false);
-			nativeType.setGenericTypes(null);
-			nativeType.setWildcard(true);
-			nativeType.setDeclarer(type.getDeclarer());
-			nativeType.setNative(true);
-
-		} else {
-			nativeType.setClassName(clazz.getName());
-			nativeType.setSimpleName(clazz.getSimpleName());
-			nativeType.setTypeName(clazz.getTypeName());
-			nativeType.setPrimitive(clazz.isPrimitive());
-			nativeType.setArray(clazz.isArray());
-			nativeType.setGenericTypes(genericTypes);
-			nativeType.setWildcard(false);
-			nativeType.setDeclarer(type.getDeclarer());
-			nativeType.setNative(true);
-		}
+		nativeType.setClassName(clazz.getName());
+		nativeType.setSimpleName(clazz.getSimpleName());
+		nativeType.setTypeName(clazz.getTypeName());
+		nativeType.setPrimitive(clazz.isPrimitive());
+		nativeType.setArray(clazz.isArray());
+		nativeType.setGenericTypes(genericTypes);
+		nativeType.setWildcard(false);
+		nativeType.setDeclarer(type.getDeclarer());
+		nativeType.setNative(true);
 		return nativeType;
 	}
 
