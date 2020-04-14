@@ -20,7 +20,6 @@ public class IType {
 	private String typeName;
 	private boolean isPrimitive;
 	private boolean isArray;
-	private boolean isGenericType;
 	private List<IType> genericTypes = new ArrayList<>();
 	private boolean isWildcard;
 	protected IClass declarer;
@@ -134,11 +133,7 @@ public class IType {
 	}
 
 	public boolean isGenericType() {
-		return isGenericType;
-	}
-
-	public void setGenericType(boolean isGenericType) {
-		this.isGenericType = isGenericType;
+		return genericTypes != null && genericTypes.size() > 0;
 	}
 
 	public List<IType> getGenericTypes() {
@@ -146,7 +141,7 @@ public class IType {
 	}
 
 	public void setGenericTypes(List<IType> genericTypes) {
-		this.genericTypes = genericTypes;
+		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
 	public boolean isWildcard() {

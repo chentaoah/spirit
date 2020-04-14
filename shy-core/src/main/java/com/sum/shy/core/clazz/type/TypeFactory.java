@@ -27,8 +27,7 @@ public class TypeFactory {
 		type.setTypeName(TypeUtils.getTypeNameByClassName(className));
 		type.setPrimitive(BASIC_TYPE_PATTERN.matcher(className).matches());
 		type.setArray(TypeUtils.isArrayByClassName(className));
-		type.setGenericType(false);
-		type.setGenericTypes(new ArrayList<>());
+		type.setGenericTypes(null);
 		type.setWildcard(false);
 		type.setDeclarer(null);
 		type.setNative(!Context.get().contains(className));
@@ -50,8 +49,7 @@ public class TypeFactory {
 					type.setTypeName("?");
 					type.setPrimitive(false);
 					type.setArray(false);
-					type.setGenericType(false);
-					type.setGenericTypes(new ArrayList<>());
+					type.setGenericTypes(null);
 					type.setWildcard(true);
 					type.setDeclarer(clazz);
 					type.setNative(true);
@@ -62,8 +60,7 @@ public class TypeFactory {
 					type.setTypeName(TypeUtils.getTypeName(simpleName));
 					type.setPrimitive(BASIC_TYPE_PATTERN.matcher(type.getClassName()).matches());
 					type.setArray(TypeUtils.isArray(simpleName));
-					type.setGenericType(false);
-					type.setGenericTypes(new ArrayList<>());
+					type.setGenericTypes(null);
 					type.setWildcard(false);
 					type.setDeclarer(clazz);
 					type.setNative(!Context.get().contains(type.getClassName()));
@@ -77,7 +74,6 @@ public class TypeFactory {
 				type.setTypeName(simpleName);
 				type.setPrimitive(false);
 				type.setArray(false);
-				type.setGenericType(true);
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));// 递归下去
 				type.setWildcard(false);
 				type.setDeclarer(clazz);

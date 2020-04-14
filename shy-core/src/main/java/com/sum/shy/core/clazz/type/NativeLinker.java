@@ -109,8 +109,7 @@ public class NativeLinker {
 			nativeType.setTypeName("?");
 			nativeType.setPrimitive(false);
 			nativeType.setArray(false);
-			nativeType.setGenericType(false);
-			nativeType.setGenericTypes(new ArrayList<>());
+			nativeType.setGenericTypes(null);
 			nativeType.setWildcard(true);
 			nativeType.setDeclarer(type.getDeclarer());
 			nativeType.setNative(true);
@@ -121,7 +120,6 @@ public class NativeLinker {
 			nativeType.setTypeName(clazz.getTypeName());
 			nativeType.setPrimitive(clazz.isPrimitive());
 			nativeType.setArray(clazz.isArray());
-			nativeType.setGenericType(genericTypes != null && genericTypes.size() > 0);
 			nativeType.setGenericTypes(genericTypes);
 			nativeType.setWildcard(false);
 			nativeType.setDeclarer(type.getDeclarer());
