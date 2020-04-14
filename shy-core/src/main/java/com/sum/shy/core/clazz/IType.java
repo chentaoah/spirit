@@ -65,18 +65,12 @@ public class IType {
 	}
 
 	public String build() {
-		// 最终是否打印类全名，看是否能够添加到该类型中
-		String finalName = null;
 
 		if (isWildcard())
 			return "?";
 
-		if (declarer.addImport(getClassName())) {
-			finalName = getSimpleName();
-		} else {
-			finalName = TypeUtils.getSimpleName(getClassName());
-		}
-
+		String finalName = declarer.addImport(getClassName()) ? getSimpleName() : TypeUtils.getFullName(getClassName());
+		
 		if (isGenericType()) {// 泛型
 			List<String> strs = new ArrayList<>();
 			for (IType genericType : getGenericTypes())

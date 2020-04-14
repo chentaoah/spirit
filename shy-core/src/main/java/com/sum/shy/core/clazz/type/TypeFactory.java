@@ -34,6 +34,24 @@ public class TypeFactory {
 		return type;
 	}
 
+	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
+		IType nativeType = new IType();
+		nativeType.setClassName(clazz.getName());
+		nativeType.setSimpleName(clazz.getSimpleName());
+		nativeType.setTypeName(clazz.getTypeName());
+		nativeType.setPrimitive(clazz.isPrimitive());
+		nativeType.setArray(clazz.isArray());
+		nativeType.setGenericTypes(genericTypes);
+		nativeType.setWildcard(false);
+		nativeType.setDeclarer(type.getDeclarer());
+		nativeType.setNative(true);
+		return nativeType;
+	}
+
+	public static IType createNativeType(Class<?> clazz) {
+		return createNativeType(null, clazz, null);
+	}
+
 	public static IType create(IClass clazz, String text) {
 		return create(clazz, SemanticDelegate.getToken(text));
 	}

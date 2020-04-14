@@ -37,4 +37,8 @@ public class TypeUtils {
 		return getTypeNameByClassName(className) + (isArrayByClassName(className) ? "[]" : "");
 	}
 
+	public static String getFullName(String className) {
+		return removeDecoration(className) + (isArrayByClassName(className) ? "[]" : "");
+	}
+
 }

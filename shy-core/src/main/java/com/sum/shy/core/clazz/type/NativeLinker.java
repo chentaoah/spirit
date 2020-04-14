@@ -70,7 +70,7 @@ public class NativeLinker {
 	public static IType convertNativeType(IType type, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
-			return createNativeType(type, (Class<?>) nativeType, null);
+			return TypeFactory.createNativeType(type, (Class<?>) nativeType, null);
 
 		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
 			return StaticType.WILDCARD_TYPE;// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
@@ -86,7 +86,7 @@ public class NativeLinker {
 			List<IType> genericTypes = new ArrayList<>();
 			for (Type actualType : parameterizedType.getActualTypeArguments())
 				genericTypes.add(convertNativeType(type, actualType));
-			return createNativeType(type, rawType, genericTypes);
+			return TypeFactory.createNativeType(type, rawType, genericTypes);
 		}
 
 		return null;
@@ -100,20 +100,6 @@ public class NativeLinker {
 				return i;
 		}
 		return -1;
-	}
-
-	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = new IType();
-		nativeType.setClassName(clazz.getName());
-		nativeType.setSimpleName(clazz.getSimpleName());
-		nativeType.setTypeName(clazz.getTypeName());
-		nativeType.setPrimitive(clazz.isPrimitive());
-		nativeType.setArray(clazz.isArray());
-		nativeType.setGenericTypes(genericTypes);
-		nativeType.setWildcard(false);
-		nativeType.setDeclarer(type.getDeclarer());
-		nativeType.setNative(true);
-		return nativeType;
 	}
 
 }
