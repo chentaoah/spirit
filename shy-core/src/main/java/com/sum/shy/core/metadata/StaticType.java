@@ -12,6 +12,7 @@ public class StaticType {
 	public static final IType DOUBLE_TYPE = TypeFactory.createNativeType(double.class);
 	public static final IType OBJECT_TYPE = TypeFactory.createNativeType(Object.class);
 	public static final IType STRING_TYPE = TypeFactory.createNativeType(String.class);
+	public static final IType CLASS_TYPE = TypeFactory.createNativeType(Class.class);
 
 	static {
 		// 未知类型
@@ -24,7 +25,6 @@ public class StaticType {
 		WILDCARD_TYPE.setWildcard(true);
 		WILDCARD_TYPE.setDeclarer(null);
 		WILDCARD_TYPE.setNative(false);
-
 	}
-
+	
 }
