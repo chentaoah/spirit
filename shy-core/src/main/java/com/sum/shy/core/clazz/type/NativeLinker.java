@@ -73,7 +73,7 @@ public class NativeLinker {
 			return TypeFactory.createNativeType(type, (Class<?>) nativeType, null);
 
 		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
-			return StaticType.WILDCARD_TYPE;// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
+			return StaticType.WILDCARD_TYPE;
 
 		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
