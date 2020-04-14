@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.type.IType;
 
 public class IMethod extends AbsMember {
 

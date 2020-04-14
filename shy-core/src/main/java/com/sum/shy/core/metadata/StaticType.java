@@ -1,6 +1,6 @@
 package com.sum.shy.core.metadata;
 
-import com.sum.shy.core.clazz.IType;
+import com.sum.shy.core.type.IType;
 
 public class StaticType {
 
@@ -13,7 +13,7 @@ public class StaticType {
 	public static final IType STRING_TYPE = new IType();
 
 	static {
-
+		// 未知类型
 		WILDCARD_TYPE.setClassName(null);
 		WILDCARD_TYPE.setSimpleName(null);
 		WILDCARD_TYPE.setTypeName(null);
@@ -24,9 +24,9 @@ public class StaticType {
 		WILDCARD_TYPE.setDeclarer(null);
 		WILDCARD_TYPE.setNative(false);
 
-		BOOLEAN_TYPE.setClassName(null);
-		BOOLEAN_TYPE.setSimpleName(null);
-		BOOLEAN_TYPE.setTypeName(null);
+		BOOLEAN_TYPE.setClassName(boolean.class.getName());
+		BOOLEAN_TYPE.setSimpleName(boolean.class.getSimpleName());
+		BOOLEAN_TYPE.setTypeName(boolean.class.getTypeName());
 		BOOLEAN_TYPE.setPrimitive(false);
 		BOOLEAN_TYPE.setArray(false);
 		BOOLEAN_TYPE.setGenericTypes(null);

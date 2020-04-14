@@ -3,9 +3,9 @@ package com.sum.shy.core.document;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.core.type.IType;
 
 public class Token {
 

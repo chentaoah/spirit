@@ -1,10 +1,11 @@
-package com.sum.shy.core.clazz;
+package com.sum.shy.core.type;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.utils.TypeUtils;
 
 /**

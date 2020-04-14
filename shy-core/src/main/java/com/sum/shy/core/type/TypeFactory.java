@@ -1,11 +1,10 @@
-package com.sum.shy.core.clazz.type;
+package com.sum.shy.core.type;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;

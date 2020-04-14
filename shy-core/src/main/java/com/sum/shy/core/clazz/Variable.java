@@ -1,5 +1,7 @@
 package com.sum.shy.core.clazz;
 
+import com.sum.shy.core.type.IType;
+
 public class Variable {
 
 	public String blockId;

@@ -1,10 +1,11 @@
-package com.sum.shy.core.clazz.type;
+package com.sum.shy.core.type.link;
 
 import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.type.IType;
+import com.sum.shy.core.type.TypeFactory;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class TypeLinker {

@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.type.IType;
 
 public class StmtConverter {
 

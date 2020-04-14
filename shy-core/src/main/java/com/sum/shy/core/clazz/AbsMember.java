@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.document.Element;
+import com.sum.shy.core.type.IType;
 
 public abstract class AbsMember {
 	// 注解
