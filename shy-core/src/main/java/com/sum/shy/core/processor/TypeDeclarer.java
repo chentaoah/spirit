@@ -11,12 +11,12 @@ public class TypeDeclarer {
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			Token typeToken = element.getToken(0);
 			Token varToken = element.getToken(1);
-			varToken.setTypeAtt(TypeFactory.resolve(clazz, typeToken));
+			varToken.setTypeAtt(TypeFactory.create(clazz, typeToken));
 
 		} else if (element.isCatch()) {// }catch Exception e{
 			Token typeToken = element.getToken(2);
 			Token varToken = element.getToken(3);
-			varToken.setTypeAtt(TypeFactory.resolve(clazz, typeToken));
+			varToken.setTypeAtt(TypeFactory.create(clazz, typeToken));
 		}
 	}
 

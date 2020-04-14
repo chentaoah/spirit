@@ -50,7 +50,7 @@ public class MemberVisiter {
 				if (token.isAnnotation()) {
 					parameter.annotations.add(new IAnnotation(token));
 				} else if (token.isType()) {
-					parameter.type = TypeFactory.resolve(clazz, token);
+					parameter.type = TypeFactory.create(clazz, token);
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
 				}
@@ -85,7 +85,7 @@ public class MemberVisiter {
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
 		if (method.element.isFuncDeclare()) {// 声明了返回类型的方法，直接返回类型
-			return TypeFactory.resolve(clazz, method.element.getToken(0));
+			return TypeFactory.create(clazz, method.element.getToken(0));
 
 		} else if (method.element.isFunc()) {
 			MethodContext context = new MethodContext();

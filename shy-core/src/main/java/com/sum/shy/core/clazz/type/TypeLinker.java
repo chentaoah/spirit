@@ -2,77 +2,58 @@ package com.sum.shy.core.clazz.type;
 
 import java.util.List;
 
-import com.sum.shy.core.MemberVisiter;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.lib.StringUtils;
+import com.sum.shy.core.utils.ReflectUtils;
 
 public class TypeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
-		return !type.isNative() ? visitCodeField(type, fieldName) : visitNativeField(type, fieldName);
+		return !type.isNative() ? CodeLinker.visitField(type, fieldName) : NativeLinker.visitField(type, fieldName);
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return !type.isNative() ? visitCodeMethod(type, methodName, parameterTypes)
-				: visitNativeMethod(type, methodName, parameterTypes);
-	}
-
-	private static IType visitCodeField(IType type, String fieldName) {
-		String className = type.getClassName();
-		IClass clazz = Context.get().findClass(className);
-		if (StringUtils.isNotEmpty(fieldName)) {
-			if (Constants.CLASS_KEYWORD.equals(fieldName))
-				return TypeFactory.create(type.getDeclarer(), "Class<?>");
-
-			if (clazz.existField(fieldName)) {
-				IField field = clazz.getField(fieldName);
-				return MemberVisiter.visitMember(clazz, field);
-
-			} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-				return visitField(TypeFactory.create(clazz, clazz.getSuperName()), fieldName);
-			}
-		}
-		return null;
-	}
-
-	private static IType visitCodeMethod(IType type, String methodName, List<IType> parameterTypes) {
-		String className = type.getClassName();
-		IClass clazz = Context.get().findClass(className);
-		if (StringUtils.isNotEmpty(methodName)) {
-			if (Constants.SUPER_KEYWORD.equals(methodName))
-				return TypeFactory.create(clazz, clazz.getSuperName());
-
-			if (Constants.THIS_KEYWORD.equals(methodName))
-				return TypeFactory.create(clazz, clazz.getTypeName());
-
-			if (clazz.existMethod(methodName, parameterTypes)) {
-				IMethod method = clazz.getMethod(methodName, parameterTypes);
-				return MemberVisiter.visitMember(clazz, method);
-
-			} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-				return visitMethod(TypeFactory.create(clazz, clazz.getSuperName()), methodName, parameterTypes);
-			}
-		}
-		return null;
-	}
-
-	private static IType visitNativeField(IType type, String fieldName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private static IType visitNativeMethod(IType type, String methodName, List<IType> parameterTypes) {
-		// TODO Auto-generated method stub
-		return null;
+		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes)
+				: visitMethod(type, methodName, parameterTypes);
 	}
 
 	public static boolean isAssignableFrom(IType father, IType type) {
+		// 如果两个className相同，则直接返回
+		if (father.equals(type))
+			return true;
+
+		if (!type.isNative()) {
+			IClass clazz = Context.get().findClass(type.getClassName());
+			// 1.判断父类和接口是否是
+			String superName = clazz.getSuperName();
+			if (father.getClassName().equals(superName))
+				return true;
+			List<String> interfaces = clazz.getInterfaces();
+			for (String inter : interfaces) {
+				if (father.getClassName().equals(inter))
+					return true;
+			}
+			// 2.向上递归
+			boolean flag = isAssignableFrom(father, TypeFactory.create(superName));
+			if (!flag) {
+				for (String inter : interfaces) {
+					flag = isAssignableFrom(father, TypeFactory.create(inter));
+					if (flag)
+						break;
+				}
+			}
+			return flag;
+
+		} else {
+			if (father.isNative()) {// 按照编译规则，Native类是不可能够访问到未曾编译的代码
+				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
+				Class<?> fatherClass = ReflectUtils.getClass(father.getClassName());
+				return fatherClass.isAssignableFrom(clazz);
+			}
+		}
 		return false;
+
 	}
 
 }

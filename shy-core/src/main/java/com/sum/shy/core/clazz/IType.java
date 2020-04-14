@@ -75,7 +75,7 @@ public class IType {
 		if (declarer.addImport(getClassName())) {
 			finalName = getSimpleName();
 		} else {
-			finalName = TypeUtils.removeDecoration(getClassName()) + (isArray() ? "[]" : "");
+			finalName = TypeUtils.getSimpleName(getClassName());
 		}
 
 		if (isGenericType()) {// 泛型

@@ -30,7 +30,7 @@ public class InvokeVisiter {
 		if (token.getTypeAtt() == null) {
 
 			if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
-				token.setTypeAtt(TypeFactory.resolve(clazz, token));
+				token.setTypeAtt(TypeFactory.create(clazz, token));
 
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));

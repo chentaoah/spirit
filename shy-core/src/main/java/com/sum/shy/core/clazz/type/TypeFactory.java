@@ -20,11 +20,26 @@ public class TypeFactory {
 
 	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
 
-	public static IType create(IClass clazz, String text) {
-		return resolve(clazz, SemanticDelegate.getToken(text));
+	public static IType create(String className) {
+		IType type = new IType();
+		type.setClassName(className);
+		type.setSimpleName(TypeUtils.getSimpleName(className));
+		type.setTypeName(TypeUtils.getTypeNameByClassName(className));
+		type.setPrimitive(BASIC_TYPE_PATTERN.matcher(className).matches());
+		type.setArray(TypeUtils.isArrayByClassName(className));
+		type.setGenericType(false);
+		type.setGenericTypes(new ArrayList<>());
+		type.setWildcard(false);
+		type.setDeclarer(null);
+		type.setNative(!Context.get().contains(className));
+		return type;
 	}
 
-	public static IType resolve(IClass clazz, Token token) {
+	public static IType create(IClass clazz, String text) {
+		return create(clazz, SemanticDelegate.getToken(text));
+	}
+
+	public static IType create(IClass clazz, Token token) {
 		if (token.isType()) {
 			IType type = new IType();
 			if (token.value instanceof String) {// String // String[]
@@ -85,7 +100,7 @@ public class TypeFactory {
 		for (int i = 1; i < subStmt.size(); i++) {
 			Token subToken = subStmt.getToken(i);
 			if (subToken.isType())
-				genericTypes.add(resolve(clazz, subToken));
+				genericTypes.add(create(clazz, subToken));
 		}
 		return genericTypes;
 	}
