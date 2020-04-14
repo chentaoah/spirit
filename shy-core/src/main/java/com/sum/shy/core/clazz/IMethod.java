@@ -30,7 +30,7 @@ public class IMethod extends AbsMember {
 			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
 			isInit = true;
 			isSync = false;
-			name = methodToken.getTypeNameAtt();
+			name = methodToken.getSimpleNameAtt();
 		} else {
 			isInit = false;
 			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);

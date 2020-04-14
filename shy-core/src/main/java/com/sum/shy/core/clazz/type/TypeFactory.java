@@ -75,7 +75,7 @@ public class TypeFactory {
 			return type;
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, token.getTypeNameAtt());
+			return create(clazz, token.getSimpleNameAtt());
 
 		} else if (token.isValue()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);

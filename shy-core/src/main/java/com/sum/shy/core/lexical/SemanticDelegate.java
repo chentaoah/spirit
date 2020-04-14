@@ -331,15 +331,15 @@ public class SemanticDelegate {
 	public static void getAttachments(Token token, String word) {
 
 		if (token.isArrayInit()) {// 数组构造
-			token.setTypeNameAtt(getPrefix(word) + "[]");
+			token.setSimpleNameAtt(getPrefix(word) + "[]");
 			return;
 
 		} else if (token.isTypeInit()) {// 构造
-			token.setTypeNameAtt(getPrefix(word));
+			token.setSimpleNameAtt(getPrefix(word));
 			return;
 
 		} else if (token.isCast()) {// 强制类型转换
-			token.setTypeNameAtt(getCastType(word));
+			token.setSimpleNameAtt(getCastType(word));
 			return;
 
 		} else if (token.isAccess()) {// 属性访问

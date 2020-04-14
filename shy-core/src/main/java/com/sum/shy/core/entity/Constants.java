@@ -106,7 +106,7 @@ public class Constants {
 	public static final String PREFIX_TOKEN = "prefix";// 前缀
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
-	public static final String TYPE_NAME_ATTACHMENT = "type_name";// 类名
+	public static final String SIMPLE_NAME_ATTACHMENT = "simple_name";// 类名
 	public static final String MEMBER_NAME_ATTACHMENT = "member_name";// 成员名
 	public static final String IS_DECLARED_ATTACHMENT = "is_declared";// 是否被声明标志
 	public static final String POSITION_ATTACHMENT = "position";// 位置

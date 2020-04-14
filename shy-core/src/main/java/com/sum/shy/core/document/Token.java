@@ -252,12 +252,12 @@ public class Token {
 
 	// =================== 类名 =====================
 
-	public String getTypeNameAtt() {
-		return (String) attachments.get(Constants.TYPE_NAME_ATTACHMENT);
+	public String getSimpleNameAtt() {
+		return (String) attachments.get(Constants.SIMPLE_NAME_ATTACHMENT);
 	}
 
-	public void setTypeNameAtt(String str) {
-		attachments.put(Constants.TYPE_NAME_ATTACHMENT, str);
+	public void setSimpleNameAtt(String str) {
+		attachments.put(Constants.SIMPLE_NAME_ATTACHMENT, str);
 	}
 
 	// =================== 成员名称 =====================
