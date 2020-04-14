@@ -87,8 +87,8 @@ public class NativeLinker {
 			for (Type actualType : parameterizedType.getActualTypeArguments())
 				genericTypes.add(convertNativeType(type, actualType));
 			return TypeFactory.createNativeType(type, clazz, genericTypes);
-		}
 
+		}
 		return null;
 	}
 
