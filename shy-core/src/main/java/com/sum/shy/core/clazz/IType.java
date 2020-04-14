@@ -7,6 +7,12 @@ import java.util.Map;
 import com.google.common.base.Joiner;
 import com.sum.shy.core.utils.TypeUtils;
 
+/**
+ * 指的是在IClass中，由代码声明的类型
+ * 
+ * @author chentao26275
+ *
+ */
 public class IType {
 
 	private String className;
@@ -79,7 +85,7 @@ public class IType {
 			return finalName + "<" + Joiner.on(", ").join(strs) + ">";
 		}
 
-		return null;
+		return finalName;
 	}
 
 	@Override

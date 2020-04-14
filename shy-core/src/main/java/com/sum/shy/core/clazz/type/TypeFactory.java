@@ -31,8 +31,8 @@ public class TypeFactory {
 				String simpleName = (String) token.value;
 				if ("?".equals(simpleName)) {// 未知类型
 					type.setClassName(WildcardType.class.getName());
-					type.setSimpleName(simpleName);
-					type.setTypeName(simpleName);
+					type.setSimpleName("?");
+					type.setTypeName("?");
 					type.setPrimitive(false);
 					type.setArray(false);
 					type.setGenericType(false);

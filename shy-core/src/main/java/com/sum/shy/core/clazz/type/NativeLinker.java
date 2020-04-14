@@ -17,11 +17,11 @@ import com.sum.shy.lib.StringUtils;
 public class NativeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
-		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		try {
 			if (StringUtils.isNotEmpty(fieldName)) {
+				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 				Field field = clazz.getField(fieldName);
-				return visitMember(type, field.getGenericType());
+				return convertNativeType(type, field.getGenericType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,7 +33,7 @@ public class NativeLinker {
 		try {
 			if (StringUtils.isNotEmpty(methodName)) {
 				Method method = findMethod(type, methodName, parameterTypes);
-				return visitMember(type, method.getGenericReturnType());
+				return convertNativeType(type, method.getGenericReturnType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public class NativeLinker {
 				boolean flag = true;
 				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
-					IType paramType = NativeLinker.visitMember(type, parameter.getParameterizedType());
+					IType paramType = convertNativeType(type, parameter.getParameterizedType());
 					IType parameterType = parameterTypes.get(count++);
 					if (!(TypeLinker.isAssignableFrom(paramType, parameterType))) {
 						flag = false;
@@ -66,26 +66,26 @@ public class NativeLinker {
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
-	public static IType visitMember(IType type, Type memberType) {
+	public static IType convertNativeType(IType type, Type nativeType) {
 
-		if (memberType instanceof Class) {// 一部分类型可以直接转换
-			return createNativeType((Class<?>) memberType, null);
+		if (nativeType instanceof Class) {// 一部分类型可以直接转换
+			return createNativeType(type, (Class<?>) nativeType, null);
 
-		} else if (memberType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
-			return createNativeType(WildcardType.class, null);// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
+		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
+			return createNativeType(type, WildcardType.class, null);// 这里实在不知道放什么好,所以索性直接将这个不确定类型的class放进去了
 
-		} else if (memberType instanceof TypeVariable) {// 泛型参数 E or K or V
+		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-			int index = getTypeVariableIndex(clazz, memberType.toString());// 获取这个泛型名称在类中的index
+			int index = getTypeVariableIndex(clazz, nativeType.toString());// 获取这个泛型名称在类中的index
 			return type.getGenericTypes().get(index);
 
-		} else if (memberType instanceof ParameterizedType) {// 泛型 List<E>
-			ParameterizedType parameterizedType = (ParameterizedType) memberType;
+		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
+			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
 			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
 			List<IType> genericTypes = new ArrayList<>();
 			for (Type actualType : parameterizedType.getActualTypeArguments())
-				genericTypes.add(visitMember(type, actualType));
-			return createNativeType(rawType, genericTypes);
+				genericTypes.add(convertNativeType(type, actualType));
+			return createNativeType(type, rawType, genericTypes);
 		}
 
 		return null;
@@ -101,8 +101,33 @@ public class NativeLinker {
 		return -1;
 	}
 
-	public static IType createNativeType(Class<?> clazz, List<IType> genericTypes) {
-		return null;
+	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
+		IType nativeType = new IType();
+		if (clazz == WildcardType.class) {
+			nativeType.setClassName(WildcardType.class.getName());
+			nativeType.setSimpleName("?");
+			nativeType.setTypeName("?");
+			nativeType.setPrimitive(false);
+			nativeType.setArray(false);
+			nativeType.setGenericType(false);
+			nativeType.setGenericTypes(new ArrayList<>());
+			nativeType.setWildcard(true);
+			nativeType.setDeclarer(type.getDeclarer());
+			nativeType.setNative(true);
+
+		} else {
+			nativeType.setClassName(clazz.getName());
+			nativeType.setSimpleName(clazz.getSimpleName());
+			nativeType.setTypeName(clazz.getTypeName());
+			nativeType.setPrimitive(clazz.isPrimitive());
+			nativeType.setArray(clazz.isArray());
+			nativeType.setGenericType(genericTypes != null && genericTypes.size() > 0);
+			nativeType.setGenericTypes(genericTypes);
+			nativeType.setWildcard(false);
+			nativeType.setDeclarer(type.getDeclarer());
+			nativeType.setNative(true);
+		}
+		return nativeType;
 	}
 
 }
