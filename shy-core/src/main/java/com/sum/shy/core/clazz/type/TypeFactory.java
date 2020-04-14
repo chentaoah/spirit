@@ -20,56 +20,7 @@ public class TypeFactory {
 
 	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
 
-	public static IType create(IClass clazz, String text) {
-		return create(clazz, SemanticDelegate.getToken(text));
-	}
-
-	public static IType create(IClass clazz, Token token) {
-		if (token.isType()) {
-			IType type = new IType();
-			if (token.value instanceof String) {// String // String[] //?
-				String simpleName = (String) token.value;
-				if ("?".equals(simpleName)) {// 未知类型
-					type = StaticType.WILDCARD_TYPE;
-
-				} else {// 一般类型
-					type.setClassName(clazz.findImport(simpleName));
-					type.setSimpleName(simpleName);
-					type.setTypeName(TypeUtils.getTypeName(simpleName));
-					type.setPrimitive(BASIC_TYPE_PATTERN.matcher(type.getClassName()).matches());
-					type.setArray(TypeUtils.isArray(simpleName));
-					type.setGenericTypes(null);
-					type.setWildcard(false);
-					type.setDeclarer(clazz);
-					type.setNative(!Context.get().contains(type.getClassName()));
-
-				}
-			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
-				Stmt subStmt = token.getStmt();
-				String simpleName = subStmt.getStr(0);// 前缀
-				type.setClassName(clazz.findImport(simpleName));
-				type.setSimpleName(simpleName);
-				type.setTypeName(simpleName);
-				type.setPrimitive(false);
-				type.setArray(false);
-				type.setGenericTypes(getGenericTypes(clazz, subStmt));// 递归下去
-				type.setWildcard(false);
-				type.setDeclarer(clazz);
-				type.setNative(!Context.get().contains(type.getClassName()));
-
-			}
-			return type;
-
-		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, token.getSimpleNameAtt());
-
-		} else if (token.isValue()) {// 1, 1.1, "xxxx"
-			return getValueType(clazz, token);
-		}
-		return null;
-	}
-
-	public static IType create(String className) {
+	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
@@ -83,22 +34,51 @@ public class TypeFactory {
 		return type;
 	}
 
+	public static IType create(IClass clazz, String text) {
+		return create(clazz, SemanticDelegate.getToken(text));
+	}
+
+	public static IType create(IClass clazz, Token token) {
+		if (token.isType()) {
+			IType type = new IType();
+			if (token.value instanceof String) {// String // String[] //?
+				String simpleName = (String) token.value;
+				if ("?".equals(simpleName)) {// 未知类型
+					type = StaticType.WILDCARD_TYPE;
+
+				} else {// 一般类型
+					type = create(clazz.findImport(simpleName));
+					type.setDeclarer(clazz);
+				}
+
+			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
+				Stmt subStmt = token.getStmt();
+				String simpleName = subStmt.getStr(0);// 前缀
+				type = create(clazz.findImport(simpleName));
+				type.setGenericTypes(getGenericTypes(clazz, subStmt));
+				type.setDeclarer(clazz);
+
+			}
+			return type;
+
+		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
+			return create(clazz, token.getSimpleNameAtt());
+
+		} else if (token.isValue()) {// 1, 1.1, "xxxx"
+			return getValueType(clazz, token);
+		}
+		return null;
+	}
+
 	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = new IType();
-		nativeType.setClassName(clazz.getName());
-		nativeType.setSimpleName(clazz.getSimpleName());
-		nativeType.setTypeName(clazz.getTypeName());
-		nativeType.setPrimitive(clazz.isPrimitive());
-		nativeType.setArray(clazz.isArray());
+		IType nativeType = create(clazz.getName());
 		nativeType.setGenericTypes(genericTypes);
-		nativeType.setWildcard(false);
 		nativeType.setDeclarer(type.getDeclarer());
-		nativeType.setNative(true);
 		return nativeType;
 	}
 
 	public static IType createNativeType(Class<?> clazz) {
-		return createNativeType(null, clazz, null);
+		return create(clazz.getName());
 	}
 
 	private static List<IType> getGenericTypes(IClass clazz, Stmt subStmt) {
