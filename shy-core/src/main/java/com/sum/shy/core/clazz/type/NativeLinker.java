@@ -82,11 +82,11 @@ public class NativeLinker {
 
 		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
 			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
-			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
+			Class<?> clazz = (Class<?>) parameterizedType.getRawType();
 			List<IType> genericTypes = new ArrayList<>();
 			for (Type actualType : parameterizedType.getActualTypeArguments())
 				genericTypes.add(convertNativeType(type, actualType));
-			return TypeFactory.createNativeType(type, rawType, genericTypes);
+			return TypeFactory.createNativeType(type, clazz, genericTypes);
 		}
 
 		return null;
