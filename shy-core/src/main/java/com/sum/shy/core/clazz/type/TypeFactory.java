@@ -20,38 +20,6 @@ public class TypeFactory {
 
 	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
 
-	public static IType create(String className) {
-		IType type = new IType();
-		type.setClassName(className);
-		type.setSimpleName(TypeUtils.getSimpleName(className));
-		type.setTypeName(TypeUtils.getTypeNameByClassName(className));
-		type.setPrimitive(BASIC_TYPE_PATTERN.matcher(className).matches());
-		type.setArray(TypeUtils.isArrayByClassName(className));
-		type.setGenericTypes(null);
-		type.setWildcard(false);
-		type.setDeclarer(null);
-		type.setNative(!Context.get().contains(className));
-		return type;
-	}
-
-	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = new IType();
-		nativeType.setClassName(clazz.getName());
-		nativeType.setSimpleName(clazz.getSimpleName());
-		nativeType.setTypeName(clazz.getTypeName());
-		nativeType.setPrimitive(clazz.isPrimitive());
-		nativeType.setArray(clazz.isArray());
-		nativeType.setGenericTypes(genericTypes);
-		nativeType.setWildcard(false);
-		nativeType.setDeclarer(type.getDeclarer());
-		nativeType.setNative(true);
-		return nativeType;
-	}
-
-	public static IType createNativeType(Class<?> clazz) {
-		return createNativeType(null, clazz, null);
-	}
-
 	public static IType create(IClass clazz, String text) {
 		return create(clazz, SemanticDelegate.getToken(text));
 	}
@@ -99,6 +67,38 @@ public class TypeFactory {
 			return getValueType(clazz, token);
 		}
 		return null;
+	}
+
+	public static IType create(String className) {
+		IType type = new IType();
+		type.setClassName(className);
+		type.setSimpleName(TypeUtils.getSimpleName(className));
+		type.setTypeName(TypeUtils.getTypeNameByClassName(className));
+		type.setPrimitive(BASIC_TYPE_PATTERN.matcher(className).matches());
+		type.setArray(TypeUtils.isArrayByClassName(className));
+		type.setGenericTypes(null);
+		type.setWildcard(false);
+		type.setDeclarer(null);
+		type.setNative(!Context.get().contains(className));
+		return type;
+	}
+
+	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
+		IType nativeType = new IType();
+		nativeType.setClassName(clazz.getName());
+		nativeType.setSimpleName(clazz.getSimpleName());
+		nativeType.setTypeName(clazz.getTypeName());
+		nativeType.setPrimitive(clazz.isPrimitive());
+		nativeType.setArray(clazz.isArray());
+		nativeType.setGenericTypes(genericTypes);
+		nativeType.setWildcard(false);
+		nativeType.setDeclarer(type.getDeclarer());
+		nativeType.setNative(true);
+		return nativeType;
+	}
+
+	public static IType createNativeType(Class<?> clazz) {
+		return createNativeType(null, clazz, null);
 	}
 
 	private static List<IType> getGenericTypes(IClass clazz, Stmt subStmt) {
