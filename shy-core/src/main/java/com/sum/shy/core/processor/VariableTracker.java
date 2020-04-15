@@ -60,11 +60,11 @@ public class VariableTracker {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return TypeFactory.create(clazz, clazz.getSuperName());
+			return TypeFactory.createType(clazz, clazz.getSuperName());
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return TypeFactory.create(clazz, clazz.getSimpleName());
+			return TypeFactory.createType(clazz, clazz.getClassName());
 
 		// 先在方法上下文中找
 		if (context != null) {
@@ -92,7 +92,7 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName()))
-			return TypeLinker.visitField(TypeFactory.create(clazz, clazz.getSuperName()), name);
+			return TypeLinker.visitField(TypeFactory.createType(clazz, clazz.getSuperName()), name);
 
 		return null;
 
