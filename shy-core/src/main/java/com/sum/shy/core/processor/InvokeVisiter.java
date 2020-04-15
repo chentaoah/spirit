@@ -35,7 +35,7 @@ public class InvokeVisiter {
 				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
-				IType type = TypeFactory.createType(clazz, clazz.getClassName());
+				IType type = TypeFactory.createType(clazz, clazz.getClassName());// 这个class本身
 				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
@@ -49,10 +49,10 @@ public class InvokeVisiter {
 				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
-			} else if (token.isVisitArrayIndex()) {
+			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
 				IType type = stmt.getToken(index - 1).getTypeAtt();
 				IType returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
-				returnType = TypeFactory.create(clazz, returnType.getTypeName());
+				returnType = TypeFactory.createType(clazz, returnType.getTargetName());
 				token.setTypeAtt(returnType);
 
 			}
