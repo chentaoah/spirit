@@ -73,7 +73,7 @@ public class IType {
 		if (isWildcard())
 			return "?";
 
-		String finalName = declarer.addImport(getClassName()) ? getSimpleName() : getTypeName();
+		String finalName = declarer.addImport(getTargetName()) ? getSimpleName() : getTypeName();
 
 		if (isGenericType()) {// 泛型
 			List<String> strs = new ArrayList<>();
