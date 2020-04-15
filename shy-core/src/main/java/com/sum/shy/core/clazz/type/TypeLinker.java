@@ -40,10 +40,10 @@ public class TypeLinker {
 					return true;
 			}
 			// 2.向上递归
-			boolean flag = isAssignableFrom(father, TypeFactory.create(superName));
+			boolean flag = isAssignableFrom(father, TypeFactory.createType(clazz, superName));
 			if (!flag) {
 				for (String inter : interfaces) {
-					flag = isAssignableFrom(father, TypeFactory.create(inter));
+					flag = isAssignableFrom(father, TypeFactory.createType(clazz, inter));
 					if (flag)
 						break;
 				}

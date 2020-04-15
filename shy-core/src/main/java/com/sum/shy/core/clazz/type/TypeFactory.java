@@ -17,7 +17,7 @@ import com.sum.shy.core.utils.TypeUtils;
 
 public class TypeFactory {
 
-	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
+	public static IType createType(IClass clazz, String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
@@ -26,7 +26,7 @@ public class TypeFactory {
 		type.setArray(TypeUtils.isArray(className));
 		type.setGenericTypes(null);
 		type.setWildcard(false);
-		type.setDeclarer(null);
+		type.setDeclarer(clazz);// 绑定声明的类
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
 		return type;
 	}
@@ -44,16 +44,15 @@ public class TypeFactory {
 					type = StaticType.WILDCARD_TYPE;
 
 				} else {// 一般类型
-					type = create(clazz.findImport(simpleName));
+					type = createType(clazz, clazz.findImport(simpleName));
 					type.setDeclarer(clazz);
 				}
 
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
 				Stmt subStmt = token.getStmt();
 				String simpleName = subStmt.getStr(0);// 前缀
-				type = create(clazz.findImport(simpleName));
+				type = createType(clazz, clazz.findImport(simpleName));
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));
-				type.setDeclarer(clazz);
 
 			}
 			return type;
@@ -68,14 +67,13 @@ public class TypeFactory {
 	}
 
 	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = create(clazz.getName());
+		IType nativeType = createType(type.getDeclarer(), clazz.getName());
 		nativeType.setGenericTypes(genericTypes);
-		nativeType.setDeclarer(type.getDeclarer());
 		return nativeType;
 	}
 
 	public static IType createNativeType(Class<?> clazz) {
-		return create(clazz.getName());
+		return createType(null, clazz.getName());
 	}
 
 	private static List<IType> getGenericTypes(IClass clazz, Stmt subStmt) {
