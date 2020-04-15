@@ -6,15 +6,15 @@ import com.sum.shy.lib.Collection;
 
 public class StaticType {
 
-	public static final IType VOID_TYPE = TypeFactory.createNativeType(void.class);
-	public static final IType WILDCARD_TYPE = TypeFactory.createNativeType(Object.class);
-	public static final IType BOOLEAN_TYPE = TypeFactory.createNativeType(boolean.class);
-	public static final IType INT_TYPE = TypeFactory.createNativeType(int.class);
-	public static final IType LONG_TYPE = TypeFactory.createNativeType(long.class);
-	public static final IType DOUBLE_TYPE = TypeFactory.createNativeType(double.class);
-	public static final IType OBJECT_TYPE = TypeFactory.createNativeType(Object.class);
-	public static final IType STRING_TYPE = TypeFactory.createNativeType(String.class);
-	public static final IType CLASS_TYPE = TypeFactory.createNativeType(Class.class);
+	public static final IType VOID_TYPE = TypeFactory.create(void.class);
+	public static final IType WILDCARD_TYPE = TypeFactory.create(Object.class);
+	public static final IType BOOLEAN_TYPE = TypeFactory.create(boolean.class);
+	public static final IType INT_TYPE = TypeFactory.create(int.class);
+	public static final IType LONG_TYPE = TypeFactory.create(long.class);
+	public static final IType DOUBLE_TYPE = TypeFactory.create(double.class);
+	public static final IType OBJECT_TYPE = TypeFactory.create(Object.class);
+	public static final IType STRING_TYPE = TypeFactory.create(String.class);
+	public static final IType CLASS_TYPE = TypeFactory.create(Class.class);
 
 	static {
 		WILDCARD_TYPE.setWildcard(true);// ?

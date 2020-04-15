@@ -31,6 +31,16 @@ public class TypeFactory {
 		return type;
 	}
 
+	public static IType create(Class<?> clazz) {
+		return create(clazz.getName());
+	}
+
+	public static IType create(Class<?> clazz, List<IType> genericTypes) {
+		IType type = create(clazz);
+		type.setGenericTypes(genericTypes);
+		return type;
+	}
+
 	public static IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\", please use the method createType!");
 		return create(clazz, SemanticDelegate.getToken(text));
@@ -63,16 +73,6 @@ public class TypeFactory {
 			return getValueType(clazz, token);
 		}
 		return null;
-	}
-
-	public static IType createNativeType(Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = createNativeType(clazz);
-		nativeType.setGenericTypes(genericTypes);
-		return nativeType;
-	}
-
-	public static IType createNativeType(Class<?> clazz) {
-		return create(clazz.getName());
 	}
 
 	private static List<IType> getGenericTypes(IClass clazz, Stmt subStmt) {

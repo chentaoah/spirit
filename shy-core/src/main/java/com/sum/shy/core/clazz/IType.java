@@ -39,8 +39,30 @@ public class IType {
 
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
-			if (StringUtils.isNotEmpty(clazz.getSuperName()))
-				return TypeFactory.create(clazz.getSuperName());
+			String superName = clazz.getSuperName();
+			if (StringUtils.isNotEmpty(superName))
+				return TypeFactory.create(superName);
+
+		} else {
+			Class<?> clazz = ReflectUtils.getClass(getTargetName());
+			Class<?> superClass = clazz.getSuperclass();
+			if (superClass != null)
+				return TypeFactory.create(superClass.getName());
+		}
+
+		return null;
+	}
+
+	public IType getInterfaces() {
+		// 数组类型是不存在着父类的
+		if (isArray())
+			return null;
+
+		if (!isNative()) {
+			IClass clazz = Context.get().findClass(getTargetName());
+			String superName = clazz.getSuperName();
+			if (StringUtils.isNotEmpty(superName))
+				return TypeFactory.create(superName);
 
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
