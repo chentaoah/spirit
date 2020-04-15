@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.sum.shy.core.clazz.type.TypeFactory;
+import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -22,11 +26,30 @@ public class IType {
 	private boolean isArray;
 	private List<IType> genericTypes = new ArrayList<>();
 	private boolean isWildcard;
-	protected IClass declarer;
 	private boolean isNative;
 
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
+	}
+
+	public IType getSuperType() {
+		// 数组类型是不存在着父类的
+		if (isArray())
+			return null;
+
+		if (!isNative()) {
+			IClass clazz = Context.get().findClass(getTargetName());
+			if (StringUtils.isNotEmpty(clazz.getSuperName()))
+				return TypeFactory.create(clazz.getSuperName());
+
+		} else {
+			Class<?> clazz = ReflectUtils.getClass(getTargetName());
+			Class<?> superClass = clazz.getSuperclass();
+			if (superClass != null)
+				return TypeFactory.create(superClass.getName());
+		}
+
+		return null;
 	}
 
 	public boolean isVoid() {
@@ -68,17 +91,17 @@ public class IType {
 		return false;
 	}
 
-	public String build() {
+	public String build(IClass clazz) {
 
 		if (isWildcard())
 			return "?";
 
-		String finalName = declarer.addImport(getTargetName()) ? getSimpleName() : getTypeName();
+		String finalName = clazz.addImport(getTargetName()) ? getSimpleName() : getTypeName();
 
 		if (isGenericType()) {// 泛型
 			List<String> strs = new ArrayList<>();
 			for (IType genericType : getGenericTypes())
-				strs.add(genericType.build());
+				strs.add(genericType.build(clazz));
 			return finalName + "<" + Joiner.on(", ").join(strs) + ">";
 		}
 
@@ -148,14 +171,6 @@ public class IType {
 
 	public void setWildcard(boolean isWildcard) {
 		this.isWildcard = isWildcard;
-	}
-
-	public IClass getDeclarer() {
-		return declarer;
-	}
-
-	public void setDeclarer(IClass declarer) {
-		this.declarer = declarer;
 	}
 
 	public boolean isNative() {

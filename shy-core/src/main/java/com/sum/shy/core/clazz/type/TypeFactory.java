@@ -18,7 +18,7 @@ import com.sum.shy.lib.Assert;
 
 public class TypeFactory {
 
-	public static IType createType(IClass clazz, String className) {// 一般来说，className可以直接反应出大部分属性
+	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
@@ -27,7 +27,6 @@ public class TypeFactory {
 		type.setArray(TypeUtils.isArray(className));
 		type.setGenericTypes(null);
 		type.setWildcard(false);
-		type.setDeclarer(clazz);// 绑定声明的类
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
 		return type;
 	}
@@ -46,13 +45,13 @@ public class TypeFactory {
 					type = StaticType.WILDCARD_TYPE;
 
 				} else {// 一般类型
-					type = createType(clazz, clazz.findImport(simpleName));
+					type = create(clazz.findImport(simpleName));
 				}
 
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
 				Stmt subStmt = token.getStmt();
 				String simpleName = subStmt.getStr(0);// 前缀
-				type = createType(clazz, clazz.findImport(simpleName));
+				type = create(clazz.findImport(simpleName));
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));
 			}
 			return type;
@@ -66,14 +65,14 @@ public class TypeFactory {
 		return null;
 	}
 
-	public static IType createNativeType(IType type, Class<?> clazz, List<IType> genericTypes) {
-		IType nativeType = createType(type.getDeclarer(), clazz.getName());
+	public static IType createNativeType(Class<?> clazz, List<IType> genericTypes) {
+		IType nativeType = createNativeType(clazz);
 		nativeType.setGenericTypes(genericTypes);
 		return nativeType;
 	}
 
 	public static IType createNativeType(Class<?> clazz) {
-		return createType(null, clazz.getName());
+		return create(clazz.getName());
 	}
 
 	private static List<IType> getGenericTypes(IClass clazz, Stmt subStmt) {
@@ -130,7 +129,7 @@ public class TypeFactory {
 		if (!isSame || genericType == null)
 			return create(clazz, "List<Object>");
 
-		IType finalType = createType(clazz, List.class.getName());
+		IType finalType = create(List.class.getName());
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -168,7 +167,7 @@ public class TypeFactory {
 		finalKeyType = !isSameKey || finalKeyType == null ? StaticType.OBJECT_TYPE : finalKeyType;
 		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
-		IType finalType = createType(clazz, Map.class.getName());
+		IType finalType = create(Map.class.getName());
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
@@ -185,7 +184,7 @@ public class TypeFactory {
 	public static IType getWrapType(IClass clazz, IType genericType) {
 		String className = ReflectUtils.getWrapType(genericType.getClassName());
 		if (className != null)
-			genericType = createType(clazz, className);
+			genericType = create(className);
 		return genericType;
 	}
 

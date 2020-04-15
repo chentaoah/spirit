@@ -44,7 +44,7 @@ public class VariableTracker {
 					String name = token.getMemberNameAtt();
 					IType type = findType(clazz, context, name);// 返回的数组类型
 					Assert.notNull(type, "Variable must be declared!name:" + name);
-					type = TypeFactory.createType(clazz, type.getTargetName());// 转换成数组内的类型
+					type = TypeFactory.create(type.getTargetName());// 转换成数组内的类型
 					token.setTypeAtt(type);
 
 				}
@@ -56,11 +56,11 @@ public class VariableTracker {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return TypeFactory.createType(clazz, clazz.getSuperName());
+			return TypeFactory.create(clazz.getSuperName());
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return TypeFactory.createType(clazz, clazz.getClassName());
+			return TypeFactory.create(clazz.getClassName());
 
 		// 先在方法上下文中找
 		if (context != null) {
@@ -88,7 +88,7 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName()))
-			return TypeLinker.visitField(TypeFactory.createType(clazz, clazz.getSuperName()), name);
+			return TypeLinker.visitField(TypeFactory.create(clazz.getSuperName()), name);
 
 		return null;
 
