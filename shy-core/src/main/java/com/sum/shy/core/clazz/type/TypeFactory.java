@@ -19,7 +19,6 @@ import com.sum.shy.lib.Assert;
 public class TypeFactory {
 
 	public static IType createType(IClass clazz, String className) {// 一般来说，className可以直接反应出大部分属性
-		Assert.isTrue(className.contains("."), "Class name must contains \".\"");
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
