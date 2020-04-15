@@ -10,7 +10,7 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
-import com.sum.shy.lib.StringUtils;
+import com.sum.shy.lib.Assert;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -40,8 +40,8 @@ public class IType {
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
 			String superName = clazz.getSuperName();
-			if (StringUtils.isNotEmpty(superName))
-				return TypeFactory.create(superName);
+			Assert.notEmpty(superName, "Super name cannot be empty!");
+			return TypeFactory.create(superName);
 
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
@@ -68,26 +68,6 @@ public class IType {
 				interfaces.add(TypeFactory.create(interfaceClass));
 		}
 		return interfaces;
-	}
-
-	public boolean isVoid() {
-		return void.class.getName().equals(getClassName());
-	}
-
-	public boolean isObj() {
-		return Object.class.getName().equals(getClassName());
-	}
-
-	public boolean isStr() {
-		return String.class.getName().equals(getClassName());
-	}
-
-	public boolean isList() {
-		return List.class.getName().equals(getClassName());
-	}
-
-	public boolean isMap() {
-		return Map.class.getName().equals(getClassName());
 	}
 
 	@Override
@@ -129,6 +109,26 @@ public class IType {
 	@Override
 	public String toString() {
 		throw new RuntimeException("Please use the build method!className:" + getClassName());
+	}
+
+	public boolean isVoid() {
+		return void.class.getName().equals(getClassName());
+	}
+
+	public boolean isObj() {
+		return Object.class.getName().equals(getClassName());
+	}
+
+	public boolean isStr() {
+		return String.class.getName().equals(getClassName());
+	}
+
+	public boolean isList() {
+		return List.class.getName().equals(getClassName());
+	}
+
+	public boolean isMap() {
+		return Map.class.getName().equals(getClassName());
 	}
 
 	public String getClassName() {
