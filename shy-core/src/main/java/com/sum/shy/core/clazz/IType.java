@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.sum.shy.core.utils.TypeUtils;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -24,24 +25,28 @@ public class IType {
 	protected IClass declarer;
 	private boolean isNative;
 
+	public String getTargetName() {// 返回直接的className
+		return TypeUtils.getTargetName(getClassName());
+	}
+
 	public boolean isVoid() {
-		return void.class.getName().equals(className);
+		return void.class.getName().equals(getClassName());
 	}
 
 	public boolean isObj() {
-		return Object.class.getName().equals(className);
+		return Object.class.getName().equals(getClassName());
 	}
 
 	public boolean isStr() {
-		return String.class.getName().equals(className);
+		return String.class.getName().equals(getClassName());
 	}
 
 	public boolean isList() {
-		return List.class.getName().equals(className);
+		return List.class.getName().equals(getClassName());
 	}
 
 	public boolean isMap() {
-		return Map.class.getName().equals(className);
+		return Map.class.getName().equals(getClassName());
 	}
 
 	@Override

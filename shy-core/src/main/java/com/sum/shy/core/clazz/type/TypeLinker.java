@@ -18,20 +18,25 @@ public class TypeLinker {
 				: visitMethod(type, methodName, parameterTypes);
 	}
 
-	public static boolean isAssignableFrom(IType father, IType type) {
+	public static boolean isAssignableFrom(IType father, IType child) {
 		// 如果两个className相同，则直接返回
-		if (father.equals(type))
+		if (father.equals(child))
 			return true;
 
-		if (!type.isNative()) {
-			IClass clazz = Context.get().findClass(type.getClassName());
+		// 如果任一是数组,则直接退出,借用了上面的条件
+		if (father.isArray() || child.isArray())
+			return false;
+
+		// 逻辑到这里，可以确定两个都不是数组
+		if (!child.isNative()) {
+			IClass clazz = Context.get().findClass(child.getTargetName());
 			// 1.判断父类和接口是否是
 			String superName = clazz.getSuperName();
-			if (father.getClassName().equals(superName))
+			if (father.getTargetName().equals(superName))
 				return true;
 			List<String> interfaces = clazz.getInterfaces();
 			for (String inter : interfaces) {
-				if (father.getClassName().equals(inter))
+				if (father.getTargetName().equals(inter))
 					return true;
 			}
 			// 2.向上递归
@@ -48,8 +53,8 @@ public class TypeLinker {
 		} else {
 			if (father.isNative()) {// 按照编译规则，Native类是不可能够访问到未曾编译的代码
 				Class<?> fatherClass = ReflectUtils.getClass(father.getClassName());
-				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-				return fatherClass.isAssignableFrom(clazz);
+				Class<?> childClass = ReflectUtils.getClass(child.getClassName());
+				return fatherClass.isAssignableFrom(childClass);
 			}
 		}
 		return false;
