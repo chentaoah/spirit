@@ -34,6 +34,10 @@ public class IType {
 	}
 
 	public IType getSuperType() {
+
+		if (isPrimitive())
+			return null;
+
 		if (isArray())
 			return StaticType.OBJECT_TYPE;
 
@@ -46,13 +50,16 @@ public class IType {
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
 			Class<?> superClass = clazz.getSuperclass();
-			if (superClass != null)
-				return TypeFactory.create(superClass);
+			return superClass != null ? TypeFactory.create(superClass) : null;
 		}
-		return StaticType.OBJECT_TYPE;
+
 	}
 
 	public List<IType> getInterfaceTypes() {
+
+		if (isPrimitive())
+			return new ArrayList<>();
+
 		if (isArray())
 			return new ArrayList<>();
 

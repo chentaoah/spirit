@@ -123,6 +123,7 @@ public class TypeUtils {
 		System.out.println(clazz.getSuperclass());
 		System.out.println(void.class.isPrimitive());
 		System.out.println(int.class.getSuperclass());
+		System.out.println(int.class.getInterfaces());
 
 	}
 
