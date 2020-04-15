@@ -2,6 +2,7 @@ package com.sum.shy.core.metadata;
 
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.type.TypeFactory;
+import com.sum.shy.lib.Collection;
 
 public class StaticType {
 
@@ -15,7 +16,8 @@ public class StaticType {
 	public static final IType CLASS_TYPE = TypeFactory.createNativeType(Class.class);
 
 	static {
-		WILDCARD_TYPE.setWildcard(true);// ?--未知类型
+		WILDCARD_TYPE.setWildcard(true);// ?
+		CLASS_TYPE.setGenericTypes(Collection.newArrayList(WILDCARD_TYPE));// Class<?>
 	}
 
 }
