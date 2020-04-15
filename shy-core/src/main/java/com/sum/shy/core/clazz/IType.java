@@ -52,7 +52,7 @@ public class IType {
 		return StaticType.OBJECT_TYPE;
 	}
 
-	public List<IType> getInterfaces() {
+	public List<IType> getInterfaceTypes() {
 		if (isArray())
 			return new ArrayList<>();
 
