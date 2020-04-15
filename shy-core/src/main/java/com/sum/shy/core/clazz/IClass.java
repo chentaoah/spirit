@@ -6,7 +6,6 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;
 
@@ -54,43 +53,35 @@ public class IClass {
 	}
 
 	public boolean addImport(String className) {
-		// 1.基本类型数组,不添加
-		if (className.startsWith("[") && !className.startsWith("[L"))
-			return true;
 
-		// 如果是内部类 xxx.xxx.xxx$xxx
-		className = className.replaceAll("\\$", ".");
 		// 如果是数组，则把修饰符号去掉
-		className = TypeUtils.getTargetName(className);
-		// 获取类名
-		String typeName = TypeUtils.getTypeName(className);
+		String targetName = TypeUtils.getTargetName(className);
+		String lastName = TypeUtils.getLastName(className);
 
-		// 2.基本类className和simpleName相同
-		// 3.一般java.lang.包下的类不用引入
-		if (ReflectUtils.tryGetClassName(className) != null || className.startsWith("java.lang."))
+		// 1. 基本类型不添加和java.lang.包下不添加
+		if (TypeUtils.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
 			return true;
 
-		// 4.如果是本身,不添加
-		if (getClassName().equals(className))
+		// 2.如果是本身,不添加
+		if (getClassName().equals(targetName))
 			return true;
 
-		// 5.如果引入了，则不必再添加了
-		// 6.如果没有引入，但是typeName相同，则无法引入
-		for (Import iImport : imports) {
-			if (!iImport.hasAlias()) {
-				if (iImport.getClassName().equals(className)) {
+		// 3.如果引入了，则不必再添加了
+		// 4.如果没有引入，但是typeName相同，则无法引入
+		for (Import imp : imports) {
+			if (!imp.hasAlias()) {
+				if (imp.getClassName().equals(targetName)) {
 					return true;
-				} else if (iImport.getTypeName().equals(typeName)) {
+
+				} else if (imp.getLastName().equals(lastName)) {
 					return false;
 				}
 			} else {// 如果是别名，则不用添加了
-				if (iImport.getClassName().equals(className)) {
+				if (imp.getClassName().equals(className))
 					return false;
-				}
 			}
 		}
-
-		imports.add(new Import(className));
+		imports.add(new Import(targetName));
 		return true;
 	}
 

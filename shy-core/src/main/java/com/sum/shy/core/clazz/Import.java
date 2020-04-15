@@ -20,8 +20,8 @@ public class Import {
 		return element.getStr(1);
 	}
 
-	public String getTypeName() {
-		return TypeUtils.getTypeName(getClassName());
+	public String getLastName() {
+		return TypeUtils.getLastName(getClassName());
 	}
 
 	public boolean hasAlias() {
@@ -32,8 +32,8 @@ public class Import {
 		return hasAlias() ? element.getStr(2) : null;
 	}
 
-	public boolean isMatch(String typeName) {
-		return hasAlias() ? getAlias().equals(typeName) : getTypeName().equals(typeName);
+	public boolean isMatch(String lastName) {
+		return hasAlias() ? getAlias().equals(lastName) : getLastName().equals(lastName);
 	}
 
 }

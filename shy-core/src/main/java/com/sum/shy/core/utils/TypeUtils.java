@@ -1,6 +1,8 @@
 package com.sum.shy.core.utils;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.sum.shy.core.lexical.SemanticDelegate;
@@ -27,6 +29,9 @@ public class TypeUtils {
 	}
 
 	public static String getTargetName(String name) {// className or simpleName or typeName
+
+		if (name.contains(".") && name.contains("$"))
+			name = name.replaceAll("\\$", ".");// 替换内部类path中的$符号
 
 		if (!isArray(name)) {
 			return name;
@@ -82,6 +87,10 @@ public class TypeUtils {
 			return double[].class.getName();
 		case "byte[]":
 			return byte[].class.getName();
+		case "List":
+			return List.class.getName();
+		case "Map":
+			return Map.class.getName();
 		}
 
 		// 尝试从java.lang.包下获取类
