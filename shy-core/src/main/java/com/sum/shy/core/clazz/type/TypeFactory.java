@@ -12,7 +12,6 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.FastDeducer;
-import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.Assert;
 
@@ -130,7 +129,7 @@ public class TypeFactory {
 			return create(clazz, "List<Object>");
 
 		IType finalType = create(List.class);
-		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
+		finalType.getGenericTypes().add(genericType.getWrapType());
 		return finalType;
 	}
 
@@ -168,24 +167,10 @@ public class TypeFactory {
 		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
 		IType finalType = create(Map.class);
-		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
-		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
+		finalType.getGenericTypes().add(finalKeyType.getWrapType());
+		finalType.getGenericTypes().add(finalValueType.getWrapType());
 		return finalType;
 
-	}
-
-	/**
-	 * 获取封装类
-	 * 
-	 * @param clazz
-	 * @param genericType
-	 * @return
-	 */
-	public static IType getWrapType(IClass clazz, IType genericType) {
-		String className = ReflectUtils.getWrapType(genericType.getClassName());
-		if (className != null)
-			genericType = create(className);
-		return genericType;
 	}
 
 }

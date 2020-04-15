@@ -70,6 +70,13 @@ public class IType {
 		return interfaces;
 	}
 
+	public IType getWrapType() {
+		String className = ReflectUtils.getWrapType(getClassName());
+		if (className != null)
+			return TypeFactory.create(className);
+		return this;// 如果没有则返回自身
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof IType) {
