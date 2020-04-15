@@ -35,11 +35,11 @@ public class SemanticDelegate {
 
 	// ============================== 类型 ================================
 
-	public static final String PRIMITIVE_ENUM = "boolean|char|short|int|long|float|double|byte";// 基础类型
-	public static final String PRIMITIVE_WRAPPER_ENUM = "Boolean|Character|Short|Integer|Long|Float|Double|Byte";// 基础类型封装
+	public static final String PRIMITIVE_ENUM = "void|boolean|char|short|int|long|float|double|byte";// 基础类型
+	public static final String PRIMITIVE_WRAPPER_ENUM = "Void|Boolean|Character|Short|Integer|Long|Float|Double|Byte";// 基础类型封装
 	public static final String COMMON_TYPE_ENUM = PRIMITIVE_ENUM + "|" + PRIMITIVE_WRAPPER_ENUM + "|Object|String";// 常见类型枚举
 
-	public static final Pattern COMMON_TYPE_PATTERN = Pattern.compile("^(void|" + COMMON_TYPE_ENUM + ")$");// 常见类型
+	public static final Pattern COMMON_TYPE_PATTERN = Pattern.compile("^(" + COMMON_TYPE_ENUM + ")$");// 常见类型
 	public static final Pattern COMMON_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + COMMON_TYPE_ENUM + ")\\[\\]$");// 常见类型数组
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");// 普通类型
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");// 类型数组
