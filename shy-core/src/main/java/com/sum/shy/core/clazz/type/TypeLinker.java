@@ -8,10 +8,13 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
+import com.sum.shy.lib.Assert;
 
 public class TypeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
+
+		Assert.notEmpty(fieldName, "field name cannot be empty!");
 
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
 			return StaticType.CLASS_TYPE;// xxx.class class是关键字
@@ -23,6 +26,8 @@ public class TypeLinker {
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+
+		Assert.notEmpty(methodName, "Method name cannot be empty!");
 
 		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
 			return type;// super()和this()指代父类或者本身的构造函数，返回这个类本身

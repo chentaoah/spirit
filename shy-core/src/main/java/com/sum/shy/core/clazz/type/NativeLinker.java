@@ -13,17 +13,14 @@ import java.util.List;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
-import com.sum.shy.lib.StringUtils;
 
 public class NativeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
 		try {
-			if (StringUtils.isNotEmpty(fieldName)) {
-				Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-				Field field = clazz.getField(fieldName);
-				return convertNativeType(type, field.getGenericType());
-			}
+			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
+			Field field = clazz.getField(fieldName);
+			return convertNativeType(type, field.getGenericType());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,10 +29,8 @@ public class NativeLinker {
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
-			if (StringUtils.isNotEmpty(methodName)) {
-				Method method = findMethod(type, methodName, parameterTypes);
-				return convertNativeType(type, method.getGenericReturnType());
-			}
+			Method method = findMethod(type, methodName, parameterTypes);
+			return convertNativeType(type, method.getGenericReturnType());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
