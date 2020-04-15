@@ -8,7 +8,6 @@ public class ReflectUtils {
 			if (clazz == null)
 				clazz = Class.forName(className);
 			return clazz;
-
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}
