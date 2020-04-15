@@ -9,7 +9,6 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.lib.StringUtils;
 
 public class CodeLinker {
@@ -18,9 +17,6 @@ public class CodeLinker {
 		String className = type.getClassName();
 		IClass clazz = Context.get().findClass(className);
 		if (StringUtils.isNotEmpty(fieldName)) {
-			if (Constants.CLASS_KEYWORD.equals(fieldName))
-				return StaticType.CLASS_TYPE;
-
 			if (clazz.existField(fieldName)) {
 				IField field = clazz.getField(fieldName);
 				return MemberVisiter.visitMember(clazz, field);

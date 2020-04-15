@@ -4,12 +4,21 @@ import java.util.List;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class TypeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
+
+		if (Constants.CLASS_KEYWORD.equals(fieldName))
+			return StaticType.CLASS_TYPE;// xxx.class class是关键字
+
+		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
+			return StaticType.INT_TYPE;// 访问数组length直接返回int类型
+
 		return !type.isNative() ? CodeLinker.visitField(type, fieldName) : NativeLinker.visitField(type, fieldName);
 	}
 

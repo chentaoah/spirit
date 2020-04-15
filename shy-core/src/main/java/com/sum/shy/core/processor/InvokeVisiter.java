@@ -35,19 +35,14 @@ public class InvokeVisiter {
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
+			} else if (token.isVisitField()) {
+				IType type = stmt.getToken(index - 1).getTypeAtt();
+				IType returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
+				token.setTypeAtt(returnType);
+
 			} else if (token.isLocalMethod()) {// 本地调用
 				IType type = TypeFactory.create(clazz, clazz.getSimpleName());
 				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
-				token.setTypeAtt(returnType);
-
-			} else if (token.isVisitField()) {
-				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = null;
-				if (type.isArray() && Constants.ARRAY_LENGTH.equals(token.getMemberNameAtt())) {// 访问数组length直接返回int类型
-					returnType = TypeFactory.create(clazz, Constants.INT);
-				} else {
-					returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
-				}
 				token.setTypeAtt(returnType);
 
 			} else if (token.isInvokeMethod()) {
