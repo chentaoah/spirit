@@ -42,7 +42,7 @@ public class TypeFactory {
 	}
 
 	public static IType create(IClass clazz, String text) {
-		Assert.isTrue(!text.contains("."), "Text cannot contains \".\", please use the method createType!");
+		Assert.isTrue(!text.contains("."), "Text cannot contains \".\", please use the another method!");
 		return create(clazz, SemanticDelegate.getToken(text));
 	}
 

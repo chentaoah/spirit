@@ -47,31 +47,29 @@ public class IType {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
 			Class<?> superClass = clazz.getSuperclass();
 			if (superClass != null)
-				return TypeFactory.create(superClass.getName());
-		}
+				return TypeFactory.create(superClass);
 
+		}
 		return null;
 	}
 
-	public IType getInterfaces() {
+	public List<IType> getInterfaces() {
 		// 数组类型是不存在着父类的
 		if (isArray())
 			return null;
 
+		List<IType> interfaces = new ArrayList<>();
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
-			String superName = clazz.getSuperName();
-			if (StringUtils.isNotEmpty(superName))
-				return TypeFactory.create(superName);
+			for (String inter : clazz.getInterfaces())
+				interfaces.add(TypeFactory.create(inter));
 
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
-			Class<?> superClass = clazz.getSuperclass();
-			if (superClass != null)
-				return TypeFactory.create(superClass.getName());
+			for (Class<?> interfaceClass : clazz.getInterfaces())
+				interfaces.add(TypeFactory.create(interfaceClass));
 		}
-
-		return null;
+		return interfaces;
 	}
 
 	public boolean isVoid() {
