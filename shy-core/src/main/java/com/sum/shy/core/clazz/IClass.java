@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;
 
@@ -118,8 +119,9 @@ public class IClass {
 		return packageStr + "." + getSimpleName();
 	}
 
-	public String getSuperName() {
-		return findImport(root.getKeywordParam(Constants.EXTENDS_KEYWORD));
+	public String getSuperName() {// 如果不存在继承，则默认是继承Object
+		String superName = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
+		return StringUtils.isNotEmpty(superName) ? findImport(superName) : StaticType.OBJECT_TYPE.getClassName();
 	}
 
 	public List<String> getInterfaces() {

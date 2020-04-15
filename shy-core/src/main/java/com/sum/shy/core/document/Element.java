@@ -170,12 +170,12 @@ public class Element extends ArrayList<Element> {
 				return params;
 			}
 		}
-		return null;
+		return params;
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " "
-				+ stmt.debug());
+		System.out.println(
+				line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
 		for (Element element : this)
 			element.debug();
 	}
