@@ -121,6 +121,7 @@ public class TypeUtils {
 		System.out.println(clazz.getName());
 		System.out.println(clazz.isPrimitive());
 		System.out.println(Void.class.isPrimitive());
+
 	}
 
 }

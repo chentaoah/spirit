@@ -1,8 +1,5 @@
 package com.sum.shy.core.utils;
 
-import java.util.List;
-import java.util.Map;
-
 public class ReflectUtils {
 
 	public static Class<?> getClass(String className) {
@@ -10,17 +7,6 @@ public class ReflectUtils {
 			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
-		}
-	}
-
-	public static String getCollectionType(String typeName) {
-		switch (typeName) {
-		case "List":
-			return List.class.getName();
-		case "Map":
-			return Map.class.getName();
-		default:
-			return null;
 		}
 	}
 
