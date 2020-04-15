@@ -70,7 +70,7 @@ public class IType {
 			return "?";
 
 		String finalName = declarer.addImport(getClassName()) ? getSimpleName() : TypeUtils.getFullName(getClassName());
-		
+
 		if (isGenericType()) {// 泛型
 			List<String> strs = new ArrayList<>();
 			for (IType genericType : getGenericTypes())
