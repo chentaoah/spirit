@@ -25,39 +25,27 @@ public class IClass {
 	public List<IMethod> methods = new ArrayList<>();
 
 	public String findImport(String simpleName) {
-		// 如果本身传入的就是一个全名的话，直接返回
+		// 如果是className，则直接返回
 		if (simpleName.contains("."))
 			return simpleName;
 
 		// 如果传进来是个数组，那么处理一下
 		boolean isArray = TypeUtils.isArray(simpleName);
-		String typeName = TypeUtils.getTypeName(simpleName);
+		String targetName = TypeUtils.getTargetName(simpleName);
 
 		// 1.首先先去引入里面找
-		for (Import iImport : imports) {
-			if (iImport.isMatch(typeName))
-				return iImport.getClassName();
+		for (Import imp : imports) {
+			if (imp.isMatch(targetName))
+				return !isArray ? imp.getClassName() : "[L" + imp.getClassName() + ";";
 		}
 
-		String className = null;
 		// 2.在所有类里面找，包括这个类本身也在其中
-		if (className == null)
-			className = Context.get().getClassName(typeName);
+		String className = Context.get().getClassName(targetName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
 
-		// 3.如果没有引入的话，可能是一些基本类型java.lang包下的
-		if (className == null)
-			className = ReflectUtils.getClassName(simpleName);
-		if (className == null)
-			className = ReflectUtils.getCollectionType(typeName);
-		if (className == null) {
-			try {
-				className = ReflectUtils.getClass("java.lang." + typeName).getName();
-			} catch (Exception e) {
-				// ignore
-			}
-		}
+		// 3.如果是基本类型，基本类型数组，或者java.lang.下的类，则直接返回
+		className = TypeUtils.getClassName(simpleName);
 		if (className != null)
 			return className;
 
@@ -79,7 +67,7 @@ public class IClass {
 
 		// 2.基本类className和simpleName相同
 		// 3.一般java.lang.包下的类不用引入
-		if (ReflectUtils.getClassName(className) != null || className.startsWith("java.lang."))
+		if (ReflectUtils.tryGetClassName(className) != null || className.startsWith("java.lang."))
 			return true;
 
 		// 4.如果是本身,不添加

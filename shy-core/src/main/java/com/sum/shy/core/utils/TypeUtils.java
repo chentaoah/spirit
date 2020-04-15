@@ -18,8 +18,8 @@ public class TypeUtils {
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
-	public static boolean isPrimitive(String className) {// 基本类型数组不算基本类型
-		return PRIMITIVE_PATTERN.matcher(className).matches();
+	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or simpleName
+		return PRIMITIVE_PATTERN.matcher(name).matches();
 	}
 
 	public static boolean isArray(String name) {// className or simpleName or typeName
@@ -58,6 +58,44 @@ public class TypeUtils {
 		return getTargetName(className) + (isArray(className) ? "[]" : "");
 	}
 
+	public static String getClassName(String simpleName) {// 只能支持基本类型和基本类型数组
+
+		if (isPrimitive(simpleName))
+			return simpleName;// 基本类型simpleName和className一致
+
+		switch (simpleName) {
+		case "void":
+			return void.class.getName();// 空类型
+		case "boolean[]":
+			return boolean[].class.getName();// 基本类型数组
+		case "char[]":
+			return char[].class.getName();
+		case "short[]":
+			return short[].class.getName();
+		case "int[]":
+			return int[].class.getName();
+		case "long[]":
+			return long[].class.getName();
+		case "float[]":
+			return float[].class.getName();
+		case "double[]":
+			return double[].class.getName();
+		case "byte[]":
+			return byte[].class.getName();
+		}
+
+		// 尝试从java.lang.包下获取类
+		try {
+			Class<?> clazz = ReflectUtils.getClass("java.lang." + getTargetName(simpleName));
+			if (clazz != null)
+				return !isArray(simpleName) ? clazz.getName() : "[L" + clazz.getName() + ";";
+		} catch (Exception e) {
+			// ignore
+		}
+
+		return null;
+	}
+
 	public static void main(String[] args) throws Exception {
 		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class,
 				short[].class, int.class, int[].class, long.class, long[].class, float.class, float[].class,
@@ -73,6 +111,7 @@ public class TypeUtils {
 		Class<?> clazz = Class.forName("[Z");
 		System.out.println(clazz.getName());
 		System.out.println(clazz.isPrimitive());
+		System.out.println(Void.class.isPrimitive());
 	}
 
 }
