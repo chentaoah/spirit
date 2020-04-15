@@ -19,6 +19,7 @@ import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.metadata.StaticType;
 
 public class MemberVisiter {
 
@@ -91,7 +92,7 @@ public class MemberVisiter {
 			MethodContext context = new MethodContext();
 			context.method = method;
 			visitChildElement(clazz, context, method.element);
-			return context.returnType != null ? context.returnType : TypeFactory.create(clazz, Constants.VOID);
+			return context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
 		}
 		return null;
 	}

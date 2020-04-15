@@ -44,7 +44,7 @@ public class VariableTracker {
 					String name = token.getMemberNameAtt();
 					IType type = findType(clazz, context, name);// 返回的数组类型
 					Assert.notNull(type, "Variable must be declared!name:" + name);
-					type = TypeFactory.create(clazz, type.getTypeName());// 转换成数组内的类型
+					type = TypeFactory.createType(clazz, type.getTargetName());// 转换成数组内的类型
 					token.setTypeAtt(type);
 
 				}

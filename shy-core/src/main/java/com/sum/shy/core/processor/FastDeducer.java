@@ -3,13 +3,12 @@ package com.sum.shy.core.processor;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
-import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Node;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.TreeBuilder;
+import com.sum.shy.core.metadata.StaticType;
 
 /**
  * 快速推导器
@@ -84,7 +83,7 @@ public class FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return TypeFactory.create(clazz, Constants.BOOLEAN);
+			return StaticType.BOOLEAN_TYPE;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的

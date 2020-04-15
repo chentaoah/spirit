@@ -6,6 +6,7 @@ import com.sum.shy.lib.Collection;
 
 public class StaticType {
 
+	public static final IType VOID_TYPE = TypeFactory.createNativeType(void.class);
 	public static final IType WILDCARD_TYPE = TypeFactory.createNativeType(Object.class);
 	public static final IType BOOLEAN_TYPE = TypeFactory.createNativeType(boolean.class);
 	public static final IType INT_TYPE = TypeFactory.createNativeType(int.class);

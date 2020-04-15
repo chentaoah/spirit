@@ -13,21 +13,21 @@ public class ReflectUtils {
 	public static String getWrapType(String className) {
 		switch (className) {
 		case "boolean":
-			return Boolean.class.getSimpleName();
+			return Boolean.class.getName();
 		case "char":
-			return Character.class.getSimpleName();
+			return Character.class.getName();
 		case "short":
-			return Short.class.getSimpleName();
+			return Short.class.getName();
 		case "int":
-			return Integer.class.getSimpleName();
+			return Integer.class.getName();
 		case "long":
-			return Long.class.getSimpleName();
+			return Long.class.getName();
 		case "float":
-			return Float.class.getSimpleName();
+			return Float.class.getName();
 		case "double":
-			return Double.class.getSimpleName();
+			return Double.class.getName();
 		case "byte":
-			return Byte.class.getSimpleName();
+			return Byte.class.getName();
 		default:
 			return null;
 		}

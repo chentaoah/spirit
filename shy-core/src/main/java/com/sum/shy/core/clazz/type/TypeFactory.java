@@ -2,12 +2,12 @@ package com.sum.shy.core.clazz.type;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.metadata.StaticType;
@@ -130,7 +130,7 @@ public class TypeFactory {
 		if (!isSame || genericType == null)
 			return create(clazz, "List<Object>");
 
-		IType finalType = create(clazz, Constants.LIST);
+		IType finalType = createType(clazz, List.class.getName());
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -165,10 +165,10 @@ public class TypeFactory {
 			}
 		}
 		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? create(clazz, Constants.OBJECT) : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? create(clazz, Constants.OBJECT) : finalValueType;
+		finalKeyType = !isSameKey || finalKeyType == null ? StaticType.OBJECT_TYPE : finalKeyType;
+		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
-		IType finalType = create(clazz, Constants.MAP);
+		IType finalType = createType(clazz, Map.class.getName());
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
@@ -183,9 +183,9 @@ public class TypeFactory {
 	 * @return
 	 */
 	public static IType getWrapType(IClass clazz, IType genericType) {
-		String wrapType = ReflectUtils.getWrapType(genericType.getClassName());
-		if (wrapType != null)
-			genericType = create(clazz, wrapType);
+		String className = ReflectUtils.getWrapType(genericType.getClassName());
+		if (className != null)
+			genericType = createType(clazz, className);
 		return genericType;
 	}
 
