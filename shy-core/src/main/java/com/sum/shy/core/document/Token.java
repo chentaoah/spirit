@@ -6,6 +6,7 @@ import java.util.Map;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.lib.Assert;
 
 public class Token {
 
@@ -245,8 +246,7 @@ public class Token {
 	}
 
 	public void setTypeAtt(IType type) {
-		if (type == null)
-			throw new RuntimeException("Type cannot be null!token:" + this.toString());
+		Assert.notNull(type, "Type cannot be null!token:" + this.toString());
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
