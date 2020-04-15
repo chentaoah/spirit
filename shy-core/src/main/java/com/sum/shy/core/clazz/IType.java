@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.utils.TypeUtils;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -69,7 +68,7 @@ public class IType {
 		if (isWildcard())
 			return "?";
 
-		String finalName = declarer.addImport(getClassName()) ? getSimpleName() : TypeUtils.getFullName(getClassName());
+		String finalName = declarer.addImport(getClassName()) ? getSimpleName() : getTypeName();
 
 		if (isGenericType()) {// 泛型
 			List<String> strs = new ArrayList<>();

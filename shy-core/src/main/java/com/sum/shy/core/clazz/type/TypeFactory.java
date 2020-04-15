@@ -2,7 +2,6 @@ package com.sum.shy.core.clazz.type;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
@@ -18,15 +17,13 @@ import com.sum.shy.core.utils.TypeUtils;
 
 public class TypeFactory {
 
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(" + SemanticDelegate.BASIC_TYPE_ENUM + ")$");
-
 	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
-		type.setTypeName(TypeUtils.getTypeNameByClassName(className));
-		type.setPrimitive(BASIC_TYPE_PATTERN.matcher(className).matches());
-		type.setArray(TypeUtils.isArrayByClassName(className));
+		type.setTypeName(TypeUtils.getTypeName(className));
+		type.setPrimitive(TypeUtils.isPrimitive(className));
+		type.setArray(TypeUtils.isArray(className));
 		type.setGenericTypes(null);
 		type.setWildcard(false);
 		type.setDeclarer(null);

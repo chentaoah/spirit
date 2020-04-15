@@ -35,22 +35,25 @@ public class SemanticDelegate {
 
 	// ============================== 类型 ================================
 
-	public static final String BASIC_TYPE_ENUM = "boolean|char|short|int|long|float|double|byte";// 基础类型
-	public static final String BASIC_WRAPPER_TYPE_ENUM = "Boolean|Character|Short|Integer|Long|Float|Double|Byte";// 基础类型封装
-	public static final String TYPE_ENUM = BASIC_TYPE_ENUM + "|" + BASIC_WRAPPER_TYPE_ENUM + "|Object|String";// 类型枚举
-	public static final Pattern BASIC_TYPE_PATTERN = Pattern.compile("^(void|" + TYPE_ENUM + ")$");// 基本类型
-	public static final Pattern BASIC_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\]$");// 基本类型数组
+	public static final String PRIMITIVE_ENUM = "boolean|char|short|int|long|float|double|byte";// 基础类型
+	public static final String PRIMITIVE_WRAPPER_ENUM = "Boolean|Character|Short|Integer|Long|Float|Double|Byte";// 基础类型封装
+	public static final String COMMON_TYPE_ENUM = PRIMITIVE_ENUM + "|" + PRIMITIVE_WRAPPER_ENUM + "|Object|String";// 类型枚举
+
+	public static final Pattern COMMON_TYPE_PATTERN = Pattern.compile("^(void|" + COMMON_TYPE_ENUM + ")$");// 基本类型
+	public static final Pattern COMMON_TYPE_ARRAY_PATTERN = Pattern.compile("^(" + COMMON_TYPE_ENUM + ")\\[\\]$");// 基本类型数组
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+$");// 普通类型
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]$");// 类型数组
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w+<[\\s\\S]+>$");// 泛型
 
 	// ============================== 赋值 ================================
 
-	public static final Pattern BASIC_TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
-	public static final Pattern BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern
-			.compile("^(" + TYPE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
+	public static final Pattern COMMON_TYPE_ARRAY_INIT_PATTERN = Pattern
+			.compile("^(" + COMMON_TYPE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
+	public static final Pattern COMMON_TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern
+			.compile("^(" + COMMON_TYPE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\d+\\]$");// 类型数组声明
 	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+\\[\\]\\{[\\s\\S]*\\}$");// String[]{"text"}
+
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w+(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
@@ -161,22 +164,22 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isType(String word) {
-		return BASIC_TYPE_PATTERN.matcher(word).matches() || BASIC_TYPE_ARRAY_PATTERN.matcher(word).matches()
+		return COMMON_TYPE_PATTERN.matcher(word).matches() || COMMON_TYPE_ARRAY_PATTERN.matcher(word).matches()
 				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
 				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isInit(String word) {
-		return BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
-				|| BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
+		return COMMON_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
+				|| COMMON_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
 	public static String getInitTokenType(String word) {
-		if (BASIC_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
+		if (COMMON_TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;
-		if (BASIC_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
+		if (COMMON_TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;
 		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INIT_TOKEN;

@@ -8,36 +8,11 @@ public class ReflectUtils {
 
 	public static Class<?> getClass(String className) {
 		try {
-			Class<?> clazz = getBasicClass(className);// 基本类型
-			return clazz != null ? clazz : Class.forName(className);
+			return Class.forName(className);
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}
-	}
-
-	public static Class<?> getBasicClass(String className) {
-		switch (className) {
-		case "void":
-			return void.class;
-		case "boolean":
-			return boolean.class;
-		case "char":
-			return char.class;
-		case "short":
-			return short.class;
-		case "int":
-			return int.class;
-		case "long":
-			return long.class;
-		case "float":
-			return float.class;
-		case "double":
-			return double.class;
-		case "byte":
-			return byte.class;
-		}
-		return null;
 	}
 
 	public static String getClassName(String simpleName) {

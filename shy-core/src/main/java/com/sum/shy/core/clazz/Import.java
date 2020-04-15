@@ -21,7 +21,7 @@ public class Import {
 	}
 
 	public String getTypeName() {
-		return TypeUtils.getTypeNameByClassName(getClassName());
+		return TypeUtils.getTypeName(getClassName());
 	}
 
 	public boolean hasAlias() {

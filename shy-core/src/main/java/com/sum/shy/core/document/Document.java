@@ -11,7 +11,7 @@ public class Document extends ArrayList<Element> {
 	public String name;
 
 	public Document(File file) {
-		this.name = TypeUtils.getTypeNameByFile(file);
+		this.name = TypeUtils.getNameByFile(file);
 	}
 
 	public void debug() {

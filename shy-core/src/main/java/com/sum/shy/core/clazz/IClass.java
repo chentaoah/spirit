@@ -73,9 +73,9 @@ public class IClass {
 		// 如果是内部类 xxx.xxx.xxx$xxx
 		className = className.replaceAll("\\$", ".");
 		// 如果是数组，则把修饰符号去掉
-		className = TypeUtils.removeDecoration(className);
+		className = TypeUtils.getTargetName(className);
 		// 获取类名
-		String typeName = TypeUtils.getTypeNameByClassName(className);
+		String typeName = TypeUtils.getTypeName(className);
 
 		// 2.基本类className和simpleName相同
 		// 3.一般java.lang.包下的类不用引入
