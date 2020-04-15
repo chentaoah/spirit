@@ -53,7 +53,6 @@ public class TypeFactory {
 				type = createType(clazz, clazz.findImport(simpleName));
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));
 			}
-
 			return type;
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
