@@ -36,7 +36,7 @@ public class InvokeVisiter {
 				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
-				IType type = TypeFactory.create(clazz, clazz.getTypeName());
+				IType type = TypeFactory.create(clazz, clazz.getSimpleName());
 				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 

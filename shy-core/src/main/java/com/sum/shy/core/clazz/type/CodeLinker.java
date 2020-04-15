@@ -40,7 +40,7 @@ public class CodeLinker {
 				return TypeFactory.create(clazz, clazz.getSuperName());
 
 			if (Constants.THIS_KEYWORD.equals(methodName))
-				return TypeFactory.create(clazz, clazz.getTypeName());
+				return TypeFactory.create(clazz, clazz.getSimpleName());
 
 			if (clazz.existMethod(methodName, parameterTypes)) {
 				IMethod method = clazz.getMethod(methodName, parameterTypes);

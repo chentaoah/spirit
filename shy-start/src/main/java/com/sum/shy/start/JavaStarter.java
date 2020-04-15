@@ -41,7 +41,7 @@ public class JavaStarter {
 			// 打印
 			System.out.println(code);
 			// 输出到指定文件夹下
-			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getTypeName(), code);
+			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getSimpleName(), code);
 		}
 
 	}

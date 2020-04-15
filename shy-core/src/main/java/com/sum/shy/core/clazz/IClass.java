@@ -97,7 +97,7 @@ public class IClass {
 		return root.isClass();
 	}
 
-	public String getTypeName() {
+	public String getSimpleName() {
 		if (isInterface()) {
 			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
 
@@ -115,7 +115,7 @@ public class IClass {
 	}
 
 	public String getClassName() {
-		return packageStr + "." + getTypeName();
+		return packageStr + "." + getSimpleName();
 	}
 
 	public String getSuperName() {

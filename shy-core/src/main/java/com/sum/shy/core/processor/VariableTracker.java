@@ -64,7 +64,7 @@ public class VariableTracker {
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return TypeFactory.create(clazz, clazz.getTypeName());
+			return TypeFactory.create(clazz, clazz.getSimpleName());
 
 		// 先在方法上下文中找
 		if (context != null) {
