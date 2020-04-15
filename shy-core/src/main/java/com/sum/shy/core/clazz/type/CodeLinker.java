@@ -7,7 +7,6 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.lib.StringUtils;
 
@@ -32,12 +31,6 @@ public class CodeLinker {
 		String className = type.getClassName();
 		IClass clazz = Context.get().findClass(className);
 		if (StringUtils.isNotEmpty(methodName)) {
-			if (Constants.SUPER_KEYWORD.equals(methodName))
-				return TypeFactory.create(clazz, clazz.getSuperName());
-
-			if (Constants.THIS_KEYWORD.equals(methodName))
-				return TypeFactory.create(clazz, clazz.getSimpleName());
-
 			if (clazz.existMethod(methodName, parameterTypes)) {
 				IMethod method = clazz.getMethod(methodName, parameterTypes);
 				return MemberVisiter.visitMember(clazz, method);

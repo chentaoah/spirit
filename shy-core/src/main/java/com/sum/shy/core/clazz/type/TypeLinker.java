@@ -23,6 +23,10 @@ public class TypeLinker {
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+
+		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
+			return type;// super()和this()指代父类或者本身的构造函数，返回这个类本身
+
 		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes)
 				: visitMethod(type, methodName, parameterTypes);
 	}
