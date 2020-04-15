@@ -25,7 +25,7 @@ public class IType {
 	protected IClass declarer;
 	private boolean isNative;
 
-	public String getTargetName() {// 返回真正的className
+	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
 	}
 

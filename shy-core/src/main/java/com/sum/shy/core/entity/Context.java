@@ -9,9 +9,8 @@ public class Context {
 	public static ThreadLocal<Context> local = new ThreadLocal<>();
 
 	public static Context get() {
-		if (local.get() == null) {
+		if (local.get() == null)
 			local.set(new Context());
-		}
 		return local.get();
 	}
 
@@ -25,9 +24,9 @@ public class Context {
 		return classes.get(className);
 	}
 
-	public String getClassName(String typeName) {
+	public String getClassName(String lastName) {
 		for (String className : classes.keySet()) {
-			if (className.endsWith("." + typeName))
+			if (className.endsWith("." + lastName))
 				return className;
 		}
 		return null;

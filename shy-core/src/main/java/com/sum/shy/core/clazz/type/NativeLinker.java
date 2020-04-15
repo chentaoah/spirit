@@ -21,20 +21,20 @@ public class NativeLinker {
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 			Field field = clazz.getField(fieldName);
 			return convertNativeType(type, field.getGenericType());
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("Failed to access field!fieldName:[" + fieldName + "]");
 		}
-		return null;
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
 			return convertNativeType(type, method.getGenericReturnType());
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("Failed to access method!methodName:[" + methodName + "]");
 		}
-		return null;
 	}
 
 	private static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {

@@ -14,7 +14,7 @@ public class TypeLinker {
 
 	public static IType visitField(IType type, String fieldName) {
 
-		Assert.notEmpty(fieldName, "field name cannot be empty!");
+		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
 			return StaticType.CLASS_TYPE;// xxx.class class是关键字
