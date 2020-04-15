@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;
@@ -33,9 +34,8 @@ public class IType {
 	}
 
 	public IType getSuperType() {
-		// 数组类型是不存在着父类的
 		if (isArray())
-			return null;
+			return StaticType.OBJECT_TYPE;
 
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
@@ -48,15 +48,13 @@ public class IType {
 			Class<?> superClass = clazz.getSuperclass();
 			if (superClass != null)
 				return TypeFactory.create(superClass);
-
 		}
-		return null;
+		return StaticType.OBJECT_TYPE;
 	}
 
 	public List<IType> getInterfaces() {
-		// 数组类型是不存在着父类的
 		if (isArray())
-			return null;
+			return new ArrayList<>();
 
 		List<IType> interfaces = new ArrayList<>();
 		if (!isNative()) {

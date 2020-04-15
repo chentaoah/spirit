@@ -129,7 +129,7 @@ public class TypeFactory {
 		if (!isSame || genericType == null)
 			return create(clazz, "List<Object>");
 
-		IType finalType = create(List.class.getName());
+		IType finalType = create(List.class);
 		finalType.getGenericTypes().add(getWrapType(clazz, genericType));
 		return finalType;
 	}
@@ -167,7 +167,7 @@ public class TypeFactory {
 		finalKeyType = !isSameKey || finalKeyType == null ? StaticType.OBJECT_TYPE : finalKeyType;
 		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
-		IType finalType = create(Map.class.getName());
+		IType finalType = create(Map.class);
 		finalType.getGenericTypes().add(getWrapType(clazz, finalKeyType));
 		finalType.getGenericTypes().add(getWrapType(clazz, finalValueType));
 		return finalType;
