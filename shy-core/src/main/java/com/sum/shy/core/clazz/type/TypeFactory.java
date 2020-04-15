@@ -45,7 +45,6 @@ public class TypeFactory {
 
 				} else {// 一般类型
 					type = createType(clazz, clazz.findImport(simpleName));
-					type.setDeclarer(clazz);
 				}
 
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
@@ -53,8 +52,8 @@ public class TypeFactory {
 				String simpleName = subStmt.getStr(0);// 前缀
 				type = createType(clazz, clazz.findImport(simpleName));
 				type.setGenericTypes(getGenericTypes(clazz, subStmt));
-
 			}
+
 			return type;
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
