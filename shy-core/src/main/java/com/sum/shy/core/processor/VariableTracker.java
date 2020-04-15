@@ -13,6 +13,7 @@ import com.sum.shy.core.clazz.type.TypeLinker;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -36,24 +37,19 @@ public class VariableTracker {
 				if (token.isVar()) {// 如果没有设置类型的话
 					String name = token.toString();
 					IType type = findType(clazz, context, name);
-					if (type == null)
-						throw new RuntimeException("Variable must be declared!name:" + name);
+					Assert.notNull(type, "Variable must be declared!name:" + name);
 					token.setTypeAtt(type);
 
 				} else if (token.isArrayIndex()) {// 如果没有设置类型的话
 					String name = token.getMemberNameAtt();
 					IType type = findType(clazz, context, name);// 返回的数组类型
-					if (type == null)
-						throw new RuntimeException("Variable must be declared!name:" + name);
+					Assert.notNull(type, "Variable must be declared!name:" + name);
 					type = TypeFactory.create(clazz, type.getTypeName());// 转换成数组内的类型
 					token.setTypeAtt(type);
 
 				}
-
 			}
-
 		}
-
 	}
 
 	public static IType findType(IClass clazz, MethodContext context, String name) {
