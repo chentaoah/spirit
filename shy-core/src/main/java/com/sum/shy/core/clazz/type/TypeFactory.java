@@ -27,7 +27,7 @@ public class TypeFactory {
 		type.setGenericTypes(null);
 		type.setWildcard(false);
 		type.setDeclarer(null);
-		type.setNative(!Context.get().contains(className));
+		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
 		return type;
 	}
 
