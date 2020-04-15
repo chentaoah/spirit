@@ -14,10 +14,12 @@ import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.lib.Assert;
 
 public class TypeFactory {
 
 	public static IType createType(IClass clazz, String className) {// 一般来说，className可以直接反应出大部分属性
+		Assert.isTrue(className.contains("."), "Class name must contains \".\"");
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
@@ -32,6 +34,7 @@ public class TypeFactory {
 	}
 
 	public static IType create(IClass clazz, String text) {
+		Assert.isTrue(!text.contains("."), "Text cannot contains \".\", please use the method createType!");
 		return create(clazz, SemanticDelegate.getToken(text));
 	}
 
