@@ -2,7 +2,7 @@ package com.sum.shy.core;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.Import;
-import com.sum.shy.core.utils.CharUtils;
+import com.sum.shy.core.utils.CharacterUtils;
 import com.sum.shy.core.utils.LineUtils;
 
 public class AliasReplacer {
@@ -22,14 +22,14 @@ public class AliasReplacer {
 			if (c == '"' && LineUtils.isBoundary(code, i))
 				flag = !flag;
 			// 如果不在字符串中，并且是接续字符，首字母相同
-			if (!flag && CharUtils.isLetter(c) && c == alias.charAt(0)) {
+			if (!flag && CharacterUtils.isLetter(c) && c == alias.charAt(0)) {
 				// 单词截断的判断
-				if (i - 1 >= 0 && CharUtils.isLetter(code.charAt(i - 1)))
+				if (i - 1 >= 0 && CharacterUtils.isLetter(code.charAt(i - 1)))
 					continue;
 				String str = code.substring(i, i + alias.length());
 				if (alias.equals(str)) {
 					// 单词截断的判断
-					if (i + alias.length() < code.length() && CharUtils.isLetter(code.charAt(i + alias.length())))
+					if (i + alias.length() < code.length() && CharacterUtils.isLetter(code.charAt(i + alias.length())))
 						continue;
 					code = new StringBuilder(code).replace(i, i + alias.length(), className).toString();
 					i = i + className.length() - 1;
