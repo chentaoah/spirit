@@ -34,9 +34,9 @@ public class JavaStarter {
 		Map<String, IClass> allClasses = new ShyCompiler().compile(files);
 
 		for (IClass clazz : allClasses.values()) {
-			// 4.转换方法中的内容,并生成java代码
+			// 3.转换方法中的内容,并生成java代码
 			String code = new JavaBuilder().build(clazz);
-			// 5.替换别名
+			// 4.替换别名
 			code = AliasReplacer.replace(clazz, code);
 			// 打印
 			System.out.println(code);
