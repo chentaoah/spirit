@@ -78,7 +78,7 @@ public class Block {
 		}
 	}
 
-	public Object testTry() {
+	public String testTry() {
 		try {
 			if (StringUtils.equals(s, "hello")) {
 				throw new Exception("test");
