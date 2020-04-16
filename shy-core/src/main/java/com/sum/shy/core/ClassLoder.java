@@ -11,7 +11,6 @@ import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.document.Document;
 import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Line;
 import com.sum.shy.core.entity.Constants;
 
 public class ClassLoder {
@@ -68,21 +67,20 @@ public class ClassLoder {
 					readRootElement(mainClass);
 
 				} else {
-					IClass partner = new IClass();
-					partner.packageStr = packageStr;
-					partner.imports = mainClass.imports;// 共用！
-					partner.annotations.addAll(annotations);
+					IClass clazz = new IClass();
+					clazz.packageStr = packageStr;
+					clazz.imports = mainClass.imports;// 共用！
+					clazz.annotations.addAll(annotations);
 					annotations.clear();
-					partner.root = element;
-					readRootElement(partner);
-					// 添加协同的类
-					classes.add(partner);
+					clazz.root = element;
+					readRootElement(clazz);
+					classes.add(clazz); // 添加协同的类
 				}
 			}
 		}
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass.root == null)
-			mainClass.root = new Element(new Line("class " + document.name + " {"));
+			mainClass.root = new Element("class " + document.name + " {");
 
 		return classes;
 	}

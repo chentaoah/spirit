@@ -1,7 +1,6 @@
 package com.sum.shy.core.clazz;
 
 import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Line;
 import com.sum.shy.core.utils.TypeUtils;
 
 public class Import {
@@ -13,7 +12,7 @@ public class Import {
 	}
 
 	public Import(String className) {
-		this.element = new Element(new Line("import " + className));
+		this.element = new Element("import " + className);
 	}
 
 	public String getClassName() {

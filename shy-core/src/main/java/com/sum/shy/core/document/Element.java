@@ -22,6 +22,10 @@ public class Element extends ArrayList<Element> {
 	// 语法
 	public String syntax;
 
+	public Element(String text) {
+		this(new Line(text));
+	}
+
 	public Element(Line line) {
 		this.line = line;
 		init(line);
