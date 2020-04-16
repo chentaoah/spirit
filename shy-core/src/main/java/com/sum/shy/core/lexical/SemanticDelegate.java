@@ -329,7 +329,6 @@ public class SemanticDelegate {
 			subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
 			return subTokens;
 		}
-
 		return new ArrayList<>();
 	}
 
