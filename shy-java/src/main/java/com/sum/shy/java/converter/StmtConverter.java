@@ -28,7 +28,7 @@ public class StmtConverter {
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
 			Stmt subStmt = element.subStmt(3, element.getSize() - 1);
-			String text = String.format("for (%s %s : %s) {", item.getTypeAtt(), item, subStmt);
+			String text = String.format("for (%s %s : %s) {", item.getTypeAtt().build(clazz), item, subStmt);
 			element.replace(0, element.getSize(), new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
