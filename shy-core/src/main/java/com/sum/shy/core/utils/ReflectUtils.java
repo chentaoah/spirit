@@ -36,7 +36,7 @@ public class ReflectUtils {
 		}
 	}
 
-	public static String getWrapType(String className) {
+	public static String getWrapperType(String className) {
 		switch (className) {
 		case "boolean":
 			return Boolean.class.getName();

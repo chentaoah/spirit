@@ -33,20 +33,4 @@ public class TypeLinker {
 				: visitMethod(type, methodName, parameterTypes);
 	}
 
-	public static boolean isAssignableFrom(IType father, IType child) {
-		// 如果两个className相同，则直接返回
-		if (father.equals(child))
-			return true;
-
-		if (isAssignableFrom(father, child.getSuperType()))
-			return true;
-
-		for (IType inter : child.getInterfaceTypes()) {
-			if (isAssignableFrom(father, inter))
-				return true;
-		}
-
-		return false;
-	}
-
 }

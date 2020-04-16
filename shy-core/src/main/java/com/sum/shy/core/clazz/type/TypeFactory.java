@@ -129,7 +129,7 @@ public class TypeFactory {
 			return create(clazz, "List<Object>");
 
 		IType finalType = create(List.class);
-		finalType.getGenericTypes().add(genericType.getWrapType());
+		finalType.getGenericTypes().add(genericType.getWrapperType());
 		return finalType;
 	}
 
@@ -167,8 +167,8 @@ public class TypeFactory {
 		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
 		IType finalType = create(Map.class);
-		finalType.getGenericTypes().add(finalKeyType.getWrapType());
-		finalType.getGenericTypes().add(finalValueType.getWrapType());
+		finalType.getGenericTypes().add(finalKeyType.getWrapperType());
+		finalType.getGenericTypes().add(finalValueType.getWrapperType());
 		return finalType;
 
 	}

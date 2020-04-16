@@ -14,7 +14,6 @@ import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.clazz.type.TypeFactory;
-import com.sum.shy.core.clazz.type.TypeLinker;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
@@ -110,7 +109,7 @@ public class MemberVisiter {
 
 			} else if (element.isReturn() && variable != null) {
 				// 如果返回值更加抽象，则取代原来的
-				if (context.returnType == null || TypeLinker.isAssignableFrom(variable.type, context.returnType))
+				if (context.returnType == null || variable.type.isAssignableFrom(context.returnType))
 					context.returnType = variable.type;
 			}
 
