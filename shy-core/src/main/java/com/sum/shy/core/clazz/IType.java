@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Joiner;
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.metadata.StaticType;
@@ -25,9 +24,9 @@ public class IType {
 	private boolean isPrimitive;
 	private boolean isArray;
 	private List<IType> genericTypes = new ArrayList<>();
+	private boolean isNull;// 是否空值
 	private boolean isWildcard;
 	private boolean isNative;
-	private boolean isNull;// 是否空值
 
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
@@ -121,23 +120,6 @@ public class IType {
 		return false;
 	}
 
-	public String build(IClass clazz) {
-
-		if (isWildcard())
-			return "?";
-
-		String finalName = clazz.addImport(getTargetName()) ? getSimpleName() : getTypeName();
-
-		if (isGenericType()) {// 泛型
-			List<String> strs = new ArrayList<>();
-			for (IType genericType : getGenericTypes())
-				strs.add(genericType.build(clazz));
-			return finalName + "<" + Joiner.on(", ").join(strs) + ">";
-		}
-
-		return finalName;
-	}
-
 	@Override
 	public String toString() {
 		throw new RuntimeException("Please use the build method!className:" + getClassName());
@@ -215,6 +197,14 @@ public class IType {
 		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
+	public boolean isNull() {
+		return isNull;
+	}
+
+	public void setNull(boolean isNull) {
+		this.isNull = isNull;
+	}
+
 	public boolean isWildcard() {
 		return isWildcard;
 	}
@@ -229,14 +219,6 @@ public class IType {
 
 	public void setNative(boolean isNative) {
 		this.isNative = isNative;
-	}
-
-	public boolean isNull() {
-		return isNull;
-	}
-
-	public void setNull(boolean isNull) {
-		this.isNull = isNull;
 	}
 
 }

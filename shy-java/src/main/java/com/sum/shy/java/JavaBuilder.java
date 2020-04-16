@@ -5,6 +5,7 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
+import com.sum.shy.core.clazz.type.TypeBuilder;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.java.converter.MetaphorConverter;
@@ -62,7 +63,8 @@ public class JavaBuilder {
 				if (element.isFunc()) {
 					String format = "\tpublic %s%s%s%s\n";
 					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-							method.isSync ? "synchronized " : "", !method.isInit ? method.type.build(clazz) + " " : "",
+							method.isSync ? "synchronized " : "",
+							!method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 
 				} else if (element.isFuncDeclare()) {

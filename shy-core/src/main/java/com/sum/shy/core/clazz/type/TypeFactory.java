@@ -25,9 +25,9 @@ public class TypeFactory {
 		type.setPrimitive(TypeUtils.isPrimitive(className));
 		type.setArray(TypeUtils.isArray(className));
 		type.setGenericTypes(null);
+		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
-		type.setNull(false);
 		return type;
 	}
 
@@ -42,7 +42,7 @@ public class TypeFactory {
 	}
 
 	public static IType create(IClass clazz, String text) {
-		Assert.isTrue(!text.contains("."), "Text cannot contains \".\", please use the another method!");
+		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
 		return create(clazz, SemanticDelegate.getToken(text));
 	}
 
