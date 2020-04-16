@@ -298,17 +298,20 @@ public class SemanticDelegate {
 	}
 
 	public static Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
+
 		int start = word.indexOf(left);
 		// 首先确保有前缀，并兼容前缀是泛型的情况
 		Object prefix = start > 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
 		List<Token> subTokens = getSubTokens(word, left, right);
+
 		if (StringUtils.isNotEmpty(left1) && StringUtils.isNotEmpty(right1))
 			subTokens.addAll(getSubTokens(word, left1, right1));
-		// 追加一个元素在头部
-		if (prefix != null)
+
+		if (prefix != null)// 追加一个元素在头部
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
-		// 生成子语句
-		return new Stmt(subTokens);
+
+		return new Stmt(subTokens);// 生成子语句
+
 	}
 
 	public static Stmt getSubStmt(String word, String left, String right) {
