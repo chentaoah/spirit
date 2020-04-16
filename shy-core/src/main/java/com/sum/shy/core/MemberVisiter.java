@@ -19,6 +19,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.StaticType;
+import com.sum.shy.core.processor.ElementVisiter;
 
 public class MemberVisiter {
 

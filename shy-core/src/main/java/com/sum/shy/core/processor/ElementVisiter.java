@@ -1,14 +1,9 @@
-package com.sum.shy.core;
+package com.sum.shy.core.processor;
 
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.document.Element;
-import com.sum.shy.core.processor.ExpressDeclarer;
-import com.sum.shy.core.processor.FastDeducer;
-import com.sum.shy.core.processor.InvokeVisiter;
-import com.sum.shy.core.processor.TypeDeclarer;
-import com.sum.shy.core.processor.VariableTracker;
 
 public class ElementVisiter {
 

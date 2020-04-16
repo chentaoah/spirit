@@ -1,6 +1,5 @@
 package com.sum.shy.core.processor;
 
-import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
