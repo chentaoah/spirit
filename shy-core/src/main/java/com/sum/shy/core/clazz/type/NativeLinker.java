@@ -22,9 +22,10 @@ public class NativeLinker {
 			Field field = clazz.getField(fieldName);
 			return convertNativeType(type, field.getGenericType());
 
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to access field!fieldName:[" + fieldName + "]");
+		} catch (Exception e) {// 大家都是Object的子类后，这个方法会被高频调用
+			// ignore
 		}
+		return null;
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
@@ -32,9 +33,10 @@ public class NativeLinker {
 			Method method = findMethod(type, methodName, parameterTypes);
 			return convertNativeType(type, method.getGenericReturnType());
 
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to access method!methodName:[" + methodName + "]");
+		} catch (Exception e) {// 大家都是Object的子类后，这个方法会被高频调用
+			// ignore
 		}
+		return null;
 	}
 
 	private static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {

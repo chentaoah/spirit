@@ -36,7 +36,7 @@ public class AdaptiveLinker {
 			return type;// super()和this()指代父类或者本身的构造函数，返回这个类本身
 
 		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes)
-				: visitMethod(type, methodName, parameterTypes);
+				: NativeLinker.visitMethod(type, methodName, parameterTypes);
 	}
 
 }
