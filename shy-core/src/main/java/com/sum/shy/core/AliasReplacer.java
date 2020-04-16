@@ -1,4 +1,4 @@
-package com.sum.shy.java;
+package com.sum.shy.core;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.Import;
@@ -8,10 +8,9 @@ import com.sum.shy.core.utils.LineUtils;
 public class AliasReplacer {
 
 	public static String replace(IClass clazz, String code) {
-		for (Import import1 : clazz.imports) {
-			if (import1.hasAlias()) {
-				code = replace(code, import1.getAlias(), import1.getClassName());
-			}
+		for (Import imp : clazz.imports) {
+			if (imp.hasAlias())
+				code = replace(code, imp.getAlias(), imp.getClassName());
 		}
 		return code;
 	}
