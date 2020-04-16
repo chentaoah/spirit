@@ -7,7 +7,7 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.clazz.type.AdaptiveLinker;
 import com.sum.shy.core.document.Stmt;
@@ -66,7 +66,7 @@ public class VariableTracker {
 		if (context != null) {
 			IMethod method = context.method;
 			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
-			for (Variable variable : context.variables) {
+			for (IVariable variable : context.variables) {
 				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))
 					return variable.type;
 			}

@@ -12,7 +12,7 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Stmt;
@@ -102,7 +102,7 @@ public class MemberVisiter {
 			if (element.size() > 0)
 				context.increaseDepth();// 提前深度+1
 
-			Variable variable = ElementVisiter.visit(clazz, context, element);
+			IVariable variable = ElementVisiter.visit(clazz, context, element);
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
@@ -123,7 +123,7 @@ public class MemberVisiter {
 
 	public static class MethodContext {// 方法上下文
 		public IMethod method;
-		public List<Variable> variables = new ArrayList<>();
+		public List<IVariable> variables = new ArrayList<>();
 		public int depth = 0;// 深度
 		public List<Integer> counts = new ArrayList<>(16);
 		public IType returnType;// 返回

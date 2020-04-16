@@ -2,7 +2,7 @@ package com.sum.shy.core;
 
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.processor.ExpressDeclarer;
 import com.sum.shy.core.processor.FastDeducer;
@@ -20,7 +20,7 @@ public class ElementVisiter {
 	 * @param element
 	 * @return
 	 */
-	public static Variable visit(IClass clazz, MethodContext context, Element element) {
+	public static IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
 			// 1.类型声明者
 			TypeDeclarer.declare(clazz, element);

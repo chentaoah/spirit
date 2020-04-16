@@ -1,6 +1,6 @@
 package com.sum.shy.core.clazz;
 
-public class Variable {
+public class IVariable {
 
 	public String blockId;
 
@@ -8,16 +8,16 @@ public class Variable {
 
 	public String name;
 
-	public Variable() {
+	public IVariable() {
 	}
 
-	public Variable(String blockId, IType type, String name) {
+	public IVariable(String blockId, IType type, String name) {
 		this.blockId = blockId;
 		this.type = type;
 		this.name = name;
 	}
 
-	public Variable(IType type, String name) {
+	public IVariable(IType type, String name) {
 		this.type = type;
 		this.name = name;
 	}

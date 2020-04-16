@@ -4,7 +4,7 @@ import com.sum.shy.core.ElementVisiter;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Line;
@@ -44,7 +44,7 @@ public class ExpressDeclarer {
 			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
 			Element subElement = new Element(new Line(subStmt.toString()));
 			subElement.stmt = subStmt;// 替换一下
-			Variable variable = ElementVisiter.visit(clazz, context, subElement);
+			IVariable variable = ElementVisiter.visit(clazz, context, subElement);
 			if (variable != null) {
 				variable.blockId = context.getBlockId();
 				context.variables.add(variable);

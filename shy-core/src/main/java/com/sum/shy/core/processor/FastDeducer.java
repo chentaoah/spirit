@@ -2,7 +2,7 @@ package com.sum.shy.core.processor;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.clazz.Variable;
+import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.document.Node;
 import com.sum.shy.core.document.Stmt;
@@ -28,27 +28,27 @@ public class FastDeducer {
 	 * @param element
 	 * @return
 	 */
-	public static Variable derive(IClass clazz, Element element) {
+	public static IVariable derive(IClass clazz, Element element) {
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
-			return new Variable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isCatch()) {
 			Token varToken = element.getToken(3);
-			return new Variable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isAssign()) {
 			Token varToken = element.getToken(0);
-			return new Variable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isForIn()) {
 			Token varToken = element.getToken(1);
-			return new Variable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
 			Stmt subStmt = element.subStmt(1, element.getSize());
-			return new Variable(deriveStmt(clazz, subStmt), null);
+			return new IVariable(deriveStmt(clazz, subStmt), null);
 
 		}
 		return null;
