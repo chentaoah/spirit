@@ -60,17 +60,18 @@ public class IType {
 		if (isArray())
 			return new ArrayList<>();
 
-		List<IType> interfaces = new ArrayList<>();
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
 			return clazz.getInterfaces();
 
 		} else {
+			List<IType> interfaces = new ArrayList<>();
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
 			for (Class<?> interfaceClass : clazz.getInterfaces())
 				interfaces.add(TypeFactory.create(interfaceClass));
+			return interfaces;
 		}
-		return interfaces;
+
 	}
 
 	public IType getWrapperType() {
