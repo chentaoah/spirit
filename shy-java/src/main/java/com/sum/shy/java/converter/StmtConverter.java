@@ -23,7 +23,7 @@ public class StmtConverter {
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Token token = element.getToken(1);
 			if (!token.isType() && token.isVar() && !token.isDeclaredAtt())
-				element.addToken(1, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
+				element.addToken(1, new Token(Constants.TYPE_TOKEN, token.getTypeAtt().build(clazz)));
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);

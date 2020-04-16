@@ -108,14 +108,16 @@ public class MemberVisiter {
 				context.variables.add(variable);
 
 			} else if (element.isReturn() && variable != null) {
-				// 如果返回值更加抽象，则取代原来的
-				if (context.returnType == null) {
-					context.returnType = variable.type;
-				} else {
-					if (variable.type.isMatch(context.returnType)) {
+				if (!variable.type.isNull()) {
+					if (context.returnType == null) {
 						context.returnType = variable.type;
+
 					} else {
-						throw new RuntimeException("Return type does not match!");
+						if (variable.type.isMatch(context.returnType)) {// 如果返回值更加抽象，则取代原来的
+							context.returnType = variable.type;
+						} else {
+							throw new RuntimeException("Return type does not match!");
+						}
 					}
 				}
 			}

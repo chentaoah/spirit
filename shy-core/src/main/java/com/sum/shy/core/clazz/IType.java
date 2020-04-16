@@ -27,6 +27,7 @@ public class IType {
 	private List<IType> genericTypes = new ArrayList<>();
 	private boolean isWildcard;
 	private boolean isNative;
+	private boolean isNull;// 是否空值
 
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
@@ -228,6 +229,14 @@ public class IType {
 
 	public void setNative(boolean isNative) {
 		this.isNative = isNative;
+	}
+
+	public boolean isNull() {
+		return isNull;
+	}
+
+	public void setNull(boolean isNull) {
+		this.isNull = isNull;
 	}
 
 }

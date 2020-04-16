@@ -27,6 +27,7 @@ public class TypeFactory {
 		type.setGenericTypes(null);
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
+		type.setNull(false);
 		return type;
 	}
 
@@ -94,7 +95,7 @@ public class TypeFactory {
 		} else if (token.isDouble()) {
 			return StaticType.DOUBLE_TYPE;
 		} else if (token.isNull()) {
-			return StaticType.OBJECT_TYPE;
+			return StaticType.NULL_TYPE;
 		} else if (token.isStr()) {
 			return StaticType.STRING_TYPE;
 		} else if (token.isList()) {
