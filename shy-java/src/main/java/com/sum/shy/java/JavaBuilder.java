@@ -62,7 +62,7 @@ public class JavaBuilder {
 				if (element.isFunc()) {
 					String format = "\tpublic %s%s%s%s\n";
 					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-							method.isSync ? "synchronized " : "", !method.isInit ? method.type + " " : "",
+							method.isSync ? "synchronized " : "", !method.isInit ? method.type.build(clazz) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 
 				} else if (element.isFuncDeclare()) {
