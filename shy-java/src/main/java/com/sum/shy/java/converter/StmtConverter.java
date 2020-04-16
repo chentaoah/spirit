@@ -34,7 +34,7 @@ public class StmtConverter {
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.getToken(0);
 			if (token.isVar() && !token.isDeclaredAtt())
-				element.addToken(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt()));
+				element.addToken(0, new Token(Constants.TYPE_TOKEN, token.getTypeAtt().build(clazz)));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Stmt subStmt = element.subStmt(1, element.getSize() - 1);
