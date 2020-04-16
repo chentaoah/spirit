@@ -52,7 +52,7 @@ public class IType {
 
 	}
 
-	public List<IType> getInterfaceTypes() {
+	public List<IType> getInterfaces() {
 
 		if (isPrimitive())
 			return new ArrayList<>();
@@ -92,7 +92,7 @@ public class IType {
 		if (isMatch(type.getSuperType()))
 			return true;
 
-		for (IType inter : type.getInterfaceTypes()) {
+		for (IType inter : type.getInterfaces()) {
 			if (isMatch(inter))
 				return true;
 		}
