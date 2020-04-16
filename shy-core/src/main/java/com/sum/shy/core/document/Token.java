@@ -161,10 +161,6 @@ public class Token {
 		return Constants.NODE_TOKEN.equals(type);
 	}
 
-	public boolean isUnknown() {
-		return Constants.UNKNOWN.equals(type);
-	}
-
 	public boolean isCustomPrefix() {
 		return Constants.CUSTOM_PREFIX_TOKEN.equals(type);
 	}

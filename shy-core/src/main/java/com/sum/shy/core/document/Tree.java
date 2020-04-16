@@ -122,8 +122,8 @@ public class Tree {
 			// ignore
 		}
 
-		// 未知
-		return Constants.UNKNOWN;
+		throw new RuntimeException("Unknown syntax!");
+
 	}
 
 }

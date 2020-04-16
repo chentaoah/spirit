@@ -10,6 +10,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 
 /**
@@ -106,40 +107,40 @@ public class SemanticDelegate {
 
 		if (isPath(word)) {// 是否类型全路径
 			token.type = Constants.PATH_TOKEN;
-			return;
+
 		} else if (isAnnotation(word)) {
 			token.type = Constants.ANNOTATION_TOKEN;
-			return;
+
 		} else if (isKeyword(word)) {// 关键字
 			token.type = Constants.KEYWORD_TOKEN;
-			return;
+
 		} else if (isOperator(word)) {// 是否操作符
 			token.type = Constants.OPERATOR_TOKEN;
-			return;
+
 		} else if (isSeparator(word)) {// 是否分隔符
 			token.type = Constants.SEPARATOR_TOKEN;
-			return;
+
 		} else if (isType(word)) {// 是否类型说明
 			token.type = Constants.TYPE_TOKEN;
-			return;
+
 		} else if (isInit(word)) {// 初始化
 			token.type = getInitTokenType(word);
-			return;
+
 		} else if (isValue(word)) {// 字面值
 			token.type = getValueTokenType(word);
-			return;
+
 		} else if (isSubexpress(word)) {// 子表达式
 			token.type = getSubexpressTokenType(word);
-			return;
+
 		} else if (isVar(word)) {// 变量
 			token.type = Constants.VAR_TOKEN;
-			return;
+
 		} else if (isAccess(word)) {// 属性访问
 			token.type = getAccessTokenType(word);
-			return;
+
 		}
-		token.type = Constants.UNKNOWN;
-		return;
+
+		Assert.notNull(token.type, "Unknown token type!");
 
 	}
 
@@ -187,7 +188,7 @@ public class SemanticDelegate {
 			return Constants.ARRAY_INIT_TOKEN;
 		if (TYPE_INIT_PATTERN.matcher(word).matches())
 			return Constants.TYPE_INIT_TOKEN;
-		return Constants.UNKNOWN;
+		return null;
 	}
 
 	public static boolean isValue(String word) {
@@ -214,7 +215,7 @@ public class SemanticDelegate {
 			return Constants.LIST_TOKEN;
 		if (MAP_PATTERN.matcher(word).matches())
 			return Constants.MAP_TOKEN;
-		return Constants.UNKNOWN;
+		return null;
 	}
 
 	public static boolean isSubexpress(String word) {
@@ -248,7 +249,7 @@ public class SemanticDelegate {
 			return Constants.VISIT_ARRAY_INDEX_TOKEN;
 		if (ARRAY_INDEX_PATTERN.matcher(word).matches())
 			return Constants.ARRAY_INDEX_TOKEN;
-		return Constants.UNKNOWN;
+		return null;
 	}
 
 	public static boolean isDouble(String word) {

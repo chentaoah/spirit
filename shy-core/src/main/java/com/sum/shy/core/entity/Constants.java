@@ -11,7 +11,7 @@ package com.sum.shy.core.entity;
  */
 public class Constants {
 
-	public static final String UNKNOWN = "unknown";
+//	public static final String UNKNOWN = "unknown";
 
 	public static final String INTERFACE_KEYWORD = "interface";// 高频出现的几个关键字
 	public static final String ABSTRACT_KEYWORD = "abstract";
