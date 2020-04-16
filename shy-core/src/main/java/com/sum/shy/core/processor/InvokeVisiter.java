@@ -6,7 +6,7 @@ import java.util.List;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.type.TypeFactory;
-import com.sum.shy.core.clazz.type.TypeLinker;
+import com.sum.shy.core.clazz.type.AdaptiveLinker;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 
@@ -36,22 +36,22 @@ public class InvokeVisiter {
 
 			} else if (token.isLocalMethod()) {// 本地调用
 				IType type = TypeFactory.create(clazz.getClassName());// 这个class本身
-				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+				IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitField()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
+				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
 				token.setTypeAtt(returnType);
 
 			} else if (token.isInvokeMethod()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = TypeLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+				IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = TypeLinker.visitField(type, token.getMemberNameAtt());
+				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
 				returnType = TypeFactory.create(returnType.getTargetName());
 				token.setTypeAtt(returnType);
 

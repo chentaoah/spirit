@@ -9,7 +9,7 @@ import com.sum.shy.core.clazz.IParameter;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.Variable;
 import com.sum.shy.core.clazz.type.TypeFactory;
-import com.sum.shy.core.clazz.type.TypeLinker;
+import com.sum.shy.core.clazz.type.AdaptiveLinker;
 import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
@@ -88,7 +88,7 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		if (StringUtils.isNotEmpty(clazz.getSuperName()))
-			return TypeLinker.visitField(TypeFactory.create(clazz.getSuperName()), name);
+			return AdaptiveLinker.visitField(TypeFactory.create(clazz.getSuperName()), name);
 
 		return null;
 

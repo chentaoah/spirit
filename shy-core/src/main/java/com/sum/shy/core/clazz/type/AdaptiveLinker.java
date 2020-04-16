@@ -7,7 +7,7 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.lib.Assert;
 
-public class TypeLinker {
+public class AdaptiveLinker {
 
 	public static IType visitField(IType type, String fieldName) {
 

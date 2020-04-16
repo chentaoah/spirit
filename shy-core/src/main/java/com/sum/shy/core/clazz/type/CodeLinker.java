@@ -20,7 +20,7 @@ public class CodeLinker {
 			return MemberVisiter.visitMember(clazz, field);
 
 		} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			return TypeLinker.visitField(TypeFactory.create(clazz.getSuperName()), fieldName);
+			return AdaptiveLinker.visitField(TypeFactory.create(clazz.getSuperName()), fieldName);
 		}
 		return null;
 	}
@@ -33,7 +33,7 @@ public class CodeLinker {
 			return MemberVisiter.visitMember(clazz, method);
 
 		} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			return TypeLinker.visitMethod(TypeFactory.create(clazz.getSuperName()), methodName, parameterTypes);
+			return AdaptiveLinker.visitMethod(TypeFactory.create(clazz.getSuperName()), methodName, parameterTypes);
 		}
 		return null;
 	}
