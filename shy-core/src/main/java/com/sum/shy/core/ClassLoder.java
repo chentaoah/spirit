@@ -22,12 +22,12 @@ public class ClassLoder {
 		// 2.打印日志
 		document.debug();
 		// 3.生成Class对象
-		List<IClass> classes = read(packageStr, document);
+		List<IClass> classes = load(packageStr, document);
 
 		return classes;
 	}
 
-	public List<IClass> read(String packageStr, Document document) {
+	public List<IClass> load(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();
 		// 主类
