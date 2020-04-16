@@ -278,9 +278,9 @@ public class SemanticDelegate {
 			token.value = getSubStmt(word, "(", ")");
 			return;
 
+		} else {
+			token.value = word;
 		}
-		token.value = word;
-		return;
 	}
 
 	public static Object getTypeStmtIfNeed(String word) {
@@ -303,7 +303,7 @@ public class SemanticDelegate {
 		// 前缀,这里兼容了泛型的类型声明
 		Object prefix = start != 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
 		List<Token> subTokens = getSubTokens(word, left, right);
-		if (StringUtils.isNotEmpty(left) && StringUtils.isNotEmpty(left))
+		if (StringUtils.isNotEmpty(left1) && StringUtils.isNotEmpty(right1))
 			subTokens.addAll(getSubTokens(word, left1, right1));
 		// 追加一个元素在头部
 		if (prefix != null)
@@ -317,18 +317,19 @@ public class SemanticDelegate {
 	}
 
 	public static List<Token> getSubTokens(String word, String left, String right) {
-		if (StringUtils.isNotEmpty(left) && StringUtils.isNotEmpty(left)) {// 校验
-			if (word.contains(left) && word.contains(right)) {
-				int start = word.indexOf(left);
-				int end = word.lastIndexOf(right);
-				String content = word.substring(start + 1, end);
-				List<String> subWords = LexicalAnalyzer.getWords(content);
-				List<Token> subTokens = getTokens(subWords);
-				subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
-				subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
-				return subTokens;
-			}
+		Assert.notEmpty(left, "Left cannot be empty!");
+		Assert.notEmpty(left, "Right cannot be empty!");
+		if (word.contains(left) && word.contains(right)) {
+			int start = word.indexOf(left);
+			int end = word.lastIndexOf(right);
+			String content = word.substring(start + 1, end);
+			List<String> subWords = LexicalAnalyzer.getWords(content);
+			List<Token> subTokens = getTokens(subWords);
+			subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
+			subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
+			return subTokens;
 		}
+
 		return new ArrayList<>();
 	}
 
