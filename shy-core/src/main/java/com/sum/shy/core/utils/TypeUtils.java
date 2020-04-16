@@ -1,6 +1,7 @@
 package com.sum.shy.core.utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -124,6 +125,15 @@ public class TypeUtils {
 		System.out.println(void.class.isPrimitive());
 		System.out.println(int.class.getSuperclass());
 		System.out.println(int.class.getInterfaces());
+		List<String> list = new ArrayList<>();
+		List<Object> list1 = new ArrayList<>();
+		System.out.println(list1.getClass().isAssignableFrom(list.getClass()));
+		System.out.println(Object.class.isAssignableFrom(int[].class));
+		System.out.println(Object.class.isAssignableFrom(int.class));
+
+	}
+
+	public static void test(List<Object> list) {
 
 	}
 

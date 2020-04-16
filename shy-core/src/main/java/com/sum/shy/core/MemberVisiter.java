@@ -109,7 +109,7 @@ public class MemberVisiter {
 
 			} else if (element.isReturn() && variable != null) {
 				// 如果返回值更加抽象，则取代原来的
-				if (context.returnType == null || variable.type.isAssignableFrom(context.returnType))
+				if (context.returnType == null || variable.type.isMatch(context.returnType))
 					context.returnType = variable.type;
 			}
 

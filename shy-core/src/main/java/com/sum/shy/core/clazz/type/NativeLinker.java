@@ -46,7 +46,7 @@ public class NativeLinker {
 				for (Parameter parameter : method.getParameters()) {
 					IType nativeParameterType = convertNativeType(type, parameter.getParameterizedType());
 					IType parameterType = parameterTypes.get(count++);
-					if (!(nativeParameterType.isAssignableFrom(parameterType))) {
+					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
 					}

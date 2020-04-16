@@ -84,20 +84,20 @@ public class IType {
 		return this;// 如果没有则返回自身
 	}
 
-	public boolean isAssignableFrom(IType type) {
+	public boolean isMatch(IType type) {
 
 		if (type == null)
 			return false;
 
-		// 如果两个className相同，则直接返回
+		// 这个方法还要判断泛型
 		if (equals(type))
 			return true;
 
-		if (isAssignableFrom(type.getSuperType()))
+		if (isMatch(type.getSuperType()))
 			return true;
 
 		for (IType inter : type.getInterfaceTypes()) {
-			if (isAssignableFrom(inter))
+			if (isMatch(inter))
 				return true;
 		}
 
