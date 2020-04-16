@@ -77,7 +77,7 @@ public class DocumentReader {
 			if (element.contains(":")) {
 				List<Line> subLines = new ArrayList<>();
 				List<Stmt> subStmts = element.split(":");
-				String indent = element.line.getIndent();// 获取缩进
+				String indent = element.getIndent();// 获取缩进
 				subLines.add(new Line(indent + subStmts.get(0).toString() + " {"));// 第一行，添加后缀分隔
 				for (int i = 1; i < subStmts.size(); i++)
 					subLines.add(new Line(indent + "\t" + subStmts.get(i).toString()));

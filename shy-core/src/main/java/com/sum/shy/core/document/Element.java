@@ -55,6 +55,10 @@ public class Element extends ArrayList<Element> {
 		return line.hasChild();
 	}
 
+	public String getIndent() {
+		return line.getIndent();
+	}
+
 	public String getStr(int index) {
 		return stmt.getStr(index);
 	}
