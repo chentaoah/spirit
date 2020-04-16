@@ -8,12 +8,12 @@ public class Line {
 
 	public String text;
 
-	public Line(int number, String text) {
-		this.number = number;
+	public Line(String text) {
 		this.text = text;
 	}
 
-	public Line(String text) {
+	public Line(int number, String text) {
+		this.number = number;
 		this.text = text;
 	}
 

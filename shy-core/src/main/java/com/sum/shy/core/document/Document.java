@@ -19,22 +19,4 @@ public class Document extends ArrayList<Element> {
 			element.debug();
 	}
 
-	public Element findElement(String syntax) {
-		for (Element element : this) {
-			if (syntax.equals(element.syntax))
-				return element;
-		}
-		return null;
-	}
-
-	public Element findElement(String syntax, String keyword, String keywordParam) {
-		for (Element element : this) {
-			if (syntax.equals(element.syntax)) {
-				if (keywordParam.equals(element.getKeywordParam(keyword)))
-					return element;
-			}
-		}
-		return null;
-	}
-
 }

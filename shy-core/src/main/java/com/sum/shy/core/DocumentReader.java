@@ -27,9 +27,8 @@ public class DocumentReader {
 			return document;
 
 		} catch (IOException e) {
-			// ignore
+			throw new RuntimeException("Fail to read file!", e);
 		}
-		return null;
 	}
 
 	public List<Line> convertLines(List<String> fileLines) {
