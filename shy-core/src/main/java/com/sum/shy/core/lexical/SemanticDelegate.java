@@ -108,7 +108,7 @@ public class SemanticDelegate {
 		if (isPath(word)) {// 是否类型全路径
 			token.type = Constants.PATH_TOKEN;
 
-		} else if (isAnnotation(word)) {
+		} else if (isAnnotation(word)) {// 注解
 			token.type = Constants.ANNOTATION_TOKEN;
 
 		} else if (isKeyword(word)) {// 关键字
@@ -137,11 +137,9 @@ public class SemanticDelegate {
 
 		} else if (isAccess(word)) {// 属性访问
 			token.type = getAccessTokenType(word);
-
 		}
 
-		Assert.notNull(token.type, "Unknown token type!");
-
+		Assert.notNull(token.type, "Token type cannot be null!");
 	}
 
 	public static boolean isPath(String word) {
@@ -260,23 +258,18 @@ public class SemanticDelegate {
 
 		if (token.isType()) {
 			token.value = getTypeStmtIfNeed(word);
-			return;
 
 		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
 			token.value = getSubStmt(word, "[", "]", "{", "}");
-			return;
 
 		} else if (token.isList()) {
 			token.value = getSubStmt(word, "[", "]");
-			return;
 
 		} else if (token.isMap()) {
 			token.value = getSubStmt(word, "{", "}");
-			return;
 
 		} else if (token.isSubexpress() || token.isInvoke()) {
 			token.value = getSubStmt(word, "(", ")");
-			return;
 
 		} else {
 			token.value = word;
@@ -351,7 +344,6 @@ public class SemanticDelegate {
 		} else if (token.isAccess()) {// 属性访问
 			token.setMemberNameAtt(getPrefix(word));
 			return;
-
 		}
 
 	}
