@@ -75,13 +75,6 @@ public class SemanticDelegate {
 	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\[\\d+\\]$");
 	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+\\w*\\[\\d+\\]$");
 
-	/**
-	 * 语义分析
-	 * 
-	 * @param syntax
-	 * @param words
-	 * @return
-	 */
 	public static List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words)
@@ -89,12 +82,6 @@ public class SemanticDelegate {
 		return tokens;
 	}
 
-	/**
-	 * 生成一个token
-	 * 
-	 * @param word
-	 * @return
-	 */
 	public static Token getToken(String word) {
 		Token token = new Token();
 		getTokenType(token, word);
