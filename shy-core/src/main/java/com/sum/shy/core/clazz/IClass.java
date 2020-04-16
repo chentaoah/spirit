@@ -3,6 +3,7 @@ package com.sum.shy.core.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
@@ -119,15 +120,20 @@ public class IClass {
 		return packageStr + "." + getSimpleName();
 	}
 
-	public String getSuperName() {// 如果不存在继承，则默认是继承Object
-		String superName = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
-		return StringUtils.isNotEmpty(superName) ? findImport(superName) : StaticType.OBJECT_TYPE.getClassName();
+	public IType getSuperType() {
+		// 这里返回的,可以是泛型格式，而不是className
+		String extend = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
+		// extend只是返回一个字符串信息
+		if (StringUtils.isNotEmpty(extend))
+			return TypeFactory.create(this, extend);
+		// 如果不存在继承，则默认是继承Object
+		return StaticType.OBJECT_TYPE;
 	}
 
-	public List<String> getInterfaces() {
-		List<String> interfaces = new ArrayList<>();
+	public List<IType> getInterfaces() {
+		List<IType> interfaces = new ArrayList<>();
 		for (String inter : root.getKeywordParams(Constants.IMPL_KEYWORD))
-			interfaces.add(findImport(inter));
+			interfaces.add(TypeFactory.create(this, inter));
 		return interfaces;
 	}
 

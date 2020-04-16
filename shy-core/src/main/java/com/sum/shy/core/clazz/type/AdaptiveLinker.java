@@ -11,6 +11,9 @@ public class AdaptiveLinker {
 
 	public static IType visitField(IType type, String fieldName) {
 
+		if (type == null)
+			return null;
+
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
@@ -23,6 +26,9 @@ public class AdaptiveLinker {
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+
+		if (type == null)
+			return null;
 
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
 

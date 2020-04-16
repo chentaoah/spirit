@@ -10,7 +10,6 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
-import com.sum.shy.lib.Assert;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -43,9 +42,7 @@ public class IType {
 
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
-			String superName = clazz.getSuperName();
-			Assert.notEmpty(superName, "Super name cannot be empty!");
-			return TypeFactory.create(superName);
+			return clazz.getSuperType();
 
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
@@ -66,8 +63,7 @@ public class IType {
 		List<IType> interfaces = new ArrayList<>();
 		if (!isNative()) {
 			IClass clazz = Context.get().findClass(getTargetName());
-			for (String inter : clazz.getInterfaces())
-				interfaces.add(TypeFactory.create(inter));
+			return clazz.getInterfaces();
 
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());

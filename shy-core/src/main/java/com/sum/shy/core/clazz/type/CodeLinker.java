@@ -8,7 +8,6 @@ import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.lib.StringUtils;
 
 public class CodeLinker {
 
@@ -19,10 +18,9 @@ public class CodeLinker {
 			IField field = clazz.getField(fieldName);
 			return MemberVisiter.visitMember(clazz, field);
 
-		} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			return AdaptiveLinker.visitField(TypeFactory.create(clazz.getSuperName()), fieldName);
+		} else {
+			return AdaptiveLinker.visitField(clazz.getSuperType(), fieldName);
 		}
-		return null;
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
@@ -32,9 +30,9 @@ public class CodeLinker {
 			IMethod method = clazz.getMethod(methodName, parameterTypes);
 			return MemberVisiter.visitMember(clazz, method);
 
-		} else if (StringUtils.isNotEmpty(clazz.getSuperName())) {
-			return AdaptiveLinker.visitMethod(TypeFactory.create(clazz.getSuperName()), methodName, parameterTypes);
+		} else {
+			return AdaptiveLinker.visitMethod(clazz.getSuperType(), methodName, parameterTypes);
 		}
-		return null;
+
 	}
 }

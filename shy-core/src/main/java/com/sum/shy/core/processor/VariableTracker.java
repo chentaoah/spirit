@@ -14,7 +14,6 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.lib.StringUtils;
 
 /**
  * 变量追踪器
@@ -56,7 +55,7 @@ public class VariableTracker {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return TypeFactory.create(clazz.getSuperName());
+			return clazz.getSuperType();
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
@@ -87,10 +86,7 @@ public class VariableTracker {
 		}
 
 		// 从继承里面去找，注意这里的父类可能是native的
-		if (StringUtils.isNotEmpty(clazz.getSuperName()))
-			return AdaptiveLinker.visitField(TypeFactory.create(clazz.getSuperName()), name);
-
-		return null;
+		return AdaptiveLinker.visitField(clazz.getSuperType(), name);
 
 	}
 
