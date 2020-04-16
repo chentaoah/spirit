@@ -122,7 +122,7 @@ public class IType {
 
 	@Override
 	public String toString() {
-		throw new RuntimeException("Please use the build method!className:" + getClassName());
+		throw new RuntimeException("Please use the build method of TypeBuider!className:" + getClassName());
 	}
 
 	public boolean isVoid() {
