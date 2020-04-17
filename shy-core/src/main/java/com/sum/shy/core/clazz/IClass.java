@@ -104,10 +104,10 @@ public class IClass {
 			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
 
 		} else if (isAbstract()) {
-			String typeName = root.getKeywordParam(Constants.CLASS_KEYWORD);
-			if (StringUtils.isEmpty(typeName))
-				typeName = root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
-			return typeName;
+			String simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD);
+			if (StringUtils.isEmpty(simpleName))
+				simpleName = root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
+			return simpleName;
 
 		} else if (isClass()) {
 			return root.getKeywordParam(Constants.CLASS_KEYWORD);
