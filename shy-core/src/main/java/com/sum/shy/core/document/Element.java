@@ -71,8 +71,8 @@ public class Element extends ArrayList<Element> {
 		return stmt.subStmt(start, end);
 	}
 
-	public Token findToken(String type) {
-		return stmt.findToken(type);
+	public Token findToken(String... types) {
+		return stmt.findToken(types);
 	}
 
 	public Token getToken(int index) {

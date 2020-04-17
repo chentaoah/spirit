@@ -42,10 +42,12 @@ public class Stmt {
 		return getStr(size() - 1);
 	}
 
-	public Token findToken(String type) {
+	public Token findToken(String... types) {
 		for (Token token : tokens) {
-			if (token.type.equals(type))
-				return token;
+			for (String type : types) {
+				if (token.type.equals(type))
+					return token;
+			}
 		}
 		return null;
 	}
