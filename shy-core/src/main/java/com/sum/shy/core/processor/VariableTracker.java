@@ -31,22 +31,22 @@ public class VariableTracker {
 			if (token.canVisit())
 				trackStmt(clazz, context, token.getStmt());
 
-			if (token.getTypeAtt() == null) {
+			if (token.getTypeAtt() != null)
+				return;
 
-				if (token.isVar()) {// 如果没有设置类型的话
-					String name = token.toString();
-					IType type = findType(clazz, context, name);
-					Assert.notNull(type, "Variable must be declared!name:" + name);
-					token.setTypeAtt(type);
+			if (token.isVar()) {// 如果没有设置类型的话
+				String name = token.toString();
+				IType type = findType(clazz, context, name);
+				Assert.notNull(type, "Variable must be declared!name:" + name);
+				token.setTypeAtt(type);
 
-				} else if (token.isArrayIndex()) {// 如果没有设置类型的话
-					String name = token.getMemberNameAtt();
-					IType type = findType(clazz, context, name);// 返回的数组类型
-					Assert.notNull(type, "Variable must be declared!name:" + name);
-					type = TypeFactory.create(type.getTargetName());// 转换成数组内的类型
-					token.setTypeAtt(type);
+			} else if (token.isArrayIndex()) {// 如果没有设置类型的话
+				String name = token.getMemberNameAtt();
+				IType type = findType(clazz, context, name);// 返回的数组类型
+				Assert.notNull(type, "Variable must be declared!name:" + name);
+				type = TypeFactory.create(type.getTargetName());// 转换成数组内的类型
+				token.setTypeAtt(type);
 
-				}
 			}
 		}
 	}
