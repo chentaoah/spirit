@@ -11,8 +11,6 @@ package com.sum.shy.core.entity;
  */
 public class Constants {
 
-//	public static final String UNKNOWN = "unknown";
-
 	public static final String INTERFACE_KEYWORD = "interface";// 高频出现的几个关键字
 	public static final String ABSTRACT_KEYWORD = "abstract";
 	public static final String CLASS_KEYWORD = "class";
@@ -33,16 +31,6 @@ public class Constants {
 	public static final String PRINT_KEYWORD = "print";
 	public static final String DEBUG_KEYWORD = "debug";
 	public static final String ERROR_KEYWORD = "error";
-
-	public static final String VOID = "void";// 常用的类型
-	public static final String BOOLEAN = "boolean";
-	public static final String INT = "int";
-	public static final String LONG = "long";
-	public static final String DOUBLE = "double";
-	public static final String OBJECT = "Object";
-	public static final String STRING = "String";
-	public static final String LIST = "List";
-	public static final String MAP = "Map";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";
