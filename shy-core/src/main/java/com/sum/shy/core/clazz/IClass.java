@@ -31,8 +31,8 @@ public class IClass {
 			return simpleName;
 
 		// 如果传进来是个数组，那么处理一下
-		boolean isArray = TypeUtils.isArray(simpleName);
 		String targetName = TypeUtils.getTargetName(simpleName);
+		boolean isArray = TypeUtils.isArray(simpleName);
 
 		// 1.首先先去引入里面找
 		for (Import imp : imports) {
