@@ -117,7 +117,7 @@ public class MemberVisiter {
 					}
 				}
 			}
-
+			
 			if (element.size() > 0) {
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
