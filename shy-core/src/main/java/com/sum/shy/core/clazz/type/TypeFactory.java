@@ -108,16 +108,16 @@ public class TypeFactory {
 
 	public static IType getListType(IClass clazz, Token token) {
 		Stmt stmt = token.getStmt();
-		IType currentType = getGenericType(clazz, stmt.subStmt(1, stmt.size() - 1).split(","));
+		List<Stmt> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
 		IType type = create(List.class);
-		type.getGenericTypes().add(currentType);
+		type.getGenericTypes().add(getGenericType(clazz, stmts));
 		return type;
 	}
 
 	public static IType getMapType(IClass clazz, Token token) {
+		Stmt stmt = token.getStmt();
 		List<Stmt> keyStmts = new ArrayList<>();
 		List<Stmt> valueStmts = new ArrayList<>();
-		Stmt stmt = token.getStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
 			keyStmts.add(subStmts.get(0));
@@ -145,7 +145,7 @@ public class TypeFactory {
 				break;
 			}
 		}
-		Assert.notNull(genericType, "Current type cannot be null!");
+		Assert.notNull(genericType, "Generic type cannot be null!");
 		return genericType;
 	}
 
