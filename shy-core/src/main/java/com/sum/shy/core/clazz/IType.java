@@ -74,7 +74,7 @@ public class IType {
 
 	}
 
-	public IType getWrapperType() {
+	public IType getWrappedType() {
 		String className = ReflectUtils.getWrapperType(getClassName());
 		if (className != null)
 			return TypeFactory.create(className);

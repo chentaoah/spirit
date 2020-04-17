@@ -69,7 +69,6 @@ public class FastDeducer {
 
 			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
 				return getType(clazz, token.getNode());
-
 			}
 		}
 		throw new RuntimeException("Cannot deduce type!stmt:" + stmt.toString());

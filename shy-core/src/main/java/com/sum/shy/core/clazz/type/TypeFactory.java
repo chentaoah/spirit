@@ -107,31 +107,25 @@ public class TypeFactory {
 	}
 
 	public static IType getListType(IClass clazz, Token token) {
-		boolean isSame = true;// 所有元素是否都相同
-		IType genericType = null;
-		// 开始遍历
+		IType currentType = null;
 		Stmt stmt = token.getStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			IType type = FastDeducer.deriveStmt(clazz, subStmt);
-			if (type != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (genericType != null) {
-					if (!genericType.equals(type)) {// 如果存在多个类型
-						isSame = false;
-						break;
-					}
-				} else {
-					genericType = type;
-				}
+			IType wrappedType = FastDeducer.deriveStmt(clazz, subStmt).getWrappedType();
+			if (currentType == null) {
+				currentType = wrappedType;
+				continue;
+			}
+			if (wrappedType.isMatch(currentType)) {// 更抽象则替换
+				currentType = wrappedType;
+
+			} else if (!currentType.isMatch(wrappedType)) {// 不同则使用Object
+				currentType = StaticType.OBJECT_TYPE;
+				break;
 			}
 		}
-		// 1.如果集合中已经明显存在多个类型的元素,那就直接返回Object,不用再推导了
-		// 2.可能是个空的集合
-		if (!isSame || genericType == null)
-			return create(clazz, "List<Object>");
-
-		IType finalType = create(List.class);
-		finalType.getGenericTypes().add(genericType.getWrapperType());
-		return finalType;
+		IType type = create(List.class);
+		type.getGenericTypes().add(currentType);
+		return type;
 	}
 
 	public static IType getMapType(IClass clazz, Token token) {
@@ -168,8 +162,8 @@ public class TypeFactory {
 		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
 
 		IType finalType = create(Map.class);
-		finalType.getGenericTypes().add(finalKeyType.getWrapperType());
-		finalType.getGenericTypes().add(finalValueType.getWrapperType());
+		finalType.getGenericTypes().add(finalKeyType.getWrappedType());
+		finalType.getGenericTypes().add(finalValueType.getWrappedType());
 		return finalType;
 
 	}
