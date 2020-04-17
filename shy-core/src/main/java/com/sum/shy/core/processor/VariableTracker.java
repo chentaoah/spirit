@@ -33,7 +33,7 @@ public class VariableTracker {
 				trackStmt(clazz, context, token.getStmt());
 
 			if (token.getTypeAtt() != null)
-				return;
+				continue;
 
 			if (token.isVar()) {// 如果没有设置类型的话
 				String name = token.toString();

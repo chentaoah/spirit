@@ -9,6 +9,7 @@ import com.sum.shy.core.document.Stmt;
 import com.sum.shy.core.document.Token;
 import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.metadata.StaticType;
+import com.sum.shy.lib.Assert;
 
 /**
  * 快速推导器
@@ -92,7 +93,7 @@ public class FastDeducer {
 				return getType(clazz, node.right);
 			}
 		}
-
+		Assert.notNull(token.getTypeAtt(), "Type is null!");
 		return token.getTypeAtt();
 
 	}
