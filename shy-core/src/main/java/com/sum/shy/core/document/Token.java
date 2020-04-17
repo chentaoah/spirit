@@ -65,10 +65,6 @@ public class Token {
 		return Constants.KEYWORD_TOKEN.equals(type);
 	}
 
-	public boolean isKeywordParam() {
-		return Constants.KEYWORD_PARAM_TOKEN.equals(type);
-	}
-
 	public boolean isOperator() {
 		return Constants.OPERATOR_TOKEN.equals(type);
 	}
