@@ -48,7 +48,9 @@ public class VariableTracker {
 				token.setTypeAtt(type);
 
 			}
+
 		}
+
 	}
 
 	public static IType findType(IClass clazz, MethodContext context, String name) {
