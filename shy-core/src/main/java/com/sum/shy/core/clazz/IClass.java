@@ -120,6 +120,10 @@ public class IClass {
 		return packageStr + "." + getSimpleName();
 	}
 
+	public IType toType() {
+		return TypeFactory.create(getClassName());
+	}
+
 	public IType getSuperType() {
 		// 这里返回的,可以是泛型格式，而不是className
 		String extendsParam = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
