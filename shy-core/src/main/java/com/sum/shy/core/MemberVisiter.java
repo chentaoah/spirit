@@ -20,6 +20,7 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.ElementVisiter;
+import com.sum.shy.lib.Assert;
 
 public class MemberVisiter {
 
@@ -68,11 +69,8 @@ public class MemberVisiter {
 			} else if (member instanceof IMethod) {
 				type = visitMethod(clazz, (IMethod) member);
 			}
-			if (type != null) {
-				member.setType(type);
-			} else {
-				throw new RuntimeException("Failed to derive member type!");
-			}
+			Assert.notNull(type, "Failed to derive member type!");
+			member.setType(type);
 		}
 		member.unLock();
 		return type;
@@ -110,7 +108,6 @@ public class MemberVisiter {
 				if (!variable.type.isNull()) {
 					if (context.returnType == null) {
 						context.returnType = variable.type;
-
 					} else {
 						if (variable.type.isMatch(context.returnType)) {// 如果返回值更加抽象，则取代原来的
 							context.returnType = variable.type;
