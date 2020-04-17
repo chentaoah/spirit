@@ -33,7 +33,7 @@ public class Token {
 	}
 
 	public Token copy() {// 拷贝内容，但是是一个新的实例
-		if (hasStmt()) {
+		if (canVisit()) {
 			return new Token(type, getStmt().copy(), attachments);
 		} else {
 			return new Token(type, value, attachments);
@@ -199,7 +199,7 @@ public class Token {
 		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
 	}
 
-	public boolean hasStmt() {
+	public boolean canVisit() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
 

@@ -14,7 +14,7 @@ public class SymbolConverter {
 	public static void convertStmt(IClass clazz, Stmt stmt) {
 		// 如果有子节点，先处理子节点
 		for (Token token : stmt.tokens) {
-			if (token.hasStmt())
+			if (token.canVisit())
 				convertStmt(clazz, token.getStmt());
 		}
 

@@ -13,7 +13,7 @@ public class TokenConverter {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 
-			if (token.hasStmt())
+			if (token.canVisit())
 				convertStmt(clazz, token.getStmt());
 
 			if (token.isArrayInit()) {// 数组初始化,是没有子语句的

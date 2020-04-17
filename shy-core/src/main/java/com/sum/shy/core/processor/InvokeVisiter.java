@@ -20,7 +20,7 @@ public class InvokeVisiter {
 	public static void visitToken(IClass clazz, Stmt stmt, int index, Token token) {
 
 		// 内部可能还需要推导
-		if (token.hasStmt())
+		if (token.canVisit())
 			visitStmt(clazz, token.getStmt());
 
 		if (token.getTypeAtt() != null)
