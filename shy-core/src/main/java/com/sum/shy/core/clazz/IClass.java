@@ -122,10 +122,10 @@ public class IClass {
 
 	public IType getSuperType() {
 		// 这里返回的,可以是泛型格式，而不是className
-		String extend = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
+		String extendsParam = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
 		// extend只是返回一个字符串信息
-		if (StringUtils.isNotEmpty(extend))
-			return TypeFactory.create(this, extend);
+		if (StringUtils.isNotEmpty(extendsParam))
+			return TypeFactory.create(this, extendsParam);
 		// 如果不存在继承，则默认是继承Object
 		return StaticType.OBJECT_TYPE;
 	}
