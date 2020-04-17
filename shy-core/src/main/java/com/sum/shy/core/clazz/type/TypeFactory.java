@@ -121,7 +121,7 @@ public class TypeFactory {
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
 			keyStmts.add(subStmts.get(0));
-			keyStmts.add(subStmts.get(1));
+			valueStmts.add(subStmts.get(1));
 		}
 		IType type = create(Map.class);
 		type.getGenericTypes().add(getGenericType(clazz, keyStmts));
