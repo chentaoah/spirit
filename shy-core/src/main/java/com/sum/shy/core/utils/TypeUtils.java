@@ -70,8 +70,6 @@ public class TypeUtils {
 			return simpleName;// 基本类型simpleName和className一致
 
 		switch (simpleName) {
-		case "void":
-			return void.class.getName();// 空类型
 		case "boolean[]":
 			return boolean[].class.getName();// 基本类型数组
 		case "char[]":
@@ -123,6 +121,7 @@ public class TypeUtils {
 		System.out.println(clazz.isPrimitive());
 		System.out.println(clazz.getSuperclass());
 		System.out.println(void.class.isPrimitive());
+		System.out.println(void.class.getName());
 		System.out.println(int.class.getSuperclass());
 		System.out.println(int.class.getInterfaces());
 		List<String> list = new ArrayList<>();
@@ -130,10 +129,6 @@ public class TypeUtils {
 		System.out.println(list1.getClass().isAssignableFrom(list.getClass()));
 		System.out.println(Object.class.isAssignableFrom(int[].class));
 		System.out.println(Object.class.isAssignableFrom(int.class));
-
-	}
-
-	public static void test(List<Object> list) {
 
 	}
 
