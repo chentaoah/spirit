@@ -23,39 +23,38 @@ public class InvokeVisiter {
 		if (token.hasStmt())
 			visitStmt(clazz, token.getStmt());
 
+		if (token.getTypeAtt() != null)
+			return;
+
 		// 参数类型，为了像java那样支持重载
 		List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
-		if (token.getTypeAtt() == null) {
+		if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
+			token.setTypeAtt(TypeFactory.create(clazz, token));
 
-			if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
-				token.setTypeAtt(TypeFactory.create(clazz, token));
+		} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
+			token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
-			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-				token.setTypeAtt(FastDeducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
+		} else if (token.isLocalMethod()) {// 本地调用
+			IType type = TypeFactory.create(clazz.getClassName());// 这个class本身
+			IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+			token.setTypeAtt(returnType);
 
-			} else if (token.isLocalMethod()) {// 本地调用
-				IType type = TypeFactory.create(clazz.getClassName());// 这个class本身
-				IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
-				token.setTypeAtt(returnType);
+		} else if (token.isVisitField()) {
+			IType type = stmt.getToken(index - 1).getTypeAtt();
+			IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
+			token.setTypeAtt(returnType);
 
-			} else if (token.isVisitField()) {
-				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
-				token.setTypeAtt(returnType);
+		} else if (token.isInvokeMethod()) {
+			IType type = stmt.getToken(index - 1).getTypeAtt();
+			IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+			token.setTypeAtt(returnType);
 
-			} else if (token.isInvokeMethod()) {
-				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
-				token.setTypeAtt(returnType);
-
-			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
-				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
-				returnType = TypeFactory.create(returnType.getTargetName());
-				token.setTypeAtt(returnType);
-
-			}
+		} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
+			IType type = stmt.getToken(index - 1).getTypeAtt();
+			IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
+			returnType = TypeFactory.create(returnType.getTargetName());
+			token.setTypeAtt(returnType);
 
 		}
 
