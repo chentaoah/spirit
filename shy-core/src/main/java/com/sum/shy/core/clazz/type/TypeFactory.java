@@ -107,65 +107,46 @@ public class TypeFactory {
 	}
 
 	public static IType getListType(IClass clazz, Token token) {
-		IType currentType = null;
 		Stmt stmt = token.getStmt();
-		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			IType wrappedType = FastDeducer.deriveStmt(clazz, subStmt).getWrappedType();
-			if (currentType == null) {
-				currentType = wrappedType;
-				continue;
-			}
-			if (wrappedType.isMatch(currentType)) {// 更抽象则替换
-				currentType = wrappedType;
-
-			} else if (!currentType.isMatch(wrappedType)) {// 不同则使用Object
-				currentType = StaticType.OBJECT_TYPE;
-				break;
-			}
-		}
+		IType currentType = getGenericType(clazz, stmt.subStmt(1, stmt.size() - 1).split(","));
 		IType type = create(List.class);
 		type.getGenericTypes().add(currentType);
 		return type;
 	}
 
 	public static IType getMapType(IClass clazz, Token token) {
-		boolean isSameKey = true;
-		boolean isSameValue = true;
-		IType finalKeyType = null;
-		IType finalValueType = null;
+		List<Stmt> keyStmts = new ArrayList<>();
+		List<Stmt> valueStmts = new ArrayList<>();
 		Stmt stmt = token.getStmt();
 		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
 			List<Stmt> subStmts = subStmt.split(":");
-			IType KeyType = FastDeducer.deriveStmt(clazz, subStmts.get(0));
-			IType valueType = FastDeducer.deriveStmt(clazz, subStmts.get(1));
-			if (KeyType != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (finalKeyType != null) {
-					if (!finalKeyType.equals(KeyType)) {// 如果存在多个类型
-						isSameKey = false;
-					}
-				} else {
-					finalKeyType = KeyType;
-				}
+			keyStmts.add(subStmts.get(0));
+			keyStmts.add(subStmts.get(1));
+		}
+		IType type = create(Map.class);
+		type.getGenericTypes().add(getGenericType(clazz, keyStmts));
+		type.getGenericTypes().add(getGenericType(clazz, valueStmts));
+		return type;
+	}
+
+	public static IType getGenericType(IClass clazz, List<Stmt> stmts) {
+		IType genericType = null;
+		for (Stmt subStmt : stmts) {
+			IType wrappedType = FastDeducer.deriveStmt(clazz, subStmt).getWrappedType();
+			if (genericType == null) {
+				genericType = wrappedType;
+				continue;
 			}
-			if (valueType != null) {// 如果有个类型,不是最终类型的话,则直接
-				if (finalValueType != null) {
-					if (!finalValueType.equals(valueType)) {// 如果存在多个类型
-						isSameValue = false;
-					}
-				} else {
-					finalValueType = valueType;
-				}
+			if (wrappedType.isMatch(genericType)) {// 更抽象则替换
+				genericType = wrappedType;
+
+			} else if (!genericType.isMatch(wrappedType)) {// 不同则使用Object
+				genericType = StaticType.OBJECT_TYPE;
+				break;
 			}
 		}
-		// 类型不相同,或者是空的map,则取Object类型
-		finalKeyType = !isSameKey || finalKeyType == null ? StaticType.OBJECT_TYPE : finalKeyType;
-		finalValueType = !isSameValue || finalValueType == null ? StaticType.OBJECT_TYPE : finalValueType;
-
-		IType finalType = create(Map.class);
-		finalType.getGenericTypes().add(finalKeyType.getWrappedType());
-		finalType.getGenericTypes().add(finalValueType.getWrappedType());
-		return finalType;
-
+		Assert.notNull(genericType, "Current type cannot be null!");
+		return genericType;
 	}
 
 }
