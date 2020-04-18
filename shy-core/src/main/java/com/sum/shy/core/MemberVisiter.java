@@ -56,7 +56,6 @@ public class MemberVisiter {
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
 				}
-
 			}
 			method.parameters.add(parameter);
 		}
