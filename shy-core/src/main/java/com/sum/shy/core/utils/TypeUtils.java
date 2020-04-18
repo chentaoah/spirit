@@ -129,6 +129,7 @@ public class TypeUtils {
 		System.out.println(list1.getClass().isAssignableFrom(list.getClass()));
 		System.out.println(Object.class.isAssignableFrom(int[].class));
 		System.out.println(Object.class.isAssignableFrom(int.class));
+		System.out.println(list.getClass().getTypeName());
 
 	}
 
