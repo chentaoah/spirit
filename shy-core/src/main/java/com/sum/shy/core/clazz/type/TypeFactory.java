@@ -53,11 +53,9 @@ public class TypeFactory {
 				String simpleName = (String) token.value;
 				if ("?".equals(simpleName)) {// 未知类型
 					type = StaticType.WILDCARD_TYPE;
-
 				} else {// 一般类型
 					type = create(clazz.findImport(simpleName));
 				}
-
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
 				Stmt subStmt = token.getStmt();
 				String simpleName = subStmt.getStr(0);// 前缀
