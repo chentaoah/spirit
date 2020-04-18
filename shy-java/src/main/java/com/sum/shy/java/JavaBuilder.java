@@ -81,7 +81,6 @@ public class JavaBuilder {
 		// 字段
 		StringBuilder fieldsStr = new StringBuilder();
 		for (IField field : clazz.fields) {// public static type + element
-			// 先拼接注解
 			for (IAnnotation annotation : field.annotations)
 				fieldsStr.append("\t" + annotation + "\n");
 			String format = "\tpublic %s%s\n";
