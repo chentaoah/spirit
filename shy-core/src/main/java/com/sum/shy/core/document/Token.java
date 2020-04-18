@@ -262,15 +262,15 @@ public class Token {
 		attachments.put(Constants.MEMBER_NAME_ATTACHMENT, str);
 	}
 
-	// =================== 是否已经被声明 =====================
+	// =================== 是否推导得来 =====================
 
-	public boolean isDeclaredAtt() {
-		Object flag = attachments.get(Constants.IS_DECLARED_ATTACHMENT);
-		return flag != null ? (boolean) flag : true;// 默认返回true
+	public boolean isDerivedAtt() {
+		Object flag = attachments.get(Constants.IS_DERIVED_ATTACHMENT);
+		return flag != null ? (boolean) flag : false;
 	}
 
-	public void setDeclaredAtt(boolean isDeclared) {
-		attachments.put(Constants.IS_DECLARED_ATTACHMENT, isDeclared);
+	public void setDerivedAtt(boolean isDerived) {
+		attachments.put(Constants.IS_DERIVED_ATTACHMENT, isDerived);
 	}
 
 	// =================== 在语句中的位置 =====================

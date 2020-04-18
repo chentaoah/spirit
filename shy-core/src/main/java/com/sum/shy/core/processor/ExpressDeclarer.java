@@ -25,7 +25,7 @@ public class ExpressDeclarer {
 				VariableTracker.trackStmt(clazz, context, subStmt);
 				InvokeVisiter.visitStmt(clazz, subStmt);
 				type = FastDeducer.deriveStmt(clazz, subStmt);
-				varToken.setDeclaredAtt(false);// 标记没有被声明过，是自动推导的结果
+				varToken.setDerivedAtt(true);// 标记类型由推导而来
 			}
 			varToken.setTypeAtt(type);
 

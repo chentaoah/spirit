@@ -15,26 +15,23 @@ public class IMethod extends AbsMember {
 
 	public List<IParameter> parameters = new ArrayList<>();
 
-	/**
-	 * 构造方法，这个时候，还不知道方法的返回类型是什么
-	 * 
-	 * @param annotations
-	 * @param isStatic
-	 * @param element
-	 */
 	public IMethod(List<IAnnotation> annotations, boolean isStatic, Element element) {
+
 		super(annotations, isStatic, element);
-		// 方法可能本地方法，也可能是构造方法
-		Token methodToken = element.findToken(Constants.LOCAL_METHOD_TOKEN);
-		if (methodToken == null) {
-			methodToken = element.findToken(Constants.TYPE_INIT_TOKEN);
+
+		Token methodToken = element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
+		if (methodToken.isTypeInit()) {
 			isInit = true;
 			isSync = false;
 			name = methodToken.getSimpleNameAtt();
-		} else {
+
+		} else if (methodToken.isLocalMethod()) {
 			isInit = false;
 			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);
 			name = methodToken.getMemberNameAtt();
+
+		} else {
+			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 		}
 
 	}
@@ -43,7 +40,7 @@ public class IMethod extends AbsMember {
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
-				if (!parameter.type.equals(parameterTypes.get(count++)))
+				if (!parameter.type.isMatch(parameterTypes.get(count++)))
 					return false;
 			}
 			return true;
