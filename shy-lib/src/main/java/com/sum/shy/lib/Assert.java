@@ -7,8 +7,8 @@ public class Assert {
 			throw new IllegalArgumentException(message);
 	}
 
-	public static void notNull(Object object, String message) {
-		if (object == null)
+	public static void notNull(Object obj, String message) {
+		if (obj == null)
 			throw new IllegalArgumentException(message);
 	}
 

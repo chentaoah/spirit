@@ -39,7 +39,7 @@ public class NativeLinker {
 		return null;
 	}
 
-	private static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
+	public static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {

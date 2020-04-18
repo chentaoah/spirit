@@ -8,11 +8,11 @@ import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.clazz.type.TypeBuilder;
 import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.java.converter.MetaphorConverter;
+import com.sum.shy.java.converter.StrLogicalConverter;
 import com.sum.shy.java.converter.SeparatorConverter;
 import com.sum.shy.java.converter.StmtConverter;
-import com.sum.shy.java.converter.SymbolConverter;
-import com.sum.shy.java.converter.TokenConverter;
+import com.sum.shy.java.converter.StrEqualsConverter;
+import com.sum.shy.java.converter.CommonConverter;
 
 public class JavaBuilder {
 
@@ -106,11 +106,11 @@ public class JavaBuilder {
 
 	public Element convert(IClass clazz, Element element) {
 		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
-		TokenConverter.convertStmt(clazz, element.stmt);
+		CommonConverter.convertStmt(clazz, element.stmt);
 		// 2.重载了字符串的==操作，和判空
-		SymbolConverter.convertStmt(clazz, element.stmt);
+		StrEqualsConverter.convertStmt(clazz, element.stmt);
 		// 3.类型隐喻,逻辑符在操作字符串时，字符串转换为判空
-		MetaphorConverter.convertStmt(clazz, element.stmt);
+		StrLogicalConverter.convertStmt(clazz, element.stmt);
 		// 4.特殊语句的特殊处理
 		StmtConverter.convert(clazz, element);
 		// 5.添加括号和行结束符

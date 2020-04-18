@@ -10,7 +10,7 @@ import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.utils.TreeUtils;
 import com.sum.shy.lib.StringUtils;
 
-public class MetaphorConverter {
+public class StrLogicalConverter {
 
 	public static void convertStmt(IClass clazz, Stmt stmt) {
 		// 如果有子节点，先处理子节点
@@ -32,11 +32,8 @@ public class MetaphorConverter {
 					replaceFollowingStr(clazz, stmt, i, token);
 
 				}
-
 			}
-
 		}
-
 	}
 
 	public static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {

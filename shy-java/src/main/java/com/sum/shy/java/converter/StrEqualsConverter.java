@@ -10,7 +10,7 @@ import com.sum.shy.core.processor.FastDeducer;
 import com.sum.shy.core.utils.TreeUtils;
 import com.sum.shy.lib.StringUtils;
 
-public class SymbolConverter {
+public class StrEqualsConverter {
 
 	public static void convertStmt(IClass clazz, Stmt stmt) {
 		// 如果有子节点，先处理子节点

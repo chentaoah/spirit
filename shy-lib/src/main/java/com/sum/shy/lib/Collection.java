@@ -8,19 +8,19 @@ import java.util.Map;
 public class Collection {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T newArrayList(Object... objects) {
+	public static <T> T newArrayList(Object... objs) {
 		List<Object> list = new ArrayList<>();
-		for (int i = 0; i < objects.length; i++) {
-			list.add(objects[i]);
+		for (int i = 0; i < objs.length; i++) {
+			list.add(objs[i]);
 		}
 		return (T) list;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T newHashMap(Object... objects) {
+	public static <T> T newHashMap(Object... objs) {
 		Map<Object, Object> map = new HashMap<>();
-		for (int i = 0; i < objects.length; i = i + 2) {
-			map.put(objects[i], objects[i + 1]);
+		for (int i = 0; i < objs.length; i = i + 2) {
+			map.put(objs[i], objs[i + 1]);
 		}
 		return (T) map;
 	}
