@@ -49,11 +49,14 @@ public class MemberVisiter {
 			for (Token token : paramStmt.tokens) {
 				if (token.isAnnotation()) {
 					parameter.annotations.add(new IAnnotation(token));
+
 				} else if (token.isType()) {
 					parameter.type = TypeFactory.create(clazz, token);
+
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
 				}
+
 			}
 			method.parameters.add(parameter);
 		}
@@ -117,7 +120,7 @@ public class MemberVisiter {
 					}
 				}
 			}
-			
+
 			if (element.size() > 0) {
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
