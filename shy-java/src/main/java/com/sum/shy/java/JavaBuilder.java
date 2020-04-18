@@ -51,9 +51,7 @@ public class JavaBuilder {
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
 		StringBuilder methodsStr = new StringBuilder();
 		for (IMethod method : clazz.methods) {// public static type + element
-			// 元素
 			Element element = method.element;
-			// 先拼接注解
 			for (IAnnotation annotation : method.annotations)
 				methodsStr.append("\t" + annotation + "\n");
 			// 如果是主方法，则使用java的主方法样式
