@@ -60,18 +60,19 @@ public class JavaBuilder {
 			if (method.isStatic && "main".equals(method.name)) {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
 			} else {
-				if (element.isFunc()) {
+				if (element.isFuncDeclare()) {
+					String format = element.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
+					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
+							method.isSync ? "synchronized " : "", element.removeKeyword(Constants.SYNC_KEYWORD)));
+
+				} else if (element.isFunc()) {
 					String format = "\tpublic %s%s%s%s\n";
 					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
 							method.isSync ? "synchronized " : "",
 							!method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
-
-				} else if (element.isFuncDeclare()) {
-					String format = element.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
-					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-							method.isSync ? "synchronized " : "", element.removeKeyword(Constants.SYNC_KEYWORD)));
 				}
+
 			}
 			if (element.size() > 0) {// 构建方法体
 				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
