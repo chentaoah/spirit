@@ -7,6 +7,7 @@ import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.utils.TreeUtils;
 import com.sum.shy.lib.StringUtils;
 
 public class MetaphorConverter {
@@ -39,15 +40,7 @@ public class MetaphorConverter {
 	}
 
 	public static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {
-		int start = 0;
-		for (int j = index - 1; j >= 0; j--) {
-			Token lastToken = stmt.getToken(j);
-			if (lastToken.getTreeId() != null && lastToken.getTreeId().startsWith(token.getTreeId())) {
-				start = j;
-			} else {
-				break;
-			}
-		}
+		int start = TreeUtils.findStart(stmt, index);
 		Stmt lastSubStmt = stmt.subStmt(start, index);
 		IType type = FastDeducer.deriveStmt(clazz, lastSubStmt);
 		if (type.isStr()) {
@@ -63,15 +56,7 @@ public class MetaphorConverter {
 	}
 
 	public static void replaceFollowingStr(IClass clazz, Stmt stmt, int index, Token token) {
-		int end = stmt.size();
-		for (int j = index + 1; j < stmt.size(); j++) {
-			Token nextToken = stmt.getToken(j);
-			if (nextToken.getTreeId() != null && nextToken.getTreeId().startsWith(token.getTreeId())) {
-				end = j + 1;
-			} else {
-				break;
-			}
-		}
+		int end = TreeUtils.findEnd(stmt, index);
 		Stmt nextSubStmt = stmt.subStmt(index + 1, end);
 		IType type = FastDeducer.deriveStmt(clazz, nextSubStmt);
 		if (type.isStr()) {
