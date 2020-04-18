@@ -9,10 +9,12 @@ import com.sum.shy.core.entity.Constants;
 public class SeparatorConverter {
 
 	public static void convert(IClass clazz, Element element) {
+
 		if (element.isIf() || element.isElseIf() || element.isFor() || element.isWhile() || element.isCatch()
 				|| element.isSync()) {
 			insertBrackets(clazz, element.stmt);
 		}
+
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign()
 				|| element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis()
 				|| element.isThrow() || element.isContinue() || element.isBreak()) {
