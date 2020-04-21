@@ -26,22 +26,25 @@ public class StrEqualsConverter {
 				int start = TreeUtils.findStart(stmt, i);
 				// 截取出这一部分
 				Stmt lastSubStmt = stmt.subStmt(start, i);
-				IType type = FastDeducer.deriveStmt(clazz, lastSubStmt);
-				if (type.isStr()) {
+				IType lastType = FastDeducer.deriveStmt(clazz, lastSubStmt);
+				if (lastType.isStr()) {
 					int end = TreeUtils.findEnd(stmt, i);
 					Stmt nextSubStmt = stmt.subStmt(i + 1, end);
-					String format = null;
-					if ("==".equals(token.toString())) {
-						format = "StringUtils.equals(%s, %s)";
-					} else if ("!=".equals(token.toString())) {
-						format = "!StringUtils.equals(%s, %s)";
+					IType nextType = FastDeducer.deriveStmt(clazz, nextSubStmt);
+					if (nextType.isStr()) {
+						String format = null;
+						if ("==".equals(token.toString())) {
+							format = "StringUtils.equals(%s, %s)";
+						} else if ("!=".equals(token.toString())) {
+							format = "!StringUtils.equals(%s, %s)";
+						}
+						String text = String.format(format, lastSubStmt, nextSubStmt);
+						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
+						expressToken.setTypeAtt(StaticType.BOOLEAN_TYPE);
+						expressToken.setTreeId(token.getTreeId());
+						stmt.replace(start, end, expressToken);
+						clazz.addImport(StringUtils.class.getName());
 					}
-					String text = String.format(format, lastSubStmt, nextSubStmt);
-					Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
-					expressToken.setTypeAtt(StaticType.BOOLEAN_TYPE);
-					expressToken.setTreeId(token.getTreeId());
-					stmt.replace(start, end, expressToken);
-					clazz.addImport(StringUtils.class.getName());
 				}
 			}
 		}

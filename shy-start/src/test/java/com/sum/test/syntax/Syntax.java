@@ -1,6 +1,5 @@
 package com.sum.test.syntax;
 
-import com.sum.shy.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
@@ -14,12 +13,12 @@ public class Syntax {
 	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
 
 	public void testJudge() {
-		boolean b = !StringUtils.equals(list.get(1), null);
+		boolean b = list.get(1) != null;
 		boolean bb = list instanceof Object;
 		if (b && bb) {
 			logger.info("yes");
 		}
-		if (!StringUtils.equals(list.get(1), null) && list instanceof Object) {
+		if (list.get(1) != null && list instanceof Object) {
 			logger.info("test success");
 		}
 	}
