@@ -41,7 +41,7 @@ contexts:
       scope: constant.numeric
 
     # Type
-    - match: '\b[A-Z]+\w+\b'
+    - match: '\b[A-Z]+\w*\b'
       scope: entity.name.class
 
     # Accessible Entity
