@@ -9,6 +9,7 @@ class Type {
 	i=100
 	d=100.0
 	s="string"
+	emptyList=[]
 	list=["first","second","third"]
 	list1=["string",100]
 	map={"key1":123,"key2":456}
