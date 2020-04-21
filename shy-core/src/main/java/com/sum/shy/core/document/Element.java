@@ -151,9 +151,13 @@ public class Element extends ArrayList<Element> {
 		return this;
 	}
 
-	public String getKeywordParam(String keyword) {
-		int index = findKeywordIndex(keyword);
-		return index != -1 && contains(index + 1) ? getToken(index + 1).toString() : null;
+	public String getKeywordParam(String... keywords) {
+		for (String keyword : keywords) {
+			int index = findKeywordIndex(keyword);
+			if (index != -1 && contains(index + 1))
+				return getToken(index + 1).toString();
+		}
+		return null;
 	}
 
 	public List<String> getKeywordParams(String keyword) {

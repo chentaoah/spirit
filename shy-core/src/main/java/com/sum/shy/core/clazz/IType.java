@@ -9,6 +9,7 @@ import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.lib.StringUtils;
 
 /**
  * 指的是在IClass中，由代码声明的类型
@@ -21,12 +22,13 @@ public class IType {
 	private String className;
 	private String simpleName;
 	private String typeName;
-	private boolean isPrimitive;
-	private boolean isArray;
-	private List<IType> genericTypes = new ArrayList<>();
+	private String genericName;// T K
+	private boolean isPrimitive;// 是否基础类型
+	private boolean isArray;// 是否数组
 	private boolean isNull;// 是否空值
-	private boolean isWildcard;
-	private boolean isNative;
+	private boolean isWildcard;// 是否 ？
+	private boolean isNative;// 是否本地类型
+	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
@@ -125,6 +127,14 @@ public class IType {
 		throw new RuntimeException("Please use the build method of TypeBuider!className:" + getClassName());
 	}
 
+	public boolean isGenericType() {
+		return genericTypes != null && genericTypes.size() > 0;
+	}
+
+	public boolean isTypeVariable() {
+		return StringUtils.isNotEmpty(genericName);
+	}
+
 	public boolean isVoid() {
 		return void.class.getName().equals(getClassName());
 	}
@@ -169,6 +179,14 @@ public class IType {
 		this.typeName = typeName;
 	}
 
+	public String getGenericName() {
+		return genericName;
+	}
+
+	public void setGenericName(String genericName) {
+		this.genericName = genericName;
+	}
+
 	public boolean isPrimitive() {
 		return isPrimitive;
 	}
@@ -183,18 +201,6 @@ public class IType {
 
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
-	}
-
-	public boolean isGenericType() {
-		return genericTypes != null && genericTypes.size() > 0;
-	}
-
-	public List<IType> getGenericTypes() {
-		return genericTypes;
-	}
-
-	public void setGenericTypes(List<IType> genericTypes) {
-		this.genericTypes = genericTypes == null ? new ArrayList<>() : genericTypes;
 	}
 
 	public boolean isNull() {
@@ -219,6 +225,14 @@ public class IType {
 
 	public void setNative(boolean isNative) {
 		this.isNative = isNative;
+	}
+
+	public List<IType> getGenericTypes() {
+		return genericTypes;
+	}
+
+	public void setGenericTypes(List<IType> genericTypes) {
+		this.genericTypes = genericTypes != null ? genericTypes : new ArrayList<>();
 	}
 
 }

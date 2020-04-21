@@ -1,5 +1,9 @@
 
-class ServiceImpl extends AbsService{
+class ServiceImpl<T,K> extends AbsService{
+
+	T key
+
+	K value
 
 	String name
 	//测试构造方法

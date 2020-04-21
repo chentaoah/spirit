@@ -67,7 +67,7 @@ public class NativeLinker {
 	public static IType convertNativeType(IType type, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
-			return TypeFactory.create((Class<?>) nativeType, null);
+			return TypeFactory.create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
 			return StaticType.WILDCARD_TYPE;
@@ -86,7 +86,7 @@ public class NativeLinker {
 			return TypeFactory.create(clazz, genericTypes);
 
 		}
-		return null;
+		throw new RuntimeException("Convert native type failed!");
 	}
 
 	public static int getTypeVariableIndex(Class<?> clazz, String typeVariableName) {

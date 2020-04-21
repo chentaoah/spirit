@@ -24,7 +24,6 @@ public class TypeFactory {
 		type.setTypeName(TypeUtils.getTypeName(className));
 		type.setPrimitive(TypeUtils.isPrimitive(className));
 		type.setArray(TypeUtils.isArray(className));
-		type.setGenericTypes(null);
 		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
@@ -53,8 +52,10 @@ public class TypeFactory {
 				String simpleName = (String) token.value;
 				if ("?".equals(simpleName)) {// 未知类型
 					type = StaticType.WILDCARD_TYPE;
-				} else {// 一般类型
-					type = create(clazz.findImport(simpleName));
+				} else {
+					type = clazz.getTypeVariable(simpleName);// 泛型参数
+					if (type == null)
+						type = create(clazz.findImport(simpleName));// 一般类型
 				}
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
 				Stmt subStmt = token.getStmt();
@@ -128,6 +129,10 @@ public class TypeFactory {
 	}
 
 	public static IType getGenericType(IClass clazz, List<Stmt> stmts) {
+
+		if (stmts.size() == 0)
+			return StaticType.OBJECT_TYPE;
+
 		IType genericType = null;
 		for (Stmt subStmt : stmts) {
 			IType wrappedType = FastDeducer.deriveStmt(clazz, subStmt).getWrappedType();

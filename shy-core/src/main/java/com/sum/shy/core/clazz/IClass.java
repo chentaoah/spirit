@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.document.Element;
+import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;
@@ -100,20 +103,48 @@ public class IClass {
 	}
 
 	public String getSimpleName() {
+		String simpleName = null;
 		if (isInterface()) {
-			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+			simpleName = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
 
-		} else if (isAbstract()) {
-			String simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD);
-			if (StringUtils.isEmpty(simpleName))
-				simpleName = root.getKeywordParam(Constants.ABSTRACT_KEYWORD);
-			return simpleName;
-
-		} else if (isClass()) {
-			return root.getKeywordParam(Constants.CLASS_KEYWORD);
-
+		} else if (isAbstract() || isClass()) {
+			simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
 		}
-		throw new RuntimeException("Cannot get type name!");
+		Token token = SemanticDelegate.getToken(simpleName);
+		if (token.isType()) {
+			if (token.value instanceof String) {
+				return token.toString();
+
+			} else if (token.value instanceof Stmt) {
+				return token.getStmt().getStr(0);
+			}
+		}
+		throw new RuntimeException("Cannot get simple name!");
+	}
+
+	public IType getTypeVariable(String genericName) {
+		String simpleName = null;
+		if (isInterface()) {
+			simpleName = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+
+		} else if (isAbstract() || isClass()) {
+			simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
+		}
+		Token token = SemanticDelegate.getToken(simpleName);
+		if (token.isType()) {
+			if (token.value instanceof Stmt) {
+				Stmt stmt = token.getStmt();
+				for (int i = 1; i < stmt.size(); i++) {
+					Token currToken = stmt.getToken(i);
+					if (currToken.isType() || currToken.toString().equals(genericName)) {
+						IType type = TypeFactory.create(Object.class);
+						type.setGenericName(genericName);
+						return type;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public String getClassName() {

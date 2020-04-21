@@ -14,6 +14,9 @@ public class TypeBuilder {
 		if (type.isWildcard())
 			return "?";
 
+		if (type.isTypeVariable())
+			return type.getGenericName();// T K
+
 		String finalName = clazz.addImport(type.getTargetName()) ? type.getSimpleName() : type.getTypeName();
 
 		if (type.isGenericType()) {// 泛型
