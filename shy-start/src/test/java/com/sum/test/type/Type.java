@@ -18,6 +18,7 @@ public class Type {
 	public double d = 100.0;
 	public String s = "string";
 	public List<Object> emptyList = Collection.newArrayList();
+	public Map<Object, Object> emptyMap = Collection.newHashMap();
 	public List<String> list = Collection.newArrayList("first", "second", "third");
 	public List<Object> list1 = Collection.newArrayList("string", 100);
 	public Map<String, Integer> map = Collection.newHashMap("key1", 123, "key2", 456);
