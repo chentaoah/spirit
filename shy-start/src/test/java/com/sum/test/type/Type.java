@@ -1,6 +1,7 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
+import com.sum.test.process.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
@@ -32,6 +33,7 @@ public class Type {
 	public Object[] objArray = new Object[10];
 	public String[] strArray = new String[10];
 	public String s111 = "I am a new assign syntax!";
+	public int num = Main.x;
 
 	@Deprecated
 	public void testType() {

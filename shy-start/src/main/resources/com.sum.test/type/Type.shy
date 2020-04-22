@@ -24,6 +24,8 @@ class Type {
 	objArray=Object[10]
 	strArray=String[10]
 	String s111="I am a new assign syntax!"
+	//测试静态访问
+	num=Main.x
 
 	@Deprecated
 	func testType(){
