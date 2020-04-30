@@ -28,4 +28,8 @@ class ServiceImpl<T,K> extends AbsService{
 		return byte[10]
 	}
 
+	func testT(T t){
+		return value
+	}
+
 }

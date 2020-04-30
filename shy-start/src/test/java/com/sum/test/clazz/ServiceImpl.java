@@ -29,4 +29,8 @@ public class ServiceImpl<T, K> extends AbsService {
 		return new byte[10];
 	}
 
+	public K testT(T t) {
+		return value;
+	}
+
 }
