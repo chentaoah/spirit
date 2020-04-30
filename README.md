@@ -38,7 +38,7 @@ public class Main {
 10. 支持与Java的无缝集成。 :sweat: 底层不就是Java吗？有什么好集成的。
 
 上述特点，具体可以参考shy-start的resources的示例代码。
-目前的IDE是无法正确的显示出语法样式的，所以这里推荐sublime来编辑。
+目前的IDE是无法正确的显示出语法样式的，所以在这里推荐sublime代码编辑器。
 在sublime添加样式文件Shy.sublime-syntax即可。
 
 未来：
