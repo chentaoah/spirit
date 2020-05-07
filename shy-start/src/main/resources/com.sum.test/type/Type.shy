@@ -26,6 +26,7 @@ class Type {
 	String s111="I am a new assign syntax!"
 	//测试静态访问
 	num=Main.x
+	myChar='c'
 
 	@Deprecated
 	func testType(){

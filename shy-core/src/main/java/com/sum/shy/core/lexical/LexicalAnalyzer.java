@@ -51,6 +51,9 @@ public class LexicalAnalyzer {
 			if (c == '"') {
 				replaceWithWhole(chars, i, '"', '"', "$str", count++, replacedStrs);
 
+			} else if (c == '\'') {
+				replaceWithWhole(chars, i, '\'', '\'', "$char", count++, replacedStrs);
+
 			} else if (c == '<') {// 泛型声明
 				if (start >= 0) {// 必须有前缀
 					char e = chars.get(start);

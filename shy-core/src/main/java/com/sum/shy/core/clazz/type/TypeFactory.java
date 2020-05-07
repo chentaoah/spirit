@@ -87,6 +87,8 @@ public class TypeFactory {
 	public static IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
 			return StaticType.BOOLEAN_TYPE;
+		} else if (token.isChar()) {
+			return StaticType.CHAR_TYPE;
 		} else if (token.isInt()) {
 			return StaticType.INT_TYPE;
 		} else if (token.isLong()) {

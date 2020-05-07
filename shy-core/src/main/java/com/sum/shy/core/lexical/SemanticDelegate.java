@@ -53,6 +53,7 @@ public class SemanticDelegate {
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
+	public static final Pattern CHAR_PATTERN = Pattern.compile("^'[\\s\\S]*'$");
 	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 	public static final Pattern LONG_PATTERN = Pattern.compile("^\\d+L$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
@@ -173,9 +174,10 @@ public class SemanticDelegate {
 
 	public static boolean isValue(String word) {
 		return NULL_PATTERN.matcher(word).matches() || BOOL_PATTERN.matcher(word).matches()
-				|| INT_PATTERN.matcher(word).matches() || LONG_PATTERN.matcher(word).matches()
-				|| DOUBLE_PATTERN.matcher(word).matches() || STR_PATTERN.matcher(word).matches()
-				|| LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
+				|| CHAR_PATTERN.matcher(word).matches() || INT_PATTERN.matcher(word).matches()
+				|| LONG_PATTERN.matcher(word).matches() || DOUBLE_PATTERN.matcher(word).matches()
+				|| STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches()
+				|| MAP_PATTERN.matcher(word).matches();
 	}
 
 	public static String getValueTokenType(String word) {
@@ -183,6 +185,8 @@ public class SemanticDelegate {
 			return Constants.NULL_TOKEN;
 		if (BOOL_PATTERN.matcher(word).matches())
 			return Constants.BOOL_TOKEN;
+		if (CHAR_PATTERN.matcher(word).matches())
+			return Constants.CHAR_TOKEN;
 		if (INT_PATTERN.matcher(word).matches())
 			return Constants.INT_TOKEN;
 		if (LONG_PATTERN.matcher(word).matches())

@@ -75,6 +75,7 @@ public class Constants {
 	public static final String TYPE_INIT_TOKEN = "type_init";
 	public static final String NULL_TOKEN = "null";
 	public static final String BOOL_TOKEN = "bool";
+	public static final String CHAR_TOKEN = "char";
 	public static final String INT_TOKEN = "int";
 	public static final String LONG_TOKEN = "long";
 	public static final String DOUBLE_TOKEN = "double";

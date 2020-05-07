@@ -8,6 +8,7 @@ public class StaticType {
 
 	public static final IType VOID_TYPE = TypeFactory.create(void.class);
 	public static final IType BOOLEAN_TYPE = TypeFactory.create(boolean.class);
+	public static final IType CHAR_TYPE = TypeFactory.create(char.class);
 	public static final IType INT_TYPE = TypeFactory.create(int.class);
 	public static final IType LONG_TYPE = TypeFactory.create(long.class);
 	public static final IType DOUBLE_TYPE = TypeFactory.create(double.class);

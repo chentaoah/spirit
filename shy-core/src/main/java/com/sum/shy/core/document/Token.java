@@ -93,6 +93,10 @@ public class Token {
 		return Constants.BOOL_TOKEN.equals(type);
 	}
 
+	public boolean isChar() {
+		return Constants.CHAR_TOKEN.equals(type);
+	}
+
 	public boolean isInt() {
 		return Constants.INT_TOKEN.equals(type);
 	}
@@ -176,7 +180,7 @@ public class Token {
 	}
 
 	public boolean isValue() {
-		return isNull() || isBool() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
+		return isNull() || isBool() || isChar() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
 	}
 
 	public boolean isNumber() {

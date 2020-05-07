@@ -34,6 +34,7 @@ public class Type {
 	public String[] strArray = new String[10];
 	public String s111 = "I am a new assign syntax!";
 	public int num = Main.x;
+	public char myChar = 'c';
 
 	@Deprecated
 	public void testType() {
