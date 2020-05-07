@@ -15,11 +15,11 @@ contexts:
     - match: '"'
       scope: string
       push: double_string
-      
+
     # Char
     - match: "\'"
       scope: string
-      push: double_string
+      push: double_char
 
     # Keyword 
     - match: '\b(package|import|interface|abstract|class|extends|impl|func|throws)\b'
@@ -67,6 +67,12 @@ contexts:
   double_string:
     - meta_scope: string
     - match: '"'
+      scope: string
+      pop: true
+
+  double_char:
+    - meta_scope: string
+    - match: "\'"
       scope: string
       pop: true
 
