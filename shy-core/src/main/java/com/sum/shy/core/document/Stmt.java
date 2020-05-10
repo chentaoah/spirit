@@ -124,72 +124,90 @@ public class Stmt {
 	}
 
 	public List<Token> format() {
-		// 拷贝一份，并插入空格
+		// 拷贝一份
 		List<Token> tokens = new ArrayList<>(this.tokens);
-		// 首个token前面不用插入
-		for (int i = tokens.size() - 1; i >= 0; i--) {
+		// 并插入空格
+		for (int i = tokens.size() - 1; i >= 1; i--)
+			tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+		// 遍历空格
+		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.isSeparator()) {
-				if ("[".equals(token.toString()) || "{".equals(token.toString()) || "(".equals(token.toString())
-						|| "<".equals(token.toString())) {
+				if (" ".equals(token.toString())) {
+					Token lastToken = tokens.get(i - 1);
+					Token nextToken = tokens.get(i + 1);
 
-					removeAfterSpace(tokens, i);
+					if (lastToken.isOperator()) {// 前面为某些特定操作符
+						if ("!".equals(lastToken.toString())) {
+							tokens.remove(i);
+							continue;
 
-					if ("(".equals(token.toString()) && i - 1 >= 0) {// 如果前面是关键字，则添加个括号，if (expression) {
-						Token lastToken = tokens.get(i - 1);
-						if (lastToken.isKeyword())
-							tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+						} else if ("++".equals(lastToken.toString()) || "--".equals(lastToken.toString())) {
+							if (lastToken.getOperand() == Symbol.RIGHT) {
+								tokens.remove(i);
+								continue;
+							}
 
-					} else if ("{".equals(token.toString())) {// 最后一个前面加空格
-						if (i == tokens.size() - 1)
-							tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
-					}
+						} else if ("-".equals(lastToken.toString())) {
+							if (lastToken.getOperand() == Symbol.RIGHT) {
+								tokens.remove(i);
+								continue;
+							}
+						}
 
-				} else if (":".equals(token.toString())) {
-					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
-				}
+					} else if (lastToken.isSeparator()) {// 前面为特定分隔符
+						if ("[".equals(lastToken.toString()) || "{".equals(lastToken.toString())
+								|| "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
+							tokens.remove(i);
+							continue;
+						}
 
-			} else if (token.isOperator()) {
-				if ("!".equals(token.toString())) {
-					removeAfterSpace(tokens, i);
-
-				} else if ("++".equals(token.toString()) || "--".equals(token.toString())) {
-					if (token.getOperand() == Symbol.LEFT) {
+					} else if (lastToken.isCustomPrefix()) {
+						tokens.remove(i);
 						continue;
-					} else if (token.getOperand() == Symbol.RIGHT) {
-						removeAfterSpace(tokens, i);
 					}
 
-				} else if ("-".equals(token.toString())) {
-					if (token.getOperand() == Symbol.RIGHT) {
-						removeAfterSpace(tokens, i);
-					}
-					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+					if (nextToken.isOperator()) {
+						if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
+							if (nextToken.getOperand() == Symbol.LEFT) {
+								tokens.remove(i);
+								continue;
+							}
+						}
 
-				} else {
-					tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+					} else if (nextToken.isSeparator()) {
+						if ("[".equals(nextToken.toString()) || "{".equals(nextToken.toString())
+								|| "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())
+								|| "]".equals(nextToken.toString()) || "}".equals(nextToken.toString())
+								|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
+								|| ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
+
+							if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {
+								continue;// if (express) {
+
+							} else if (i + 1 == tokens.size() - 1 && "{".equals(nextToken.toString())) {
+								continue;// if (express) {
+
+							} else {
+								tokens.remove(i);
+								continue;
+							}
+						}
+
+					} else if (nextToken.isFluent()) {
+						tokens.remove(i);
+						continue;
+
+					} else if (nextToken.isCustomSuffix()) {
+						tokens.remove(i);
+						continue;
+					}
 				}
-
-			} else if (token.isCustomPrefix()) {
-				removeAfterSpace(tokens, i);
-
-			} else if (token.isFluent() || token.isCustomSuffix()) {// 属性访问，则什么都不做
-				continue;
-
-			} else if (i >= 1) {// 第一个前面不用加空格
-				tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
 			}
-
 		}
+
 		return tokens;
-	}
 
-	public void removeAfterSpace(List<Token> tokens, int index) {
-		if (index + 1 < tokens.size()) {// 删除后面多余的空格
-			Token nextToken = tokens.get(index + 1);
-			if (nextToken.isSeparator() && " ".equals(nextToken.toString()))
-				tokens.remove(index + 1);
-		}
 	}
 
 	public String debug() {
