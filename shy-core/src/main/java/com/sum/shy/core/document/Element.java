@@ -22,7 +22,7 @@ public class Element extends Syntactic {
 	// 语法
 	public String syntax;
 	// 子节点
-	public List<Element> children;
+	public List<Element> children = new ArrayList<>();
 
 	public Element(String text) {
 		this(new Line(text));
