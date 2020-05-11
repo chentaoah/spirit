@@ -21,7 +21,7 @@ public class ExpressDeclarer {
 			if (context != null)
 				type = VariableTracker.findType(clazz, context, varToken.toString());
 			if (type == null) {
-				Stmt subStmt = element.subStmt(2, element.getSize());
+				Stmt subStmt = element.subStmt(2, element.size());
 				VariableTracker.trackStmt(clazz, context, subStmt);
 				InvokeVisiter.visitStmt(clazz, subStmt);
 				type = FastDeducer.deriveStmt(clazz, subStmt);
@@ -30,7 +30,7 @@ public class ExpressDeclarer {
 			varToken.setTypeAtt(type);
 
 		} else if (element.isForIn()) {// for item in list {
-			Stmt subStmt = element.subStmt(3, element.getSize() - 1);
+			Stmt subStmt = element.subStmt(3, element.size() - 1);
 			VariableTracker.trackStmt(clazz, context, subStmt);
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);

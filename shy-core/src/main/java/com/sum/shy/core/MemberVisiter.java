@@ -96,9 +96,9 @@ public class MemberVisiter {
 	}
 
 	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
-		for (Element element : father) {
+		for (Element element : father.children) {
 
-			if (element.size() > 0)
+			if (element.children.size() > 0)
 				context.increaseDepth();// 提前深度+1
 
 			IVariable variable = ElementVisiter.visit(clazz, context, element);
@@ -120,7 +120,7 @@ public class MemberVisiter {
 				}
 			}
 
-			if (element.size() > 0) {
+			if (element.children.size() > 0) {
 				visitChildElement(clazz, context, element);
 				context.increaseCount();
 				context.decreaseDepth();

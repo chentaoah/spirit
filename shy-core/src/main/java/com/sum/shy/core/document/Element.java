@@ -3,6 +3,7 @@ package com.sum.shy.core.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.document.api.Syntactic;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.LexicalAnalyzer;
 import com.sum.shy.core.lexical.SemanticDelegate;
@@ -11,8 +12,7 @@ import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.utils.LineUtils;
 import com.sum.shy.lib.StringUtils;
 
-@SuppressWarnings("serial")
-public class Element extends ArrayList<Element> {
+public class Element extends Syntactic {
 	// 行
 	public Line line;
 	// 语句
@@ -21,6 +21,8 @@ public class Element extends ArrayList<Element> {
 	public Tree tree;
 	// 语法
 	public String syntax;
+	// 子节点
+	public List<Element> children;
 
 	public Element(String text) {
 		this(new Line(text));
@@ -59,64 +61,16 @@ public class Element extends ArrayList<Element> {
 		return line.getIndent();
 	}
 
-	public String getStr(int index) {
-		return stmt.getStr(index);
-	}
-
-	public int getSize() {
-		return stmt.size();
-	}
-
 	public Stmt subStmt(int start, int end) {
 		return stmt.subStmt(start, end);
-	}
-
-	public Token findToken(String... types) {
-		return stmt.findToken(types);
-	}
-
-	public Token getToken(int index) {
-		return stmt.getToken(index);
-	}
-
-	public void addToken(int index, Token token) {
-		stmt.addToken(index, token);
-	}
-
-	public void addToken(Token token) {
-		stmt.addToken(token);
-	}
-
-	public void setToken(int index, Token token) {
-		stmt.setToken(index, token);
-	}
-
-	public boolean contains(int index) {
-		return index < stmt.size();
-	}
-
-	public boolean contains(String str) {
-		return indexOf(str) >= 0;
-	}
-
-	public int indexOf(String str) {
-		return stmt.indexOf(str);
-	}
-
-	public int lastIndexOf(String str) {
-		return stmt.lastIndexOf(str);
 	}
 
 	public List<Stmt> split(String separator) {
 		return stmt.split(separator);
 	}
 
-	public void replace(int start, int end, Token token) {
-		stmt.replace(start, end, token);
-	}
-
 	public int findKeywordIndex(String keyword) {
-		for (int i = 0; i < getSize(); i++) {
+		for (int i = 0; i < size(); i++) {
 			Token token = getToken(i);
 			if (token.isKeyword() && keyword.equals(token.toString()))
 				return i;
@@ -165,11 +119,11 @@ public class Element extends ArrayList<Element> {
 		int index = findKeywordIndex(keyword);
 		if (index != -1) {
 			int end = -1;
-			for (int i = index + 1; i < getSize(); i++) {// 查询到结束的位置
+			for (int i = index + 1; i < size(); i++) {// 查询到结束的位置
 				Token endToken = getToken(i);
 				if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
 					end = i;
-				} else if (i == getSize() - 1) {
+				} else if (i == size() - 1) {
 					end = i + 1;
 				}
 			}
@@ -186,6 +140,16 @@ public class Element extends ArrayList<Element> {
 	}
 
 	@Override
+	public List<Token> getTokens() {
+		return stmt.tokens;
+	}
+
+	@Override
+	public String getSyntax() {
+		return syntax;
+	}
+
+	@Override
 	public String toString() {
 		return stmt.toString();
 	}
@@ -193,136 +157,8 @@ public class Element extends ArrayList<Element> {
 	public void debug() {
 		System.out.println(
 				line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
-		for (Element element : this)
+		for (Element element : children)
 			element.debug();
-	}
-
-	public boolean isImport() {
-		return Constants.IMPORT_SYNTAX.equals(syntax);
-	}
-
-	public boolean isAnnotation() {
-		return Constants.ANNOTATION_SYNTAX.equals(syntax);
-	}
-
-	public boolean isInterface() {
-		return Constants.INTERFACE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isAbstract() {
-		return Constants.ABSTRACT_SYNTAX.equals(syntax);
-	}
-
-	public boolean isClass() {
-		return Constants.CLASS_SYNTAX.equals(syntax);
-	}
-
-	public boolean isDeclare() {
-		return Constants.DECLARE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isDeclareAssign() {
-		return Constants.DECLARE_ASSIGN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isAssign() {
-		return Constants.ASSIGN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFuncDeclare() {
-		return Constants.FUNC_DECLARE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFunc() {
-		return Constants.FUNC_SYNTAX.equals(syntax);
-	}
-
-	public boolean isSuper() {
-		return Constants.SUPER_SYNTAX.equals(syntax);
-	}
-
-	public boolean isThis() {
-		return Constants.THIS_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFieldAssign() {
-		return Constants.FIELD_ASSIGN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isReturn() {
-		return Constants.RETURN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isIf() {
-		return Constants.IF_SYNTAX.equals(syntax);
-	}
-
-	public boolean isElseIf() {
-		return Constants.ELSEIF_SYNTAX.equals(syntax);
-	}
-
-	public boolean isElse() {
-		return Constants.ELSE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isEnd() {
-		return Constants.END_SYNTAX.equals(syntax);
-	}
-
-	public boolean isForIn() {
-		return Constants.FOR_IN_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFor() {
-		return Constants.FOR_SYNTAX.equals(syntax);
-	}
-
-	public boolean isWhile() {
-		return Constants.WHILE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isTry() {
-		return Constants.TRY_SYNTAX.equals(syntax);
-	}
-
-	public boolean isCatch() {
-		return Constants.CATCH_SYNTAX.equals(syntax);
-	}
-
-	public boolean isFinally() {
-		return Constants.FINALLY_SYNTAX.equals(syntax);
-	}
-
-	public boolean isSync() {
-		return Constants.SYNC_SYNTAX.equals(syntax);
-	}
-
-	public boolean isInvoke() {
-		return Constants.INVOKE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isContinue() {
-		return Constants.CONTINUE_SYNTAX.equals(syntax);
-	}
-
-	public boolean isBreak() {
-		return Constants.BREAK_SYNTAX.equals(syntax);
-	}
-
-	public boolean isThrow() {
-		return Constants.THROW_SYNTAX.equals(syntax);
-	}
-
-	public boolean isPrint() {
-		return Constants.PRINT_SYNTAX.equals(syntax);
-	}
-
-	public boolean isDebug() {
-		return Constants.DEBUG_SYNTAX.equals(syntax);
-	}
-
-	public boolean isError() {
-		return Constants.ERROR_SYNTAX.equals(syntax);
 	}
 
 }

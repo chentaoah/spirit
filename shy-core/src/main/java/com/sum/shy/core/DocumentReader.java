@@ -65,7 +65,7 @@ public class DocumentReader {
 			father.add(element);
 		if (element.hasChild()) {
 			List<Line> subLines = LineUtils.getSubLines(lines, index);// 解析子行
-			readLines(element, subLines);
+			readLines(element.children, subLines);
 			return subLines.size();
 		}
 		return 0;

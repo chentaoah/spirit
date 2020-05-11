@@ -3,10 +3,11 @@ package com.sum.shy.core.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.document.api.TokenBox;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.metadata.Symbol;
 
-public class Stmt {
+public class Stmt extends TokenBox {
 
 	public List<Token> tokens;
 
@@ -16,72 +17,6 @@ public class Stmt {
 
 	public Stmt copy() {
 		return new Stmt(tokens);
-	}
-
-	public int size() {
-		return tokens.size();
-	}
-
-	public Token getToken(int index) {
-		return tokens.get(index);
-	}
-
-	public void addToken(int index, Token token) {
-		tokens.add(index, token);
-	}
-
-	public void addToken(Token token) {
-		tokens.add(token);
-	}
-
-	public void setToken(int index, Token token) {
-		tokens.set(index, token);
-	}
-
-	public String last() {
-		return getStr(size() - 1);
-	}
-
-	public Token findToken(String... types) {
-		for (Token token : tokens) {
-			for (String type : types) {
-				if (token.type.equals(type))
-					return token;
-			}
-		}
-		return null;
-	}
-
-	public String getStr(int index) {// 修改为从token获取字符串
-		return getToken(index).toString();
-	}
-
-	public int indexOf(Token token) {
-		return tokens.indexOf(token);
-	}
-
-	public boolean contains(String str) {
-		return indexOf(str) >= 0;
-	}
-
-	public int indexOf(String str) {
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && str.equals(token.toString()))
-				return i;
-		}
-		return -1;
-	}
-
-	public int lastIndexOf(String str) {
-		int index = -1;
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && str.equals(token.toString())) {
-				index = i > index ? i : index;
-			}
-		}
-		return index;
 	}
 
 	public Stmt subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
@@ -109,10 +44,9 @@ public class Stmt {
 		return subStmts;
 	}
 
-	public void replace(int start, int end, Token token) {
-		for (int i = end - 1; i >= start; i--)
-			tokens.remove(i);
-		tokens.add(start, token);
+	@Override
+	public List<Token> getTokens() {
+		return tokens;
 	}
 
 	@Override

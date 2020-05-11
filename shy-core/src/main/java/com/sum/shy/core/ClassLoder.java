@@ -87,7 +87,7 @@ public class ClassLoder {
 
 	public void readRootElement(IClass clazz) {
 		List<IAnnotation> annotations = new ArrayList<>();
-		for (Element element : clazz.root) {
+		for (Element element : clazz.root.children) {
 			if (element.isAnnotation()) {
 				annotations.add(new IAnnotation(element));
 

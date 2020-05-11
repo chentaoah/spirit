@@ -48,7 +48,7 @@ public class FastDeducer {
 			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
-			Stmt subStmt = element.subStmt(1, element.getSize());
+			Stmt subStmt = element.subStmt(1, element.size());
 			return new IVariable(deriveStmt(clazz, subStmt), null);
 
 		}

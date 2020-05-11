@@ -59,7 +59,7 @@ public class JavaBuilder {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
 			} else {
 				if (element.isFuncDeclare()) {
-					String format = element.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
+					String format = element.children.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
 					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
 							method.isSync ? "synchronized " : "", element.removeKeyword(Constants.SYNC_KEYWORD)));
 
@@ -72,7 +72,7 @@ public class JavaBuilder {
 				}
 
 			}
-			if (element.size() > 0) {// 构建方法体
+			if (element.children.size() > 0) {// 构建方法体
 				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 				methodsStr.append("\t}\n\n");
 			}
@@ -95,9 +95,9 @@ public class JavaBuilder {
 	}
 
 	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {
-		for (Element element : father) {
+		for (Element element : father.children) {
 			sb.append(indent + convert(clazz, element) + "\n");
-			if (element.size() > 0)
+			if (element.children.size() > 0)
 				convertMethodElement(sb, indent + "\t", clazz, element);
 		}
 	}
