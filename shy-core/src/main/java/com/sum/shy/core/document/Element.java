@@ -185,16 +185,16 @@ public class Element extends ArrayList<Element> {
 		return params;
 	}
 
+	@Override
+	public String toString() {
+		return stmt.toString();
+	}
+
 	public void debug() {
 		System.out.println(
 				line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
 		for (Element element : this)
 			element.debug();
-	}
-
-	@Override
-	public String toString() {
-		return stmt.toString();
 	}
 
 	public boolean isImport() {

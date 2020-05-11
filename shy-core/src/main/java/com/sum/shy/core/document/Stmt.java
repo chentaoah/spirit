@@ -100,6 +100,7 @@ public class Stmt {
 				Stmt subStmt = subStmt(last, i);
 				subStmts.add(subStmt);
 				last = i + 1;// 记录截取开始的地方
+
 			} else if (i == size() - 1) {// 到达最后
 				Stmt subStmt = subStmt(last, i + 1);
 				subStmts.add(subStmt);
