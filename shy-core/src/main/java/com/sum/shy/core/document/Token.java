@@ -33,11 +33,7 @@ public class Token extends Semantic {
 	}
 
 	public Token copy() {// 拷贝内容，但是是一个新的实例
-		if (canVisit()) {
-			return new Token(type, getStmt().copy(), attachments);
-		} else {
-			return new Token(type, value, attachments);
-		}
+		return canVisit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
 	}
 
 	public Stmt getStmt() {

@@ -15,8 +15,8 @@ public class Stmt extends TokenBox {
 		this.tokens = tokens;
 	}
 
-	public Stmt copy() {
-		return new Stmt(tokens);
+	public Stmt copy() {// 拷贝一份新的tokens
+		return new Stmt(new ArrayList<>(tokens));
 	}
 
 	public Stmt subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
