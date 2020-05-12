@@ -54,8 +54,8 @@ public class Tree {
 
 				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.THIS_SYNTAX;
-
 				}
+
 				return Constants.INVOKE_SYNTAX;
 			}
 
@@ -70,8 +70,8 @@ public class Tree {
 
 					} else if (rightToken.isLocalMethod()) { // String test()
 						return Constants.FUNC_DECLARE_SYNTAX;
-
 					}
+
 				} else if (token.isAssign()) {// 如果顶点是=
 					Token leftToken = node.left.token;
 					if (leftToken.isType()) {// 声明并且赋值 String text = "abc"
@@ -82,12 +82,12 @@ public class Tree {
 
 					} else if (leftToken.isVisitField()) {// 如果是字段访问,则是字段赋值语句 var.text = "abc"
 						return Constants.FIELD_ASSIGN_SYNTAX;
-
 					}
+
 				} else if (token.isInvokeMethod()) {// 如果顶点是方法调用 list.get(0)
 					return Constants.INVOKE_SYNTAX;
-
 				}
+
 				return Constants.INVOKE_SYNTAX;
 			}
 
@@ -114,8 +114,8 @@ public class Tree {
 
 				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {
 					return Constants.FINALLY_SYNTAX;
-
 				}
+
 			}
 
 		} catch (Exception e) {
