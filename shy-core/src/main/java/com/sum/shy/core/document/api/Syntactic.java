@@ -62,6 +62,10 @@ public abstract class Syntactic extends TokenBox {
 		return Constants.FIELD_ASSIGN_SYNTAX.equals(getSyntax());
 	}
 
+	public boolean isInvoke() {
+		return Constants.INVOKE_SYNTAX.equals(getSyntax());
+	}
+
 	public boolean isReturn() {
 		return Constants.RETURN_SYNTAX.equals(getSyntax());
 	}
@@ -82,16 +86,24 @@ public abstract class Syntactic extends TokenBox {
 		return Constants.END_SYNTAX.equals(getSyntax());
 	}
 
-	public boolean isForIn() {
-		return Constants.FOR_IN_SYNTAX.equals(getSyntax());
-	}
-
 	public boolean isFor() {
 		return Constants.FOR_SYNTAX.equals(getSyntax());
 	}
 
+	public boolean isForIn() {
+		return Constants.FOR_IN_SYNTAX.equals(getSyntax());
+	}
+
 	public boolean isWhile() {
 		return Constants.WHILE_SYNTAX.equals(getSyntax());
+	}
+
+	public boolean isContinue() {
+		return Constants.CONTINUE_SYNTAX.equals(getSyntax());
+	}
+
+	public boolean isBreak() {
+		return Constants.BREAK_SYNTAX.equals(getSyntax());
 	}
 
 	public boolean isTry() {
@@ -106,24 +118,12 @@ public abstract class Syntactic extends TokenBox {
 		return Constants.FINALLY_SYNTAX.equals(getSyntax());
 	}
 
-	public boolean isSync() {
-		return Constants.SYNC_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isInvoke() {
-		return Constants.INVOKE_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isContinue() {
-		return Constants.CONTINUE_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isBreak() {
-		return Constants.BREAK_SYNTAX.equals(getSyntax());
-	}
-
 	public boolean isThrow() {
 		return Constants.THROW_SYNTAX.equals(getSyntax());
+	}
+
+	public boolean isSync() {
+		return Constants.SYNC_SYNTAX.equals(getSyntax());
 	}
 
 	public boolean isPrint() {

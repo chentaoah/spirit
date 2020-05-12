@@ -153,7 +153,7 @@ public abstract class Semantic {
 		return isKeyword() && "instanceof".equals(getValue().toString());
 	}
 
-	public boolean isArithmetic() {
+	public boolean isArithmetic() {// 是否算术符号
 		return isOperator() && SymbolTable.isArithmetic(getValue().toString());
 	}
 

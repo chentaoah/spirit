@@ -63,6 +63,7 @@ public class TreeBuilder {
 			int operand = Symbol.NONE;
 
 			if (currToken.isType()) {
+				// isLocalMethod() --> String testStr() {
 				if (nextToken != null && (nextToken.isVar() || nextToken.isLocalMethod())) {
 					priority = 55;// 优先级最高
 					operand = Symbol.RIGHT;
@@ -73,9 +74,11 @@ public class TreeBuilder {
 				operand = Symbol.LEFT;
 
 			} else if (currToken.isOperator()) {// 如果是操作符
+
 				String value = currToken.toString();
 				Symbol symbol = SymbolTable.selectSymbol(value);
 				priority = symbol.priority;// 优先级
+
 				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
 					if ("++".equals(value) || "--".equals(value)) {
 						if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {// 左元
@@ -92,8 +95,8 @@ public class TreeBuilder {
 							operand = Symbol.RIGHT;
 						}
 						currToken.setOperand(operand);// 标记一下
-
 					}
+
 				} else {
 					operand = symbol.operand;
 				}
@@ -128,6 +131,7 @@ public class TreeBuilder {
 			if (finalLastToken != null)
 				node.left = getNode(finalLastToken);
 		}
+
 		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE) {
 			if (finalNextToken != null)
 				node.right = getNode(finalNextToken);
@@ -136,8 +140,10 @@ public class TreeBuilder {
 		// 移除,并添加
 		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE)
 			tokens.remove(index + 1);
+
 		tokens.remove(index);
 		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
+
 		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.DOUBLE)
 			tokens.remove(index - 1);
 

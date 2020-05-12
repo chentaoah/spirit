@@ -51,8 +51,8 @@ public class Constants {
 	public static final String ELSEIF_SYNTAX = "elseif";
 	public static final String ELSE_SYNTAX = "else";
 	public static final String END_SYNTAX = "end";
-	public static final String FOR_IN_SYNTAX = "for_in";
 	public static final String FOR_SYNTAX = "for";// 原生java的语法
+	public static final String FOR_IN_SYNTAX = "for_in";
 	public static final String WHILE_SYNTAX = "while";
 	public static final String CONTINUE_SYNTAX = "continue";
 	public static final String BREAK_SYNTAX = "break";
