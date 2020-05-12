@@ -82,16 +82,19 @@ public class Constants {
 	public static final String STR_TOKEN = "str";
 	public static final String LIST_TOKEN = "list";
 	public static final String MAP_TOKEN = "map";
-	public static final String VAR_TOKEN = "var";
 	public static final String SUBEXPRESS_TOKEN = "subexpress";// 子表达式
 	public static final String CAST_TOKEN = "cast";// 类型强制转换
+	public static final String VAR_TOKEN = "var";
 	public static final String LOCAL_METHOD_TOKEN = "local_method";// 本地方法
 	public static final String VISIT_FIELD_TOKEN = "visit_field";// 访问字段
 	public static final String INVOKE_METHOD_TOKEN = "invoke_method";// 调用方法
 	public static final String VISIT_ARRAY_INDEX_TOKEN = "visit_array_index";// 访问字段,并通过索引访问数组中的元素
 	public static final String ARRAY_INDEX_TOKEN = "array_index";// 访问字段,并通过索引访问数组中的元素
-	public static final String NODE_TOKEN = "node";// 节点
 	public static final String PREFIX_TOKEN = "prefix";// 前缀
+	public static final String NODE_TOKEN = "node";// 节点
+	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
+	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
+	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
 
 	public static final String TYPE_ATTACHMENT = "type";// 变量类型
 	public static final String SIMPLE_NAME_ATTACHMENT = "simple_name";// 类名
@@ -102,9 +105,5 @@ public class Constants {
 	public static final String OPERAND_ATTACHMENT = "operand";// 操作数
 
 	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
-
-	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
-	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
-	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
 
 }
