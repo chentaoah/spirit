@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.KeywordTable;
 import com.sum.shy.core.entity.SymbolTable;
 import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.stmt.Token;
@@ -24,18 +23,11 @@ import com.sum.shy.lib.StringUtils;
  */
 public class SemanticDelegate {
 
-	// 关键字
-	public static final String[] KEYWORDS = new String[] { "package", "import", "interface", "abstract", "class",
-			"extends", "impl", "func", "throws", "if", "else", "for", "in", "do", "while", "try", "catch", "finally",
-			"sync", "return", "continue", "break", "throw", "instanceof", "print", "debug", "error" };
-
 	// ============================== 特殊 ================================
-
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
 
 	// ============================== 类型 ================================
-
 	public static final String PRIMITIVE_ENUM = "void|boolean|char|short|int|long|float|double|byte";
 	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")$");// 基础类型
 	public static final Pattern PRIMITIVE_ARRAY_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]$");// 基础类型数组
@@ -44,7 +36,6 @@ public class SemanticDelegate {
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");// 泛型
 
 	// ============================== 赋值 ================================
-
 	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
 	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern
 			.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
@@ -62,7 +53,6 @@ public class SemanticDelegate {
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
 	// ============================== 表达式 ================================
-
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
@@ -134,7 +124,7 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isKeyword(String word) {
-		return ArrayUtils.contains(KEYWORDS, word);
+		return KeywordTable.isKeyword(word);
 	}
 
 	public static boolean isOperator(String word) {

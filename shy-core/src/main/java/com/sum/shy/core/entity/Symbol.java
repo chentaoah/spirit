@@ -2,22 +2,22 @@ package com.sum.shy.core.entity;
 
 public class Symbol {
 
-	public static final int NONE = -1;
+	public static final int UNKNOWN = -1;// 未知状态
 
-	public static final int OPERATOR = 0;
-	public static final int SEPARATOR = 1;
+	public static final int OPERATOR = 0;// 操作符
+	public static final int SEPARATOR = 1;// 分隔符
 
-	public static final int LEFT = 0;
-	public static final int RIGHT = 1;
-	public static final int DOUBLE = 2;
-	public static final int MULTIPLE = 3;
+	public static final int LEFT = 0;// 左元
+	public static final int RIGHT = 1;// 右元
+	public static final int DOUBLE = 2;// 二元
+	public static final int MULTIPLE = 3;// 多义
 
-	public static final int ARITHMETIC = 0;
-	public static final int BITWISE = 1;
-	public static final int RELATION = 2;
-	public static final int LOGICAL = 3;
-	public static final int CONDITIONAL = 4;
-	public static final int ASSIGN = 5;
+	public static final int ARITHMETIC = 0;// 计算
+	public static final int BITWISE = 1;// 移位
+	public static final int RELATION = 2;// 关系
+	public static final int LOGICAL = 3;// 逻辑
+	public static final int CONDITIONAL = 4;// 条件
+	public static final int ASSIGN = 5;// 赋值
 
 	// 类型,操作符,还是分隔符
 	public int type;

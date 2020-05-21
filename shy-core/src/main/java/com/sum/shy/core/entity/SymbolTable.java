@@ -10,7 +10,6 @@ public class SymbolTable {
 	public static Map<String, Symbol> symbols = new LinkedHashMap<>();
 
 	static {
-
 		// 运算符
 		symbols.put("++",
 				new Symbol(Symbol.OPERATOR, "\\+\\+", "\\+ \\+", "++", 40, Symbol.MULTIPLE, Symbol.ARITHMETIC));
@@ -37,17 +36,16 @@ public class SymbolTable {
 		symbols.put("?", new Symbol(Symbol.OPERATOR, "\\?", "?", 5, Symbol.DOUBLE, Symbol.CONDITIONAL));
 		symbols.put("=", new Symbol(Symbol.OPERATOR, "=", "=", 5, Symbol.DOUBLE, Symbol.ASSIGN));
 		// 分隔符
-		symbols.put("[", new Symbol(Symbol.SEPARATOR, "\\[", "[", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put("]", new Symbol(Symbol.SEPARATOR, "\\]", "]", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put("{", new Symbol(Symbol.SEPARATOR, "\\{", "{", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put("}", new Symbol(Symbol.SEPARATOR, "\\}", "}", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put("(", new Symbol(Symbol.SEPARATOR, "\\(", "(", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put(")", new Symbol(Symbol.SEPARATOR, "\\)", ")", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put(":", new Symbol(Symbol.SEPARATOR, "\\:", ":", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put("::", new Symbol(Symbol.SEPARATOR, "[:]{2}", "\\: \\:", "::", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put(",", new Symbol(Symbol.SEPARATOR, ",", ",", 0, Symbol.NONE, Symbol.NONE));
-		symbols.put(";", new Symbol(Symbol.SEPARATOR, ";", ";", 0, Symbol.NONE, Symbol.NONE));
-
+		symbols.put("[", new Symbol(Symbol.SEPARATOR, "\\[", "[", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put("]", new Symbol(Symbol.SEPARATOR, "\\]", "]", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put("{", new Symbol(Symbol.SEPARATOR, "\\{", "{", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put("}", new Symbol(Symbol.SEPARATOR, "\\}", "}", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put("(", new Symbol(Symbol.SEPARATOR, "\\(", "(", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put(")", new Symbol(Symbol.SEPARATOR, "\\)", ")", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put(":", new Symbol(Symbol.SEPARATOR, "\\:", ":", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put("::", new Symbol(Symbol.SEPARATOR, "[:]{2}", "\\: \\:", "::", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put(",", new Symbol(Symbol.SEPARATOR, ",", ",", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
+		symbols.put(";", new Symbol(Symbol.SEPARATOR, ";", ";", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
 	}
 
 	public static List<Symbol> selectSingleSymbols() {// 单字符

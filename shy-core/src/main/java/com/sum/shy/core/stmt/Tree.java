@@ -3,11 +3,9 @@ package com.sum.shy.core.stmt;
 import java.util.List;
 
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.entity.KeywordTable;
 
 public class Tree {
-	// 关键字
-	public static final String[] LINE_KEYWORDS = new String[] { "if", "while", "try", "sync", "return", "break",
-			"continue", "throw", "print", "debug", "error" };
 
 	public List<Token> tokens;
 
@@ -42,10 +40,10 @@ public class Tree {
 		try {
 			// 第一个单词
 			Token first = tokens.get(0);
-			for (String keyword : LINE_KEYWORDS) {// 关键字语句
-				if (keyword.equals(first.toString()))
-					return keyword;
-			}
+
+			// 关键字语句
+			if (KeywordTable.isLineKeyword(first.toString()))
+				return first.toString();
 
 			// 本地方法调用
 			if (tokens.size() == 1 && first.isLocalMethod()) {// 调用本地方法

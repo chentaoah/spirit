@@ -50,7 +50,7 @@ public class TreeBuilder {
 		Token finalCurrToken = null;// 当前优先级最高的操作符
 		Token finalNextToken = null;
 		int maxPriority = -1;// 优先级
-		int finalOperand = Symbol.NONE;// 一元左元,一元右元,二元
+		int finalOperand = Symbol.UNKNOWN;// 一元左元,一元右元,二元
 		int index = -1;
 
 		// 每个token在一行里面的位置
@@ -60,7 +60,7 @@ public class TreeBuilder {
 			Token currToken = tokens.get(i);
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 			int priority = -1;
-			int operand = Symbol.NONE;
+			int operand = Symbol.UNKNOWN;
 
 			if (currToken.isType()) {
 				// isLocalMethod() --> String testStr() {
