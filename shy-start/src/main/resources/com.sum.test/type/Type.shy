@@ -80,8 +80,8 @@ class Type {
 		print "ints{}", ints
 		print "strs{}", strs[0]
 
-		int yyy=1
-		int iii=100+yyy+++100
+		yyy=1
+		iii=100+yyy+++100
 		iii=++yyy+100
 		print iii+""
 
