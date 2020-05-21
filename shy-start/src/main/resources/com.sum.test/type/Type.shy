@@ -1,5 +1,7 @@
 
 import java.util.HashMap
+import com.sum.shy.test.ClassGenericTest
+import com.sum.shy.test.MyTest
 
 @Deprecated
 class Type {
@@ -82,6 +84,9 @@ class Type {
 		int iii=100+yyy+++100
 		iii=++yyy+100
 		print iii+""
+
+		objxxx=ClassGenericTest.class.getAnnotation(MyTest.class)
+		print ""+objxxx
 
 
 	}
