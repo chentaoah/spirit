@@ -63,6 +63,10 @@ public class Type {
 		String[] strs = new String[]{"hello", "hello", "hello"};
 		logger.info("ints{}", ints);
 		logger.info("strs{}", strs[0]);
+		int yyy = 1;
+		int iii = 100 + yyy++ + 100;
+		iii = ++yyy + 100;
+		logger.info(iii + "");
 	}
 
 	public String testParam(@Deprecated String str) {

@@ -83,7 +83,7 @@ public class TreeBuilder {
 					if ("++".equals(value) || "--".equals(value)) {
 						if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {// 左元
 							operand = Symbol.LEFT;
-						} else if (nextToken != null && (lastToken.isVar() || lastToken.isNode())) {// 右元
+						} else if (nextToken != null && (nextToken.isVar() || nextToken.isNode())) {// 右元
 							operand = Symbol.RIGHT;
 						}
 						currToken.setOperand(operand);// 标记一下

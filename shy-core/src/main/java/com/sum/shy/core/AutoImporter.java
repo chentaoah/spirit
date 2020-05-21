@@ -40,7 +40,7 @@ public class AutoImporter {
 							String className = clazz.findImport(targetName);
 							// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
 							clazz.addImport(className);
-							System.out.println("Automatically add a import info!class:[" + className + "]");
+//							System.out.println("Automatically add a import info!class:[" + className + "]");
 						}
 					}
 				}
