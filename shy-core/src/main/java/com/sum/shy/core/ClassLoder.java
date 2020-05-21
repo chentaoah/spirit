@@ -9,9 +9,9 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IField;
 import com.sum.shy.core.clazz.IMethod;
 import com.sum.shy.core.clazz.Import;
-import com.sum.shy.core.document.Document;
-import com.sum.shy.core.document.Element;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.stmt.Document;
+import com.sum.shy.core.stmt.Element;
 
 public class ClassLoder {
 

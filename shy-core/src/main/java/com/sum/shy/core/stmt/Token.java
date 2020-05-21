@@ -1,11 +1,11 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.stmt;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.document.api.Semantic;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.stmt.api.Semantic;
 import com.sum.shy.lib.Assert;
 
 public class Token extends Semantic {

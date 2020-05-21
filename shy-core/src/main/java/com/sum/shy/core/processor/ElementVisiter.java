@@ -3,7 +3,7 @@ package com.sum.shy.core.processor;
 import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IVariable;
-import com.sum.shy.core.document.Element;
+import com.sum.shy.core.stmt.Element;
 
 public class ElementVisiter {
 

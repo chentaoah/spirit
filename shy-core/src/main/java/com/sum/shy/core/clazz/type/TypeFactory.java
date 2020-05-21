@@ -6,12 +6,12 @@ import java.util.Map;
 
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Context;
+import com.sum.shy.core.entity.StaticType;
 import com.sum.shy.core.lexical.SemanticDelegate;
-import com.sum.shy.core.metadata.StaticType;
 import com.sum.shy.core.processor.FastDeducer;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.Assert;
 

@@ -1,4 +1,4 @@
-package com.sum.shy.core.metadata;
+package com.sum.shy.core.entity;
 
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.type.TypeFactory;

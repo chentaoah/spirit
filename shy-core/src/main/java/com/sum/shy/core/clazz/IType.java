@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.metadata.StaticType;
+import com.sum.shy.core.entity.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.StringUtils;

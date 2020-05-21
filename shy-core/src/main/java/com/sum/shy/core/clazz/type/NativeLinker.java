@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.metadata.StaticType;
+import com.sum.shy.core.entity.StaticType;
 import com.sum.shy.core.utils.ReflectUtils;
 
 public class NativeLinker {

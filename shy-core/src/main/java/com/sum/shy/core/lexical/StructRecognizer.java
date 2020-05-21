@@ -2,8 +2,8 @@ package com.sum.shy.core.lexical;
 
 import java.util.List;
 
-import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.stmt.Token;
 
 /**
  * 语法分析器

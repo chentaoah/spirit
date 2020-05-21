@@ -5,10 +5,10 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.clazz.type.TypeFactory;
-import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Line;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
+import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.stmt.Line;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 
 public class ExpressDeclarer {
 

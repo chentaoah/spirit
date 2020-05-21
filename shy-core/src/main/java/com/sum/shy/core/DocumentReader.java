@@ -7,10 +7,10 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.shy.core.document.Document;
-import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Line;
-import com.sum.shy.core.document.Stmt;
+import com.sum.shy.core.stmt.Document;
+import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.stmt.Line;
+import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.utils.LineUtils;
 
 public class DocumentReader {

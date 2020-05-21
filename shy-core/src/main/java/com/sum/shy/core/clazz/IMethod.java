@@ -3,9 +3,9 @@ package com.sum.shy.core.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
+import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.stmt.Token;
 
 public class IMethod extends AbsMember {
 

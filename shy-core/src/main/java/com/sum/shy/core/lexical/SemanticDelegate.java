@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.core.entity.SymbolTable;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 

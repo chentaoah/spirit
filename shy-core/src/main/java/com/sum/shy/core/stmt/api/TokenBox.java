@@ -1,8 +1,8 @@
-package com.sum.shy.core.document.api;
+package com.sum.shy.core.stmt.api;
 
 import java.util.List;
 
-import com.sum.shy.core.document.Token;
+import com.sum.shy.core.stmt.Token;
 import com.sum.shy.lib.Assert;
 
 public abstract class TokenBox {

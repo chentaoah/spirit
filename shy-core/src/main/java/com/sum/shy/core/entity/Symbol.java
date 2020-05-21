@@ -1,4 +1,4 @@
-package com.sum.shy.core.metadata;
+package com.sum.shy.core.entity;
 
 public class Symbol {
 

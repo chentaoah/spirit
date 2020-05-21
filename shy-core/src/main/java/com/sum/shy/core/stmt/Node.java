@@ -1,4 +1,4 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.stmt;
 
 public class Node {
 

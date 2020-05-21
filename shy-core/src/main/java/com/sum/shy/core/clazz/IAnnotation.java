@@ -1,7 +1,7 @@
 package com.sum.shy.core.clazz;
 
-import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Token;
+import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.stmt.Token;
 
 public class IAnnotation {
 

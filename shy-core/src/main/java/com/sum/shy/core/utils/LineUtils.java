@@ -3,7 +3,7 @@ package com.sum.shy.core.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.document.Line;
+import com.sum.shy.core.stmt.Line;
 
 public class LineUtils {
 

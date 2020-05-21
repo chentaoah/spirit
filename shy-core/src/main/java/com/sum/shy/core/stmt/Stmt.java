@@ -1,11 +1,11 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.stmt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.document.api.TokenBox;
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.metadata.Symbol;
+import com.sum.shy.core.entity.Symbol;
+import com.sum.shy.core.stmt.api.TokenBox;
 
 public class Stmt extends TokenBox {
 

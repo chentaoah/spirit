@@ -3,12 +3,12 @@ package com.sum.shy.core.processor;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.IVariable;
-import com.sum.shy.core.document.Element;
-import com.sum.shy.core.document.Node;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
+import com.sum.shy.core.entity.StaticType;
 import com.sum.shy.core.lexical.TreeBuilder;
-import com.sum.shy.core.metadata.StaticType;
+import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.stmt.Node;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 import com.sum.shy.lib.Assert;
 
 /**

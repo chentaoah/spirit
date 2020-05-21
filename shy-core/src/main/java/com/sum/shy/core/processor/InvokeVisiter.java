@@ -6,9 +6,9 @@ import java.util.List;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.type.TypeFactory;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 import com.sum.shy.core.clazz.type.AdaptiveLinker;
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
 
 public class InvokeVisiter {
 

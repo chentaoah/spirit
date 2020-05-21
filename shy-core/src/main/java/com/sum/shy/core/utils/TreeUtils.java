@@ -1,7 +1,7 @@
 package com.sum.shy.core.utils;
 
-import com.sum.shy.core.document.Stmt;
-import com.sum.shy.core.document.Token;
+import com.sum.shy.core.stmt.Stmt;
+import com.sum.shy.core.stmt.Token;
 
 public class TreeUtils {
 

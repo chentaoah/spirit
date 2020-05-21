@@ -1,4 +1,4 @@
-package com.sum.shy.core.document.api;
+package com.sum.shy.core.stmt.api;
 
 import com.sum.shy.core.entity.Constants;
 

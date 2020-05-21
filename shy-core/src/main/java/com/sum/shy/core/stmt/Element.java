@@ -1,14 +1,14 @@
-package com.sum.shy.core.document;
+package com.sum.shy.core.stmt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.document.api.Syntactic;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.lexical.LexicalAnalyzer;
 import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.lexical.StructRecognizer;
 import com.sum.shy.core.lexical.TreeBuilder;
+import com.sum.shy.core.stmt.api.Syntactic;
 import com.sum.shy.core.utils.LineUtils;
 import com.sum.shy.lib.StringUtils;
 

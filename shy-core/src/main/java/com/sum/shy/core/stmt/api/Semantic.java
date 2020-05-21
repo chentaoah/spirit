@@ -1,7 +1,7 @@
-package com.sum.shy.core.document.api;
+package com.sum.shy.core.stmt.api;
 
 import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.metadata.SymbolTable;
+import com.sum.shy.core.entity.SymbolTable;
 
 public abstract class Semantic {
 
