@@ -7,147 +7,120 @@ import java.util.Map;
 
 public class SymbolTable {
 
-	public static Map<String, Symbol> symbols = new LinkedHashMap<>();
+	public static final Map<String, Symbol> SYMBOLS = new LinkedHashMap<>();
+
+	public static final List<Symbol> SINGLE_SYMBOLS = new ArrayList<>();
+
+	public static final List<Symbol> DOUBLE_SYMBOLS = new ArrayList<>();
 
 	static {
 		// 运算符
-		symbols.put("++",
-				new Symbol(Symbol.OPERATOR, "\\+\\+", "\\+ \\+", "++", 40, Symbol.MULTIPLE, Symbol.ARITHMETIC));
-		symbols.put("--", new Symbol(Symbol.OPERATOR, "--", "- -", "--", 40, Symbol.MULTIPLE, Symbol.ARITHMETIC));
-		symbols.put("!", new Symbol(Symbol.OPERATOR, "\\!", "!", 40, Symbol.RIGHT, Symbol.LOGICAL));
-		symbols.put("*", new Symbol(Symbol.OPERATOR, "\\*", "*", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
-		symbols.put("/", new Symbol(Symbol.OPERATOR, "/", "/", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
-		symbols.put("%", new Symbol(Symbol.OPERATOR, "%", "%", 35, Symbol.DOUBLE, Symbol.ARITHMETIC));
-		symbols.put("+", new Symbol(Symbol.OPERATOR, "\\+", "+", 30, Symbol.DOUBLE, Symbol.ARITHMETIC));
-		symbols.put("-", new Symbol(Symbol.OPERATOR, "-", "-", 30, Symbol.MULTIPLE, Symbol.ARITHMETIC));
-		symbols.put("<<", new Symbol(Symbol.OPERATOR, "<<", "< <", "<<", 25, Symbol.DOUBLE, Symbol.BITWISE));
-		symbols.put(">>", new Symbol(Symbol.OPERATOR, ">>", "> >", ">>", 25, Symbol.DOUBLE, Symbol.BITWISE));
-		symbols.put("&", new Symbol(Symbol.OPERATOR, "&", "&", 20, Symbol.DOUBLE, Symbol.BITWISE));
-		symbols.put("^", new Symbol(Symbol.OPERATOR, "\\^", "^", 20, Symbol.DOUBLE, Symbol.BITWISE));
-		symbols.put("|", new Symbol(Symbol.OPERATOR, "[|]{1}", "|", 20, Symbol.DOUBLE, Symbol.BITWISE));
-		symbols.put("==", new Symbol(Symbol.OPERATOR, "==", "= =", "==", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put("!=", new Symbol(Symbol.OPERATOR, "!=", "! =", "!=", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put("<=", new Symbol(Symbol.OPERATOR, "<=", "< =", "<=", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put(">=", new Symbol(Symbol.OPERATOR, ">=", "> =", ">=", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put("<", new Symbol(Symbol.OPERATOR, "<", "<", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put(">", new Symbol(Symbol.OPERATOR, ">", ">", 15, Symbol.DOUBLE, Symbol.RELATION));
-		symbols.put("&&", new Symbol(Symbol.OPERATOR, "&&", "& &", "&&", 10, Symbol.DOUBLE, Symbol.LOGICAL));
-		symbols.put("||", new Symbol(Symbol.OPERATOR, "[|]{2}", "\\| \\|", "||", 10, Symbol.DOUBLE, Symbol.LOGICAL));
-		symbols.put("?", new Symbol(Symbol.OPERATOR, "\\?", "?", 5, Symbol.DOUBLE, Symbol.CONDITIONAL));
-		symbols.put("=", new Symbol(Symbol.OPERATOR, "=", "=", 5, Symbol.DOUBLE, Symbol.ASSIGN));
+		SYMBOLS.put("++", new Symbol("++", "\\+\\+", "\\+ \\+", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.ARITHMETIC, 40, Symbol.MULTIPLE));
+		SYMBOLS.put("--", new Symbol("--", "--", "- -", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.ARITHMETIC, 40, Symbol.MULTIPLE));
+		SYMBOLS.put("!", new Symbol("!", "\\!", Symbol.OPERATOR, Symbol.SINGLE, Symbol.LOGICAL, 40, Symbol.RIGHT));
+		SYMBOLS.put("*", new Symbol("*", "\\*", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ARITHMETIC, 35, Symbol.BINARY));
+		SYMBOLS.put("/", new Symbol("/", "/", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ARITHMETIC, 35, Symbol.BINARY));
+		SYMBOLS.put("%", new Symbol("%", "%", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ARITHMETIC, 35, Symbol.BINARY));
+		SYMBOLS.put("+", new Symbol("+", "\\+", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ARITHMETIC, 30, Symbol.BINARY));
+		SYMBOLS.put("-", new Symbol("-", "-", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ARITHMETIC, 30, Symbol.MULTIPLE));
+		SYMBOLS.put("<<", new Symbol("<<", "<<", "< <", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.BITWISE, 25, Symbol.BINARY));
+		SYMBOLS.put(">>", new Symbol(">>", ">>", "> >", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.BITWISE, 25, Symbol.BINARY));
+		SYMBOLS.put("&", new Symbol("&", "&", Symbol.OPERATOR, Symbol.SINGLE, Symbol.BITWISE, 20, Symbol.BINARY));
+		SYMBOLS.put("^", new Symbol("^", "\\^", Symbol.OPERATOR, Symbol.SINGLE, Symbol.BITWISE, 20, Symbol.BINARY));
+		SYMBOLS.put("|", new Symbol("|", "[|]{1}", Symbol.OPERATOR, Symbol.SINGLE, Symbol.BITWISE, 20, Symbol.BINARY));
+		SYMBOLS.put("==", new Symbol("==", "==", "= =", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put("!=", new Symbol("!=", "!=", "! =", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put("<=", new Symbol("<=", "<=", "< =", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put(">=", new Symbol(">=", ">=", "> =", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put("<", new Symbol("<", "<", Symbol.OPERATOR, Symbol.SINGLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put(">", new Symbol(">", ">", Symbol.OPERATOR, Symbol.SINGLE, Symbol.RELATION, 15, Symbol.BINARY));
+		SYMBOLS.put("&&", new Symbol("&&", "&&", "& &", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.LOGICAL, 10, Symbol.BINARY));
+		SYMBOLS.put("||", new Symbol("||", "[|]{2}", "\\| \\|", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.LOGICAL, 10, Symbol.BINARY));
+		SYMBOLS.put("?", new Symbol("?", "\\?", Symbol.OPERATOR, Symbol.SINGLE, Symbol.CONDITIONAL, 5, Symbol.BINARY));
+		SYMBOLS.put("=", new Symbol("=", "=", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ASSIGN, 5, Symbol.BINARY));
 		// 分隔符
-		symbols.put("[", new Symbol(Symbol.SEPARATOR, "\\[", "[", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put("]", new Symbol(Symbol.SEPARATOR, "\\]", "]", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put("{", new Symbol(Symbol.SEPARATOR, "\\{", "{", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put("}", new Symbol(Symbol.SEPARATOR, "\\}", "}", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put("(", new Symbol(Symbol.SEPARATOR, "\\(", "(", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put(")", new Symbol(Symbol.SEPARATOR, "\\)", ")", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put(":", new Symbol(Symbol.SEPARATOR, "\\:", ":", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put("::", new Symbol(Symbol.SEPARATOR, "[:]{2}", "\\: \\:", "::", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put(",", new Symbol(Symbol.SEPARATOR, ",", ",", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-		symbols.put(";", new Symbol(Symbol.SEPARATOR, ";", ";", 0, Symbol.UNKNOWN, Symbol.UNKNOWN));
-	}
+		SYMBOLS.put("[", new Symbol("[", "\\[", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put("]", new Symbol("]", "\\]", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put("{", new Symbol("{", "\\{", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put("}", new Symbol("}", "\\}", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put("(", new Symbol("(", "\\(", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put(")", new Symbol(")", "\\)", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put(":", new Symbol(":", "\\:", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put("::", new Symbol("::", "[:]{2}", "\\: \\:", Symbol.SEPARATOR, Symbol.DOUBLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put(",", new Symbol(",", ",", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
+		SYMBOLS.put(";", new Symbol(";", ";", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
 
-	public static List<Symbol> selectSingleSymbols() {// 单字符
-		List<Symbol> list = new ArrayList<>();
-		for (Symbol symbol : symbols.values()) {
-			if (symbol.value.length() == 1)
-				list.add(symbol);
+		for (Symbol symbol : SYMBOLS.values()) {
+			if (symbol.isSingle())
+				SINGLE_SYMBOLS.add(symbol);
 		}
-		return list;
-	}
 
-	public static List<Symbol> selectDoubleSymbols() {// 双字符
-		List<Symbol> list = new ArrayList<>();
-		for (Symbol symbol : symbols.values()) {
-			if (symbol.value.length() == 2)
-				list.add(symbol);
-		}
-		return list;
-	}
-
-	public static List<Symbol> selectBinaryOperator() {// 查询二元操作符
-		List<Symbol> list = new ArrayList<>();
-		for (Symbol symbol : symbols.values()) {
+		for (Symbol symbol : SYMBOLS.values()) {
 			if (symbol.isDouble())
-				list.add(symbol);
+				DOUBLE_SYMBOLS.add(symbol);
 		}
-		return list;
+
 	}
 
-	public static Symbol selectSymbol(String value) {// 根据值来查找符号
-		return symbols.get(value);
+	public static boolean isSymbol(String value) {
+		return SYMBOLS.containsKey(value);
 	}
 
-	public static int selectPriority(String value) {// 获取优先级
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.priority;
-		}
+	public static Symbol getSymbol(String value) {// 根据值来查找符号
+		return SYMBOLS.get(value);
+	}
+
+	public static int getPriority(String value) {// 获取优先级
+		if (isSymbol(value))
+			return getSymbol(value).priority;
 		return -1;
 	}
 
 	public static boolean isOperator(String value) {// 是否操作符
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isOperator();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isOperator();
 		return false;
 	}
 
 	public static boolean isSeparator(String value) {// 是否分隔符
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isSeparator();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isSeparator();
 		return false;
 	}
 
 	public static boolean isArithmetic(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isArithmetic();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isArithmetic();
 		return false;
 	}
 
 	public static boolean isBitwise(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isBitwise();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isBitwise();
 		return false;
 	}
 
 	public static boolean isRelation(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isRelation();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isRelation();
 		return false;
 	}
 
 	public static boolean isLogical(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isLogical();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isLogical();
 		return false;
 	}
 
 	public static boolean isConditional(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isConditional();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isConditional();
 		return false;
 	}
 
 	public static boolean isAssign(String value) {
-		if (symbols.containsKey(value)) {
-			Symbol symbol = symbols.get(value);
-			return symbol.isAssign();
-		}
+		if (isSymbol(value))
+			return getSymbol(value).isAssign();
 		return false;
 	}
 

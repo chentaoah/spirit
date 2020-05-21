@@ -37,8 +37,7 @@ public class SemanticDelegate {
 
 	// ============================== 赋值 ================================
 	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
-	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern
-			.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
+	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");// 类型数组声明
 	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");// String[]{"text"}
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
@@ -136,15 +135,12 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isType(String word) {
-		return PRIMITIVE_PATTERN.matcher(word).matches() || PRIMITIVE_ARRAY_PATTERN.matcher(word).matches()
-				|| TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
+		return PRIMITIVE_PATTERN.matcher(word).matches() || PRIMITIVE_ARRAY_PATTERN.matcher(word).matches() || TYPE_PATTERN.matcher(word).matches() || TYPE_ARRAY_PATTERN.matcher(word).matches()
 				|| GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isInit(String word) {
-		return PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches()
-				|| PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
-				|| TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
+		return PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches() || PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
@@ -163,10 +159,8 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isValue(String word) {
-		return NULL_PATTERN.matcher(word).matches() || BOOL_PATTERN.matcher(word).matches()
-				|| CHAR_PATTERN.matcher(word).matches() || INT_PATTERN.matcher(word).matches()
-				|| LONG_PATTERN.matcher(word).matches() || DOUBLE_PATTERN.matcher(word).matches()
-				|| STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches()
+		return NULL_PATTERN.matcher(word).matches() || BOOL_PATTERN.matcher(word).matches() || CHAR_PATTERN.matcher(word).matches() || INT_PATTERN.matcher(word).matches()
+				|| LONG_PATTERN.matcher(word).matches() || DOUBLE_PATTERN.matcher(word).matches() || STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches()
 				|| MAP_PATTERN.matcher(word).matches();
 	}
 
@@ -207,9 +201,8 @@ public class SemanticDelegate {
 	}
 
 	public static boolean isAccess(String word) {
-		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches()
-				|| INVOKE_METHOD_PATTERN.matcher(word).matches() || VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches()
-				|| ARRAY_INDEX_PATTERN.matcher(word).matches();
+		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches() || INVOKE_METHOD_PATTERN.matcher(word).matches()
+				|| VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches() || ARRAY_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	public static String getAccessTokenType(String word) {

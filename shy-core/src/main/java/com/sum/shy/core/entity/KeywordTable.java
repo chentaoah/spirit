@@ -5,46 +5,46 @@ import java.util.Map;
 
 public class KeywordTable {
 
-	public static Map<String, Keyword> keywords = new LinkedHashMap<>();
+	public static final Map<String, Keyword> KEYWORDS = new LinkedHashMap<>();
 
 	static {
-		keywords.put("package", new Keyword(Keyword.STRUCT, "package"));
-		keywords.put("import", new Keyword(Keyword.STRUCT, "import"));
-		keywords.put("interface", new Keyword(Keyword.STRUCT, "interface"));
-		keywords.put("abstract", new Keyword(Keyword.STRUCT, "abstract"));
-		keywords.put("class", new Keyword(Keyword.STRUCT, "class"));
-		keywords.put("func", new Keyword(Keyword.STRUCT, "func"));
+		KEYWORDS.put("package", new Keyword("package", Keyword.STRUCT));
+		KEYWORDS.put("import", new Keyword("import", Keyword.STRUCT));
+		KEYWORDS.put("interface", new Keyword("interface", Keyword.STRUCT));
+		KEYWORDS.put("abstract", new Keyword("abstract", Keyword.STRUCT));
+		KEYWORDS.put("class", new Keyword("class", Keyword.STRUCT));
+		KEYWORDS.put("func", new Keyword("func", Keyword.STRUCT));
 
-		keywords.put("if", new Keyword(Keyword.LINE, "if"));
-		keywords.put("do", new Keyword(Keyword.LINE, "do"));
-		keywords.put("while", new Keyword(Keyword.LINE, "while"));
-		keywords.put("try", new Keyword(Keyword.LINE, "try"));
-		keywords.put("sync", new Keyword(Keyword.LINE, "sync"));
-		keywords.put("return", new Keyword(Keyword.LINE, "return"));
-		keywords.put("continue", new Keyword(Keyword.LINE, "continue"));
-		keywords.put("break", new Keyword(Keyword.LINE, "break"));
-		keywords.put("throw", new Keyword(Keyword.LINE, "throw"));
-		keywords.put("print", new Keyword(Keyword.LINE, "print"));
-		keywords.put("debug", new Keyword(Keyword.LINE, "debug"));
-		keywords.put("error", new Keyword(Keyword.LINE, "error"));
+		KEYWORDS.put("if", new Keyword("if", Keyword.LINE));
+		KEYWORDS.put("do", new Keyword("do", Keyword.LINE));
+		KEYWORDS.put("while", new Keyword("while", Keyword.LINE));
+		KEYWORDS.put("try", new Keyword("try", Keyword.LINE));
+		KEYWORDS.put("sync", new Keyword("sync", Keyword.LINE));
+		KEYWORDS.put("return", new Keyword("return", Keyword.LINE));
+		KEYWORDS.put("continue", new Keyword("continue", Keyword.LINE));
+		KEYWORDS.put("break", new Keyword("break", Keyword.LINE));
+		KEYWORDS.put("throw", new Keyword("throw", Keyword.LINE));
+		KEYWORDS.put("print", new Keyword("print", Keyword.LINE));
+		KEYWORDS.put("debug", new Keyword("debug", Keyword.LINE));
+		KEYWORDS.put("error", new Keyword("error", Keyword.LINE));
 
-		keywords.put("extends", new Keyword(Keyword.TOKEN, "extends"));
-		keywords.put("impl", new Keyword(Keyword.TOKEN, "impl"));
-		keywords.put("throws", new Keyword(Keyword.TOKEN, "throws"));
-		keywords.put("else", new Keyword(Keyword.TOKEN, "else"));
-		keywords.put("for", new Keyword(Keyword.TOKEN, "for"));
-		keywords.put("in", new Keyword(Keyword.TOKEN, "in"));
-		keywords.put("catch", new Keyword(Keyword.TOKEN, "catch"));
-		keywords.put("finally", new Keyword(Keyword.TOKEN, "finally"));
-		keywords.put("instanceof", new Keyword(Keyword.TOKEN, "instanceof"));
+		KEYWORDS.put("extends", new Keyword("extends", Keyword.TOKEN));
+		KEYWORDS.put("impl", new Keyword("impl", Keyword.TOKEN));
+		KEYWORDS.put("throws", new Keyword("throws", Keyword.TOKEN));
+		KEYWORDS.put("else", new Keyword("else", Keyword.TOKEN));
+		KEYWORDS.put("for", new Keyword("for", Keyword.TOKEN));
+		KEYWORDS.put("in", new Keyword("in", Keyword.TOKEN));
+		KEYWORDS.put("catch", new Keyword("catch", Keyword.TOKEN));
+		KEYWORDS.put("finally", new Keyword("finally", Keyword.TOKEN));
+		KEYWORDS.put("instanceof", new Keyword("instanceof", Keyword.TOKEN));
 	}
 
 	public static boolean isKeyword(String value) {
-		return keywords.containsKey(value);
+		return KEYWORDS.containsKey(value);
 	}
 
 	public static Keyword getKeyword(String value) {
-		return keywords.get(value);
+		return KEYWORDS.get(value);
 	}
 
 	public static boolean isStructKeyword(String value) {

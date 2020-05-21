@@ -8,13 +8,13 @@ public class Keyword {
 	public static final int LINE = 1;// 行级
 	public static final int TOKEN = 2;// 元素级
 
-	public int type;
-
 	public String value;
 
-	public Keyword(int type, String value) {
-		this.type = type;
+	public int type;
+
+	public Keyword(String value, int type) {
 		this.value = value;
+		this.type = type;
 	}
 
 	public boolean isStruct() {

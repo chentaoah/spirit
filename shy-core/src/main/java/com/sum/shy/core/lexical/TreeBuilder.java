@@ -76,7 +76,7 @@ public class TreeBuilder {
 			} else if (currToken.isOperator()) {// 如果是操作符
 
 				String value = currToken.toString();
-				Symbol symbol = SymbolTable.selectSymbol(value);
+				Symbol symbol = SymbolTable.getSymbol(value);
 				priority = symbol.priority;// 优先级
 
 				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
@@ -90,7 +90,7 @@ public class TreeBuilder {
 
 					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
 						if (lastToken != null && (lastToken.isNumber() || lastToken.isVar() || lastToken.isNode())) {
-							operand = Symbol.DOUBLE;
+							operand = Symbol.BINARY;
 						} else {
 							operand = Symbol.RIGHT;
 						}
@@ -107,7 +107,7 @@ public class TreeBuilder {
 
 			} else if (currToken.isInstanceof()) {// instanceof
 				priority = 20;// 相当于一个==
-				operand = Symbol.DOUBLE;
+				operand = Symbol.BINARY;
 
 			}
 
@@ -127,24 +127,24 @@ public class TreeBuilder {
 
 		// 构建节点结构
 		Node node = getNode(finalCurrToken);
-		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.DOUBLE) {
+		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY) {
 			if (finalLastToken != null)
 				node.left = getNode(finalLastToken);
 		}
 
-		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE) {
+		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY) {
 			if (finalNextToken != null)
 				node.right = getNode(finalNextToken);
 		}
 
 		// 移除,并添加
-		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.DOUBLE)
+		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY)
 			tokens.remove(index + 1);
 
 		tokens.remove(index);
 		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
 
-		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.DOUBLE)
+		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY)
 			tokens.remove(index - 1);
 
 		// 递归

@@ -7,10 +7,8 @@ public class Symbol {
 	public static final int OPERATOR = 0;// 操作符
 	public static final int SEPARATOR = 1;// 分隔符
 
-	public static final int LEFT = 0;// 左元
-	public static final int RIGHT = 1;// 右元
-	public static final int DOUBLE = 2;// 二元
-	public static final int MULTIPLE = 3;// 多义
+	public static final int SINGLE = 0;// 单字符
+	public static final int DOUBLE = 1;// 双字符
 
 	public static final int ARITHMETIC = 0;// 计算
 	public static final int BITWISE = 1;// 移位
@@ -19,38 +17,41 @@ public class Symbol {
 	public static final int CONDITIONAL = 4;// 条件
 	public static final int ASSIGN = 5;// 赋值
 
-	// 类型,操作符,还是分隔符
-	public int type;
+	public static final int LEFT = 0;// 左元
+	public static final int RIGHT = 1;// 右元
+	public static final int BINARY = 2;// 二元
+	public static final int MULTIPLE = 3;// 多义
+
+	// 符号值
+	public String value;
 	// 正则表达式
 	public String regex;
 	// 需要纠正的书写方式
 	public String badRegex;
-	// 符号值
-	public String value;
+	// 类型,操作符,还是分隔符
+	public int type;
+	// 字符数类型，单字符，还是双字符
+	public int charType;
+	// 类别:算术运算符,位运算符,关系运算符,逻辑运算,条件运算符,赋值运算符
+	public int category;
 	// 优先级
 	public int priority;
 	// 操作数:左元,右元,二元,多义
 	public int operand;
-	// 类别:算术运算符,位运算符,关系运算符,逻辑运算,条件运算符,赋值运算符
-	public int category;
 
-	public Symbol(int type, String regex, String value, int priority, int operand, int category) {
-		this.type = type;
-		this.regex = regex;
-		this.value = value;
-		this.priority = priority;
-		this.operand = operand;
-		this.category = category;
+	public Symbol(String value, String regex, int type, int charType, int category, int priority, int operand) {
+		this(value, regex, null, type, charType, category, priority, operand);
 	}
 
-	public Symbol(int type, String regex, String badRegex, String value, int priority, int operand, int category) {
-		this.type = type;
+	public Symbol(String value, String regex, String badRegex, int type, int charType, int category, int priority, int operand) {
+		this.value = value;
 		this.regex = regex;
 		this.badRegex = badRegex;
-		this.value = value;
+		this.type = type;
+		this.charType = charType;
+		this.category = category;
 		this.priority = priority;
 		this.operand = operand;
-		this.category = category;
 	}
 
 	public boolean isOperator() {
@@ -61,20 +62,12 @@ public class Symbol {
 		return type == SEPARATOR;
 	}
 
-	public boolean isLeft() {
-		return operand == LEFT;
-	}
-
-	public boolean isRight() {
-		return operand == RIGHT;
+	public boolean isSingle() {
+		return charType == SINGLE;
 	}
 
 	public boolean isDouble() {
-		return operand == DOUBLE;
-	}
-
-	public boolean isMultiple() {
-		return operand == MULTIPLE;
+		return charType == DOUBLE;
 	}
 
 	public boolean isArithmetic() {
@@ -99,6 +92,22 @@ public class Symbol {
 
 	public boolean isAssign() {
 		return category == ASSIGN;
+	}
+
+	public boolean isLeft() {
+		return operand == LEFT;
+	}
+
+	public boolean isRight() {
+		return operand == RIGHT;
+	}
+
+	public boolean isBinary() {
+		return operand == BINARY;
+	}
+
+	public boolean isMultiple() {
+		return operand == MULTIPLE;
 	}
 
 }

@@ -113,7 +113,6 @@ public class Tree {
 				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {
 					return Constants.FINALLY_SYNTAX;
 				}
-
 			}
 
 		} catch (Exception e) {

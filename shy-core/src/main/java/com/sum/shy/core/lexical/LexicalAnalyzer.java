@@ -24,8 +24,6 @@ import com.sum.shy.core.utils.LineUtils;
  */
 public class LexicalAnalyzer {
 
-	public static final List<Symbol> SINGLE_SYMBOLS = SymbolTable.selectSingleSymbols();// 选取只有一个字符的符号
-	public static final List<Symbol> DOUBLE_SYMBOLS = SymbolTable.selectDoubleSymbols();// 选取两个字符的符号
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
 	public static List<String> getWords(String text) {
@@ -64,8 +62,7 @@ public class LexicalAnalyzer {
 				}
 
 			} else if (c == '[') {// 注意：不能声明泛型数组，并且带"{"和"}"，不能声明length
-				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', '{', '}', "$array_like", count++,
-						replacedStrs);
+				replaceWithWhole(chars, start >= 0 ? start : i, '[', ']', '{', '}', "$array_like", count++, replacedStrs);
 				i = start >= 0 ? start : i;
 
 			} else if (c == '(') {
@@ -85,14 +82,14 @@ public class LexicalAnalyzer {
 		text = Joiner.on("").join(chars);
 
 		// 2.处理操作符,添加空格,方便后面的拆分
-		for (Symbol symbol : SINGLE_SYMBOLS)
+		for (Symbol symbol : SymbolTable.SINGLE_SYMBOLS)
 			text = text.replaceAll(symbol.regex, " " + symbol.value + " ");
 
 		// 3.将多余的空格去掉
 		text = LineUtils.removeSpace(text);
 
 		// 4.将那些被分离的符号,紧贴在一起
-		for (Symbol symbol : DOUBLE_SYMBOLS)
+		for (Symbol symbol : SymbolTable.DOUBLE_SYMBOLS)
 			text = text.replaceAll(symbol.badRegex, symbol.value);
 
 		// 5.根据操作符,进行拆分
@@ -101,8 +98,7 @@ public class LexicalAnalyzer {
 		// 6.如果包含.但是又不是数字的话，则再拆一次
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches()
-					&& !SemanticDelegate.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticDelegate.isDouble(word)) {
 				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
 				words.remove(i);
 				words.addAll(i, subWords);
@@ -128,18 +124,15 @@ public class LexicalAnalyzer {
 	}
 
 	public static boolean isContinueChar(char c) {// 是否接续字符
-		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
-				|| c == '.';
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
-	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, String name,
-			int number, Map<String, String> replacedStrs) {
+	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, String name, int number, Map<String, String> replacedStrs) {
 		int end = findEnd(chars, index, left, right);
 		doReplaceString(chars, index, end, name, number, replacedStrs);
 	}
 
-	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, char left1,
-			char right1, String name, int number, Map<String, String> replacedStrs) {
+	public static void replaceWithWhole(List<Character> chars, int index, char left, char right, char left1, char right1, String name, int number, Map<String, String> replacedStrs) {
 		int end = findEnd(chars, index, left, right);
 		if (end != -1 && end + 1 < chars.size()) { // 判断后面的符号是否连续
 			char c = chars.get(end + 1);
@@ -183,8 +176,7 @@ public class LexicalAnalyzer {
 		return count % 2 == 0;
 	}
 
-	public static void doReplaceString(List<Character> chars, int start, int end, String name, int number,
-			Map<String, String> replacedStrs) {
+	public static void doReplaceString(List<Character> chars, int start, int end, String name, int number, Map<String, String> replacedStrs) {
 
 		if (end == -1)
 			return;
