@@ -1,6 +1,8 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
+import com.sum.shy.test.ClassGenericTest;
+import com.sum.shy.test.MyTest;
 import com.sum.test.process.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,8 @@ public class Type {
 		int iii = 100 + yyy++ + 100;
 		iii = ++yyy + 100;
 		logger.info(iii + "");
+		MyTest objxxx = ClassGenericTest.class.getAnnotation(MyTest.class);
+		logger.info("" + objxxx);
 	}
 
 	public String testParam(@Deprecated String str) {
