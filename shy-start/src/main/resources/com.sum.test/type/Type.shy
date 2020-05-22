@@ -86,7 +86,8 @@ class Type {
 		print iii+""
 
 		objxxx=ClassGenericTest.class.getAnnotation(MyTest.class)
-		print ""+objxxx
+		ssss=objxxx.value()
+		print ""+ssss
 
 
 	}
