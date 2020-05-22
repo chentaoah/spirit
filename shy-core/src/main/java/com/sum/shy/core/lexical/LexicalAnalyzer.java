@@ -119,7 +119,7 @@ public class LexicalAnalyzer {
 
 	public static void push(StringBuilder builder, int index, char left, char right, String name, int number, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, index, left, right);
-		doReplaceString(builder, index, end, name, number, replacedStrs);
+		replaceString(builder, index, end, name, number, replacedStrs);
 	}
 
 	public static void push(StringBuilder builder, int index, char left, char right, char left1, char right1, String name, int number, Map<String, String> replacedStrs) {
@@ -135,7 +135,7 @@ public class LexicalAnalyzer {
 					end = findEnd(builder, end + 1, left1, right1);
 			}
 		}
-		doReplaceString(builder, index, end, name, number, replacedStrs);
+		replaceString(builder, index, end, name, number, replacedStrs);
 	}
 
 	public static int findEnd(StringBuilder builder, int index, char left, char right) {
@@ -171,7 +171,7 @@ public class LexicalAnalyzer {
 		return count % 2 == 0;
 	}
 
-	public static void doReplaceString(StringBuilder builder, int start, int end, String name, int number, Map<String, String> replacedStrs) {
+	public static void replaceString(StringBuilder builder, int start, int end, String name, int number, Map<String, String> replacedStrs) {
 		if (end == -1)
 			return;
 		String markName = name + number;
