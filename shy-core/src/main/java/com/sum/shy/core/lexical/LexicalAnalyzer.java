@@ -32,48 +32,45 @@ public class LexicalAnalyzer {
 			return new ArrayList<>();
 
 		List<String> words = new ArrayList<>();
-		Map<String, String> replacedStrs = new HashMap<>();// 被替换的字符串
+		Map<String, String> replacedStrs = new HashMap<>();
 		StringBuilder builder = new StringBuilder(text.trim());
-
-		for (int i = 0, count = 0, start = -1; i < builder.length(); i++) {// 1.整体替换
-			char c = builder.charAt(i);
-
-			if (start < 0 && isContinueChar(c))// 如果是接续字符,则记录起始位置
-				start = i;
-
-			if (c == '.')// .访问符会及时更新
-				start = i;
+		// 1.整体替换
+		for (int index = 0, count = 0, start = -1; index < builder.length(); index++) {
+			char c = builder.charAt(index);
+			// 如果是接续字符,则记录起始位置
+			// .访问符会及时更新
+			if ((start < 0 && isContinueChar(c)) || c == '.')
+				start = index;
 
 			if (c == '"') {
-				push(builder, i, '"', '"', "@str", count++, replacedStrs);
+				push(builder, index, '"', '"', "@str" + count++, replacedStrs);
 
 			} else if (c == '\'') {
-				push(builder, i, '\'', '\'', "@char", count++, replacedStrs);
+				push(builder, index, '\'', '\'', "@char" + count++, replacedStrs);
+
+			} else if (c == '{') {
+				push(builder, index, '{', '}', "@map" + count++, replacedStrs);
+
+			} else if (c == '(') {
+				push(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
+				index = start >= 0 ? start : index;
+
+			} else if (c == '[') {// 注意：不能声明泛型数组，并且带"{"和"}"，不能声明length
+				push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
+				index = start >= 0 ? start : index;
 
 			} else if (c == '<') {// 泛型声明
 				if (start >= 0) {// 必须有前缀
-					char e = builder.charAt(start);
-					if (e >= 'A' && e <= 'Z') {// 如果首字母是大写的话,才进行处理
-						push(builder, start, '<', '>', '(', ')', "@generic", count++, replacedStrs);
-						i = start;
+					char d = builder.charAt(start);
+					if (d >= 'A' && d <= 'Z') {// 如果首字母是大写的话,才进行处理
+						push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
+						index = start;
 					}
 				}
-
-			} else if (c == '[') {// 注意：不能声明泛型数组，并且带"{"和"}"，不能声明length
-				push(builder, start >= 0 ? start : i, '[', ']', '{', '}', "@array_like", count++, replacedStrs);
-				i = start >= 0 ? start : i;
-
-			} else if (c == '(') {
-				push(builder, start >= 0 ? start : i, '(', ')', "@invoke_like", count++, replacedStrs);
-				i = start >= 0 ? start : i;
-
-			} else if (c == '{') {
-				push(builder, i, '{', '}', "@map", count++, replacedStrs);
 			}
 
 			if (!isContinueChar(c))// 如果不是接续字符,则重置起始位置
 				start = -1;
-
 		}
 
 		text = builder.toString();
@@ -83,7 +80,7 @@ public class LexicalAnalyzer {
 			text = text.replaceAll(symbol.regex, " " + symbol.value + " ");
 
 		// 3.将多余的空格去掉
-		text = LineUtils.removeSpace(text);
+		text = LineUtils.mergeSpaces(text);
 
 		// 4.将那些被分离的符号,紧贴在一起
 		for (Symbol symbol : SymbolTable.DOUBLE_SYMBOLS)
@@ -95,7 +92,8 @@ public class LexicalAnalyzer {
 		// 6.如果包含.但是又不是数字的话，则再拆一次
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticDelegate.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches()
+					&& !SemanticDelegate.isDouble(word)) {
 				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
 				words.remove(i);
 				words.addAll(i, subWords);
@@ -110,71 +108,61 @@ public class LexicalAnalyzer {
 		}
 
 		return words;
-
 	}
 
 	public static boolean isContinueChar(char c) {// 是否接续字符
-		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+				|| c == '.';
 	}
 
-	public static void push(StringBuilder builder, int index, char left, char right, String name, int number, Map<String, String> replacedStrs) {
-		int end = findEnd(builder, index, left, right);
-		replaceString(builder, index, end, name, number, replacedStrs);
+	public static void push(StringBuilder builder, int start, char left, char right, String markName,
+			Map<String, String> replacedStrs) {
+		int end = findEnd(builder, start, left, right);
+		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static void push(StringBuilder builder, int index, char left, char right, char left1, char right1, String name, int number, Map<String, String> replacedStrs) {
-		int end = findEnd(builder, index, left, right);
+	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1,
+			String markName, Map<String, String> replacedStrs) {
+		int end = findEnd(builder, start, left, right);
 		if (end != -1 && end + 1 < builder.length()) { // 判断后面的符号是否连续
 			char c = builder.charAt(end + 1);
 			if (c == ' ' && end + 2 < builder.length()) {// 继续往后延后一格
-				char c1 = builder.charAt(end + 2);
-				if (c1 == left1)
+				char d = builder.charAt(end + 2);
+				if (d == left1)
 					end = findEnd(builder, end + 2, left1, right1);
 			} else {
 				if (c == left1)
 					end = findEnd(builder, end + 1, left1, right1);
 			}
 		}
-		replaceString(builder, index, end, name, number, replacedStrs);
+		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static int findEnd(StringBuilder builder, int index, char left, char right) {
+	public static int findEnd(StringBuilder builder, int start, char left, char right) {
 		boolean flag = false;// 是否进入"符号的范围内
-		for (int i = index, count = 0; i < builder.length(); i++) {
-			char c = builder.charAt(i);
-			if (c == '"' && isBoundary(builder, i)) // 判断是否进入了字符串中
+		for (int index = start, count = 0; index < builder.length(); index++) {
+			char c = builder.charAt(index);
+			if (c == '"' && LineUtils.isBoundary(builder.toString(), index)) // 判断是否进入了字符串中
 				flag = !flag;
 			if (!flag) {
 				if (right == '"')// 字符串是比较特殊的,含头不含尾,这里需要特殊处理
-					return i;
+					return index;
 				if (c == left) {
 					count++;
 				} else if (c == right) {
 					count--;
 					if (count == 0)
-						return i;
+						return index;
 				}
 			}
 		}
 		return -1;
 	}
 
-	public static boolean isBoundary(StringBuilder builder, int index) {
-		int count = 0;
-		while (--index >= 0) {
-			if (builder.charAt(index) == '\\') {
-				count++;
-			} else {
-				break;
-			}
-		}
-		return count % 2 == 0;
-	}
-
-	public static void replaceString(StringBuilder builder, int start, int end, String name, int number, Map<String, String> replacedStrs) {
+	public static void replaceStr(StringBuilder builder, int start, int end, String markName,
+			Map<String, String> replacedStrs) {
 		if (end == -1)
 			return;
-		String markName = name + number;
 		String content = builder.substring(start, end + 1);
 		replacedStrs.put(markName, content);
 		builder.replace(start, end + 1, " " + markName + " ");

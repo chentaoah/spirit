@@ -7,7 +7,6 @@ import com.sum.shy.core.stmt.Line;
 
 public class LineUtils {
 
-	// 返回子块
 	public static List<Line> getSubLines(List<Line> lines, int index) {
 		List<Line> list = new ArrayList<>();
 		for (int i = index + 1, count = 1; i < lines.size(); i++) {
@@ -34,10 +33,10 @@ public class LineUtils {
 		return list;
 	}
 
-	public static boolean isBoundary(String text, int i) {
+	public static boolean isBoundary(String text, int index) {
 		int count = 0;
-		while (--i >= 0) {
-			if (text.charAt(i) == '\\') {
+		for (int i = index - 1; i >= 0; i--) {
+			if (text.charAt(index) == '\\') {
 				count++;
 			} else {
 				break;
@@ -46,27 +45,24 @@ public class LineUtils {
 		return count % 2 == 0;
 	}
 
-	public static String removeSpace(String line) {// 去掉多余的空格
-		line = line.trim();// 去掉首尾
-		while (line.contains("  ")) {
-			line = line.replaceAll("  ", " ");
-		}
+	public static String mergeSpaces(String line) {
+		line = line.trim();
+		while (line.contains("  "))
+			line = line.replaceAll("  ", " ");// 这里需要考虑一种情况，就是四个变两个，两个变一个
 		return line;
 	}
 
-	public static String getSpace(int number) {
+	public static String getSpaces(int number) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < number; i++) {
+		for (int i = 0; i < number; i++)
 			sb.append(" ");
-		}
 		return sb.toString();
 	}
 
 	public static String getIndent(int number) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < number; i++) {
+		for (int i = 0; i < number; i++)
 			sb.append("\t");
-		}
 		return sb.toString();
 	}
 

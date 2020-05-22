@@ -156,7 +156,7 @@ public class Element extends Syntactic {
 
 	public void debug() {
 		System.out.println(
-				line.text + LineUtils.getSpace(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
+				line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
 		for (Element element : children)
 			element.debug();
 	}

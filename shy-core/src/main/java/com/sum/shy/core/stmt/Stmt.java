@@ -67,75 +67,73 @@ public class Stmt extends TokenBox {
 		// 遍历空格
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.isSeparator()) {
-				if (" ".equals(token.toString())) {
-					Token lastToken = tokens.get(i - 1);
-					Token nextToken = tokens.get(i + 1);
+			if (token.isSeparator() && " ".equals(token.toString())) {
+				Token lastToken = tokens.get(i - 1);
+				Token nextToken = tokens.get(i + 1);
+				if (lastToken.isOperator()) {// 前面为某些特定操作符
+					if ("!".equals(lastToken.toString())) {
+						tokens.remove(i);
+						continue;
 
-					if (lastToken.isOperator()) {// 前面为某些特定操作符
-						if ("!".equals(lastToken.toString())) {
-							tokens.remove(i);
-							continue;
-
-						} else if ("++".equals(lastToken.toString()) || "--".equals(lastToken.toString())) {
-							if (lastToken.getOperand() == Symbol.RIGHT) {
-								tokens.remove(i);
-								continue;
-							}
-
-						} else if ("-".equals(lastToken.toString())) {
-							if (lastToken.getOperand() == Symbol.RIGHT) {
-								tokens.remove(i);
-								continue;
-							}
-						}
-
-					} else if (lastToken.isSeparator()) {// 前面为特定分隔符
-						if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
+					} else if ("++".equals(lastToken.toString()) || "--".equals(lastToken.toString())) {
+						if (lastToken.getOperand() == Symbol.RIGHT) {
 							tokens.remove(i);
 							continue;
 						}
 
-					} else if (lastToken.isCustomPrefix()) {
+					} else if ("-".equals(lastToken.toString())) {
+						if (lastToken.getOperand() == Symbol.RIGHT) {
+							tokens.remove(i);
+							continue;
+						}
+					}
+
+				} else if (lastToken.isSeparator()) {// 前面为特定分隔符
+					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString())
+							|| "<".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
 					}
 
-					if (nextToken.isOperator()) {
-						if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
-							if (nextToken.getOperand() == Symbol.LEFT) {
-								tokens.remove(i);
-								continue;
-							}
+				} else if (lastToken.isCustomPrefix()) {
+					tokens.remove(i);
+					continue;
+				}
+
+				if (nextToken.isOperator()) {
+					if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
+						if (nextToken.getOperand() == Symbol.LEFT) {
+							tokens.remove(i);
+							continue;
 						}
-
-					} else if (nextToken.isSeparator()) {
-						if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString()) || "]".equals(nextToken.toString())
-								|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString()) || ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
-
-							if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {
-								continue;// if (express) {
-
-							} else {
-								tokens.remove(i);
-								continue;
-							}
-						}
-
-					} else if (nextToken.isFluent()) {
-						tokens.remove(i);
-						continue;
-
-					} else if (nextToken.isCustomSuffix()) {
-						tokens.remove(i);
-						continue;
 					}
+
+				} else if (nextToken.isSeparator()) {
+					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString())
+							|| "<".equals(nextToken.toString()) || "]".equals(nextToken.toString())
+							|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
+							|| ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
+
+						if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {
+							continue;// if (express) {
+
+						} else {
+							tokens.remove(i);
+							continue;
+						}
+					}
+
+				} else if (nextToken.isFluent()) {
+					tokens.remove(i);
+					continue;
+
+				} else if (nextToken.isCustomSuffix()) {
+					tokens.remove(i);
+					continue;
 				}
 			}
 		}
-
 		return tokens;
-
 	}
 
 	public String debug() {

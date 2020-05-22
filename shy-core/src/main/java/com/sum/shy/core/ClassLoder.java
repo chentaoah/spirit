@@ -15,18 +15,18 @@ import com.sum.shy.core.stmt.Element;
 
 public class ClassLoder {
 
-	public List<IClass> load(String packageStr, File file) {
+	public List<IClass> loadClasses(String packageStr, File file) {
 		// 1.生成docment对象
 		Document document = new DocumentReader().read(file);
 		// 2.打印日志
 		document.debug();
 		// 3.生成Class对象
-		List<IClass> classes = load(packageStr, document);
+		List<IClass> classes = doLoadClasses(packageStr, document);
 
 		return classes;
 	}
 
-	public List<IClass> load(String packageStr, Document document) {
+	public List<IClass> doLoadClasses(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();
 		// 主类

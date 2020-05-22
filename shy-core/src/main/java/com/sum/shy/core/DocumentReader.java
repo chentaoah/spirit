@@ -23,7 +23,9 @@ public class DocumentReader {
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
 			// 3.将文件的行转换成line对象
 			List<Line> lines = convertLines(fileLines);
+			// 4.读取每行的内容，并组成节点结构
 			readLines(document, lines);
+
 			return document;
 
 		} catch (IOException e) {
