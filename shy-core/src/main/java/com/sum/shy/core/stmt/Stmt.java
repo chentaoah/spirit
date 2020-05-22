@@ -116,9 +116,6 @@ public class Stmt extends TokenBox {
 							if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {
 								continue;// if (express) {
 
-							} else if (i + 1 == tokens.size() - 1 && "{".equals(nextToken.toString())) {
-								continue;// if (express) {
-
 							} else {
 								tokens.remove(i);
 								continue;
