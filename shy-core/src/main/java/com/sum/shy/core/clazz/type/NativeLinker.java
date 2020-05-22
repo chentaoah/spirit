@@ -22,37 +22,33 @@ public class NativeLinker {
 		try {
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 			Field field = clazz.getField(fieldName);
-			return convertNativeType(type, null, null, field.getGenericType());
+			return convertType(type, null, null, field.getGenericType());
 
-		} catch (Exception e) {// 大家都是Object的子类后，这个方法会被高频调用
-			// ignore
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to visit field!fieldName:" + fieldName, e);
 		}
-		return null;
 	}
 
 	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
-			Map<String, IType> methodGenericTypes = new HashMap<>();
-			Method method = findMethod(type, methodName, parameterTypes, methodGenericTypes);
-			return convertNativeType(type, methodGenericTypes, null, method.getGenericReturnType());
+			Method method = findMethod(type, methodName, parameterTypes);
+			Map<String, IType> namedTypes = getNamedTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
+			return convertType(type, namedTypes, null, method.getGenericReturnType());
 
-		} catch (Exception e) {// 大家都是Object的子类后，这个方法会被高频调用
-			// ignore
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to visit method!methodName:" + methodName, e);
 		}
-		return null;
 	}
 
-	public static Method findMethod(IType type, String methodName, List<IType> parameterTypes,
-			Map<String, IType> methodGenericTypes) {
-
+	public static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
+				int index = 0;
 				boolean flag = true;
-				int count = 0;
 				for (Parameter parameter : method.getParameters()) {
-					IType parameterType = parameterTypes.get(count++);
-					IType nativeParameterType = convertNativeType(type, methodGenericTypes, parameterType,
+					IType parameterType = parameterTypes.get(index++);
+					IType nativeParameterType = convertType(type, null, parameterType,
 							parameter.getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
@@ -70,8 +66,17 @@ public class NativeLinker {
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
-	public static IType convertNativeType(IType type, Map<String, IType> methodGenericTypes, IType referenceTyep,
-			Type nativeType) {
+	public static Map<String, IType> getNamedTypes(IType type, Method method, List<IType> parameterTypes) {
+		Map<String, IType> namedTypes = new HashMap<>();
+		int index = 0;
+		for (Parameter parameter : method.getParameters()) {
+			IType parameterType = parameterTypes.get(index++);
+			convertType(type, namedTypes, parameterType, parameter.getParameterizedType());
+		}
+		return namedTypes;
+	}
+
+	public static IType convertType(IType type, Map<String, IType> namedTypes, IType mappingType, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
 			return TypeFactory.create((Class<?>) nativeType);
@@ -85,11 +90,12 @@ public class NativeLinker {
 			if (index >= 0) {
 				return type.getGenericTypes().get(index);
 			} else {
-				if (methodGenericTypes != null && methodGenericTypes.containsKey(nativeType.toString())) {
-					return methodGenericTypes.get(nativeType.toString());
+				if (namedTypes != null && namedTypes.containsKey(nativeType.toString())) {
+					return namedTypes.get(nativeType.toString());
 				} else {
-					methodGenericTypes.put(nativeType.toString(), referenceTyep);
-					return referenceTyep;
+					if (namedTypes != null)
+						namedTypes.put(nativeType.toString(), mappingType);
+					return mappingType;
 				}
 			}
 		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
@@ -98,8 +104,8 @@ public class NativeLinker {
 			List<IType> genericTypes = new ArrayList<>();
 			int index = 0;
 			for (Type actualType : parameterizedType.getActualTypeArguments()) {
-				referenceTyep = referenceTyep != null ? referenceTyep.getGenericTypes().get(index++) : null;
-				genericTypes.add(convertNativeType(type, methodGenericTypes, referenceTyep, actualType));
+				mappingType = mappingType != null ? mappingType.getGenericTypes().get(index++) : null;
+				genericTypes.add(convertType(type, namedTypes, mappingType, actualType));
 			}
 			return TypeFactory.create(clazz, genericTypes);
 		}

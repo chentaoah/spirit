@@ -25,6 +25,9 @@ public class AdaptiveLinker {
 		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
 			return StaticType.INT_TYPE;// 访问数组length直接返回int类型
 
+		if (type.isObj())
+			return null;
+
 		return !type.isNative() ? CodeLinker.visitField(type, fieldName) : NativeLinker.visitField(type, fieldName);
 	}
 
@@ -38,7 +41,17 @@ public class AdaptiveLinker {
 		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
 			return type;// super()和this()指代父类或者本身的构造函数，返回这个类本身
 
-		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes) : NativeLinker.visitMethod(type, methodName, parameterTypes);
+		if (type.isObj()) {// 如果是Object类型，则直接返回了
+			if (Constants.OBJECT_EQUALS.equals(methodName)) {
+				return StaticType.BOOLEAN_TYPE;
+
+			} else if (Constants.OBJECT_TO_STRING.equals(methodName)) {
+				return StaticType.STRING_TYPE;
+			}
+		}
+
+		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes)
+				: NativeLinker.visitMethod(type, methodName, parameterTypes);
 	}
 
 }

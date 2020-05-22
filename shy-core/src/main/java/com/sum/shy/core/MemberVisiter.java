@@ -87,8 +87,7 @@ public class MemberVisiter {
 			return TypeFactory.create(clazz, method.element.getToken(0));
 
 		} else if (method.element.isFunc()) {
-			MethodContext context = new MethodContext();
-			context.method = method;
+			MethodContext context = new MethodContext(method);
 			visitChildElement(clazz, context, method.element);
 			return context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
 		}
@@ -134,6 +133,10 @@ public class MemberVisiter {
 		public int depth = 0;// 深度
 		public List<Integer> counts = new ArrayList<>(16);
 		public IType returnType;// 返回
+
+		public MethodContext(IMethod method) {
+			this.method = method;
+		}
 
 		public void increaseDepth() {
 			depth = depth + 1;
