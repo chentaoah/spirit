@@ -70,7 +70,8 @@ public class Type {
 		iii = ++yyy + 100;
 		logger.info(iii + "");
 		MyTest objxxx = ClassGenericTest.class.getAnnotation(MyTest.class);
-		logger.info("" + objxxx);
+		String ssss = objxxx.value();
+		logger.info("" + ssss);
 	}
 
 	public String testParam(@Deprecated String str) {
