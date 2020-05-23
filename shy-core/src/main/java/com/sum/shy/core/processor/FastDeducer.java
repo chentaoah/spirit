@@ -50,7 +50,6 @@ public class FastDeducer {
 		} else if (element.isReturn()) {
 			Stmt subStmt = element.subStmt(1, element.size());
 			return new IVariable(deriveStmt(clazz, subStmt), null);
-
 		}
 		return null;
 	}

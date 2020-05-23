@@ -47,9 +47,7 @@ public class ExpressDeclarer {
 				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
 			}
-
 		}
-
 	}
 
 }
