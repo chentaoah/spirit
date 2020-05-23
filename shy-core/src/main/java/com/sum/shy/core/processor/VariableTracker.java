@@ -28,7 +28,6 @@ public class VariableTracker {
 
 	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {
-
 			if (token.canVisit())
 				trackStmt(clazz, context, token.getStmt());
 
@@ -47,11 +46,8 @@ public class VariableTracker {
 				Assert.notNull(type, "Variable must be declared!name:" + name);
 				type = TypeFactory.create(type.getTargetName());// 转换成数组内的类型
 				token.setTypeAtt(type);
-
 			}
-
 		}
-
 	}
 
 	public static IType findType(IClass clazz, MethodContext context, String name) {
@@ -90,7 +86,5 @@ public class VariableTracker {
 
 		// 从继承里面去找，注意这里的父类可能是native的
 		return AdaptiveLinker.visitField(clazz.getSuperType(), name);
-
 	}
-
 }

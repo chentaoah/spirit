@@ -35,7 +35,7 @@ public class IType {
 	}
 
 	public IType getTargetType() {
-		return TypeFactory.create(TypeUtils.getTargetName(getClassName()));
+		return TypeFactory.create(getTargetName());
 	}
 
 	public IType getSuperType() {

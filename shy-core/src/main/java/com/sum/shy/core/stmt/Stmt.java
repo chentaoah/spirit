@@ -31,7 +31,7 @@ public class Stmt extends TokenBox {
 		List<Stmt> subStmts = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if ((token.isSeparator() || token.isOperator()) && separator.equals(token.toString())) {// 分隔符
+			if (isMatch(token) && separator.equals(token.toString())) {// 分隔符
 				Stmt subStmt = subStmt(last, i);
 				subStmts.add(subStmt);
 				last = i + 1;// 记录截取开始的地方

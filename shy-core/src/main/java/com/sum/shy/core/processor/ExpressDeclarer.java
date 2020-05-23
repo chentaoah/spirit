@@ -4,7 +4,6 @@ import com.sum.shy.core.MemberVisiter.MethodContext;
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.IVariable;
-import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.stmt.Element;
 import com.sum.shy.core.stmt.Line;
 import com.sum.shy.core.stmt.Stmt;
@@ -35,7 +34,7 @@ public class ExpressDeclarer {
 			InvokeVisiter.visitStmt(clazz, subStmt);
 			IType type = FastDeducer.deriveStmt(clazz, subStmt);
 			// 这里从数组或集合中获取类型
-			type = type.isArray() ? TypeFactory.create(type.getTargetName()) : type.getGenericTypes().get(0);
+			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			varToken.setTypeAtt(type);
 
