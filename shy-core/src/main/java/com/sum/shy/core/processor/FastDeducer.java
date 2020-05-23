@@ -1,5 +1,7 @@
 package com.sum.shy.core.processor;
 
+import java.util.List;
+
 import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.IVariable;
@@ -63,7 +65,8 @@ public class FastDeducer {
 	 */
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		// 构建树形结构
-		for (Token token : TreeBuilder.build(stmt.tokens)) {
+		List<Token> tokens = TreeBuilder.build(stmt.tokens);
+		for (Token token : tokens) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
 
@@ -85,9 +88,9 @@ public class FastDeducer {
 			return StaticType.BOOLEAN_TYPE;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
-			// 先取左边的，再取右边的
-			if (node.left != null) {
+			if (node.left != null) {// 先取左边的，再取右边的
 				return getType(clazz, node.left);
+
 			} else if (node.right != null) {
 				return getType(clazz, node.right);
 			}
