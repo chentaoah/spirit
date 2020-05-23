@@ -58,10 +58,10 @@ public class TypeFactory {
 						type = create(clazz.findImport(simpleName));// 一般类型
 				}
 			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
-				Stmt subStmt = token.getStmt();
-				String simpleName = subStmt.getStr(0);// 前缀
+				Stmt stmt = token.getStmt();
+				String simpleName = stmt.getStr(0);// 前缀
 				type = create(clazz.findImport(simpleName));
-				type.setGenericTypes(getGenericTypes(clazz, subStmt));
+				type.setGenericTypes(getGenericTypes(clazz, stmt));
 			}
 			return type;
 
