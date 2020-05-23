@@ -150,7 +150,7 @@ public abstract class Semantic {
 	}
 
 	public boolean isInstanceof() {
-		return isKeyword() && "instanceof".equals(getValue().toString());
+		return isKeyword() && Constants.INSTANCEOF_KEYWORD.equals(getValue().toString());
 	}
 
 	public boolean isArithmetic() {// 是否算术符号

@@ -44,7 +44,6 @@ public class TreeBuilder {
 	}
 
 	public static List<Token> getNodeByLoop(List<Token> tokens) {
-
 		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
 		Token finalLastToken = null;
 		Token finalCurrToken = null;// 当前优先级最高的操作符
@@ -55,7 +54,6 @@ public class TreeBuilder {
 
 		// 每个token在一行里面的位置
 		for (int i = 0; i < tokens.size(); i++) {
-
 			Token lastToken = i - 1 >= 0 ? tokens.get(i - 1) : null;
 			Token currToken = tokens.get(i);
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
@@ -74,7 +72,6 @@ public class TreeBuilder {
 				operand = Symbol.LEFT;
 
 			} else if (currToken.isOperator()) {// 如果是操作符
-
 				String value = currToken.toString();
 				Symbol symbol = SymbolTable.getSymbol(value);
 				priority = symbol.priority;// 优先级
@@ -96,7 +93,6 @@ public class TreeBuilder {
 						}
 						currToken.setOperand(operand);// 标记一下
 					}
-
 				} else {
 					operand = symbol.operand;
 				}
@@ -108,7 +104,6 @@ public class TreeBuilder {
 			} else if (currToken.isInstanceof()) {// instanceof
 				priority = 20;// 相当于一个==
 				operand = Symbol.BINARY;
-
 			}
 
 			if (priority > maxPriority) {
@@ -119,23 +114,19 @@ public class TreeBuilder {
 				finalOperand = operand;
 				index = i;
 			}
-
 		}
+
 		// 校验
 		if (finalCurrToken == null)
 			return tokens;
 
 		// 构建节点结构
 		Node node = getNode(finalCurrToken);
-		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY) {
-			if (finalLastToken != null)
-				node.left = getNode(finalLastToken);
-		}
+		if ((finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY) && finalLastToken != null)
+			node.left = getNode(finalLastToken);
 
-		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY) {
-			if (finalNextToken != null)
-				node.right = getNode(finalNextToken);
-		}
+		if ((finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY) && finalNextToken != null)
+			node.right = getNode(finalNextToken);
 
 		// 移除,并添加
 		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY)

@@ -31,6 +31,7 @@ public class Constants {
 	public static final String PRINT_KEYWORD = "print";
 	public static final String DEBUG_KEYWORD = "debug";
 	public static final String ERROR_KEYWORD = "error";
+	public static final String INSTANCEOF_KEYWORD = "instanceof";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";

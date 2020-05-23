@@ -42,6 +42,7 @@ public class Element extends Syntactic {
 		this.stmt = new Stmt(tokens);
 		// 4.一些基本的结构语法，不需要复杂分析的
 		this.syntax = StructRecognizer.getSyntax(tokens);
+		// 如果不是结构语法，则使用抽象语法树推导
 		if (syntax == null) {
 			// 5.建立抽象语法树
 			this.tree = TreeBuilder.build(stmt);
