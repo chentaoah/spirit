@@ -5,7 +5,6 @@ import com.sum.shy.core.clazz.IClass;
 import com.sum.shy.core.clazz.IType;
 import com.sum.shy.core.clazz.IVariable;
 import com.sum.shy.core.stmt.Element;
-import com.sum.shy.core.stmt.Line;
 import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.stmt.Token;
 
@@ -40,7 +39,7 @@ public class ExpressDeclarer {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
-			Element subElement = new Element(new Line(subStmt.toString()));
+			Element subElement = new Element(subStmt.toString());
 			subElement.stmt = subStmt;// 替换一下
 			IVariable variable = ElementVisiter.visit(clazz, context, subElement);
 			if (variable != null) {
