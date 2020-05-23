@@ -20,7 +20,7 @@ public class StructRecognizer {
 	public static String getStructSyntax(List<Token> tokens) {
 		Token first = tokens.get(0);
 		// 关键字语句
-		if (KeywordTable.isStructKeyword(first.toString()))
+		if (KeywordTable.isStruct(first.toString()))
 			return first.toString();
 		// 语句结束
 		if (tokens.size() == 1 && "}".equals(first.toString()))

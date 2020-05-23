@@ -42,7 +42,7 @@ public class Tree {
 			Token first = tokens.get(0);
 
 			// 关键字语句
-			if (KeywordTable.isLineKeyword(first.toString()))
+			if (KeywordTable.isLine(first.toString()))
 				return first.toString();
 
 			// 本地方法调用

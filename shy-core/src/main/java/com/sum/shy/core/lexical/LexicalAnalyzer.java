@@ -34,6 +34,7 @@ public class LexicalAnalyzer {
 		List<String> words = new ArrayList<>();
 		Map<String, String> replacedStrs = new HashMap<>();
 		StringBuilder builder = new StringBuilder(text.trim());
+
 		// 1.整体替换
 		for (int index = 0, count = 0, start = -1; index < builder.length(); index++) {
 			char c = builder.charAt(index);

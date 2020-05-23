@@ -32,9 +32,8 @@ public abstract class TokenBox {
 		List<Token> tokens = getTokens();
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isMatch(token) && str.equals(token.toString())) {
+			if (isMatch(token) && str.equals(token.toString()))
 				index = i > index ? i : index;
-			}
 		}
 		return index;
 	}
@@ -91,6 +90,31 @@ public abstract class TokenBox {
 		for (int i = end - 1; i >= start; i--)
 			tokens.remove(i);
 		tokens.add(start, token);
+	}
+
+	public int findKeyword(String keyword) {
+		for (int index = 0; index < size(); index++) {
+			Token token = getToken(index);
+			if (token.isKeyword() && keyword.equals(token.toString()))
+				return index;
+		}
+		return -1;
+	}
+
+	public boolean containsKeyword(String keyword) {
+		return findKeyword(keyword) != -1;
+	}
+
+	public int findKeywordEnd(int index) {
+		for (int i = index + 1; i < size(); i++) {
+			Token token = getToken(i);
+			if (token.isKeyword() || (token.isSeparator() && !",".equals(token.toString()))) {
+				return i;
+			} else if (i == size() - 1) {
+				return i + 1;
+			}
+		}
+		return -1;
 	}
 
 	public abstract List<Token> getTokens();

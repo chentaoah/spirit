@@ -45,7 +45,7 @@ public class JavaBuilder {
 	public String buildBody(IClass clazz) {
 		// 类名
 		StringBuilder classStr = new StringBuilder();
-		classStr.append("public " + clazz.root.insertAfterKeyword(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
+		classStr.append("public " + clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
 				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段

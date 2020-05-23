@@ -98,11 +98,8 @@ public class ClassLoder {
 			} else if (element.isFuncDeclare() || element.isFunc()) {
 				clazz.methods.add(new IMethod(annotations, false, element));
 				annotations.clear();
-
 			}
-
 		}
-
 	}
 
 }

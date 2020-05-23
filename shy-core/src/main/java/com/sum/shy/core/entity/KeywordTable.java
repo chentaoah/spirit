@@ -47,11 +47,11 @@ public class KeywordTable {
 		return KEYWORDS.get(value);
 	}
 
-	public static boolean isStructKeyword(String value) {
+	public static boolean isStruct(String value) {
 		return isKeyword(value) && getKeyword(value).isStruct();
 	}
 
-	public static boolean isLineKeyword(String value) {
+	public static boolean isLine(String value) {
 		return isKeyword(value) && getKeyword(value).isLine();
 	}
 

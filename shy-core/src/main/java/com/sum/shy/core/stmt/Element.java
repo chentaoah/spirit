@@ -41,16 +41,13 @@ public class Element extends Syntactic {
 		// 3.生成语句
 		this.stmt = new Stmt(tokens);
 		// 4.一些基本的结构语法，不需要复杂分析的
-		String syntax = StructRecognizer.getStructSyntax(tokens);
-		if (syntax != null) {
-			this.syntax = syntax;
-		} else {
+		this.syntax = StructRecognizer.getStructSyntax(tokens);
+		if (syntax == null) {
 			// 5.建立抽象语法树
 			this.tree = TreeBuilder.build(stmt);
 			// 6.获取语法
 			this.syntax = tree.getSyntax();
 		}
-
 	}
 
 	public boolean hasChild() {
@@ -69,26 +66,13 @@ public class Element extends Syntactic {
 		return stmt.split(separator);
 	}
 
-	public int findKeywordIndex(String keyword) {
-		for (int i = 0; i < size(); i++) {
-			Token token = getToken(i);
-			if (token.isKeyword() && keyword.equals(token.toString()))
-				return i;
-		}
-		return -1;
-	}
-
-	public boolean containsKeyword(String keyword) {
-		return findKeywordIndex(keyword) != -1;
-	}
-
 	public Element replaceKeyword(String keyword, String text) {
-		int index = findKeywordIndex(keyword);
+		int index = findKeyword(keyword);
 		if (index != -1) {
 			if (StringUtils.isNotEmpty(text)) {
-				stmt.tokens.set(index, new Token(Constants.KEYWORD_TOKEN, text));
+				getTokens().set(index, new Token(Constants.KEYWORD_TOKEN, text));
 			} else {
-				stmt.tokens.remove(index);// 如果为空的话，则删除该关键字
+				getTokens().remove(index);// 如果为空的话，则删除该关键字
 			}
 		}
 		return this;
@@ -98,16 +82,16 @@ public class Element extends Syntactic {
 		return replaceKeyword(keyword, "");
 	}
 
-	public Element insertAfterKeyword(String keyword, String text) {
-		int index = findKeywordIndex(keyword);
+	public Element insertAfter(String keyword, String text) {
+		int index = findKeyword(keyword);
 		if (index != -1)
-			stmt.tokens.add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
+			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
 		return this;
 	}
 
 	public String getKeywordParam(String... keywords) {
 		for (String keyword : keywords) {
-			int index = findKeywordIndex(keyword);
+			int index = findKeyword(keyword);
 			if (index != -1 && contains(index + 1))
 				return getToken(index + 1).toString();
 		}
@@ -116,24 +100,12 @@ public class Element extends Syntactic {
 
 	public List<String> getKeywordParams(String keyword) {
 		List<String> params = new ArrayList<>();
-		int index = findKeywordIndex(keyword);
+		int index = findKeyword(keyword);
 		if (index != -1) {
-			int end = -1;
-			for (int i = index + 1; i < size(); i++) {// 查询到结束的位置
-				Token endToken = getToken(i);
-				if (endToken.isKeyword() || (endToken.isSeparator() && !",".equals(endToken.toString()))) {
-					end = i;
-				} else if (i == size() - 1) {
-					end = i + 1;
-				}
-			}
-			if (end != -1) {
-				List<Stmt> subStmts = stmt.subStmt(index + 1, end).split(",");
-				for (Stmt subStmt : subStmts) {
-					if (subStmt.size() == 1)
-						params.add(subStmt.getStr(0));
-				}
-				return params;
+			List<Stmt> subStmts = stmt.subStmt(index + 1, findKeywordEnd(index)).split(",");
+			for (Stmt subStmt : subStmts) {
+				if (subStmt.size() == 1)
+					params.add(subStmt.getStr(0));
 			}
 		}
 		return params;
