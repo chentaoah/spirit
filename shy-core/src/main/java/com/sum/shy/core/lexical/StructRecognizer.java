@@ -17,7 +17,7 @@ import com.sum.shy.core.stmt.Token;
  */
 public class StructRecognizer {
 
-	public static String getStructSyntax(List<Token> tokens) {
+	public static String getSyntax(List<Token> tokens) {
 		Token first = tokens.get(0);
 		// 关键字语句
 		if (KeywordTable.isStruct(first.toString()))
