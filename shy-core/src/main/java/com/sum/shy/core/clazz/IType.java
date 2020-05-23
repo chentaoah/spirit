@@ -34,6 +34,10 @@ public class IType {
 		return TypeUtils.getTargetName(getClassName());
 	}
 
+	public IType getTargetType() {
+		return TypeFactory.create(TypeUtils.getTargetName(getClassName()));
+	}
+
 	public IType getSuperType() {
 
 		if (isPrimitive())
@@ -77,7 +81,7 @@ public class IType {
 	}
 
 	public IType getWrappedType() {
-		String className = ReflectUtils.getWrapperType(getClassName());
+		String className = ReflectUtils.getWrappedType(getClassName());
 		if (className != null)
 			return TypeFactory.create(className);
 		return this;// 如果没有则返回自身
@@ -92,7 +96,8 @@ public class IType {
 		if (equals(type))
 			return true;
 
-		if (isMatch(type.getSuperType()))
+		// 这个方法中，还要考虑到自动拆组包
+		if (isMatch(type.getWrappedType().getSuperType()))
 			return true;
 
 		for (IType inter : type.getInterfaces()) {
@@ -124,7 +129,7 @@ public class IType {
 
 	@Override
 	public String toString() {
-		throw new RuntimeException("Please use the build method of TypeBuider!className:" + getClassName());
+		return className;
 	}
 
 	public boolean isGenericType() {

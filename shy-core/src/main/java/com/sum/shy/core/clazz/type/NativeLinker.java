@@ -60,23 +60,47 @@ public class NativeLinker {
 			}
 		}
 		for (Method method : clazz.getMethods()) {// 这里要处理Object...这种形式
-			if (method.getName().equals(methodName))
-				return method;
+			if (method.getName().equals(methodName) && ReflectUtils.isIndefinite(method)) {
+				Parameter[] parameters = method.getParameters();
+				Parameter lastParameter = parameters[parameters.length - 1];
+				boolean flag = true;
+				for (int i = 0; i < parameters.length - 1; i++) {
+					IType parameterType = parameterTypes.get(i);
+					IType nativeParameterType = convertType(type, null, parameterType,
+							parameters[i].getParameterizedType());
+					if (!(nativeParameterType.isMatch(parameterType))) {
+						flag = false;
+						break;
+					}
+				}
+				if (flag) {
+					IType targetType = convertType(type, null, null, lastParameter.getParameterizedType())
+							.getTargetType();
+					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
+						IType parameterType = parameterTypes.get(i);
+						if (!(targetType.isMatch(parameterType))) {
+							flag = false;
+							break;
+						}
+					}
+				}
+				if (flag)
+					return method;
+			}
 		}
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
 	public static Map<String, IType> getNamedTypes(IType type, Method method, List<IType> parameterTypes) {
 		Map<String, IType> namedTypes = new HashMap<>();
-		int index = 0;
-		for (Parameter parameter : method.getParameters()) {
-			IType parameterType = parameterTypes.get(index++);
-			convertType(type, namedTypes, parameterType, parameter.getParameterizedType());
-		}
+		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
+		Parameter[] parameters = method.getParameters();
+		for (int i = 0; i < size; i++)
+			convertType(type, namedTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
 		return namedTypes;
 	}
 
-	public static IType convertType(IType type, Map<String, IType> namedTypes, IType mappingType, Type nativeType) {
+	public static IType convertType(IType type, Map<String, IType> namedTypes, IType incomingType, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
 			return TypeFactory.create((Class<?>) nativeType);
@@ -94,8 +118,8 @@ public class NativeLinker {
 					return namedTypes.get(nativeType.toString());
 				} else {
 					if (namedTypes != null)
-						namedTypes.put(nativeType.toString(), mappingType);
-					return mappingType;
+						namedTypes.put(nativeType.toString(), incomingType);
+					return incomingType;
 				}
 			}
 		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
@@ -104,8 +128,8 @@ public class NativeLinker {
 			List<IType> genericTypes = new ArrayList<>();
 			int index = 0;
 			for (Type actualType : parameterizedType.getActualTypeArguments()) {
-				mappingType = mappingType != null ? mappingType.getGenericTypes().get(index++) : null;
-				genericTypes.add(convertType(type, namedTypes, mappingType, actualType));
+				IType genericType = incomingType != null ? incomingType.getGenericTypes().get(index++) : null;
+				genericTypes.add(convertType(type, namedTypes, genericType, actualType));
 			}
 			return TypeFactory.create(clazz, genericTypes);
 		}

@@ -1,5 +1,8 @@
 package com.sum.shy.core.utils;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
 public class ReflectUtils {
 
 	public static Class<?> getClass(String className) {
@@ -8,9 +11,19 @@ public class ReflectUtils {
 			if (clazz == null)
 				clazz = Class.forName(className);
 			return clazz;
+
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}
+	}
+
+	public static boolean isIndefinite(Method method) {
+		Parameter[] parameters = method.getParameters();
+		if (parameters != null && parameters.length > 0) {
+			Parameter lastParameter = parameters[parameters.length - 1];
+			return lastParameter.toString().contains("...");
+		}
+		return false;
 	}
 
 	public static Class<?> getPrimitive(String className) {
@@ -36,7 +49,7 @@ public class ReflectUtils {
 		}
 	}
 
-	public static String getWrapperType(String className) {
+	public static String getWrappedType(String className) {
 		switch (className) {
 		case "boolean":
 			return Boolean.class.getName();
