@@ -77,9 +77,9 @@ public class TypeFactory {
 	public static List<IType> getGenericTypes(IClass clazz, Stmt stmt) {
 		List<IType> genericTypes = new ArrayList<>();
 		for (int i = 1; i < stmt.size(); i++) {
-			Token subToken = stmt.getToken(i);
-			if (subToken.isType())
-				genericTypes.add(create(clazz, subToken));
+			Token token = stmt.getToken(i);
+			if (token.isType())
+				genericTypes.add(create(clazz, token));
 		}
 		return genericTypes;
 	}
