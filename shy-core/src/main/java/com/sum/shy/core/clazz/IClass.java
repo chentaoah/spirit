@@ -8,7 +8,6 @@ import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.StaticType;
 import com.sum.shy.core.stmt.Element;
-import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.stmt.Token;
 import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.lib.Assert;
@@ -117,16 +116,14 @@ public class IClass {
 	}
 
 	public IType getTypeVariable(String genericName) {
-		Token token = getTypeToken();
-		if (token.value instanceof Stmt) {
-			Stmt stmt = token.getStmt();
-			for (int i = 1; i < stmt.size(); i++) {
-				Token currToken = stmt.getToken(i);
-				if (currToken.isType() || currToken.toString().equals(genericName)) {
-					IType type = TypeFactory.create(Object.class);
-					type.setGenericName(genericName);
-					return type;
-				}
+		String simpleName = getTypeToken().toString();
+		List<String> names = TypeUtils.splitName(simpleName);
+		names.remove(0);
+		for (String name : names) {
+			if (name.equals(genericName)) {
+				IType type = TypeFactory.create(Object.class);
+				type.setGenericName(genericName);
+				return type;
 			}
 		}
 		return null;

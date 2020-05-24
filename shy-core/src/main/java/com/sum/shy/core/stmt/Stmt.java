@@ -3,6 +3,7 @@ package com.sum.shy.core.stmt;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Symbol;
 import com.sum.shy.core.stmt.api.TokenBox;
@@ -42,11 +43,7 @@ public class Stmt extends TokenBox {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		List<Token> tokens = format();
-		for (int i = 0; i < tokens.size(); i++)
-			sb.append(tokens.get(i));
-		return sb.toString();
+		return Joiner.on("").join(format());
 	}
 
 	public List<Token> format() {

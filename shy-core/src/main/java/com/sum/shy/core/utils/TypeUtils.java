@@ -32,7 +32,8 @@ public class TypeUtils {
 	}
 
 	public static List<String> splitName(String name) {
-		return Splitter.on(CharMatcher.anyOf("<,")).trimResults().omitEmptyStrings().splitToList(name);
+		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().omitEmptyStrings().splitToList(name);
+		return new ArrayList<>(names);
 	}
 
 	public static String getTargetName(String name) {// className or simpleName or typeName
