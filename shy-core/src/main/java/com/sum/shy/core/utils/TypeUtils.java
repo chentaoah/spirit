@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.sum.shy.core.lexical.SemanticDelegate;
 
 public class TypeUtils {
@@ -29,10 +31,17 @@ public class TypeUtils {
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
+	public static List<String> splitName(String name) {
+		return Splitter.on(CharMatcher.anyOf("<,")).trimResults().omitEmptyStrings().splitToList(name);
+	}
+
 	public static String getTargetName(String name) {// className or simpleName or typeName
 
+		if (name.contains("<") && name.contains(">"))
+			return splitName(name).get(0);
+
 		if (name.contains(".") && name.contains("$"))
-			name = name.replaceAll("\\$", ".");// 替换内部类path中的$符号
+			name = name.replaceAll("\\$", ".");// 替换内部类path中的$符号''
 
 		if (!isArray(name)) {
 			return name;

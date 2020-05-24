@@ -11,6 +11,7 @@ import com.sum.shy.core.stmt.Element;
 import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.stmt.Token;
 import com.sum.shy.core.utils.TypeUtils;
+import com.sum.shy.lib.Assert;
 
 public class IClass {
 
@@ -101,38 +102,30 @@ public class IClass {
 	}
 
 	public Token getTypeToken() {
+		Token token = null;
 		if (isInterface()) {
-			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+			token = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
 		} else if (isAbstract() || isClass()) {
-			return root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
+			token = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
 		}
-		throw new RuntimeException("Cannot get type token of class!");
+		Assert.isTrue(token != null && token.isType(), "Cannot get type token of class!");
+		return token;
 	}
 
 	public String getSimpleName() {
-		Token token = getTypeToken();
-		if (token != null && token.isType()) {
-			if (token.value instanceof String) {
-				return token.toString();
-			} else if (token.value instanceof Stmt) {
-				return token.getStmt().getStr(0);
-			}
-		}
-		throw new RuntimeException("Cannot get simple name!");
+		return TypeUtils.getTargetName(getTypeToken().toString());
 	}
 
 	public IType getTypeVariable(String genericName) {
 		Token token = getTypeToken();
-		if (token != null && token.isType()) {
-			if (token.value instanceof Stmt) {
-				Stmt stmt = token.getStmt();
-				for (int i = 1; i < stmt.size(); i++) {
-					Token currToken = stmt.getToken(i);
-					if (currToken.isType() || currToken.toString().equals(genericName)) {
-						IType type = TypeFactory.create(Object.class);
-						type.setGenericName(genericName);
-						return type;
-					}
+		if (token.value instanceof Stmt) {
+			Stmt stmt = token.getStmt();
+			for (int i = 1; i < stmt.size(); i++) {
+				Token currToken = stmt.getToken(i);
+				if (currToken.isType() || currToken.toString().equals(genericName)) {
+					IType type = TypeFactory.create(Object.class);
+					type.setGenericName(genericName);
+					return type;
 				}
 			}
 		}
@@ -156,8 +149,8 @@ public class IClass {
 
 	public List<IType> getInterfaces() {
 		List<IType> interfaces = new ArrayList<>();
-		for (String inter : root.getKeywordParams(Constants.IMPL_KEYWORD))
-			interfaces.add(TypeFactory.create(this, inter));
+		for (Token token : root.getKeywordParams(Constants.IMPL_KEYWORD))
+			interfaces.add(TypeFactory.create(this, token));
 		return interfaces;
 	}
 

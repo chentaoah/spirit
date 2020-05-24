@@ -33,20 +33,26 @@ public class Element extends Syntactic {
 	}
 
 	public void init(Line line) {
-		// 1.词法拆分
-		List<String> words = LexicalAnalyzer.getWords(line.text);
-		// 2.token流
-		List<Token> tokens = SemanticDelegate.getTokens(words);
-		// 3.生成语句
-		this.stmt = new Stmt(tokens);
-		// 4.一些基本的结构语法，不需要复杂分析的
-		this.syntax = StructRecognizer.getSyntax(tokens);
-		// 如果不是结构语法，则使用抽象语法树推导
-		if (syntax == null) {
-			// 5.建立抽象语法树
-			this.tree = TreeBuilder.build(stmt);
-			// 6.获取语法
-			this.syntax = tree.getSyntax();
+		try {
+			// 1.词法拆分
+			List<String> words = LexicalAnalyzer.getWords(line.text);
+			// 2.token流
+			List<Token> tokens = SemanticDelegate.getTokens(words);
+			// 3.生成语句
+			this.stmt = new Stmt(tokens);
+			// 4.一些基本的结构语法，不需要复杂分析的
+			this.syntax = StructRecognizer.getSyntax(tokens);
+			// 如果不是结构语法，则使用抽象语法树推导
+			if (syntax == null) {
+				// 5.建立抽象语法树
+				this.tree = TreeBuilder.build(stmt);
+				// 6.获取语法
+				this.syntax = tree.getSyntax();
+			}
+
+		} catch (Exception e) {
+			System.out.println(line.debug());
+			throw new RuntimeException("Exception in statement parsing!", e);
 		}
 	}
 
@@ -76,7 +82,7 @@ public class Element extends Syntactic {
 	public Element removeKeyword(String keyword) {
 		int index = findKeyword(keyword);
 		if (index != -1)
-			getTokens().remove(index);// 如果为空的话，则删除该关键字
+			getTokens().remove(index);
 		return this;
 	}
 
@@ -85,19 +91,6 @@ public class Element extends Syntactic {
 		if (index != -1)
 			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
 		return this;
-	}
-
-	public List<String> getKeywordParams(String keyword) {
-		List<String> params = new ArrayList<>();
-		int index = findKeyword(keyword);
-		if (index != -1) {
-			List<Stmt> subStmts = stmt.subStmt(index + 1, findKeywordEnd(index)).split(",");
-			for (Stmt subStmt : subStmts) {
-				if (subStmt.size() == 1)
-					params.add(subStmt.getStr(0));
-			}
-		}
-		return params;
 	}
 
 	@Override

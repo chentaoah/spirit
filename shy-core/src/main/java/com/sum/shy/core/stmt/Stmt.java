@@ -29,18 +29,9 @@ public class Stmt extends TokenBox {
 
 	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
 		List<Stmt> subStmts = new ArrayList<>();
-		for (int i = 0, last = 0; i < size(); i++) {
-			Token token = getTokens().get(i);
-			if (isMatch(token) && separator.equals(token.toString())) {// 分隔符
-				Stmt subStmt = subStmt(last, i);
-				subStmts.add(subStmt);
-				last = i + 1;// 记录截取开始的地方
-
-			} else if (i == size() - 1) {// 到达最后
-				Stmt subStmt = subStmt(last, i + 1);
-				subStmts.add(subStmt);
-			}
-		}
+		List<List<Token>> tokensList = splitTokens(separator);
+		for (List<Token> tokens : tokensList)
+			subStmts.add(new Stmt(tokens));
 		return subStmts;
 	}
 

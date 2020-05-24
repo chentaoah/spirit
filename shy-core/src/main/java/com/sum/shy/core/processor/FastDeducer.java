@@ -87,17 +87,15 @@ public class FastDeducer {
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
 			return StaticType.BOOLEAN_TYPE;
 
-		} else if (token.isBitwise()) {
+		} else if (token.isArithmetic() || token.isBitwise()) {
 			if (node.left != null) {// 先取左边的，再取右边的
 				return getType(clazz, node.left);
 
 			} else if (node.right != null) {
 				return getType(clazz, node.right);
 			}
-
-		} else if (token.isArithmetic()) {
-			
 		}
+
 		Assert.notNull(token.getTypeAtt(), "Type is null!");
 		return token.getTypeAtt();
 

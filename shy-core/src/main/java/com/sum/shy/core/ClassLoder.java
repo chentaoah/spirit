@@ -12,31 +12,24 @@ import com.sum.shy.core.clazz.Import;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.stmt.Document;
 import com.sum.shy.core.stmt.Element;
+import com.sum.shy.core.utils.TypeUtils;
 
 public class ClassLoder {
 
 	public List<IClass> loadClasses(String packageStr, File file) {
-		// 1.生成docment对象
 		Document document = new DocumentReader().read(file);
-		// 2.打印日志
 		document.debug();
-		// 3.生成Class对象
 		List<IClass> classes = doLoadClasses(packageStr, document);
-
 		return classes;
 	}
 
 	public List<IClass> doLoadClasses(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();
-		// 主类
 		IClass mainClass = new IClass();
-		// 添加到集合中
 		classes.add(mainClass);
-		// 包名
 		mainClass.packageStr = packageStr;
-		// 上下文注解,用完要及时清理
-		List<IAnnotation> annotations = new ArrayList<>();
+		List<IAnnotation> annotations = new ArrayList<>();// 上下文注解,用完要及时清理
 
 		for (Element element : document) {
 			if (element.isImport()) {
@@ -60,7 +53,10 @@ public class ClassLoder {
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
-				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD).toString())) {
+				String simpleName = element.getKeywordParam(Constants.CLASS_KEYWORD).toString();
+				String targetName = TypeUtils.getTargetName(simpleName);
+
+				if (document.name.equals(targetName)) {
 					mainClass.annotations.addAll(annotations);
 					annotations.clear();
 					mainClass.root = element;
