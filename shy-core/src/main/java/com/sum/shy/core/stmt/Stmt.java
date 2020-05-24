@@ -16,11 +16,11 @@ public class Stmt extends TokenBox {
 	}
 
 	public Stmt copy() {// 拷贝一份新的tokens
-		return new Stmt(new ArrayList<>(tokens));
+		return new Stmt(copyTokens());
 	}
 
 	public Stmt subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
-		return new Stmt(new ArrayList<>(tokens.subList(start, end)));
+		return new Stmt(subTokens(start, end));
 	}
 
 	public Stmt subStmt(String left, String right) {
@@ -30,7 +30,7 @@ public class Stmt extends TokenBox {
 	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
 		List<Stmt> subStmts = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
-			Token token = tokens.get(i);
+			Token token = getTokens().get(i);
 			if (isMatch(token) && separator.equals(token.toString())) {// 分隔符
 				Stmt subStmt = subStmt(last, i);
 				subStmts.add(subStmt);
@@ -60,7 +60,7 @@ public class Stmt extends TokenBox {
 
 	public List<Token> format() {
 		// 拷贝一份
-		List<Token> tokens = new ArrayList<>(this.tokens);
+		List<Token> tokens = copyTokens();
 		// 并插入空格
 		for (int i = tokens.size() - 1; i >= 1; i--)
 			tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
@@ -138,7 +138,7 @@ public class Stmt extends TokenBox {
 
 	public String debug() {
 		StringBuilder sb = new StringBuilder();
-		for (Token token : tokens)
+		for (Token token : getTokens())
 			sb.append(token.debug() + " ");
 		return sb.toString().trim();
 	}

@@ -7,12 +7,10 @@ import com.sum.shy.core.clazz.type.TypeFactory;
 import com.sum.shy.core.entity.Constants;
 import com.sum.shy.core.entity.Context;
 import com.sum.shy.core.entity.StaticType;
-import com.sum.shy.core.lexical.SemanticDelegate;
 import com.sum.shy.core.stmt.Element;
 import com.sum.shy.core.stmt.Stmt;
 import com.sum.shy.core.stmt.Token;
 import com.sum.shy.core.utils.TypeUtils;
-import com.sum.shy.lib.StringUtils;
 
 public class IClass {
 
@@ -102,19 +100,20 @@ public class IClass {
 		return root.isClass();
 	}
 
-	public String getSimpleName() {
-		String simpleName = null;
+	public Token getTypeToken() {
 		if (isInterface()) {
-			simpleName = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
-
+			return root.getKeywordParam(Constants.INTERFACE_KEYWORD);
 		} else if (isAbstract() || isClass()) {
-			simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
+			return root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
 		}
-		Token token = SemanticDelegate.getToken(simpleName);
-		if (token.isType()) {
+		throw new RuntimeException("Cannot get type token of class!");
+	}
+
+	public String getSimpleName() {
+		Token token = getTypeToken();
+		if (token != null && token.isType()) {
 			if (token.value instanceof String) {
 				return token.toString();
-
 			} else if (token.value instanceof Stmt) {
 				return token.getStmt().getStr(0);
 			}
@@ -123,15 +122,8 @@ public class IClass {
 	}
 
 	public IType getTypeVariable(String genericName) {
-		String simpleName = null;
-		if (isInterface()) {
-			simpleName = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
-
-		} else if (isAbstract() || isClass()) {
-			simpleName = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
-		}
-		Token token = SemanticDelegate.getToken(simpleName);
-		if (token.isType()) {
+		Token token = getTypeToken();
+		if (token != null && token.isType()) {
 			if (token.value instanceof Stmt) {
 				Stmt stmt = token.getStmt();
 				for (int i = 1; i < stmt.size(); i++) {
@@ -156,13 +148,10 @@ public class IClass {
 	}
 
 	public IType getSuperType() {
-		// 这里返回的,可以是泛型格式，而不是className
-		String extendsParam = root.getKeywordParam(Constants.EXTENDS_KEYWORD);
-		// extend只是返回一个字符串信息
-		if (StringUtils.isNotEmpty(extendsParam))
-			return TypeFactory.create(this, extendsParam);
-		// 如果不存在继承，则默认是继承Object
-		return StaticType.OBJECT_TYPE;
+		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
+		if (token != null)
+			return TypeFactory.create(this, token);
+		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaces() {

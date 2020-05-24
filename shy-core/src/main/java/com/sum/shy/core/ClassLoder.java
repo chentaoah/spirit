@@ -60,7 +60,7 @@ public class ClassLoder {
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
-				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD))) {
+				if (document.name.equals(element.getKeywordParam(Constants.CLASS_KEYWORD).toString())) {
 					mainClass.annotations.addAll(annotations);
 					annotations.clear();
 					mainClass.root = element;

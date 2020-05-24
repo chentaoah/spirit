@@ -1,5 +1,6 @@
 package com.sum.shy.core.stmt.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.core.stmt.Token;
@@ -85,6 +86,14 @@ public abstract class TokenBox {
 		getTokens().set(index, token);
 	}
 
+	public List<Token> copyTokens() {
+		return new ArrayList<>(getTokens());
+	}
+
+	public List<Token> subTokens(int start, int end) {
+		return new ArrayList<>(getTokens().subList(start, end));
+	}
+
 	public void replace(int start, int end, Token token) {
 		List<Token> tokens = getTokens();
 		for (int i = end - 1; i >= start; i--)
@@ -115,6 +124,15 @@ public abstract class TokenBox {
 			}
 		}
 		return -1;
+	}
+
+	public Token getKeywordParam(String... keywords) {
+		for (String keyword : keywords) {
+			int index = findKeyword(keyword);
+			if (index != -1 && contains(index + 1))
+				return getToken(index + 1);
+		}
+		return null;
 	}
 
 	public abstract List<Token> getTokens();

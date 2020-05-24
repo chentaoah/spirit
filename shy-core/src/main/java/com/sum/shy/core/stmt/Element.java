@@ -10,7 +10,6 @@ import com.sum.shy.core.lexical.StructRecognizer;
 import com.sum.shy.core.lexical.TreeBuilder;
 import com.sum.shy.core.stmt.api.Syntactic;
 import com.sum.shy.core.utils.LineUtils;
-import com.sum.shy.lib.StringUtils;
 
 public class Element extends Syntactic {
 	// 行
@@ -69,18 +68,16 @@ public class Element extends Syntactic {
 
 	public Element replaceKeyword(String keyword, String text) {
 		int index = findKeyword(keyword);
-		if (index != -1) {
-			if (StringUtils.isNotEmpty(text)) {
-				getTokens().set(index, new Token(Constants.KEYWORD_TOKEN, text));
-			} else {
-				getTokens().remove(index);// 如果为空的话，则删除该关键字
-			}
-		}
+		if (index != -1)
+			getTokens().set(index, new Token(Constants.KEYWORD_TOKEN, text));
 		return this;
 	}
 
 	public Element removeKeyword(String keyword) {
-		return replaceKeyword(keyword, "");
+		int index = findKeyword(keyword);
+		if (index != -1)
+			getTokens().remove(index);// 如果为空的话，则删除该关键字
+		return this;
 	}
 
 	public Element insertAfter(String keyword, String text) {
@@ -88,15 +85,6 @@ public class Element extends Syntactic {
 		if (index != -1)
 			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
 		return this;
-	}
-
-	public String getKeywordParam(String... keywords) {
-		for (String keyword : keywords) {
-			int index = findKeyword(keyword);
-			if (index != -1 && contains(index + 1))
-				return getToken(index + 1).toString();
-		}
-		return null;
 	}
 
 	public List<String> getKeywordParams(String keyword) {
@@ -114,7 +102,7 @@ public class Element extends Syntactic {
 
 	@Override
 	public List<Token> getTokens() {
-		return stmt.tokens;
+		return stmt.getTokens();
 	}
 
 	@Override
