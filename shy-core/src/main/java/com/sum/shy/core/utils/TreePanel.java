@@ -30,7 +30,7 @@ public class TreePanel {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setPosition(position);
-			if (token.canVisit())
+			if (token.isStmt())
 				markPosition(position, token.getStmt());
 			position += token.toString().length();
 		}
@@ -39,7 +39,7 @@ public class TreePanel {
 	public void buildTree(int depth, String separator, List<Token> tokens) {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.canVisit()) {// 有子节点先打印子节点
+			if (token.isStmt()) {// 有子节点先打印子节点
 				buildTree(depth, separator, token.getStmt().tokens);
 			} else {
 				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
@@ -63,7 +63,7 @@ public class TreePanel {
 		if (StringUtils.isNotEmpty(separator))
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
-		if (token.canVisit()) {// 如果有语句，则先打印子语句
+		if (token.isStmt()) {// 如果有语句，则先打印子语句
 			buildTree(depth, "", token.getStmt().tokens);
 		} else {
 			print(depth, position, text);

@@ -32,7 +32,7 @@ public class Tree {
 		if (node.right != null)
 			markTreeId(treeId + "-" + "1", node.right);
 		// 子语句则重新计数
-		if (node.token.canVisit())
+		if (node.token.isStmt())
 			markTreeId(node.token.getStmt().tokens);
 	}
 

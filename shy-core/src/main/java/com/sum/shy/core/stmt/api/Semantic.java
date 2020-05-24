@@ -145,7 +145,7 @@ public abstract class Semantic {
 		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
 	}
 
-	public boolean canVisit() {
+	public boolean isStmt() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
 

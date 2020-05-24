@@ -13,7 +13,7 @@ public class CommonConverter {
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 
-			if (token.canVisit())
+			if (token.isStmt())
 				convertStmt(clazz, token.getStmt());
 
 			if (token.isArrayInit()) {
