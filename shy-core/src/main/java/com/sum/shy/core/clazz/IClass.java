@@ -115,7 +115,7 @@ public class IClass {
 		return TypeUtils.getTargetName(getTypeToken().toString());
 	}
 
-	public IType getTypeVariable(String genericName) {
+	public IType getTypeVariable(String genericName) {// 这里要小心，泛型参数多层嵌套的情况
 		String simpleName = getTypeToken().toString();
 		List<String> names = TypeUtils.splitName(simpleName);
 		names.remove(0);

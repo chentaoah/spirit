@@ -31,15 +31,16 @@ public class TypeUtils {
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
-	public static List<String> splitName(String name) {
-		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().omitEmptyStrings().splitToList(name);
+	public static List<String> splitName(String simpleName) {
+		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().omitEmptyStrings()
+				.splitToList(simpleName);
 		return new ArrayList<>(names);
 	}
 
 	public static String getTargetName(String name) {// className or simpleName or typeName
 
-		if (name.contains("<") && name.contains(">"))
-			return splitName(name).get(0);
+		if (name.contains("<") && name.endsWith(">"))
+			return name.substring(0, name.indexOf('<'));
 
 		if (name.contains(".") && name.contains("$"))
 			name = name.replaceAll("\\$", ".");// 替换内部类path中的$符号''

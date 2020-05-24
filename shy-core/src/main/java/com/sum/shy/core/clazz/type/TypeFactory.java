@@ -48,10 +48,11 @@ public class TypeFactory {
 	public static IType create(IClass clazz, Token token) {
 		if (token.isType()) {
 			IType type = new IType();
-			if (token.value instanceof String) {// String // String[] //?
+			if (token.value instanceof String) {// String // String[] //? //T,K
 				String simpleName = (String) token.value;
 				if ("?".equals(simpleName)) {// 未知类型
-					type = StaticType.WILDCARD_TYPE;
+					return StaticType.WILDCARD_TYPE;
+
 				} else {
 					type = clazz.getTypeVariable(simpleName);// 泛型参数
 					if (type == null)
