@@ -116,10 +116,10 @@ public abstract class TokenBox {
 	}
 
 	public int findKeyword(String keyword) {
-		for (int index = 0; index < size(); index++) {
-			Token token = getToken(index);
+		for (int i = 0; i < size(); i++) {
+			Token token = getToken(i);
 			if (token.isKeyword() && keyword.equals(token.toString()))
-				return index;
+				return i;
 		}
 		return -1;
 	}
