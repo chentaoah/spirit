@@ -16,7 +16,7 @@ public class InvokeVisiter {
 		for (int index = 0; index < stmt.size(); index++) {
 			Token token = stmt.getToken(index);
 			// 内部可能还需要推导s
-			if (token.isStmt())
+			if (token.canVisit())
 				visitStmt(clazz, token.getStmt());
 
 			if (token.getTypeAtt() != null)
