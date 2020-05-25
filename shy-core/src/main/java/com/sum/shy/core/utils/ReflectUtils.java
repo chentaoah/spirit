@@ -7,9 +7,9 @@ public class ReflectUtils {
 
 	public static Class<?> getClass(String className) {
 		try {
-			Class<?> clazz = getPrimitive(className);
+			Class<?> clazz = getPrimitive(className);// 基础类型
 			if (clazz == null)
-				clazz = Class.forName(className);
+				clazz = Class.forName(className);// 基础类型数组和一般类型
 			return clazz;
 
 		} catch (ClassNotFoundException e) {
@@ -49,24 +49,24 @@ public class ReflectUtils {
 		}
 	}
 
-	public static String getWrappedType(String className) {
+	public static Class<?> getWrappedType(String className) {
 		switch (className) {
 		case "boolean":
-			return Boolean.class.getName();
+			return Boolean.class;
 		case "char":
-			return Character.class.getName();
+			return Character.class;
 		case "short":
-			return Short.class.getName();
+			return Short.class;
 		case "int":
-			return Integer.class.getName();
+			return Integer.class;
 		case "long":
-			return Long.class.getName();
+			return Long.class;
 		case "float":
-			return Float.class.getName();
+			return Float.class;
 		case "double":
-			return Double.class.getName();
+			return Double.class;
 		case "byte":
-			return Byte.class.getName();
+			return Byte.class;
 		default:
 			return null;
 		}

@@ -81,9 +81,9 @@ public class IType {
 	}
 
 	public IType getWrappedType() {
-		String className = ReflectUtils.getWrappedType(getClassName());
-		if (className != null)
-			return TypeFactory.create(className);
+		Class<?> clazz = ReflectUtils.getWrappedType(getClassName());
+		if (clazz != null)
+			return TypeFactory.create(clazz);
 		return this;// 如果没有则返回自身
 	}
 
