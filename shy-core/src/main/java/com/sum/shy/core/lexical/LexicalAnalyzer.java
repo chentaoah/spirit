@@ -93,8 +93,7 @@ public class LexicalAnalyzer {
 		// 6.如果包含.但是又不是数字的话，则再拆一次
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches()
-					&& !SemanticDelegate.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticDelegate.isDouble(word)) {
 				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
 				words.remove(i);
 				words.addAll(i, subWords);
@@ -112,31 +111,34 @@ public class LexicalAnalyzer {
 	}
 
 	public static boolean isContinueChar(char c) {// 是否接续字符
-		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
-				|| c == '.';
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
-	public static void push(StringBuilder builder, int start, char left, char right, String markName,
-			Map<String, String> replacedStrs) {
+	public static void push(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, start, left, right);
 		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1,
-			String markName, Map<String, String> replacedStrs) {
-		int end = findEnd(builder, start, left, right);
-		if (end != -1 && end + 1 < builder.length()) { // 判断后面的符号是否连续
-			char c = builder.charAt(end + 1);
-			if (c == ' ' && end + 2 < builder.length()) {// 继续往后延后一格
-				char d = builder.charAt(end + 2);
-				if (d == left1)
-					end = findEnd(builder, end + 2, left1, right1);
+	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName, Map<String, String> replacedStrs) {
+		int finalEnd = findEnd(builder, start, left, right);
+		if (finalEnd != -1 && finalEnd + 1 < builder.length()) { // 判断后面的符号是否连续
+			char c = builder.charAt(finalEnd + 1);
+			if (c == ' ' && finalEnd + 2 < builder.length()) {// 继续往后延后一格
+				char d = builder.charAt(finalEnd + 2);
+				if (d == left1) {
+					int secondEnd = findEnd(builder, finalEnd + 2, left1, right1);
+					if (secondEnd != -1)
+						finalEnd = secondEnd;
+				}
 			} else {
-				if (c == left1)
-					end = findEnd(builder, end + 1, left1, right1);
+				if (c == left1) {
+					int secondEnd = findEnd(builder, finalEnd + 1, left1, right1);
+					if (secondEnd != -1)
+						finalEnd = secondEnd;
+				}
 			}
 		}
-		replaceStr(builder, start, end, markName, replacedStrs);
+		replaceStr(builder, start, finalEnd, markName, replacedStrs);
 	}
 
 	public static int findEnd(StringBuilder builder, int start, char left, char right) {
@@ -160,8 +162,7 @@ public class LexicalAnalyzer {
 		return -1;
 	}
 
-	public static void replaceStr(StringBuilder builder, int start, int end, String markName,
-			Map<String, String> replacedStrs) {
+	public static void replaceStr(StringBuilder builder, int start, int end, String markName, Map<String, String> replacedStrs) {
 		if (end == -1)
 			return;
 		String content = builder.substring(start, end + 1);
