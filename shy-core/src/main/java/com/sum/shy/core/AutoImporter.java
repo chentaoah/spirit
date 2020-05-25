@@ -1,7 +1,6 @@
 package com.sum.shy.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -10,11 +9,12 @@ import java.util.regex.Pattern;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.core.clazz.IClass;
+import com.sum.shy.core.entity.Constants;
 import com.sum.shy.lib.StringUtils;
 
 public class AutoImporter {
 
-	public static final Pattern pattern = Pattern.compile("(\\b[A-Z]+\\w+\\b)");
+	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");
 
 	public static void doImport(Map<String, IClass> allClasses, Map<String, File> files) {
 		for (Map.Entry<String, File> entry : files.entrySet()) {
@@ -27,29 +27,33 @@ public class AutoImporter {
 		try {
 			// 不在字符串内，并且大写开头的单词
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
+			// 遍历每一行
 			for (int index = 0; index < fileLines.size(); index++) {
+				// 获取一行
 				String line = fileLines.get(index);
-				line = line.replaceAll("(?<=\").*?(?=\")", "");// 把字符串都替换掉
-				// 1.不为空 2.不是注释 3.不是包名 4.不是引入
-				if (StringUtils.isNotEmpty(line) && !line.trim().startsWith("//") && !line.trim().startsWith("package")
-						&& !line.trim().startsWith("import")) {
-					Matcher matcher = pattern.matcher(line);
-					while (matcher.find()) {// 这里的find方法并不会一次找到所有的
-						if (matcher.groupCount() > 0) {
-							String targetName = matcher.group(matcher.groupCount() - 1);
-							String className = clazz.findImport(targetName);
-							// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
-							clazz.addImport(className);
-//							System.out.println("Automatically add a import info!class:[" + className + "]");
-						}
-					}
+				// 把字符串都替换掉
+				line = line.replaceAll("(?<=\").*?(?=\")", "").trim();
+				// 1.空 2.注释
+				if (StringUtils.isEmpty(line) || line.startsWith("//"))
+					continue;
+				// 3.包名 4.引入
+				if (line.startsWith(Constants.PACKAGE_KEYWORD) || line.startsWith(Constants.IMPORT_KEYWORD))
+					continue;
+				// 找到大写开头的
+				Matcher matcher = TYPE_PATTERN.matcher(line);
+				// 这里的find方法并不会一次找到所有的
+				while (matcher.find() && matcher.groupCount() > 0) {
+					// 找到大写的
+					String targetName = matcher.group(matcher.groupCount() - 1);
+					// 查询类名
+					String className = clazz.findImport(targetName);
+					// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
+					clazz.addImport(className);
 				}
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			new RuntimeException("Auto import failed!", e);
 		}
-
 	}
 
 }

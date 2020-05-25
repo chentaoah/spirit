@@ -45,6 +45,10 @@ public class LineUtils {
 		return count % 2 == 0;
 	}
 
+	public static boolean isLetter(char c) {
+		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+	}
+
 	public static String mergeSpaces(String line) {
 		line = line.trim();
 		while (line.contains("  "))

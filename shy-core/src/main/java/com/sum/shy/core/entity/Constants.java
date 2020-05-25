@@ -11,7 +11,9 @@ package com.sum.shy.core.entity;
  */
 public class Constants {
 
-	public static final String INTERFACE_KEYWORD = "interface";// 高频出现的几个关键字
+	public static final String PACKAGE_KEYWORD = "package";// 高频出现的几个关键字
+	public static final String IMPORT_KEYWORD = "import";
+	public static final String INTERFACE_KEYWORD = "interface";
 	public static final String ABSTRACT_KEYWORD = "abstract";
 	public static final String CLASS_KEYWORD = "class";
 	public static final String EXTENDS_KEYWORD = "extends";
