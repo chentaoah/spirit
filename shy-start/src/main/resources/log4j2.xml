@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+	<properties>
+		<property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%20.20thread] %40.40c : %msg%xEx%n</property>
+	</properties>
+
+	<appenders>
+		<Console name="CONSOLE" target="system_out">
+			<ThresholdFilter level="debug" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="${PATTERN}" />
+		</Console>
+	</appenders>
+
+	<loggers>
+		<root level="debug">
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</loggers>
+
+</configuration>
