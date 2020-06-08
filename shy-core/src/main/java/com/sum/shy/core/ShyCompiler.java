@@ -24,22 +24,27 @@ public class ShyCompiler {
 
 	public Map<String, IClass> compile(Map<String, File> files) {
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
-		files.forEach((className, file) -> {
+		files.forEach((path, file) -> {
 			// 1.read file
 			Document document = reader.readDocument(file);
-			document.debug();
-			// 2.resolve classes
-			String packageStr = TypeUtils.getPackage(className);
+			// 2.post document processor
+			processor.postDocumentProcessor(path, document);
+			// 3.resolve classes
+			String packageStr = TypeUtils.getPackage(path);
 			List<IClass> classes = resolver.resolverClasses(packageStr, document);
-			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));
+			classes.forEach((clazz) -> {
+				allClasses.put(clazz.getClassName(), clazz);
+				// 4.post class processor
+				processor.postClassProcessor(clazz.getClassName(), clazz);
+			});
 		});
-		// 3.put in context
+		// 5.put in context
 		Context.get().classes = allClasses;
-		// 4.preprocessor.For example，AutoImporter
+		// 6.preprocessor.For example，AutoImporter
 		processor.postBeforeProcessor(files, allClasses);
-		// 5.perform members derivation
+		// 7.perform members derivation
 		visiter.visitMembers(allClasses);
-		// 6.post processor
+		// 8.post processor
 		processor.postAfterProcessor(allClasses);
 
 		return allClasses;
