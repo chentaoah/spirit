@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.shy.core.utils;
 
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;

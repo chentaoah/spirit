@@ -3,9 +3,9 @@ package com.sum.shy.clazz.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Token;
-import com.sum.shy.pojo.Constants;
 
 public class IMethod extends AbsMember {
 

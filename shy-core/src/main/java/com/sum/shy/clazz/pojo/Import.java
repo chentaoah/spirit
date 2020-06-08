@@ -1,7 +1,7 @@
 package com.sum.shy.clazz.pojo;
 
+import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.document.pojo.Element;
-import com.sum.shy.utils.TypeUtils;
 
 public class Import {
 

@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.pojo.StaticType;
-import com.sum.shy.utils.ReflectUtils;
+import com.sum.shy.core.pojo.StaticType;
+import com.sum.shy.core.utils.ReflectUtils;
 
 public class NativeLinker {
 

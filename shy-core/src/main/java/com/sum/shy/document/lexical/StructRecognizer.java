@@ -2,9 +2,9 @@ package com.sum.shy.document.lexical;
 
 import java.util.List;
 
+import com.sum.shy.core.pojo.Constants;
+import com.sum.shy.core.pojo.KeywordTable;
 import com.sum.shy.document.pojo.Token;
-import com.sum.shy.pojo.Constants;
-import com.sum.shy.pojo.KeywordTable;
 
 /**
  * 语法分析器

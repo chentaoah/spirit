@@ -3,13 +3,13 @@ package com.sum.shy.document.lexical;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.pojo.Constants;
+import com.sum.shy.core.pojo.Symbol;
+import com.sum.shy.core.pojo.SymbolTable;
 import com.sum.shy.document.pojo.Node;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.document.pojo.Tree;
-import com.sum.shy.pojo.Constants;
-import com.sum.shy.pojo.Symbol;
-import com.sum.shy.pojo.SymbolTable;
 
 /**
  * 抽象语法树

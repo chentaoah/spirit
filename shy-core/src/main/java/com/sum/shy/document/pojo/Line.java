@@ -1,6 +1,6 @@
 package com.sum.shy.document.pojo;
 
-import com.sum.shy.utils.LineUtils;
+import com.sum.shy.core.utils.LineUtils;
 
 public class Line {
 

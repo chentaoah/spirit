@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.shy.core.utils;
 
 import java.util.ArrayList;
 import java.util.List;

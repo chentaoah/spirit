@@ -5,13 +5,13 @@ import java.util.List;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.IType;
 import com.sum.shy.clazz.pojo.IVariable;
+import com.sum.shy.core.pojo.StaticType;
 import com.sum.shy.document.lexical.TreeBuilder;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Node;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.StaticType;
 
 /**
  * 快速推导器

@@ -6,6 +6,7 @@ import com.sum.shy.clazz.pojo.IMethod;
 import com.sum.shy.clazz.pojo.IParameter;
 import com.sum.shy.clazz.pojo.IType;
 import com.sum.shy.clazz.pojo.IVariable;
+import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
@@ -13,7 +14,6 @@ import com.sum.shy.member.ElementMemberVisiter;
 import com.sum.shy.member.ElementMemberVisiter.MethodContext;
 import com.sum.shy.member.deducer.AdaptiveLinker;
 import com.sum.shy.member.deducer.TypeFactory;
-import com.sum.shy.pojo.Constants;
 
 /**
  * 变量追踪器

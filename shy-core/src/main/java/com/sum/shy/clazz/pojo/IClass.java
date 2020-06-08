@@ -3,14 +3,14 @@ package com.sum.shy.clazz.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.pojo.Constants;
+import com.sum.shy.core.pojo.Context;
+import com.sum.shy.core.pojo.StaticType;
+import com.sum.shy.core.utils.TypeUtils;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.member.deducer.TypeFactory;
-import com.sum.shy.pojo.Constants;
-import com.sum.shy.pojo.Context;
-import com.sum.shy.pojo.StaticType;
-import com.sum.shy.utils.TypeUtils;
 
 public class IClass {
 

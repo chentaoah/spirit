@@ -1,4 +1,4 @@
-package com.sum.shy.pojo;
+package com.sum.shy.core.pojo;
 
 /**
  * 一些常量

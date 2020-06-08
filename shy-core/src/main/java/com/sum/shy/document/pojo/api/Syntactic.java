@@ -1,6 +1,6 @@
 package com.sum.shy.document.pojo.api;
 
-import com.sum.shy.pojo.Constants;
+import com.sum.shy.core.pojo.Constants;
 
 /**
  * 可得句法的
