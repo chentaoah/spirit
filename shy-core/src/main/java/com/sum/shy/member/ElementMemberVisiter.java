@@ -17,14 +17,16 @@ import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.member.api.MemberVisiter;
 import com.sum.shy.member.deducer.TypeFactory;
 import com.sum.shy.member.processor.ElementVisiter;
 import com.sum.shy.pojo.Constants;
 import com.sum.shy.pojo.StaticType;
 
-public class ElementMemberVisiter {
+public class ElementMemberVisiter implements MemberVisiter {
 
-	public static void visit(Map<String, IClass> allClasses) {
+	@Override
+	public void visitMembers(Map<String, IClass> allClasses) {
 		// 先解析方法入参类型
 		for (IClass clazz : allClasses.values()) {
 			for (IMethod method : clazz.methods)

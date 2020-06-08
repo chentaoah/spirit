@@ -7,7 +7,7 @@ import java.util.Map;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.core.ShyCompiler;
 import com.sum.shy.java.JavaBuilder;
-import com.sum.shy.post.AliasReplacer;
+import com.sum.shy.post.impl.AliasReplacer;
 import com.sum.shy.utils.FileUtils;
 
 /**

@@ -1,4 +1,4 @@
-package com.sum.shy.post;
+package com.sum.shy.post.impl;
 
 import java.io.File;
 import java.util.List;
@@ -16,7 +16,7 @@ public class AutoImporter {
 
 	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");
 
-	public static void doImport(Map<String, IClass> allClasses, Map<String, File> files) {
+	public static void doImport(Map<String, File> files, Map<String, IClass> allClasses) {
 		for (Map.Entry<String, File> entry : files.entrySet()) {
 			IClass clazz = allClasses.get(entry.getKey());
 			doImport(clazz, entry.getValue());

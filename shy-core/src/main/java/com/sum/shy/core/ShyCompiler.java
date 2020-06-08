@@ -36,7 +36,7 @@ public class ShyCompiler {
 		// 3.put in context
 		Context.get().classes = allClasses;
 		// 4.preprocessor.For example，AutoImporter
-		processor.postBeforeProcessor(allClasses);
+		processor.postBeforeProcessor(files, allClasses);
 		// 5.perform members derivation
 		visiter.visitMembers(allClasses);
 		// 6.post processor

@@ -1,4 +1,4 @@
-package com.sum.shy.post;
+package com.sum.shy.post.impl;
 
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.Import;
