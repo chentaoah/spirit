@@ -18,11 +18,6 @@ public class ElementClassResolver implements ClassResolver {
 
 	@Override
 	public List<IClass> resolverClasses(String packageStr, Document document) {
-		List<IClass> classes = doLoadClasses(packageStr, document);
-		return classes;
-	}
-
-	public List<IClass> doLoadClasses(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();
 		IClass mainClass = new IClass();
