@@ -1,4 +1,4 @@
-package com.sum.shy.core.pojo;
+package com.sum.shy.pojo;
 
 public class Keyword {
 

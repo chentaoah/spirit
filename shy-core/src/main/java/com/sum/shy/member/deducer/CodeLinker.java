@@ -6,8 +6,8 @@ import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.IField;
 import com.sum.shy.clazz.pojo.IMethod;
 import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.core.pojo.Context;
 import com.sum.shy.member.ElementMemberVisiter;
+import com.sum.shy.pojo.Context;
 
 public class CodeLinker {
 

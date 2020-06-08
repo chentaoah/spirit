@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.shy.clazz.pojo.IClass;
-import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.pojo.Constants;
 
 public class AutoImporter {
 

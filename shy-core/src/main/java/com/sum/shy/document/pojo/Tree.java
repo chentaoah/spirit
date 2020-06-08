@@ -2,8 +2,8 @@ package com.sum.shy.document.pojo;
 
 import java.util.List;
 
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.KeywordTable;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.KeywordTable;
 
 public class Tree {
 

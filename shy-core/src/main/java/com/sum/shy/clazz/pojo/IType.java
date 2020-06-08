@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.pojo.Context;
-import com.sum.shy.core.pojo.StaticType;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.member.deducer.TypeFactory;
+import com.sum.shy.pojo.Context;
+import com.sum.shy.pojo.StaticType;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 

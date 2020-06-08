@@ -13,14 +13,14 @@ import com.sum.shy.clazz.pojo.IMethod;
 import com.sum.shy.clazz.pojo.IParameter;
 import com.sum.shy.clazz.pojo.IType;
 import com.sum.shy.clazz.pojo.IVariable;
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.StaticType;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.member.deducer.TypeFactory;
 import com.sum.shy.member.processor.ElementVisiter;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.StaticType;
 
 public class ElementMemberVisiter {
 

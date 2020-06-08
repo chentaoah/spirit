@@ -1,7 +1,7 @@
 package com.sum.shy.document.pojo.api;
 
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.SymbolTable;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.SymbolTable;
 
 public abstract class Semantic {
 

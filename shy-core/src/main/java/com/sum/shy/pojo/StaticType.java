@@ -1,4 +1,4 @@
-package com.sum.shy.core.pojo;
+package com.sum.shy.pojo;
 
 import com.sum.shy.clazz.pojo.IType;
 import com.sum.shy.lib.Collection;

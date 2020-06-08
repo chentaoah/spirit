@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.KeywordTable;
-import com.sum.shy.core.pojo.SymbolTable;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.KeywordTable;
+import com.sum.shy.pojo.SymbolTable;
 
 /**
  * 语义分析器

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.Symbol;
 import com.sum.shy.document.pojo.api.TokenBox;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.Symbol;
 
 public class Stmt extends TokenBox {
 

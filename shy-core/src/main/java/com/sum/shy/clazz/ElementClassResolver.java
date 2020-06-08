@@ -9,9 +9,9 @@ import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.IField;
 import com.sum.shy.clazz.pojo.IMethod;
 import com.sum.shy.clazz.pojo.Import;
-import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.pojo.Document;
 import com.sum.shy.document.pojo.Element;
+import com.sum.shy.pojo.Constants;
 import com.sum.shy.utils.TypeUtils;
 
 public class ElementClassResolver implements ClassResolver {

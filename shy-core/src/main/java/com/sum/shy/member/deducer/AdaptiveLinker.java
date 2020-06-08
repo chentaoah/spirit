@@ -3,9 +3,9 @@ package com.sum.shy.member.deducer;
 import java.util.List;
 
 import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.StaticType;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.pojo.Constants;
+import com.sum.shy.pojo.StaticType;
 
 public class AdaptiveLinker {
 

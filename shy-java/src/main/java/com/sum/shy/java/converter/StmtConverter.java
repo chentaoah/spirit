@@ -6,13 +6,13 @@ import org.slf4j.LoggerFactory;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.IField;
 import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Line;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.member.deducer.TypeBuilder;
 import com.sum.shy.member.processor.FastDeducer;
+import com.sum.shy.pojo.Constants;
 
 public class StmtConverter {
 

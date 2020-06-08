@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.sum.shy.core.pojo.Symbol;
-import com.sum.shy.core.pojo.SymbolTable;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.pojo.Symbol;
+import com.sum.shy.pojo.SymbolTable;
 import com.sum.shy.utils.LineUtils;
 
 /**

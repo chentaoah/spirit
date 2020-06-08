@@ -3,12 +3,12 @@ package com.sum.shy.document.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.lexical.LexicalAnalyzer;
 import com.sum.shy.document.lexical.SemanticDelegate;
 import com.sum.shy.document.lexical.StructRecognizer;
 import com.sum.shy.document.lexical.TreeBuilder;
 import com.sum.shy.document.pojo.api.Syntactic;
+import com.sum.shy.pojo.Constants;
 import com.sum.shy.utils.LineUtils;
 
 public class Element extends Syntactic {

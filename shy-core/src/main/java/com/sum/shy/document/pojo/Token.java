@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.core.pojo.Constants;
 import com.sum.shy.document.pojo.api.Semantic;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.pojo.Constants;
 
 public class Token extends Semantic {
 
