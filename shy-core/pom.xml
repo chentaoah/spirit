@@ -19,6 +19,12 @@
 			<artifactId>shy-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- pisces -->
+		<dependency>
+			<groupId>com.sum.pisces</groupId>
+			<artifactId>pisces-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 		<!-- 工具包 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>

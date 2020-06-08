@@ -3,16 +3,16 @@ package com.sum.shy.java.converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.clazz.IField;
-import com.sum.shy.core.clazz.IType;
-import com.sum.shy.core.clazz.type.TypeBuilder;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.processor.FastDeducer;
-import com.sum.shy.core.stmt.Element;
-import com.sum.shy.core.stmt.Line;
-import com.sum.shy.core.stmt.Stmt;
-import com.sum.shy.core.stmt.Token;
+import com.sum.shy.clazz.pojo.IClass;
+import com.sum.shy.clazz.pojo.IField;
+import com.sum.shy.clazz.pojo.IType;
+import com.sum.shy.core.pojo.Constants;
+import com.sum.shy.document.pojo.Element;
+import com.sum.shy.document.pojo.Line;
+import com.sum.shy.document.pojo.Stmt;
+import com.sum.shy.document.pojo.Token;
+import com.sum.shy.member.deducer.TypeBuilder;
+import com.sum.shy.member.processor.FastDeducer;
 
 public class StmtConverter {
 

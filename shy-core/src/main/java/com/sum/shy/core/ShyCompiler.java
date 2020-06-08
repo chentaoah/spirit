@@ -5,38 +5,42 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.entity.Context;
-import com.sum.shy.core.utils.TypeUtils;
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.clazz.api.ClassResolver;
+import com.sum.shy.clazz.pojo.IClass;
+import com.sum.shy.core.pojo.Context;
+import com.sum.shy.document.api.DocumentReader;
+import com.sum.shy.document.pojo.Document;
+import com.sum.shy.event.PostProcessor;
+import com.sum.shy.member.api.MemberVisiter;
+import com.sum.shy.utils.TypeUtils;
 
 public class ShyCompiler {
 
+	public DocumentReader reader = ProxyFactory.get(DocumentReader.class);
+	public ClassResolver resolver = ProxyFactory.get(ClassResolver.class);
+	public MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
+	public PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+
 	public Map<String, IClass> compile(Map<String, File> files) {
-		// 1.初步解析所有的class对象
-		Map<String, IClass> allClasses = resolveClasses(files);
-		// 放到上下文,这里必须要先有全景图，才能进行后续的操作
-		Context.get().classes = allClasses;
-		// 2.自动引入同个工程下的类，包括List,Map等常用集合
-		AutoImporter.doImport(allClasses, files);
-		// 3.推导字段和方法的返回类型
-		MemberVisiter.visit(allClasses);
-
-		return allClasses;
-	}
-
-	public Map<String, IClass> resolveClasses(Map<String, File> files) {
-
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
-
-		for (Map.Entry<String, File> entry : files.entrySet()) {
-			// 获取包名
-			String packageStr = TypeUtils.getPackage(entry.getKey());
-			// 读取文件
-			List<IClass> classes = new ClassLoder().loadClasses(packageStr, entry.getValue());
-			// 遍历，并添加到集合中
-			for (IClass clazz : classes)
-				allClasses.put(clazz.getClassName(), clazz);
-		}
+		files.forEach((className, file) -> {
+			// 1.read file
+			Document document = reader.readDocument(file);
+			document.debug();
+			// 2.resolve classes
+			String packageStr = TypeUtils.getPackage(className);
+			List<IClass> classes = resolver.resolverClasses(packageStr, document);
+			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));
+		});
+		// 3.put in context
+		Context.get().classes = allClasses;
+		// 4.preprocessor.For example，AutoImporter
+		processor.postBeforeProcessor(allClasses);
+		// 5.perform members derivation
+		visiter.visitMembers(allClasses);
+		// 6.post processor
+		processor.postAfterProcessor(allClasses);
 
 		return allClasses;
 	}

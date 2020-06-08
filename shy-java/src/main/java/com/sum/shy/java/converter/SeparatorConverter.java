@@ -1,10 +1,10 @@
 package com.sum.shy.java.converter;
 
-import com.sum.shy.core.clazz.IClass;
-import com.sum.shy.core.entity.Constants;
-import com.sum.shy.core.stmt.Element;
-import com.sum.shy.core.stmt.Stmt;
-import com.sum.shy.core.stmt.Token;
+import com.sum.shy.clazz.pojo.IClass;
+import com.sum.shy.core.pojo.Constants;
+import com.sum.shy.document.pojo.Element;
+import com.sum.shy.document.pojo.Stmt;
+import com.sum.shy.document.pojo.Token;
 
 public class SeparatorConverter {
 
