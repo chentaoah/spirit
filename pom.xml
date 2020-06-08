@@ -11,9 +11,7 @@
 		<module>shy-lib</module>
 		<module>shy-core</module>
 		<module>shy-java</module>
-		<module>shy-c</module>
 		<module>shy-start</module>
-		<module>shy-go</module>
 	</modules>
 
 	<properties>
