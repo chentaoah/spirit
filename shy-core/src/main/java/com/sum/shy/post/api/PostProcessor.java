@@ -1,4 +1,4 @@
-package com.sum.shy.event;
+package com.sum.shy.post.api;
 
 import java.util.Map;
 
