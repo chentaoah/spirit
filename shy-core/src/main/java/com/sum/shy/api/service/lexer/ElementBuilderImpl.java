@@ -7,6 +7,7 @@ import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.api.Lexer;
 import com.sum.shy.api.SemanticParser;
 import com.sum.shy.api.StructRecognizer;
+import com.sum.shy.api.SyntaxChecker;
 import com.sum.shy.api.TreeBuilder;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
@@ -15,6 +16,8 @@ import com.sum.shy.element.Token;
 import com.sum.shy.element.SyntaxTree;
 
 public class ElementBuilderImpl implements ElementBuilder {
+
+	public SyntaxChecker checker = ProxyFactory.get(SyntaxChecker.class);
 
 	public Lexer lexer = ProxyFactory.get(Lexer.class);
 
@@ -27,6 +30,8 @@ public class ElementBuilderImpl implements ElementBuilder {
 	@Override
 	public Element build(Line line) {
 		try {
+			// give a chance to check the line
+			checker.check(line);
 			// 1.lexical analysis
 			List<String> words = lexer.getWords(line.text);
 			// 2.semantic analysis
