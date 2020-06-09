@@ -1,22 +1,25 @@
 package com.sum.shy.common;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.lib.Collection;
-import com.sum.shy.type.TypeFactory;
 
 public class StaticType {
 
-	public static final IType VOID_TYPE = TypeFactory.create(void.class);
-	public static final IType BOOLEAN_TYPE = TypeFactory.create(boolean.class);
-	public static final IType CHAR_TYPE = TypeFactory.create(char.class);
-	public static final IType INT_TYPE = TypeFactory.create(int.class);
-	public static final IType LONG_TYPE = TypeFactory.create(long.class);
-	public static final IType DOUBLE_TYPE = TypeFactory.create(double.class);
-	public static final IType NULL_TYPE = TypeFactory.create(Object.class);
-	public static final IType WILDCARD_TYPE = TypeFactory.create(Object.class);
-	public static final IType OBJECT_TYPE = TypeFactory.create(Object.class);
-	public static final IType STRING_TYPE = TypeFactory.create(String.class);
-	public static final IType CLASS_TYPE = TypeFactory.create(Class.class);
+	public static final TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+
+	public static final IType VOID_TYPE = factory.create(void.class);
+	public static final IType BOOLEAN_TYPE = factory.create(boolean.class);
+	public static final IType CHAR_TYPE = factory.create(char.class);
+	public static final IType INT_TYPE = factory.create(int.class);
+	public static final IType LONG_TYPE = factory.create(long.class);
+	public static final IType DOUBLE_TYPE = factory.create(double.class);
+	public static final IType NULL_TYPE = factory.create(Object.class);
+	public static final IType WILDCARD_TYPE = factory.create(Object.class);
+	public static final IType OBJECT_TYPE = factory.create(Object.class);
+	public static final IType STRING_TYPE = factory.create(String.class);
+	public static final IType CLASS_TYPE = factory.create(Class.class);
 
 	static {
 		NULL_TYPE.setNull(true);// null

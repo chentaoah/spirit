@@ -7,17 +7,19 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.InvokeVisiter;
 import com.sum.shy.api.MemberLinker;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.type.TypeFactory;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+
+	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void visitStmt(IClass clazz, Stmt stmt) {
@@ -34,7 +36,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 			List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
 			if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
-				token.setTypeAtt(TypeFactory.create(clazz, token));
+				token.setTypeAtt(factory.create(clazz, token));
 
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
 				token.setTypeAtt(deducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
@@ -56,7 +58,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
 				IType type = stmt.getToken(index - 1).getTypeAtt();
 				IType returnType = linker.visitField(type, token.getMemberNameAtt());
-				returnType = TypeFactory.create(returnType.getTargetName());
+				returnType = factory.create(returnType.getTargetName());
 				token.setTypeAtt(returnType);
 			}
 		}

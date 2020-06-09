@@ -2,16 +2,19 @@ package com.sum.shy.api.service.deducer;
 
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberLinker;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.type.CodeLinker;
 import com.sum.shy.type.NativeLinker;
-import com.sum.shy.type.TypeFactory;
 
 public class MemberLinkerImpl implements MemberLinker {
+
+	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
@@ -22,7 +25,7 @@ public class MemberLinkerImpl implements MemberLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		if (Constants.CLASS_KEYWORD.equals(fieldName)) {// xxx.class class是关键字
-			IType returnType = TypeFactory.create(Class.class);
+			IType returnType = factory.create(Class.class);
 			returnType.getGenericTypes().add(type);
 			return returnType;
 		}

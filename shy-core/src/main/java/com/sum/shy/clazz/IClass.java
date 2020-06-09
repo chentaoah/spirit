@@ -3,16 +3,19 @@ package com.sum.shy.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.type.TypeFactory;
 import com.sum.shy.utils.TypeUtils;
 
 public class IClass {
+
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public String packageStr;
 
@@ -121,7 +124,7 @@ public class IClass {
 		names.remove(0);
 		for (String name : names) {
 			if (name.equals(genericName)) {
-				IType type = TypeFactory.create(Object.class);
+				IType type = factory.create(Object.class);
 				type.setGenericName(genericName);
 				return type;
 			}
@@ -134,20 +137,20 @@ public class IClass {
 	}
 
 	public IType toType() {
-		return TypeFactory.create(getClassName());
+		return factory.create(getClassName());
 	}
 
 	public IType getSuperType() {
 		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
-			return TypeFactory.create(this, token);
+			return factory.create(this, token);
 		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaces() {
 		List<IType> interfaces = new ArrayList<>();
 		for (Token token : root.getKeywordParams(Constants.IMPL_KEYWORD))
-			interfaces.add(TypeFactory.create(this, token));
+			interfaces.add(factory.create(this, token));
 		return interfaces;
 	}
 

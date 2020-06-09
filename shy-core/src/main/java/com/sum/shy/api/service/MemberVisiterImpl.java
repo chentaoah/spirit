@@ -8,6 +8,7 @@ import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ElementVisiter;
 import com.sum.shy.api.MemberVisiter;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.AbsMember;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;
@@ -22,11 +23,12 @@ import com.sum.shy.element.Element;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.type.TypeFactory;
 
 public class MemberVisiterImpl implements MemberVisiter {
 
-	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
+	public ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
+
+	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void visitMembers(Map<String, IClass> allClasses) {
@@ -44,7 +46,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 		}
 	}
 
-	public static void visitParameters(IClass clazz, IMethod method) {
+	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
 		// 这个时候，所有的class还没有解析完成，查询className会报空指针
@@ -56,7 +58,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 					parameter.annotations.add(new IAnnotation(token));
 
 				} else if (token.isType()) {
-					parameter.type = TypeFactory.create(clazz, token);
+					parameter.type = factory.create(clazz, token);
 
 				} else if (token.isVar()) {
 					parameter.name = token.toString();
@@ -66,7 +68,8 @@ public class MemberVisiterImpl implements MemberVisiter {
 		}
 	}
 
-	public static IType visitMember(IClass clazz, AbsMember member) {
+	@Override
+	public IType visitMember(IClass clazz, AbsMember member) {
 		member.lock();
 		IType type = member.getType();
 		if (type == null) {
@@ -83,13 +86,13 @@ public class MemberVisiterImpl implements MemberVisiter {
 		return type;
 	}
 
-	public static IType visitField(IClass clazz, IField field) {
+	public IType visitField(IClass clazz, IField field) {
 		return visiter.visit(clazz, null, field.element).type;
 	}
 
-	public static IType visitMethod(IClass clazz, IMethod method) {
+	public IType visitMethod(IClass clazz, IMethod method) {
 		if (method.element.isFuncDeclare()) {// 声明了返回类型的方法，直接返回类型
-			return TypeFactory.create(clazz, method.element.getToken(0));
+			return factory.create(clazz, method.element.getToken(0));
 
 		} else if (method.element.isFunc()) {
 			MethodContext context = new MethodContext(method);
@@ -99,7 +102,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 		return null;
 	}
 
-	public static void visitChildElement(IClass clazz, MethodContext context, Element father) {
+	public void visitChildElement(IClass clazz, MethodContext context, Element father) {
 		for (Element element : father.children) {
 
 			if (element.children.size() > 0)

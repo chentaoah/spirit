@@ -1,4 +1,4 @@
-package com.sum.shy.type;
+package com.sum.shy.api.service.deducer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.SemanticParser;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Context;
@@ -16,13 +17,16 @@ import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.utils.TypeUtils;
 
-public class TypeFactory {
+public class TypeFactoryImpl implements TypeFactory {
 
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
+	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+
+	@Override
+	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
@@ -35,22 +39,26 @@ public class TypeFactory {
 		return type;
 	}
 
-	public static IType create(Class<?> clazz) {
+	@Override
+	public IType create(Class<?> clazz) {
 		return create(clazz.getName());
 	}
 
-	public static IType create(Class<?> clazz, List<IType> genericTypes) {
+	@Override
+	public IType create(Class<?> clazz, List<IType> genericTypes) {
 		IType type = create(clazz);
 		type.setGenericTypes(genericTypes);
 		return type;
 	}
 
-	public static IType create(IClass clazz, String text) {
+	@Override
+	public IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
 		return create(clazz, parser.getToken(text));
 	}
 
-	public static IType create(IClass clazz, Token token) {
+	@Override
+	public IType create(IClass clazz, Token token) {
 		if (token.isType()) {
 			IType type = new IType();
 			if (token.value instanceof String) {// String // String[] //? //T,K
@@ -80,7 +88,7 @@ public class TypeFactory {
 		return null;
 	}
 
-	public static List<IType> getGenericTypes(IClass clazz, Stmt stmt) {
+	public List<IType> getGenericTypes(IClass clazz, Stmt stmt) {
 		List<IType> genericTypes = new ArrayList<>();
 		for (int i = 1; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -90,7 +98,7 @@ public class TypeFactory {
 		return genericTypes;
 	}
 
-	public static IType getValueType(IClass clazz, Token token) {
+	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
 			return StaticType.BOOLEAN_TYPE;
 		} else if (token.isChar()) {
@@ -113,7 +121,7 @@ public class TypeFactory {
 		return null;
 	}
 
-	public static IType getListType(IClass clazz, Token token) {
+	public IType getListType(IClass clazz, Token token) {
 		Stmt stmt = token.getStmt();
 		List<Stmt> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
 		IType type = create(List.class);
@@ -121,7 +129,7 @@ public class TypeFactory {
 		return type;
 	}
 
-	public static IType getMapType(IClass clazz, Token token) {
+	public IType getMapType(IClass clazz, Token token) {
 		Stmt stmt = token.getStmt();
 		List<Stmt> keyStmts = new ArrayList<>();
 		List<Stmt> valueStmts = new ArrayList<>();
@@ -136,7 +144,7 @@ public class TypeFactory {
 		return type;
 	}
 
-	public static IType getGenericType(IClass clazz, List<Stmt> stmts) {
+	public IType getGenericType(IClass clazz, List<Stmt> stmts) {
 
 		if (stmts.size() == 0)
 			return StaticType.OBJECT_TYPE;

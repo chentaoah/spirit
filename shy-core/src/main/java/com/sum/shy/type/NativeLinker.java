@@ -12,11 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;
 
 public class NativeLinker {
+
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public static IType visitField(IType type, String fieldName) {
 		try {
@@ -48,8 +52,7 @@ public class NativeLinker {
 				boolean flag = true;
 				for (Parameter parameter : method.getParameters()) {
 					IType parameterType = parameterTypes.get(index++);
-					IType nativeParameterType = convertType(type, null, parameterType,
-							parameter.getParameterizedType());
+					IType nativeParameterType = convertType(type, null, parameterType, parameter.getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
@@ -66,16 +69,14 @@ public class NativeLinker {
 				boolean flag = true;
 				for (int i = 0; i < parameters.length - 1; i++) {
 					IType parameterType = parameterTypes.get(i);
-					IType nativeParameterType = convertType(type, null, parameterType,
-							parameters[i].getParameterizedType());
+					IType nativeParameterType = convertType(type, null, parameterType, parameters[i].getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
 					}
 				}
 				if (flag) {
-					IType targetType = convertType(type, null, null, lastParameter.getParameterizedType())
-							.getTargetType();
+					IType targetType = convertType(type, null, null, lastParameter.getParameterizedType()).getTargetType();
 					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
 						IType parameterType = parameterTypes.get(i);
 						if (!(targetType.isMatch(parameterType))) {
@@ -103,7 +104,7 @@ public class NativeLinker {
 	public static IType convertType(IType type, Map<String, IType> namedTypes, IType incomingType, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
-			return TypeFactory.create((Class<?>) nativeType);
+			return factory.create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
 			return StaticType.WILDCARD_TYPE;
@@ -131,7 +132,7 @@ public class NativeLinker {
 				IType genericType = incomingType != null ? incomingType.getGenericTypes().get(index++) : null;
 				genericTypes.add(convertType(type, namedTypes, genericType, actualType));
 			}
-			return TypeFactory.create(clazz, genericTypes);
+			return factory.create(clazz, genericTypes);
 		}
 		throw new RuntimeException("Convert native type failed!");
 	}

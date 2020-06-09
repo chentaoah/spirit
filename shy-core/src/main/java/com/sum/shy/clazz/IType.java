@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.type.TypeFactory;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 
@@ -18,6 +19,8 @@ import com.sum.shy.utils.TypeUtils;
  *
  */
 public class IType {
+
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	private String className;
 	private String simpleName;
@@ -35,7 +38,7 @@ public class IType {
 	}
 
 	public IType getTargetType() {
-		return TypeFactory.create(getTargetName());
+		return factory.create(getTargetName());
 	}
 
 	public IType getSuperType() {
@@ -53,7 +56,7 @@ public class IType {
 		} else {
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
 			Class<?> superClass = clazz.getSuperclass();
-			return superClass != null ? TypeFactory.create(superClass) : null;
+			return superClass != null ? factory.create(superClass) : null;
 		}
 
 	}
@@ -74,7 +77,7 @@ public class IType {
 			List<IType> interfaces = new ArrayList<>();
 			Class<?> clazz = ReflectUtils.getClass(getTargetName());
 			for (Class<?> interfaceClass : clazz.getInterfaces())
-				interfaces.add(TypeFactory.create(interfaceClass));
+				interfaces.add(factory.create(interfaceClass));
 			return interfaces;
 		}
 
@@ -83,7 +86,7 @@ public class IType {
 	public IType getWrappedType() {
 		Class<?> clazz = ReflectUtils.getWrappedType(getClassName());
 		if (clazz != null)
-			return TypeFactory.create(clazz);
+			return factory.create(clazz);
 		return this;// 如果没有则返回自身
 	}
 

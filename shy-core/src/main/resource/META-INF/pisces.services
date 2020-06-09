@@ -22,3 +22,4 @@ fast_deducer=com.sum.shy.api.service.deducer.FastDeducerImpl
 
 #
 member_linker=com.sum.shy.api.service.deducer.MemberLinkerImpl
+type_factory=com.sum.shy.api.service.deducer.TypeFactoryImpl

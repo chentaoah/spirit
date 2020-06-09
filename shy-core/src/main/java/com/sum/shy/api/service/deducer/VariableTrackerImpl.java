@@ -2,8 +2,9 @@ package com.sum.shy.api.service.deducer;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberLinker;
+import com.sum.shy.api.MemberVisiter;
+import com.sum.shy.api.TypeFactory;
 import com.sum.shy.api.VariableTracker;
-import com.sum.shy.api.service.MemberVisiterImpl;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -15,11 +16,14 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.type.TypeFactory;
 
 public class VariableTrackerImpl implements VariableTracker {
 
+	public MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
+
 	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+
+	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
@@ -40,7 +44,7 @@ public class VariableTrackerImpl implements VariableTracker {
 				String name = token.getMemberNameAtt();
 				IType type = findType(clazz, context, name);// 返回的数组类型
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				type = TypeFactory.create(type.getTargetName());// 转换成数组内的类型
+				type = factory.create(type.getTargetName());// 转换成数组内的类型
 				token.setTypeAtt(type);
 			}
 		}
@@ -55,7 +59,7 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return TypeFactory.create(clazz.getClassName());
+			return factory.create(clazz.getClassName());
 
 		// 先在方法上下文中找
 		if (context != null) {
@@ -76,7 +80,7 @@ public class VariableTrackerImpl implements VariableTracker {
 		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
-					field.type = MemberVisiterImpl.visitField(clazz, field);
+					field.type = visiter.visitMember(clazz, field);
 				return field.type;
 			}
 		}
