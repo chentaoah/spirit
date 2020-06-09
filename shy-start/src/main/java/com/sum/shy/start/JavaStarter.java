@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sum.shy.api.service.AliasReplacer;
 import com.sum.shy.api.service.CompilerImpl;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.java.JavaBuilder;
-import com.sum.shy.post.AliasReplacer;
 import com.sum.shy.utils.FileUtils;
 
 /**

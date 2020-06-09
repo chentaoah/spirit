@@ -1,4 +1,4 @@
-package com.sum.shy.element.api;
+package com.sum.shy.element;
 
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.SymbolTable;

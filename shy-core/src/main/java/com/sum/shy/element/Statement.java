@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Symbol;
-import com.sum.shy.element.api.TokenBox;
 
 public class Statement extends TokenBox {
 

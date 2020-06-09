@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.shy.common.Constants;
-import com.sum.shy.element.api.Syntactic;
 import com.sum.shy.utils.LineUtils;
 
 public class Element extends Syntactic {

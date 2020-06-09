@@ -6,7 +6,6 @@ import java.util.Map;
 import com.sum.shy.api.PostProcessor;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.element.Document;
-import com.sum.shy.post.AutoImporter;
 
 public class PostProcessorImpl implements PostProcessor {
 

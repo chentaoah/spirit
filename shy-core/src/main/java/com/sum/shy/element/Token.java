@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
-import com.sum.shy.element.api.Semantic;
 import com.sum.shy.lib.Assert;
 
 public class Token extends Semantic {

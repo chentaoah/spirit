@@ -1,9 +1,8 @@
-package com.sum.shy.element.api;
+package com.sum.shy.element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 
 public abstract class TokenBox {
