@@ -1,5 +1,7 @@
 package com.sum.shy.java.converter;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.FastDeducer;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
@@ -7,10 +9,11 @@ import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.processor.FastDeducer;
 import com.sum.shy.utils.TreeUtils;
 
 public class StrLogicalConverter {
+
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public static void convertStmt(IClass clazz, Stmt stmt) {
 		// 如果有子节点，先处理子节点
@@ -21,8 +24,7 @@ public class StrLogicalConverter {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
-			if (token.isOperator() && ("!".equals(token.toString()) || "&&".equals(token.toString())
-					|| "||".equals(token.toString()))) {
+			if (token.isOperator() && ("!".equals(token.toString()) || "&&".equals(token.toString()) || "||".equals(token.toString()))) {
 
 				if ("!".equals(token.toString())) {
 					replaceFollowingStr(clazz, stmt, i, token);
@@ -39,7 +41,7 @@ public class StrLogicalConverter {
 	public static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {
 		int start = TreeUtils.findStart(stmt, index);
 		Stmt lastSubStmt = stmt.subStmt(start, index);
-		IType type = FastDeducer.deriveStmt(clazz, lastSubStmt);
+		IType type = deducer.deriveStmt(clazz, lastSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastSubStmt);
@@ -55,7 +57,7 @@ public class StrLogicalConverter {
 	public static void replaceFollowingStr(IClass clazz, Stmt stmt, int index, Token token) {
 		int end = TreeUtils.findEnd(stmt, index);
 		Stmt nextSubStmt = stmt.subStmt(index + 1, end);
-		IType type = FastDeducer.deriveStmt(clazz, nextSubStmt);
+		IType type = deducer.deriveStmt(clazz, nextSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextSubStmt);

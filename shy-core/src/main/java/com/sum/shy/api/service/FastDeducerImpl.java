@@ -1,63 +1,24 @@
-package com.sum.shy.processor;
+package com.sum.shy.api.service;
 
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.TreeBuilder;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
-import com.sum.shy.clazz.IVariable;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.element.Element;
 import com.sum.shy.element.Node;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 
-public class FastDeducer {
+public class FastDeducerImpl implements FastDeducer {
 
 	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
-	/**
-	 * 根据语法，返回语句中定义的变量，
-	 * 
-	 * @param clazz
-	 * @param element
-	 * @return
-	 */
-	public static IVariable derive(IClass clazz, Element element) {
-
-		if (element.isDeclare() || element.isDeclareAssign()) {
-			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
-
-		} else if (element.isCatch()) {
-			Token varToken = element.getToken(3);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
-
-		} else if (element.isAssign()) {
-			Token varToken = element.getToken(0);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
-
-		} else if (element.isForIn()) {
-			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
-
-		} else if (element.isReturn()) {
-			Stmt subStmt = element.subStmt(1, element.size());
-			return new IVariable(deriveStmt(clazz, subStmt), null);
-		}
-		return null;
-	}
-
-	/**
-	 * 推导表达式的返回值类型，这里的表达式只是一个语句的一部分
-	 * 
-	 * @param clazz
-	 * @param stmt
-	 * @return
-	 */
-	public static IType deriveStmt(IClass clazz, Stmt stmt) {
+	@Override
+	public IType deriveStmt(IClass clazz, Stmt stmt) {
 		// 构建树形结构
 		List<Token> tokens = builder.build(stmt.tokens);
 		for (Token token : tokens) {

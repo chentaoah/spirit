@@ -1,13 +1,15 @@
-package com.sum.shy.processor;
+package com.sum.shy.api.service;
 
+import com.sum.shy.api.TypeDeclarer;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Token;
 
-public class TypeDeclarer {
+public class TypeDeclarerImpl implements TypeDeclarer {
 
-	public static void declare(IClass clazz, Element element) {
+	@Override
+	public void declare(IClass clazz, Element element) {
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			Token typeToken = element.getToken(0);
 			Token varToken = element.getToken(1);

@@ -1,6 +1,6 @@
-package com.sum.shy.processor;
+package com.sum.shy.api.service;
 
-import com.sum.shy.api.service.MemberVisiterImpl;
+import com.sum.shy.api.VariableTracker;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -15,18 +15,10 @@ import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 
-/**
- * 变量追踪器
- *
- * @description：
- * 
- * @version: 1.0
- * @author: chentao26275
- * @date: 2019年11月1日
- */
-public class VariableTracker {
+public class VariableTrackerImpl implements VariableTracker {
 
-	public static void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
+	@Override
+	public void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.canVisit())
 				trackStmt(clazz, context, token.getStmt());
@@ -50,7 +42,8 @@ public class VariableTracker {
 		}
 	}
 
-	public static IType findType(IClass clazz, MethodContext context, String name) {
+	@Override
+	public IType findType(IClass clazz, MethodContext context, String name) {
 
 		// super引用,指向的是父类
 		if (Constants.SUPER_KEYWORD.equals(name))

@@ -11,3 +11,8 @@ struct_recognizer=com.sum.shy.api.service.StructRecognizerImpl
 tree_builder=com.sum.shy.api.service.TreeBuilderImpl
 
 element_visiter=com.sum.shy.api.service.ElementVisiterImpl
+type_declarer=com.sum.shy.api.service.TypeDeclarerImpl
+express_declarer=com.sum.shy.api.service.ExpressDeclarerImpl
+variable_tracker=com.sum.shy.api.service.VariableTrackerImpl
+invoke_visiter=com.sum.shy.api.service.InvokeVisiterImpl
+fast_deducer=com.sum.shy.api.service.FastDeducerImpl

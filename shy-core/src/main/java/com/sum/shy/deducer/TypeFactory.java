@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.SemanticParser;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
@@ -13,12 +14,13 @@ import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.processor.FastDeducer;
 import com.sum.shy.utils.TypeUtils;
 
 public class TypeFactory {
 
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
+
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
@@ -141,7 +143,7 @@ public class TypeFactory {
 
 		IType genericType = null;
 		for (Stmt subStmt : stmts) {
-			IType wrappedType = FastDeducer.deriveStmt(clazz, subStmt).getWrappedType();
+			IType wrappedType = deducer.deriveStmt(clazz, subStmt).getWrappedType();
 			if (genericType == null) {
 				genericType = wrappedType;
 				continue;

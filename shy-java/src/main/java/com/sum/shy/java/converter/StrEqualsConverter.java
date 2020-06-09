@@ -1,5 +1,7 @@
 package com.sum.shy.java.converter;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.FastDeducer;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
@@ -7,10 +9,11 @@ import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.processor.FastDeducer;
 import com.sum.shy.utils.TreeUtils;
 
 public class StrEqualsConverter {
+
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public static void convertStmt(IClass clazz, Stmt stmt) {
 		// 如果有子节点，先处理子节点
@@ -26,11 +29,11 @@ public class StrEqualsConverter {
 				int start = TreeUtils.findStart(stmt, i);
 				// 截取出这一部分
 				Stmt lastSubStmt = stmt.subStmt(start, i);
-				IType lastType = FastDeducer.deriveStmt(clazz, lastSubStmt);
+				IType lastType = deducer.deriveStmt(clazz, lastSubStmt);
 				if (lastType.isStr()) {
 					int end = TreeUtils.findEnd(stmt, i);
 					Stmt nextSubStmt = stmt.subStmt(i + 1, end);
-					IType nextType = FastDeducer.deriveStmt(clazz, nextSubStmt);
+					IType nextType = deducer.deriveStmt(clazz, nextSubStmt);
 					if (nextType.isStr()) {
 						String format = null;
 						if ("==".equals(token.toString())) {

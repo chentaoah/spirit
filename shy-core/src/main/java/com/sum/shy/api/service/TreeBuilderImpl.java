@@ -14,10 +14,12 @@ import com.sum.shy.element.Tree;
 
 public class TreeBuilderImpl implements TreeBuilder {
 
+	@Override
 	public Tree build(Stmt stmt) {
 		return new Tree(build(stmt.tokens));
 	}
 
+	@Override
 	public List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ElementBuilder;
+import com.sum.shy.api.FastDeducer;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IType;
@@ -13,11 +14,12 @@ import com.sum.shy.deducer.TypeBuilder;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.processor.FastDeducer;
 
 public class StmtConverter {
 
 	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public static void convert(IClass clazz, Element element) {
 
@@ -42,7 +44,7 @@ public class StmtConverter {
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Stmt subStmt = element.subStmt(1, element.size() - 1);
-			IType type = FastDeducer.deriveStmt(clazz, subStmt);
+			IType type = deducer.deriveStmt(clazz, subStmt);
 			if (type.isStr()) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", subStmt);
 				element.replace(1, element.size() - 1, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
