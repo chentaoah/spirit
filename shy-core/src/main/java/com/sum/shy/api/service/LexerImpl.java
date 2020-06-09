@@ -1,4 +1,4 @@
-package com.sum.shy.lexical;
+package com.sum.shy.api.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,25 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.sum.shy.api.Lexer;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;
+import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.utils.LineUtils;
 
-/**
- * 词法分析器
- *
- * @description：
- * 
- * @version: 1.0
- * @author: chentao26275
- * @date: 2019年10月29日
- */
-public class LexicalAnalyzer {
+public class LexerImpl implements Lexer {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
-	public static List<String> getWords(String text) {
+	@Override
+	public List<String> getWords(String text) {
 
 		// getName()会传入空的content
 		if (StringUtils.isEmpty(text))
@@ -119,7 +113,8 @@ public class LexicalAnalyzer {
 		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName, Map<String, String> replacedStrs) {
+	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
+			Map<String, String> replacedStrs) {
 		int finalEnd = findEnd(builder, start, left, right);
 		if (finalEnd != -1 && finalEnd + 1 < builder.length()) { // 判断后面的符号是否连续
 			char c = builder.charAt(finalEnd + 1);

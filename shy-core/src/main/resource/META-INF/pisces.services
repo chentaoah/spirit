@@ -4,3 +4,4 @@ classResolver=com.sum.shy.api.service.ClassResolverImpl
 memberVisiter=com.sum.shy.api.service.MemberVisiterImpl
 postProcessor=com.sum.shy.api.service.PostProcessorImpl
 elementBuilder=com.sum.shy.api.service.ElementBuilderImpl
+lexer=com.sum.shy.api.service.LexerImpl

@@ -2,17 +2,20 @@ package com.sum.shy.api.service;
 
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ElementBuilder;
+import com.sum.shy.api.Lexer;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.lexical.LexicalAnalyzer;
 import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lexical.StructRecognizer;
 import com.sum.shy.lexical.TreeBuilder;
 
 public class ElementBuilderImpl implements ElementBuilder {
+
+	public Lexer lexer = ProxyFactory.get(Lexer.class);
 
 	@Override
 	public Element buildElement(Line line) {
@@ -20,7 +23,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			Element element = new Element();
 			element.line = line;
 			// 1.词法拆分
-			List<String> words = LexicalAnalyzer.getWords(line.text);
+			List<String> words = lexer.getWords(line.text);
 			// 2.token流
 			List<Token> tokens = SemanticDelegate.getTokens(words);
 			// 3.生成语句
