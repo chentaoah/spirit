@@ -3,8 +3,11 @@ document_reader=com.sum.shy.api.service.DocumentReaderImpl
 class_resolver=com.sum.shy.api.service.ClassResolverImpl
 member_visiter=com.sum.shy.api.service.MemberVisiterImpl
 post_processor=com.sum.shy.api.service.PostProcessorImpl
+
 element_builder=com.sum.shy.api.service.ElementBuilderImpl
 lexer=com.sum.shy.api.service.LexerImpl
 semantic_parser=com.sum.shy.api.service.SemanticParserImpl
 struct_recognizer=com.sum.shy.api.service.StructRecognizerImpl
 tree_builder=com.sum.shy.api.service.TreeBuilderImpl
+
+element_visiter=com.sum.shy.api.service.ElementVisiterImpl

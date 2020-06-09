@@ -1,21 +1,20 @@
-package com.sum.shy.processor;
+package com.sum.shy.api.service;
 
+import com.sum.shy.api.ElementVisiter;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.element.Element;
+import com.sum.shy.processor.ExpressDeclarer;
+import com.sum.shy.processor.FastDeducer;
+import com.sum.shy.processor.InvokeVisiter;
+import com.sum.shy.processor.TypeDeclarer;
+import com.sum.shy.processor.VariableTracker;
 
-public class ElementVisiter {
+public class ElementVisiterImpl implements ElementVisiter {
 
-	/**
-	 * 处理element对象，并根据语法返回类型，如果有的话
-	 * 
-	 * @param clazz
-	 * @param context
-	 * @param element
-	 * @return
-	 */
-	public static IVariable visit(IClass clazz, MethodContext context, Element element) {
+	@Override
+	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
 			// 1.类型声明者
 			TypeDeclarer.declare(clazz, element);

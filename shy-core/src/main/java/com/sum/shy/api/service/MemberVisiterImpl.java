@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.ElementVisiter;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.clazz.AbsMember;
 import com.sum.shy.clazz.IAnnotation;
@@ -21,9 +23,10 @@ import com.sum.shy.element.Element;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.processor.ElementVisiter;
 
 public class MemberVisiterImpl implements MemberVisiter {
+
+	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
 
 	@Override
 	public void visitMembers(Map<String, IClass> allClasses) {
@@ -81,7 +84,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 	}
 
 	public static IType visitField(IClass clazz, IField field) {
-		return ElementVisiter.visit(clazz, null, field.element).type;
+		return visiter.visit(clazz, null, field.element).type;
 	}
 
 	public static IType visitMethod(IClass clazz, IMethod method) {
@@ -102,7 +105,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 			if (element.children.size() > 0)
 				context.increaseDepth();// 提前深度+1
 
-			IVariable variable = ElementVisiter.visit(clazz, context, element);
+			IVariable variable = visiter.visit(clazz, context, element);
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
