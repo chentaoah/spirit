@@ -2,6 +2,8 @@ package com.sum.shy.type;
 
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.MemberLinker;
 import com.sum.shy.api.service.MemberVisiterImpl;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -11,6 +13,8 @@ import com.sum.shy.common.Context;
 
 public class CodeLinker {
 
+	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+
 	public static IType visitField(IType type, String fieldName) {
 		String className = type.getClassName();
 		IClass clazz = Context.get().findClass(className);
@@ -19,7 +23,7 @@ public class CodeLinker {
 			return MemberVisiterImpl.visitMember(clazz, field);
 
 		} else {
-			return AdaptiveLinker.visitField(clazz.getSuperType(), fieldName);
+			return linker.visitField(clazz.getSuperType(), fieldName);
 		}
 	}
 
@@ -31,7 +35,7 @@ public class CodeLinker {
 			return MemberVisiterImpl.visitMember(clazz, method);
 
 		} else {
-			return AdaptiveLinker.visitMethod(clazz.getSuperType(), methodName, parameterTypes);
+			return linker.visitMethod(clazz.getSuperType(), methodName, parameterTypes);
 		}
 
 	}

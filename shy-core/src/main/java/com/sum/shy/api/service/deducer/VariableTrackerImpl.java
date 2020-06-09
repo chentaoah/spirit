@@ -1,5 +1,7 @@
 package com.sum.shy.api.service.deducer;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.MemberLinker;
 import com.sum.shy.api.VariableTracker;
 import com.sum.shy.api.service.MemberVisiterImpl;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
@@ -13,10 +15,11 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.type.AdaptiveLinker;
 import com.sum.shy.type.TypeFactory;
 
 public class VariableTrackerImpl implements VariableTracker {
+
+	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
 	@Override
 	public void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
@@ -79,6 +82,6 @@ public class VariableTrackerImpl implements VariableTracker {
 		}
 
 		// 从继承里面去找，注意这里的父类可能是native的
-		return AdaptiveLinker.visitField(clazz.getSuperType(), name);
+		return linker.visitField(clazz.getSuperType(), name);
 	}
 }

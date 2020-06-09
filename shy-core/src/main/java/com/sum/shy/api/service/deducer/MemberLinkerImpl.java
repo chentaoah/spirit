@@ -1,15 +1,20 @@
-package com.sum.shy.type;
+package com.sum.shy.api.service.deducer;
 
 import java.util.List;
 
+import com.sum.shy.api.MemberLinker;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.type.CodeLinker;
+import com.sum.shy.type.NativeLinker;
+import com.sum.shy.type.TypeFactory;
 
-public class AdaptiveLinker {
+public class MemberLinkerImpl implements MemberLinker {
 
-	public static IType visitField(IType type, String fieldName) {
+	@Override
+	public IType visitField(IType type, String fieldName) {
 
 		if (type == null)
 			return null;
@@ -31,7 +36,8 @@ public class AdaptiveLinker {
 		return !type.isNative() ? CodeLinker.visitField(type, fieldName) : NativeLinker.visitField(type, fieldName);
 	}
 
-	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	@Override
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 
 		if (type == null)
 			return null;
@@ -50,8 +56,7 @@ public class AdaptiveLinker {
 			}
 		}
 
-		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes)
-				: NativeLinker.visitMethod(type, methodName, parameterTypes);
+		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes) : NativeLinker.visitMethod(type, methodName, parameterTypes);
 	}
 
 }

@@ -6,16 +6,18 @@ import java.util.List;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.InvokeVisiter;
+import com.sum.shy.api.MemberLinker;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.type.AdaptiveLinker;
 import com.sum.shy.type.TypeFactory;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+
+	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
 	@Override
 	public void visitStmt(IClass clazz, Stmt stmt) {
@@ -38,22 +40,22 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 				token.setTypeAtt(deducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
-				IType returnType = AdaptiveLinker.visitMethod(clazz.toType(), token.getMemberNameAtt(), parameterTypes);
+				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitField()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
+				IType returnType = linker.visitField(type, token.getMemberNameAtt());
 				token.setTypeAtt(returnType);
 
 			} else if (token.isInvokeMethod()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+				IType returnType = linker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = AdaptiveLinker.visitField(type, token.getMemberNameAtt());
+				IType returnType = linker.visitField(type, token.getMemberNameAtt());
 				returnType = TypeFactory.create(returnType.getTargetName());
 				token.setTypeAtt(returnType);
 			}
