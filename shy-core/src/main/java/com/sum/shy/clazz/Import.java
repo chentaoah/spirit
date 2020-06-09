@@ -16,7 +16,7 @@ public class Import {
 	}
 
 	public Import(String className) {
-		this.element = builder.buildElement("import " + className);
+		this.element = builder.build("import " + className);
 	}
 
 	public String getClassName() {

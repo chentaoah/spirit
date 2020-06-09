@@ -57,7 +57,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
-			Element subElement = builder.buildElement(subStmt.toString());
+			Element subElement = builder.build(subStmt.toString());
 			subElement.stmt = subStmt;// 替换一下
 			IVariable variable = visiter.visit(clazz, context, subElement);
 			if (variable != null) {

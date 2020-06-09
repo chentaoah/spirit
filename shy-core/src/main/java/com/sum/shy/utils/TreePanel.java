@@ -115,7 +115,7 @@ public class TreePanel {
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";
 
-		Element element = new ElementBuilderImpl().buildElement(new Line(text));
+		Element element = new ElementBuilderImpl().build(new Line(text));
 		System.out.println(element.stmt.debug());
 		System.out.println(element.stmt.toString());
 		new TreePanel().debug(element);

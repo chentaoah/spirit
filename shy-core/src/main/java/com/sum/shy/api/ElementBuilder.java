@@ -7,10 +7,10 @@ import com.sum.shy.element.Line;
 @Service("element_builder")
 public interface ElementBuilder {
 
-	Element buildElement(Line line);
+	Element build(Line line);
 
-	default Element buildElement(String text) {
-		return buildElement(new Line(text));
+	default Element build(String text) {
+		return build(new Line(text));
 	}
 
 }

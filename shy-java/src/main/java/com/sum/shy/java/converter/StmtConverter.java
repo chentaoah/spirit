@@ -65,7 +65,7 @@ public class StmtConverter {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
 				// 添加字段
-				Element element1 = builder.buildElement("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				Element element1 = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				IField field = new IField(null, true, element1);
 				clazz.fields.add(0, field);
 			}

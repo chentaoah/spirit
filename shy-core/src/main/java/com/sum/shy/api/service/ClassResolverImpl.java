@@ -74,7 +74,7 @@ public class ClassResolverImpl implements ClassResolver {
 		}
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass.root == null)
-			mainClass.root = builder.buildElement("class " + document.name + " {");
+			mainClass.root = builder.build("class " + document.name + " {");
 
 		return classes;
 	}

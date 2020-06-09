@@ -59,7 +59,7 @@ public class DocumentReaderImpl implements DocumentReader {
 	}
 
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
-		Element element = builder.buildElement(line);
+		Element element = builder.build(line);
 		List<Line> sublines = splitLine(element);// what like "if xxx : xxx : xxx"
 		if (sublines != null && sublines.size() > 0) {
 			readLines(father, sublines);

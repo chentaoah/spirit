@@ -19,6 +19,13 @@ public class Element extends Syntactic {
 	// 子节点
 	public List<Element> children = new ArrayList<>();
 
+	public Element(Line line, Stmt stmt, Tree tree, String syntax) {
+		this.line = line;
+		this.stmt = stmt;
+		this.tree = tree;
+		this.syntax = syntax;
+	}
+
 	public boolean hasChild() {
 		return line.hasChild();
 	}

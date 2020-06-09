@@ -12,6 +12,7 @@ import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
+import com.sum.shy.element.Tree;
 
 public class ElementBuilderImpl implements ElementBuilder {
 
@@ -24,27 +25,24 @@ public class ElementBuilderImpl implements ElementBuilder {
 	public TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
 	@Override
-	public Element buildElement(Line line) {
+	public Element build(Line line) {
 		try {
-			Element element = new Element();
-
-			element.line = line;
-			// 1.词法拆分
+			// 1.lexical analysis
 			List<String> words = lexer.getWords(line.text);
-			// 2.token流
+			// 2.semantic analysis
 			List<Token> tokens = parser.getTokens(words);
-			// 3.生成语句
-			element.stmt = new Stmt(tokens);
-			// 4.一些基本的结构语法，不需要复杂分析的
-			element.syntax = recognizer.getSyntax(tokens);
-			// 如果不是结构语法，则使用抽象语法树推导
-			if (element.syntax == null) {
-				// 5.建立抽象语法树
-				element.tree = builder.build(element.stmt);
-				// 6.获取语法
-				element.syntax = element.tree.getSyntax();
+			// 3.build statement
+			Stmt stmt = new Stmt(tokens);
+			// 4.get structure grammar
+			String syntax = recognizer.getSyntax(tokens);
+			// 5.build an abstract syntax tree
+			Tree tree = null;
+			if (syntax == null) {
+				tree = builder.build(stmt);
+				syntax = tree.getSyntax();
 			}
-			return element;
+			// 6.generate element
+			return new Element(line, stmt, tree, syntax);
 
 		} catch (Exception e) {
 			System.out.println(line.debug());
