@@ -8,6 +8,6 @@ import com.sum.shy.element.Token;
 @Service("struct_recognizer")
 public interface StructRecognizer {
 
-	public String getSyntax(List<Token> tokens);
+	String getSyntax(List<Token> tokens);
 
 }
