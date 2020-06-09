@@ -53,7 +53,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			Element element = new Element(line, stmt, tree, syntax);
 			// 7.post element processor
 			processor.postElementProcessor(line, element);
-
+			// 8.return element
 			return element;
 
 		} catch (Exception e) {

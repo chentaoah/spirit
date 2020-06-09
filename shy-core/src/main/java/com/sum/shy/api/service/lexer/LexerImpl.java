@@ -20,7 +20,7 @@ public class LexerImpl implements Lexer {
 	@Override
 	public List<String> getWords(String text) {
 
-		// getName()会传入空的content
+		// When parsing method content, empty content is passed in
 		if (StringUtils.isEmpty(text))
 			return new ArrayList<>();
 
@@ -28,11 +28,11 @@ public class LexerImpl implements Lexer {
 		Map<String, String> replacedStrs = new HashMap<>();
 		StringBuilder builder = new StringBuilder(text.trim());
 
-		// 1.整体替换
+		// 1.overall replacement
 		for (int index = 0, count = 0, start = -1; index < builder.length(); index++) {
 			char c = builder.charAt(index);
-			// 如果是接续字符,则记录起始位置
-			// .访问符会及时更新
+
+			// determine whether to continue characters
 			if ((start < 0 && isContinueChar(c)) || c == '.')
 				start = index;
 
@@ -49,41 +49,41 @@ public class LexerImpl implements Lexer {
 				push(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
 				index = start >= 0 ? start : index;
 
-			} else if (c == '[') {// 注意：不能声明泛型数组，并且带"{"和"}"，不能声明length
+			} else if (c == '[') {// Java generally does not declare generic arrays
 				push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
 				index = start >= 0 ? start : index;
 
-			} else if (c == '<') {// 泛型声明
-				if (start >= 0) {// 必须有前缀
+			} else if (c == '<') {
+				if (start >= 0) {
 					char d = builder.charAt(start);
-					if (d >= 'A' && d <= 'Z') {// 如果首字母是大写的话,才进行处理
+					if (d >= 'A' && d <= 'Z') {// generic types generally begin with a capital letter
 						push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
 						index = start;
 					}
 				}
 			}
 
-			if (!isContinueChar(c))// 如果不是接续字符,则重置起始位置
+			if (!isContinueChar(c))
 				start = -1;
 		}
 
 		text = builder.toString();
 
-		// 2.处理操作符,添加空格,方便后面的拆分
+		// 2.add space for easy split
 		for (Symbol symbol : SymbolTable.SINGLE_SYMBOLS)
 			text = text.replaceAll(symbol.regex, " " + symbol.value + " ");
 
-		// 3.将多余的空格去掉
+		// 3.remove extra space
 		text = LineUtils.mergeSpaces(text);
 
-		// 4.将那些被分离的符号,紧贴在一起
+		// 4.correction of wrong symbols
 		for (Symbol symbol : SymbolTable.DOUBLE_SYMBOLS)
 			text = text.replaceAll(symbol.badRegex, symbol.value);
 
-		// 5.根据操作符,进行拆分
+		// 5.split by ' '
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
-		// 6.如果包含.但是又不是数字的话，则再拆一次
+		// 6.continue splitting continuous access
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
 			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParserImpl.isDouble(word)) {
@@ -93,7 +93,7 @@ public class LexerImpl implements Lexer {
 			}
 		}
 
-		// 7.重新将替换的字符串替换回来
+		// 7.retrieve the replaced whole
 		for (int i = 0; i < words.size(); i++) {
 			String str = replacedStrs.get(words.get(i));
 			if (str != null)
@@ -103,7 +103,7 @@ public class LexerImpl implements Lexer {
 		return words;
 	}
 
-	public static boolean isContinueChar(char c) {// 是否接续字符
+	public static boolean isContinueChar(char c) {
 		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
@@ -115,9 +115,9 @@ public class LexerImpl implements Lexer {
 	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
 			Map<String, String> replacedStrs) {
 		int finalEnd = findEnd(builder, start, left, right);
-		if (finalEnd != -1 && finalEnd + 1 < builder.length()) { // 判断后面的符号是否连续
+		if (finalEnd != -1 && finalEnd + 1 < builder.length()) {
 			char c = builder.charAt(finalEnd + 1);
-			if (c == ' ' && finalEnd + 2 < builder.length()) {// 继续往后延后一格
+			if (c == ' ' && finalEnd + 2 < builder.length()) {
 				char d = builder.charAt(finalEnd + 2);
 				if (d == left1) {
 					int secondEnd = findEnd(builder, finalEnd + 2, left1, right1);
@@ -136,13 +136,13 @@ public class LexerImpl implements Lexer {
 	}
 
 	public static int findEnd(StringBuilder builder, int start, char left, char right) {
-		boolean flag = false;// 是否进入"符号的范围内
+		boolean flag = false;
 		for (int index = start, count = 0; index < builder.length(); index++) {
 			char c = builder.charAt(index);
-			if (c == '"' && LineUtils.isBoundary(builder.toString(), index)) // 判断是否进入了字符串中
+			if (c == '"' && LineUtils.isBoundary(builder.toString(), index))
 				flag = !flag;
 			if (!flag) {
-				if (right == '"')// 字符串是比较特殊的,含头不含尾,这里需要特殊处理
+				if (right == '"')
 					return index;
 				if (c == left) {
 					count++;
