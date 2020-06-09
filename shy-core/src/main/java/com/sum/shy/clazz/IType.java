@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.type.TypeFactory;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 

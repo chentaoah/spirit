@@ -1,4 +1,4 @@
-package com.sum.shy.deducer;
+package com.sum.shy.type;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

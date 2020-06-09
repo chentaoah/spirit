@@ -8,10 +8,10 @@ import com.sum.shy.api.FastDeducer;
 import com.sum.shy.api.InvokeVisiter;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
-import com.sum.shy.deducer.AdaptiveLinker;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
+import com.sum.shy.type.AdaptiveLinker;
+import com.sum.shy.type.TypeFactory;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
 

@@ -18,11 +18,11 @@ import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.type.TypeFactory;
 
 public class MemberVisiterImpl implements MemberVisiter {
 

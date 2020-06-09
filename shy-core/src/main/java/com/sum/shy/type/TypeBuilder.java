@@ -1,4 +1,4 @@
-package com.sum.shy.deducer;
+package com.sum.shy.type;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,10 +6,10 @@ import java.util.List;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.type.TypeFactory;
 import com.sum.shy.utils.TypeUtils;
 
 public class IClass {

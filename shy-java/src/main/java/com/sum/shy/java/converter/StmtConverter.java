@@ -10,10 +10,10 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
-import com.sum.shy.deducer.TypeBuilder;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
+import com.sum.shy.type.TypeBuilder;
 
 public class StmtConverter {
 

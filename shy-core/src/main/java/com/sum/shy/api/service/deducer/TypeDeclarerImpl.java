@@ -2,9 +2,9 @@ package com.sum.shy.api.service.deducer;
 
 import com.sum.shy.api.TypeDeclarer;
 import com.sum.shy.clazz.IClass;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Token;
+import com.sum.shy.type.TypeFactory;
 
 public class TypeDeclarerImpl implements TypeDeclarer {
 

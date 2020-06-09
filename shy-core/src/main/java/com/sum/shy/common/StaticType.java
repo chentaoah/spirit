@@ -1,8 +1,8 @@
 package com.sum.shy.common;
 
 import com.sum.shy.clazz.IType;
-import com.sum.shy.deducer.TypeFactory;
 import com.sum.shy.lib.Collection;
+import com.sum.shy.type.TypeFactory;
 
 public class StaticType {
 
