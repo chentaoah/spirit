@@ -7,7 +7,7 @@ import com.sum.pisces.api.Service;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.element.Document;
 
-@Service("postProcessor")
+@Service("post_processor")
 public interface PostProcessor {
 
 	void postDocumentProcessor(String path, Document document);

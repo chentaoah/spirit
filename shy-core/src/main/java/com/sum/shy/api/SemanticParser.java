@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.pisces.api.Service;
 import com.sum.shy.element.Token;
 
-@Service("semanticParser")
+@Service("semantic_parser")
 public interface SemanticParser {
 
 	List<Token> getTokens(List<String> words);

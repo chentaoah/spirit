@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.pisces.api.Service;
 import com.sum.shy.element.Token;
 
-@Service("structRecognizer")
+@Service("struct_recognizer")
 public interface StructRecognizer {
 
 	public String getSyntax(List<Token> tokens);

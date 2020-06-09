@@ -7,7 +7,7 @@ import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.element.Tree;
 
-@Service("treeBuilder")
+@Service("tree_builder")
 public interface TreeBuilder {
 
 	Tree build(Stmt stmt);

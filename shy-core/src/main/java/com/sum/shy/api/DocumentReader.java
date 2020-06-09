@@ -5,7 +5,7 @@ import java.io.File;
 import com.sum.pisces.api.Service;
 import com.sum.shy.element.Document;
 
-@Service("documentReader")
+@Service("document_reader")
 public interface DocumentReader {
 
 	Document readDocument(File file);

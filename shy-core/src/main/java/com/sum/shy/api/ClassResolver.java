@@ -6,7 +6,7 @@ import com.sum.pisces.api.Service;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.element.Document;
 
-@Service("classResolver")
+@Service("class_resolver")
 public interface ClassResolver {
 
 	List<IClass> resolverClasses(String packageStr, Document document);

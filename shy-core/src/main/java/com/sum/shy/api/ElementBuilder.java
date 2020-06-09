@@ -4,7 +4,7 @@ import com.sum.pisces.api.Service;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 
-@Service("elementBuilder")
+@Service("element_builder")
 public interface ElementBuilder {
 
 	Element buildElement(Line line);
