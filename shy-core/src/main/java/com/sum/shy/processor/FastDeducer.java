@@ -2,6 +2,8 @@ package com.sum.shy.processor;
 
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.TreeBuilder;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
@@ -10,19 +12,11 @@ import com.sum.shy.element.Element;
 import com.sum.shy.element.Node;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.lexical.TreeBuilder;
 import com.sum.shy.lib.Assert;
 
-/**
- * 快速推导器
- *
- * @description：
- * 
- * @version: 1.0
- * @author: chentao26275
- * @date: 2019年11月15日
- */
 public class FastDeducer {
+
+	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
 	/**
 	 * 根据语法，返回语句中定义的变量，
@@ -65,7 +59,7 @@ public class FastDeducer {
 	 */
 	public static IType deriveStmt(IClass clazz, Stmt stmt) {
 		// 构建树形结构
-		List<Token> tokens = TreeBuilder.build(stmt.tokens);
+		List<Token> tokens = builder.build(stmt.tokens);
 		for (Token token : tokens) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();

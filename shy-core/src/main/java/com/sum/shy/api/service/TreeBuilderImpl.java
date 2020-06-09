@@ -1,8 +1,9 @@
-package com.sum.shy.lexical;
+package com.sum.shy.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.api.TreeBuilder;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;
@@ -11,19 +12,13 @@ import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.element.Tree;
 
-/**
- * 抽象语法树
- * 
- * @author chentao26275
- *
- */
-public class TreeBuilder {
+public class TreeBuilderImpl implements TreeBuilder {
 
-	public static Tree build(Stmt stmt) {
+	public Tree build(Stmt stmt) {
 		return new Tree(build(stmt.tokens));
 	}
 
-	public static List<Token> build(List<Token> tokens) {
+	public List<Token> build(List<Token> tokens) {
 		// 如果只有一个元素
 		if (tokens.size() == 1)
 			return tokens;

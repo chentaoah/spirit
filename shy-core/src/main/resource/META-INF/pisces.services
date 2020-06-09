@@ -6,3 +6,5 @@ postProcessor=com.sum.shy.api.service.PostProcessorImpl
 elementBuilder=com.sum.shy.api.service.ElementBuilderImpl
 lexer=com.sum.shy.api.service.LexerImpl
 semanticParser=com.sum.shy.api.service.SemanticParserImpl
+structRecognizer=com.sum.shy.api.service.StructRecognizerImpl
+treeBuilder=com.sum.shy.api.service.TreeBuilderImpl
