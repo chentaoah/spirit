@@ -13,7 +13,7 @@ import com.sum.shy.clazz.IParameter;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.common.Constants;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 
@@ -26,7 +26,7 @@ public class VariableTrackerImpl implements VariableTracker {
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void trackStmt(IClass clazz, MethodContext context, Stmt stmt) {
+	public void trackStmt(IClass clazz, MethodContext context, Statement stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.canVisit())
 				trackStmt(clazz, context, token.getStmt());

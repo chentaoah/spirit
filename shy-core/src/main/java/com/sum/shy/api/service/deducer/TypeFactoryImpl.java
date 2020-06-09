@@ -12,7 +12,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.utils.TypeUtils;
@@ -71,8 +71,8 @@ public class TypeFactoryImpl implements TypeFactory {
 					if (type == null)
 						type = create(clazz.findImport(simpleName));// 一般类型
 				}
-			} else if (token.value instanceof Stmt) {// List<String> // Class<?>
-				Stmt stmt = token.getStmt();
+			} else if (token.value instanceof Statement) {// List<String> // Class<?>
+				Statement stmt = token.getStmt();
 				String simpleName = stmt.getStr(0);// 前缀
 				type = create(clazz.findImport(simpleName));
 				type.setGenericTypes(getGenericTypes(clazz, stmt));
@@ -88,7 +88,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		return null;
 	}
 
-	public List<IType> getGenericTypes(IClass clazz, Stmt stmt) {
+	public List<IType> getGenericTypes(IClass clazz, Statement stmt) {
 		List<IType> genericTypes = new ArrayList<>();
 		for (int i = 1; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -122,19 +122,19 @@ public class TypeFactoryImpl implements TypeFactory {
 	}
 
 	public IType getListType(IClass clazz, Token token) {
-		Stmt stmt = token.getStmt();
-		List<Stmt> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
+		Statement stmt = token.getStmt();
+		List<Statement> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
 		IType type = create(List.class);
 		type.getGenericTypes().add(getGenericType(clazz, stmts));
 		return type;
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
-		Stmt stmt = token.getStmt();
-		List<Stmt> keyStmts = new ArrayList<>();
-		List<Stmt> valueStmts = new ArrayList<>();
-		for (Stmt subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
-			List<Stmt> subStmts = subStmt.split(":");
+		Statement stmt = token.getStmt();
+		List<Statement> keyStmts = new ArrayList<>();
+		List<Statement> valueStmts = new ArrayList<>();
+		for (Statement subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
+			List<Statement> subStmts = subStmt.split(":");
 			keyStmts.add(subStmts.get(0));
 			valueStmts.add(subStmts.get(1));
 		}
@@ -144,13 +144,13 @@ public class TypeFactoryImpl implements TypeFactory {
 		return type;
 	}
 
-	public IType getGenericType(IClass clazz, List<Stmt> stmts) {
+	public IType getGenericType(IClass clazz, List<Statement> stmts) {
 
 		if (stmts.size() == 0)
 			return StaticType.OBJECT_TYPE;
 
 		IType genericType = null;
-		for (Stmt subStmt : stmts) {
+		for (Statement subStmt : stmts) {
 			IType wrappedType = deducer.deriveStmt(clazz, subStmt).getWrappedType();
 			if (genericType == null) {
 				genericType = wrappedType;

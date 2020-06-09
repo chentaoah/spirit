@@ -11,7 +11,7 @@ import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.element.Element;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.type.TypeBuilder;
 
@@ -33,7 +33,7 @@ public class StmtConverter {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
-			Stmt subStmt = element.subStmt(3, element.size() - 1);
+			Statement subStmt = element.subStmt(3, element.size() - 1);
 			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item, subStmt);
 			element.replace(0, element.size(), new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 
@@ -43,7 +43,7 @@ public class StmtConverter {
 				element.addToken(0, new Token(Constants.TYPE_TOKEN, TypeBuilder.build(clazz, token.getTypeAtt())));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
-			Stmt subStmt = element.subStmt(1, element.size() - 1);
+			Statement subStmt = element.subStmt(1, element.size() - 1);
 			IType type = deducer.deriveStmt(clazz, subStmt);
 			if (type.isStr()) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", subStmt);

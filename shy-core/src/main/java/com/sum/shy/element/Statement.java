@@ -8,31 +8,31 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.element.api.TokenBox;
 
-public class Stmt extends TokenBox {
+public class Statement extends TokenBox {
 
 	public List<Token> tokens;
 
-	public Stmt(List<Token> tokens) {
+	public Statement(List<Token> tokens) {
 		this.tokens = tokens;
 	}
 
-	public Stmt copy() {// 拷贝一份新的tokens
-		return new Stmt(copyTokens());
+	public Statement copy() {// 拷贝一份新的tokens
+		return new Statement(copyTokens());
 	}
 
-	public Stmt subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
-		return new Stmt(subTokens(start, end));
+	public Statement subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
+		return new Statement(subTokens(start, end));
 	}
 
-	public Stmt subStmt(String left, String right) {
+	public Statement subStmt(String left, String right) {
 		return subStmt(indexOf(left) + 1, lastIndexOf(right));
 	}
 
-	public List<Stmt> split(String separator) {// 通过分隔符来获取子语句
-		List<Stmt> subStmts = new ArrayList<>();
+	public List<Statement> split(String separator) {// 通过分隔符来获取子语句
+		List<Statement> subStmts = new ArrayList<>();
 		List<List<Token>> tokensList = splitTokens(separator);
 		for (List<Token> tokens : tokensList)
-			subStmts.add(new Stmt(tokens));
+			subStmts.add(new Statement(tokens));
 		return subStmts;
 	}
 
@@ -77,8 +77,7 @@ public class Stmt extends TokenBox {
 					}
 
 				} else if (lastToken.isSeparator()) {// 前面为特定分隔符
-					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString())
-							|| "<".equals(lastToken.toString())) {
+					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
 					}
@@ -97,9 +96,8 @@ public class Stmt extends TokenBox {
 					}
 
 				} else if (nextToken.isSeparator()) {
-					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString())
-							|| "<".equals(nextToken.toString()) || "]".equals(nextToken.toString())
-							|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
+					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())
+							|| "]".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
 							|| ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
 
 						if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {

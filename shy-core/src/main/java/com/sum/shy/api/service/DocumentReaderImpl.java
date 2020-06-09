@@ -13,7 +13,7 @@ import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.utils.LineUtils;
 
 public class DocumentReaderImpl implements DocumentReader {
@@ -84,7 +84,7 @@ public class DocumentReaderImpl implements DocumentReader {
 		if (element.isFor() || element.isForIn() || element.isWhile() || element.isIf()) {
 			if (element.contains(":")) {
 				List<Line> subLines = new ArrayList<>();
-				List<Stmt> subStmts = element.split(":");
+				List<Statement> subStmts = element.split(":");
 				String indent = element.getIndent();// 获取缩进
 				subLines.add(new Line(indent + subStmts.get(0).toString() + " {"));// 第一行，添加后缀分隔
 				for (int i = 1; i < subStmts.size(); i++)

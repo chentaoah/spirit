@@ -9,7 +9,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Node;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 
@@ -18,7 +18,7 @@ public class FastDeducerImpl implements FastDeducer {
 	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
 	@Override
-	public IType deriveStmt(IClass clazz, Stmt stmt) {
+	public IType deriveStmt(IClass clazz, Statement stmt) {
 		// 构建树形结构
 		List<Token> tokens = builder.build(stmt.tokens);
 		for (Token token : tokens) {

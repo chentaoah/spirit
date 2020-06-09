@@ -6,7 +6,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.utils.TreeUtils;
@@ -15,7 +15,7 @@ public class StrLogicalConverter {
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public static void convertStmt(IClass clazz, Stmt stmt) {
+	public static void convertStmt(IClass clazz, Statement stmt) {
 		// 如果有子节点，先处理子节点
 		for (Token token : stmt.tokens) {
 			if (token.canVisit())
@@ -38,9 +38,9 @@ public class StrLogicalConverter {
 		}
 	}
 
-	public static void replacePreviousStr(IClass clazz, Stmt stmt, int index, Token token) {
+	public static void replacePreviousStr(IClass clazz, Statement stmt, int index, Token token) {
 		int start = TreeUtils.findStart(stmt, index);
-		Stmt lastSubStmt = stmt.subStmt(start, index);
+		Statement lastSubStmt = stmt.subStmt(start, index);
 		IType type = deducer.deriveStmt(clazz, lastSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
@@ -54,9 +54,9 @@ public class StrLogicalConverter {
 
 	}
 
-	public static void replaceFollowingStr(IClass clazz, Stmt stmt, int index, Token token) {
+	public static void replaceFollowingStr(IClass clazz, Statement stmt, int index, Token token) {
 		int end = TreeUtils.findEnd(stmt, index);
-		Stmt nextSubStmt = stmt.subStmt(index + 1, end);
+		Statement nextSubStmt = stmt.subStmt(index + 1, end);
 		IType type = deducer.deriveStmt(clazz, nextSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";

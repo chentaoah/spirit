@@ -10,9 +10,9 @@ import com.sum.shy.api.StructRecognizer;
 import com.sum.shy.api.TreeBuilder;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
-import com.sum.shy.element.Tree;
+import com.sum.shy.element.SyntaxTree;
 
 public class ElementBuilderImpl implements ElementBuilder {
 
@@ -32,11 +32,11 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 2.semantic analysis
 			List<Token> tokens = parser.getTokens(words);
 			// 3.build statement
-			Stmt stmt = new Stmt(tokens);
+			Statement stmt = new Statement(tokens);
 			// 4.get structure grammar
 			String syntax = recognizer.getSyntax(tokens);
 			// 5.build an abstract syntax tree
-			Tree tree = null;
+			SyntaxTree tree = null;
 			if (syntax == null) {
 				tree = builder.build(stmt);
 				syntax = tree.getSyntax();

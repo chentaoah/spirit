@@ -7,7 +7,7 @@ import com.sum.shy.api.service.lexer.ElementBuilderImpl;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Node;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.StringUtils;
 
@@ -26,7 +26,7 @@ public class TreePanel {
 		System.out.println(toString());
 	}
 
-	public void markPosition(int position, Stmt stmt) {
+	public void markPosition(int position, Statement stmt) {
 		List<Token> tokens = stmt.format();// 获取到插入空格后
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);

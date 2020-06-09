@@ -8,15 +8,15 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;
 import com.sum.shy.element.Node;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
-import com.sum.shy.element.Tree;
+import com.sum.shy.element.SyntaxTree;
 
 public class TreeBuilderImpl implements TreeBuilder {
 
 	@Override
-	public Tree build(Stmt stmt) {
-		return new Tree(build(stmt.tokens));
+	public SyntaxTree build(Statement stmt) {
+		return new SyntaxTree(build(stmt.tokens));
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.canVisit()) {// 如果有子节点,则对子节点进行转换
 				token = token.copy();// 拷贝一份
-				Stmt subStmt = token.getStmt();
+				Statement subStmt = token.getStmt();
 				subStmt.tokens = build(subStmt.tokens);
 				tokens.set(i, token); // 替换原来的
 			}

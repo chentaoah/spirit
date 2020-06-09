@@ -10,7 +10,7 @@ import com.sum.shy.api.MemberLinker;
 import com.sum.shy.api.TypeFactory;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
@@ -22,7 +22,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void visitStmt(IClass clazz, Stmt stmt) {
+	public void visitStmt(IClass clazz, Statement stmt) {
 		for (int index = 0; index < stmt.size(); index++) {
 			Token token = stmt.getToken(index);
 			// 内部可能还需要推导s
@@ -66,10 +66,10 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public List<IType> getParameterTypes(IClass clazz, Token token) {
 		List<IType> parameterTypes = new ArrayList<>();
-		Stmt stmt = token.getStmt();
+		Statement stmt = token.getStmt();
 		if (stmt.size() > 3) {// 方法里面必须有参数
-			List<Stmt> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
-			for (Stmt subStmt : subStmts) {
+			List<Statement> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
+			for (Statement subStmt : subStmts) {
 				IType parameterType = deducer.deriveStmt(clazz, subStmt);
 				parameterTypes.add(parameterType);
 			}

@@ -1,11 +1,11 @@
 package com.sum.shy.utils;
 
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 
 public class TreeUtils {
 
-	public static int findStart(Stmt stmt, int index) {
+	public static int findStart(Statement stmt, int index) {
 		int start = -1;
 		Token token = stmt.getToken(index);
 		for (int j = index - 1; j >= 0; j--) {
@@ -19,7 +19,7 @@ public class TreeUtils {
 		return start;
 	}
 
-	public static int findEnd(Stmt stmt, int index) {
+	public static int findEnd(Statement stmt, int index) {
 		int end = -1;
 		Token token = stmt.getToken(index);
 		for (int j = index + 1; j < stmt.size(); j++) {

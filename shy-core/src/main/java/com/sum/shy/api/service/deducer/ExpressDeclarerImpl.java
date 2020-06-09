@@ -12,7 +12,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.element.Element;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 
 public class ExpressDeclarerImpl implements ExpressDeclarer {
@@ -37,7 +37,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			if (context != null)
 				type = tracker.findType(clazz, context, varToken.toString());
 			if (type == null) {
-				Stmt subStmt = element.subStmt(2, element.size());
+				Statement subStmt = element.subStmt(2, element.size());
 				tracker.trackStmt(clazz, context, subStmt);
 				invokeVisiter.visitStmt(clazz, subStmt);
 				type = deducer.deriveStmt(clazz, subStmt);
@@ -46,7 +46,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			varToken.setTypeAtt(type);
 
 		} else if (element.isForIn()) {// for item in list {
-			Stmt subStmt = element.subStmt(3, element.size() - 1);
+			Statement subStmt = element.subStmt(3, element.size() - 1);
 			tracker.trackStmt(clazz, context, subStmt);
 			invokeVisiter.visitStmt(clazz, subStmt);
 			IType type = deducer.deriveStmt(clazz, subStmt);
@@ -56,7 +56,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			varToken.setTypeAtt(type);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
-			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
+			Statement subStmt = element.subStmt(1, element.indexOf(";"));
 			Element subElement = builder.build(subStmt.toString());
 			subElement.stmt = subStmt;// 替换一下
 			IVariable variable = visiter.visit(clazz, context, subElement);

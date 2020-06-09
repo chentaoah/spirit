@@ -11,15 +11,15 @@ public class Element extends Syntactic {
 	// 行
 	public Line line;
 	// 语句
-	public Stmt stmt;
+	public Statement stmt;
 	// 语法树
-	public Tree tree;
+	public SyntaxTree tree;
 	// 语法
 	public String syntax;
 	// 子节点
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Stmt stmt, Tree tree, String syntax) {
+	public Element(Line line, Statement stmt, SyntaxTree tree, String syntax) {
 		this.line = line;
 		this.stmt = stmt;
 		this.tree = tree;
@@ -34,11 +34,11 @@ public class Element extends Syntactic {
 		return line.getIndent();
 	}
 
-	public Stmt subStmt(int start, int end) {
+	public Statement subStmt(int start, int end) {
 		return stmt.subStmt(start, end);
 	}
 
-	public List<Stmt> split(String separator) {
+	public List<Statement> split(String separator) {
 		return stmt.split(separator);
 	}
 

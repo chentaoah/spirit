@@ -10,7 +10,7 @@ import com.sum.shy.api.SemanticParser;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.KeywordTable;
 import com.sum.shy.common.SymbolTable;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
@@ -246,7 +246,7 @@ public class SemanticParserImpl implements SemanticParser {
 
 	public Object getTypeStmtIfNeed(String word) {
 		if (word.contains("<") && word.contains(">")) {
-			Stmt subStmt = getSubStmt(word, "<", ">");
+			Statement subStmt = getSubStmt(word, "<", ">");
 			int count = 0;
 			for (Token subToken : subStmt.tokens) {
 				if ("?".equals(subToken.toString()))
@@ -258,7 +258,7 @@ public class SemanticParserImpl implements SemanticParser {
 		return word;
 	}
 
-	public Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
+	public Statement getSubStmt(String word, String left, String right, String left1, String right1) {
 
 		int start = word.indexOf(left);
 		// 首先确保有前缀，并兼容前缀是泛型的情况
@@ -272,11 +272,11 @@ public class SemanticParserImpl implements SemanticParser {
 		if (prefix != null)// 追加一个元素在头部
 			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
 
-		return new Stmt(subTokens);// 生成子语句
+		return new Statement(subTokens);// 生成子语句
 
 	}
 
-	public Stmt getSubStmt(String word, String left, String right) {
+	public Statement getSubStmt(String word, String left, String right) {
 		return getSubStmt(word, left, right, null, null);
 	}
 

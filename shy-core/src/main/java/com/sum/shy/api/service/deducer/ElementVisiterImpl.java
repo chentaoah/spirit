@@ -11,7 +11,7 @@ import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.element.Element;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 
 public class ElementVisiterImpl implements ElementVisiter {
@@ -70,7 +70,7 @@ public class ElementVisiterImpl implements ElementVisiter {
 			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
-			Stmt subStmt = element.subStmt(1, element.size());
+			Statement subStmt = element.subStmt(1, element.size());
 			return new IVariable(deducer.deriveStmt(clazz, subStmt), null);
 		}
 		return null;

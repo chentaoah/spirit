@@ -3,7 +3,7 @@ package com.sum.shy.java.converter;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.common.Constants;
 import com.sum.shy.element.Element;
-import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 
 public class SeparatorConverter {
@@ -23,7 +23,7 @@ public class SeparatorConverter {
 
 	}
 
-	public static void insertBrackets(IClass clazz, Stmt stmt) {
+	public static void insertBrackets(IClass clazz, Statement stmt) {
 		// 第一个连续关键字之后，最后的分隔符之前
 		int index = findKeyword(stmt);// if xxx { //}catch Exception e{
 		stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
@@ -34,7 +34,7 @@ public class SeparatorConverter {
 		}
 	}
 
-	public static int findKeyword(Stmt stmt) {
+	public static int findKeyword(Statement stmt) {
 		int index = -1;
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -51,7 +51,7 @@ public class SeparatorConverter {
 		return index;
 	}
 
-	public static void addLineEnd(IClass clazz, Stmt stmt) {
+	public static void addLineEnd(IClass clazz, Statement stmt) {
 		if (!"{".equals(stmt.last()))
 			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
 	}

@@ -36,8 +36,8 @@ public class Token extends Semantic {
 		return canVisit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
 	}
 
-	public Stmt getStmt() {
-		return (Stmt) value;
+	public Statement getStmt() {
+		return (Statement) value;
 	}
 
 	public Node getNode() {

@@ -5,11 +5,11 @@ import java.util.List;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.KeywordTable;
 
-public class Tree {
+public class SyntaxTree {
 
 	public List<Token> tokens;
 
-	public Tree(List<Token> tokens) {
+	public SyntaxTree(List<Token> tokens) {
 		this.tokens = tokens;
 		markTreeId(tokens);
 	}
