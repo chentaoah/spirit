@@ -3,3 +3,4 @@ documentReader=com.sum.shy.api.service.BlockDocumentReader
 classResolver=com.sum.shy.api.service.ElementClassResolver
 memberVisiter=com.sum.shy.api.service.ElementMemberVisiter
 postProcessor=com.sum.shy.api.service.DefaultPostProcessor
+elementBuilder=com.sum.shy.api.service.DefaultElementBuilder

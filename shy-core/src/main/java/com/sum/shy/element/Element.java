@@ -23,6 +23,9 @@ public class Element extends Syntactic {
 	// 子节点
 	public List<Element> children = new ArrayList<>();
 
+	public Element() {
+	}
+
 	public Element(String text) {
 		this(new Line(text));
 	}
@@ -109,8 +112,7 @@ public class Element extends Syntactic {
 	}
 
 	public void debug() {
-		System.out.println(
-				line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
+		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
 		for (Element element : children)
 			element.debug();
 	}
