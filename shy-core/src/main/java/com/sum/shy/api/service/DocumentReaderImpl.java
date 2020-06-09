@@ -21,7 +21,7 @@ public class DocumentReaderImpl implements DocumentReader {
 	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
-	public Document readDocument(File file) {
+	public Document read(File file) {
 		try {
 			// 1.生成docment文档
 			Document document = new Document(file);

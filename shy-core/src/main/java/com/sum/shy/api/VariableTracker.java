@@ -9,7 +9,7 @@ import com.sum.shy.element.Statement;
 @Service("variable_tracker")
 public interface VariableTracker {
 
-	void trackStmt(IClass clazz, MethodContext context, Statement stmt);
+	void track(IClass clazz, MethodContext context, Statement stmt);
 
 	IType findType(IClass clazz, MethodContext context, String name);
 

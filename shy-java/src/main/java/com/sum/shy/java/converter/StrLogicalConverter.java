@@ -41,7 +41,7 @@ public class StrLogicalConverter {
 	public static void replacePreviousStr(IClass clazz, Statement stmt, int index, Token token) {
 		int start = TreeUtils.findStart(stmt, index);
 		Statement lastSubStmt = stmt.subStmt(start, index);
-		IType type = deducer.deriveStmt(clazz, lastSubStmt);
+		IType type = deducer.derive(clazz, lastSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastSubStmt);
@@ -57,7 +57,7 @@ public class StrLogicalConverter {
 	public static void replaceFollowingStr(IClass clazz, Statement stmt, int index, Token token) {
 		int end = TreeUtils.findEnd(stmt, index);
 		Statement nextSubStmt = stmt.subStmt(index + 1, end);
-		IType type = deducer.deriveStmt(clazz, nextSubStmt);
+		IType type = deducer.derive(clazz, nextSubStmt);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextSubStmt);

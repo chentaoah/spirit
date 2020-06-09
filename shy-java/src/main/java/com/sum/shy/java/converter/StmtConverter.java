@@ -44,7 +44,7 @@ public class StmtConverter {
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement subStmt = element.subStmt(1, element.size() - 1);
-			IType type = deducer.deriveStmt(clazz, subStmt);
+			IType type = deducer.derive(clazz, subStmt);
 			if (type.isStr()) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", subStmt);
 				element.replace(1, element.size() - 1, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));

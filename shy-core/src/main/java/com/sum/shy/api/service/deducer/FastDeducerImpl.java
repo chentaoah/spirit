@@ -18,7 +18,7 @@ public class FastDeducerImpl implements FastDeducer {
 	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
 	@Override
-	public IType deriveStmt(IClass clazz, Statement stmt) {
+	public IType derive(IClass clazz, Statement stmt) {
 		// 构建树形结构
 		List<Token> tokens = builder.build(stmt.tokens);
 		for (Token token : tokens) {

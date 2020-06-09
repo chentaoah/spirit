@@ -10,7 +10,7 @@ import com.sum.shy.clazz.IType;
 @Service("member_visiter")
 public interface MemberVisiter {
 
-	void visitMembers(Map<String, IClass> allClasses);
+	void visit(Map<String, IClass> allClasses);
 
 	IType visitMember(IClass clazz, AbsMember member);
 

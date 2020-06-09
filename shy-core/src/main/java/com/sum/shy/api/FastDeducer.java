@@ -8,6 +8,6 @@ import com.sum.shy.element.Statement;
 @Service("fast_deducer")
 public interface FastDeducer {
 
-	IType deriveStmt(IClass clazz, Statement stmt);
+	IType derive(IClass clazz, Statement stmt);
 
 }

@@ -8,6 +8,6 @@ import com.sum.shy.element.Document;
 @Service("document_reader")
 public interface DocumentReader {
 
-	Document readDocument(File file);
+	Document read(File file);
 
 }

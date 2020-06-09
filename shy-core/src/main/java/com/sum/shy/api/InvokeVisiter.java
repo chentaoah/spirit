@@ -7,6 +7,6 @@ import com.sum.shy.element.Statement;
 @Service("invoke_visiter")
 public interface InvokeVisiter {
 
-	void visitStmt(IClass clazz, Statement stmt);
+	void visit(IClass clazz, Statement stmt);
 
 }

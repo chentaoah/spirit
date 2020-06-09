@@ -34,9 +34,9 @@ public class ElementVisiterImpl implements ElementVisiter {
 			// 2.特殊语句的处理
 			expressDeclarer.declare(clazz, context, element);
 			// 3.变量追踪
-			tracker.trackStmt(clazz, context, element.stmt);
+			tracker.track(clazz, context, element.stmt);
 			// 4.调用推导
-			visiter.visitStmt(clazz, element.stmt);
+			visiter.visit(clazz, element.stmt);
 			// 5.快速推导
 			return derive(clazz, element);
 
@@ -71,7 +71,7 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 		} else if (element.isReturn()) {
 			Statement subStmt = element.subStmt(1, element.size());
-			return new IVariable(deducer.deriveStmt(clazz, subStmt), null);
+			return new IVariable(deducer.derive(clazz, subStmt), null);
 		}
 		return null;
 	}

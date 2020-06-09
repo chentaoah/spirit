@@ -21,7 +21,7 @@ public class ClassResolverImpl implements ClassResolver {
 	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
-	public List<IClass> resolverClasses(String packageStr, Document document) {
+	public List<IClass> resolve(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();
 		IClass mainClass = new IClass();

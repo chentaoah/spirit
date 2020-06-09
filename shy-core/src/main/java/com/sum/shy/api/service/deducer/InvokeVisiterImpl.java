@@ -22,12 +22,12 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void visitStmt(IClass clazz, Statement stmt) {
+	public void visit(IClass clazz, Statement stmt) {
 		for (int index = 0; index < stmt.size(); index++) {
 			Token token = stmt.getToken(index);
 			// 内部可能还需要推导s
 			if (token.canVisit())
-				visitStmt(clazz, token.getStmt());
+				visit(clazz, token.getStmt());
 
 			if (token.getTypeAtt() != null)
 				continue;
@@ -39,7 +39,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 				token.setTypeAtt(factory.create(clazz, token));
 
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-				token.setTypeAtt(deducer.deriveStmt(clazz, token.getStmt().subStmt("(", ")")));
+				token.setTypeAtt(deducer.derive(clazz, token.getStmt().subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
 				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberNameAtt(), parameterTypes);
@@ -70,7 +70,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Statement> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Statement subStmt : subStmts) {
-				IType parameterType = deducer.deriveStmt(clazz, subStmt);
+				IType parameterType = deducer.derive(clazz, subStmt);
 				parameterTypes.add(parameterType);
 			}
 		}

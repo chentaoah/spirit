@@ -19,9 +19,9 @@ import com.sum.shy.utils.TypeUtils;
 
 public class TypeFactoryImpl implements TypeFactory {
 
-	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
+	public SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
@@ -37,24 +37,6 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
 		return type;
-	}
-
-	@Override
-	public IType create(Class<?> clazz) {
-		return create(clazz.getName());
-	}
-
-	@Override
-	public IType create(Class<?> clazz, List<IType> genericTypes) {
-		IType type = create(clazz);
-		type.setGenericTypes(genericTypes);
-		return type;
-	}
-
-	@Override
-	public IType create(IClass clazz, String text) {
-		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
-		return create(clazz, parser.getToken(text));
 	}
 
 	@Override
@@ -151,7 +133,7 @@ public class TypeFactoryImpl implements TypeFactory {
 
 		IType genericType = null;
 		for (Statement subStmt : stmts) {
-			IType wrappedType = deducer.deriveStmt(clazz, subStmt).getWrappedType();
+			IType wrappedType = deducer.derive(clazz, subStmt).getWrappedType();
 			if (genericType == null) {
 				genericType = wrappedType;
 				continue;

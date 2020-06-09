@@ -29,11 +29,11 @@ public class StrEqualsConverter {
 				int start = TreeUtils.findStart(stmt, i);
 				// 截取出这一部分
 				Statement lastSubStmt = stmt.subStmt(start, i);
-				IType lastType = deducer.deriveStmt(clazz, lastSubStmt);
+				IType lastType = deducer.derive(clazz, lastSubStmt);
 				if (lastType.isStr()) {
 					int end = TreeUtils.findEnd(stmt, i);
 					Statement nextSubStmt = stmt.subStmt(i + 1, end);
-					IType nextType = deducer.deriveStmt(clazz, nextSubStmt);
+					IType nextType = deducer.derive(clazz, nextSubStmt);
 					if (nextType.isStr()) {
 						String format = null;
 						if ("==".equals(token.toString())) {

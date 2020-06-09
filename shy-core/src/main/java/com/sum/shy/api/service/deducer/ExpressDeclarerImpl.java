@@ -38,18 +38,18 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 				type = tracker.findType(clazz, context, varToken.toString());
 			if (type == null) {
 				Statement subStmt = element.subStmt(2, element.size());
-				tracker.trackStmt(clazz, context, subStmt);
-				invokeVisiter.visitStmt(clazz, subStmt);
-				type = deducer.deriveStmt(clazz, subStmt);
+				tracker.track(clazz, context, subStmt);
+				invokeVisiter.visit(clazz, subStmt);
+				type = deducer.derive(clazz, subStmt);
 				varToken.setDerivedAtt(true);// 标记类型由推导而来
 			}
 			varToken.setTypeAtt(type);
 
 		} else if (element.isForIn()) {// for item in list {
 			Statement subStmt = element.subStmt(3, element.size() - 1);
-			tracker.trackStmt(clazz, context, subStmt);
-			invokeVisiter.visitStmt(clazz, subStmt);
-			IType type = deducer.deriveStmt(clazz, subStmt);
+			tracker.track(clazz, context, subStmt);
+			invokeVisiter.visit(clazz, subStmt);
+			IType type = deducer.derive(clazz, subStmt);
 			// 这里从数组或集合中获取类型
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);

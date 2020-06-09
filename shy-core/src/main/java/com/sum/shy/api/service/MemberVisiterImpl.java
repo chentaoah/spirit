@@ -31,7 +31,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void visitMembers(Map<String, IClass> allClasses) {
+	public void visit(Map<String, IClass> allClasses) {
 		// 先解析方法入参类型
 		for (IClass clazz : allClasses.values()) {
 			for (IMethod method : clazz.methods)

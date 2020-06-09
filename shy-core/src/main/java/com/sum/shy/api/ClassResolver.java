@@ -9,6 +9,6 @@ import com.sum.shy.element.Document;
 @Service("class_resolver")
 public interface ClassResolver {
 
-	List<IClass> resolverClasses(String packageStr, Document document);
+	List<IClass> resolve(String packageStr, Document document);
 
 }

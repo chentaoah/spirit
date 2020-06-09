@@ -26,10 +26,10 @@ public class VariableTrackerImpl implements VariableTracker {
 	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void trackStmt(IClass clazz, MethodContext context, Statement stmt) {
+	public void track(IClass clazz, MethodContext context, Statement stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.canVisit())
-				trackStmt(clazz, context, token.getStmt());
+				track(clazz, context, token.getStmt());
 
 			if (token.getTypeAtt() != null)
 				continue;

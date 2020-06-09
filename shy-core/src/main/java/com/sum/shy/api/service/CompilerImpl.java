@@ -28,12 +28,12 @@ public class CompilerImpl implements Compiler {
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
 		files.forEach((path, file) -> {
 			// 1.read file
-			Document document = reader.readDocument(file);
+			Document document = reader.read(file);
 			// 2.post document processor
 			processor.postDocumentProcessor(path, document);
 			// 3.resolve classes
 			String packageStr = TypeUtils.getPackage(path);
-			List<IClass> classes = resolver.resolverClasses(packageStr, document);
+			List<IClass> classes = resolver.resolve(packageStr, document);
 			classes.forEach((clazz) -> {
 				allClasses.put(clazz.getClassName(), clazz);
 				// 4.post class processor
@@ -45,7 +45,7 @@ public class CompilerImpl implements Compiler {
 		// 6.preprocessor.For example，AutoImporter
 		processor.postBeforeProcessor(files, allClasses);
 		// 7.perform members derivation
-		visiter.visitMembers(allClasses);
+		visiter.visit(allClasses);
 		// 8.post processor
 		processor.postAfterProcessor(allClasses);
 
