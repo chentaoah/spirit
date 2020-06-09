@@ -1,4 +1,4 @@
-package com.sum.shy.clazz.api;
+package com.sum.shy.api;
 
 import java.util.List;
 

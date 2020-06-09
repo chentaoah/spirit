@@ -1,4 +1,4 @@
-package com.sum.shy.document.api;
+package com.sum.shy.api;
 
 import java.io.File;
 

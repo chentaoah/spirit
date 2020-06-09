@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.clazz.api.ClassResolver;
+import com.sum.shy.api.ClassResolver;
+import com.sum.shy.api.DocumentReader;
+import com.sum.shy.api.MemberVisiter;
+import com.sum.shy.api.PostProcessor;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.core.pojo.Context;
 import com.sum.shy.core.utils.TypeUtils;
-import com.sum.shy.document.api.DocumentReader;
 import com.sum.shy.document.pojo.Document;
-import com.sum.shy.member.api.MemberVisiter;
-import com.sum.shy.post.api.PostProcessor;
 
 public class ShyCompiler {
 

@@ -3,7 +3,7 @@ package com.sum.shy.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.clazz.api.ClassResolver;
+import com.sum.shy.api.ClassResolver;
 import com.sum.shy.clazz.pojo.IAnnotation;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.clazz.pojo.IField;

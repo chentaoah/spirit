@@ -7,8 +7,8 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.sum.shy.api.DocumentReader;
 import com.sum.shy.core.utils.LineUtils;
-import com.sum.shy.document.api.DocumentReader;
 import com.sum.shy.document.pojo.Document;
 import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Line;

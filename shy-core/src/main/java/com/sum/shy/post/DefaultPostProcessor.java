@@ -3,9 +3,9 @@ package com.sum.shy.post;
 import java.io.File;
 import java.util.Map;
 
+import com.sum.shy.api.PostProcessor;
 import com.sum.shy.clazz.pojo.IClass;
 import com.sum.shy.document.pojo.Document;
-import com.sum.shy.post.api.PostProcessor;
 import com.sum.shy.post.impl.AutoImporter;
 
 public class DefaultPostProcessor implements PostProcessor {

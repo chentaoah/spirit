@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.clazz.pojo.AbsMember;
 import com.sum.shy.clazz.pojo.IAnnotation;
 import com.sum.shy.clazz.pojo.IClass;
@@ -19,7 +20,6 @@ import com.sum.shy.document.pojo.Element;
 import com.sum.shy.document.pojo.Stmt;
 import com.sum.shy.document.pojo.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.member.api.MemberVisiter;
 import com.sum.shy.member.deducer.TypeFactory;
 import com.sum.shy.member.processor.ElementVisiter;
 
