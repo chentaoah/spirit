@@ -1,14 +1,14 @@
 package com.sum.shy.java.converter;
 
-import com.sum.shy.clazz.pojo.IClass;
-import com.sum.shy.clazz.pojo.IType;
-import com.sum.shy.core.pojo.Constants;
-import com.sum.shy.core.pojo.StaticType;
-import com.sum.shy.core.utils.TreeUtils;
-import com.sum.shy.document.pojo.Stmt;
-import com.sum.shy.document.pojo.Token;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IType;
+import com.sum.shy.common.Constants;
+import com.sum.shy.common.StaticType;
+import com.sum.shy.element.Stmt;
+import com.sum.shy.element.Token;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.member.processor.FastDeducer;
+import com.sum.shy.processor.FastDeducer;
+import com.sum.shy.utils.TreeUtils;
 
 public class StrEqualsConverter {
 

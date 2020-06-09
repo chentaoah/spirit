@@ -3,8 +3,8 @@ package com.sum.shy.api;
 import java.util.List;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.clazz.pojo.IClass;
-import com.sum.shy.document.pojo.Document;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.element.Document;
 
 @Service("classResolver")
 public interface ClassResolver {

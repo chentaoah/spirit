@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.Map;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.clazz.pojo.IClass;
-import com.sum.shy.document.pojo.Document;
+import com.sum.shy.clazz.IClass;
+import com.sum.shy.element.Document;
 
 @Service("postProcessor")
 public interface PostProcessor {

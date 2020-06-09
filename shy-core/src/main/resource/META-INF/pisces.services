@@ -1,4 +1,5 @@
-documentReader=com.sum.shy.document.BlockDocumentReader
-classResolver=com.sum.shy.clazz.ElementClassResolver
-memberVisiter=com.sum.shy.member.ElementMemberVisiter
-postProcessor=com.sum.shy.post.DefaultPostProcessor
+compiler=com.sum.shy.api.service.ShyCompiler
+documentReader=com.sum.shy.api.service.BlockDocumentReader
+classResolver=com.sum.shy.api.service.ElementClassResolver
+memberVisiter=com.sum.shy.api.service.ElementMemberVisiter
+postProcessor=com.sum.shy.api.service.DefaultPostProcessor
