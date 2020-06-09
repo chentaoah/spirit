@@ -1,4 +1,4 @@
-package com.sum.shy.postprocessor;
+package com.sum.shy.post;
 
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.Import;

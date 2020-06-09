@@ -1,4 +1,4 @@
-package com.sum.shy.postprocessor;
+package com.sum.shy.post;
 
 import java.io.File;
 import java.util.List;
