@@ -3,7 +3,7 @@ package com.sum.shy.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.api.service.ElementBuilderImpl;
+import com.sum.shy.api.service.lexer.ElementBuilderImpl;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Node;

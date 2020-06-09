@@ -1,6 +1,7 @@
-package com.sum.shy.api.service;
+package com.sum.shy.api.service.deducer;
 
 import com.sum.shy.api.VariableTracker;
+import com.sum.shy.api.service.MemberVisiterImpl;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;

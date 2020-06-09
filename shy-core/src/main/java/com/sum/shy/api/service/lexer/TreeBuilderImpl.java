@@ -1,4 +1,4 @@
-package com.sum.shy.api.service;
+package com.sum.shy.api.service.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
