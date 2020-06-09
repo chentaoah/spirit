@@ -1,5 +1,7 @@
 package com.sum.shy.processor;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
@@ -9,6 +11,8 @@ import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 
 public class ExpressDeclarer {
+
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	public static void declare(IClass clazz, MethodContext context, Element element) {
 
@@ -39,7 +43,7 @@ public class ExpressDeclarer {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Stmt subStmt = element.subStmt(1, element.indexOf(";"));
-			Element subElement = new Element(subStmt.toString());
+			Element subElement = builder.buildElement(subStmt.toString());
 			subElement.stmt = subStmt;// 替换一下
 			IVariable variable = ElementVisiter.visit(clazz, context, subElement);
 			if (variable != null) {

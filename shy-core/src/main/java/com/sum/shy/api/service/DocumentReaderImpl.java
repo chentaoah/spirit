@@ -7,7 +7,9 @@ import java.util.List;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.DocumentReader;
+import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
@@ -15,6 +17,8 @@ import com.sum.shy.element.Stmt;
 import com.sum.shy.utils.LineUtils;
 
 public class DocumentReaderImpl implements DocumentReader {
+
+	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
 	public Document readDocument(File file) {
@@ -55,7 +59,7 @@ public class DocumentReaderImpl implements DocumentReader {
 	}
 
 	public int readLine(List<Element> father, List<Line> lines, int index, Line line) {
-		Element element = new Element(line);
+		Element element = builder.buildElement(line);
 		List<Line> sublines = splitLine(element);// what like "if xxx : xxx : xxx"
 		if (sublines != null && sublines.size() > 0) {
 			readLines(father, sublines);

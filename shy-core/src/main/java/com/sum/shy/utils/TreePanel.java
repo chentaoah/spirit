@@ -3,6 +3,7 @@ package com.sum.shy.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.api.service.ElementBuilderImpl;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Node;
@@ -114,7 +115,7 @@ public class TreePanel {
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";
 
-		Element element = new Element(new Line(text));
+		Element element = new ElementBuilderImpl().buildElement(new Line(text));
 		System.out.println(element.stmt.debug());
 		System.out.println(element.stmt.toString());
 		new TreePanel().debug(element);

@@ -1,9 +1,13 @@
 package com.sum.shy.clazz;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.element.Element;
 import com.sum.shy.utils.TypeUtils;
 
 public class Import {
+
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	public Element element;
 
@@ -12,7 +16,7 @@ public class Import {
 	}
 
 	public Import(String className) {
-		this.element = new Element("import " + className);
+		this.element = builder.buildElement("import " + className);
 	}
 
 	public String getClassName() {

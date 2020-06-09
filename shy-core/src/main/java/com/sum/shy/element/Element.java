@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.sum.shy.common.Constants;
 import com.sum.shy.element.api.Syntactic;
-import com.sum.shy.lexical.LexicalAnalyzer;
-import com.sum.shy.lexical.SemanticDelegate;
-import com.sum.shy.lexical.StructRecognizer;
-import com.sum.shy.lexical.TreeBuilder;
 import com.sum.shy.utils.LineUtils;
 
 public class Element extends Syntactic {
@@ -22,42 +18,6 @@ public class Element extends Syntactic {
 	public String syntax;
 	// 子节点
 	public List<Element> children = new ArrayList<>();
-
-	public Element() {
-	}
-
-	public Element(String text) {
-		this(new Line(text));
-	}
-
-	public Element(Line line) {
-		this.line = line;
-		init(line);
-	}
-
-	public void init(Line line) {
-		try {
-			// 1.词法拆分
-			List<String> words = LexicalAnalyzer.getWords(line.text);
-			// 2.token流
-			List<Token> tokens = SemanticDelegate.getTokens(words);
-			// 3.生成语句
-			this.stmt = new Stmt(tokens);
-			// 4.一些基本的结构语法，不需要复杂分析的
-			this.syntax = StructRecognizer.getSyntax(tokens);
-			// 如果不是结构语法，则使用抽象语法树推导
-			if (syntax == null) {
-				// 5.建立抽象语法树
-				this.tree = TreeBuilder.build(stmt);
-				// 6.获取语法
-				this.syntax = tree.getSyntax();
-			}
-
-		} catch (Exception e) {
-			System.out.println(line.debug());
-			throw new RuntimeException("Exception in statement parsing!", e);
-		}
-	}
 
 	public boolean hasChild() {
 		return line.hasChild();

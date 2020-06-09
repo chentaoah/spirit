@@ -18,6 +18,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 	public Element buildElement(Line line) {
 		try {
 			Element element = new Element();
+			element.line = line;
 			// 1.词法拆分
 			List<String> words = LexicalAnalyzer.getWords(line.text);
 			// 2.token流

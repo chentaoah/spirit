@@ -3,18 +3,21 @@ package com.sum.shy.java.converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.deducer.TypeBuilder;
 import com.sum.shy.element.Element;
-import com.sum.shy.element.Line;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
 import com.sum.shy.processor.FastDeducer;
 
 public class StmtConverter {
+
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	public static void convert(IClass clazz, Element element) {
 
@@ -29,8 +32,7 @@ public class StmtConverter {
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
 			Stmt subStmt = element.subStmt(3, element.size() - 1);
-			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item,
-					subStmt);
+			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item, subStmt);
 			element.replace(0, element.size(), new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
@@ -61,8 +63,7 @@ public class StmtConverter {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
 				// 添加字段
-				Element element1 = new Element(
-						new Line("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)"));
+				Element element1 = builder.buildElement("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				IField field = new IField(null, true, element1);
 				clazz.fields.add(0, field);
 			}

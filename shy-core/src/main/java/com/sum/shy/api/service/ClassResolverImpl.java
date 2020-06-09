@@ -3,7 +3,9 @@ package com.sum.shy.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ClassResolver;
+import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -15,6 +17,8 @@ import com.sum.shy.element.Element;
 import com.sum.shy.utils.TypeUtils;
 
 public class ClassResolverImpl implements ClassResolver {
+
+	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
 	public List<IClass> resolverClasses(String packageStr, Document document) {
@@ -70,7 +74,7 @@ public class ClassResolverImpl implements ClassResolver {
 		}
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass.root == null)
-			mainClass.root = new Element("class " + document.name + " {");
+			mainClass.root = builder.buildElement("class " + document.name + " {");
 
 		return classes;
 	}

@@ -9,4 +9,8 @@ public interface ElementBuilder {
 
 	Element buildElement(Line line);
 
+	default Element buildElement(String text) {
+		return buildElement(new Line(text));
+	}
+
 }
