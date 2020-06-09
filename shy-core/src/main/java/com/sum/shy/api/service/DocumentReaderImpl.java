@@ -14,7 +14,7 @@ import com.sum.shy.element.Line;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.utils.LineUtils;
 
-public class BlockDocumentReader implements DocumentReader {
+public class DocumentReaderImpl implements DocumentReader {
 
 	@Override
 	public Document readDocument(File file) {

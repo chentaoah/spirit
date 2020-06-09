@@ -1,7 +1,7 @@
 package com.sum.shy.processor;
 
-import com.sum.shy.api.service.ElementMemberVisiter;
-import com.sum.shy.api.service.ElementMemberVisiter.MethodContext;
+import com.sum.shy.api.service.MemberVisiterImpl;
+import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
@@ -79,7 +79,7 @@ public class VariableTracker {
 		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
-					field.type = ElementMemberVisiter.visitField(clazz, field);
+					field.type = MemberVisiterImpl.visitField(clazz, field);
 				return field.type;
 			}
 		}

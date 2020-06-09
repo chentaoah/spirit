@@ -23,7 +23,7 @@ import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.processor.ElementVisiter;
 
-public class ElementMemberVisiter implements MemberVisiter {
+public class MemberVisiterImpl implements MemberVisiter {
 
 	@Override
 	public void visitMembers(Map<String, IClass> allClasses) {

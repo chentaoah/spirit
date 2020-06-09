@@ -2,7 +2,7 @@ package com.sum.shy.deducer;
 
 import java.util.List;
 
-import com.sum.shy.api.service.ElementMemberVisiter;
+import com.sum.shy.api.service.MemberVisiterImpl;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
@@ -16,7 +16,7 @@ public class CodeLinker {
 		IClass clazz = Context.get().findClass(className);
 		if (clazz.existField(fieldName)) {
 			IField field = clazz.getField(fieldName);
-			return ElementMemberVisiter.visitMember(clazz, field);
+			return MemberVisiterImpl.visitMember(clazz, field);
 
 		} else {
 			return AdaptiveLinker.visitField(clazz.getSuperType(), fieldName);
@@ -28,7 +28,7 @@ public class CodeLinker {
 		IClass clazz = Context.get().findClass(className);
 		if (clazz.existMethod(methodName, parameterTypes)) {
 			IMethod method = clazz.getMethod(methodName, parameterTypes);
-			return ElementMemberVisiter.visitMember(clazz, method);
+			return MemberVisiterImpl.visitMember(clazz, method);
 
 		} else {
 			return AdaptiveLinker.visitMethod(clazz.getSuperType(), methodName, parameterTypes);

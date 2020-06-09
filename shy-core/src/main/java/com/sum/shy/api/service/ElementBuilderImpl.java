@@ -12,7 +12,7 @@ import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lexical.StructRecognizer;
 import com.sum.shy.lexical.TreeBuilder;
 
-public class DefaultElementBuilder implements ElementBuilder {
+public class ElementBuilderImpl implements ElementBuilder {
 
 	@Override
 	public Element buildElement(Line line) {

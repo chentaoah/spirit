@@ -8,7 +8,7 @@ import com.sum.shy.clazz.IClass;
 import com.sum.shy.element.Document;
 import com.sum.shy.postprocessor.AutoImporter;
 
-public class DefaultPostProcessor implements PostProcessor {
+public class PostProcessorImpl implements PostProcessor {
 
 	@Override
 	public void postDocumentProcessor(String path, Document document) {

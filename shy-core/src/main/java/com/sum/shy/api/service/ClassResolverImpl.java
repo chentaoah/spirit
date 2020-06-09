@@ -14,7 +14,7 @@ import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.utils.TypeUtils;
 
-public class ElementClassResolver implements ClassResolver {
+public class ClassResolverImpl implements ClassResolver {
 
 	@Override
 	public List<IClass> resolverClasses(String packageStr, Document document) {

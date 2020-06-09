@@ -16,7 +16,7 @@ import com.sum.shy.common.Context;
 import com.sum.shy.element.Document;
 import com.sum.shy.utils.TypeUtils;
 
-public class ShyCompiler implements Compiler {
+public class CompilerImpl implements Compiler {
 
 	public DocumentReader reader = ProxyFactory.get(DocumentReader.class);
 	public ClassResolver resolver = ProxyFactory.get(ClassResolver.class);

@@ -1,6 +1,6 @@
 package com.sum.shy.processor;
 
-import com.sum.shy.api.service.ElementMemberVisiter.MethodContext;
+import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
