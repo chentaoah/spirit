@@ -1,4 +1,4 @@
-package com.sum.shy.lexical;
+package com.sum.shy.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.Lexer;
+import com.sum.shy.api.SemanticParser;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.KeywordTable;
 import com.sum.shy.common.SymbolTable;
@@ -14,16 +15,7 @@ import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 
-/**
- * 语义分析器
- *
- * @description：
- * 
- * @version: 1.0
- * @author: chentao26275
- * @date: 2019年10月29日
- */
-public class SemanticDelegate {
+public class SemanticParserImpl implements SemanticParser {
 
 	// ============================== 特殊 ================================
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
@@ -64,14 +56,16 @@ public class SemanticDelegate {
 
 	public static Lexer lexer = ProxyFactory.get(Lexer.class);
 
-	public static List<Token> getTokens(List<String> words) {
+	@Override
+	public List<Token> getTokens(List<String> words) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words)
 			tokens.add(getToken(word));// 一般处理方式
 		return tokens;
 	}
 
-	public static Token getToken(String word) {
+	@Override
+	public Token getToken(String word) {
 		Token token = new Token();
 		getTokenType(token, word);
 		getTokenValue(token, word);
@@ -79,7 +73,7 @@ public class SemanticDelegate {
 		return token;
 	}
 
-	public static void getTokenType(Token token, String word) {
+	public void getTokenType(Token token, String word) {
 
 		if (isPath(word)) {// 是否类型全路径
 			token.type = Constants.PATH_TOKEN;
@@ -228,7 +222,7 @@ public class SemanticDelegate {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 
-	public static void getTokenValue(Token token, String word) {
+	public void getTokenValue(Token token, String word) {
 
 		if (token.isType()) {
 			token.value = getTypeStmtIfNeed(word);
@@ -250,7 +244,7 @@ public class SemanticDelegate {
 		}
 	}
 
-	public static Object getTypeStmtIfNeed(String word) {
+	public Object getTypeStmtIfNeed(String word) {
 		if (word.contains("<") && word.contains(">")) {
 			Stmt subStmt = getSubStmt(word, "<", ">");
 			int count = 0;
@@ -264,7 +258,7 @@ public class SemanticDelegate {
 		return word;
 	}
 
-	public static Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
+	public Stmt getSubStmt(String word, String left, String right, String left1, String right1) {
 
 		int start = word.indexOf(left);
 		// 首先确保有前缀，并兼容前缀是泛型的情况
@@ -282,11 +276,11 @@ public class SemanticDelegate {
 
 	}
 
-	public static Stmt getSubStmt(String word, String left, String right) {
+	public Stmt getSubStmt(String word, String left, String right) {
 		return getSubStmt(word, left, right, null, null);
 	}
 
-	public static List<Token> getSubTokens(String word, String left, String right) {
+	public List<Token> getSubTokens(String word, String left, String right) {
 		Assert.notEmpty(left, "Left cannot be empty!");
 		Assert.notEmpty(left, "Right cannot be empty!");
 		if (word.contains(left) && word.contains(right)) {

@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import com.sum.shy.api.Lexer;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;
-import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.utils.LineUtils;
 
@@ -87,7 +86,7 @@ public class LexerImpl implements Lexer {
 		// 6.如果包含.但是又不是数字的话，则再拆一次
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticDelegate.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParserImpl.isDouble(word)) {
 				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
 				words.remove(i);
 				words.addAll(i, subWords);

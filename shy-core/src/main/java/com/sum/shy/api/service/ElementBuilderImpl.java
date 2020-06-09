@@ -5,17 +5,19 @@ import java.util.List;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.api.Lexer;
+import com.sum.shy.api.SemanticParser;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lexical.StructRecognizer;
 import com.sum.shy.lexical.TreeBuilder;
 
 public class ElementBuilderImpl implements ElementBuilder {
 
 	public Lexer lexer = ProxyFactory.get(Lexer.class);
+
+	public SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
 	@Override
 	public Element buildElement(Line line) {
@@ -25,7 +27,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 1.词法拆分
 			List<String> words = lexer.getWords(line.text);
 			// 2.token流
-			List<Token> tokens = SemanticDelegate.getTokens(words);
+			List<Token> tokens = parser.getTokens(words);
 			// 3.生成语句
 			element.stmt = new Stmt(tokens);
 			// 4.一些基本的结构语法，不需要复杂分析的

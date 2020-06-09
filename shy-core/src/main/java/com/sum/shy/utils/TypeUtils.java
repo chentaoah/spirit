@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.lexical.SemanticDelegate;
+import com.sum.shy.api.service.SemanticParserImpl;
 
 public class TypeUtils {
 
-	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + SemanticDelegate.PRIMITIVE_ENUM + ")$");
+	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + SemanticParserImpl.PRIMITIVE_ENUM + ")$");
 
 	public static String getNameByFile(File file) {
 		return file.getName().replace(".shy", "");

@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.SemanticParser;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Stmt;
 import com.sum.shy.element.Token;
-import com.sum.shy.lexical.SemanticDelegate;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.processor.FastDeducer;
 import com.sum.shy.utils.TypeUtils;
 
 public class TypeFactory {
+
+	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
 	public static IType create(String className) {// 一般来说，className可以直接反应出大部分属性
 		IType type = new IType();
@@ -42,7 +45,7 @@ public class TypeFactory {
 
 	public static IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
-		return create(clazz, SemanticDelegate.getToken(text));
+		return create(clazz, parser.getToken(text));
 	}
 
 	public static IType create(IClass clazz, Token token) {
