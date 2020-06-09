@@ -5,6 +5,7 @@ import java.util.List;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ElementBuilder;
 import com.sum.shy.api.Lexer;
+import com.sum.shy.api.PostProcessor;
 import com.sum.shy.api.SemanticParser;
 import com.sum.shy.api.StructRecognizer;
 import com.sum.shy.api.SyntaxChecker;
@@ -27,6 +28,8 @@ public class ElementBuilderImpl implements ElementBuilder {
 
 	public TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
+	public PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+
 	@Override
 	public Element build(Line line) {
 		try {
@@ -47,7 +50,11 @@ public class ElementBuilderImpl implements ElementBuilder {
 				syntax = tree.getSyntax();
 			}
 			// 6.generate element
-			return new Element(line, stmt, tree, syntax);
+			Element element = new Element(line, stmt, tree, syntax);
+			// 7.post element processor
+			processor.postElementProcessor(line, element);
+
+			return element;
 
 		} catch (Exception e) {
 			System.out.println(line.debug());

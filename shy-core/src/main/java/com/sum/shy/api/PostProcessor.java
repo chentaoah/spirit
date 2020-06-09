@@ -6,6 +6,8 @@ import java.util.Map;
 import com.sum.pisces.api.Service;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.element.Document;
+import com.sum.shy.element.Element;
+import com.sum.shy.element.Line;
 
 @Service("post_processor")
 public interface PostProcessor {
@@ -17,5 +19,7 @@ public interface PostProcessor {
 	void postBeforeProcessor(Map<String, File> files, Map<String, IClass> allClasses);
 
 	void postAfterProcessor(Map<String, IClass> allClasses);
+
+	void postElementProcessor(Line line, Element element);
 
 }
