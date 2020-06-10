@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.Lexer;
-import com.sum.shy.api.SemanticParser;
+import com.sum.shy.api.lexer.Lexer;
+import com.sum.shy.api.lexer.SemanticParser;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.KeywordTable;
 import com.sum.shy.common.SymbolTable;

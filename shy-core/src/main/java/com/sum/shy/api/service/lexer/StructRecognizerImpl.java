@@ -2,7 +2,7 @@ package com.sum.shy.api.service.lexer;
 
 import java.util.List;
 
-import com.sum.shy.api.StructRecognizer;
+import com.sum.shy.api.lexer.StructRecognizer;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.KeywordTable;
 import com.sum.shy.element.Token;

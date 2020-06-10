@@ -1,10 +1,10 @@
 package com.sum.shy.api.service.deducer;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.MemberLinker;
 import com.sum.shy.api.MemberVisiter;
-import com.sum.shy.api.TypeFactory;
-import com.sum.shy.api.VariableTracker;
+import com.sum.shy.api.deducer.MemberLinker;
+import com.sum.shy.api.deducer.TypeFactory;
+import com.sum.shy.api.deducer.VariableTracker;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;

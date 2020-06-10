@@ -1,7 +1,7 @@
 package com.sum.shy.java.converter;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.FastDeducer;
+import com.sum.shy.api.deducer.FastDeducer;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;

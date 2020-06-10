@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.sum.shy.api.Lexer;
+import com.sum.shy.api.lexer.Lexer;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;
 import com.sum.shy.lib.StringUtils;

@@ -9,7 +9,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.DocumentReader;
-import com.sum.shy.api.ElementBuilder;
+import com.sum.shy.api.lexer.ElementBuilder;
 import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;

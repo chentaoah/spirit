@@ -3,7 +3,7 @@ package com.sum.shy.api.service.lexer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.api.TreeBuilder;
+import com.sum.shy.api.lexer.TreeBuilder;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Symbol;
 import com.sum.shy.common.SymbolTable;

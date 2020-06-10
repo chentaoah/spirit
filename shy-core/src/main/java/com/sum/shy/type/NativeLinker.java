@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.TypeFactory;
+import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;

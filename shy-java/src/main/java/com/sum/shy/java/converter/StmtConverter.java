@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.ElementBuilder;
-import com.sum.shy.api.FastDeducer;
+import com.sum.shy.api.deducer.FastDeducer;
+import com.sum.shy.api.lexer.ElementBuilder;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IType;

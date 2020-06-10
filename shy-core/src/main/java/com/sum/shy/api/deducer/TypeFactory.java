@@ -1,9 +1,10 @@
-package com.sum.shy.api;
+package com.sum.shy.api.deducer;
 
 import java.util.List;
 
 import com.sum.pisces.api.Service;
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.lexer.SemanticParser;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.element.Token;

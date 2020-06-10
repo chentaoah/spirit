@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.ElementVisiter;
 import com.sum.shy.api.MemberVisiter;
-import com.sum.shy.api.TypeFactory;
+import com.sum.shy.api.deducer.ElementVisiter;
+import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.clazz.AbsMember;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;

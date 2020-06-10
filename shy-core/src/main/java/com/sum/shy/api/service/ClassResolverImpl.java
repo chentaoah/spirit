@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.ClassResolver;
-import com.sum.shy.api.ElementBuilder;
+import com.sum.shy.api.lexer.ElementBuilder;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;

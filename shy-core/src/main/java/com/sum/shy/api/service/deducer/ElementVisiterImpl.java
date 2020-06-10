@@ -1,12 +1,12 @@
 package com.sum.shy.api.service.deducer;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.ElementVisiter;
-import com.sum.shy.api.ExpressDeclarer;
-import com.sum.shy.api.FastDeducer;
-import com.sum.shy.api.InvokeVisiter;
-import com.sum.shy.api.TypeDeclarer;
-import com.sum.shy.api.VariableTracker;
+import com.sum.shy.api.deducer.ElementVisiter;
+import com.sum.shy.api.deducer.ExpressDeclarer;
+import com.sum.shy.api.deducer.FastDeducer;
+import com.sum.shy.api.deducer.InvokeVisiter;
+import com.sum.shy.api.deducer.TypeDeclarer;
+import com.sum.shy.api.deducer.VariableTracker;
 import com.sum.shy.api.service.MemberVisiterImpl.MethodContext;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IVariable;

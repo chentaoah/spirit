@@ -1,4 +1,4 @@
-package com.sum.shy.api;
+package com.sum.shy.api.deducer;
 
 import java.util.List;
 

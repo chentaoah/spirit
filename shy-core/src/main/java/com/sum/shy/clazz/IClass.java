@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.TypeFactory;
+import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.Context;
 import com.sum.shy.common.StaticType;

@@ -3,8 +3,8 @@ package com.sum.shy.api.service.deducer;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.MemberLinker;
-import com.sum.shy.api.TypeFactory;
+import com.sum.shy.api.deducer.MemberLinker;
+import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.FastDeducer;
-import com.sum.shy.api.InvokeVisiter;
-import com.sum.shy.api.MemberLinker;
-import com.sum.shy.api.TypeFactory;
+import com.sum.shy.api.deducer.FastDeducer;
+import com.sum.shy.api.deducer.InvokeVisiter;
+import com.sum.shy.api.deducer.MemberLinker;
+import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.element.Statement;

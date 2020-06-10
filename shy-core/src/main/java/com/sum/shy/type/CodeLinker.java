@@ -3,8 +3,8 @@ package com.sum.shy.type;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.MemberLinker;
 import com.sum.shy.api.MemberVisiter;
+import com.sum.shy.api.deducer.MemberLinker;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
 import com.sum.shy.clazz.IMethod;
