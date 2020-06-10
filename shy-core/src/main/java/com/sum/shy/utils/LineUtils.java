@@ -14,7 +14,7 @@ public class LineUtils {
 			boolean flag = false;// 是否进入"符号的范围内
 			for (int j = 0; j < text.length(); j++) {
 				char c = text.charAt(j);
-				if (c == '"' && isBoundary(text, j)) // 判断是否进入了字符串中
+				if (c == '"' && isEscaped(text, j)) // 判断是否进入了字符串中
 					flag = !flag;
 				if (!flag) {
 					if (c == '{') {// 找到子域的结束符"}"
@@ -33,7 +33,7 @@ public class LineUtils {
 		return list;
 	}
 
-	public static boolean isBoundary(String text, int index) {
+	public static boolean isEscaped(String text, int index) {
 		int count = 0;
 		for (int i = index - 1; i >= 0; i--) {
 			if (text.charAt(index) == '\\') {

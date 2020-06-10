@@ -139,7 +139,7 @@ public class LexerImpl implements Lexer {
 		boolean flag = false;
 		for (int index = start, count = 0; index < builder.length(); index++) {
 			char c = builder.charAt(index);
-			if (c == '"' && LineUtils.isBoundary(builder.toString(), index))
+			if (c == '"' && LineUtils.isEscaped(builder.toString(), index))
 				flag = !flag;
 			if (!flag) {
 				if (right == '"')
