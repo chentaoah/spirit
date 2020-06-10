@@ -10,7 +10,9 @@ import com.sum.shy.element.SyntaxTree;
 @Service("tree_builder")
 public interface TreeBuilder {
 
-	SyntaxTree build(Statement stmt);
+	default SyntaxTree build(Statement stmt) {
+		return new SyntaxTree(build(stmt.tokens));
+	}
 
 	List<Token> build(List<Token> tokens);
 

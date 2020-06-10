@@ -11,18 +11,24 @@ public class StructRecognizerImpl implements StructRecognizer {
 
 	@Override
 	public String getSyntax(List<Token> tokens) {
+
 		Token first = tokens.get(0);
-		// 关键字语句
+
+		// keyword
 		if (KeywordTable.isStruct(first.toString()))
 			return first.toString();
-		// 语句结束
+
+		// end
 		if (tokens.size() == 1 && "}".equals(first.toString()))
 			return Constants.END_SYNTAX;
-		// 注解
+
+		// annotation
 		if (tokens.size() == 1 && first.isAnnotation())
 			return Constants.ANNOTATION_SYNTAX;
-		// 未知
+
+		// unknown
 		return null;
+
 	}
 
 }

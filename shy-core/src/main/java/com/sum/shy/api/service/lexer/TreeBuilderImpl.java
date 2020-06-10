@@ -10,14 +10,8 @@ import com.sum.shy.common.SymbolTable;
 import com.sum.shy.element.Node;
 import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
-import com.sum.shy.element.SyntaxTree;
 
 public class TreeBuilderImpl implements TreeBuilder {
-
-	@Override
-	public SyntaxTree build(Statement stmt) {
-		return new SyntaxTree(build(stmt.tokens));
-	}
 
 	@Override
 	public List<Token> build(List<Token> tokens) {
