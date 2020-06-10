@@ -87,7 +87,7 @@ public class LexerImpl implements Lexer {
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
 			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParserImpl.isDouble(word)) {
-				List<String> subWords = new ArrayList<>(Arrays.asList(word.replaceAll("\\.", " .").split(" ")));
+				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(i);
 				words.addAll(i, subWords);
 			}
