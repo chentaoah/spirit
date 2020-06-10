@@ -27,7 +27,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 			Token token = stmt.getToken(index);
 			// 内部可能还需要推导s
 			if (token.canSplit())
-				visit(clazz, token.getStmt());
+				visit(clazz, token.getValue());
 
 			if (token.getTypeAtt() != null)
 				continue;
@@ -39,7 +39,8 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 				token.setTypeAtt(factory.create(clazz, token));
 
 			} else if (token.isSubexpress()) {// 子语句进行推导，以便后续的推导
-				token.setTypeAtt(deducer.derive(clazz, token.getStmt().subStmt("(", ")")));
+				Statement subStmt = token.getValue();
+				token.setTypeAtt(deducer.derive(clazz, subStmt.subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
 				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberNameAtt(), parameterTypes);
@@ -66,7 +67,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public List<IType> getParameterTypes(IClass clazz, Token token) {
 		List<IType> parameterTypes = new ArrayList<>();
-		Statement stmt = token.getStmt();
+		Statement stmt = token.getValue();
 		if (stmt.size() > 3) {// 方法里面必须有参数
 			List<Statement> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
 			for (Statement subStmt : subStmts) {

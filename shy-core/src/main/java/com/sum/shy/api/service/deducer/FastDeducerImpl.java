@@ -26,7 +26,7 @@ public class FastDeducerImpl implements FastDeducer {
 				return token.getTypeAtt();
 
 			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
-				return getType(clazz, token.getNode());
+				return getType(clazz, token.getValue());
 			}
 		}
 		throw new RuntimeException("Cannot deduce type!stmt:" + stmt.toString());

@@ -29,7 +29,7 @@ public class VariableTrackerImpl implements VariableTracker {
 	public void track(IClass clazz, MethodContext context, Statement stmt) {
 		for (Token token : stmt.tokens) {
 			if (token.canSplit())
-				track(clazz, context, token.getStmt());
+				track(clazz, context, token.getValue());
 
 			if (token.getTypeAtt() != null)
 				continue;

@@ -19,7 +19,7 @@ public class StrEqualsConverter {
 		// 如果有子节点，先处理子节点
 		for (Token token : stmt.tokens) {
 			if (token.canSplit())
-				convertStmt(clazz, token.getStmt());
+				convertStmt(clazz, token.getValue());
 		}
 
 		for (int i = 0; i < stmt.size(); i++) {

@@ -25,7 +25,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.canSplit()) {
 				token = token.copy();
-				Statement subStmt = token.getStmt();
+				Statement subStmt = token.getValue();
 				subStmt.tokens = build(subStmt.tokens);
 				tokens.set(i, token);
 			}
@@ -134,7 +134,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 	}
 
 	public static Node getNode(Token token) {
-		return token.isNode() ? token.getNode() : new Node(token);
+		return token.isNode() ? token.getValue() : new Node(token);
 	}
 
 }

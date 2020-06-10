@@ -18,7 +18,7 @@ public class SyntaxTree {
 		int count = 0;
 		for (Token token : tokens) {
 			if (token.isNode()) {
-				markTreeId(count + "", token.getNode());
+				markTreeId(count + "", token.getValue());
 				count++;
 			}
 		}
@@ -32,8 +32,11 @@ public class SyntaxTree {
 		if (node.right != null)
 			markTreeId(treeId + "-" + "1", node.right);
 		// 子语句则重新计数
-		if (node.token.canSplit())
-			markTreeId(node.token.getStmt().tokens);
+		if (node.token.canSplit()) {
+			Statement stmt = node.token.getValue();
+			markTreeId(stmt.tokens);
+		}
+
 	}
 
 	public String getSyntax() {
@@ -59,7 +62,7 @@ public class SyntaxTree {
 
 			// 聚合以后的抽象语法树
 			if (tokens.size() == 1 && first.isNode()) {
-				Node node = first.getNode();
+				Node node = first.getValue();
 				Token token = node.token;
 				if (token.isType()) {// 如果顶点是类型
 					Token rightToken = node.right.token;

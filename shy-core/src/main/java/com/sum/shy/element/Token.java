@@ -30,15 +30,7 @@ public class Token extends Semantic {
 	}
 
 	public Token copy() {
-		return canSplit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
-	}
-
-	public Statement getStmt() {
-		return (Statement) value;
-	}
-
-	public Node getNode() {
-		return (Node) value;
+		return canSplit() ? new Token(type, ((Statement) getValue()).copy(), attachments) : new Token(type, value, attachments);
 	}
 
 	@Override

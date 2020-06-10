@@ -49,7 +49,8 @@ public class MemberVisiterImpl implements MemberVisiter {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
 		// 这个时候，所有的class还没有解析完成，查询className会报空指针
-		List<Statement> subStmts = methodToken.getStmt().subStmt("(", ")").split(",");
+		Statement stmt = methodToken.getValue();
+		List<Statement> subStmts = stmt.subStmt("(", ")").split(",");
 		for (Statement paramStmt : subStmts) {
 			IParameter parameter = new IParameter();
 			for (Token token : paramStmt.tokens) {

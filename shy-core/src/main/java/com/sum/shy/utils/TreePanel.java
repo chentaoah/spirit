@@ -32,7 +32,7 @@ public class TreePanel {
 			Token token = tokens.get(i);
 			token.setPosition(position);
 			if (token.canSplit())
-				markPosition(position, token.getStmt());
+				markPosition(position, token.getValue());
 			position += token.toString().length();
 		}
 	}
@@ -41,12 +41,14 @@ public class TreePanel {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.canSplit()) {// 有子节点先打印子节点
-				buildTree(depth, separator, token.getStmt().tokens);
+				Statement stmt = token.getValue();
+				buildTree(depth, separator, stmt.tokens);
 			} else {
 				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
 					print(depth, token.getPosition(), token.toString());
 				} else {// 如果是聚合以后的节点，则构建树结构
-					buildTree(depth, separator, token.getNode());
+					Node node = token.getValue();
+					buildTree(depth, separator, node);
 				}
 			}
 		}
@@ -65,7 +67,8 @@ public class TreePanel {
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
 		if (token.canSplit()) {// 如果有语句，则先打印子语句
-			buildTree(depth, "", token.getStmt().tokens);
+			Statement stmt = token.getValue();
+			buildTree(depth, "", stmt.tokens);
 		} else {
 			print(depth, position, text);
 		}
