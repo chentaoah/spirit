@@ -19,11 +19,11 @@ import com.sum.shy.utils.TypeUtils;
 
 public class TypeFactoryImpl implements TypeFactory {
 
-	public SemanticParser parser = ProxyFactory.get(SemanticParser.class);
+	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
-	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性

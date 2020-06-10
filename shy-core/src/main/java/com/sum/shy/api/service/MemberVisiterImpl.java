@@ -25,9 +25,9 @@ import com.sum.shy.lib.Assert;
 
 public class MemberVisiterImpl implements MemberVisiter {
 
-	public ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
+	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void visit(Map<String, IClass> allClasses) {

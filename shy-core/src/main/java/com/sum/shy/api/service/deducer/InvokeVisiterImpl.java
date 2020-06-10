@@ -15,11 +15,11 @@ import com.sum.shy.element.Token;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
 
-	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void visit(IClass clazz, Statement stmt) {

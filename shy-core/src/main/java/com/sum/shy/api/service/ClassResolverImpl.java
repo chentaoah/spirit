@@ -18,7 +18,7 @@ import com.sum.shy.utils.TypeUtils;
 
 public class ClassResolverImpl implements ClassResolver {
 
-	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
 	public List<IClass> resolve(String packageStr, Document document) {

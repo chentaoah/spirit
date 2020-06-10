@@ -18,7 +18,7 @@ import com.sum.shy.utils.LineUtils;
 
 public class DocumentReaderImpl implements DocumentReader {
 
-	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
 	public Document read(File file) {

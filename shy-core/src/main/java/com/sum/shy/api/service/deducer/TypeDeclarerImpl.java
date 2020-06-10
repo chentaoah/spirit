@@ -9,7 +9,7 @@ import com.sum.shy.element.Token;
 
 public class TypeDeclarerImpl implements TypeDeclarer {
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void declare(IClass clazz, Element element) {

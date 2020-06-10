@@ -19,11 +19,11 @@ import com.sum.shy.lib.Assert;
 
 public class VariableTrackerImpl implements VariableTracker {
 
-	public MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
+	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
 
-	public MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void track(IClass clazz, MethodContext context, Statement stmt) {

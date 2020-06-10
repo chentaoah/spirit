@@ -14,7 +14,7 @@ import com.sum.shy.linker.NativeLinker;
 
 public class MemberLinkerImpl implements MemberLinker {
 
-	public TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public IType visitField(IType type, String fieldName) {

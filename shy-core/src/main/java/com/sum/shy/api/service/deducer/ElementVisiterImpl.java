@@ -16,15 +16,15 @@ import com.sum.shy.element.Token;
 
 public class ElementVisiterImpl implements ElementVisiter {
 
-	public TypeDeclarer declarer = ProxyFactory.get(TypeDeclarer.class);
+	public static TypeDeclarer declarer = ProxyFactory.get(TypeDeclarer.class);
 
-	public ExpressDeclarer expressDeclarer = ProxyFactory.get(ExpressDeclarer.class);
+	public static ExpressDeclarer expressDeclarer = ProxyFactory.get(ExpressDeclarer.class);
 
-	public VariableTracker tracker = ProxyFactory.get(VariableTracker.class);
+	public static VariableTracker tracker = ProxyFactory.get(VariableTracker.class);
 
-	public InvokeVisiter visiter = ProxyFactory.get(InvokeVisiter.class);
+	public static InvokeVisiter visiter = ProxyFactory.get(InvokeVisiter.class);
 
-	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {

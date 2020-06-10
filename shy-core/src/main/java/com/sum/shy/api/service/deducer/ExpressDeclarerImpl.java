@@ -17,15 +17,15 @@ import com.sum.shy.element.Token;
 
 public class ExpressDeclarerImpl implements ExpressDeclarer {
 
-	public ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
-	public ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
+	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
 
-	public VariableTracker tracker = ProxyFactory.get(VariableTracker.class);
+	public static VariableTracker tracker = ProxyFactory.get(VariableTracker.class);
 
-	public InvokeVisiter invokeVisiter = ProxyFactory.get(InvokeVisiter.class);
+	public static InvokeVisiter invokeVisiter = ProxyFactory.get(InvokeVisiter.class);
 
-	public FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
 	@Override
 	public void declare(IClass clazz, MethodContext context, Element element) {
