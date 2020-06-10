@@ -224,21 +224,13 @@ public class SemanticParserImpl implements SemanticParser {
 		if (token.isType()) {
 			token.value = getStatement(word, true);
 
-		} else if (token.isArrayInit()) {// the split here is to better add the keyword 'new'
-			token.value = getStatement(word, false);
-
-		} else if (token.isList()) {
-			token.value = getStatement(word, false);
-
-		} else if (token.isMap()) {
-			token.value = getStatement(word, false);
-
-		} else if (token.isSubexpress() || token.isInvoke()) {
-			token.value = getStatement(word, false);
+		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
+			token.value = getStatement(word, false);// split array init is to better add the keyword 'new'
 
 		} else {
 			token.value = word;
 		}
+
 	}
 
 	public Object getStatement(String word, boolean isType) {
@@ -278,16 +270,16 @@ public class SemanticParserImpl implements SemanticParser {
 
 	public static void getAttachments(String word, Token token) {
 
-		if (token.isArrayInit()) {// 数组构造
+		if (token.isArrayInit()) {
 			token.setSimpleNameAtt(getPrefix(word) + "[]");
 
-		} else if (token.isTypeInit()) {// 构造
+		} else if (token.isTypeInit()) {
 			token.setSimpleNameAtt(getPrefix(word));
 
-		} else if (token.isCast()) {// 强制类型转换
+		} else if (token.isCast()) {
 			token.setSimpleNameAtt(getCastType(word));
 
-		} else if (token.isAccess()) {// 属性访问
+		} else if (token.isAccess()) {
 			token.setMemberNameAtt(getPrefix(word));
 		}
 
