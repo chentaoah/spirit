@@ -13,25 +13,23 @@ public class Token extends Semantic {
 
 	public Object value;
 
-	public Map<String, Object> attachments;// 解析获得的其他信息
+	public Map<String, Object> attachments = new HashMap<>();// 解析获得的其他信息
 
 	public Token() {
-		attachments = new HashMap<>();
 	}
 
 	public Token(String type, Object value) {
 		this.type = type;
 		this.value = value;
-		this.attachments = new HashMap<>();
 	}
 
 	public Token(String type, Object value, Map<String, Object> attachments) {
 		this.type = type;
 		this.value = value;
-		this.attachments = attachments == null ? new HashMap<>() : attachments;
+		this.attachments = attachments != null ? attachments : this.attachments;
 	}
 
-	public Token copy() {// 拷贝内容，但是是一个新的实例
+	public Token copy() {
 		return canSplit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
 	}
 
@@ -49,8 +47,9 @@ public class Token extends Semantic {
 	}
 
 	@Override
-	public Object getValue() {
-		return value;
+	@SuppressWarnings("unchecked")
+	public <T> T getValue() {
+		return (T) value;
 	}
 
 	@Override
@@ -62,8 +61,6 @@ public class Token extends Semantic {
 		return "<" + type + ", " + value + ">";
 	}
 
-	// =================== 类型 =====================
-
 	public IType getTypeAtt() {
 		return (IType) attachments.get(Constants.TYPE_ATTACHMENT);
 	}
@@ -73,8 +70,6 @@ public class Token extends Semantic {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	// =================== 类名 =====================
-
 	public String getSimpleNameAtt() {
 		return (String) attachments.get(Constants.SIMPLE_NAME_ATTACHMENT);
 	}
@@ -83,8 +78,6 @@ public class Token extends Semantic {
 		attachments.put(Constants.SIMPLE_NAME_ATTACHMENT, str);
 	}
 
-	// =================== 成员名称 =====================
-
 	public String getMemberNameAtt() {
 		return (String) attachments.get(Constants.MEMBER_NAME_ATTACHMENT);
 	}
@@ -92,8 +85,6 @@ public class Token extends Semantic {
 	public void setMemberNameAtt(String str) {
 		attachments.put(Constants.MEMBER_NAME_ATTACHMENT, str);
 	}
-
-	// =================== 是否推导得来 =====================
 
 	public boolean isDerivedAtt() {
 		Object flag = attachments.get(Constants.IS_DERIVED_ATTACHMENT);
@@ -104,8 +95,6 @@ public class Token extends Semantic {
 		attachments.put(Constants.IS_DERIVED_ATTACHMENT, isDerived);
 	}
 
-	// =================== 在语句中的位置 =====================
-
 	public int getPosition() {
 		return (int) attachments.get(Constants.POSITION_ATTACHMENT);
 	}
@@ -114,8 +103,6 @@ public class Token extends Semantic {
 		attachments.put(Constants.POSITION_ATTACHMENT, position);
 	}
 
-	// =================== 在语法树中的位置 =====================
-
 	public String getTreeId() {
 		return (String) attachments.get(Constants.TREE_ID_ATTACHMENT);
 	}
@@ -123,8 +110,6 @@ public class Token extends Semantic {
 	public void setTreeId(String treeId) {
 		attachments.put(Constants.TREE_ID_ATTACHMENT, treeId);
 	}
-
-	// =================== 操作符操作数 =====================
 
 	public int getOperand() {
 		return (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);

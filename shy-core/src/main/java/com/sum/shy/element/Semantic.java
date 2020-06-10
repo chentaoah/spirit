@@ -183,6 +183,6 @@ public abstract class Semantic {
 
 	public abstract String getType();
 
-	public abstract Object getValue();
+	public abstract <T> T getValue();
 
 }
