@@ -29,24 +29,24 @@ public class ElementVisiterImpl implements ElementVisiter {
 	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
-			// 1.类型声明者
+			// 1.some statements need to declare variable types in advance
 			declarer.declare(clazz, element);
-			// 2.特殊语句的处理
+
+			// 2.some statements need to deduce the type of a token based on an expression
 			expressDeclarer.declare(clazz, context, element);
-			// 3.变量追踪
+
+			// 3.get the type of variable from context
 			tracker.track(clazz, context, element.stmt);
-			// 4.调用推导
+
+			// 4.get the return value type of the method call
 			visiter.visit(clazz, element.stmt);
-			// 5.快速推导
+
+			// 5.determine whether the syntax declares a variable
 			return derive(clazz, element);
 
 		} catch (Exception e) {
-			System.out.println("An exception has occurred!");
-			System.out.println("ClassName:[" + clazz.getClassName() + "]");
-			if (context != null)
-				System.out.println("MethodName:[" + context.method.name + "]");
 			element.debug();
-			throw e;
+			throw new RuntimeException("Exception in element derivation!", e);
 		}
 
 	}

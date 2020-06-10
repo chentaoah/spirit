@@ -30,8 +30,8 @@ public class Line {
 		return text.substring(0, text.indexOf(firstChar));
 	}
 
-	public String debug() {
-		return number + ":" + LineUtils.getSpaces(6 - (number + ":").length()) + text;
+	public void debug() {
+		System.out.println(number + ":" + LineUtils.getSpaces(6 - (number + ":").length()) + text);
 	}
 
 	@Override
