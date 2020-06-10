@@ -42,7 +42,7 @@ public class ElementVisiterImpl implements ElementVisiter {
 			visiter.visit(clazz, element.stmt);
 
 			// 5.determine whether the syntax declares a variable
-			return derive(clazz, element);
+			return getVariableIfPossible(clazz, element);
 
 		} catch (Exception e) {
 			element.debug();
@@ -51,7 +51,7 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 	}
 
-	public IVariable derive(IClass clazz, Element element) {
+	public IVariable getVariableIfPossible(IClass clazz, Element element) {
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
