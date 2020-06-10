@@ -18,12 +18,13 @@ public class LexerImpl implements Lexer {
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
 	@Override
-	public List<String> getWords(String text) {
+	public List<String> getWords(String text, Character... excludes) {
 
-		// When parsing method content, empty content is passed in
+		// when parsing method content, empty content is passed in
 		if (StringUtils.isEmpty(text))
 			return new ArrayList<>();
 
+		List<Character> excludeChars = new ArrayList<>(Arrays.asList(excludes));
 		List<String> words = new ArrayList<>();
 		Map<String, String> replacedStrs = new HashMap<>();
 		StringBuilder builder = new StringBuilder(text.trim());
@@ -31,6 +32,16 @@ public class LexerImpl implements Lexer {
 		// 1.overall replacement
 		for (int index = 0, count = 0, start = -1; index < builder.length(); index++) {
 			char c = builder.charAt(index);
+
+			// here is a special usage of lexical analysis
+			// the character will be ignored once,
+			// the outermost character is split,
+			// but the inner character is not split
+			if (excludeChars.contains(c)) {
+				start = -1;
+				excludeChars.remove(new Character(c));
+				continue;
+			}
 
 			// determine whether to continue characters
 			if ((start < 0 && isContinueChar(c)) || c == '.')
@@ -50,15 +61,27 @@ public class LexerImpl implements Lexer {
 				index = start >= 0 ? start : index;
 
 			} else if (c == '[') {// Java generally does not declare generic arrays
-				push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
-				index = start >= 0 ? start : index;
+				if (excludeChars.contains('{')) {
+					// if exclusion is configured, the suffix is ignored
+					push(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
+					index = start >= 0 ? start : index;
+				} else {
+					push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
+					index = start >= 0 ? start : index;
+				}
 
 			} else if (c == '<') {
 				if (start >= 0) {
 					char d = builder.charAt(start);
 					if (d >= 'A' && d <= 'Z') {// generic types generally begin with a capital letter
-						push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
-						index = start;
+						if (excludeChars.contains('(')) {
+							// if exclusion is configured, the suffix is ignored
+							push(builder, start, '<', '>', "@generic" + count++, replacedStrs);
+							index = start;
+						} else {
+							push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
+							index = start;
+						}
 					}
 				}
 			}

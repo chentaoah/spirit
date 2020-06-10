@@ -66,7 +66,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 
 		} catch (Exception e) {
 			line.debug();
-			throw new RuntimeException("Exception in statement parsing!", e);
+			throw new RuntimeException("Failed to build element!", e);
 		}
 	}
 

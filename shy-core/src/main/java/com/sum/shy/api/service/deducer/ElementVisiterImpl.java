@@ -55,7 +55,7 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 		} catch (Exception e) {
 			element.debug();
-			throw new RuntimeException("Exception in element derivation!", e);
+			throw new RuntimeException("Failed to derive element!", e);
 		}
 
 	}

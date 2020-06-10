@@ -7,6 +7,6 @@ import com.sum.pisces.api.Service;
 @Service("lexer")
 public interface Lexer {
 
-	List<String> getWords(String text);
+	List<String> getWords(String text, Character... excludes);
 
 }

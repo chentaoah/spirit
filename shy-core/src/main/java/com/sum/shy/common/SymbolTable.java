@@ -14,7 +14,7 @@ public class SymbolTable {
 	public static final List<Symbol> DOUBLE_SYMBOLS = new ArrayList<>();
 
 	static {
-		// 运算符
+		// operator
 		SYMBOLS.put("++", new Symbol("++", "\\+\\+", "\\+ \\+", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.ARITHMETIC, 40, Symbol.MULTIPLE));
 		SYMBOLS.put("--", new Symbol("--", "--", "- -", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.ARITHMETIC, 40, Symbol.MULTIPLE));
 		SYMBOLS.put("!", new Symbol("!", "\\!", Symbol.OPERATOR, Symbol.SINGLE, Symbol.LOGICAL, 40, Symbol.RIGHT));
@@ -38,7 +38,7 @@ public class SymbolTable {
 		SYMBOLS.put("||", new Symbol("||", "[|]{2}", "\\| \\|", Symbol.OPERATOR, Symbol.DOUBLE, Symbol.LOGICAL, 10, Symbol.BINARY));
 		SYMBOLS.put("?", new Symbol("?", "\\?", Symbol.OPERATOR, Symbol.SINGLE, Symbol.CONDITIONAL, 5, Symbol.BINARY));
 		SYMBOLS.put("=", new Symbol("=", "=", Symbol.OPERATOR, Symbol.SINGLE, Symbol.ASSIGN, 5, Symbol.BINARY));
-		// 分隔符
+		// separator
 		SYMBOLS.put("[", new Symbol("[", "\\[", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
 		SYMBOLS.put("]", new Symbol("]", "\\]", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
 		SYMBOLS.put("{", new Symbol("{", "\\{", Symbol.SEPARATOR, Symbol.SINGLE, Symbol.UNKNOWN, 0, Symbol.UNKNOWN));
@@ -66,23 +66,23 @@ public class SymbolTable {
 		return SYMBOLS.containsKey(value);
 	}
 
-	public static Symbol getSymbol(String value) {// 根据值来查找符号
+	public static Symbol getSymbol(String value) {
 		return SYMBOLS.get(value);
 	}
 
-	public static int getPriority(String value) {// 获取优先级
+	public static int getPriority(String value) {
 		if (isSymbol(value))
 			return getSymbol(value).priority;
 		return -1;
 	}
 
-	public static boolean isOperator(String value) {// 是否操作符
+	public static boolean isOperator(String value) {
 		if (isSymbol(value))
 			return getSymbol(value).isOperator();
 		return false;
 	}
 
-	public static boolean isSeparator(String value) {// 是否分隔符
+	public static boolean isSeparator(String value) {
 		if (isSymbol(value))
 			return getSymbol(value).isSeparator();
 		return false;

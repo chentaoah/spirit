@@ -1,6 +1,5 @@
 package com.sum.shy.api.service.lexer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -13,28 +12,24 @@ import com.sum.shy.common.SymbolTable;
 import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.lib.StringUtils;
 
 public class SemanticParserImpl implements SemanticParser {
-
-	// ============================== 特殊 ================================
+	// special
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-
-	// ============================== 类型 ================================
+	// declaration of type
 	public static final String PRIMITIVE_ENUM = "void|boolean|char|short|int|long|float|double|byte";
-	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")$");// 基础类型
-	public static final Pattern PRIMITIVE_ARRAY_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]$");// 基础类型数组
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");// 普通类型
-	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");// 类型数组
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");// 泛型
-
-	// ============================== 赋值 ================================
-	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\d+\\]$");// 基础类型数组声明
-	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");// int[]{1,2,3}
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");// 类型数组声明
-	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");// String[]{"text"}
-	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");// 构造方法
+	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")$");
+	public static final Pattern PRIMITIVE_ARRAY_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]$");
+	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
+	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");
+	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");
+	// base type and literal constant
+	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\d+\\]$");
+	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");
+	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
+	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
+	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern CHAR_PATTERN = Pattern.compile("^'[\\s\\S]*'$");
@@ -44,8 +39,7 @@ public class SemanticParserImpl implements SemanticParser {
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
-
-	// ============================== 表达式 ================================
+	// expression
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
@@ -53,59 +47,62 @@ public class SemanticParserImpl implements SemanticParser {
 	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\[\\d+\\]$");
 	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+\\w*\\[\\d+\\]$");
+	// prefix pattern
+	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
 	public static Lexer lexer = ProxyFactory.get(Lexer.class);
 
 	@Override
-	public List<Token> getTokens(List<String> words) {
-		List<Token> tokens = new ArrayList<>();
-		for (String word : words)
-			tokens.add(getToken(word));// 一般处理方式
-		return tokens;
-	}
-
-	@Override
 	public Token getToken(String word) {
+
 		Token token = new Token();
-		getTokenType(token, word);
-		getTokenValue(token, word);
-		getAttachments(token, word);
+
+		// 1.get token type
+		getTokenType(word, token);
+
+		// 2.get token value
+		getTokenValue(word, token);
+
+		// 3.get token Attachments
+		getAttachments(word, token);
+
 		return token;
+
 	}
 
-	public void getTokenType(Token token, String word) {
+	public void getTokenType(String word, Token token) {
 
-		if (isPath(word)) {// 是否类型全路径
+		if (isPath(word)) {
 			token.type = Constants.PATH_TOKEN;
 
-		} else if (isAnnotation(word)) {// 注解
+		} else if (isAnnotation(word)) {
 			token.type = Constants.ANNOTATION_TOKEN;
 
-		} else if (isKeyword(word)) {// 关键字
+		} else if (isKeyword(word)) {
 			token.type = Constants.KEYWORD_TOKEN;
 
-		} else if (isOperator(word)) {// 是否操作符
+		} else if (isOperator(word)) {
 			token.type = Constants.OPERATOR_TOKEN;
 
-		} else if (isSeparator(word)) {// 是否分隔符
+		} else if (isSeparator(word)) {
 			token.type = Constants.SEPARATOR_TOKEN;
 
-		} else if (isType(word)) {// 是否类型说明
+		} else if (isType(word)) {
 			token.type = Constants.TYPE_TOKEN;
 
-		} else if (isInit(word)) {// 初始化
+		} else if (isInit(word)) {
 			token.type = getInitTokenType(word);
 
-		} else if (isValue(word)) {// 字面值
+		} else if (isValue(word)) {
 			token.type = getValueTokenType(word);
 
-		} else if (isSubexpress(word)) {// 子表达式
+		} else if (isSubexpress(word)) {
 			token.type = getSubexpressTokenType(word);
 
-		} else if (isVar(word)) {// 变量
+		} else if (isVar(word)) {
 			token.type = Constants.VAR_TOKEN;
 
-		} else if (isAccess(word)) {// 属性访问
+		} else if (isAccess(word)) {
 			token.type = getAccessTokenType(word);
 		}
 
@@ -222,81 +219,64 @@ public class SemanticParserImpl implements SemanticParser {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 
-	public void getTokenValue(Token token, String word) {
+	public void getTokenValue(String word, Token token) {
 
 		if (token.isType()) {
-			token.value = getTypeStmtIfNeed(word);
+			token.value = getStatement(word, true);
 
-		} else if (token.isArrayInit()) {// 这里的拆分是为了更好的加上new这个关键字
-			token.value = getSubStmt(word, "[", "]", "{", "}");
+		} else if (token.isArrayInit()) {// the split here is to better add the keyword 'new'
+			token.value = getStatement(word, false);
 
 		} else if (token.isList()) {
-			token.value = getSubStmt(word, "[", "]");
+			token.value = getStatement(word, false);
 
 		} else if (token.isMap()) {
-			token.value = getSubStmt(word, "{", "}");
+			token.value = getStatement(word, false);
 
 		} else if (token.isSubexpress() || token.isInvoke()) {
-			token.value = getSubStmt(word, "(", ")");
+			token.value = getStatement(word, false);
 
 		} else {
 			token.value = word;
 		}
 	}
 
-	public Object getTypeStmtIfNeed(String word) {
-		if (word.contains("<") && word.contains(">")) {
-			Statement subStmt = getSubStmt(word, "<", ">");
-			int count = 0;
-			for (Token subToken : subStmt.tokens) {
-				if ("?".equals(subToken.toString()))
-					subStmt.tokens.set(count, new Token(Constants.TYPE_TOKEN, "?"));
-				count++;
+	public Object getStatement(String word, boolean isType) {
+
+		if (isType && (!word.contains("<") && !word.contains(">")))
+			return word;
+
+		List<String> words = isType ? lexer.getWords(word, '<') : lexer.getWords(word, '[', '{', '(');
+		List<Token> tokens = null;
+		String first = words.get(0);
+		if (PREFIX_PATTERN.matcher(first).matches()) {
+			tokens = getTokens(words.subList(1, words.size()));
+			tokens.add(0, new Token(Constants.PREFIX_TOKEN, first));
+		} else {
+			tokens = getTokens(words);
+		}
+
+		if (isType) {
+			for (int i = 0; i < tokens.size(); i++) {
+				Token token = tokens.get(i);
+				if ("?".equals(token.toString())) {
+					tokens.set(i, new Token(Constants.TYPE_TOKEN, "?"));
+
+				} else if ("<".equals(token.toString())) {
+					tokens.set(i, new Token(Constants.SEPARATOR_TOKEN, "<"));
+
+				} else if (">".equals(token.toString())) {
+					tokens.set(i, new Token(Constants.SEPARATOR_TOKEN, ">"));
+				}
 			}
-			return subStmt;
 		}
-		return word;
-	}
 
-	public Statement getSubStmt(String word, String left, String right, String left1, String right1) {
-
-		int start = word.indexOf(left);
-		// 首先确保有前缀，并兼容前缀是泛型的情况
-		Object prefix = start > 0 ? getTypeStmtIfNeed(word.substring(0, start)) : null;
-
-		List<Token> subTokens = getSubTokens(word, left, right);
-
-		if (StringUtils.isNotEmpty(left1) && StringUtils.isNotEmpty(right1))
-			subTokens.addAll(getSubTokens(word, left1, right1));
-
-		if (prefix != null)// 追加一个元素在头部
-			subTokens.add(0, new Token(Constants.PREFIX_TOKEN, prefix));
-
-		return new Statement(subTokens);// 生成子语句
+		Assert.notNull(tokens, "Tokens can not be null!");
+		return new Statement(tokens);
 
 	}
 
-	public Statement getSubStmt(String word, String left, String right) {
-		return getSubStmt(word, left, right, null, null);
-	}
-
-	public List<Token> getSubTokens(String word, String left, String right) {
-		Assert.notEmpty(left, "Left cannot be empty!");
-		Assert.notEmpty(left, "Right cannot be empty!");
-		if (word.contains(left) && word.contains(right)) {
-			int start = word.indexOf(left);
-			int end = word.lastIndexOf(right);
-			String content = word.substring(start + 1, end);
-			List<String> subWords = lexer.getWords(content);
-			List<Token> subTokens = getTokens(subWords);
-			subTokens.add(0, new Token(Constants.SEPARATOR_TOKEN, left));// 注意:这个符号不再是操作符,而是分隔符
-			subTokens.add(new Token(Constants.SEPARATOR_TOKEN, right));
-			return subTokens;
-		}
-		return new ArrayList<>();
-	}
-
-	public static void getAttachments(Token token, String word) {
+	public static void getAttachments(String word, Token token) {
 
 		if (token.isArrayInit()) {// 数组构造
 			token.setSimpleNameAtt(getPrefix(word) + "[]");
