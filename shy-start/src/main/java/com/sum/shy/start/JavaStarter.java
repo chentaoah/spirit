@@ -4,18 +4,13 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.Compiler;
 import com.sum.shy.api.service.AliasReplacer;
-import com.sum.shy.api.service.CompilerImpl;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.java.JavaBuilder;
 import com.sum.shy.utils.FileUtils;
 
-/**
- * 将指定shy代码,转换成java代码
- * 
- * @author chentao26275
- *
- */
 public class JavaStarter {
 
 	// 主方法
@@ -30,8 +25,9 @@ public class JavaStarter {
 		Map<String, File> files = new LinkedHashMap<>();
 		FileUtils.getFiles(inputPath, "", files);
 
+		Compiler compiler = ProxyFactory.get(Compiler.class);
 		// 2.如果不是debug模式,则解析成相应的数据结构
-		Map<String, IClass> allClasses = new CompilerImpl().compile(files);
+		Map<String, IClass> allClasses = compiler.compile(files);
 
 		for (IClass clazz : allClasses.values()) {
 			// 3.转换方法中的内容,并生成java代码
