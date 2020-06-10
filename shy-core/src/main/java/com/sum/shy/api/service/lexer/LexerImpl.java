@@ -65,6 +65,7 @@ public class LexerImpl implements Lexer {
 					// if exclusion is configured, the suffix is ignored
 					push(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
+
 				} else {
 					push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
@@ -78,6 +79,7 @@ public class LexerImpl implements Lexer {
 							// if exclusion is configured, the suffix is ignored
 							push(builder, start, '<', '>', "@generic" + count++, replacedStrs);
 							index = start;
+
 						} else {
 							push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
 							index = start;

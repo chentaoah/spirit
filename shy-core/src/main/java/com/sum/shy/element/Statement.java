@@ -15,11 +15,11 @@ public class Statement extends TokenBox {
 		this.tokens = tokens;
 	}
 
-	public Statement copy() {// 拷贝一份新的tokens
+	public Statement copy() {
 		return new Statement(copyTokens());
 	}
 
-	public Statement subStmt(int start, int end) {// 这里一定要new一个,不然subList返回的是原来集合的一个视图
+	public Statement subStmt(int start, int end) {
 		return new Statement(subTokens(start, end));
 	}
 
@@ -27,7 +27,7 @@ public class Statement extends TokenBox {
 		return subStmt(indexOf(left) + 1, lastIndexOf(right));
 	}
 
-	public List<Statement> split(String separator) {// 通过分隔符来获取子语句
+	public List<Statement> split(String separator) {
 		List<Statement> subStmts = new ArrayList<>();
 		List<List<Token>> tokensList = splitTokens(separator);
 		for (List<Token> tokens : tokensList)
@@ -76,7 +76,8 @@ public class Statement extends TokenBox {
 					}
 
 				} else if (lastToken.isSeparator()) {// 前面为特定分隔符
-					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
+					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString())
+							|| "<".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
 					}
@@ -95,8 +96,9 @@ public class Statement extends TokenBox {
 					}
 
 				} else if (nextToken.isSeparator()) {
-					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())
-							|| "]".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
+					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString())
+							|| "<".equals(nextToken.toString()) || "]".equals(nextToken.toString())
+							|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
 							|| ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
 
 						if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {

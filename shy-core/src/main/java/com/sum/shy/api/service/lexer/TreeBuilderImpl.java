@@ -15,22 +15,22 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 	@Override
 	public List<Token> build(List<Token> tokens) {
-		// 如果只有一个元素
+
 		if (tokens.size() == 1)
 			return tokens;
-		// 拷贝一份
+
 		tokens = new ArrayList<>(tokens);
-		// 先处理子节点
+
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.canSplit()) {// 如果有子节点,则对子节点进行转换
-				token = token.copy();// 拷贝一份
+			if (token.canSplit()) {
+				token = token.copy();
 				Statement subStmt = token.getStmt();
 				subStmt.tokens = build(subStmt.tokens);
-				tokens.set(i, token); // 替换原来的
+				tokens.set(i, token);
 			}
 		}
-		// 通过递归获取节点树
+
 		return getNodeByLoop(tokens);
 	}
 
