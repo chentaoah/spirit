@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sum.pisces.api.Service;
 import com.sum.shy.clazz.IClass;
+import com.sum.shy.common.MethodContext;
 import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
@@ -21,5 +22,9 @@ public interface PostProcessor {
 	void postAfterProcessor(Map<String, IClass> allClasses);
 
 	void postElementProcessor(Line line, Element element);
+
+	void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element);
+
+	void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element);
 
 }

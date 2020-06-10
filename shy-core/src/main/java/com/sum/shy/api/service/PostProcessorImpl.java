@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sum.shy.api.PostProcessor;
 import com.sum.shy.clazz.IClass;
+import com.sum.shy.common.MethodContext;
 import com.sum.shy.element.Document;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Line;
@@ -33,6 +34,16 @@ public class PostProcessorImpl implements PostProcessor {
 
 	@Override
 	public void postElementProcessor(Line line, Element element) {
+		// ignore
+	}
+
+	@Override
+	public void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element) {
+		// ignore
+	}
+
+	@Override
+	public void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element) {
 		// ignore
 	}
 

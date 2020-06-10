@@ -1,6 +1,7 @@
 package com.sum.shy.api.service.deducer;
 
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.PostProcessor;
 import com.sum.shy.api.deducer.ElementVisiter;
 import com.sum.shy.api.deducer.ExpressDeclarer;
 import com.sum.shy.api.deducer.FastDeducer;
@@ -26,9 +27,14 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
+	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+
 	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
+			// give a chance to change element
+			processor.postBeforeVisitProcessor(clazz, context, element);
+
 			// 1.some statements need to declare variable types in advance
 			declarer.declare(clazz, element);
 
@@ -40,6 +46,9 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 			// 4.get the return value type of the method call
 			visiter.visit(clazz, element.stmt);
+
+			// give a chance to change element
+			processor.postAfterVisitProcessor(clazz, context, element);
 
 			// 5.determine whether the syntax declares a variable
 			return getVariableIfPossible(clazz, element);
