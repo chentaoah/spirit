@@ -9,8 +9,8 @@ import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.type.CodeLinker;
-import com.sum.shy.type.NativeLinker;
+import com.sum.shy.linker.CodeLinker;
+import com.sum.shy.linker.NativeLinker;
 
 public class MemberLinkerImpl implements MemberLinker {
 

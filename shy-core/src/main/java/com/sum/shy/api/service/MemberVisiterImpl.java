@@ -1,10 +1,8 @@
 package com.sum.shy.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.api.deducer.ElementVisiter;
@@ -18,6 +16,7 @@ import com.sum.shy.clazz.IParameter;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.clazz.IVariable;
 import com.sum.shy.common.Constants;
+import com.sum.shy.common.MethodContext;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Statement;
@@ -133,39 +132,6 @@ public class MemberVisiterImpl implements MemberVisiter {
 				context.decreaseDepth();
 			}
 		}
-	}
-
-	public static class MethodContext {// 方法上下文
-		public IMethod method;
-		public List<IVariable> variables = new ArrayList<>();
-		public int depth = 0;// 深度
-		public List<Integer> counts = new ArrayList<>(16);
-		public IType returnType;// 返回
-
-		public MethodContext(IMethod method) {
-			this.method = method;
-		}
-
-		public void increaseDepth() {
-			depth = depth + 1;
-		}
-
-		public void decreaseDepth() {
-			depth = depth - 1;
-		}
-
-		public void increaseCount() {
-			while (depth >= counts.size())
-				counts.add(0);
-			counts.set(depth, counts.get(depth) + 1);
-		}
-
-		public String getBlockId() {
-			while (depth >= counts.size())
-				counts.add(0);
-			return Joiner.on("-").join(counts.subList(0, depth + 1));
-		}
-
 	}
 
 }

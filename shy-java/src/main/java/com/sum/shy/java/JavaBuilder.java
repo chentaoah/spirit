@@ -8,7 +8,7 @@ import com.sum.shy.clazz.Import;
 import com.sum.shy.common.Constants;
 import com.sum.shy.element.Element;
 import com.sum.shy.java.converter.StrLogicalConverter;
-import com.sum.shy.type.TypeBuilder;
+import com.sum.shy.linker.TypeBuilder;
 import com.sum.shy.java.converter.SeparatorConverter;
 import com.sum.shy.java.converter.StmtConverter;
 import com.sum.shy.java.converter.StrEqualsConverter;

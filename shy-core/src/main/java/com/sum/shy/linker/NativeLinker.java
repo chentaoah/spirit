@@ -1,4 +1,4 @@
-package com.sum.shy.type;
+package com.sum.shy.linker;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

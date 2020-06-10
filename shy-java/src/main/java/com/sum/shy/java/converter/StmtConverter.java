@@ -13,7 +13,7 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
-import com.sum.shy.type.TypeBuilder;
+import com.sum.shy.linker.TypeBuilder;
 
 public class StmtConverter {
 

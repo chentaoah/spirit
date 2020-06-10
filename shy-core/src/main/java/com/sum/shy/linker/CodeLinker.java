@@ -1,4 +1,4 @@
-package com.sum.shy.type;
+package com.sum.shy.linker;
 
 import java.util.List;
 
