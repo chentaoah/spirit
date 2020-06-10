@@ -32,7 +32,7 @@ public class Token extends Semantic {
 	}
 
 	public Token copy() {// 拷贝内容，但是是一个新的实例
-		return canVisit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
+		return canSplit() ? new Token(type, getStmt().copy(), attachments) : new Token(type, value, attachments);
 	}
 
 	public Statement getStmt() {

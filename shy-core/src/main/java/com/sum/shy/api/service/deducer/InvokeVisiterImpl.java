@@ -26,7 +26,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 		for (int index = 0; index < stmt.size(); index++) {
 			Token token = stmt.getToken(index);
 			// 内部可能还需要推导s
-			if (token.canVisit())
+			if (token.canSplit())
 				visit(clazz, token.getStmt());
 
 			if (token.getTypeAtt() != null)

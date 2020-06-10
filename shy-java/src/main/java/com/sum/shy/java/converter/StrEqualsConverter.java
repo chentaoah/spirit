@@ -18,7 +18,7 @@ public class StrEqualsConverter {
 	public static void convertStmt(IClass clazz, Statement stmt) {
 		// 如果有子节点，先处理子节点
 		for (Token token : stmt.tokens) {
-			if (token.canVisit())
+			if (token.canSplit())
 				convertStmt(clazz, token.getStmt());
 		}
 

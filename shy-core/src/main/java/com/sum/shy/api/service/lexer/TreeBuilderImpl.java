@@ -23,7 +23,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 		// 先处理子节点
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			if (token.canVisit()) {// 如果有子节点,则对子节点进行转换
+			if (token.canSplit()) {// 如果有子节点,则对子节点进行转换
 				token = token.copy();// 拷贝一份
 				Statement subStmt = token.getStmt();
 				subStmt.tokens = build(subStmt.tokens);

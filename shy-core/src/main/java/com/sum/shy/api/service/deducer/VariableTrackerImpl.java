@@ -28,7 +28,7 @@ public class VariableTrackerImpl implements VariableTracker {
 	@Override
 	public void track(IClass clazz, MethodContext context, Statement stmt) {
 		for (Token token : stmt.tokens) {
-			if (token.canVisit())
+			if (token.canSplit())
 				track(clazz, context, token.getStmt());
 
 			if (token.getTypeAtt() != null)
