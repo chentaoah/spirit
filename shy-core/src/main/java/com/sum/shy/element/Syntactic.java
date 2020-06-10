@@ -2,12 +2,6 @@ package com.sum.shy.element;
 
 import com.sum.shy.common.Constants;
 
-/**
- * 可得句法的
- * 
- * @author chentao26275
- *
- */
 public abstract class Syntactic extends TokenBox {
 
 	public boolean isImport() {

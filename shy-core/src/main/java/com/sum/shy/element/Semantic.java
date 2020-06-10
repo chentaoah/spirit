@@ -153,31 +153,31 @@ public abstract class Semantic {
 		return isKeyword() && Constants.INSTANCEOF_KEYWORD.equals(getValue().toString());
 	}
 
-	public boolean isArithmetic() {// 是否算术符号
+	public boolean isArithmetic() {
 		return isOperator() && SymbolTable.isArithmetic(getValue().toString());
 	}
 
-	public boolean isBitwise() {// 是否按位操作符
+	public boolean isBitwise() {
 		return isOperator() && SymbolTable.isBitwise(getValue().toString());
 	}
 
-	public boolean isRelation() {// 关系运算符
+	public boolean isRelation() {
 		return isOperator() && SymbolTable.isRelation(getValue().toString());
 	}
 
-	public boolean isLogical() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+	public boolean isLogical() {
 		return isOperator() && SymbolTable.isLogical(getValue().toString());
 	}
 
-	public boolean isAssign() {// 是否赋值操作符
+	public boolean isAssign() {
 		return isOperator() && SymbolTable.isAssign(getValue().toString());
 	}
 
-	public boolean isEquals() {// 是否判断的操作符,这些符号都会将value转化成boolean类型
+	public boolean isEquals() {
 		return isOperator() && ("==".equals(getValue()) || "!=".equals(getValue()));
 	}
 
-	public boolean isShift() {// 是否位移操作符
+	public boolean isShift() {
 		return isOperator() && ("<<".equals(getValue()) || ">>".equals(getValue()));
 	}
 

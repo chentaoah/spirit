@@ -7,15 +7,15 @@ import com.sum.shy.common.Constants;
 import com.sum.shy.utils.LineUtils;
 
 public class Element extends Syntactic {
-	// 行
+
 	public Line line;
-	// 语句
+
 	public Statement stmt;
-	// 语法树
+
 	public SyntaxTree tree;
-	// 语法
+
 	public String syntax;
-	// 子节点
+
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Statement stmt, SyntaxTree tree, String syntax) {
@@ -78,7 +78,8 @@ public class Element extends Syntactic {
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
+		System.out.println(
+				line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
 		for (Element element : children)
 			element.debug();
 	}

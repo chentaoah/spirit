@@ -69,7 +69,7 @@ public abstract class TokenBox {
 		return getStr(size() - 1);
 	}
 
-	public String getStr(int index) {// 修改为从token获取字符串
+	public String getStr(int index) {
 		return getToken(index).toString();
 	}
 
@@ -153,7 +153,7 @@ public abstract class TokenBox {
 		int index = findKeyword(keyword);
 		if (index != -1) {
 			int end = findKeywordEnd(index);
-			List<List<Token>> tokensList = new DefaultBox(subTokens(index + 1, end)).splitTokens(",");
+			List<List<Token>> tokensList = new DefaultTokenBox(subTokens(index + 1, end)).splitTokens(",");
 			for (List<Token> tokens : tokensList) {
 				Assert.isTrue(tokens.size() == 1, "The size must be 1!");
 				params.add(tokens.get(0));
@@ -164,11 +164,11 @@ public abstract class TokenBox {
 
 	public abstract List<Token> getTokens();
 
-	public static class DefaultBox extends TokenBox {
+	public static class DefaultTokenBox extends TokenBox {
 
 		public List<Token> tokens;
 
-		public DefaultBox(List<Token> tokens) {
+		public DefaultTokenBox(List<Token> tokens) {
 			this.tokens = tokens;
 		}
 
