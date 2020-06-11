@@ -36,6 +36,32 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 	}
 
+	@Override
+	public void markTreeId(List<Token> tokens) {
+		int count = 0;
+		for (Token token : tokens) {
+			if (token.isNode())
+				markTreeId(count++ + "", token.getValue());
+		}
+	}
+
+	public void markTreeId(String treeId, Node node) {
+
+		node.token.setTreeId(treeId);
+
+		if (node.left != null)
+			markTreeId(treeId + "-" + "0", node.left);
+
+		if (node.right != null)
+			markTreeId(treeId + "-" + "1", node.right);
+
+		if (node.token.canSplit()) {
+			Statement stmt = node.token.getValue();
+			markTreeId(stmt.tokens);
+		}
+
+	}
+
 	public List<Token> getNodeByGraph(List<Token> tokens) {
 
 		List<?>[] graph = new List<?>[12];

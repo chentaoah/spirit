@@ -11,9 +11,17 @@ import com.sum.shy.element.SyntaxTree;
 public interface TreeBuilder {
 
 	default SyntaxTree build(Statement stmt) {
-		return new SyntaxTree(build(stmt.tokens));
+
+		List<Token> tokens = build(stmt.tokens);
+
+		markTreeId(tokens);
+
+		return new SyntaxTree(tokens);
+
 	}
 
 	List<Token> build(List<Token> tokens);
+
+	void markTreeId(List<Token> tokens);
 
 }

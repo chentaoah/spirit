@@ -11,60 +11,32 @@ public class SyntaxTree {
 
 	public SyntaxTree(List<Token> tokens) {
 		this.tokens = tokens;
-		markTreeId(tokens);
-	}
-
-	public void markTreeId(List<Token> tokens) {
-		int count = 0;
-		for (Token token : tokens) {
-			if (token.isNode()) {
-				markTreeId(count + "", token.getValue());
-				count++;
-			}
-		}
-	}
-
-	public void markTreeId(String treeId, Node node) {
-		// 注意：这里操作树节点token的attachments,实际上也是操作原来的token
-		node.token.setTreeId(treeId);
-		if (node.left != null)
-			markTreeId(treeId + "-" + "0", node.left);
-		if (node.right != null)
-			markTreeId(treeId + "-" + "1", node.right);
-		// 子语句则重新计数
-		if (node.token.canSplit()) {
-			Statement stmt = node.token.getValue();
-			markTreeId(stmt.tokens);
-		}
-
 	}
 
 	public String getSyntax() {
+
 		try {
-			// 第一个单词
 			Token first = tokens.get(0);
 
-			// 关键字语句
 			if (KeywordTable.isLine(first.toString()))
 				return first.toString();
 
-			// 本地方法调用
-			if (tokens.size() == 1 && first.isLocalMethod()) {// 调用本地方法
+			// if there is only one element, it may be a local method call
+			if (tokens.size() == 1 && first.isLocalMethod()) {
 				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.SUPER_SYNTAX;
 
 				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
 					return Constants.THIS_SYNTAX;
 				}
-
 				return Constants.INVOKE_SYNTAX;
 			}
 
-			// 聚合以后的抽象语法树
+			// deriving syntax from abstract syntax tree
 			if (tokens.size() == 1 && first.isNode()) {
 				Node node = first.getValue();
 				Token token = node.token;
-				if (token.isType()) {// 如果顶点是类型
+				if (token.isType()) {
 					Token rightToken = node.right.token;
 					if (rightToken.isVar()) { // String text
 						return Constants.DECLARE_SYNTAX;
@@ -72,54 +44,50 @@ public class SyntaxTree {
 					} else if (rightToken.isLocalMethod()) { // String test()
 						return Constants.FUNC_DECLARE_SYNTAX;
 					}
-
-				} else if (token.isAssign()) {// 如果顶点是=
+				} else if (token.isAssign()) {
 					Token leftToken = node.left.token;
-					if (leftToken.isType()) {// 声明并且赋值 String text = "abc"
+					if (leftToken.isType()) {// String text = "abc"
 						return Constants.DECLARE_ASSIGN_SYNTAX;
 
-					} else if (leftToken.isVar()) {// 如果是变量,则为赋值语句 text = "abc"
+					} else if (leftToken.isVar()) {// text = "abc"
 						return Constants.ASSIGN_SYNTAX;
 
-					} else if (leftToken.isVisitField()) {// 如果是字段访问,则是字段赋值语句 var.text = "abc"
+					} else if (leftToken.isVisitField()) {// var.text = "abc"
 						return Constants.FIELD_ASSIGN_SYNTAX;
 					}
-
-				} else if (token.isInvokeMethod()) {// 如果顶点是方法调用 list.get(0)
+				} else if (token.isInvokeMethod()) {// list.get(0)
 					return Constants.INVOKE_SYNTAX;
 				}
-
 				return Constants.INVOKE_SYNTAX;
 			}
 
-			// 第二个单词
 			Token second = tokens.get(1);
-			// 第三个单词
 			Token third = tokens.get(2);
+
 			if (Constants.FOR_KEYWORD.equals(first.toString())) {
-				if (Constants.IN_KEYWORD.equals(third.toString())) {
+				if (Constants.IN_KEYWORD.equals(third.toString())) {// for ? in ? {
 					return Constants.FOR_IN_SYNTAX;
 				}
-				return Constants.FOR_SYNTAX;
+				return Constants.FOR_SYNTAX;// for ?; ?; ? {
 			}
-			if ("}".equals(first.toString())) {// else if语句
+
+			if ("}".equals(first.toString())) {
 				if (Constants.ELSE_KEYWORD.equals(second.toString())) {
-					if (Constants.IF_KEYWORD.equals(third.toString())) {
+					if (Constants.IF_KEYWORD.equals(third.toString())) {// } else if ? {
 						return Constants.ELSEIF_SYNTAX;
 					} else {
-						return Constants.ELSE_SYNTAX;
+						return Constants.ELSE_SYNTAX;// } else {
 					}
-
-				} else if (Constants.CATCH_KEYWORD.equals(second.toString())) {
+				} else if (Constants.CATCH_KEYWORD.equals(second.toString())) {// } catch Exception x {
 					return Constants.CATCH_SYNTAX;
 
-				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {
+				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {// } finally {
 					return Constants.FINALLY_SYNTAX;
 				}
 			}
 
 		} catch (Exception e) {
-			// ignore
+			throw new RuntimeException("Unable to get current syntax!tokens:" + tokens.toString());
 		}
 
 		throw new RuntimeException("Unknown syntax!");
