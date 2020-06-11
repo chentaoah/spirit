@@ -53,15 +53,6 @@ public class Token extends Semantic {
 		return "<" + type + ", " + value + ">";
 	}
 
-	public IType getTypeAtt() {
-		return (IType) attachments.get(Constants.TYPE_ATTACHMENT);
-	}
-
-	public void setTypeAtt(IType type) {
-		Assert.notNull(type, "Type cannot be null!token:" + this.toString());
-		attachments.put(Constants.TYPE_ATTACHMENT, type);
-	}
-
 	public String getSimpleNameAtt() {
 		return (String) attachments.get(Constants.SIMPLE_NAME_ATTACHMENT);
 	}
@@ -76,6 +67,31 @@ public class Token extends Semantic {
 
 	public void setMemberNameAtt(String str) {
 		attachments.put(Constants.MEMBER_NAME_ATTACHMENT, str);
+	}
+
+	public int getOperand() {
+		return (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
+	}
+
+	public void setOperand(int operand) {
+		attachments.put(Constants.OPERAND_ATTACHMENT, operand);
+	}
+
+	public String getTreeId() {
+		return (String) attachments.get(Constants.TREE_ID_ATTACHMENT);
+	}
+
+	public void setTreeId(String treeId) {
+		attachments.put(Constants.TREE_ID_ATTACHMENT, treeId);
+	}
+
+	public IType getTypeAtt() {
+		return (IType) attachments.get(Constants.TYPE_ATTACHMENT);
+	}
+
+	public void setTypeAtt(IType type) {
+		Assert.notNull(type, "Type cannot be null!token:" + this.toString());
+		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
 	public boolean isDerivedAtt() {
@@ -93,22 +109,6 @@ public class Token extends Semantic {
 
 	public void setPosition(int position) {
 		attachments.put(Constants.POSITION_ATTACHMENT, position);
-	}
-
-	public String getTreeId() {
-		return (String) attachments.get(Constants.TREE_ID_ATTACHMENT);
-	}
-
-	public void setTreeId(String treeId) {
-		attachments.put(Constants.TREE_ID_ATTACHMENT, treeId);
-	}
-
-	public int getOperand() {
-		return (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
-	}
-
-	public void setOperand(int operand) {
-		attachments.put(Constants.OPERAND_ATTACHMENT, operand);
 	}
 
 }
