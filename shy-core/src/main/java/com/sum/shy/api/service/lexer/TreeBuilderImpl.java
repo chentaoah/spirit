@@ -2,6 +2,7 @@ package com.sum.shy.api.service.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sum.shy.api.lexer.TreeBuilder;
 import com.sum.shy.common.Constants;
@@ -31,30 +32,23 @@ public class TreeBuilderImpl implements TreeBuilder {
 			}
 		}
 
-		return getNodeByLoop(tokens);
+		return getNodeByLoop1(tokens);
+
 	}
 
-	public static List<Token> getNodeByLoop(List<Token> tokens) {
-		// 1.为每个操作符,或者特殊的关键字,进行优先级分配
-		Token finalLastToken = null;
-		Token finalCurrToken = null;// 当前优先级最高的操作符
-		Token finalNextToken = null;
-		int maxPriority = -1;// 优先级
-		int finalOperand = Symbol.UNKNOWN;// 一元左元,一元右元,二元
-		int index = -1;
+	public List<Token> getNodeByLoop1(List<Token> tokens) {
 
-		// 每个token在一行里面的位置
+		List<?>[] graph = new List<?>[12];
+
 		for (int i = 0; i < tokens.size(); i++) {
-			Token lastToken = i - 1 >= 0 ? tokens.get(i - 1) : null;
 			Token currToken = tokens.get(i);
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 			int priority = -1;
-			int operand = Symbol.UNKNOWN;
+			int operand = -1;
 
 			if (currToken.isType()) {
-				// isLocalMethod() --> String testStr() {
 				if (nextToken != null && (nextToken.isVar() || nextToken.isLocalMethod())) {
-					priority = 55;// 优先级最高
+					priority = 55;
 					operand = Symbol.RIGHT;
 				}
 
@@ -62,75 +56,127 @@ public class TreeBuilderImpl implements TreeBuilder {
 				priority = 50;
 				operand = Symbol.LEFT;
 
-			} else if (currToken.isOperator()) {// 如果是操作符
+			} else if (currToken.isOperator()) {
 				String value = currToken.toString();
 				Symbol symbol = SymbolTable.getSymbol(value);
-				priority = symbol.priority;// 优先级
-
-				if (symbol.isMultiple()) {// 如果有多种可能,则进行进一步判断
-					if ("++".equals(value) || "--".equals(value)) {
-						if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {// 左元
-							operand = Symbol.LEFT;
-						} else if (nextToken != null && (nextToken.isVar() || nextToken.isNode())) {// 右元
-							operand = Symbol.RIGHT;
-						}
-						currToken.setOperand(operand);// 标记一下
-
-					} else if ("-".equals(value)) {// -可能是个符号 100+(-10) var = -1
-						if (lastToken != null && (lastToken.isNumber() || lastToken.isVar() || lastToken.isNode())) {
-							operand = Symbol.BINARY;
-						} else {
-							operand = Symbol.RIGHT;
-						}
-						currToken.setOperand(operand);// 标记一下
-					}
-				} else {
-					operand = symbol.operand;
-				}
+				priority = symbol.priority;
+				operand = symbol.operand;
 
 			} else if (currToken.isCast()) {
-				priority = 35;// 介于!和 *之间
+				priority = 35;
 				operand = Symbol.RIGHT;
 
-			} else if (currToken.isInstanceof()) {// instanceof
-				priority = 20;// 相当于一个==
+			} else if (currToken.isInstanceof()) {
+				priority = 20;
 				operand = Symbol.BINARY;
 			}
 
-			if (priority > maxPriority) {
-				finalLastToken = lastToken;
-				finalCurrToken = currToken;
-				finalNextToken = nextToken;
-				maxPriority = priority;
-				finalOperand = operand;
-				index = i;
+			if (priority > 0) {
+				int index = 12 - priority / 5;
+				if (graph[index] == null)
+					graph[index] = new ArrayList<Integer>();
+				@SuppressWarnings("unchecked")
+				List<Integer> list = (List<Integer>) graph[index];
+				list.add(i);
+				currToken.setOperand(operand);
+			}
+
+		}
+
+		for (int i = 0; i < graph.length; i++) {
+			@SuppressWarnings("unchecked")
+			List<Integer> indexs = (List<Integer>) graph[i];
+
+			if (indexs == null)
+				continue;
+
+			for (int j = 0; j < indexs.size(); j++) {
+				int index = indexs.get(j);
+
+				Token currToken = tokens.get(index);
+				judgeMultipleOperator(tokens, index, currToken);
+				Node node = new Node(currToken);
+
+				if (currToken.getOperand() == Symbol.LEFT || currToken.getOperand() == Symbol.BINARY)
+					node.left = removeLeft(tokens, index);
+
+				if (currToken.getOperand() == Symbol.RIGHT || currToken.getOperand() == Symbol.BINARY)
+					node.right = removeRight(tokens, index);
+
+				tokens.set(index, new Token(Constants.NODE_TOKEN, node));
 			}
 		}
 
-		// 校验
-		if (finalCurrToken == null)
-			return tokens;
+		return tokens.stream().filter((token) -> {
+			return token != null;
+		}).collect(Collectors.toList());
 
-		// 构建节点结构
-		Node node = getNode(finalCurrToken);
-		if ((finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY) && finalLastToken != null)
-			node.left = getNode(finalLastToken);
+	}
 
-		if ((finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY) && finalNextToken != null)
-			node.right = getNode(finalNextToken);
+	public void judgeMultipleOperator(List<Token> tokens, int index, Token currToken) {
+		if (currToken.getOperand() == Symbol.MULTIPLE) {
 
-		// 移除,并添加
-		if (finalOperand == Symbol.RIGHT || finalOperand == Symbol.BINARY)
-			tokens.remove(index + 1);
+			Token lastToken = getLastToken(tokens, index);
+			Token nextToken = getNextToken(tokens, index);
 
-		tokens.remove(index);
-		tokens.add(index, new Token(Constants.NODE_TOKEN, node));
+			String value = currToken.toString();
+			if ("++".equals(value) || "--".equals(value)) {
+				if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {
+					currToken.setOperand(Symbol.LEFT);
 
-		if (finalOperand == Symbol.LEFT || finalOperand == Symbol.BINARY)
-			tokens.remove(index - 1);
+				} else if (nextToken != null && (nextToken.isVar() || nextToken.isNode())) {
+					currToken.setOperand(Symbol.RIGHT);
+				}
 
-		// 递归
-		return getNodeByLoop(tokens);
+			} else if ("-".equals(value)) {// 100 + (-10) // var = -1
+				if (lastToken != null && (lastToken.isNumber() || lastToken.isVar() || lastToken.isNode())) {
+					currToken.setOperand(Symbol.BINARY);
+
+				} else {
+					currToken.setOperand(Symbol.RIGHT);
+				}
+			}
+		}
+	}
+
+	public Token getLastToken(List<Token> tokens, int index) {
+		for (int i = index - 1; i >= 0; i--) {
+			Token token = tokens.get(i);
+			if (token != null)
+				return token;
+		}
+		return null;
+	}
+
+	public Token getNextToken(List<Token> tokens, int index) {
+		for (int i = index + 1; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token != null)
+				return token;
+		}
+		return null;
+	}
+
+	public Node removeLeft(List<Token> tokens, int index) {
+		for (int i = index - 1; i >= 0; i--) {
+			Token token = tokens.get(i);
+			if (token != null) {
+				tokens.set(i, null);
+				return getNode(token);
+			}
+		}
+		throw new RuntimeException("No available token found!");
+	}
+
+	public Node removeRight(List<Token> tokens, int index) {
+		for (int i = index + 1; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			if (token != null) {
+				tokens.set(i, null);
+				return getNode(token);
+			}
+		}
+		throw new RuntimeException("No available token found!");
 	}
 
 	public static Node getNode(Token token) {

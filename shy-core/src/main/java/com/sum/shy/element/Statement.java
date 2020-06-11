@@ -46,12 +46,12 @@ public class Statement extends TokenBox {
 	}
 
 	public List<Token> format() {
-		// 拷贝一份
+
 		List<Token> tokens = copyTokens();
-		// 并插入空格
+
 		for (int i = tokens.size() - 1; i >= 1; i--)
 			tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
-		// 遍历空格
+
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.isSeparator() && " ".equals(token.toString())) {
@@ -76,8 +76,7 @@ public class Statement extends TokenBox {
 					}
 
 				} else if (lastToken.isSeparator()) {// 前面为特定分隔符
-					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString())
-							|| "<".equals(lastToken.toString())) {
+					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
 					}
@@ -96,9 +95,8 @@ public class Statement extends TokenBox {
 					}
 
 				} else if (nextToken.isSeparator()) {
-					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString())
-							|| "<".equals(nextToken.toString()) || "]".equals(nextToken.toString())
-							|| ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
+					if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())
+							|| "]".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())
 							|| ",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
 
 						if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {
@@ -120,6 +118,7 @@ public class Statement extends TokenBox {
 				}
 			}
 		}
+
 		return tokens;
 	}
 

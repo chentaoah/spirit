@@ -2,25 +2,25 @@ package com.sum.shy.common;
 
 public class Symbol {
 
-	public static final int UNKNOWN = -1;// 未知状态
+	public static final int UNKNOWN = 0;// 未知状态
 
-	public static final int OPERATOR = 0;// 操作符
-	public static final int SEPARATOR = 1;// 分隔符
+	public static final int OPERATOR = 1;// 操作符
+	public static final int SEPARATOR = 2;// 分隔符
 
-	public static final int SINGLE = 0;// 单字符
-	public static final int DOUBLE = 1;// 双字符
+	public static final int SINGLE = 1;// 单字符
+	public static final int DOUBLE = 2;// 双字符
 
-	public static final int ARITHMETIC = 0;// 计算
-	public static final int BITWISE = 1;// 移位
-	public static final int RELATION = 2;// 关系
-	public static final int LOGICAL = 3;// 逻辑
-	public static final int CONDITIONAL = 4;// 条件
-	public static final int ASSIGN = 5;// 赋值
+	public static final int ARITHMETIC = 1;// 计算
+	public static final int BITWISE = 2;// 移位
+	public static final int RELATION = 3;// 关系
+	public static final int LOGICAL = 4;// 逻辑
+	public static final int CONDITIONAL = 5;// 条件
+	public static final int ASSIGN = 6;// 赋值
 
-	public static final int LEFT = 0;// 左元
-	public static final int RIGHT = 1;// 右元
-	public static final int BINARY = 2;// 二元
-	public static final int MULTIPLE = 3;// 多义
+	public static final int LEFT = 1;// 左元
+	public static final int RIGHT = 2;// 右元
+	public static final int BINARY = 3;// 二元
+	public static final int MULTIPLE = 4;// 多义
 
 	// 符号值
 	public String value;
