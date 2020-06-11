@@ -1,13 +1,11 @@
 package com.sum.shy.api.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.api.deducer.ElementVisiter;
 import com.sum.shy.api.deducer.TypeFactory;
-import com.sum.shy.clazz.AbsMember;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -21,7 +19,6 @@ import com.sum.shy.common.StaticType;
 import com.sum.shy.element.Element;
 import com.sum.shy.element.Statement;
 import com.sum.shy.element.Token;
-import com.sum.shy.lib.Assert;
 
 public class MemberVisiterImpl implements MemberVisiter {
 
@@ -30,22 +27,6 @@ public class MemberVisiterImpl implements MemberVisiter {
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void visit(Map<String, IClass> allClasses) {
-
-		for (IClass clazz : allClasses.values()) {
-			for (IMethod method : clazz.methods)
-				visitParameters(clazz, method);
-		}
-
-		for (IClass clazz : allClasses.values()) {
-			for (IField field : clazz.fields)
-				visitMember(clazz, field);
-			for (IMethod method : clazz.methods)
-				visitMember(clazz, method);
-		}
-
-	}
-
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
@@ -69,29 +50,14 @@ public class MemberVisiterImpl implements MemberVisiter {
 	}
 
 	@Override
-	public IType visitMember(IClass clazz, AbsMember member) {
-		member.lock();
-		IType type = member.getType();
-		if (type == null) {
-			if (member instanceof IField) {
-				type = visitField(clazz, (IField) member);
-
-			} else if (member instanceof IMethod) {
-				type = visitMethod(clazz, (IMethod) member);
-			}
-			Assert.notNull(type, "Failed to derive member type!");
-			member.setType(type);
-		}
-		member.unLock();
-		return type;
-	}
-
 	public IType visitField(IClass clazz, IField field) {
-		return visiter.visit(clazz, null, field.element).type;
+		IVariable variable = visiter.visit(clazz, null, field.element);
+		return variable.type;
 	}
 
+	@Override
 	public IType visitMethod(IClass clazz, IMethod method) {
-		if (method.element.isFuncDeclare()) {// 声明了返回类型的方法，直接返回类型
+		if (method.element.isFuncDeclare()) {
 			return factory.create(clazz, method.element.getToken(0));
 
 		} else if (method.element.isFunc()) {
@@ -99,14 +65,16 @@ public class MemberVisiterImpl implements MemberVisiter {
 			visitChildElement(clazz, context, method.element);
 			return context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
 		}
-		return null;
+		throw new RuntimeException("Unsupported syntax!");
 	}
 
 	public void visitChildElement(IClass clazz, MethodContext context, Element father) {
 		for (Element element : father.children) {
 
+			// The depth must be increased in advance so that the block ID generation is not
+			// problematic
 			if (element.children.size() > 0)
-				context.increaseDepth();// 提前深度+1
+				context.increaseDepth();
 
 			IVariable variable = visiter.visit(clazz, context, element);
 			if (!element.isReturn() && variable != null) {
@@ -118,7 +86,8 @@ public class MemberVisiterImpl implements MemberVisiter {
 					if (context.returnType == null) {
 						context.returnType = variable.type;
 					} else {
-						if (variable.type.isMatch(context.returnType)) {// 如果返回值更加抽象，则取代原来的
+						// If there are multiple return statements, take the most abstract return type
+						if (variable.type.isMatch(context.returnType)) {
 							context.returnType = variable.type;
 						} else {
 							throw new RuntimeException("Return type does not match!");

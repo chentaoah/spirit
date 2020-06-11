@@ -5,13 +5,49 @@ import java.util.Map;
 import com.sum.pisces.api.Service;
 import com.sum.shy.clazz.AbsMember;
 import com.sum.shy.clazz.IClass;
+import com.sum.shy.clazz.IField;
+import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.IType;
+import com.sum.shy.lib.Assert;
 
 @Service("member_visiter")
 public interface MemberVisiter {
 
-	void visit(Map<String, IClass> allClasses);
+	default void visit(Map<String, IClass> allClasses) {
 
-	IType visitMember(IClass clazz, AbsMember member);
+		for (IClass clazz : allClasses.values())
+			clazz.methods.forEach((method) -> visitParameters(clazz, method));
+
+		for (IClass clazz : allClasses.values()) {
+			clazz.fields.forEach((field) -> visitMember(clazz, field));
+			clazz.methods.forEach((method) -> visitMember(clazz, method));
+		}
+
+	}
+
+	default IType visitMember(IClass clazz, AbsMember member) {
+		// Avoid circular dependence
+		member.lock();
+		IType type = member.getType();
+		if (type == null) {
+			if (member instanceof IField) {
+				type = visitField(clazz, (IField) member);
+
+			} else if (member instanceof IMethod) {
+				type = visitMethod(clazz, (IMethod) member);
+			}
+			Assert.notNull(type, "Failed to derive member type!");
+			member.setType(type);
+		}
+		// Avoid circular dependence
+		member.unLock();
+		return type;
+	}
+
+	void visitParameters(IClass clazz, IMethod method);
+
+	IType visitField(IClass clazz, IField field);
+
+	IType visitMethod(IClass clazz, IMethod method);
 
 }

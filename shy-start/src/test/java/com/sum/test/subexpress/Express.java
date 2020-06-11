@@ -12,6 +12,8 @@ public class Express {
 	public int x = 1;
 	public int y = 100;
 	public String s = "test";
+	public double d = 1.1;
+	public double e = d + 10;
 
 	public void testSubexpress() {
 		if (((x + 1 > 0) && (y < 100)) && StringUtils.equals(s, "test")) {
