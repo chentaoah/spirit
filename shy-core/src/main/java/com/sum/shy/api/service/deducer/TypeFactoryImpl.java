@@ -62,7 +62,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			return type;
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, token.getSimpleNameAtt());
+			return create(clazz, token.getSimpleName());
 
 		} else if (token.isValue()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);

@@ -23,10 +23,10 @@ public class SyntaxTree {
 
 			// if there is only one element, it may be a local method call
 			if (tokens.size() == 1 && first.isLocalMethod()) {
-				if (Constants.SUPER_KEYWORD.equals(first.getMemberNameAtt())) {
+				if (Constants.SUPER_KEYWORD.equals(first.getMemberName())) {
 					return Constants.SUPER_SYNTAX;
 
-				} else if (Constants.THIS_KEYWORD.equals(first.getMemberNameAtt())) {
+				} else if (Constants.THIS_KEYWORD.equals(first.getMemberName())) {
 					return Constants.THIS_SYNTAX;
 				}
 				return Constants.INVOKE_SYNTAX;

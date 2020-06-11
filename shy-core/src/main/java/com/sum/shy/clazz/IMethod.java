@@ -23,12 +23,12 @@ public class IMethod extends AbsMember {
 		if (methodToken.isTypeInit()) {
 			isInit = true;
 			isSync = false;
-			name = methodToken.getSimpleNameAtt();
+			name = methodToken.getSimpleName();
 
 		} else if (methodToken.isLocalMethod()) {
 			isInit = false;
 			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);
-			name = methodToken.getMemberNameAtt();
+			name = methodToken.getMemberName();
 
 		} else {
 			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);

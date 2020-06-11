@@ -41,7 +41,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 				tracker.track(clazz, context, subStmt);
 				invokeVisiter.visit(clazz, subStmt);
 				type = deducer.derive(clazz, subStmt);
-				varToken.setDerivedAtt(true);// 标记类型由推导而来
+				varToken.setDerived(true);// 标记类型由推导而来
 			}
 			varToken.setTypeAtt(type);
 

@@ -53,25 +53,25 @@ public class Token extends Semantic {
 		return "<" + type + ", " + value + ">";
 	}
 
-	public String getSimpleNameAtt() {
+	public String getSimpleName() {
 		return (String) attachments.get(Constants.SIMPLE_NAME_ATTACHMENT);
 	}
 
-	public void setSimpleNameAtt(String str) {
+	public void setSimpleName(String str) {
 		attachments.put(Constants.SIMPLE_NAME_ATTACHMENT, str);
 	}
 
-	public String getMemberNameAtt() {
+	public String getMemberName() {
 		return (String) attachments.get(Constants.MEMBER_NAME_ATTACHMENT);
 	}
 
-	public void setMemberNameAtt(String str) {
+	public void setMemberName(String str) {
 		attachments.put(Constants.MEMBER_NAME_ATTACHMENT, str);
 	}
 
 	public int getOperand() {
 		Integer operand = (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
-		return operand != null ? operand : 0;
+		return operand != null ? operand : -1;
 	}
 
 	public void setOperand(int operand) {
@@ -95,12 +95,12 @@ public class Token extends Semantic {
 		attachments.put(Constants.TYPE_ATTACHMENT, type);
 	}
 
-	public boolean isDerivedAtt() {
+	public boolean isDerived() {
 		Boolean flag = (Boolean) attachments.get(Constants.IS_DERIVED_ATTACHMENT);
 		return flag != null ? flag : false;
 	}
 
-	public void setDerivedAtt(boolean isDerived) {
+	public void setDerived(boolean isDerived) {
 		attachments.put(Constants.IS_DERIVED_ATTACHMENT, isDerived);
 	}
 

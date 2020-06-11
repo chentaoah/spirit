@@ -41,7 +41,7 @@ public class VariableTrackerImpl implements VariableTracker {
 				token.setTypeAtt(type);
 
 			} else if (token.isArrayIndex()) {// 如果没有设置类型的话
-				String name = token.getMemberNameAtt();
+				String name = token.getMemberName();
 				IType type = findType(clazz, context, name);// 返回的数组类型
 				Assert.notNull(type, "Variable must be declared!name:" + name);
 				type = factory.create(type.getTargetName());// 转换成数组内的类型

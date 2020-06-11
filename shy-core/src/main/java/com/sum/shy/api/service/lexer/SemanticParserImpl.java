@@ -271,16 +271,16 @@ public class SemanticParserImpl implements SemanticParser {
 	public static void getAttachments(String word, Token token) {
 
 		if (token.isArrayInit()) {
-			token.setSimpleNameAtt(getPrefix(word) + "[]");
+			token.setSimpleName(getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
-			token.setSimpleNameAtt(getPrefix(word));
+			token.setSimpleName(getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setSimpleNameAtt(getCastType(word));
+			token.setSimpleName(getCastType(word));
 
 		} else if (token.isAccess()) {
-			token.setMemberNameAtt(getPrefix(word));
+			token.setMemberName(getPrefix(word));
 		}
 
 	}

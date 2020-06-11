@@ -43,22 +43,22 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 				token.setTypeAtt(deducer.derive(clazz, subStmt.subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {// 本地调用
-				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberNameAtt(), parameterTypes);
+				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberName(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitField()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = linker.visitField(type, token.getMemberNameAtt());
+				IType returnType = linker.visitField(type, token.getMemberName());
 				token.setTypeAtt(returnType);
 
 			} else if (token.isInvokeMethod()) {
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = linker.visitMethod(type, token.getMemberNameAtt(), parameterTypes);
+				IType returnType = linker.visitMethod(type, token.getMemberName(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
 				IType type = stmt.getToken(index - 1).getTypeAtt();
-				IType returnType = linker.visitField(type, token.getMemberNameAtt());
+				IType returnType = linker.visitField(type, token.getMemberName());
 				returnType = factory.create(returnType.getTargetName());
 				token.setTypeAtt(returnType);
 			}
