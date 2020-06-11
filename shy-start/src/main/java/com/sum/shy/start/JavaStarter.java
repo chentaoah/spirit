@@ -13,11 +13,11 @@ import com.sum.shy.utils.FileUtils;
 
 public class JavaStarter {
 
-	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
-
 	public static Compiler compiler = ProxyFactory.get(Compiler.class);
 
 	public static CodeBuilder builder = ProxyFactory.get(CodeBuilder.class);
+
+	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
 
 	public static void main(String[] args) {
 
