@@ -32,11 +32,11 @@ public class TreeBuilderImpl implements TreeBuilder {
 			}
 		}
 
-		return getNodeByLoop1(tokens);
+		return getNodeByGraph(tokens);
 
 	}
 
-	public List<Token> getNodeByLoop1(List<Token> tokens) {
+	public List<Token> getNodeByGraph(List<Token> tokens) {
 
 		List<?>[] graph = new List<?>[12];
 
