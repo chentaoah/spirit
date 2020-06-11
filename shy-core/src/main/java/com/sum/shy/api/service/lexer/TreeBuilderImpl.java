@@ -80,7 +80,6 @@ public class TreeBuilderImpl implements TreeBuilder {
 				list.add(i);
 				currToken.setOperand(operand);
 			}
-
 		}
 
 		for (int i = 0; i < graph.length; i++) {
