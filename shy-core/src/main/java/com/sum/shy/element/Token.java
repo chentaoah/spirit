@@ -96,8 +96,8 @@ public class Token extends Semantic {
 	}
 
 	public boolean isDerivedAtt() {
-		Object flag = attachments.get(Constants.IS_DERIVED_ATTACHMENT);
-		return flag != null ? (boolean) flag : false;
+		Boolean flag = (Boolean) attachments.get(Constants.IS_DERIVED_ATTACHMENT);
+		return flag != null ? flag : false;
 	}
 
 	public void setDerivedAtt(boolean isDerived) {

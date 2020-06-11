@@ -2,9 +2,9 @@ package com.sum.shy.common;
 
 public class Keyword {
 
-	public static final int STRUCT = 0;// 结构级
-	public static final int LINE = 1;// 行级
-	public static final int TOKEN = 2;// 元素级
+	public static final int STRUCT = 1;// 结构级
+	public static final int LINE = 2;// 行级
+	public static final int TOKEN = 3;// 元素级
 
 	public String value;
 
