@@ -27,7 +27,7 @@ public class Express {
 		logger.info("test success", o1);
 	}
 
-	public void testTree() {
+	public Object testTree() {
 		boolean b = (x + 1 > 0 && y < 100) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("test tree", b);
 		List<String> list = Collection.newArrayList("one", "two", "three");
@@ -49,6 +49,7 @@ public class Express {
 		logger.info("{}", b111);
 		String b222 = list.get(1).toString();
 		logger.info("{}", b222);
+		return null;
 	}
 
 }

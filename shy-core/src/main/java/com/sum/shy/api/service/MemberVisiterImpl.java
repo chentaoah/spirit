@@ -82,10 +82,12 @@ public class MemberVisiterImpl implements MemberVisiter {
 				context.variables.add(variable);
 
 			} else if (element.isReturn() && variable != null) {
-				if (!variable.type.isNull()) {
-					if (context.returnType == null) {
-						context.returnType = variable.type;
-					} else {
+				// If there is no return type, only null type can be used first
+				// If there is already a specific return type, ignore null
+				if (context.returnType == null) {
+					context.returnType = variable.type;
+				} else {
+					if (!variable.type.isNull()) {
 						// If there are multiple return statements, take the most abstract return type
 						if (variable.type.isMatch(context.returnType)) {
 							context.returnType = variable.type;
