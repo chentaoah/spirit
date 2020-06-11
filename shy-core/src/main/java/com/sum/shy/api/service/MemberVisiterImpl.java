@@ -31,24 +31,24 @@ public class MemberVisiterImpl implements MemberVisiter {
 
 	@Override
 	public void visit(Map<String, IClass> allClasses) {
-		// 先解析方法入参类型
+
 		for (IClass clazz : allClasses.values()) {
 			for (IMethod method : clazz.methods)
 				visitParameters(clazz, method);
 		}
-		// 开始推导返回类型
+
 		for (IClass clazz : allClasses.values()) {
 			for (IField field : clazz.fields)
 				visitMember(clazz, field);
 			for (IMethod method : clazz.methods)
 				visitMember(clazz, method);
 		}
+
 	}
 
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
-		// 这个时候，所有的class还没有解析完成，查询className会报空指针
 		Statement stmt = methodToken.getValue();
 		List<Statement> subStmts = stmt.subStmt("(", ")").split(",");
 		for (Statement paramStmt : subStmts) {

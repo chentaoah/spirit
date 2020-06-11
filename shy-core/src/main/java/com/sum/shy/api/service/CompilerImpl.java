@@ -28,7 +28,9 @@ public class CompilerImpl implements Compiler {
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
+
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
+
 		files.forEach((path, file) -> {
 			// 1.read file
 			Document document = reader.read(file);
@@ -37,14 +39,11 @@ public class CompilerImpl implements Compiler {
 			processor.postDocumentProcessor(path, document);
 
 			// 3.resolve classes
-			String packageStr = TypeUtils.getPackage(path);
-
-			List<IClass> classes = resolver.resolve(packageStr, document);
+			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 			classes.forEach((clazz) -> {
 				allClasses.put(clazz.getClassName(), clazz);
 				// 4.post class processor
 				processor.postClassProcessor(clazz.getClassName(), clazz);
-
 			});
 		});
 

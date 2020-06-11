@@ -27,7 +27,9 @@ public class ClassResolverImpl implements ClassResolver {
 		IClass mainClass = new IClass();
 		classes.add(mainClass);
 		mainClass.packageStr = packageStr;
-		List<IAnnotation> annotations = new ArrayList<>();// 上下文注解,用完要及时清理
+
+		// Temporary variables, need to be cleared after use
+		List<IAnnotation> annotations = new ArrayList<>();
 
 		for (Element element : document) {
 			if (element.isImport()) {
@@ -45,12 +47,15 @@ public class ClassResolverImpl implements ClassResolver {
 				annotations.clear();
 
 			} else if (element.isInterface() || element.isAbstract()) {
+				// Interface and abstract class can only have one main class
 				mainClass.annotations.addAll(annotations);
 				annotations.clear();
 				mainClass.root = element;
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
+				// The generic type may be obtained here, but the filename is usually a simple
+				// name
 				String simpleName = element.getKeywordParam(Constants.CLASS_KEYWORD).toString();
 				String targetName = TypeUtils.getTargetName(simpleName);
 
@@ -80,7 +85,10 @@ public class ClassResolverImpl implements ClassResolver {
 	}
 
 	public void readRootElement(IClass clazz) {
+
+		// Temporary variables, need to be cleared after use
 		List<IAnnotation> annotations = new ArrayList<>();
+
 		for (Element element : clazz.root.children) {
 			if (element.isAnnotation()) {
 				annotations.add(new IAnnotation(element));
