@@ -1,5 +1,6 @@
 package com.sum.shy.java;
 
+import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.clazz.IAnnotation;
 import com.sum.shy.clazz.IClass;
 import com.sum.shy.clazz.IField;
@@ -14,8 +15,9 @@ import com.sum.shy.java.converter.StmtConverter;
 import com.sum.shy.java.converter.StrEqualsConverter;
 import com.sum.shy.java.converter.CommonConverter;
 
-public class JavaBuilder {
+public class JavaBuilder implements CodeBuilder {
 
+	@Override
 	public String build(IClass clazz) {
 		StringBuilder sb = new StringBuilder();
 		String body = buildBody(clazz);// 这里构建body的原因是在构建时，还要动态添加import
@@ -45,8 +47,8 @@ public class JavaBuilder {
 	public String buildBody(IClass clazz) {
 		// 类名
 		StringBuilder classStr = new StringBuilder();
-		classStr.append("public " + clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD)
-				.replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
+		classStr.append("public "
+				+ clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
 
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
 		StringBuilder methodsStr = new StringBuilder();
@@ -60,13 +62,12 @@ public class JavaBuilder {
 			} else {
 				if (element.isFuncDeclare()) {
 					String format = element.children.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
-					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-							method.isSync ? "synchronized " : "", element.removeKeyword(Constants.SYNC_KEYWORD)));
+					methodsStr.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
+							element.removeKeyword(Constants.SYNC_KEYWORD)));
 
 				} else if (element.isFunc()) {
 					String format = "\tpublic %s%s%s%s\n";
-					methodsStr.append(String.format(format, method.isStatic ? "static " : "",
-							method.isSync ? "synchronized " : "",
+					methodsStr.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
 							!method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 				}

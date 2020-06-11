@@ -12,6 +12,16 @@ import com.sum.shy.element.Line;
 
 public class PostProcessorImpl implements PostProcessor {
 
+	public long timestamp;
+
+	@Override
+	public void postStartProcessor(String[] args) {
+		System.out.println("input:" + args[0]);
+		System.out.println("output:" + args[1]);
+		System.out.println("");
+		timestamp = System.currentTimeMillis();
+	}
+
 	@Override
 	public void postDocumentProcessor(String path, Document document) {
 		document.debug();
@@ -45,6 +55,19 @@ public class PostProcessorImpl implements PostProcessor {
 	@Override
 	public void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element) {
 		// ignore
+	}
+
+	@Override
+	public String postCodeProcessor(String[] args, IClass clazz, String code) {
+		code = AliasReplacer.replace(clazz, code);
+		System.out.println(code);
+		return code;
+	}
+
+	@Override
+	public void postEndProcessor(String[] args, Map<String, File> files) {
+		System.out.println("Total compilation time:" + (System.currentTimeMillis() - timestamp) + "ms");
+		timestamp = System.currentTimeMillis();
 	}
 
 }

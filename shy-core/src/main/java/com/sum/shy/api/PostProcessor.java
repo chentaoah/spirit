@@ -13,6 +13,8 @@ import com.sum.shy.element.Line;
 @Service("post_processor")
 public interface PostProcessor {
 
+	void postStartProcessor(String[] args);
+
 	void postDocumentProcessor(String path, Document document);
 
 	void postClassProcessor(String className, IClass clazz);
@@ -26,5 +28,9 @@ public interface PostProcessor {
 	void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element);
 
 	void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element);
+
+	String postCodeProcessor(String[] args, IClass clazz, String code);
+
+	void postEndProcessor(String[] args, Map<String, File> files);
 
 }
