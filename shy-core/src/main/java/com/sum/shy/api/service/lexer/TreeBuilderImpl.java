@@ -94,7 +94,11 @@ public class TreeBuilderImpl implements TreeBuilder {
 				int index = indexs.get(j);
 
 				Token currToken = tokens.get(index);
+
 				judgeMultipleOperator(tokens, index, currToken);
+				if (currToken.getOperand() == Symbol.MULTIPLE)
+					throw new RuntimeException("Unable to know the operand of the symbol!");
+
 				Node node = new Node(currToken);
 
 				if (currToken.getOperand() == Symbol.LEFT || currToken.getOperand() == Symbol.BINARY)
