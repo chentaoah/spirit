@@ -87,15 +87,14 @@ public class MemberVisiterImpl implements MemberVisiter {
 				if (context.returnType == null) {
 					context.returnType = variable.type;
 				} else {
-					// Return type is null type, only indicating that the returned type is
-					// object type or subclass of object type, so it will be ignored here
-					if (!variable.type.isNull()) {
-						// If there are multiple return statements, take the most abstract return type
-						if (variable.type.isMatch(context.returnType)) {
-							context.returnType = variable.type;
-						} else {
-							throw new RuntimeException("Return type does not match!");
-						}
+					// If there are multiple return statements, take the most abstract return type
+					// Null can not match any type
+					// Any type can match null
+					if (variable.type.isMatch(context.returnType)) {
+						context.returnType = variable.type;
+					} else {
+						if (!variable.type.isNull())
+							throw new RuntimeException("Multiple return types do not match");
 					}
 				}
 			}

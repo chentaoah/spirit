@@ -95,6 +95,14 @@ public class IType {
 		if (type == null)
 			return false;
 
+		// Null can not match any type
+		if (isNull())
+			return false;
+
+		// Any type can match null
+		if (type.isNull())
+			return true;
+
 		// 这个方法还要判断泛型
 		if (equals(type))
 			return true;
