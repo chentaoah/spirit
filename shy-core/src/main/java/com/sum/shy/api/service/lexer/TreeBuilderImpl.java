@@ -179,7 +179,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 		throw new RuntimeException("No available token found!");
 	}
 
-	public static Node getNode(Token token) {
+	public Node getNode(Token token) {
 		return token.isNode() ? token.getValue() : new Node(token);
 	}
 
