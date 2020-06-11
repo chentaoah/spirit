@@ -70,7 +70,8 @@ public class Token extends Semantic {
 	}
 
 	public int getOperand() {
-		return (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
+		Integer operand = (Integer) attachments.get(Constants.OPERAND_ATTACHMENT);
+		return operand != null ? operand : 0;
 	}
 
 	public void setOperand(int operand) {
