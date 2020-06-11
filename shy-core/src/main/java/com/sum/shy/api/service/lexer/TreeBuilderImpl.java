@@ -95,7 +95,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 				Token currToken = tokens.get(index);
 
-				judgeMultipleOperator(tokens, index, currToken);
+				resetOperandIfMultiple(tokens, index, currToken);
 				if (currToken.getOperand() == Symbol.MULTIPLE)
 					throw new RuntimeException("Unable to know the operand of the symbol!");
 
@@ -117,7 +117,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 	}
 
-	public void judgeMultipleOperator(List<Token> tokens, int index, Token currToken) {
+	public void resetOperandIfMultiple(List<Token> tokens, int index, Token currToken) {
 		if (currToken.getOperand() == Symbol.MULTIPLE) {
 
 			Token lastToken = getLastToken(tokens, index);
