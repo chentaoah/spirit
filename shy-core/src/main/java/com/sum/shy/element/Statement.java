@@ -57,7 +57,7 @@ public class Statement extends TokenBox {
 			if (token.isSeparator() && " ".equals(token.toString())) {
 				Token lastToken = tokens.get(i - 1);
 				Token nextToken = tokens.get(i + 1);
-				if (lastToken.isOperator()) {// 前面为某些特定操作符
+				if (lastToken.isOperator()) {
 					if ("!".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
@@ -75,7 +75,7 @@ public class Statement extends TokenBox {
 						}
 					}
 
-				} else if (lastToken.isSeparator()) {// 前面为特定分隔符
+				} else if (lastToken.isSeparator()) {
 					if ("[".equals(lastToken.toString()) || "(".equals(lastToken.toString()) || "<".equals(lastToken.toString())) {
 						tokens.remove(i);
 						continue;
