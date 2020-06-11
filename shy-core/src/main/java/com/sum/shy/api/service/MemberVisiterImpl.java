@@ -77,6 +77,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 				context.increaseDepth();
 
 			IVariable variable = visiter.visit(clazz, context, element);
+
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();
 				context.variables.add(variable);
