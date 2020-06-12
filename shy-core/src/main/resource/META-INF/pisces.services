@@ -23,7 +23,7 @@ type_factory=com.sum.shy.api.service.deducer.TypeFactoryImpl
 
 #
 member_linker=\
-com.sum.shy.api.service.deducer.linker.AdaptiveLinker,\
 com.sum.shy.api.service.deducer.linker.CodeLinker,\
-com.sum.shy.api.service.deducer.linker.NativeLinker
+com.sum.shy.api.service.deducer.linker.NativeLinker,\
+com.sum.shy.api.service.deducer.linker.AdaptiveLinker
 
