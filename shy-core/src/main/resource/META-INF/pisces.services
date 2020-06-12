@@ -19,7 +19,11 @@ express_declarer=com.sum.shy.api.service.deducer.ExpressDeclarerImpl
 variable_tracker=com.sum.shy.api.service.deducer.VariableTrackerImpl
 invoke_visiter=com.sum.shy.api.service.deducer.InvokeVisiterImpl
 fast_deducer=com.sum.shy.api.service.deducer.FastDeducerImpl
+type_factory=com.sum.shy.api.service.deducer.TypeFactoryImpl
 
 #
-member_linker=com.sum.shy.api.service.deducer.MemberLinkerImpl
-type_factory=com.sum.shy.api.service.deducer.TypeFactoryImpl
+member_linker=\
+com.sum.shy.api.service.deducer.linker.AdaptiveLinker,\
+com.sum.shy.api.service.deducer.linker.CodeLinker,\
+com.sum.shy.api.service.deducer.linker.NativeLinker
+

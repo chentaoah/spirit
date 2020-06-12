@@ -1,7 +1,8 @@
-package com.sum.shy.api.service.deducer;
+package com.sum.shy.api.service.deducer.linker;
 
 import java.util.List;
 
+import com.sum.pisces.api.Order;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deducer.MemberLinker;
 import com.sum.shy.api.deducer.TypeFactory;
@@ -9,12 +10,15 @@ import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Constants;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.lib.Assert;
-import com.sum.shy.linker.CodeLinker;
-import com.sum.shy.linker.NativeLinker;
 
-public class MemberLinkerImpl implements MemberLinker {
+@Order(-1)
+public class AdaptiveLinker implements MemberLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+
+	public static MemberLinker codeLinker = new CodeLinker();
+
+	public static MemberLinker nativeLinker = new NativeLinker();
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
@@ -36,7 +40,7 @@ public class MemberLinkerImpl implements MemberLinker {
 		if (type.isObj())
 			return null;
 
-		return !type.isNative() ? CodeLinker.visitField(type, fieldName) : NativeLinker.visitField(type, fieldName);
+		return !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
 	}
 
 	@Override
@@ -59,7 +63,7 @@ public class MemberLinkerImpl implements MemberLinker {
 			}
 		}
 
-		return !type.isNative() ? CodeLinker.visitMethod(type, methodName, parameterTypes) : NativeLinker.visitMethod(type, methodName, parameterTypes);
+		return !type.isNative() ? codeLinker.visitMethod(type, methodName, parameterTypes) : nativeLinker.visitMethod(type, methodName, parameterTypes);
 	}
 
 }

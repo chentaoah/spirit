@@ -1,4 +1,4 @@
-package com.sum.shy.linker;
+package com.sum.shy.api.service.deducer.linker;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,16 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.deducer.MemberLinker;
 import com.sum.shy.api.deducer.TypeFactory;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;
 
-public class NativeLinker {
+public class NativeLinker implements MemberLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
-	public static IType visitField(IType type, String fieldName) {
+	@Override
+	public IType visitField(IType type, String fieldName) {
 		try {
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 			Field field = clazz.getField(fieldName);
@@ -33,7 +35,8 @@ public class NativeLinker {
 		}
 	}
 
-	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	@Override
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
 			Map<String, IType> namedTypes = getNamedTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
@@ -44,7 +47,7 @@ public class NativeLinker {
 		}
 	}
 
-	public static Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
+	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
@@ -92,7 +95,7 @@ public class NativeLinker {
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
-	public static Map<String, IType> getNamedTypes(IType type, Method method, List<IType> parameterTypes) {
+	public Map<String, IType> getNamedTypes(IType type, Method method, List<IType> parameterTypes) {
 		Map<String, IType> namedTypes = new HashMap<>();
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
@@ -101,7 +104,7 @@ public class NativeLinker {
 		return namedTypes;
 	}
 
-	public static IType convertType(IType type, Map<String, IType> namedTypes, IType incomingType, Type nativeType) {
+	public IType convertType(IType type, Map<String, IType> namedTypes, IType incomingType, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
 			return factory.create((Class<?>) nativeType);
@@ -137,7 +140,7 @@ public class NativeLinker {
 		throw new RuntimeException("Convert native type failed!");
 	}
 
-	public static int getTypeVariableIndex(Class<?> clazz, String typeVariableName) {
+	public int getTypeVariableIndex(Class<?> clazz, String typeVariableName) {
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		for (int i = 0; i < typeVariables.length; i++) {
 			TypeVariable<?> typeVariable = typeVariables[i];

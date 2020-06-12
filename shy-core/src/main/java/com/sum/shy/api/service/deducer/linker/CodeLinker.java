@@ -1,4 +1,4 @@
-package com.sum.shy.linker;
+package com.sum.shy.api.service.deducer.linker;
 
 import java.util.List;
 
@@ -11,13 +11,14 @@ import com.sum.shy.clazz.IMethod;
 import com.sum.shy.clazz.IType;
 import com.sum.shy.common.Context;
 
-public class CodeLinker {
+public class CodeLinker implements MemberLinker {
 
 	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
 	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
 
-	public static IType visitField(IType type, String fieldName) {
+	@Override
+	public IType visitField(IType type, String fieldName) {
 		String className = type.getClassName();
 		IClass clazz = Context.get().findClass(className);
 		if (clazz.existField(fieldName)) {
@@ -29,7 +30,8 @@ public class CodeLinker {
 		}
 	}
 
-	public static IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	@Override
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		String className = type.getClassName();
 		IClass clazz = Context.get().findClass(className);
 		if (clazz.existMethod(methodName, parameterTypes)) {
