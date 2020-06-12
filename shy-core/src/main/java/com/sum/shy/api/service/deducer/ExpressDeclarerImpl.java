@@ -34,6 +34,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 
 			Token varToken = element.getToken(0);
 			IType type = null;
+
 			// If there is a method context, it means that the method return type is
 			// currently being derived, then try to get the type from the context first
 			if (context != null)
