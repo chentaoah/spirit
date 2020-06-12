@@ -89,10 +89,13 @@ class Type {
 		ssss=objxxx.value()
 		print ""+ssss
 
+		xxss = testParam(null, null)
+		print xxss
+
 
 	}
 
-	func testParam(@Deprecated String str){
+	func testParam(@Deprecated String str, Object obj){
 		return "yes"
 	}
 	

@@ -72,9 +72,11 @@ public class Type {
 		MyTest objxxx = ClassGenericTest.class.getAnnotation(MyTest.class);
 		String ssss = objxxx.value();
 		logger.info("" + ssss);
+		String xxss = testParam(null, null);
+		logger.info(xxss);
 	}
 
-	public String testParam(@Deprecated String str) {
+	public String testParam(@Deprecated String str, Object obj) {
 		return "yes";
 	}
 
