@@ -1,8 +1,8 @@
 package com.sum.shy.api.lexer;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.element.Element;
-import com.sum.shy.element.Line;
+import com.sum.shy.pojo.element.Element;
+import com.sum.shy.pojo.element.Line;
 
 @Service("element_builder")
 public interface ElementBuilder {

@@ -8,7 +8,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.api.Compiler;
 import com.sum.shy.api.PostProcessor;
-import com.sum.shy.clazz.IClass;
+import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.utils.FileUtils;
 
 public class JavaStarter {

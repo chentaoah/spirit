@@ -1,14 +1,14 @@
 package com.sum.shy.java;
 
 import com.sum.shy.api.CodeBuilder;
-import com.sum.shy.clazz.IAnnotation;
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.IField;
-import com.sum.shy.clazz.IMethod;
-import com.sum.shy.clazz.Import;
-import com.sum.shy.common.Constants;
-import com.sum.shy.element.Element;
 import com.sum.shy.java.converter.StrLogicalConverter;
+import com.sum.shy.pojo.clazz.IAnnotation;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.clazz.IField;
+import com.sum.shy.pojo.clazz.IMethod;
+import com.sum.shy.pojo.clazz.Import;
+import com.sum.shy.pojo.common.Constants;
+import com.sum.shy.pojo.element.Element;
 import com.sum.shy.utils.TypeBuilder;
 import com.sum.shy.java.converter.SeparatorConverter;
 import com.sum.shy.java.converter.StmtConverter;

@@ -1,29 +1,29 @@
 #
-compiler=com.sum.shy.api.service.CompilerImpl
-document_reader=com.sum.shy.api.service.DocumentReaderImpl
-class_resolver=com.sum.shy.api.service.ClassResolverImpl
-member_visiter=com.sum.shy.api.service.MemberVisiterImpl
-post_processor=com.sum.shy.api.service.PostProcessorImpl
+compiler=com.sum.shy.core.CompilerImpl
+document_reader=com.sum.shy.core.DocumentReaderImpl
+class_resolver=com.sum.shy.core.ClassResolverImpl
+member_visiter=com.sum.shy.core.MemberVisiterImpl
+post_processor=com.sum.shy.core.PostProcessorImpl
 
 #
-element_builder=com.sum.shy.api.service.lexer.ElementBuilderImpl
-lexer=com.sum.shy.api.service.lexer.LexerImpl
-semantic_parser=com.sum.shy.api.service.lexer.SemanticParserImpl
-struct_recognizer=com.sum.shy.api.service.lexer.StructRecognizerImpl
-tree_builder=com.sum.shy.api.service.lexer.TreeBuilderImpl
+element_builder=com.sum.shy.core.lexer.ElementBuilderImpl
+lexer=com.sum.shy.core.lexer.LexerImpl
+semantic_parser=com.sum.shy.core.lexer.SemanticParserImpl
+struct_recognizer=com.sum.shy.core.lexer.StructRecognizerImpl
+tree_builder=com.sum.shy.core.lexer.TreeBuilderImpl
 
 #
-element_visiter=com.sum.shy.api.service.deducer.ElementVisiterImpl
-type_declarer=com.sum.shy.api.service.deducer.TypeDeclarerImpl
-express_declarer=com.sum.shy.api.service.deducer.ExpressDeclarerImpl
-variable_tracker=com.sum.shy.api.service.deducer.VariableTrackerImpl
-invoke_visiter=com.sum.shy.api.service.deducer.InvokeVisiterImpl
-fast_deducer=com.sum.shy.api.service.deducer.FastDeducerImpl
-type_factory=com.sum.shy.api.service.deducer.TypeFactoryImpl
+element_visiter=com.sum.shy.core.deduce.ElementVisiterImpl
+type_declarer=com.sum.shy.core.deduce.TypeDeclarerImpl
+express_declarer=com.sum.shy.core.deduce.ExpressDeclarerImpl
+variable_tracker=com.sum.shy.core.deduce.VariableTrackerImpl
+invoke_visiter=com.sum.shy.core.deduce.InvokeVisiterImpl
+fast_deducer=com.sum.shy.core.deduce.FastDeducerImpl
+type_factory=com.sum.shy.core.deduce.TypeFactoryImpl
 
 #
 member_linker=\
-com.sum.shy.api.service.deducer.linker.CodeLinker,\
-com.sum.shy.api.service.deducer.linker.NativeLinker,\
-com.sum.shy.api.service.deducer.linker.AdaptiveLinker
+com.sum.shy.core.link.CodeLinker,\
+com.sum.shy.core.link.NativeLinker,\
+com.sum.shy.core.link.AdaptiveLinker
 

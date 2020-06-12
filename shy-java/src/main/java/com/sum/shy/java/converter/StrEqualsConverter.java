@@ -1,14 +1,14 @@
 package com.sum.shy.java.converter;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deducer.FastDeducer;
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.IType;
-import com.sum.shy.common.Constants;
-import com.sum.shy.common.StaticType;
-import com.sum.shy.element.Statement;
-import com.sum.shy.element.Token;
+import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.clazz.IType;
+import com.sum.shy.pojo.common.Constants;
+import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.element.Statement;
+import com.sum.shy.pojo.element.Token;
 import com.sum.shy.utils.TreeUtils;
 
 public class StrEqualsConverter {

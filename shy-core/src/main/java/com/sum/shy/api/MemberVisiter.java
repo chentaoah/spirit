@@ -3,12 +3,12 @@ package com.sum.shy.api;
 import java.util.Map;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.clazz.AbsMember;
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.IField;
-import com.sum.shy.clazz.IMethod;
-import com.sum.shy.clazz.IType;
 import com.sum.shy.lib.Assert;
+import com.sum.shy.pojo.clazz.AbsMember;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.clazz.IField;
+import com.sum.shy.pojo.clazz.IMethod;
+import com.sum.shy.pojo.clazz.IType;
 
 @Service("member_visiter")
 public interface MemberVisiter {

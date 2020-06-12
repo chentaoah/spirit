@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.clazz.IType;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.clazz.IType;
 
 public class TypeBuilder {
 

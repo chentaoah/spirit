@@ -3,13 +3,13 @@ package com.sum.shy.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.api.service.lexer.ElementBuilderImpl;
-import com.sum.shy.element.Element;
-import com.sum.shy.element.Line;
-import com.sum.shy.element.Node;
-import com.sum.shy.element.Statement;
-import com.sum.shy.element.Token;
+import com.sum.shy.core.lexer.ElementBuilderImpl;
 import com.sum.shy.lib.StringUtils;
+import com.sum.shy.pojo.element.Element;
+import com.sum.shy.pojo.element.Line;
+import com.sum.shy.pojo.element.Node;
+import com.sum.shy.pojo.element.Statement;
+import com.sum.shy.pojo.element.Token;
 
 public class TreePanel {
 

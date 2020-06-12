@@ -3,7 +3,7 @@ package com.sum.shy.api.lexer;
 import java.util.List;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.element.Token;
+import com.sum.shy.pojo.element.Token;
 
 @Service("struct_recognizer")
 public interface StructRecognizer {

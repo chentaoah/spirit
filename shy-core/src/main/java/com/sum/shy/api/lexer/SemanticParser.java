@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.element.Token;
+import com.sum.shy.pojo.element.Token;
 
 @Service("semantic_parser")
 public interface SemanticParser {

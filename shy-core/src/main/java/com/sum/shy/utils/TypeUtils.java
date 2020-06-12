@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.api.service.lexer.SemanticParserImpl;
+import com.sum.shy.core.lexer.SemanticParserImpl;
 
 public class TypeUtils {
 

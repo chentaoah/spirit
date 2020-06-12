@@ -1,10 +1,10 @@
 package com.sum.shy.java.converter;
 
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.common.Constants;
-import com.sum.shy.element.Statement;
-import com.sum.shy.element.Token;
 import com.sum.shy.lib.Collection;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.common.Constants;
+import com.sum.shy.pojo.element.Statement;
+import com.sum.shy.pojo.element.Token;
 
 public class CommonConverter {
 

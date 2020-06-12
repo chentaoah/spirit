@@ -4,11 +4,11 @@ import java.io.File;
 import java.util.Map;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.clazz.IClass;
-import com.sum.shy.common.MethodContext;
-import com.sum.shy.element.Document;
-import com.sum.shy.element.Element;
-import com.sum.shy.element.Line;
+import com.sum.shy.pojo.clazz.IClass;
+import com.sum.shy.pojo.common.MethodContext;
+import com.sum.shy.pojo.element.Document;
+import com.sum.shy.pojo.element.Element;
+import com.sum.shy.pojo.element.Line;
 
 @Service("post_processor")
 public interface PostProcessor {

@@ -3,9 +3,9 @@ package com.sum.shy.api.lexer;
 import java.util.List;
 
 import com.sum.pisces.api.Service;
-import com.sum.shy.element.Statement;
-import com.sum.shy.element.Token;
-import com.sum.shy.element.SyntaxTree;
+import com.sum.shy.pojo.element.Statement;
+import com.sum.shy.pojo.element.SyntaxTree;
+import com.sum.shy.pojo.element.Token;
 
 @Service("tree_builder")
 public interface TreeBuilder {
