@@ -13,6 +13,7 @@ public class TypeDeclarerImpl implements TypeDeclarer {
 
 	@Override
 	public void declare(IClass clazz, Element element) {
+
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			Token typeToken = element.getToken(0);
 			Token varToken = element.getToken(1);
