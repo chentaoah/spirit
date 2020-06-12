@@ -55,30 +55,30 @@ public class VariableTrackerImpl implements VariableTracker {
 	@Override
 	public IType findType(IClass clazz, MethodContext context, String name) {
 
-		// super引用,指向的是父类
+		// super
 		if (Constants.SUPER_KEYWORD.equals(name))
 			return clazz.getSuperType();
 
-		// this引用，指向的是这个类本身
+		// this
 		if (Constants.THIS_KEYWORD.equals(name))
 			return clazz.toType();
 
-		// 先在方法上下文中找
+		// find in context
 		if (context != null) {
 			IMethod method = context.method;
-			// 如果成员变量和方法声明中都没有声明该变量,则从变量追踪器里查询
+			// find in variable
 			for (IVariable variable : context.variables) {
 				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))
 					return variable.type;
 			}
-			// 如果在成员变量中没有声明,则查看方法内是否声明
+			// find in parameters
 			for (IParameter parameter : method.parameters) {
 				if (parameter.name.equals(name))
 					return parameter.type;
 			}
 		}
 
-		// 成员变量
+		// find in members
 		for (IField field : clazz.fields) {
 			if (field.name.equals(name)) {
 				if (field.type == null)
@@ -87,7 +87,7 @@ public class VariableTrackerImpl implements VariableTracker {
 			}
 		}
 
-		// 从继承里面去找，注意这里的父类可能是native的
+		// Look from the parent class, but note that the parent class may be native
 		return linker.visitField(clazz.getSuperType(), name);
 	}
 }
