@@ -39,6 +39,5 @@ public class CodeLinker {
 		} else {
 			return linker.visitMethod(clazz.getSuperType(), methodName, parameterTypes);
 		}
-
 	}
 }
