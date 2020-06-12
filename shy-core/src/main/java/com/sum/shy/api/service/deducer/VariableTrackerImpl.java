@@ -28,23 +28,24 @@ public class VariableTrackerImpl implements VariableTracker {
 	@Override
 	public void track(IClass clazz, MethodContext context, Statement stmt) {
 		for (Token token : stmt.tokens) {
+
 			if (token.canSplit())
 				track(clazz, context, token.getValue());
 
 			if (token.getTypeAtt() != null)
 				continue;
 
-			if (token.isVar()) {// 如果没有设置类型的话
+			if (token.isVar()) {
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
 				token.setTypeAtt(type);
 
-			} else if (token.isArrayIndex()) {// 如果没有设置类型的话
+			} else if (token.isArrayIndex()) {
 				String name = token.getMemberName();
-				IType type = findType(clazz, context, name);// 返回的数组类型
+				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				type = factory.create(type.getTargetName());// 转换成数组内的类型
+				type = type.getTargetType();// Convert array type to element type
 				token.setTypeAtt(type);
 			}
 		}
@@ -59,7 +60,7 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// this引用，指向的是这个类本身
 		if (Constants.THIS_KEYWORD.equals(name))
-			return factory.create(clazz.getClassName());
+			return clazz.toType();
 
 		// 先在方法上下文中找
 		if (context != null) {

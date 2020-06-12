@@ -32,8 +32,7 @@ public class TypeUtils {
 	}
 
 	public static List<String> splitName(String simpleName) {
-		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().omitEmptyStrings()
-				.splitToList(simpleName);
+		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().omitEmptyStrings().splitToList(simpleName);
 		return new ArrayList<>(names);
 	}
 
@@ -116,10 +115,9 @@ public class TypeUtils {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class,
-				short[].class, int.class, int[].class, long.class, long[].class, float.class, float[].class,
-				double.class, double[].class, byte.class, byte[].class, Object.class, Object[].class, String.class,
-				String[].class };
+		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class, short[].class, int.class, int[].class,
+				long.class, long[].class, float.class, float[].class, double.class, double[].class, byte.class, byte[].class, Object.class, Object[].class,
+				String.class, String[].class };
 		for (Class<?> clazz : classes) {
 			System.out.println("=== " + clazz.getSimpleName() + ".class ===");
 			System.out.println(clazz.getName());
