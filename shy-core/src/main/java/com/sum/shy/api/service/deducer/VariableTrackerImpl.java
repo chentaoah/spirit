@@ -27,6 +27,7 @@ public class VariableTrackerImpl implements VariableTracker {
 
 	@Override
 	public void track(IClass clazz, MethodContext context, Statement stmt) {
+
 		for (Token token : stmt.tokens) {
 
 			if (token.canSplit())
