@@ -17,17 +17,27 @@ public interface PostProcessor {
 
 	void postDocumentProcessor(String path, Document document);
 
-	void postClassProcessor(String className, IClass clazz);
+	default void postClassProcessor(String className, IClass clazz) {
+		// ignore
+	}
 
 	void postBeforeProcessor(Map<String, File> files, Map<String, IClass> allClasses);
 
-	void postAfterProcessor(Map<String, IClass> allClasses);
+	default void postAfterProcessor(Map<String, IClass> allClasses) {
+		// ignore
+	}
 
-	void postElementProcessor(Line line, Element element);
+	default void postElementProcessor(Line line, Element element) {
+		// ignore
+	}
 
-	void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element);
+	default void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element) {
+		// ignore
+	}
 
-	void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element);
+	default void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element) {
+		// ignore
+	}
 
 	String postCodeProcessor(String[] args, IClass clazz, String code);
 
