@@ -68,17 +68,6 @@ public class DocumentReaderImpl implements DocumentReader {
 		return doReadLine(father, lines, index, element);
 	}
 
-	public int doReadLine(List<Element> father, List<Line> lines, int index, Element element) {
-		if (father != null)
-			father.add(element);
-		if (element.hasChild()) {
-			List<Line> subLines = LineUtils.getSubLines(lines, index);// 解析子行
-			readLines(element.children, subLines);
-			return subLines.size();
-		}
-		return 0;
-	}
-
 	public List<Line> splitLine(Element element) {
 		// 这几种语法可以合并成一行
 		if (element.isFor() || element.isForIn() || element.isWhile() || element.isIf()) {
@@ -94,6 +83,53 @@ public class DocumentReaderImpl implements DocumentReader {
 			}
 		}
 		return null;
+	}
+
+	public int doReadLine(List<Element> father, List<Line> lines, int index, Element element) {
+		if (father != null)
+			father.add(element);
+		if (element.hasChild()) {
+			List<Line> subLines = getSubLines(lines, index);// 解析子行
+			readLines(element.children, subLines);
+			return subLines.size();
+		}
+		return 0;
+	}
+
+	public List<Line> getSubLines(List<Line> lines, int index) {
+
+		List<Line> subLines = new ArrayList<>();
+		for (int i = index + 1, count = 1; i < lines.size(); i++) {
+
+			String text = lines.get(i).text;
+			// Flag in string or not
+			boolean isInString = false;
+
+			for (int j = 0; j < text.length(); j++) {
+				char c = text.charAt(j);
+
+				// If it's a quotation mark, and it's not escaped
+				if (c == '"' && LineUtils.isNotEscaped(text, j))
+					isInString = !isInString;
+
+				// Count specific characters
+				if (!isInString) {
+					if (c == '{') {
+						count++;
+					} else if (c == '}') {
+						count--;
+						if (count == 0)
+							return subLines;
+					}
+				}
+			}
+
+			if (count == 0)
+				break;
+			subLines.add(lines.get(i));
+		}
+
+		return subLines;
 	}
 
 }

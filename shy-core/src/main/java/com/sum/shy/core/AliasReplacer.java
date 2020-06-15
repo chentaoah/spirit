@@ -19,7 +19,7 @@ public class AliasReplacer {
 		for (int i = 0; i < code.length(); i++) {
 			char c = code.charAt(i);
 			// 确保字符不在字符串中
-			if (c == '"' && LineUtils.isEscaped(code, i))
+			if (c == '"' && LineUtils.isNotEscaped(code, i))
 				flag = !flag;
 			// 是一个普通字符，并且首字母和别名首字母相同
 			if (!flag && LineUtils.isLetter(c) && c == alias.charAt(0)) {
