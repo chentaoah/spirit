@@ -2,7 +2,7 @@ package com.sum.shy.api.link;
 
 import java.util.List;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.clazz.IType;
 
 @Service("member_linker")

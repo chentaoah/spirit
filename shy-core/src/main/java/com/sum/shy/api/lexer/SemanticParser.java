@@ -3,7 +3,7 @@ package com.sum.shy.api.lexer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.element.Token;
 
 @Service("semantic_parser")

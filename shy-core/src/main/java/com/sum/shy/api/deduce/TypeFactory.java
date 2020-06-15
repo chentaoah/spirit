@@ -2,7 +2,7 @@ package com.sum.shy.api.deduce;
 
 import java.util.List;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.lexer.SemanticParser;
 import com.sum.shy.lib.Assert;

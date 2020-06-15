@@ -2,7 +2,7 @@ package com.sum.shy.api;
 
 import java.util.Map;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.AbsMember;
 import com.sum.shy.pojo.clazz.IClass;

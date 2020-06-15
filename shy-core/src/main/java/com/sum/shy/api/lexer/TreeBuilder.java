@@ -2,7 +2,7 @@ package com.sum.shy.api.lexer;
 
 import java.util.List;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.SyntaxTree;
 import com.sum.shy.pojo.element.Token;

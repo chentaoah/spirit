@@ -1,6 +1,6 @@
 package com.sum.shy.api.deduce;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IVariable;
 import com.sum.shy.pojo.common.MethodContext;

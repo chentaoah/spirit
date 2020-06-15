@@ -2,7 +2,7 @@ package com.sum.shy.api.lexer;
 
 import java.util.List;
 
-import com.sum.pisces.api.Service;
+import com.sum.pisces.api.annotation.Service;
 
 @Service("lexer")
 public interface Lexer {
