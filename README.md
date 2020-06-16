@@ -45,7 +45,7 @@ public class Main {
 9. 支持某些语句多行合并。例如：if s=="string" : print s
 10. 支持与Java的无缝集成。 :sweat: 底层不就是Java吗？有什么好集成的。
 
-上述特点，具体可以参考shy-start的src/test/resources的示例代码。
+上述特点，具体可以参考shy-start的src/test/resources的示例代码。  
 目前仅支持在sublime中编辑，只需添加样式文件Shy.sublime-syntax即可。
 
 未来：
