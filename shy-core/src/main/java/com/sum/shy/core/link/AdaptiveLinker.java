@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.pisces.core.resource.StaticDirectory;
+import com.sum.pisces.core.resource.StaticFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.MemberLinker;
 import com.sum.shy.lib.Assert;
@@ -17,9 +17,9 @@ public class AdaptiveLinker implements MemberLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
-	public static MemberLinker codeLinker = StaticDirectory.DEFAULT_FACTORY.getInstance(MemberLinker.class, CodeLinker.class);
+	public static MemberLinker codeLinker = StaticFactory.FACTORY.getInstance(MemberLinker.class, CodeLinker.class);
 
-	public static MemberLinker nativeLinker = StaticDirectory.DEFAULT_FACTORY.getInstance(MemberLinker.class, NativeLinker.class);
+	public static MemberLinker nativeLinker = StaticFactory.FACTORY.getInstance(MemberLinker.class, NativeLinker.class);
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
