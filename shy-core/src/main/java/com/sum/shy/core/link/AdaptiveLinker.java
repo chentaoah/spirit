@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.pisces.core.resource.StaticFactory;
+import com.sum.pisces.core.StaticFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.MemberLinker;
 import com.sum.shy.lib.Assert;
