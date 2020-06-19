@@ -2,7 +2,6 @@ package com.sum.shy.core.link;
 
 import java.util.List;
 
-import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.MemberLinker;
@@ -11,7 +10,6 @@ import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.StaticType;
 
-@Order(-1)
 public class AdaptiveLinker implements MemberLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
