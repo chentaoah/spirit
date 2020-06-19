@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.clazz.IType;
 
-@Service("member_linker")
+@Service("adaptive_linker")
 public interface MemberLinker {
 
 	IType visitField(IType type, String fieldName);

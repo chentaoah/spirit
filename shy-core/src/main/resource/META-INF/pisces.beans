@@ -22,7 +22,6 @@ fast_deducer=com.sum.shy.core.deduce.FastDeducerImpl
 type_factory=com.sum.shy.core.deduce.TypeFactoryImpl
 
 #
-member_linker=\
-com.sum.shy.core.link.CodeLinker,\
-com.sum.shy.core.link.NativeLinker,\
-com.sum.shy.core.link.AdaptiveLinker
+adaptive_linker=com.sum.shy.core.link.AdaptiveLinker
+code_linker=com.sum.shy.core.link.CodeLinker
+native_linker=com.sum.shy.core.link.NativeLinker
