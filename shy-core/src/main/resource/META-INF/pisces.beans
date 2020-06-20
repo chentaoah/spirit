@@ -25,3 +25,6 @@ type_factory=com.sum.shy.core.deduce.TypeFactoryImpl
 adaptive_linker=com.sum.shy.core.link.AdaptiveLinker
 code_linker=com.sum.shy.core.link.CodeLinker
 native_linker=com.sum.shy.core.link.NativeLinker
+
+#
+code_builder=com.sum.shy.java.JavaBuilder

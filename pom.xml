@@ -8,10 +8,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>shy-lib</module>
 		<module>shy-core</module>
-		<module>shy-java</module>
-		<module>shy-start</module>
+		<module>shy-lib</module>
+		<module>shy-test</module>
 	</modules>
 
 	<properties>
