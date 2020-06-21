@@ -24,15 +24,16 @@ public class JavaStarter {
 		processor.postStartProcessor(args);
 
 		String inputPath = args[0];
-		// 如果没有配置输出路径，则默认输出到控制台
 		String outputPath = args.length >= 1 ? args[1] : null;
 
 		Map<String, File> files = FileUtils.getFiles(inputPath);
 		Map<String, IClass> allClasses = compiler.compile(files);
 
 		allClasses.forEach((className, clazz) -> {
+
 			String code = builder.build(clazz);
 			code = processor.postCodeProcessor(args, clazz, code);
+
 			if (StringUtils.isNotEmpty(outputPath))
 				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
 		});

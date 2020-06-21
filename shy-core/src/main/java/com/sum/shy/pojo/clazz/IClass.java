@@ -149,7 +149,7 @@ public class IClass {
 
 	public List<IType> getInterfaces() {
 		List<IType> interfaces = new ArrayList<>();
-		for (Token token : root.getKeywordParams(Constants.IMPL_KEYWORD))
+		for (Token token : root.getKeywordParams(Constants.IMPLS_KEYWORD))
 			interfaces.add(factory.create(this, token));
 		return interfaces;
 	}

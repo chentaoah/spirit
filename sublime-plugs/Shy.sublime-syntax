@@ -22,7 +22,7 @@ contexts:
       push: double_char
 
     # Keyword 
-    - match: '\b(package|import|interface|abstract|class|extends|impl|func|throws)\b'
+    - match: '\b(package|import|interface|abstract|class|extends|impls|func|throws)\b'
       scope: keyword
 
     # Block

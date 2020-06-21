@@ -29,7 +29,7 @@ public class KeywordTable {
 		KEYWORDS.put("error", new Keyword("error", Keyword.LINE));
 
 		KEYWORDS.put("extends", new Keyword("extends", Keyword.TOKEN));
-		KEYWORDS.put("impl", new Keyword("impl", Keyword.TOKEN));
+		KEYWORDS.put("impls", new Keyword("impls", Keyword.TOKEN));
 		KEYWORDS.put("throws", new Keyword("throws", Keyword.TOKEN));
 		KEYWORDS.put("else", new Keyword("else", Keyword.TOKEN));
 		KEYWORDS.put("for", new Keyword("for", Keyword.TOKEN));

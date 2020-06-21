@@ -8,7 +8,7 @@ public class Constants {
 	public static final String ABSTRACT_KEYWORD = "abstract";
 	public static final String CLASS_KEYWORD = "class";
 	public static final String EXTENDS_KEYWORD = "extends";
-	public static final String IMPL_KEYWORD = "impl";
+	public static final String IMPLS_KEYWORD = "impls";
 	public static final String STATIC_KEYWORD = "static";
 	public static final String FUNC_KEYWORD = "func";
 	public static final String THROWS_KEYWORD = "throws";

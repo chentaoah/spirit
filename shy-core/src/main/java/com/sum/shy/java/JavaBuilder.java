@@ -48,7 +48,7 @@ public class JavaBuilder implements CodeBuilder {
 		// 类名
 		StringBuilder classStr = new StringBuilder();
 		classStr.append("public "
-				+ clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPL_KEYWORD, "implements") + "\n\n");
+				+ clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPLS_KEYWORD, "implements") + "\n\n");
 
 		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
 		StringBuilder methodsStr = new StringBuilder();
