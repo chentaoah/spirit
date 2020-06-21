@@ -39,8 +39,8 @@ public class NativeLinker implements MemberLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			Map<String, IType> namedTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
-			return convertType(type, namedTypes, null, method.getGenericReturnType());
+			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
+			return convertType(type, qualifyingTypes, null, method.getGenericReturnType());
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit method!methodName:" + methodName, e);
@@ -51,8 +51,8 @@ public class NativeLinker implements MemberLinker {
 		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
-				int index = 0;
 				boolean flag = true;
+				int index = 0;
 				for (Parameter parameter : method.getParameters()) {
 					IType parameterType = parameterTypes.get(index++);
 					IType nativeParameterType = convertType(type, null, parameterType, parameter.getParameterizedType());
@@ -65,10 +65,20 @@ public class NativeLinker implements MemberLinker {
 					return method;
 			}
 		}
-		for (Method method : clazz.getMethods()) {// 这里要处理Object...这种形式
+
+		Method method = findIndefiniteMethod(type, methodName, parameterTypes);
+		if (method != null)
+			return method;
+
+		throw new RuntimeException("The method was not found!method:" + methodName);
+	}
+
+	public Method findIndefiniteMethod(IType type, String methodName, List<IType> parameterTypes) {
+		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
+		// 处理不定项方法，Object... objects
+		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && ReflectUtils.isIndefinite(method)) {
 				Parameter[] parameters = method.getParameters();
-				Parameter lastParameter = parameters[parameters.length - 1];
 				boolean flag = true;
 				for (int i = 0; i < parameters.length - 1; i++) {
 					IType parameterType = parameterTypes.get(i);
@@ -79,6 +89,7 @@ public class NativeLinker implements MemberLinker {
 					}
 				}
 				if (flag) {
+					Parameter lastParameter = parameters[parameters.length - 1];
 					IType targetType = convertType(type, null, null, lastParameter.getParameterizedType()).getTargetType();
 					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
 						IType parameterType = parameterTypes.get(i);
@@ -92,19 +103,19 @@ public class NativeLinker implements MemberLinker {
 					return method;
 			}
 		}
-		throw new RuntimeException("The method was not found!method:" + methodName);
+		return null;
 	}
 
 	public Map<String, IType> getQualifyingTypes(IType type, Method method, List<IType> parameterTypes) {
-		Map<String, IType> namedTypes = new HashMap<>();
+		Map<String, IType> qualifyingTypes = new HashMap<>();
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
 		for (int i = 0; i < size; i++)
-			convertType(type, namedTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
-		return namedTypes;
+			convertType(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
+		return qualifyingTypes;
 	}
 
-	public IType convertType(IType type, Map<String, IType> namedTypes, IType incomingType, Type nativeType) {
+	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType parameterType, Type nativeType) {
 
 		if (nativeType instanceof Class) {// 一部分类型可以直接转换
 			return factory.create((Class<?>) nativeType);
@@ -114,16 +125,20 @@ public class NativeLinker implements MemberLinker {
 
 		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
 			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-			int index = getTypeVariableIndex(clazz, nativeType.toString());// 获取这个泛型名称在类中的index
+			// 1.可能是类型定义的泛型参数
+			int index = getTypeVariableIndex(clazz, nativeType.toString());
 			if (index >= 0) {
 				return type.getGenericTypes().get(index);
 			} else {
-				if (namedTypes != null && namedTypes.containsKey(nativeType.toString())) {
-					return namedTypes.get(nativeType.toString());
+				// 2.也可能是根据入参，导致返回类型限定的泛型参数
+				if (qualifyingTypes != null && qualifyingTypes.containsKey(nativeType.toString())) {
+					return qualifyingTypes.get(nativeType.toString());
 				} else {
-					if (namedTypes != null)
-						namedTypes.put(nativeType.toString(), incomingType);
-					return incomingType;
+					// 放入限定类型的集合中，以便推导返回类型
+					if (qualifyingTypes != null)
+						qualifyingTypes.put(nativeType.toString(), parameterType);
+					// 3.也可能是影射的入参中的泛型参数
+					return parameterType;
 				}
 			}
 		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
@@ -132,8 +147,8 @@ public class NativeLinker implements MemberLinker {
 			List<IType> genericTypes = new ArrayList<>();
 			int index = 0;
 			for (Type actualType : parameterizedType.getActualTypeArguments()) {
-				IType genericType = incomingType != null ? incomingType.getGenericTypes().get(index++) : null;
-				genericTypes.add(convertType(type, namedTypes, genericType, actualType));
+				IType genericType = parameterType != null ? parameterType.getGenericTypes().get(index++) : null;
+				genericTypes.add(convertType(type, qualifyingTypes, genericType, actualType));
 			}
 			return factory.create(clazz, genericTypes);
 		}

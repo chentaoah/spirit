@@ -121,21 +121,22 @@ public class IType {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof IType) {
-			IType type = (IType) obj;
-			boolean flag = getClassName().equals(type.getClassName());
-			if (flag) {
-				int count = 0;
-				for (IType genericType : getGenericTypes()) {
-					if (!genericType.equals(type.getGenericTypes().get(count++))) {
-						flag = false;
-						break;
-					}
+
+		if (!(obj instanceof IType))
+			return false;
+
+		IType typeToMatch = (IType) obj;
+		boolean flag = getClassName().equals(typeToMatch.getClassName());
+		if (flag) {
+			int count = 0;
+			for (IType genericType : getGenericTypes()) {
+				if (!genericType.equals(typeToMatch.getGenericTypes().get(count++))) {
+					flag = false;
+					break;
 				}
 			}
-			return flag;
 		}
-		return false;
+		return flag;
 	}
 
 	@Override
