@@ -7,7 +7,6 @@ import java.util.Map;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.lexer.SemanticParser;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
@@ -19,11 +18,7 @@ import com.sum.shy.utils.TypeUtils;
 
 public class TypeFactoryImpl implements TypeFactory {
 
-	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
-
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
-
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性
@@ -44,10 +39,9 @@ public class TypeFactoryImpl implements TypeFactory {
 		if (token.isType()) {
 			IType type = new IType();
 			if (token.value instanceof String) {// String // String[] //? //T,K
-				String simpleName = (String) token.value;
+				String simpleName = token.getValue();
 				if ("?".equals(simpleName)) {// 未知类型
 					return StaticType.WILDCARD_TYPE;
-
 				} else {
 					type = clazz.getTypeVariable(simpleName);// 泛型参数
 					if (type == null)
