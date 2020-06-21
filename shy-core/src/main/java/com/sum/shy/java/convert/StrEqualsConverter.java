@@ -25,31 +25,34 @@ public class StrEqualsConverter implements ElementConverter {
 	}
 
 	public void convertStmt(IClass clazz, Statement stmt) {
-		// 如果有子节点，先处理子节点
+		// Process the child nodes first, or it will affect the transformation of the
+		// upper layer
 		for (Token token : stmt.tokens) {
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());
 		}
 
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
+		for (int index = 0; index < stmt.size(); index++) {
+			Token token = stmt.getToken(index);
 			if (token.isOperator() && ("==".equals(token.toString()) || "!=".equals(token.toString()))) {
-				// 向左遍历获取自己的分支
-				int start = TreeUtils.findStart(stmt, i);
-				// 截取出这一部分
-				Statement lastSubStmt = stmt.subStmt(start, i);
+
+				int start = TreeUtils.findStart(stmt, index);
+				Statement lastSubStmt = stmt.subStmt(start, index);
 				IType lastType = deducer.derive(clazz, lastSubStmt);
 				if (lastType.isStr()) {
-					int end = TreeUtils.findEnd(stmt, i);
-					Statement nextSubStmt = stmt.subStmt(i + 1, end);
+
+					int end = TreeUtils.findEnd(stmt, index);
+					Statement nextSubStmt = stmt.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextSubStmt);
 					if (nextType.isStr()) {
+
 						String format = null;
 						if ("==".equals(token.toString())) {
 							format = "StringUtils.equals(%s, %s)";
 						} else if ("!=".equals(token.toString())) {
 							format = "!StringUtils.equals(%s, %s)";
 						}
+
 						String text = String.format(format, lastSubStmt, nextSubStmt);
 						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 						expressToken.setTypeAtt(StaticType.BOOLEAN_TYPE);

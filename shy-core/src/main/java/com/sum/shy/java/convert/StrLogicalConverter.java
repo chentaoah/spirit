@@ -25,33 +25,35 @@ public class StrLogicalConverter implements ElementConverter {
 	}
 
 	public void convertStmt(IClass clazz, Statement stmt) {
-		// 如果有子节点，先处理子节点
+		// Process the child nodes first, or it will affect the transformation of the
+		// upper layer
 		for (Token token : stmt.tokens) {
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());
 		}
 
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
+		for (int index = 0; index < stmt.size(); index++) {
+			Token token = stmt.getToken(index);
 			if (token.isOperator() && ("!".equals(token.toString()) || "&&".equals(token.toString()) || "||".equals(token.toString()))) {
 
 				if ("!".equals(token.toString())) {
-					replaceFollowingStr(clazz, stmt, i, token);
+					replaceFollowingStr(clazz, stmt, index, token);
 
 				} else if ("&&".equals(token.toString()) || "||".equals(token.toString())) {
-					replacePreviousStr(clazz, stmt, i, token);
-					replaceFollowingStr(clazz, stmt, i, token);
-
+					replacePreviousStr(clazz, stmt, index, token);
+					replaceFollowingStr(clazz, stmt, index, token);
 				}
 			}
 		}
 	}
 
 	public void replacePreviousStr(IClass clazz, Statement stmt, int index, Token token) {
+
 		int start = TreeUtils.findStart(stmt, index);
 		Statement lastSubStmt = stmt.subStmt(start, index);
 		IType type = deducer.derive(clazz, lastSubStmt);
 		if (type.isStr()) {
+
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastSubStmt);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
@@ -60,14 +62,15 @@ public class StrLogicalConverter implements ElementConverter {
 			stmt.replace(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
-
 	}
 
 	public void replaceFollowingStr(IClass clazz, Statement stmt, int index, Token token) {
+
 		int end = TreeUtils.findEnd(stmt, index);
 		Statement nextSubStmt = stmt.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextSubStmt);
 		if (type.isStr()) {
+
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextSubStmt);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
@@ -76,7 +79,6 @@ public class StrLogicalConverter implements ElementConverter {
 			stmt.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
-
 	}
 
 }

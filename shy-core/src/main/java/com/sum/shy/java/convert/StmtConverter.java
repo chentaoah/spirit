@@ -8,6 +8,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.api.lexer.ElementBuilder;
+import com.sum.shy.java.TypeBuilder;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IField;
 import com.sum.shy.pojo.clazz.IType;
@@ -15,7 +16,6 @@ import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
-import com.sum.shy.utils.TypeBuilder;
 
 @Order(-40)
 public class StmtConverter implements ElementConverter {
@@ -58,19 +58,19 @@ public class StmtConverter implements ElementConverter {
 			if (element.isPrint()) {
 				element.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.info("));
 			} else if (element.isDebug()) {
-				element.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.debug("));// 替换
+				element.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.debug("));
 			} else if (element.isError()) {
-				element.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.error("));// 替换
+				element.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "logger.error("));
 			}
 			element.addToken(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
 			if (!clazz.existField("logger")) {
-				// 添加依赖
+
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-				// 添加字段
-				Element element1 = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				IField field = new IField(null, true, element1);
+
+				Element logger = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				IField field = new IField(null, true, logger);
 				clazz.fields.add(0, field);
 			}
 		}

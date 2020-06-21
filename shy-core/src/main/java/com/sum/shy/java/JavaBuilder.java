@@ -15,7 +15,6 @@ import com.sum.shy.pojo.clazz.IMethod;
 import com.sum.shy.pojo.clazz.Import;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.element.Element;
-import com.sum.shy.utils.TypeBuilder;
 
 public class JavaBuilder implements CodeBuilder {
 

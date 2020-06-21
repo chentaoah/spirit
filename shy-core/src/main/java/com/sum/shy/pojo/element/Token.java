@@ -13,7 +13,7 @@ public class Token extends Semantic {
 
 	public Object value;
 
-	public Map<String, Object> attachments = new HashMap<>();// 解析获得的其他信息
+	public Map<String, Object> attachments = new HashMap<>();
 
 	public Token() {
 	}
