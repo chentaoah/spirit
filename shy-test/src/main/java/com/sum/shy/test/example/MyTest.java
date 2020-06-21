@@ -1,4 +1,4 @@
-package com.sum.shy.test;
+package com.sum.shy.test.example;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

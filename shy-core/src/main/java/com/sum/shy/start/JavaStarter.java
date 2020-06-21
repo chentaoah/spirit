@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.pisces.utils.StringUtils;
 import com.sum.shy.api.CodeBuilder;
 import com.sum.shy.api.Compiler;
 import com.sum.shy.api.PostProcessor;
@@ -24,17 +25,23 @@ public class JavaStarter {
 		processor.postStartProcessor(args);
 
 		String inputPath = args[0];
-		String outputPath = args[1];
+		// 如果没有配置输出路径，则默认输出到控制台
+		String outputPath = args.length >= 1 ? args[1] : null;
 
 		Map<String, File> files = new LinkedHashMap<>();
+
 		FileUtils.getFiles(inputPath, "", files);
 
 		Map<String, IClass> allClasses = compiler.compile(files);
 
 		for (IClass clazz : allClasses.values()) {
+
 			String code = builder.build(clazz);
+
 			code = processor.postCodeProcessor(args, clazz, code);
-			FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getSimpleName(), code);
+
+			if (StringUtils.isNotEmpty(outputPath))
+				FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getSimpleName(), code);
 		}
 
 		processor.postEndProcessor(args, files);

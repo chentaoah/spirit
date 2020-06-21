@@ -1,8 +1,8 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
-import com.sum.shy.test.ClassGenericTest;
-import com.sum.shy.test.MyTest;
+import com.sum.shy.test.example.ClassGenericTest;
+import com.sum.shy.test.example.MyTest;
 import com.sum.test.process.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
