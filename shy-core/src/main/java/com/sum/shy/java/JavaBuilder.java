@@ -7,6 +7,7 @@ import java.util.Map;
 import com.sum.pisces.core.StaticFactory;
 import com.sum.pisces.utils.AnnotationUtils;
 import com.sum.shy.api.CodeBuilder;
+import com.sum.shy.api.convert.AnnotationConverter;
 import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.pojo.clazz.IAnnotation;
 import com.sum.shy.pojo.clazz.IClass;
@@ -18,9 +19,16 @@ import com.sum.shy.pojo.element.Element;
 
 public class JavaBuilder implements CodeBuilder {
 
+	public List<AnnotationConverter> annoConverters = new ArrayList<>();
+
 	public List<ElementConverter> converters = new ArrayList<>();
 
 	public JavaBuilder() {
+
+		Map<String, AnnotationConverter> annoConverterMap = StaticFactory.FACTORY.getBeansOfType(AnnotationConverter.class);
+		annoConverters.addAll(annoConverterMap.values());
+		AnnotationUtils.sortByOrder(annoConverters);
+
 		Map<String, ElementConverter> converterMap = StaticFactory.FACTORY.getBeansOfType(ElementConverter.class);
 		converters.addAll(converterMap.values());
 		AnnotationUtils.sortByOrder(converters);
@@ -39,8 +47,10 @@ public class JavaBuilder implements CodeBuilder {
 	public String buildHead(IClass clazz) {
 
 		StringBuilder builder = new StringBuilder();
+
 		// package
 		builder.append(String.format("package %s;\n\n", clazz.packageStr));
+
 		// import
 		boolean flag = false;
 		for (Import iImport : clazz.imports) {
@@ -51,9 +61,13 @@ public class JavaBuilder implements CodeBuilder {
 		}
 		if (flag)
 			builder.append("\n");
+
 		// annotation
-		for (IAnnotation annotation : clazz.annotations)
-			builder.append(annotation + "\n");
+		for (IAnnotation annotation : clazz.annotations) {
+			annotation = convert(clazz, annotation);
+			if (annotation != null)
+				builder.append(annotation + "\n");
+		}
 
 		return builder.toString();
 	}
@@ -73,8 +87,11 @@ public class JavaBuilder implements CodeBuilder {
 			Element element = method.element;
 
 			// annotation
-			for (IAnnotation annotation : method.annotations)
-				methodsStr.append("\t" + annotation + "\n");
+			for (IAnnotation annotation : method.annotations) {
+				annotation = convert(clazz, annotation);
+				if (annotation != null)
+					methodsStr.append("\t" + annotation + "\n");
+			}
 
 			// If this method is the main method
 			if (method.isStatic && "main".equals(method.name)) {
@@ -106,9 +123,13 @@ public class JavaBuilder implements CodeBuilder {
 		StringBuilder fieldsStr = new StringBuilder();
 		// public static type + element
 		for (IField field : clazz.fields) {
+
 			// annotation
-			for (IAnnotation annotation : field.annotations)
-				fieldsStr.append("\t" + annotation + "\n");
+			for (IAnnotation annotation : field.annotations) {
+				annotation = convert(clazz, annotation);
+				if (annotation != null)
+					fieldsStr.append("\t" + annotation + "\n");
+			}
 
 			String format = "\tpublic %s%s\n";
 			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
@@ -127,6 +148,14 @@ public class JavaBuilder implements CodeBuilder {
 			if (element.hasChildElement())
 				convertMethodElement(builder, indent + "\t", clazz, element);
 		}
+	}
+
+	public IAnnotation convert(IClass clazz, IAnnotation annotation) {
+		for (AnnotationConverter converter : annoConverters) {
+			if (converter.isMatch(clazz, annotation))
+				return converter.convert(clazz, annotation);
+		}
+		return annotation;
 	}
 
 	public Element convert(IClass clazz, Element element) {
