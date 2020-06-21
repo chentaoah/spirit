@@ -13,7 +13,6 @@ public class MyConverter implements AnnotationConverter {
 
 	@Override
 	public IAnnotation convert(IClass clazz, IAnnotation annotation) {
-		System.out.println(annotation);
 		return annotation;
 	}
 
