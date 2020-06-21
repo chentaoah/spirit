@@ -1,21 +1,30 @@
 package com.sum.shy.java.convert;
 
+import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
 import com.sum.shy.utils.TreeUtils;
 
-public class StrEqualsConverter {
+@Order(-80)
+public class StrEqualsConverter implements ElementConverter {
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public static void convertStmt(IClass clazz, Statement stmt) {
+	@Override
+	public void convert(IClass clazz, Element element) {
+		convertStmt(clazz, element.stmt);
+	}
+
+	public void convertStmt(IClass clazz, Statement stmt) {
 		// 如果有子节点，先处理子节点
 		for (Token token : stmt.tokens) {
 			if (token.canSplit())

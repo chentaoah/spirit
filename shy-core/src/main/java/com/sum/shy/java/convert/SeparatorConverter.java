@@ -1,29 +1,30 @@
 package com.sum.shy.java.convert;
 
+import com.sum.pisces.api.annotation.Order;
+import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
 
-public class SeparatorConverter {
+@Order(-20)
+public class SeparatorConverter implements ElementConverter {
 
-	public static void convert(IClass clazz, Element element) {
+	@Override
+	public void convert(IClass clazz, Element element) {
 
-		if (element.isIf() || element.isElseIf() || element.isFor() || element.isWhile() || element.isCatch()
-				|| element.isSync()) {
+		if (element.isIf() || element.isElseIf() || element.isFor() || element.isWhile() || element.isCatch() || element.isSync()) {
 			insertBrackets(clazz, element.stmt);
 		}
 
-		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign()
-				|| element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis()
-				|| element.isThrow() || element.isContinue() || element.isBreak()) {
+		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign() || element.isInvoke() || element.isReturn()
+				|| element.isSuper() || element.isThis() || element.isThrow() || element.isContinue() || element.isBreak()) {
 			addLineEnd(clazz, element.stmt);
 		}
-
 	}
 
-	public static void insertBrackets(IClass clazz, Statement stmt) {
+	public void insertBrackets(IClass clazz, Statement stmt) {
 		// 第一个连续关键字之后，最后的分隔符之前
 		int index = findKeyword(stmt);// if xxx { //}catch Exception e{
 		stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
@@ -34,7 +35,7 @@ public class SeparatorConverter {
 		}
 	}
 
-	public static int findKeyword(Statement stmt) {
+	public int findKeyword(Statement stmt) {
 		int index = -1;
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -51,7 +52,7 @@ public class SeparatorConverter {
 		return index;
 	}
 
-	public static void addLineEnd(IClass clazz, Statement stmt) {
+	public void addLineEnd(IClass clazz, Statement stmt) {
 		if (!"{".equals(stmt.last()))
 			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
 	}

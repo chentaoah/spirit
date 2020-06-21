@@ -28,3 +28,8 @@ native_linker=com.sum.shy.core.link.NativeLinker
 
 #
 code_builder=com.sum.shy.java.JavaBuilder
+common_converter=com.sum.shy.java.convert.CommonConverter
+equals_converter=com.sum.shy.java.convert.StrEqualsConverter
+logical_converter=com.sum.shy.java.convert.StrLogicalConverter
+stmt_converter=com.sum.shy.java.convert.StmtConverter
+separator_converter=com.sum.shy.java.convert.SeparatorConverter

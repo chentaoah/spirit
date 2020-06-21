@@ -3,7 +3,9 @@ package com.sum.shy.java.convert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
+import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.api.lexer.ElementBuilder;
 import com.sum.shy.pojo.clazz.IClass;
@@ -15,13 +17,15 @@ import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
 import com.sum.shy.utils.TypeBuilder;
 
-public class StmtConverter {
+@Order(-40)
+public class StmtConverter implements ElementConverter {
 
 	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public static void convert(IClass clazz, Element element) {
+	@Override
+	public void convert(IClass clazz, Element element) {
 
 		if (element.isSync()) {// sync s {
 			element.replaceKeyword(Constants.SYNC_KEYWORD, "synchronized");
@@ -69,9 +73,7 @@ public class StmtConverter {
 				IField field = new IField(null, true, element1);
 				clazz.fields.add(0, field);
 			}
-
 		}
-
 	}
 
 }

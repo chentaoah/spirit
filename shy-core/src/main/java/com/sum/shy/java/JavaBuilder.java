@@ -1,11 +1,13 @@
 package com.sum.shy.java;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.sum.pisces.core.StaticFactory;
+import com.sum.pisces.utils.AnnotationUtils;
 import com.sum.shy.api.CodeBuilder;
-import com.sum.shy.java.convert.CommonConverter;
-import com.sum.shy.java.convert.SeparatorConverter;
-import com.sum.shy.java.convert.StmtConverter;
-import com.sum.shy.java.convert.StrEqualsConverter;
-import com.sum.shy.java.convert.StrLogicalConverter;
+import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.pojo.clazz.IAnnotation;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IField;
@@ -17,51 +19,73 @@ import com.sum.shy.utils.TypeBuilder;
 
 public class JavaBuilder implements CodeBuilder {
 
+	public List<ElementConverter> converters = new ArrayList<>();
+
+	public JavaBuilder() {
+		Map<String, ElementConverter> converterMap = StaticFactory.FACTORY.getBeansOfType(ElementConverter.class);
+		converters.addAll(converterMap.values());
+		AnnotationUtils.sortByOrder(converters);
+	}
+
 	@Override
 	public String build(IClass clazz) {
-		StringBuilder sb = new StringBuilder();
-		String body = buildBody(clazz);// 这里构建body的原因是在构建时，还要动态添加import
+		StringBuilder builder = new StringBuilder();
+		// When building a method, sometimes imports and fields is added
+		// dynamically, so execute the method first
+		String body = buildBody(clazz);
 		String head = buildHead(clazz);
-		sb.append(head);
-		sb.append(body);
-		return sb.toString();
+		return builder.append(head).append(body).toString();
 	}
 
 	public String buildHead(IClass clazz) {
-		StringBuilder sb = new StringBuilder();
-		// 包名
-		sb.append(String.format("package %s;\n\n", clazz.packageStr));
-		// 引入
+
+		StringBuilder builder = new StringBuilder();
+		// package
+		builder.append(String.format("package %s;\n\n", clazz.packageStr));
+		// import
+		boolean flag = false;
 		for (Import iImport : clazz.imports) {
-			if (!iImport.hasAlias())
-				sb.append(iImport.element + ";\n");
+			if (!iImport.hasAlias()) {
+				flag = true;
+				builder.append(iImport.element + ";\n");
+			}
 		}
-		if (clazz.imports.size() > 0)
-			sb.append("\n");
-		// 注解
+		if (flag)
+			builder.append("\n");
+		// annotation
 		for (IAnnotation annotation : clazz.annotations)
-			sb.append(annotation.token + "\n");
-		return sb.toString();
+			builder.append(annotation + "\n");
+
+		return builder.toString();
 	}
 
 	public String buildBody(IClass clazz) {
-		// 类名
+
 		StringBuilder classStr = new StringBuilder();
 		classStr.append("public "
 				+ clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPLS_KEYWORD, "implements") + "\n\n");
 
-		// 这里倒过来的原因是，在转换方法体时，需要根据需要动态添加字段
+		// When building a method, sometimes imports and fields is added
+		// dynamically, so execute the method first
 		StringBuilder methodsStr = new StringBuilder();
-		for (IMethod method : clazz.methods) {// public static type + element
+
+		// public static type + element
+		for (IMethod method : clazz.methods) {
 			Element element = method.element;
+
+			// annotation
 			for (IAnnotation annotation : method.annotations)
 				methodsStr.append("\t" + annotation + "\n");
-			// 如果是主方法，则使用java的主方法样式
+
+			// If this method is the main method
 			if (method.isStatic && "main".equals(method.name)) {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
+
 			} else {
+				// public User()
+				// public static synchronized String methodName()
 				if (element.isFuncDeclare()) {
-					String format = element.children.size() > 0 ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
+					String format = element.hasChildElement() ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
 					methodsStr.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
 							element.removeKeyword(Constants.SYNC_KEYWORD)));
 
@@ -71,19 +95,22 @@ public class JavaBuilder implements CodeBuilder {
 							!method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 				}
-
 			}
-			if (element.children.size() > 0) {// 构建方法体
+			// Content building within methods
+			if (element.hasChildElement()) {
 				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 				methodsStr.append("\t}\n\n");
 			}
 		}
 
-		// 字段
+		// fields
 		StringBuilder fieldsStr = new StringBuilder();
-		for (IField field : clazz.fields) {// public static type + element
+		// public static type + element
+		for (IField field : clazz.fields) {
+			// annotation
 			for (IAnnotation annotation : field.annotations)
 				fieldsStr.append("\t" + annotation + "\n");
+
 			String format = "\tpublic %s%s\n";
 			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
 		}
@@ -98,23 +125,14 @@ public class JavaBuilder implements CodeBuilder {
 	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {
 		for (Element element : father.children) {
 			sb.append(indent + convert(clazz, element) + "\n");
-			if (element.children.size() > 0)
+			if (element.hasChildElement())
 				convertMethodElement(sb, indent + "\t", clazz, element);
 		}
 	}
 
 	public Element convert(IClass clazz, Element element) {
-		// 1.基本转换，添加new关键字，将函数集合装换成方法构造
-		CommonConverter.convertStmt(clazz, element.stmt);
-		// 2.重载了字符串的==操作，和判空
-		StrEqualsConverter.convertStmt(clazz, element.stmt);
-		// 3.类型隐喻,逻辑符在操作字符串时，字符串转换为判空
-		StrLogicalConverter.convertStmt(clazz, element.stmt);
-		// 4.特殊语句的特殊处理
-		StmtConverter.convert(clazz, element);
-		// 5.添加括号和行结束符
-		SeparatorConverter.convert(clazz, element);
-
+		for (ElementConverter converter : converters)
+			converter.convert(clazz, element);
 		return element;
 	}
 

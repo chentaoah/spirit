@@ -41,6 +41,10 @@ public class Element extends Syntactic {
 		return stmt.split(separator);
 	}
 
+	public boolean hasChildElement() {
+		return children.size() > 0;
+	}
+
 	public Element replaceKeyword(String keyword, String text) {
 		int index = findKeyword(keyword);
 		if (index != -1)

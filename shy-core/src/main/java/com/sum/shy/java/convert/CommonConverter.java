@@ -1,14 +1,23 @@
 package com.sum.shy.java.convert;
 
+import com.sum.pisces.api.annotation.Order;
+import com.sum.shy.api.convert.ElementConverter;
 import com.sum.shy.lib.Collection;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.common.Constants;
+import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
 
-public class CommonConverter {
+@Order(-100)
+public class CommonConverter implements ElementConverter {
 
-	public static void convertStmt(IClass clazz, Statement stmt) {
+	@Override
+	public void convert(IClass clazz, Element element) {
+		convertStmt(clazz, element.stmt);
+	}
+
+	public void convertStmt(IClass clazz, Statement stmt) {
 
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
@@ -43,4 +52,5 @@ public class CommonConverter {
 			}
 		}
 	}
+
 }
