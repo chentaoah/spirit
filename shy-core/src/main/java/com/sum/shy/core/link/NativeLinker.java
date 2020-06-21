@@ -39,7 +39,7 @@ public class NativeLinker implements MemberLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			Map<String, IType> namedTypes = getNamedTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
+			Map<String, IType> namedTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 			return convertType(type, namedTypes, null, method.getGenericReturnType());
 
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class NativeLinker implements MemberLinker {
 		throw new RuntimeException("The method was not found!method:" + methodName);
 	}
 
-	public Map<String, IType> getNamedTypes(IType type, Method method, List<IType> parameterTypes) {
+	public Map<String, IType> getQualifyingTypes(IType type, Method method, List<IType> parameterTypes) {
 		Map<String, IType> namedTypes = new HashMap<>();
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
