@@ -25,8 +25,8 @@ public class SeparatorConverter implements ElementConverter {
 	}
 
 	public void insertBrackets(IClass clazz, Statement stmt) {
-		// 第一个连续关键字之后，最后的分隔符之前
-		int index = findKeyword(stmt);// if xxx { //}catch Exception e{
+		// if text { // }catch Exception e{
+		int index = findLastKeyword(stmt);
 		stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
 		if ("{".equals(stmt.last())) {
 			stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")"));
@@ -35,16 +35,16 @@ public class SeparatorConverter implements ElementConverter {
 		}
 	}
 
-	public int findKeyword(Statement stmt) {
+	public int findLastKeyword(Statement stmt) {
 		int index = -1;
 		for (int i = 0; i < stmt.size(); i++) {
 			Token token = stmt.getToken(i);
 			if (token.isKeyword()) {
 				index = i;
 			} else {
-				if (index == -1) {// 不是关键字的话,则进行下去
+				if (index == -1) {
 					continue;
-				} else {// 如果不是关键字,但是关键字已经找到,则中断
+				} else {
 					break;
 				}
 			}
@@ -54,7 +54,7 @@ public class SeparatorConverter implements ElementConverter {
 
 	public void addLineEnd(IClass clazz, Statement stmt) {
 		if (!"{".equals(stmt.last()))
-			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));// 这个添加的后缀,使得后面不会加上空格
+			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));
 	}
 
 }
