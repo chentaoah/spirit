@@ -1,7 +1,6 @@
 package com.sum.shy.start;
 
 import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
@@ -28,21 +27,15 @@ public class JavaStarter {
 		// 如果没有配置输出路径，则默认输出到控制台
 		String outputPath = args.length >= 1 ? args[1] : null;
 
-		Map<String, File> files = new LinkedHashMap<>();
-
-		FileUtils.getFiles(inputPath, "", files);
-
+		Map<String, File> files = FileUtils.getFiles(inputPath);
 		Map<String, IClass> allClasses = compiler.compile(files);
 
-		for (IClass clazz : allClasses.values()) {
-
+		allClasses.forEach((className, clazz) -> {
 			String code = builder.build(clazz);
-
 			code = processor.postCodeProcessor(args, clazz, code);
-
 			if (StringUtils.isNotEmpty(outputPath))
-				FileUtils.generateFile(outputPath, clazz.packageStr, clazz.getSimpleName(), code);
-		}
+				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
+		});
 
 		processor.postEndProcessor(args, files);
 
