@@ -122,11 +122,11 @@ public class JavaBuilder implements CodeBuilder {
 
 	}
 
-	public void convertMethodElement(StringBuilder sb, String indent, IClass clazz, Element father) {
+	public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, Element father) {
 		for (Element element : father.children) {
-			sb.append(indent + convert(clazz, element) + "\n");
+			builder.append(indent + convert(clazz, element) + "\n");
 			if (element.hasChildElement())
-				convertMethodElement(sb, indent + "\t", clazz, element);
+				convertMethodElement(builder, indent + "\t", clazz, element);
 		}
 	}
 
