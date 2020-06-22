@@ -1,7 +1,7 @@
 
 ===================== IDE中使用 =====================
 
-1.在Idea或Eclipse中引入lib和plugs目录下的jar包。
+1.在idea或eclipse中引入deploy/lib目录下的jar包。
 
 2.确保IDE中maven已经引入所有依赖的jar包。
 
