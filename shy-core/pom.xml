@@ -8,12 +8,14 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>shy-core</artifactId>
+
 	<properties>
 		<pisces.version>1.0.0</pisces.version>
 		<guava.version>29.0-jre</guava.version>
 		<lang3.version>3.9</lang3.version>
 		<slf4j.version>1.7.25</slf4j.version>
 	</properties>
+
 	<dependencies>
 		<!-- lib -->
 		<dependency>
@@ -45,4 +47,36 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- 打包配置 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<outputDirectory>${project.build.directory}/../../deploy/lib</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/../../deploy/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

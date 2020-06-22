@@ -1,0 +1,8 @@
+
+===================== IDE中使用 =====================
+
+1.在Idea或Eclipse中引入lib和plugs目录下的jar包。
+
+2.确保IDE中maven已经引入所有依赖的jar包。
+
+3.运行com.sum.shy.start.JavaStarter类的main方法，并传入input、output两个绝对路径。
