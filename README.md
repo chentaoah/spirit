@@ -48,6 +48,11 @@ public class Main {
 上述功能点，具体可以参考shy-test模块中，src/test/resources/com.sum.test目录下的示例代码。  
 目前仅支持在sublime中编辑，只需添加样式文件Shy.sublime-syntax即可。
 
+使用方式：
+1. 在eclipse或idea中，引入deploy/lib目录下的jar包。
+2. 确保IDE中maven已经引入所有依赖的jar包。
+3. 运行com.sum.shy.start.JavaStarter类的main方法，并传入input、output两个绝对路径。
+
 未来：
 1. 编辑器提供提示功能。
 
