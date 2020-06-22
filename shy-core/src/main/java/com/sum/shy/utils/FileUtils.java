@@ -40,13 +40,16 @@ public class FileUtils {
 	public static void generateFile(String outputPath, String className, String code) {
 
 		String filePath = outputPath + SEPARATOR + className.replaceAll("\\.", "\\" + SEPARATOR) + ".java";
+		File directory = new File(filePath.substring(0, filePath.lastIndexOf(SEPARATOR)));
 		File file = new File(filePath);
 
 		try {
-			if (!file.exists()) {
-				file.mkdirs();
+			if (!directory.exists())
+				directory.mkdirs();
+
+			if (!file.exists())
 				file.createNewFile();
-			}
+
 			Files.write(code, file, Charsets.UTF_8);
 
 		} catch (IOException e) {
