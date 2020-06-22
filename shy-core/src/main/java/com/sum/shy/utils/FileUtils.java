@@ -50,7 +50,8 @@ public class FileUtils {
 			if (!file.exists())
 				file.createNewFile();
 
-			Files.write(code, file, Charsets.UTF_8);
+			// Code changed due to guava upgrade
+			Files.asCharSink(file, Charsets.UTF_8).write(code);
 
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to generate file!");
