@@ -9,6 +9,9 @@
 	</parent>
 	<artifactId>shy-core</artifactId>
 	<properties>
+		<pisces.version>1.0.0-SNAPSHOT</pisces.version>
+		<guava.version>29.0-jre</guava.version>
+		<lang3.version>3.9</lang3.version>
 		<slf4j.version>1.7.25</slf4j.version>
 	</properties>
 	<dependencies>
@@ -22,18 +25,18 @@
 		<dependency>
 			<groupId>com.sum.pisces</groupId>
 			<artifactId>pisces-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${pisces.version}</version>
 		</dependency>
 		<!-- utils -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>29.0-jre</version>
+			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
+			<version>${lang3.version}</version>
 		</dependency>
 		<!-- slf4j -->
 		<dependency>
