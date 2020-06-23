@@ -20,7 +20,8 @@ public class FileUtils {
 		if (!directory.isDirectory())
 			return files;
 
-		getFilesRecursively(directory, directory.getName(), files);
+		// The directory is CLASSPATH
+		getFilesRecursively(directory, null, files);
 		return files;
 	}
 
@@ -28,7 +29,7 @@ public class FileUtils {
 
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory()) {
-				getFilesRecursively(file, packageStr + "." + file.getName(), files);
+				getFilesRecursively(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files);
 
 			} else if (file.isFile()) {
 				if (file.getName().endsWith(".shy"))
