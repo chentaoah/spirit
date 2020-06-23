@@ -46,12 +46,13 @@ public class Main {
 10. 支持与Java的无缝集成。 :sweat: 底层不就是Java吗？有什么好集成的。
 
 上述功能点，具体可以参考shy-test模块中，src/test/resources/com.sum.test目录下的示例代码。  
-目前仅支持在sublime中编辑，只需添加样式文件Shy.sublime-syntax即可。
 
-使用方式：
-1. 在eclipse或idea中，引入deploy/lib目录下的jar包。
-2. 确保IDE中maven已经引入所有依赖的jar包。
-3. 运行com.sum.shy.start.JavaStarter类的main方法，并传入input、output两个绝对路径。
+使用说明：
+1. 下载安装sublime，并将sublime-plugs目录下的所有文件，拷贝到sublime插件目录的User目录下。
+2. 将deploy整个文件夹拷贝到任意目录。
+3. 在eclipse中，通过maven命令导出工程依赖项，并拷贝到lib_dep目录。(run->Maven-build->dependency:copy-dependencies)
+4. 在src目录下，创建一个文件夹，并创建一个后缀为.shy的文件。(例如创建一个名为com.sum.test的文件夹，并在该文件夹下创建一个HelloWord.shy文件)
+5. 双击运行bin/startup.bat，并在target目录下查看生成的代码。
 
 未来：
 1. 编辑器提供提示功能。
