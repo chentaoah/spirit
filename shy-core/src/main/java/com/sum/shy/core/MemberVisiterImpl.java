@@ -57,20 +57,32 @@ public class MemberVisiterImpl implements MemberVisiter {
 
 	@Override
 	public IType visitMethod(IClass clazz, IMethod method) {
-		if (method.element.isFuncDeclare()) {
-			return factory.create(clazz, method.element.getToken(0));
 
-		} else if (method.element.isFunc()) {
-			MethodContext context = new MethodContext(method);
-			visitChildElement(clazz, context, method.element);
+		MethodContext context = new MethodContext(method);
+		visitChildElement(clazz, context, method.element);
+
+		if (method.element.isFunc()) {
 			return context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
+
+		} else if (method.element.isFuncDeclare()) {
+
+			IType declaredType = factory.create(clazz, method.element.getToken(0));
+
+			if (method.element.hasChildElement()) {
+				IType returnType = context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
+				if (!declaredType.isMatch(returnType))
+					throw new RuntimeException("The derived type does not match the declared type!");
+			}
+
+			return declaredType;
 		}
+
 		throw new RuntimeException("Unsupported syntax!");
 	}
 
 	public void visitChildElement(IClass clazz, MethodContext context, Element father) {
-		for (Element element : father.children) {
 
+		for (Element element : father.children) {
 			// The depth must be increased in advance so that the block ID generation is not
 			// problematic
 			if (element.children.size() > 0)

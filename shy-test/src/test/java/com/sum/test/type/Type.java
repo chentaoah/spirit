@@ -80,4 +80,9 @@ public class Type {
 		return "yes";
 	}
 
+	public String testReturnType() {
+		int anumx = 1111;
+		return "I am a Str!" + anumx;
+	}
+
 }

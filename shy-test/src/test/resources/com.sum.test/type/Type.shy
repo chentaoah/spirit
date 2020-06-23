@@ -98,5 +98,10 @@ class Type {
 	func testParam(@Deprecated String str, Object obj){
 		return "yes"
 	}
+
+	String testReturnType(){
+		anumx=1111
+		return "I am a Str!" + anumx
+	}
 	
 }

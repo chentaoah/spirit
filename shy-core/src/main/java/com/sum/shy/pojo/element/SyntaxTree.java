@@ -61,6 +61,16 @@ public class SyntaxTree {
 				return Constants.INVOKE_SYNTAX;
 			}
 
+			if (tokens.size() == 2 && first.isNode()) {
+				Node node = first.getValue();
+				Token token = node.token;
+				if (token.isType()) {
+					Token rightToken = node.right.token;
+					if (rightToken.isLocalMethod()) // String test() {
+						return Constants.FUNC_DECLARE_SYNTAX;
+				}
+			}
+
 			Token second = tokens.get(1);
 			Token third = tokens.get(2);
 
@@ -87,7 +97,7 @@ public class SyntaxTree {
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to get current syntax!tokens:" + tokens.toString());
+			throw new RuntimeException("Unable to get current syntax!tokens of tree:" + tokens.toString());
 		}
 
 		throw new RuntimeException("Unknown syntax!");
