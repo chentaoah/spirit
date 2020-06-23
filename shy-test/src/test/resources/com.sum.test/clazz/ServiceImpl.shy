@@ -32,4 +32,8 @@ class ServiceImpl<T,K> extends AbsService{
 		return value
 	}
 
+	func testAbsMethod(String test){
+		return "success"
+	}
+
 }
