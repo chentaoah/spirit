@@ -101,14 +101,17 @@ public class JavaBuilder implements CodeBuilder {
 				// public User()
 				// public static synchronized String methodName()
 				if (element.isFuncDeclare()) {
-					String format = element.hasChildElement() ? "\tpublic %s%s%s\n" : "\tpublic %s%s%s;\n\n";
-					methodsStr.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
-							element.removeKeyword(Constants.SYNC_KEYWORD)));
+					String format = element.hasChildElement() ? "\tpublic %s%s%s%s\n" : "\tpublic %s%s%s%s;\n\n";
+					String staticDesc = method.isStatic ? "static " : "";
+					String abstractDesc = clazz.isAbstract() && !element.hasChildElement() ? "abstract " : "";
+					String syncDesc = method.isSync ? "synchronized " : "";
+					methodsStr.append(String.format(format, staticDesc, abstractDesc, syncDesc, element.removeKeyword(Constants.SYNC_KEYWORD)));
 
 				} else if (element.isFunc()) {
 					String format = "\tpublic %s%s%s%s\n";
-					methodsStr.append(String.format(format, method.isStatic ? "static " : "", method.isSync ? "synchronized " : "",
-							!method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
+					String staticDesc = method.isStatic ? "static " : "";
+					String syncDesc = method.isSync ? "synchronized " : "";
+					methodsStr.append(String.format(format, staticDesc, syncDesc, !method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
 							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
 				}
 			}

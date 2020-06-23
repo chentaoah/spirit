@@ -33,4 +33,8 @@ public class ServiceImpl<T, K> extends AbsService {
 		return value;
 	}
 
+	public String testAbsMethod(String test) {
+		return "success";
+	}
+
 }
