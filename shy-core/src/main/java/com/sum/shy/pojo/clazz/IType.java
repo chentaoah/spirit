@@ -44,12 +44,12 @@ public class IType {
 
 	public IClass toClass() {
 		Assert.isTrue(!isNative(), "Cannot be a native type!");
-		return Context.get().findClass(getTargetName());
+		return Context.get().findClass(getClassName());// 这里就不能是数组
 	}
 
 	public Class<?> toNativeClass() {
 		Assert.isTrue(isNative(), "Must be a native type!");
-		return ReflectUtils.getClass(getTargetName());
+		return ReflectUtils.getClass(getClassName());// 可能是数组
 	}
 
 	public IType getSuperType() {

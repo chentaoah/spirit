@@ -26,8 +26,7 @@ public class NativeLinker implements MemberLinker {
 	@Override
 	public IType visitField(IType type, String fieldName) {
 		try {
-			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-			Field field = clazz.getField(fieldName);
+			Field field = type.toNativeClass().getField(fieldName);
 			return convertType(type, null, null, field.getGenericType());
 
 		} catch (Exception e) {
@@ -48,8 +47,7 @@ public class NativeLinker implements MemberLinker {
 	}
 
 	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
-		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
-		for (Method method : clazz.getMethods()) {
+		for (Method method : type.toNativeClass().getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
 				boolean flag = true;
 				int index = 0;
@@ -74,9 +72,8 @@ public class NativeLinker implements MemberLinker {
 	}
 
 	public Method findIndefiniteMethod(IType type, String methodName, List<IType> parameterTypes) {
-		Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 		// 处理不定项方法，Object... objects
-		for (Method method : clazz.getMethods()) {
+		for (Method method : type.toNativeClass().getMethods()) {
 			if (method.getName().equals(methodName) && ReflectUtils.isIndefinite(method)) {
 				Parameter[] parameters = method.getParameters();
 				boolean flag = true;
@@ -124,9 +121,8 @@ public class NativeLinker implements MemberLinker {
 			return StaticType.WILDCARD_TYPE;
 
 		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
-			Class<?> clazz = ReflectUtils.getClass(type.getClassName());
 			// 1.可能是类型定义的泛型参数
-			int index = getTypeVariableIndex(clazz, nativeType.toString());
+			int index = getTypeVariableIndex(type.toNativeClass(), nativeType.toString());
 			if (index >= 0) {
 				return type.getGenericTypes().get(index);
 			} else {
