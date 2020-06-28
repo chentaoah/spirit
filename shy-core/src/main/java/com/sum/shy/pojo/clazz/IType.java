@@ -44,7 +44,7 @@ public class IType {
 
 	public IClass toClass() {
 		Assert.isTrue(!isNative(), "Cannot be a native type!");
-		Assert.isTrue(!isArray, "Array has no class!");
+		Assert.isTrue(!isArray(), "Array has no class!");
 		return Context.get().findClass(getClassName());// 这里就不能是数组
 	}
 
