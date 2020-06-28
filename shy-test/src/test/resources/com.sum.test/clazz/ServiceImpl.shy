@@ -40,4 +40,12 @@ class ServiceImpl<T,K> extends AbsService{
 		return t
 	}
 
+	func test1(T t){
+		return "hello"
+	}
+
+	func test1(int number){
+		return 1
+	}
+
 }

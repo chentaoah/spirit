@@ -187,13 +187,9 @@ public class IClass {
 		return null;
 	}
 
-	public boolean existMethod(String methodName, List<IType> parameterTypes) {
-		return getMethod(methodName, parameterTypes) != null;
-	}
-
-	public IMethod getMethod(String methodName, List<IType> parameterTypes) {
+	public IMethod getMethod(IType type, String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
-			if (method.isMatch(methodName, parameterTypes))
+			if (method.isMatch(type, methodName, parameterTypes))
 				return method;
 		}
 		return null;

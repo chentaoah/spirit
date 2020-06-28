@@ -96,6 +96,15 @@ class Type {
 		type=service.testReturnGenericType("text")
 		print type.toString()
 
+		key = service.key
+		print key
+
+		serNum=service.test1(123)
+		print "" + serNum
+
+		serStr=service.test1("hello")
+		print "" + serStr
+
 	}
 
 	func testParam(@Deprecated String str, Object obj){

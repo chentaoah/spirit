@@ -41,4 +41,12 @@ public class ServiceImpl<T, K> extends AbsService {
 		return t;
 	}
 
+	public String test1(T t) {
+		return "hello";
+	}
+
+	public int test1(int number) {
+		return 1;
+	}
+
 }

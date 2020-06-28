@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
+import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.common.Context;
 import com.sum.shy.pojo.common.StaticType;
@@ -41,6 +42,16 @@ public class IType {
 		return factory.create(getTargetName());
 	}
 
+	public IClass toIClass() {
+		Assert.isTrue(!isNative(), "Cannot be a native type!");
+		return Context.get().findClass(getTargetName());
+	}
+
+	public Class<?> toNativeClass() {
+		Assert.isTrue(isNative(), "Must be a native type!");
+		return ReflectUtils.getClass(getTargetName());
+	}
+
 	public IType getSuperType() {
 
 		if (isPrimitive())
@@ -50,12 +61,10 @@ public class IType {
 			return StaticType.OBJECT_TYPE;
 
 		if (!isNative()) {
-			IClass clazz = Context.get().findClass(getTargetName());
-			return clazz.getSuperType();
+			return toIClass().getSuperType();
 
 		} else {
-			Class<?> clazz = ReflectUtils.getClass(getTargetName());
-			Class<?> superClass = clazz.getSuperclass();
+			Class<?> superClass = toNativeClass().getSuperclass();
 			return superClass != null ? factory.create(superClass) : null;
 		}
 
@@ -70,13 +79,11 @@ public class IType {
 			return new ArrayList<>();
 
 		if (!isNative()) {
-			IClass clazz = Context.get().findClass(getTargetName());
-			return clazz.getInterfaces();
+			return toIClass().getInterfaces();
 
 		} else {
 			List<IType> interfaces = new ArrayList<>();
-			Class<?> clazz = ReflectUtils.getClass(getTargetName());
-			for (Class<?> interfaceClass : clazz.getInterfaces())
+			for (Class<?> interfaceClass : toNativeClass().getInterfaces())
 				interfaces.add(factory.create(interfaceClass));
 			return interfaces;
 		}

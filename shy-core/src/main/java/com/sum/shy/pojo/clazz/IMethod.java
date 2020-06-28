@@ -3,6 +3,7 @@ package com.sum.shy.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.shy.core.link.CodeLinker;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Token;
@@ -36,11 +37,13 @@ public class IMethod extends AbsMember {
 
 	}
 
-	public boolean isMatch(String methodName, List<IType> parameterTypes) {
+	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
+
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
-				if (!parameter.type.isMatch(parameterTypes.get(count++)))
+				IType returnType = CodeLinker.convertType(type, parameter.type);
+				if (!returnType.isMatch(parameterTypes.get(count++)))
 					return false;
 			}
 			return true;

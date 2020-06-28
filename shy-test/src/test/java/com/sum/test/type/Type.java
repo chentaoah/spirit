@@ -78,6 +78,12 @@ public class Type {
 		ServiceImpl<String, Object> service = new ServiceImpl<String, Object>();
 		String type = service.testReturnGenericType("text");
 		logger.info(type.toString());
+		String key = service.key;
+		logger.info(key);
+		int serNum = service.test1(123);
+		logger.info("" + serNum);
+		String serStr = service.test1("hello");
+		logger.info("" + serStr);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {
