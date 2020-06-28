@@ -3,7 +3,9 @@ package com.sum.shy.test.example;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericType<T, K> {
+public class GenericType<T, K> extends HashMap<T, K> {
+
+	private static final long serialVersionUID = 1L;
 
 	public String test(T t) {
 		return "";
