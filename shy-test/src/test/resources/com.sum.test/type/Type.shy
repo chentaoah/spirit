@@ -92,6 +92,9 @@ class Type {
 		xxss = testParam(null, null)
 		print xxss
 
+		service=ServiceImpl<String,Object>()
+		type=service.testReturnGenericType("text")
+		print type.toString()
 
 	}
 

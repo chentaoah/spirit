@@ -37,4 +37,8 @@ public class ServiceImpl<T, K> extends AbsService {
 		return "success";
 	}
 
+	public T testReturnGenericType(T t) {
+		return t;
+	}
+
 }

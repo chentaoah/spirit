@@ -4,6 +4,7 @@ import java.util.HashMap;
 import com.sum.shy.test.example.ClassGenericTest;
 import com.sum.shy.test.example.MyTest;
 import com.sum.test.process.Main;
+import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.shy.lib.Collection;
@@ -74,6 +75,9 @@ public class Type {
 		logger.info("" + ssss);
 		String xxss = testParam(null, null);
 		logger.info(xxss);
+		ServiceImpl<String, Object> service = new ServiceImpl<String, Object>();
+		String type = service.testReturnGenericType("text");
+		logger.info(type.toString());
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {

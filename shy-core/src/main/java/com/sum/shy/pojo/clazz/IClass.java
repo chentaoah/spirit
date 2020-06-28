@@ -114,10 +114,6 @@ public class IClass {
 		return token;
 	}
 
-	public String getSimpleName() {
-		return TypeUtils.getTargetName(getTypeToken().toString());
-	}
-
 	public IType getTypeVariable(String genericName) {// 这里要小心，泛型参数多层嵌套的情况
 		String simpleName = getTypeToken().toString();
 		List<String> names = TypeUtils.splitName(simpleName);
@@ -130,6 +126,23 @@ public class IClass {
 			}
 		}
 		return null;
+	}
+
+	public int getTypeVariableIndex(String genericName) {
+		String simpleName = getTypeToken().toString();
+		List<String> names = TypeUtils.splitName(simpleName);
+		names.remove(0);
+		int index = 0;
+		for (String name : names) {
+			if (name.equals(genericName))
+				return index;
+			index++;
+		}
+		return -1;
+	}
+
+	public String getSimpleName() {
+		return TypeUtils.getTargetName(getTypeToken().toString());
 	}
 
 	public String getClassName() {
