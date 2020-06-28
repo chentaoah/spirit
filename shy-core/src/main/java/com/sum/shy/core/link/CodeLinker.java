@@ -21,14 +21,12 @@ public class CodeLinker implements MemberLinker {
 	public IType visitField(IType type, String fieldName) {
 
 		IClass clazz = type.toClass();
-		if (clazz.existField(fieldName)) {
-			IField field = clazz.getField(fieldName);
+		IField field = clazz.getField(fieldName);
+		if (field != null) {
 			IType returnType = visiter.visitMember(clazz, field);
 			return convertType(type, returnType);
-
-		} else {
-			return linker.visitField(clazz.getSuperType(), fieldName);
 		}
+		return linker.visitField(clazz.getSuperType(), fieldName);
 	}
 
 	@Override

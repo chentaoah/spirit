@@ -175,10 +175,6 @@ public class IClass {
 		return methods;
 	}
 
-	public boolean existField(String fieldName) {
-		return getField(fieldName) != null;
-	}
-
 	public IField getField(String fieldName) {
 		for (IField field : fields) {
 			if (field.name.equals(fieldName))

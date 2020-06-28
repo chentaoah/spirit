@@ -64,8 +64,7 @@ public class StmtConverter implements ElementConverter {
 			}
 			element.addToken(new Token(Constants.CUSTOM_SUFFIX_TOKEN, ");"));
 
-			if (!clazz.existField("logger")) {
-
+			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
 
