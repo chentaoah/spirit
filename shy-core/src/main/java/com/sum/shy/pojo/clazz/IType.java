@@ -14,7 +14,7 @@ import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 
 /**
- * 指的是在IClass中，由代码声明的类型
+ * 指的是已经在实际代码中，使用的类型描述
  * 
  * @author chentao26275
  *
@@ -44,6 +44,7 @@ public class IType {
 
 	public IClass toClass() {
 		Assert.isTrue(!isNative(), "Cannot be a native type!");
+		Assert.isTrue(!isArray, "Array has no class!");
 		return Context.get().findClass(getClassName());// 这里就不能是数组
 	}
 

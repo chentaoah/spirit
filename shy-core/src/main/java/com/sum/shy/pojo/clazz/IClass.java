@@ -103,6 +103,10 @@ public class IClass {
 		return root.isClass();
 	}
 
+	public boolean isArray() {
+		return false;
+	}
+
 	public Token getTypeToken() {
 		Token token = null;
 		if (isInterface()) {
