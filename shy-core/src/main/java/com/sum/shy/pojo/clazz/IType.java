@@ -42,7 +42,7 @@ public class IType {
 		return factory.create(getTargetName());
 	}
 
-	public IClass toIClass() {
+	public IClass toClass() {
 		Assert.isTrue(!isNative(), "Cannot be a native type!");
 		return Context.get().findClass(getTargetName());
 	}
@@ -61,7 +61,7 @@ public class IType {
 			return StaticType.OBJECT_TYPE;
 
 		if (!isNative()) {
-			return toIClass().getSuperType();
+			return toClass().getSuperType();
 
 		} else {
 			Class<?> superClass = toNativeClass().getSuperclass();
@@ -79,7 +79,7 @@ public class IType {
 			return new ArrayList<>();
 
 		if (!isNative()) {
-			return toIClass().getInterfaces();
+			return toClass().getInterfaces();
 
 		} else {
 			List<IType> interfaces = new ArrayList<>();
