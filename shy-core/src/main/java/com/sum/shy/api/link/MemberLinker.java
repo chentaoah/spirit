@@ -10,6 +10,10 @@ public interface MemberLinker {
 
 	int getTypeVariableIndex(IType type, String genericName);
 
+	IType getSuperType(IType type);
+
+	List<IType> getInterfaceTypes(IType type);
+
 	IType visitField(IType type, String fieldName);
 
 	IType visitMethod(IType type, String methodName, List<IType> parameterTypes);

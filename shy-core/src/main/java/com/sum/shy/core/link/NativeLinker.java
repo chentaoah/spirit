@@ -33,6 +33,21 @@ public class NativeLinker implements MemberLinker {
 	}
 
 	@Override
+	public IType getSuperType(IType type) {
+		Type nativeSuperType = type.toNativeClass().getGenericSuperclass();
+		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
+		return factory.populateType(type, superType);
+	}
+
+	@Override
+	public List<IType> getInterfaceTypes(IType type) {
+		List<IType> interfaceTypes = new ArrayList<>();
+		for (Type interfaceType : type.toNativeClass().getGenericInterfaces())
+			interfaceTypes.add(factory.populateType(type, factory.create(interfaceType)));
+		return interfaceTypes;
+	}
+
+	@Override
 	public IType visitField(IType type, String fieldName) {
 		try {
 			Field field = type.toNativeClass().getField(fieldName);

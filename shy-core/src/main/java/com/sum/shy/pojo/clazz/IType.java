@@ -1,6 +1,5 @@
 package com.sum.shy.pojo.clazz;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
+import com.sum.shy.api.link.MemberLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.common.Context;
@@ -24,6 +24,8 @@ import com.sum.shy.utils.TypeUtils;
 public class IType {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+
+	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
 
 	private String className;
 	private String simpleName;
@@ -78,17 +80,10 @@ public class IType {
 		if (isArray())
 			return StaticType.OBJECT_TYPE;
 
-		if (!isNative()) {
-			return factory.populateType(this, toClass().getSuperType());
-
-		} else {
-			Type nativeSuperType = toNativeClass().getGenericSuperclass();
-			IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
-			return factory.populateType(this, superType);
-		}
+		return linker.getSuperType(this);
 	}
 
-	public List<IType> getInterfaces() {
+	public List<IType> getInterfaceTypes() {
 
 		if (isPrimitive())
 			return new ArrayList<>();
@@ -96,19 +91,7 @@ public class IType {
 		if (isArray())
 			return new ArrayList<>();
 
-		if (!isNative()) {
-			List<IType> interfaces = new ArrayList<>();
-			for (IType inter : toClass().getInterfaces())
-				interfaces.add(factory.populateType(this, inter));
-			return interfaces;
-
-		} else {
-			List<IType> interfaces = new ArrayList<>();
-			for (Type interfaceType : toNativeClass().getGenericInterfaces())
-				interfaces.add(factory.populateType(this, factory.create(interfaceType)));
-			return interfaces;
-		}
-
+		return linker.getInterfaceTypes(this);
 	}
 
 	public IType getWrappedType() {
@@ -139,7 +122,7 @@ public class IType {
 		if (isMatch(type.getWrappedType().getSuperType()))
 			return true;
 
-		for (IType inter : type.getInterfaces()) {
+		for (IType inter : type.getInterfaceTypes()) {
 			if (isMatch(inter))
 				return true;
 		}

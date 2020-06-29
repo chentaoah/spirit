@@ -1,5 +1,6 @@
 package com.sum.shy.core.link;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
@@ -22,6 +23,19 @@ public class CodeLinker implements MemberLinker {
 	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {
 		return type.toClass().getTypeVariableIndex(genericName);
+	}
+
+	@Override
+	public IType getSuperType(IType type) {
+		return factory.populateType(type, type.toClass().getSuperType());
+	}
+
+	@Override
+	public List<IType> getInterfaceTypes(IType type) {
+		List<IType> interfaceTypes = new ArrayList<>();
+		for (IType interfaceType : type.toClass().getInterfaceTypes())
+			interfaceTypes.add(factory.populateType(type, interfaceType));
+		return interfaceTypes;
 	}
 
 	@Override

@@ -157,7 +157,7 @@ public class IClass {
 		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 
-	public List<IType> getInterfaces() {
+	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
 		for (Token token : root.getKeywordParams(Constants.IMPLS_KEYWORD))
 			interfaces.add(factory.create(this, token));

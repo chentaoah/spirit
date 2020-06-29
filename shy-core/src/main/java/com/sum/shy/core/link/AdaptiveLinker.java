@@ -24,6 +24,16 @@ public class AdaptiveLinker implements MemberLinker {
 	}
 
 	@Override
+	public IType getSuperType(IType type) {
+		return !type.isNative() ? codeLinker.getSuperType(type) : nativeLinker.getSuperType(type);
+	}
+
+	@Override
+	public List<IType> getInterfaceTypes(IType type) {
+		return !type.isNative() ? codeLinker.getInterfaceTypes(type) : nativeLinker.getInterfaceTypes(type);
+	}
+
+	@Override
 	public IType visitField(IType type, String fieldName) {
 
 		if (type == null)
