@@ -35,6 +35,7 @@ public class IType {
 	private boolean isNull;// 是否空值
 	private boolean isWildcard;// 是否 ？
 	private boolean isNative;// 是否本地类型
+	private boolean isInternal = false;// 是否内部的
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public IType copy() {
@@ -48,6 +49,7 @@ public class IType {
 		type.setNull(isNull);
 		type.setWildcard(isWildcard);
 		type.setNative(isNative);
+		type.setInternal(false);
 		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		return type;
 	}
@@ -150,6 +152,8 @@ public class IType {
 	public String toString() {
 		if (isGenericType())
 			return className + "<" + Joiner.on(", ").join(genericTypes) + ">";
+		if (isTypeVariable())
+			return genericName;
 		return className;
 	}
 
@@ -243,6 +247,14 @@ public class IType {
 
 	public void setNative(boolean isNative) {
 		this.isNative = isNative;
+	}
+
+	public boolean isInternal() {
+		return isInternal;
+	}
+
+	public void setInternal(boolean isInternal) {
+		this.isInternal = isInternal;
 	}
 
 	public List<IType> getGenericTypes() {

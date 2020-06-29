@@ -2,6 +2,7 @@ package com.sum.shy.core.link;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -58,10 +59,23 @@ public class NativeLinker implements ClassLinker {
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
+		return doVisitField(type, fieldName, false);
+	}
+
+	public IType doVisitField(IType type, String fieldName, boolean isSuperType) {
 		try {
 			Class<?> clazz = toClass(type);
-			Field field = clazz.getField(fieldName);
-			return populateType(type, null, null, field.getGenericType());
+			Field field = clazz.getDeclaredField(fieldName);
+			if (field != null) {
+				if (!isSuperType) {
+					return populateType(type, null, null, field.getGenericType());
+				} else {
+					int modifier = field.getModifiers();
+					if (Modifier.isPublic(modifier) || Modifier.isProtected(modifier))
+						return populateType(type, null, null, field.getGenericType());
+				}
+			}
+			return doVisitField(type.getSuperType(), fieldName, true);
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit field!fieldName:" + fieldName, e);
@@ -70,8 +84,15 @@ public class NativeLinker implements ClassLinker {
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+		return doVisitMethod(type, methodName, parameterTypes, false);
+	}
+
+	public IType doVisitMethod(IType type, String methodName, List<IType> parameterTypes, boolean isSuperType) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
+			if (method != null) {
+
+			}
 			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 			return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 
@@ -82,7 +103,7 @@ public class NativeLinker implements ClassLinker {
 
 	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = toClass(type);
-		for (Method method : clazz.getMethods()) {
+		for (Method method : clazz.getDeclaredMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
 				boolean flag = true;
 				int index = 0;
@@ -103,13 +124,13 @@ public class NativeLinker implements ClassLinker {
 		if (method != null)
 			return method;
 
-		throw new RuntimeException("The method was not found!method:" + methodName);
+		return null;
 	}
 
 	public Method findIndefiniteMethod(IType type, String methodName, List<IType> parameterTypes) {
 		// 处理不定项方法，Object... objects
 		Class<?> clazz = toClass(type);
-		for (Method method : clazz.getMethods()) {
+		for (Method method : clazz.getDeclaredMethods()) {
 			if (method.getName().equals(methodName) && ReflectUtils.isIndefinite(method)) {
 				Parameter[] parameters = method.getParameters();
 				boolean flag = true;

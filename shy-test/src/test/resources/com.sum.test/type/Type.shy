@@ -2,6 +2,7 @@
 import java.util.HashMap
 import com.sum.shy.test.example.ClassGenericTest
 import com.sum.shy.test.example.MyTest
+import com.sum.shy.test.example.GenericType
 
 @Deprecated
 class Type {
@@ -104,6 +105,10 @@ class Type {
 
 		serStr=service.test1("hello")
 		print "" + serStr
+
+		generic=GenericType<String,String>()
+		gKey=generic.get("test")
+		print gKey
 
 	}
 
