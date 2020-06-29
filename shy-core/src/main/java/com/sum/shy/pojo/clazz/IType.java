@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.MemberLinker;
@@ -130,6 +131,14 @@ public class IType {
 		return false;
 	}
 
+	public boolean isGenericType() {
+		return genericTypes != null && genericTypes.size() > 0;
+	}
+
+	public boolean isTypeVariable() {
+		return StringUtils.isNotEmpty(genericName);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 
@@ -152,15 +161,9 @@ public class IType {
 
 	@Override
 	public String toString() {
+		if (isGenericType())
+			return className + "<" + Joiner.on(", ").join(genericTypes) + ">";
 		return className;
-	}
-
-	public boolean isGenericType() {
-		return genericTypes != null && genericTypes.size() > 0;
-	}
-
-	public boolean isTypeVariable() {
-		return StringUtils.isNotEmpty(genericName);
 	}
 
 	public boolean isVoid() {
