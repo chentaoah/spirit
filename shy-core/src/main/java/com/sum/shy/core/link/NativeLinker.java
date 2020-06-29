@@ -13,17 +13,24 @@ import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.utils.ReflectUtils;
 
-public class NativeLinker implements MemberLinker {
+public class NativeLinker implements ClassLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T toClass(IType type) {
+		return (T) ReflectUtils.getClass(type.getClassName());// 可能是数组
+	}
+
+	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {
-		TypeVariable<?>[] typeVariables = type.toNativeClass().getTypeParameters();
+		Class<?> clazz = toClass(type);
+		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		for (int i = 0; i < typeVariables.length; i++) {
 			TypeVariable<?> typeVariable = typeVariables[i];
 			if (typeVariable.toString().equals(genericName))
@@ -34,15 +41,17 @@ public class NativeLinker implements MemberLinker {
 
 	@Override
 	public IType getSuperType(IType type) {
-		Type nativeSuperType = type.toNativeClass().getGenericSuperclass();
+		Class<?> clazz = toClass(type);
+		Type nativeSuperType = clazz.getGenericSuperclass();
 		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
 		return factory.populateType(type, superType);
 	}
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
+		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (Type interfaceType : type.toNativeClass().getGenericInterfaces())
+		for (Type interfaceType : clazz.getGenericInterfaces())
 			interfaceTypes.add(factory.populateType(type, factory.create(interfaceType)));
 		return interfaceTypes;
 	}
@@ -50,7 +59,8 @@ public class NativeLinker implements MemberLinker {
 	@Override
 	public IType visitField(IType type, String fieldName) {
 		try {
-			Field field = type.toNativeClass().getField(fieldName);
+			Class<?> clazz = toClass(type);
+			Field field = clazz.getField(fieldName);
 			return populateType(type, null, null, field.getGenericType());
 
 		} catch (Exception e) {
@@ -71,7 +81,8 @@ public class NativeLinker implements MemberLinker {
 	}
 
 	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
-		for (Method method : type.toNativeClass().getMethods()) {
+		Class<?> clazz = toClass(type);
+		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && method.getParameterCount() == parameterTypes.size()) {
 				boolean flag = true;
 				int index = 0;
@@ -97,7 +108,8 @@ public class NativeLinker implements MemberLinker {
 
 	public Method findIndefiniteMethod(IType type, String methodName, List<IType> parameterTypes) {
 		// 处理不定项方法，Object... objects
-		for (Method method : type.toNativeClass().getMethods()) {
+		Class<?> clazz = toClass(type);
+		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(methodName) && ReflectUtils.isIndefinite(method)) {
 				Parameter[] parameters = method.getParameters();
 				boolean flag = true;

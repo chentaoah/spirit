@@ -12,7 +12,7 @@ import java.util.List;
 import com.sum.pisces.api.annotation.Service;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.lexer.SemanticParser;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
@@ -24,7 +24,7 @@ public interface TypeFactory {
 
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 
-	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	default IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());

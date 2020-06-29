@@ -4,19 +4,24 @@ import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.StaticType;
 
-public class AdaptiveLinker implements MemberLinker {
+public class AdaptiveLinker implements ClassLinker {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
-	public static MemberLinker codeLinker = ProxyFactory.cast(MemberLinker.class, "code_linker");
+	public static ClassLinker codeLinker = ProxyFactory.cast(ClassLinker.class, "code_linker");
 
-	public static MemberLinker nativeLinker = ProxyFactory.cast(MemberLinker.class, "native_linker");
+	public static ClassLinker nativeLinker = ProxyFactory.cast(ClassLinker.class, "native_linker");
+
+	@Override
+	public <T> T toClass(IType type) {
+		return !type.isNative() ? codeLinker.toClass(type) : nativeLinker.toClass(type);
+	}
 
 	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {

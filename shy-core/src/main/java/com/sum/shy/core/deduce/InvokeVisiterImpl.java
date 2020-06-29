@@ -7,7 +7,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.FastDeducer;
 import com.sum.shy.api.deduce.InvokeVisiter;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.element.Statement;
@@ -17,7 +17,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
 
-	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 

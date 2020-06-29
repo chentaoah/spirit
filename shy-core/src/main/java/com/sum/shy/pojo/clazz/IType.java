@@ -8,10 +8,8 @@ import java.util.Map;
 import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.link.MemberLinker;
-import com.sum.shy.lib.Assert;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.pojo.common.Context;
 import com.sum.shy.pojo.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
@@ -26,7 +24,7 @@ public class IType {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
-	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	private String className;
 	private String simpleName;
@@ -60,17 +58,6 @@ public class IType {
 
 	public IType getTargetType() {
 		return factory.create(getTargetName());
-	}
-
-	public IClass toClass() {
-		Assert.isTrue(!isNative(), "Cannot be a native type!");
-		Assert.isTrue(!isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-		return Context.get().findClass(getClassName());
-	}
-
-	public Class<?> toNativeClass() {
-		Assert.isTrue(isNative(), "Must be a native type!");
-		return ReflectUtils.getClass(getClassName());// 可能是数组
 	}
 
 	public IType getSuperType() {

@@ -6,7 +6,9 @@ import com.sum.pisces.api.annotation.Service;
 import com.sum.shy.pojo.clazz.IType;
 
 @Service("adaptive_linker")
-public interface MemberLinker {
+public interface ClassLinker {
+
+	<T> T toClass(IType type);
 
 	int getTypeVariableIndex(IType type, String genericName);
 

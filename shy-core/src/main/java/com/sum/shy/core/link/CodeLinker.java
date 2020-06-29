@@ -6,41 +6,53 @@ import java.util.List;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.api.deduce.TypeFactory;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
+import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IField;
 import com.sum.shy.pojo.clazz.IMethod;
 import com.sum.shy.pojo.clazz.IType;
+import com.sum.shy.pojo.common.Context;
 
-public class CodeLinker implements MemberLinker {
+public class CodeLinker implements ClassLinker {
 
 	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
 
-	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T toClass(IType type) {
+		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
+		return (T) Context.get().findClass(type.getClassName());
+	}
+
+	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {
-		return type.toClass().getTypeVariableIndex(genericName);
+		IClass clazz = toClass(type);
+		return clazz.getTypeVariableIndex(genericName);
 	}
 
 	@Override
 	public IType getSuperType(IType type) {
-		return factory.populateType(type, type.toClass().getSuperType());
+		IClass clazz = toClass(type);
+		return factory.populateType(type, clazz.getSuperType());
 	}
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
+		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (IType interfaceType : type.toClass().getInterfaceTypes())
+		for (IType interfaceType : clazz.getInterfaceTypes())
 			interfaceTypes.add(factory.populateType(type, interfaceType));
 		return interfaceTypes;
 	}
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
-		IClass clazz = type.toClass();
+		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
 		if (field != null) {
 			IType returnType = visiter.visitMember(clazz, field);
@@ -51,7 +63,7 @@ public class CodeLinker implements MemberLinker {
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
-		IClass clazz = type.toClass();
+		IClass clazz = toClass(type);
 		IMethod method = clazz.getMethod(type, methodName, parameterTypes);
 		if (method != null) {
 			IType returnType = visiter.visitMember(clazz, method);

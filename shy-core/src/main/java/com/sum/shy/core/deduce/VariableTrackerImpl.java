@@ -4,7 +4,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.deduce.VariableTracker;
-import com.sum.shy.api.link.MemberLinker;
+import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IField;
@@ -21,7 +21,7 @@ public class VariableTrackerImpl implements VariableTracker {
 
 	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
 
-	public static MemberLinker linker = ProxyFactory.get(MemberLinker.class);
+	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
