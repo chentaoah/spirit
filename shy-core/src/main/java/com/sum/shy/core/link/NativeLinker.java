@@ -36,7 +36,7 @@ public class NativeLinker implements MemberLinker {
 	public IType visitField(IType type, String fieldName) {
 		try {
 			Field field = type.toNativeClass().getField(fieldName);
-			return convertType(type, null, null, field.getGenericType());
+			return populateType(type, null, null, field.getGenericType());
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit field!fieldName:" + fieldName, e);
@@ -48,7 +48,7 @@ public class NativeLinker implements MemberLinker {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
 			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
-			return convertType(type, qualifyingTypes, null, method.getGenericReturnType());
+			return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit method!methodName:" + methodName, e);
@@ -62,7 +62,7 @@ public class NativeLinker implements MemberLinker {
 				int index = 0;
 				for (Parameter parameter : method.getParameters()) {
 					IType parameterType = parameterTypes.get(index++);
-					IType nativeParameterType = convertType(type, null, parameterType, parameter.getParameterizedType());
+					IType nativeParameterType = populateType(type, null, parameterType, parameter.getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
@@ -88,7 +88,7 @@ public class NativeLinker implements MemberLinker {
 				boolean flag = true;
 				for (int i = 0; i < parameters.length - 1; i++) {
 					IType parameterType = parameterTypes.get(i);
-					IType nativeParameterType = convertType(type, null, parameterType, parameters[i].getParameterizedType());
+					IType nativeParameterType = populateType(type, null, parameterType, parameters[i].getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
@@ -96,7 +96,7 @@ public class NativeLinker implements MemberLinker {
 				}
 				if (flag) {
 					Parameter lastParameter = parameters[parameters.length - 1];
-					IType targetType = convertType(type, null, null, lastParameter.getParameterizedType()).getTargetType();
+					IType targetType = populateType(type, null, null, lastParameter.getParameterizedType()).getTargetType();
 					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
 						IType parameterType = parameterTypes.get(i);
 						if (!(targetType.isMatch(parameterType))) {
@@ -117,22 +117,22 @@ public class NativeLinker implements MemberLinker {
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
 		for (int i = 0; i < size; i++)
-			convertType(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
+			populateType(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
 		return qualifyingTypes;
 	}
 
-	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
-		return convertType(type, qualifyingTypes, mappingType, factory.create(nativeType));
+	public IType populateType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
+		return populateType(type, qualifyingTypes, mappingType, factory.create(nativeType));
 	}
 
-	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
+	public IType populateType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
 
 		if (nativeType.isGenericType()) {// List<T>
 			List<IType> genericTypes = new ArrayList<>();
 			int index = 0;
 			for (IType genericType : nativeType.getGenericTypes()) {
 				IType genericMappingType = mappingType != null ? mappingType.getGenericTypes().get(index++) : null;
-				genericTypes.add(convertType(type, qualifyingTypes, genericMappingType, genericType));
+				genericTypes.add(populateType(type, qualifyingTypes, genericMappingType, genericType));
 			}
 			nativeType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
