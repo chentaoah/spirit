@@ -19,6 +19,11 @@ public class AdaptiveLinker implements MemberLinker {
 	public static MemberLinker nativeLinker = ProxyFactory.cast(MemberLinker.class, "native_linker");
 
 	@Override
+	public int getTypeVariableIndex(IType type, String genericName) {
+		return !type.isNative() ? codeLinker.getTypeVariableIndex(type, genericName) : nativeLinker.getTypeVariableIndex(type, genericName);
+	}
+
+	@Override
 	public IType visitField(IType type, String fieldName) {
 
 		if (type == null)
@@ -26,11 +31,9 @@ public class AdaptiveLinker implements MemberLinker {
 
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
-		if (Constants.CLASS_KEYWORD.equals(fieldName)) {// xxx.class class是关键字
-			IType returnType = factory.create(Class.class);
-			returnType.getGenericTypes().add(type);
-			return returnType;
-		}
+		// xxx.class class是关键字
+		if (Constants.CLASS_KEYWORD.equals(fieldName))
+			return factory.create(Class.class, type);
 
 		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
 			return StaticType.INT_TYPE;// 访问数组length直接返回int类型

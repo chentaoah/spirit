@@ -103,10 +103,6 @@ public class IClass {
 		return root.isClass();
 	}
 
-	public boolean isArray() {
-		return false;
-	}
-
 	public Token getTypeToken() {
 		Token token = null;
 		if (isInterface()) {
@@ -123,11 +119,8 @@ public class IClass {
 		List<String> names = TypeUtils.splitName(simpleName);
 		names.remove(0);
 		for (String name : names) {
-			if (name.equals(genericName)) {
-				IType type = factory.create(Object.class);
-				type.setGenericName(genericName);
-				return type;
-			}
+			if (name.equals(genericName))
+				return factory.createTypeVariable(genericName);
 		}
 		return null;
 	}
@@ -157,7 +150,7 @@ public class IClass {
 		return factory.create(getClassName());
 	}
 
-	public IType getSuperType() {
+	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);

@@ -8,6 +8,8 @@ import com.sum.shy.pojo.clazz.IType;
 @Service("adaptive_linker")
 public interface MemberLinker {
 
+	int getTypeVariableIndex(IType type, String genericName);
+
 	IType visitField(IType type, String fieldName);
 
 	IType visitMethod(IType type, String methodName, List<IType> parameterTypes);

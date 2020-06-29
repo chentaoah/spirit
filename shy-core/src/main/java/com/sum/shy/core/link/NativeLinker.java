@@ -24,6 +24,11 @@ public class NativeLinker implements MemberLinker {
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
+	public int getTypeVariableIndex(IType type, String genericName) {
+		return getTypeVariableIndex(type.toNativeClass(), genericName);
+	}
+
+	@Override
 	public IType visitField(IType type, String fieldName) {
 		try {
 			Field field = type.toNativeClass().getField(fieldName);

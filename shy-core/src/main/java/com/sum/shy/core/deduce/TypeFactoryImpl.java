@@ -47,7 +47,8 @@ public class TypeFactoryImpl implements TypeFactory {
 					if (type == null)
 						type = create(clazz.findImport(simpleName));// 一般类型
 				}
-			} else if (token.value instanceof Statement) {// List<String> // Class<?>
+			} else if (token.value instanceof Statement) {// List<String> //
+															// Class<?>
 				Statement stmt = token.getValue();
 				String simpleName = stmt.getStr(0);// 前缀
 				type = create(clazz.findImport(simpleName));
@@ -100,9 +101,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement stmt = token.getValue();
 		List<Statement> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
-		IType type = create(List.class);
-		type.getGenericTypes().add(getGenericType(clazz, stmts));
-		return type;
+		return create(List.class, getGenericType(clazz, stmts));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -114,10 +113,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			keyStmts.add(subStmts.get(0));
 			valueStmts.add(subStmts.get(1));
 		}
-		IType type = create(Map.class);
-		type.getGenericTypes().add(getGenericType(clazz, keyStmts));
-		type.getGenericTypes().add(getGenericType(clazz, valueStmts));
-		return type;
+		return create(Map.class, getGenericType(clazz, keyStmts), getGenericType(clazz, valueStmts));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> stmts) {

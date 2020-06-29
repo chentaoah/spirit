@@ -1,6 +1,8 @@
 package com.sum.shy.pojo.clazz;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,21 @@ public class IType {
 	private boolean isNative;// 是否本地类型
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
+	public IType copy() {
+		IType type = new IType();
+		type.setClassName(className);
+		type.setSimpleName(simpleName);
+		type.setTypeName(typeName);
+		type.setGenericName(genericName);
+		type.setPrimitive(isPrimitive);
+		type.setArray(isArray);
+		type.setNull(isNull);
+		type.setWildcard(isWildcard);
+		type.setNative(isNative);
+		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
+		return type;
+	}
+
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
 	}
@@ -44,8 +61,8 @@ public class IType {
 
 	public IClass toClass() {
 		Assert.isTrue(!isNative(), "Cannot be a native type!");
-		Assert.isTrue(!isArray(), "Array has no class!");
-		return Context.get().findClass(getClassName());// 这里就不能是数组
+		Assert.isTrue(!isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
+		return Context.get().findClass(getClassName());
 	}
 
 	public Class<?> toNativeClass() {
@@ -62,13 +79,13 @@ public class IType {
 			return StaticType.OBJECT_TYPE;
 
 		if (!isNative()) {
-			return toClass().getSuperType();
+			return factory.populateType(this, toClass().getSuperType());
 
 		} else {
-			Class<?> superClass = toNativeClass().getSuperclass();
-			return superClass != null ? factory.create(superClass) : null;
+			Type nativeSuperType = toNativeClass().getGenericSuperclass();
+			IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
+			return factory.populateType(this, superType);
 		}
-
 	}
 
 	public List<IType> getInterfaces() {
@@ -80,12 +97,15 @@ public class IType {
 			return new ArrayList<>();
 
 		if (!isNative()) {
-			return toClass().getInterfaces();
+			List<IType> interfaces = new ArrayList<>();
+			for (IType inter : toClass().getInterfaces())
+				interfaces.add(factory.populateType(this, inter));
+			return interfaces;
 
 		} else {
 			List<IType> interfaces = new ArrayList<>();
-			for (Class<?> interfaceClass : toNativeClass().getInterfaces())
-				interfaces.add(factory.create(interfaceClass));
+			for (Type interfaceType : toNativeClass().getGenericInterfaces())
+				interfaces.add(factory.populateType(this, factory.create(interfaceType)));
 			return interfaces;
 		}
 
