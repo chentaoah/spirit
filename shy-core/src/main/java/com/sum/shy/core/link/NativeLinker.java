@@ -3,11 +3,10 @@ package com.sum.shy.core.link;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.MemberLinker;
 import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;
 
 public class NativeLinker implements MemberLinker {
@@ -25,7 +23,13 @@ public class NativeLinker implements MemberLinker {
 
 	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {
-		return getTypeVariableIndex(type.toNativeClass(), genericName);
+		TypeVariable<?>[] typeVariables = type.toNativeClass().getTypeParameters();
+		for (int i = 0; i < typeVariables.length; i++) {
+			TypeVariable<?> typeVariable = typeVariables[i];
+			if (typeVariable.toString().equals(genericName))
+				return i;
+		}
+		return -1;
 	}
 
 	@Override
@@ -117,53 +121,41 @@ public class NativeLinker implements MemberLinker {
 		return qualifyingTypes;
 	}
 
-	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType parameterType, Type nativeType) {
+	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
+		return convertType(type, qualifyingTypes, mappingType, factory.create(nativeType));
+	}
 
-		if (nativeType instanceof Class) {// 一部分类型可以直接转换
-			return factory.create((Class<?>) nativeType);
+	public IType convertType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
 
-		} else if (nativeType instanceof WildcardType) {// 特指泛型中的Class<?>中的问号
-			return StaticType.WILDCARD_TYPE;
+		if (nativeType.isGenericType()) {// List<T>
+			List<IType> genericTypes = new ArrayList<>();
+			int index = 0;
+			for (IType genericType : nativeType.getGenericTypes()) {
+				IType genericMappingType = mappingType != null ? mappingType.getGenericTypes().get(index++) : null;
+				genericTypes.add(convertType(type, qualifyingTypes, genericMappingType, genericType));
+			}
+			nativeType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
-		} else if (nativeType instanceof TypeVariable) {// 泛型参数 E or K or V
+		} else if (nativeType.isTypeVariable()) {// T or K
+			String genericName = nativeType.getGenericName();
 			// 1.可能是类型定义的泛型参数
-			int index = getTypeVariableIndex(type.toNativeClass(), nativeType.toString());
+			int index = getTypeVariableIndex(type, genericName);
 			if (index >= 0) {
 				return type.getGenericTypes().get(index);
 			} else {
 				// 2.也可能是根据入参，导致返回类型限定的泛型参数
-				if (qualifyingTypes != null && qualifyingTypes.containsKey(nativeType.toString())) {
-					return qualifyingTypes.get(nativeType.toString());
+				if (qualifyingTypes != null && qualifyingTypes.containsKey(genericName)) {
+					return qualifyingTypes.get(genericName);
 				} else {
 					// 放入限定类型的集合中，以便推导返回类型
 					if (qualifyingTypes != null)
-						qualifyingTypes.put(nativeType.toString(), parameterType);
+						qualifyingTypes.put(genericName, mappingType);
 					// 3.也可能是影射的入参中的泛型参数
-					return parameterType;
+					return mappingType;
 				}
 			}
-		} else if (nativeType instanceof ParameterizedType) {// 泛型 List<E>
-			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
-			Class<?> clazz = (Class<?>) parameterizedType.getRawType();
-			List<IType> genericTypes = new ArrayList<>();
-			int index = 0;
-			for (Type actualType : parameterizedType.getActualTypeArguments()) {
-				IType genericType = parameterType != null ? parameterType.getGenericTypes().get(index++) : null;
-				genericTypes.add(convertType(type, qualifyingTypes, genericType, actualType));
-			}
-			return factory.create(clazz, genericTypes);
 		}
-		throw new RuntimeException("Convert native type failed!");
-	}
-
-	public int getTypeVariableIndex(Class<?> clazz, String typeVariableName) {
-		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
-		for (int i = 0; i < typeVariables.length; i++) {
-			TypeVariable<?> typeVariable = typeVariables[i];
-			if (typeVariable.toString().equals(typeVariableName))
-				return i;
-		}
-		return -1;
+		return nativeType;
 	}
 
 }
