@@ -31,6 +31,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
+		type.setModifiers(IType.PUBLIC_MODIFIERS);
 		return type;
 	}
 

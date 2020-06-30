@@ -42,7 +42,7 @@ public class IType {
 	private boolean isNull;// 是否空值
 	private boolean isWildcard;// 是否 ？
 	private boolean isNative;// 是否本地类型
-	private int modifiers = PUBLIC_MODIFIERS;// 进行位运算后得到的修饰符
+	private int modifiers;// 进行位运算后得到的修饰符
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public IType copy() {
