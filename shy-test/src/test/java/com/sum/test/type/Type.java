@@ -86,8 +86,8 @@ public class Type {
 		String serStr = service.test1("hello");
 		logger.info("" + serStr);
 		GenericType<String, String> generic = new GenericType<String, String>();
-		String gKey = generic.get("test");
-		logger.info(gKey);
+		Integer gKey = generic.get("test");
+		logger.info(gKey + "");
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {
