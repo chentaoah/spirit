@@ -56,11 +56,11 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// super
 		if (Constants.SUPER_KEYWORD.equals(name))
-			return clazz.getSuperType();
+			return clazz.toSuper();
 
 		// this
 		if (Constants.THIS_KEYWORD.equals(name))
-			return clazz.toType();
+			return clazz.toThis();
 
 		// find in context
 		if (context != null) {
@@ -78,6 +78,6 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// Look from the parent class,
 		// but note that the parent class may be native
-		return linker.visitField(clazz.toType(), name);
+		return linker.visitField(clazz.toThis(), name);
 	}
 }
