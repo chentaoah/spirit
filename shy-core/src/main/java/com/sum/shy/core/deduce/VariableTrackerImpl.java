@@ -65,14 +65,13 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// find in context
 		if (context != null) {
-			IMethod method = context.method;
 			// find in variable
 			for (IVariable variable : context.variables) {
 				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))
 					return variable.type;
 			}
 			// find in parameters
-			for (IParameter parameter : method.parameters) {
+			for (IParameter parameter : context.method.parameters) {
 				if (parameter.name.equals(name))
 					return parameter.type;
 			}
