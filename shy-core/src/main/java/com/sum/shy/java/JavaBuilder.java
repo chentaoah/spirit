@@ -116,6 +116,7 @@ public class JavaBuilder implements CodeBuilder {
 				}
 			}
 			// Content building within methods
+			// Note that this may be an empty element!!!
 			if (element.hasChild() || element.hasChildElement()) {
 				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 				methodsStr.append("\t}\n\n");
