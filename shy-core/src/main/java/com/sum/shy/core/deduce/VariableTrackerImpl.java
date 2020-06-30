@@ -45,8 +45,8 @@ public class VariableTrackerImpl implements VariableTracker {
 				String name = token.getMemberName();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				type = type.getTargetType();// Convert array type to element
-											// type
+				// Convert array type to element type
+				type = type.getTargetType();
 				token.setTypeAtt(type);
 			}
 		}
