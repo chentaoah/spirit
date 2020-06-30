@@ -61,7 +61,14 @@ public class NativeLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) {
 		try {
 			Class<?> clazz = toClass(type);
-			Field field = clazz.getDeclaredField(fieldName);
+			Field field = null;
+			Field[] fields = clazz.getDeclaredFields();
+			for (Field f : fields) {
+				if (f.getName().equals(fieldName)) {
+					field = f;
+					break;
+				}
+			}
 
 			int modifiers = type.getModifiers();
 			Assert.isTrue(modifiers != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
@@ -72,7 +79,7 @@ public class NativeLinker implements ClassLinker {
 			if (superType != null)
 				return visitField(superType, fieldName);
 
-			throw new RuntimeException("No matching field was found!fieldName:" + fieldName);
+			return null;
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit field!fieldName:" + fieldName, e);
@@ -94,7 +101,7 @@ public class NativeLinker implements ClassLinker {
 			if (superType != null)
 				return visitMethod(superType, methodName, parameterTypes);
 
-			throw new RuntimeException("No matching method was found!methodName:" + methodName);
+			return null;
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit method!methodName:" + methodName, e);

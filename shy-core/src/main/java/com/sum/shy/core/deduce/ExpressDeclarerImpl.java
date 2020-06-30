@@ -35,8 +35,10 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			Token varToken = element.getToken(0);
 			IType type = null;
 
-			// If there is a method context, it means that the method return type is
-			// currently being derived, then try to get the type from the context first
+			// If there is a method context, it means that the method return
+			// type is
+			// currently being derived, then try to get the type from the
+			// context first
 			if (context != null)
 				type = tracker.findType(clazz, context, varToken.toString());
 
@@ -46,7 +48,8 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 				visiter.visit(clazz, subStmt);
 				type = deducer.derive(clazz, subStmt);
 
-				// After marking, it is convenient for subsequent conversion to Java code and
+				// After marking, it is convenient for subsequent conversion to
+				// Java code and
 				// automatic addition of type
 				varToken.setDerived(true);
 			}
@@ -67,12 +70,14 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 
-			// Note that although the sub statement is obtained here, it has nothing to do
+			// Note that although the sub statement is obtained here, it has
+			// nothing to do
 			// with the original statement itself
 			Statement subStmt = element.subStmt(1, element.indexOf(";"));
 			Element subElement = builder.build(subStmt.toString());
 
-			// This step cannot be omitted. The accessor needs to mark the token of the
+			// This step cannot be omitted. The accessor needs to mark the token
+			// of the
 			// original statement
 			subElement.stmt = subStmt;
 

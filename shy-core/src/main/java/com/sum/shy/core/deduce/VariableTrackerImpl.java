@@ -80,4 +80,5 @@ public class VariableTrackerImpl implements VariableTracker {
 		// but note that the parent class may be native
 		return linker.visitField(clazz.toThis(), name);
 	}
+
 }
