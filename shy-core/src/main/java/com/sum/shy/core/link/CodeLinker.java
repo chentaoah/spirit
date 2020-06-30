@@ -51,16 +51,6 @@ public class CodeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitInternalField(IType type, String fieldName) {
-		return visitField(type, fieldName);
-	}
-
-	@Override
-	public IType visitInternalMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return visitMethod(type, methodName, parameterTypes);
-	}
-
-	@Override
 	public IType visitField(IType type, String fieldName) {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);

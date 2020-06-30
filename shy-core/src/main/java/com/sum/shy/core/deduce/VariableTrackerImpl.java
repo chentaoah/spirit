@@ -78,6 +78,6 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// Look from the parent class,
 		// but note that the parent class may be native
-		return linker.visitInternalField(clazz.toType(), name);
+		return linker.visitField(clazz.toType(), name);
 	}
 }

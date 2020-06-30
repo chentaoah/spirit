@@ -1,5 +1,6 @@
 package com.sum.shy.pojo.clazz;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,12 @@ import com.sum.shy.utils.TypeUtils;
  */
 public class IType {
 
+	public static final int THIS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
+
+	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
+
+	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
+
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
@@ -35,6 +42,7 @@ public class IType {
 	private boolean isNull;// 是否空值
 	private boolean isWildcard;// 是否 ？
 	private boolean isNative;// 是否本地类型
+	private int modifiers = PUBLIC_MODIFIERS;// 进行位运算后得到的修饰符
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public IType copy() {
@@ -48,6 +56,7 @@ public class IType {
 		type.setNull(isNull);
 		type.setWildcard(isWildcard);
 		type.setNative(isNative);
+		type.setModifiers(modifiers);
 		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		return type;
 	}
@@ -245,6 +254,14 @@ public class IType {
 
 	public void setNative(boolean isNative) {
 		this.isNative = isNative;
+	}
+
+	public int getModifiers() {
+		return modifiers;
+	}
+
+	public void setModifiers(int modifiers) {
+		this.modifiers = modifiers;
 	}
 
 	public List<IType> getGenericTypes() {

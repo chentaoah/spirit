@@ -2,7 +2,6 @@ package com.sum.shy.core.link;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -15,6 +14,7 @@ import java.util.Map;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.ClassLinker;
+import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.utils.ReflectUtils;
 
@@ -58,39 +58,27 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitInternalField(IType type, String fieldName) {
-		return doVisitField(type, fieldName, Modifier.PUBLIC, Modifier.PROTECTED, Modifier.PRIVATE);
-	}
-
-	@Override
-	public IType visitInternalMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return doVisitMethod(type, methodName, parameterTypes, Modifier.PUBLIC, Modifier.PROTECTED, Modifier.PRIVATE);
-	}
-
-	@Override
 	public IType visitField(IType type, String fieldName) {
-		return doVisitField(type, fieldName, Modifier.PUBLIC);
-	}
-
-	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return doVisitMethod(type, methodName, parameterTypes, Modifier.PUBLIC);
-	}
-
-	public IType doVisitField(IType type, String fieldName, int... modifiers) {
 		try {
 			Class<?> clazz = toClass(type);
 			Field field = clazz.getDeclaredField(fieldName);
+
+			int modifiers = type.getModifiers();
+			Assert.isTrue(modifiers != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
 			if (field != null && ReflectUtils.isMatch(field, modifiers))
 				return populateType(type, null, null, field.getGenericType());
 
-			IType superType = type.getSuperType();
-			if (superType != null) {
-				if (modifiers.length == 3 || modifiers.length == 2) {
-					return doVisitField(type.getSuperType(), fieldName, Modifier.PUBLIC, Modifier.PROTECTED);
-
-				} else if (modifiers.length == 1) {
-					return doVisitField(type.getSuperType(), fieldName, Modifier.PUBLIC);
+			if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
+				IType superType = type.getSuperType();
+				if (superType != null) {
+					superType.setModifiers(IType.SUPER_MODIFIERS);
+					return visitField(superType, fieldName);
+				}
+			} else if (modifiers == IType.PUBLIC_MODIFIERS) {
+				IType superType = type.getSuperType();
+				if (superType != null) {
+					superType.setModifiers(IType.PUBLIC_MODIFIERS);
+					return visitField(superType, fieldName);
 				}
 			}
 
@@ -101,21 +89,27 @@ public class NativeLinker implements ClassLinker {
 		}
 	}
 
-	public IType doVisitMethod(IType type, String methodName, List<IType> parameterTypes, int... modifiers) {
+	@Override
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
+			int modifiers = type.getModifiers();
+			Assert.isTrue(modifiers != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
 			if (method != null && ReflectUtils.isMatch(method, modifiers)) {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
-
-			IType superType = type.getSuperType();
-			if (superType != null) {
-				if (modifiers.length == 3 || modifiers.length == 2) {
-					return doVisitMethod(type.getSuperType(), methodName, parameterTypes, Modifier.PUBLIC, Modifier.PROTECTED);
-
-				} else if (modifiers.length == 1) {
-					return doVisitMethod(type.getSuperType(), methodName, parameterTypes, Modifier.PUBLIC);
+			if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
+				IType superType = type.getSuperType();
+				if (superType != null) {
+					superType.setModifiers(IType.SUPER_MODIFIERS);
+					return visitMethod(superType, methodName, parameterTypes);
+				}
+			} else if (modifiers == IType.PUBLIC_MODIFIERS) {
+				IType superType = type.getSuperType();
+				if (superType != null) {
+					superType.setModifiers(IType.PUBLIC_MODIFIERS);
+					return visitMethod(superType, methodName, parameterTypes);
 				}
 			}
 

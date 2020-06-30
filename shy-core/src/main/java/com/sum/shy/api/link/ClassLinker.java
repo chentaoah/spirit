@@ -16,10 +16,6 @@ public interface ClassLinker {
 
 	List<IType> getInterfaceTypes(IType type);
 
-	IType visitInternalField(IType type, String fieldName);
-
-	IType visitInternalMethod(IType type, String methodName, List<IType> parameterTypes);
-
 	IType visitField(IType type, String fieldName);
 
 	IType visitMethod(IType type, String methodName, List<IType> parameterTypes);

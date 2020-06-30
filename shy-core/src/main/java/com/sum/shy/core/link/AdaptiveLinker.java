@@ -39,17 +39,6 @@ public class AdaptiveLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitInternalField(IType type, String fieldName) {
-		return !type.isNative() ? codeLinker.visitInternalField(type, fieldName) : nativeLinker.visitInternalField(type, fieldName);
-	}
-
-	@Override
-	public IType visitInternalMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return !type.isNative() ? codeLinker.visitInternalMethod(type, methodName, parameterTypes)
-				: nativeLinker.visitInternalMethod(type, methodName, parameterTypes);
-	}
-
-	@Override
 	public IType visitField(IType type, String fieldName) {
 
 		if (type == null)

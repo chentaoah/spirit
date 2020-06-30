@@ -147,13 +147,18 @@ public class IClass {
 	}
 
 	public IType toType() {
-		return factory.create(this, getTypeToken());
+		IType type = factory.create(this, getTypeToken());
+		type.setModifiers(IType.THIS_MODIFIERS);
+		return type;
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
-		if (token != null)
-			return factory.create(this, token);
+		if (token != null) {
+			IType type = factory.create(this, token);
+			type.setModifiers(IType.SUPER_MODIFIERS);
+			return type;
+		}
 		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 
