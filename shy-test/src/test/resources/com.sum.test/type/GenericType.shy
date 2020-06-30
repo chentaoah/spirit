@@ -1,6 +1,7 @@
 
 import java.util.HashMap
 
+@SuppressWarnings("serial")
 class GenericType<T,K> extends HashMap<T,Integer> {
 
 	func testGeneric(){
@@ -17,7 +18,7 @@ class GenericType<T,K> extends HashMap<T,Integer> {
 	}
 
 	func testB(){
-		
+
 	}
 
 }
