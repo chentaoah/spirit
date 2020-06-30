@@ -7,7 +7,6 @@ import com.sum.shy.api.deduce.VariableTracker;
 import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IMethod;
 import com.sum.shy.pojo.clazz.IParameter;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.clazz.IVariable;
