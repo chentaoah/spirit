@@ -44,7 +44,7 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 				token.setTypeAtt(deducer.derive(clazz, subStmt.subStmt("(", ")")));
 
 			} else if (token.isLocalMethod()) {
-				IType returnType = linker.visitMethod(clazz.toType(), token.getMemberName(), parameterTypes);
+				IType returnType = linker.visitInternalMethod(clazz.toType(), token.getMemberName(), parameterTypes);
 				token.setTypeAtt(returnType);
 
 			} else if (token.isVisitField()) {

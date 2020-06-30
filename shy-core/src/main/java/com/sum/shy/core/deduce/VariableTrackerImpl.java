@@ -7,7 +7,6 @@ import com.sum.shy.api.deduce.VariableTracker;
 import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IField;
 import com.sum.shy.pojo.clazz.IMethod;
 import com.sum.shy.pojo.clazz.IParameter;
 import com.sum.shy.pojo.clazz.IType;
@@ -46,7 +45,8 @@ public class VariableTrackerImpl implements VariableTracker {
 				String name = token.getMemberName();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				type = type.getTargetType();// Convert array type to element type
+				type = type.getTargetType();// Convert array type to element
+											// type
 				token.setTypeAtt(type);
 			}
 		}
@@ -78,16 +78,8 @@ public class VariableTrackerImpl implements VariableTracker {
 			}
 		}
 
-		// find in members
-		for (IField field : clazz.fields) {
-			if (field.name.equals(name)) {
-				if (field.type == null)
-					field.type = visiter.visitMember(clazz, field);
-				return field.type;
-			}
-		}
-
-		// Look from the parent class, but note that the parent class may be native
-		return linker.visitField(clazz.getSuperType(), name);
+		// Look from the parent class,
+		// but note that the parent class may be native
+		return linker.visitInternalField(clazz.toType(), name);
 	}
 }

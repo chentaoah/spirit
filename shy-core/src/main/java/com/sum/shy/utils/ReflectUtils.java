@@ -1,5 +1,6 @@
 package com.sum.shy.utils;
 
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
@@ -72,7 +73,8 @@ public class ReflectUtils {
 		}
 	}
 
-	public static boolean isMatch(int mod, int... modifiers) {
+	public static boolean isMatch(Member member, int... modifiers) {
+		int mod = member.getModifiers();
 		for (int modifier : modifiers) {
 			if ((mod & modifier) != 0)
 				return true;

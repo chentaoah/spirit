@@ -81,7 +81,7 @@ public class NativeLinker implements ClassLinker {
 		try {
 			Class<?> clazz = toClass(type);
 			Field field = clazz.getDeclaredField(fieldName);
-			if (field != null && ReflectUtils.isMatch(field.getModifiers(), modifiers))
+			if (field != null && ReflectUtils.isMatch(field, modifiers))
 				return populateType(type, null, null, field.getGenericType());
 
 			IType superType = type.getSuperType();
@@ -104,7 +104,7 @@ public class NativeLinker implements ClassLinker {
 	public IType doVisitMethod(IType type, String methodName, List<IType> parameterTypes, int... modifiers) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			if (method != null && ReflectUtils.isMatch(method.getModifiers(), modifiers)) {
+			if (method != null && ReflectUtils.isMatch(method, modifiers)) {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
