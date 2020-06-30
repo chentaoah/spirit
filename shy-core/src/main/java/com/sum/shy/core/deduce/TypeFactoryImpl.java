@@ -48,8 +48,8 @@ public class TypeFactoryImpl implements TypeFactory {
 					if (type == null)
 						type = create(clazz.findImport(simpleName));// 一般类型
 				}
-			} else if (token.value instanceof Statement) {// List<String> //
-															// Class<?>
+			} else if (token.value instanceof Statement) {
+				// List<String> // Class<?>
 				Statement stmt = token.getValue();
 				String simpleName = stmt.getStr(0);// 前缀
 				type = create(clazz.findImport(simpleName));
