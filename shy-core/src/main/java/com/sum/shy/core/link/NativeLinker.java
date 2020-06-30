@@ -68,19 +68,9 @@ public class NativeLinker implements ClassLinker {
 			if (field != null && ReflectUtils.isMatch(field, modifiers))
 				return populateType(type, null, null, field.getGenericType());
 
-			if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
-				IType superType = type.getSuperType();
-				if (superType != null) {
-					superType.setModifiers(IType.SUPER_MODIFIERS);
-					return visitField(superType, fieldName);
-				}
-			} else if (modifiers == IType.PUBLIC_MODIFIERS) {
-				IType superType = type.getSuperType();
-				if (superType != null) {
-					superType.setModifiers(IType.PUBLIC_MODIFIERS);
-					return visitField(superType, fieldName);
-				}
-			}
+			IType superType = type.getSuperType();
+			if (superType != null)
+				return visitField(superType, fieldName);
 
 			throw new RuntimeException("No matching field was found!fieldName:" + fieldName);
 
@@ -99,19 +89,10 @@ public class NativeLinker implements ClassLinker {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
-			if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
-				IType superType = type.getSuperType();
-				if (superType != null) {
-					superType.setModifiers(IType.SUPER_MODIFIERS);
-					return visitMethod(superType, methodName, parameterTypes);
-				}
-			} else if (modifiers == IType.PUBLIC_MODIFIERS) {
-				IType superType = type.getSuperType();
-				if (superType != null) {
-					superType.setModifiers(IType.PUBLIC_MODIFIERS);
-					return visitMethod(superType, methodName, parameterTypes);
-				}
-			}
+
+			IType superType = type.getSuperType();
+			if (superType != null)
+				return visitMethod(superType, methodName, parameterTypes);
 
 			throw new RuntimeException("No matching method was found!methodName:" + methodName);
 

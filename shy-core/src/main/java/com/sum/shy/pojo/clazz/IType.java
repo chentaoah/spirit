@@ -77,7 +77,19 @@ public class IType {
 		if (isArray())
 			return StaticType.OBJECT_TYPE;
 
-		return linker.getSuperType(this);
+		IType superType = linker.getSuperType(this);
+
+		if (superType == null)
+			return null;
+
+		if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
+			superType.setModifiers(IType.SUPER_MODIFIERS);
+
+		} else if (modifiers == IType.PUBLIC_MODIFIERS) {
+			superType.setModifiers(IType.PUBLIC_MODIFIERS);
+		}
+
+		return superType;
 	}
 
 	public List<IType> getInterfaceTypes() {
