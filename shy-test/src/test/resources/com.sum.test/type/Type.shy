@@ -108,7 +108,7 @@ class Type {
 
 		generic=GenericType<String,String>()
 		gKey=generic.get("test")
-		print gKey
+		print gKey + ""
 
 	}
 
