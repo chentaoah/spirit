@@ -13,7 +13,12 @@ public class GenericType<T, K> extends HashMap<T, Integer> {
 		return new HashMap<T, K>();
 	}
 
-	public HashMap<String, String> test1() {
+	public Integer test1() {
+		GenericType<String, String> g = new GenericType<String, String>();
+		return g.get("test");
+	}
+
+	public HashMap<String, String> test2() {
 		GenericType<String, String> g = new GenericType<String, String>();
 		return g.test();
 	}
