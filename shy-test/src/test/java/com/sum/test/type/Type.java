@@ -3,6 +3,7 @@ package com.sum.test.type;
 import java.util.HashMap;
 import com.sum.shy.test.example.ClassGenericTest;
 import com.sum.shy.test.example.MyTest;
+import com.sum.shy.test.example.GenericType;
 import com.sum.test.process.Main;
 import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
@@ -84,6 +85,9 @@ public class Type {
 		logger.info("" + serNum);
 		String serStr = service.test1("hello");
 		logger.info("" + serStr);
+		GenericType<String, String> generic = new GenericType<String, String>();
+		String gKey = generic.get("test");
+		logger.info(gKey);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {

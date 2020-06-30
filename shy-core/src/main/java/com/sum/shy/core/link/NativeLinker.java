@@ -58,43 +58,68 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitField(IType type, String fieldName) {
-		return doVisitField(type, fieldName, false);
+	public IType visitInternalField(IType type, String fieldName) {
+		return doVisitField(type, fieldName, Modifier.PUBLIC, Modifier.PROTECTED, Modifier.PRIVATE);
 	}
 
-	public IType doVisitField(IType type, String fieldName, boolean isSuperType) {
+	@Override
+	public IType visitInternalMethod(IType type, String methodName, List<IType> parameterTypes) {
+		return doVisitMethod(type, methodName, parameterTypes, Modifier.PUBLIC, Modifier.PROTECTED, Modifier.PRIVATE);
+	}
+
+	@Override
+	public IType visitField(IType type, String fieldName) {
+		return doVisitField(type, fieldName, Modifier.PUBLIC);
+	}
+
+	@Override
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+		return doVisitMethod(type, methodName, parameterTypes, Modifier.PUBLIC);
+	}
+
+	public IType doVisitField(IType type, String fieldName, int... modifiers) {
 		try {
 			Class<?> clazz = toClass(type);
 			Field field = clazz.getDeclaredField(fieldName);
-			if (field != null) {
-				if (!isSuperType) {
-					return populateType(type, null, null, field.getGenericType());
-				} else {
-					int modifier = field.getModifiers();
-					if (Modifier.isPublic(modifier) || Modifier.isProtected(modifier))
-						return populateType(type, null, null, field.getGenericType());
+			if (field != null && ReflectUtils.isMatch(field.getModifiers(), modifiers))
+				return populateType(type, null, null, field.getGenericType());
+
+			IType superType = type.getSuperType();
+			if (superType != null) {
+				if (modifiers.length == 3 || modifiers.length == 2) {
+					return doVisitField(type.getSuperType(), fieldName, Modifier.PUBLIC, Modifier.PROTECTED);
+
+				} else if (modifiers.length == 1) {
+					return doVisitField(type.getSuperType(), fieldName, Modifier.PUBLIC);
 				}
 			}
-			return doVisitField(type.getSuperType(), fieldName, true);
+
+			throw new RuntimeException("No matching field was found!fieldName:" + fieldName);
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit field!fieldName:" + fieldName, e);
 		}
 	}
 
-	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
-		return doVisitMethod(type, methodName, parameterTypes, false);
-	}
-
-	public IType doVisitMethod(IType type, String methodName, List<IType> parameterTypes, boolean isSuperType) {
+	public IType doVisitMethod(IType type, String methodName, List<IType> parameterTypes, int... modifiers) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			if (method != null) {
-
+			if (method != null && ReflectUtils.isMatch(method.getModifiers(), modifiers)) {
+				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
+				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
-			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
-			return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
+
+			IType superType = type.getSuperType();
+			if (superType != null) {
+				if (modifiers.length == 3 || modifiers.length == 2) {
+					return doVisitMethod(type.getSuperType(), methodName, parameterTypes, Modifier.PUBLIC, Modifier.PROTECTED);
+
+				} else if (modifiers.length == 1) {
+					return doVisitMethod(type.getSuperType(), methodName, parameterTypes, Modifier.PUBLIC);
+				}
+			}
+
+			throw new RuntimeException("No matching method was found!methodName:" + methodName);
 
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to visit method!methodName:" + methodName, e);

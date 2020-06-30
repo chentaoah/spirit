@@ -147,18 +147,13 @@ public class IClass {
 	}
 
 	public IType toType() {
-		IType type = factory.create(this, getTypeToken());
-		type.setInternal(true);
-		return type;
+		return factory.create(this, getTypeToken());
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
-		if (token != null) {
-			IType type = factory.create(this, token);
-			type.setInternal(true);
-			return type;
-		}
+		if (token != null)
+			return factory.create(this, token);
 		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 

@@ -72,4 +72,12 @@ public class ReflectUtils {
 		}
 	}
 
+	public static boolean isMatch(int mod, int... modifiers) {
+		for (int modifier : modifiers) {
+			if ((mod & modifier) != 0)
+				return true;
+		}
+		return false;
+	}
+
 }
