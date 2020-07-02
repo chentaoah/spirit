@@ -61,24 +61,10 @@ public class NativeLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) {
 		try {
 			Class<?> clazz = toClass(type);
-			Field field = null;
-			Field[] fields = clazz.getDeclaredFields();
-			for (Field f : fields) {
-				if (f.getName().equals(fieldName)) {
-					field = f;
-					break;
-				}
-			}
-
-			int modifiers = type.getModifiers();
-			Assert.isTrue(modifiers != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
-			if (field != null && ReflectUtils.isMatch(field, modifiers))
+			Field field = ReflectUtils.getDeclaredField(clazz, fieldName);
+			Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
+			if (field != null && ReflectUtils.isMatch(field, type.getModifiers()))
 				return populateType(type, null, null, field.getGenericType());
-
-			IType superType = type.getSuperType();
-			if (superType != null)
-				return visitField(superType, fieldName);
-
 			return null;
 
 		} catch (Exception e) {
@@ -90,17 +76,11 @@ public class NativeLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			int modifiers = type.getModifiers();
-			Assert.isTrue(modifiers != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
-			if (method != null && ReflectUtils.isMatch(method, modifiers)) {
+			Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
+			if (method != null && ReflectUtils.isMatch(method, type.getModifiers())) {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
-
-			IType superType = type.getSuperType();
-			if (superType != null)
-				return visitMethod(superType, methodName, parameterTypes);
-
 			return null;
 
 		} catch (Exception e) {

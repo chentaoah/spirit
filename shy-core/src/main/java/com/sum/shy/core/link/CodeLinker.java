@@ -54,22 +54,18 @@ public class CodeLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
-		if (field != null) {
-			IType returnType = visiter.visitMember(clazz, field);
-			return factory.populateType(type, returnType);
-		}
-		return linker.visitField(type.getSuperType(), fieldName);
+		if (field != null)
+			return factory.populateType(type, visiter.visitMember(clazz, field));
+		return null;
 	}
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 		IClass clazz = toClass(type);
 		IMethod method = clazz.getMethod(type, methodName, parameterTypes);
-		if (method != null) {
-			IType returnType = visiter.visitMember(clazz, method);
-			return factory.populateType(type, returnType);
-		}
-		return linker.visitMethod(type.getSuperType(), methodName, parameterTypes);
+		if (method != null)
+			return factory.populateType(type, visiter.visitMember(clazz, method));
+		return null;
 	}
 
 }

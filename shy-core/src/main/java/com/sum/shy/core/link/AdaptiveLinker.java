@@ -41,9 +41,7 @@ public class AdaptiveLinker implements ClassLinker {
 	@Override
 	public IType visitField(IType type, String fieldName) {
 
-		if (type == null)
-			return null;
-
+		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		// xxx.class class是关键字
@@ -56,15 +54,21 @@ public class AdaptiveLinker implements ClassLinker {
 		if (type.isObj())
 			return null;
 
-		return !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
+		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
+
+		if (returnType == null) {
+			IType superType = type.getSuperType();
+			if (superType != null)
+				return visitField(superType, fieldName);
+		}
+
+		return returnType;
 	}
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
 
-		if (type == null)
-			return null;
-
+		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
 
 		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
@@ -79,7 +83,16 @@ public class AdaptiveLinker implements ClassLinker {
 			}
 		}
 
-		return !type.isNative() ? codeLinker.visitMethod(type, methodName, parameterTypes) : nativeLinker.visitMethod(type, methodName, parameterTypes);
+		IType returnType = !type.isNative() ? codeLinker.visitMethod(type, methodName, parameterTypes)
+				: nativeLinker.visitMethod(type, methodName, parameterTypes);
+
+		if (returnType == null) {
+			IType superType = type.getSuperType();
+			if (superType != null)
+				return visitMethod(superType, methodName, parameterTypes);
+		}
+
+		return returnType;
 	}
 
 }
