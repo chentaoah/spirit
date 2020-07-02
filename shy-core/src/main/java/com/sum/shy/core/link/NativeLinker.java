@@ -59,10 +59,11 @@ public class NativeLinker implements ClassLinker {
 
 	@Override
 	public IType visitField(IType type, String fieldName) {
+
+		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
 		try {
 			Class<?> clazz = toClass(type);
 			Field field = ReflectUtils.getDeclaredField(clazz, fieldName);
-			Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
 			if (field != null && ReflectUtils.isMatch(field, type.getModifiers()))
 				return populateType(type, null, null, field.getGenericType());
 			return null;
@@ -74,9 +75,10 @@ public class NativeLinker implements ClassLinker {
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+
+		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
-			Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
 			if (method != null && ReflectUtils.isMatch(method, type.getModifiers())) {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
 				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
