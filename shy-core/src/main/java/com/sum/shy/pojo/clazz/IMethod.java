@@ -45,7 +45,7 @@ public class IMethod extends AbsMember {
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
-				IType returnType = factory.populateType(type, parameter.type);
+				IType returnType = factory.populate(type, parameter.type);
 				if (!returnType.isMatch(parameterTypes.get(count++)))
 					return false;
 			}

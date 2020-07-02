@@ -76,7 +76,7 @@ public interface TypeFactory {
 		throw new RuntimeException("Unknown type!");
 	}
 
-	default IType populateType(IType type, IType targetType) {
+	default IType populate(IType type, IType targetType) {
 
 		if (targetType == null)
 			return null;
@@ -86,7 +86,7 @@ public interface TypeFactory {
 		if (targetType.isGenericType()) {
 			List<IType> genericTypes = new ArrayList<>();
 			for (IType genericType : targetType.getGenericTypes())
-				genericTypes.add(populateType(type, genericType));
+				genericTypes.add(populate(type, genericType));
 			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
 		} else if (targetType.isTypeVariable()) {

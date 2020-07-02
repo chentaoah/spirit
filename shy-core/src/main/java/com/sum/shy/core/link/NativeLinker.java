@@ -45,7 +45,7 @@ public class NativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		Type nativeSuperType = clazz.getGenericSuperclass();
 		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
-		return factory.populateType(type, superType);
+		return factory.populate(type, superType);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class NativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (Type interfaceType : clazz.getGenericInterfaces())
-			interfaceTypes.add(factory.populateType(type, factory.create(interfaceType)));
+			interfaceTypes.add(factory.populate(type, factory.create(interfaceType)));
 		return interfaceTypes;
 	}
 
@@ -65,7 +65,7 @@ public class NativeLinker implements ClassLinker {
 			Class<?> clazz = toClass(type);
 			Field field = ReflectUtils.getDeclaredField(clazz, fieldName);
 			if (field != null && ReflectUtils.isMatch(field, type.getModifiers()))
-				return populateType(type, null, null, field.getGenericType());
+				return populate(type, null, null, field.getGenericType());
 			return null;
 
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class NativeLinker implements ClassLinker {
 			Method method = findMethod(type, methodName, parameterTypes);
 			if (method != null && ReflectUtils.isMatch(method, type.getModifiers())) {
 				Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);// 方法中因传入参数，而导致限定的泛型类型
-				return populateType(type, qualifyingTypes, null, method.getGenericReturnType());
+				return populate(type, qualifyingTypes, null, method.getGenericReturnType());
 			}
 			return null;
 
@@ -98,7 +98,7 @@ public class NativeLinker implements ClassLinker {
 				int index = 0;
 				for (Parameter parameter : method.getParameters()) {
 					IType parameterType = parameterTypes.get(index++);
-					IType nativeParameterType = populateType(type, null, parameterType, parameter.getParameterizedType());
+					IType nativeParameterType = populate(type, null, parameterType, parameter.getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
@@ -125,7 +125,7 @@ public class NativeLinker implements ClassLinker {
 				boolean flag = true;
 				for (int i = 0; i < parameters.length - 1; i++) {
 					IType parameterType = parameterTypes.get(i);
-					IType nativeParameterType = populateType(type, null, parameterType, parameters[i].getParameterizedType());
+					IType nativeParameterType = populate(type, null, parameterType, parameters[i].getParameterizedType());
 					if (!(nativeParameterType.isMatch(parameterType))) {
 						flag = false;
 						break;
@@ -133,7 +133,7 @@ public class NativeLinker implements ClassLinker {
 				}
 				if (flag) {
 					Parameter lastParameter = parameters[parameters.length - 1];
-					IType targetType = populateType(type, null, null, lastParameter.getParameterizedType()).getTargetType();
+					IType targetType = populate(type, null, null, lastParameter.getParameterizedType()).getTargetType();
 					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
 						IType parameterType = parameterTypes.get(i);
 						if (!(targetType.isMatch(parameterType))) {
@@ -154,22 +154,22 @@ public class NativeLinker implements ClassLinker {
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
 		for (int i = 0; i < size; i++)
-			populateType(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
+			populate(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
 		return qualifyingTypes;
 	}
 
-	public IType populateType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
-		return populateType(type, qualifyingTypes, mappingType, factory.create(nativeType));
+	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
+		return populate(type, qualifyingTypes, mappingType, factory.create(nativeType));
 	}
 
-	public IType populateType(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
+	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
 
 		if (nativeType.isGenericType()) {// List<T>
 			List<IType> genericTypes = new ArrayList<>();
 			int index = 0;
 			for (IType genericType : nativeType.getGenericTypes()) {
 				IType genericMappingType = mappingType != null ? mappingType.getGenericTypes().get(index++) : null;
-				genericTypes.add(populateType(type, qualifyingTypes, genericMappingType, genericType));
+				genericTypes.add(populate(type, qualifyingTypes, genericMappingType, genericType));
 			}
 			nativeType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
