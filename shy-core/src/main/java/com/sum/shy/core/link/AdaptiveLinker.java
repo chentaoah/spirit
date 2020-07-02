@@ -62,6 +62,7 @@ public class AdaptiveLinker implements ClassLinker {
 				return visitField(superType, fieldName);
 		}
 
+		Assert.notNull(returnType, "Return type cannot be null!");
 		return returnType;
 	}
 
@@ -92,6 +93,7 @@ public class AdaptiveLinker implements ClassLinker {
 				return visitMethod(superType, methodName, parameterTypes);
 		}
 
+		Assert.notNull(returnType, "Return type cannot be null!");
 		return returnType;
 	}
 
