@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.MemberVisiter;
 import com.sum.shy.api.deduce.ElementVisiter;
-import com.sum.shy.api.deduce.TypeFactory;
+import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.pojo.clazz.IAnnotation;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IField;

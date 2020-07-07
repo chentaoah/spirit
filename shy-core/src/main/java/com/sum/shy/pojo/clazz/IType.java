@@ -8,8 +8,8 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.ClassLinker;
+import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.common.StaticType;
 import com.sum.shy.utils.ReflectUtils;

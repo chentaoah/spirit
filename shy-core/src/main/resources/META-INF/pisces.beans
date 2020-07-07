@@ -19,9 +19,9 @@ express_declarer=com.sum.shy.core.deduce.ExpressDeclarerImpl
 variable_tracker=com.sum.shy.core.deduce.VariableTrackerImpl
 invoke_visiter=com.sum.shy.core.deduce.InvokeVisiterImpl
 fast_deducer=com.sum.shy.core.deduce.FastDeducerImpl
-type_factory=com.sum.shy.core.deduce.TypeFactoryImpl
 
 #
+type_factory=com.sum.shy.core.link.TypeFactoryImpl
 adaptive_linker=com.sum.shy.core.link.AdaptiveLinker
 code_linker=com.sum.shy.core.link.CodeLinker
 native_linker=com.sum.shy.core.link.NativeLinker

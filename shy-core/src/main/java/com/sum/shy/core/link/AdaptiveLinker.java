@@ -3,8 +3,8 @@ package com.sum.shy.core.link;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.TypeFactory;
 import com.sum.shy.api.link.ClassLinker;
+import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;

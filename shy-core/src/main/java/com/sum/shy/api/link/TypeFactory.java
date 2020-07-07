@@ -1,4 +1,4 @@
-package com.sum.shy.api.deduce;
+package com.sum.shy.api.link;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -12,7 +12,6 @@ import java.util.List;
 import com.sum.pisces.api.annotation.Service;
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.lexer.SemanticParser;
-import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;

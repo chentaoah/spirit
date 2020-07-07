@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.TypeFactory;
+import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Token;
