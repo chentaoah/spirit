@@ -3,7 +3,7 @@ package com.sum.shy.pojo.element;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.sum.shy.utils.TypeUtils;
+import com.sum.shy.utils.FileUtils;
 
 @SuppressWarnings("serial")
 public class Document extends ArrayList<Element> {
@@ -11,7 +11,7 @@ public class Document extends ArrayList<Element> {
 	public String name;
 
 	public Document(File file) {
-		this.name = TypeUtils.getNameByFile(file);
+		this.name = FileUtils.getName(file);
 	}
 
 	public void debug() {

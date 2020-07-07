@@ -12,6 +12,12 @@ public class FileUtils {
 
 	public static final String SEPARATOR = File.separator;
 
+	public static final String SUFFIX = ".shy";
+
+	public static String getName(File file) {
+		return file.getName().replace(SUFFIX, "");
+	}
+
 	public static Map<String, File> getFiles(String inputPath) {
 
 		Map<String, File> files = new LinkedHashMap<>();

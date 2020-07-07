@@ -1,6 +1,5 @@
 package com.sum.shy.utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,20 +13,18 @@ public class TypeUtils {
 
 	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + SemanticParserImpl.PRIMITIVE_ENUM + ")$");
 
-	public static String getNameByFile(File file) {
-		return file.getName().replace(".shy", "");
-	}
-
 	public static String getPackage(String className) {
 		className = getTargetName(className);
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
-	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or simpleName
+	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or
+													// simpleName
 		return PRIMITIVE_PATTERN.matcher(name).matches();
 	}
 
-	public static boolean isArray(String name) {// className or simpleName or typeName
+	public static boolean isArray(String name) {// className or simpleName or
+												// typeName
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
@@ -36,7 +33,8 @@ public class TypeUtils {
 		return new ArrayList<>(names);
 	}
 
-	public static String getTargetName(String name) {// className or simpleName or typeName
+	public static String getTargetName(String name) {// className or simpleName
+														// or typeName
 
 		if (name.contains("<") && name.endsWith(">"))
 			return name.substring(0, name.indexOf('<'));
