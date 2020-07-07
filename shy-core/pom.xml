@@ -50,16 +50,14 @@
 
 	<build>
 		<plugins>
-			<!-- 打包配置 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-					<!-- 不添加maven的描述信息 -->
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../deploy/lib</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../shy-deploy/lib</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -73,11 +71,12 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../deploy/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../shy-deploy/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
