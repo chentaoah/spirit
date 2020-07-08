@@ -225,8 +225,7 @@ public class SemanticParserImpl implements SemanticParser {
 			token.value = getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			// split array init is to better add the keyword 'new'
-			token.value = getStatement(word, false);
+			token.value = getStatement(word, false);// split array init is to better add the keyword 'new'
 
 		} else {
 			token.value = word;

@@ -18,13 +18,11 @@ public class TypeUtils {
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
-	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or
-													// simpleName
+	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or simpleName
 		return PRIMITIVE_PATTERN.matcher(name).matches();
 	}
 
-	public static boolean isArray(String name) {// className or simpleName or
-												// typeName
+	public static boolean isArray(String name) {// className or simpleName or typeName
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
@@ -33,8 +31,7 @@ public class TypeUtils {
 		return new ArrayList<>(names);
 	}
 
-	public static String getTargetName(String name) {// className or simpleName
-														// or typeName
+	public static String getTargetName(String name) {// className or simpleName or typeName
 
 		if (name.contains("<") && name.endsWith(">"))
 			return name.substring(0, name.indexOf('<'));
