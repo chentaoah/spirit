@@ -44,9 +44,11 @@ public class TypeFactoryImpl implements TypeFactory {
 				if ("?".equals(simpleName)) {// 未知类型
 					return StaticType.WILDCARD_TYPE;
 				} else {
-					type = clazz.getTypeVariable(simpleName);// 泛型参数
-					if (type == null)
+					if (clazz.getTypeVariableIndex(simpleName) >= 0) {// 泛型参数
+						type = createTypeVariable(simpleName);
+					} else {
 						type = create(clazz.findImport(simpleName));// 一般类型
+					}
 				}
 			} else if (token.value instanceof Statement) {
 				// List<String> // Class<?>
