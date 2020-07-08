@@ -38,26 +38,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	@Override
 	public IType create(IClass clazz, Token token) {
 		if (token.isType()) {
-			IType type = new IType();
-			if (token.value instanceof String) {// String // String[] //? //T,K
-				String simpleName = token.getValue();
-				if ("?".equals(simpleName)) {// 未知类型
-					return StaticType.WILDCARD_TYPE;
-				} else {
-					if (clazz.getTypeVariableIndex(simpleName) >= 0) {// 泛型参数
-						type = createTypeVariable(simpleName);
-					} else {
-						type = create(clazz.findImport(simpleName));// 一般类型
-					}
-				}
-			} else if (token.value instanceof Statement) {
-				// List<String> // Class<?>
-				Statement stmt = token.getValue();
-				String simpleName = stmt.getStr(0);// 前缀
-				type = create(clazz.findImport(simpleName));
-				type.setGenericTypes(getGenericTypes(clazz, stmt));
-			}
-			return type;
+			return doCreate(clazz, token);
 
 		} else if (token.isArrayInit() || token.isTypeInit() || token.isCast()) {
 			return create(clazz, token.getSimpleName());
@@ -66,6 +47,31 @@ public class TypeFactoryImpl implements TypeFactory {
 			return getValueType(clazz, token);
 		}
 		return null;
+	}
+
+	public IType doCreate(IClass clazz, Token token) {
+
+		if (token.value instanceof String) {// String // String[] //? //T,K
+
+			String simpleName = token.getValue();
+
+			if ("?".equals(simpleName))
+				return StaticType.WILDCARD_TYPE;// ?
+
+			if (clazz.getTypeVariableIndex(simpleName) >= 0)
+				return createTypeVariable(simpleName);// T or K
+
+			return create(clazz.findImport(simpleName));
+
+		} else if (token.value instanceof Statement) {
+			Statement stmt = token.getValue(); // List<String> // Class<?>
+			String simpleName = stmt.getStr(0);
+			IType type = create(clazz.findImport(simpleName));
+			type.setGenericTypes(getGenericTypes(clazz, stmt));
+			return type;
+		}
+
+		throw new RuntimeException("Unknown token value type!");
 	}
 
 	public List<IType> getGenericTypes(IClass clazz, Statement stmt) {
