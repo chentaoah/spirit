@@ -2,7 +2,6 @@ package com.sum.shy.pojo.common;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.lib.Collection;
 import com.sum.shy.pojo.clazz.IType;
 
 public class StaticType {
@@ -19,12 +18,10 @@ public class StaticType {
 	public static final IType WILDCARD_TYPE = factory.create(Object.class);
 	public static final IType OBJECT_TYPE = factory.create(Object.class);
 	public static final IType STRING_TYPE = factory.create(String.class);
-	public static final IType CLASS_TYPE = factory.create(Class.class);
 
 	static {
 		NULL_TYPE.setNull(true);// null
 		WILDCARD_TYPE.setWildcard(true);// ?
-		CLASS_TYPE.setGenericTypes(Collection.newArrayList(WILDCARD_TYPE));// Class<?>
 	}
 
 }
