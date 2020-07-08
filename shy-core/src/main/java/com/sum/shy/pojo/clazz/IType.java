@@ -69,6 +69,16 @@ public class IType {
 		return factory.create(getTargetName());
 	}
 
+	public IType toThis() {
+		this.setModifiers(IType.THIS_MODIFIERS);
+		return this;
+	}
+
+	public IType toSuper() {
+		this.setModifiers(IType.SUPER_MODIFIERS);
+		return this;
+	}
+
 	public IType getSuperType() {
 
 		if (isPrimitive())
