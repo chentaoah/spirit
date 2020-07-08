@@ -24,13 +24,10 @@ import com.sum.shy.utils.TypeUtils;
 public class IType {
 
 	public static final int THIS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
-
 	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
-
 	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
-
 	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	private String className;
