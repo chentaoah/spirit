@@ -8,7 +8,7 @@ import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
@@ -55,7 +55,7 @@ public class StrEqualsConverter implements ElementConverter {
 
 						String text = String.format(format, lastSubStmt, nextSubStmt);
 						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
-						expressToken.setTypeAtt(StaticType.BOOLEAN_TYPE);
+						expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 						expressToken.setTreeId(token.getTreeId());
 						stmt.replace(start, end, expressToken);
 						clazz.addImport(StringUtils.class.getName());

@@ -11,7 +11,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.StringUtils;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 
@@ -82,7 +82,7 @@ public class IType {
 			return null;
 
 		if (isArray())
-			return StaticType.OBJECT_TYPE;
+			return TypeTable.OBJECT_TYPE;
 
 		IType superType = linker.getSuperType(this);
 

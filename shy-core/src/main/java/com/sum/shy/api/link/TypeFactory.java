@@ -15,7 +15,7 @@ import com.sum.shy.api.lexer.SemanticParser;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Token;
 
 @Service("type_factory")
@@ -59,7 +59,7 @@ public interface TypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return StaticType.WILDCARD_TYPE;
+			return TypeTable.WILDCARD_TYPE;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

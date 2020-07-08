@@ -8,7 +8,7 @@ import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 
 public class AdaptiveLinker implements ClassLinker {
 
@@ -49,7 +49,7 @@ public class AdaptiveLinker implements ClassLinker {
 			return factory.create(Class.class, type.getWrappedType());
 
 		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
-			return StaticType.INT_TYPE;// 访问数组length直接返回int类型
+			return TypeTable.INT_TYPE;// 访问数组length直接返回int类型
 
 		if (type.isObj())
 			return null;
@@ -77,10 +77,10 @@ public class AdaptiveLinker implements ClassLinker {
 
 		if (type.isObj()) {// 如果是Object类型，则直接返回了
 			if (Constants.OBJECT_EQUALS.equals(methodName)) {
-				return StaticType.BOOLEAN_TYPE;
+				return TypeTable.BOOLEAN_TYPE;
 
 			} else if (Constants.OBJECT_TO_STRING.equals(methodName)) {
-				return StaticType.STRING_TYPE;
+				return TypeTable.STRING_TYPE;
 			}
 		}
 

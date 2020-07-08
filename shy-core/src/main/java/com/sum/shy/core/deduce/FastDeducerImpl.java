@@ -8,7 +8,7 @@ import com.sum.shy.api.lexer.TreeBuilder;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Node;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
@@ -40,7 +40,7 @@ public class FastDeducerImpl implements FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return StaticType.BOOLEAN_TYPE;
+			return TypeTable.BOOLEAN_TYPE;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			if (node.left != null) {// 先取左边的，再取右边的

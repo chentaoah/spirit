@@ -15,7 +15,7 @@ import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.clazz.IVariable;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.MethodContext;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
@@ -62,14 +62,14 @@ public class MemberVisiterImpl implements MemberVisiter {
 		visitChildElement(clazz, context, method.element);
 
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
+			return context.returnType != null ? context.returnType : TypeTable.VOID_TYPE;
 
 		} else if (method.element.isFuncDeclare()) {
 
 			IType declaredType = factory.create(clazz, method.element.getToken(0));
 
 			if (method.element.hasChildElement()) {
-				IType returnType = context.returnType != null ? context.returnType : StaticType.VOID_TYPE;
+				IType returnType = context.returnType != null ? context.returnType : TypeTable.VOID_TYPE;
 				if (!declaredType.isMatch(returnType))
 					throw new RuntimeException("The derived type does not match the declared type!");
 			}

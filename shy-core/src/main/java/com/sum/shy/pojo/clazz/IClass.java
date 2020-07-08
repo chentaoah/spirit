@@ -8,7 +8,7 @@ import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Element;
 import com.sum.shy.pojo.element.Token;
 import com.sum.shy.utils.TypeUtils;
@@ -144,7 +144,7 @@ public class IClass {
 		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
-		return StaticType.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
+		return TypeTable.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {

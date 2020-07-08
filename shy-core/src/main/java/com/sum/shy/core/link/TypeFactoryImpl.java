@@ -11,7 +11,7 @@ import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IClass;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.common.StaticType;
+import com.sum.shy.pojo.common.TypeTable;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
 import com.sum.shy.utils.TypeUtils;
@@ -56,7 +56,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			String simpleName = token.getValue();
 
 			if ("?".equals(simpleName))
-				return StaticType.WILDCARD_TYPE;// ?
+				return TypeTable.WILDCARD_TYPE;// ?
 
 			if (clazz.getTypeVariableIndex(simpleName) >= 0)
 				return createTypeVariable(simpleName);// T or K
@@ -86,19 +86,19 @@ public class TypeFactoryImpl implements TypeFactory {
 
 	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return StaticType.BOOLEAN_TYPE;
+			return TypeTable.BOOLEAN_TYPE;
 		} else if (token.isChar()) {
-			return StaticType.CHAR_TYPE;
+			return TypeTable.CHAR_TYPE;
 		} else if (token.isInt()) {
-			return StaticType.INT_TYPE;
+			return TypeTable.INT_TYPE;
 		} else if (token.isLong()) {
-			return StaticType.LONG_TYPE;
+			return TypeTable.LONG_TYPE;
 		} else if (token.isDouble()) {
-			return StaticType.DOUBLE_TYPE;
+			return TypeTable.DOUBLE_TYPE;
 		} else if (token.isNull()) {
-			return StaticType.NULL_TYPE;
+			return TypeTable.NULL_TYPE;
 		} else if (token.isStr()) {
-			return StaticType.STRING_TYPE;
+			return TypeTable.STRING_TYPE;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -128,7 +128,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	public IType getGenericType(IClass clazz, List<Statement> stmts) {
 
 		if (stmts.size() == 0)
-			return StaticType.OBJECT_TYPE;
+			return TypeTable.OBJECT_TYPE;
 
 		IType genericType = null;
 		for (Statement subStmt : stmts) {
@@ -141,7 +141,7 @@ public class TypeFactoryImpl implements TypeFactory {
 				genericType = wrappedType;
 
 			} else if (!genericType.isMatch(wrappedType)) {// 不同则使用Object
-				genericType = StaticType.OBJECT_TYPE;
+				genericType = TypeTable.OBJECT_TYPE;
 				break;
 			}
 		}
