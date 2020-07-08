@@ -7,8 +7,11 @@ public class StaticType {
 	public static final IType VOID_TYPE;
 	public static final IType BOOLEAN_TYPE;
 	public static final IType CHAR_TYPE;
+	public static final IType BYTE_TYPE;
+	public static final IType SHORT_TYPE;
 	public static final IType INT_TYPE;
 	public static final IType LONG_TYPE;
+	public static final IType FLOAT_TYPE;
 	public static final IType DOUBLE_TYPE;
 	public static final IType OBJECT_TYPE;
 	public static final IType NULL_TYPE;
@@ -19,9 +22,13 @@ public class StaticType {
 		VOID_TYPE = build("void", "void", "void", null, true, false, false, false, false);
 		BOOLEAN_TYPE = build("boolean", "boolean", "boolean", null, true, false, false, false, false);
 		CHAR_TYPE = build("char", "char", "char", null, true, false, false, false, false);
+		BYTE_TYPE = build("byte", "byte", "byte", null, true, false, false, false, false);
+		SHORT_TYPE = build("short", "short", "short", null, true, false, false, false, false);
 		INT_TYPE = build("int", "int", "int", null, true, false, false, false, false);
 		LONG_TYPE = build("long", "long", "long", null, true, false, false, false, false);
+		FLOAT_TYPE = build("float", "float", "float", null, true, false, false, false, false);
 		DOUBLE_TYPE = build("double", "double", "double", null, true, false, false, false, false);
+
 		OBJECT_TYPE = build("java.lang.Object", "Object", "java.lang.Object", null, false, false, false, false, false);
 		NULL_TYPE = build("java.lang.Object", "Object", "java.lang.Object", null, false, false, true/* null */, false, false);
 		WILDCARD_TYPE = build("java.lang.Object", "Object", "java.lang.Object", null, false, false, false, true/* wildcard */, false);
