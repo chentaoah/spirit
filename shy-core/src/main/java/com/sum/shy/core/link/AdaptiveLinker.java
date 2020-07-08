@@ -46,7 +46,7 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// xxx.class class是关键字
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
-			return factory.create(Class.class, type);
+			return factory.create(Class.class, type.getWrappedType());
 
 		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
 			return StaticType.INT_TYPE;// 访问数组length直接返回int类型

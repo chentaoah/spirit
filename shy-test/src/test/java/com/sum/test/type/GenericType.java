@@ -1,9 +1,13 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class GenericType<T, K> extends HashMap<T, Integer> {
+
+	public static Logger logger = LoggerFactory.getLogger(GenericType.class);
 
 	public Integer testGeneric() {
 		return get("test");
@@ -24,6 +28,8 @@ public class GenericType<T, K> extends HashMap<T, Integer> {
 	}
 
 	public void testB() {
+		Class<Integer> clazz = int.class;
+		logger.info(clazz.getName());
 	}
 
 }

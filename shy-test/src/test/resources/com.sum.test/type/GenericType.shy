@@ -23,7 +23,8 @@ class GenericType<T,K> extends HashMap<T,Integer> {
 	}
 
 	func testB(){
-
+		clazz=int.class
+		print clazz.getName()
 	}
 
 }

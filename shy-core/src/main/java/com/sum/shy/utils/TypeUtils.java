@@ -137,7 +137,8 @@ public class TypeUtils {
 		System.out.println(Object.class.isAssignableFrom(int[].class));
 		System.out.println(Object.class.isAssignableFrom(int.class));
 		System.out.println(list.getClass().getTypeName());
-
+		Class<Integer> clazz1 = int.class;
+		System.out.println(clazz1);
 	}
 
 }
