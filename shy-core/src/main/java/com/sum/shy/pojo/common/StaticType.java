@@ -1,12 +1,8 @@
 package com.sum.shy.pojo.common;
 
-import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.pojo.clazz.IType;
 
 public class StaticType {
-
-	public static final TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public static final IType VOID_TYPE;
 	public static final IType BOOLEAN_TYPE;
