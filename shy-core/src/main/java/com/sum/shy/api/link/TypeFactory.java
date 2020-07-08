@@ -75,28 +75,28 @@ public interface TypeFactory {
 		throw new RuntimeException("Unknown type!");
 	}
 
-	default IType populate(IType type, IType targetType) {
+	default IType populate(IType type, IType superType) {
 
-		if (targetType == null)
+		if (superType == null)
 			return null;
 
-		targetType = targetType.copy();
+		superType = superType.copy();
 
-		if (targetType.isGenericType()) {
+		if (superType.isGenericType()) {
 			List<IType> genericTypes = new ArrayList<>();
-			for (IType genericType : targetType.getGenericTypes())
+			for (IType genericType : superType.getGenericTypes())
 				genericTypes.add(populate(type, genericType));
-			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
+			superType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
-		} else if (targetType.isTypeVariable()) {
+		} else if (superType.isTypeVariable()) {
 			// If it is a generic parameter, it is derived by the type passed in
-			int index = linker.getTypeVariableIndex(type, targetType.getGenericName());
+			int index = linker.getTypeVariableIndex(type, superType.getGenericName());
 			Assert.isTrue(index >= 0, "Index of type variable less than 0!");
 			Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
 			List<IType> genericTypes = type.getGenericTypes();
 			return genericTypes.get(index).copy();
 		}
-		return targetType;
+		return superType;
 	}
 
 	default IType create(IClass clazz, String text) {
