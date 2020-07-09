@@ -99,7 +99,10 @@ public class TypeTable {
 
 	public static IType getWrappedType(String className) {
 
-		if (BOOLEAN_TYPE.getClassName().equals(className)) {
+		if (VOID_TYPE.getClassName().equals(className)) {
+			return VOID_WRAPPED_TYPE;
+
+		} else if (BOOLEAN_TYPE.getClassName().equals(className)) {
 			return BOOLEAN_WRAPPED_TYPE;
 
 		} else if (CHAR_TYPE.getClassName().equals(className)) {
