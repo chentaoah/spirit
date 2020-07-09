@@ -69,27 +69,4 @@ public class ReflectUtils {
 		}
 	}
 
-	public static Class<?> getWrappedType(String className) {
-		switch (className) {
-		case "boolean":
-			return Boolean.class;
-		case "char":
-			return Character.class;
-		case "short":
-			return Short.class;
-		case "int":
-			return Integer.class;
-		case "long":
-			return Long.class;
-		case "float":
-			return Float.class;
-		case "double":
-			return Double.class;
-		case "byte":
-			return Byte.class;
-		default:
-			return null;
-		}
-	}
-
 }

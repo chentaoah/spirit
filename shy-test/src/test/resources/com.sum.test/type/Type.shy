@@ -110,6 +110,11 @@ class Type {
 		gKey=generic.get("test")
 		print gKey + ""
 
+		intsss=[1,123,8987879]
+		integer=intsss.get(0)
+		numberxxx=integer.intValue()
+		print ""+numberxxx
+
 	}
 
 	func testParam(@Deprecated String str, Object obj){

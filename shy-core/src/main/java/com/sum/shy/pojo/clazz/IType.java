@@ -12,7 +12,6 @@ import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.StringUtils;
 import com.sum.shy.pojo.common.TypeTable;
-import com.sum.shy.utils.ReflectUtils;
 import com.sum.shy.utils.TypeUtils;
 
 /**
@@ -111,10 +110,8 @@ public class IType {
 	}
 
 	public IType getWrappedType() {
-		Class<?> clazz = ReflectUtils.getWrappedType(getClassName());
-		if (clazz != null)
-			return factory.create(clazz);
-		return this;// 如果没有则返回自身
+		IType wrappedType = TypeTable.getWrappedType(getClassName());
+		return wrappedType != null ? wrappedType : this;
 	}
 
 	public boolean isMatch(IType type) {

@@ -97,6 +97,35 @@ public class TypeTable {
 		return type;
 	}
 
+	public static IType getWrappedType(String className) {
+
+		if (BOOLEAN_TYPE.getClassName().equals(className)) {
+			return BOOLEAN_WRAPPED_TYPE;
+
+		} else if (CHAR_TYPE.getClassName().equals(className)) {
+			return CHAR_WRAPPED_TYPE;
+
+		} else if (BYTE_TYPE.getClassName().equals(className)) {
+			return BYTE_WRAPPED_TYPE;
+
+		} else if (SHORT_TYPE.getClassName().equals(className)) {
+			return SHORT_WRAPPED_TYPE;
+
+		} else if (INT_TYPE.getClassName().equals(className)) {
+			return INT_WRAPPED_TYPE;
+
+		} else if (LONG_TYPE.getClassName().equals(className)) {
+			return LONG_WRAPPED_TYPE;
+
+		} else if (FLOAT_TYPE.getClassName().equals(className)) {
+			return FLOAT_WRAPPED_TYPE;
+
+		} else if (DOUBLE_TYPE.getClassName().equals(className)) {
+			return DOUBLE_WRAPPED_TYPE;
+		}
+		return null;
+	}
+
 	public static void main(String[] args) throws Exception {
 		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class, short[].class, int.class, int[].class,
 				long.class, long[].class, float.class, float[].class, double.class, double[].class, byte.class, byte[].class, Object.class, Object[].class,

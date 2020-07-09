@@ -88,6 +88,10 @@ public class Type {
 		GenericType<String, String> generic = new GenericType<String, String>();
 		Integer gKey = generic.get("test");
 		logger.info(gKey + "");
+		List<Integer> intsss = Collection.newArrayList(1, 123, 8987879);
+		Integer integer = intsss.get(0);
+		int numberxxx = integer.intValue();
+		logger.info("" + numberxxx);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {
