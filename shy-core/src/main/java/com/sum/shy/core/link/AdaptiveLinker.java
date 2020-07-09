@@ -48,9 +48,15 @@ public class AdaptiveLinker implements ClassLinker {
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
 			return factory.create(Class.class, type.getWrappedType());
 
-		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
-			return TypeTable.INT_TYPE;// 访问数组length直接返回int类型
+		// 原始类型没有属性和方法
+		if (type.isPrimitive())
+			throw new RuntimeException("The primitive type has no field!");
 
+		// 访问数组length直接返回int类型
+		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
+			return TypeTable.INT_TYPE;
+
+		// 这里设定Object没有属性
 		if (type.isObj())
 			return null;
 
@@ -72,10 +78,20 @@ public class AdaptiveLinker implements ClassLinker {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
 
+		// super()和this()指代父类或者本身的构造函数，返回这个类本身
 		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
-			return type;// super()和this()指代父类或者本身的构造函数，返回这个类本身
+			return type;
 
-		if (type.isObj()) {// 如果是Object类型，则直接返回了
+		// 原始类型没有属性和方法
+		if (type.isPrimitive())
+			throw new RuntimeException("The primitive type has no method!");
+
+		// 原始类型没有属性和方法
+		if (type.isArray())
+			throw new RuntimeException("Array has no method!");
+
+		// 如果是Object类型，则直接返回了
+		if (type.isObj()) {
 			if (Constants.OBJECT_EQUALS.equals(methodName)) {
 				return TypeTable.BOOLEAN_TYPE;
 
