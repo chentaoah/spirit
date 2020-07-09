@@ -129,6 +129,64 @@ public class TypeTable {
 		return null;
 	}
 
+	public static String getTargetName(String className) {
+
+		if (BOOLEAN_ARRAY_TYPE.getClassName().equals(className)) {
+			return BOOLEAN_TYPE.getClassName();
+
+		} else if (CHAR_ARRAY_TYPE.getClassName().equals(className)) {
+			return CHAR_TYPE.getClassName();
+
+		} else if (BYTE_ARRAY_TYPE.getClassName().equals(className)) {
+			return BYTE_TYPE.getClassName();
+
+		} else if (SHORT_ARRAY_TYPE.getClassName().equals(className)) {
+			return SHORT_TYPE.getClassName();
+
+		} else if (INT_ARRAY_TYPE.getClassName().equals(className)) {
+			return INT_TYPE.getClassName();
+
+		} else if (LONG_ARRAY_TYPE.getClassName().equals(className)) {
+			return LONG_TYPE.getClassName();
+
+		} else if (FLOAT_ARRAY_TYPE.getClassName().equals(className)) {
+			return FLOAT_TYPE.getClassName();
+
+		} else if (DOUBLE_ARRAY_TYPE.getClassName().equals(className)) {
+			return DOUBLE_TYPE.getClassName();
+		}
+		return null;
+	}
+
+	public static String getClassName(String simpleName) {
+
+		if (BOOLEAN_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return BOOLEAN_ARRAY_TYPE.getClassName();
+
+		} else if (CHAR_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return CHAR_ARRAY_TYPE.getClassName();
+
+		} else if (BYTE_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return BYTE_ARRAY_TYPE.getClassName();
+
+		} else if (SHORT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return SHORT_ARRAY_TYPE.getClassName();
+
+		} else if (INT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return INT_ARRAY_TYPE.getClassName();
+
+		} else if (LONG_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return LONG_ARRAY_TYPE.getClassName();
+
+		} else if (FLOAT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return FLOAT_ARRAY_TYPE.getClassName();
+
+		} else if (DOUBLE_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+			return DOUBLE_ARRAY_TYPE.getClassName();
+		}
+		return null;
+	}
+
 	public static void main(String[] args) throws Exception {
 		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class, short[].class, int.class, int[].class,
 				long.class, long[].class, float.class, float[].class, double.class, double[].class, byte.class, byte[].class, Object.class, Object[].class,
