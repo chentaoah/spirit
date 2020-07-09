@@ -12,11 +12,13 @@ import com.sum.shy.pojo.common.TypeTable;
 
 public class AdaptiveLinker implements ClassLinker {
 
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
+	public static final String OBJECT_EQUALS = "equals";
+	public static final String OBJECT_TO_STRING = "toString";
 
 	public static ClassLinker codeLinker = ProxyFactory.cast(ClassLinker.class, "code_linker");
-
 	public static ClassLinker nativeLinker = ProxyFactory.cast(ClassLinker.class, "native_linker");
+	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public <T> T toClass(IType type) {
@@ -53,7 +55,7 @@ public class AdaptiveLinker implements ClassLinker {
 			throw new RuntimeException("The primitive type has no field!");
 
 		// 访问数组length直接返回int类型
-		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
+		if (type.isArray() && AdaptiveLinker.ARRAY_LENGTH.equals(fieldName))
 			return TypeTable.INT_TYPE;
 
 		// 这里设定Object没有属性
@@ -92,10 +94,10 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// 如果是Object类型，则直接返回了
 		if (type.isObj()) {
-			if (Constants.OBJECT_EQUALS.equals(methodName)) {
+			if (AdaptiveLinker.OBJECT_EQUALS.equals(methodName)) {
 				return TypeTable.BOOLEAN_TYPE;
 
-			} else if (Constants.OBJECT_TO_STRING.equals(methodName)) {
+			} else if (AdaptiveLinker.OBJECT_TO_STRING.equals(methodName)) {
 				return TypeTable.STRING_TYPE;
 			}
 		}
