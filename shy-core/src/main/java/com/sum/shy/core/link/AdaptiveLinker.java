@@ -12,7 +12,7 @@ import com.sum.shy.pojo.common.TypeTable;
 
 public class AdaptiveLinker implements ClassLinker {
 
-	public static final String ARRAY_LENGTH = "length";// 数组长度字段名称
+	public static final String ARRAY_LENGTH = "length";
 	public static final String OBJECT_EQUALS = "equals";
 	public static final String OBJECT_TO_STRING = "toString";
 
@@ -55,7 +55,7 @@ public class AdaptiveLinker implements ClassLinker {
 			throw new RuntimeException("The primitive type has no field!");
 
 		// 访问数组length直接返回int类型
-		if (type.isArray() && AdaptiveLinker.ARRAY_LENGTH.equals(fieldName))
+		if (type.isArray() && ARRAY_LENGTH.equals(fieldName))
 			return TypeTable.INT_TYPE;
 
 		// 这里设定Object没有属性
@@ -94,10 +94,10 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// 如果是Object类型，则直接返回了
 		if (type.isObj()) {
-			if (AdaptiveLinker.OBJECT_EQUALS.equals(methodName)) {
+			if (OBJECT_EQUALS.equals(methodName)) {
 				return TypeTable.BOOLEAN_TYPE;
 
-			} else if (AdaptiveLinker.OBJECT_TO_STRING.equals(methodName)) {
+			} else if (OBJECT_TO_STRING.equals(methodName)) {
 				return TypeTable.STRING_TYPE;
 			}
 		}
