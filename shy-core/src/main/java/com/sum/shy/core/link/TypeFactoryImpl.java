@@ -26,7 +26,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
 		type.setTypeName(TypeUtils.getTypeName(className));
-		type.setPrimitive(TypeUtils.isPrimitive(className));
+		type.setPrimitive(TypeTable.isPrimitive(className));
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);

@@ -10,10 +10,20 @@ public class ReflectUtils {
 	public static Class<?> getClass(String className) {
 		try {
 			return Class.forName(className);
-
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}
+	}
+
+	public static String getClassName(String targetName, boolean isArray) {
+		try {
+			Class<?> clazz = ReflectUtils.getClass("java.lang." + targetName);
+			if (clazz != null)
+				return isArray ? "[L" + clazz.getName() + ";" : clazz.getName();
+		} catch (Exception e) {
+			// ignore
+		}
+		return null;
 	}
 
 	public static Field getDeclaredField(Class<?> clazz, String fieldName) {

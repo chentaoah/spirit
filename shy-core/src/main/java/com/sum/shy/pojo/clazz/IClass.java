@@ -50,7 +50,7 @@ public class IClass {
 			return !isArray ? className : "[L" + className + ";";
 
 		// 3.如果是基本类型，基本类型数组，或者java.lang.下的类，则直接返回
-		className = TypeUtils.getClassName(simpleName);
+		className = TypeTable.getClassName(simpleName);
 		if (className != null)
 			return className;
 
@@ -65,7 +65,7 @@ public class IClass {
 		String lastName = TypeUtils.getLastName(className);
 
 		// 1. 基本类型不添加和java.lang.包下不添加
-		if (TypeUtils.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
+		if (TypeTable.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
 			return true;
 
 		// 2.如果是本身,不添加
