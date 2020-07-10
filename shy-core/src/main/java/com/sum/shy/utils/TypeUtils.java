@@ -22,8 +22,8 @@ public class TypeUtils {
 		return new ArrayList<>(names);
 	}
 
-	public static boolean isPrimitive(String name) {// 基本类型数组不算基本类型 className or simpleName
-		return SemanticParserImpl.PRIMITIVE_PATTERN.matcher(name).matches();
+	public static boolean isPrimitive(String className) {// 基本类型数组不算基本类型 className or simpleName
+		return SemanticParserImpl.PRIMITIVE_PATTERN.matcher(className).matches();
 	}
 
 	public static boolean isArray(String name) {// className or simpleName or typeName
@@ -72,12 +72,9 @@ public class TypeUtils {
 		return getTargetName(className) + (isArray(className) ? "[]" : "");
 	}
 
-	public static String getClassName(String simpleName) {// 只能支持基本类型和基本类型数组
+	public static String getClassName(String simpleName) {
 
-		// 基本类型simpleName和className一致
-		if (isPrimitive(simpleName))
-			return simpleName;
-
+		// 只能支持基本类型和基本类型数组
 		String className = TypeTable.getClassName(simpleName);
 		if (StringUtils.isNotEmpty(className))
 			return className;

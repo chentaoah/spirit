@@ -160,7 +160,34 @@ public class TypeTable {
 
 	public static String getClassName(String simpleName) {
 
-		if (BOOLEAN_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
+		if (VOID_TYPE.getClassName().equals(simpleName)) {
+			return VOID_TYPE.getClassName();
+
+		} else if (BOOLEAN_TYPE.getClassName().equals(simpleName)) {
+			return BOOLEAN_TYPE.getClassName();
+
+		} else if (CHAR_TYPE.getClassName().equals(simpleName)) {
+			return CHAR_TYPE.getClassName();
+
+		} else if (BYTE_TYPE.getClassName().equals(simpleName)) {
+			return BYTE_TYPE.getClassName();
+
+		} else if (SHORT_TYPE.getClassName().equals(simpleName)) {
+			return SHORT_TYPE.getClassName();
+
+		} else if (INT_TYPE.getClassName().equals(simpleName)) {
+			return INT_TYPE.getClassName();
+
+		} else if (LONG_TYPE.getClassName().equals(simpleName)) {
+			return LONG_TYPE.getClassName();
+
+		} else if (FLOAT_TYPE.getClassName().equals(simpleName)) {
+			return FLOAT_TYPE.getClassName();
+
+		} else if (DOUBLE_TYPE.getClassName().equals(simpleName)) {
+			return DOUBLE_TYPE.getClassName();
+
+		} else if (BOOLEAN_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
 			return BOOLEAN_ARRAY_TYPE.getClassName();
 
 		} else if (CHAR_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
