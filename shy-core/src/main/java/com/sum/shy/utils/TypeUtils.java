@@ -11,7 +11,6 @@ import com.sum.shy.pojo.common.TypeTable;
 public class TypeUtils {
 
 	public static String getPackage(String className) {
-		className = getTargetName(className);
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
