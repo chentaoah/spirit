@@ -13,8 +13,6 @@ import com.sum.shy.pojo.common.TypeTable;
 public class AdaptiveLinker implements ClassLinker {
 
 	public static final String ARRAY_LENGTH = "length";
-	public static final String OBJECT_EQUALS = "equals";
-	public static final String OBJECT_TO_STRING = "toString";
 
 	public static ClassLinker codeLinker = ProxyFactory.cast(ClassLinker.class, "code_linker");
 	public static ClassLinker nativeLinker = ProxyFactory.cast(ClassLinker.class, "native_linker");
