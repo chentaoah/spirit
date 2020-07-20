@@ -92,16 +92,6 @@ public class AdaptiveLinker implements ClassLinker {
 		if (type.isArray())
 			throw new RuntimeException("Array has no method!");
 
-		// 如果是Object类型，则直接返回了
-		if (type.isObj()) {
-			if (OBJECT_EQUALS.equals(methodName)) {
-				return TypeTable.BOOLEAN_TYPE;
-
-			} else if (OBJECT_TO_STRING.equals(methodName)) {
-				return TypeTable.STRING_TYPE;
-			}
-		}
-
 		IType returnType = !type.isNative() ? codeLinker.visitMethod(type, methodName, parameterTypes)
 				: nativeLinker.visitMethod(type, methodName, parameterTypes);
 
