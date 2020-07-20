@@ -56,6 +56,10 @@ public class AdaptiveLinker implements ClassLinker {
 		if (type.isArray() && ARRAY_LENGTH.equals(fieldName))
 			return TypeTable.INT_TYPE;
 
+		// 这里设定Object没有属性
+		if (type.isObj())
+			return null;
+
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
 
 		if (returnType == null) {
