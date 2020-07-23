@@ -16,6 +16,8 @@ import com.sum.shy.api.link.ClassLinker;
 import com.sum.shy.api.link.TypeFactory;
 import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
+import com.sum.shy.pojo.exception.NoSuchFieldException;
+import com.sum.shy.pojo.exception.NoSuchMethodException;
 import com.sum.shy.utils.ReflectUtils;
 
 public class NativeLinker implements ClassLinker {
@@ -58,7 +60,7 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitField(IType type, String fieldName) {
+	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 
 		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
 		try {
@@ -74,7 +76,7 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 
 		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
 		try {

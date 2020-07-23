@@ -13,6 +13,8 @@ import com.sum.shy.pojo.clazz.IField;
 import com.sum.shy.pojo.clazz.IMethod;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Context;
+import com.sum.shy.pojo.exception.NoSuchFieldException;
+import com.sum.shy.pojo.exception.NoSuchMethodException;
 
 public class CodeLinker implements ClassLinker {
 
@@ -51,7 +53,7 @@ public class CodeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitField(IType type, String fieldName) {
+	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
 		if (field != null)
@@ -60,7 +62,7 @@ public class CodeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
 		IMethod method = clazz.getMethod(type, methodName, parameterTypes);
 		if (method != null)

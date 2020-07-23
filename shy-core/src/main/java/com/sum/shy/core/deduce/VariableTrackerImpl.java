@@ -14,6 +14,7 @@ import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.MethodContext;
 import com.sum.shy.pojo.element.Statement;
 import com.sum.shy.pojo.element.Token;
+import com.sum.shy.pojo.exception.NoSuchFieldException;
 
 public class VariableTrackerImpl implements VariableTracker {
 
@@ -78,7 +79,11 @@ public class VariableTrackerImpl implements VariableTracker {
 
 		// Look from the parent class,
 		// but note that the parent class may be native
-		return linker.visitField(clazz.toType().toThis(), name);
+		try {
+			return linker.visitField(clazz.toType().toThis(), name);
+		} catch (NoSuchFieldException e) {
+			return null;
+		}
 	}
 
 }

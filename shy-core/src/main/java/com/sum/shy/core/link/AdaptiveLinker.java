@@ -9,6 +9,8 @@ import com.sum.shy.lib.Assert;
 import com.sum.shy.pojo.clazz.IType;
 import com.sum.shy.pojo.common.Constants;
 import com.sum.shy.pojo.common.TypeTable;
+import com.sum.shy.pojo.exception.NoSuchFieldException;
+import com.sum.shy.pojo.exception.NoSuchMethodException;
 
 public class AdaptiveLinker implements ClassLinker {
 
@@ -39,7 +41,7 @@ public class AdaptiveLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitField(IType type, String fieldName) {
+	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
@@ -56,10 +58,6 @@ public class AdaptiveLinker implements ClassLinker {
 		if (type.isArray() && ARRAY_LENGTH.equals(fieldName))
 			return TypeTable.INT_TYPE;
 
-		// 这里设定Object没有属性
-		if (type.isObj())
-			return null;
-
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
 
 		if (returnType == null) {
@@ -68,12 +66,14 @@ public class AdaptiveLinker implements ClassLinker {
 				return visitField(superType, fieldName);
 		}
 
-		Assert.notNull(returnType, "Return type cannot be null!");
+		if (returnType == null)
+			throw new NoSuchFieldException(String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
+
 		return returnType;
 	}
 
 	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
@@ -99,7 +99,9 @@ public class AdaptiveLinker implements ClassLinker {
 				return visitMethod(superType, methodName, parameterTypes);
 		}
 
-		Assert.notNull(returnType, "Return type cannot be null!");
+		if (returnType == null)
+			throw new NoSuchMethodException(String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
+
 		return returnType;
 	}
 
