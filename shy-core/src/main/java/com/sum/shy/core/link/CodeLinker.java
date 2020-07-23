@@ -19,9 +19,7 @@ import com.sum.shy.pojo.exception.NoSuchMethodException;
 public class CodeLinker implements ClassLinker {
 
 	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
-
 	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
-
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
