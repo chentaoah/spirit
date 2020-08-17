@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.sum.shy</groupId>
-		<artifactId>shy-parent</artifactId>
+		<groupId>com.sum.jass</groupId>
+		<artifactId>jass-parent</artifactId>
 		<version>1.0.2</version>
 	</parent>
-	<artifactId>shy-core</artifactId>
+	<artifactId>jass-core</artifactId>
 
 	<properties>
 		<pisces.version>1.0.0</pisces.version>
@@ -19,8 +19,8 @@
 	<dependencies>
 		<!-- lib -->
 		<dependency>
-			<groupId>com.sum.shy</groupId>
-			<artifactId>shy-lib</artifactId>
+			<groupId>com.sum.jass</groupId>
+			<artifactId>jass-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- pisces -->
@@ -57,7 +57,7 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../shy-deploy/lib</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../jass-deploy/lib</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -71,7 +71,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../shy-deploy/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../jass-deploy/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
