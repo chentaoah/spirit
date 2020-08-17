@@ -9,13 +9,6 @@
 	</parent>
 	<artifactId>jass-core</artifactId>
 
-	<properties>
-		<pisces.version>1.0.0</pisces.version>
-		<guava.version>29.0-jre</guava.version>
-		<lang3.version>3.9</lang3.version>
-		<slf4j.version>1.7.25</slf4j.version>
-	</properties>
-
 	<dependencies>
 		<!-- lib -->
 		<dependency>
