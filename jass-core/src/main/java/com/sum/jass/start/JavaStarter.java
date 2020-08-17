@@ -37,7 +37,5 @@ public class JavaStarter {
 		});
 
 		processor.postEndProcessor(args, files);
-
 	}
-
 }
