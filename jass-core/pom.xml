@@ -22,12 +22,13 @@
 			<artifactId>pisces-core</artifactId>
 			<version>${pisces.version}</version>
 		</dependency>
-		<!-- utils -->
+		<!-- guava -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
+		<!-- lang -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
