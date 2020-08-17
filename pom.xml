@@ -2,15 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sum.shy</groupId>
-	<artifactId>shy-parent</artifactId>
+	<groupId>com.sum.jass</groupId>
+	<artifactId>jass-parent</artifactId>
 	<version>1.0.2</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>shy-core</module>
-		<module>shy-lib</module>
-		<module>shy-test</module>
+		<module>jass-core</module>
+		<module>jass-lib</module>
+		<module>jass-test</module>
 	</modules>
 
 	<properties>
