@@ -1,4 +1,4 @@
-package com.sum.shy.core.lexer;
+package com.sum.jass.core.lexer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.sum.shy.api.lexer.Lexer;
-import com.sum.shy.lib.StringUtils;
-import com.sum.shy.pojo.common.Symbol;
-import com.sum.shy.pojo.common.SymbolTable;
-import com.sum.shy.utils.LineUtils;
+import com.sum.jass.api.lexer.Lexer;
+import com.sum.jass.lib.StringUtils;
+import com.sum.jass.pojo.common.Symbol;
+import com.sum.jass.pojo.common.SymbolTable;
+import com.sum.jass.utils.LineUtils;
 
 public class LexerImpl implements Lexer {
 

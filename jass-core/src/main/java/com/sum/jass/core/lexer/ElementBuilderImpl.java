@@ -1,20 +1,20 @@
-package com.sum.shy.core.lexer;
+package com.sum.jass.core.lexer;
 
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.PostProcessor;
-import com.sum.shy.api.lexer.ElementBuilder;
-import com.sum.shy.api.lexer.Lexer;
-import com.sum.shy.api.lexer.SemanticParser;
-import com.sum.shy.api.lexer.StructRecognizer;
-import com.sum.shy.api.lexer.SyntaxChecker;
-import com.sum.shy.api.lexer.TreeBuilder;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Line;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.SyntaxTree;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.api.PostProcessor;
+import com.sum.jass.api.lexer.ElementBuilder;
+import com.sum.jass.api.lexer.Lexer;
+import com.sum.jass.api.lexer.SemanticParser;
+import com.sum.jass.api.lexer.StructRecognizer;
+import com.sum.jass.api.lexer.SyntaxChecker;
+import com.sum.jass.api.lexer.TreeBuilder;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Line;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.SyntaxTree;
+import com.sum.jass.pojo.element.Token;
 
 public class ElementBuilderImpl implements ElementBuilder {
 

@@ -1,15 +1,15 @@
-package com.sum.shy.start;
+package com.sum.jass.start;
 
 import java.io.File;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
 import com.sum.pisces.utils.StringUtils;
-import com.sum.shy.api.CodeBuilder;
-import com.sum.shy.api.Compiler;
-import com.sum.shy.api.PostProcessor;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.utils.FileUtils;
+import com.sum.jass.api.CodeBuilder;
+import com.sum.jass.api.Compiler;
+import com.sum.jass.api.PostProcessor;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.utils.FileUtils;
 
 public class JavaStarter {
 

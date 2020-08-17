@@ -1,5 +1,5 @@
 
-import com.sum.shy.test.example.ClassGenericTest
+import com.sum.jass.test.example.ClassGenericTest
 
 class Child extends Father{
 

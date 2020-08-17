@@ -1,4 +1,4 @@
-package com.sum.shy.pojo.exception;
+package com.sum.jass.pojo.exception;
 
 public class NoSuchFieldException extends Exception {
 

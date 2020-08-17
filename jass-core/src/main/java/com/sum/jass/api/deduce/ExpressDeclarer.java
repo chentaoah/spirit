@@ -1,9 +1,9 @@
-package com.sum.shy.api.deduce;
+package com.sum.jass.api.deduce;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.common.MethodContext;
-import com.sum.shy.pojo.element.Element;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.common.MethodContext;
+import com.sum.jass.pojo.element.Element;
 
 @Service("express_declarer")
 public interface ExpressDeclarer {

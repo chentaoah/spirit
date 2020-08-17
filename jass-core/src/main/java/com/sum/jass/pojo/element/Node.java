@@ -1,4 +1,4 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
 public class Node {
 

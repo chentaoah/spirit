@@ -1,18 +1,18 @@
-package com.sum.shy.java.convert;
+package com.sum.jass.java.convert;
 
 import com.sum.pisces.api.annotation.Order;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.convert.ElementConverter;
-import com.sum.shy.api.deduce.FastDeducer;
-import com.sum.shy.lib.StringUtils;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.TypeTable;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.Token;
-import com.sum.shy.utils.TreeUtils;
+import com.sum.jass.api.convert.ElementConverter;
+import com.sum.jass.api.deduce.FastDeducer;
+import com.sum.jass.lib.StringUtils;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.common.TypeTable;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.Token;
+import com.sum.jass.utils.TreeUtils;
 
 @Order(-80)
 public class StrEqualsConverter implements ElementConverter {

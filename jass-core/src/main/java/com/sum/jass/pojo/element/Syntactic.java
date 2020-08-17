@@ -1,6 +1,6 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
-import com.sum.shy.pojo.common.Constants;
+import com.sum.jass.pojo.common.Constants;
 
 public abstract class Syntactic extends TokenBox {
 

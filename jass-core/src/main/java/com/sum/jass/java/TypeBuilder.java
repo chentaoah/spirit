@@ -1,11 +1,11 @@
-package com.sum.shy.java;
+package com.sum.jass.java;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IType;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IType;
 
 public class TypeBuilder {
 

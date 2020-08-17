@@ -1,9 +1,9 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.shy.pojo.element.Element;
+import com.sum.jass.pojo.element.Element;
 
 public abstract class AbsMember {
 	// 注解

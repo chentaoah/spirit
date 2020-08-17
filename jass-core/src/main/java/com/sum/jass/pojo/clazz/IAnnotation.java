@@ -1,7 +1,7 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Token;
 
 public class IAnnotation {
 

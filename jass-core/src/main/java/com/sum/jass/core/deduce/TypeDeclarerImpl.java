@@ -1,11 +1,11 @@
-package com.sum.shy.core.deduce;
+package com.sum.jass.core.deduce;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.TypeDeclarer;
-import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.api.deduce.TypeDeclarer;
+import com.sum.jass.api.link.TypeFactory;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Token;
 
 public class TypeDeclarerImpl implements TypeDeclarer {
 

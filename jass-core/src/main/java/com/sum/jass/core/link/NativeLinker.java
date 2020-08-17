@@ -1,4 +1,4 @@
-package com.sum.shy.core.link;
+package com.sum.jass.core.link;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.link.ClassLinker;
-import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.exception.NoSuchFieldException;
-import com.sum.shy.pojo.exception.NoSuchMethodException;
-import com.sum.shy.utils.ReflectUtils;
+import com.sum.jass.api.link.ClassLinker;
+import com.sum.jass.api.link.TypeFactory;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.exception.NoSuchFieldException;
+import com.sum.jass.pojo.exception.NoSuchMethodException;
+import com.sum.jass.utils.ReflectUtils;
 
 public class NativeLinker implements ClassLinker {
 

@@ -1,4 +1,4 @@
-package com.sum.shy.test.example;
+package com.sum.jass.test.example;
 
 @MyTest
 public class ClassGenericTest {

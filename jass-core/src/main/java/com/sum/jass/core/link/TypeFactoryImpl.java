@@ -1,20 +1,20 @@
-package com.sum.shy.core.link;
+package com.sum.jass.core.link;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.FastDeducer;
-import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.common.TypeTable;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.Token;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.api.deduce.FastDeducer;
+import com.sum.jass.api.link.TypeFactory;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.common.Context;
+import com.sum.jass.pojo.common.TypeTable;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.Token;
+import com.sum.jass.utils.TypeUtils;
 
 public class TypeFactoryImpl implements TypeFactory {
 

@@ -1,17 +1,17 @@
-package com.sum.shy.core.lexer;
+package com.sum.jass.core.lexer;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.lexer.Lexer;
-import com.sum.shy.api.lexer.SemanticParser;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.KeywordTable;
-import com.sum.shy.pojo.common.SymbolTable;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.api.lexer.Lexer;
+import com.sum.jass.api.lexer.SemanticParser;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.common.KeywordTable;
+import com.sum.jass.pojo.common.SymbolTable;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.Token;
 
 public class SemanticParserImpl implements SemanticParser {
 	// special

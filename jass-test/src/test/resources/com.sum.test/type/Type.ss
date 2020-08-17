@@ -1,8 +1,8 @@
 
 import java.util.HashMap
-import com.sum.shy.test.example.ClassGenericTest
-import com.sum.shy.test.example.MyTest
-import com.sum.shy.test.example.GenericType
+import com.sum.jass.test.example.ClassGenericTest
+import com.sum.jass.test.example.MyTest
+import com.sum.jass.test.example.GenericType
 
 @Deprecated
 class Type {

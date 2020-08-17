@@ -1,11 +1,11 @@
-package com.sum.shy.core;
+package com.sum.jass.core;
 
 import java.io.File;
 import java.util.Map;
 
-import com.sum.shy.api.PostProcessor;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.element.Document;
+import com.sum.jass.api.PostProcessor;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.element.Document;
 
 public class PostProcessorImpl implements PostProcessor {
 

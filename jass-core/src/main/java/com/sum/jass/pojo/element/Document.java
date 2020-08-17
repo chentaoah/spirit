@@ -1,9 +1,9 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import com.sum.shy.utils.FileUtils;
+import com.sum.jass.utils.FileUtils;
 
 @SuppressWarnings("serial")
 public class Document extends ArrayList<Element> {

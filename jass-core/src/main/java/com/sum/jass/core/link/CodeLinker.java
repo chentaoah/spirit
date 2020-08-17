@@ -1,20 +1,20 @@
-package com.sum.shy.core.link;
+package com.sum.jass.core.link;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.MemberVisiter;
-import com.sum.shy.api.link.ClassLinker;
-import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IField;
-import com.sum.shy.pojo.clazz.IMethod;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.exception.NoSuchFieldException;
-import com.sum.shy.pojo.exception.NoSuchMethodException;
+import com.sum.jass.api.MemberVisiter;
+import com.sum.jass.api.link.ClassLinker;
+import com.sum.jass.api.link.TypeFactory;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IField;
+import com.sum.jass.pojo.clazz.IMethod;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.common.Context;
+import com.sum.jass.pojo.exception.NoSuchFieldException;
+import com.sum.jass.pojo.exception.NoSuchMethodException;
 
 public class CodeLinker implements ClassLinker {
 

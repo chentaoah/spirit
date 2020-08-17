@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.jass.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;

@@ -1,11 +1,11 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.Symbol;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.common.Symbol;
 
 public class Statement extends TokenBox {
 

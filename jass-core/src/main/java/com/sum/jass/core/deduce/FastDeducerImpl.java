@@ -1,17 +1,17 @@
-package com.sum.shy.core.deduce;
+package com.sum.jass.core.deduce;
 
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.FastDeducer;
-import com.sum.shy.api.lexer.TreeBuilder;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.TypeTable;
-import com.sum.shy.pojo.element.Node;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.api.deduce.FastDeducer;
+import com.sum.jass.api.lexer.TreeBuilder;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.common.TypeTable;
+import com.sum.jass.pojo.element.Node;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.Token;
 
 public class FastDeducerImpl implements FastDeducer {
 

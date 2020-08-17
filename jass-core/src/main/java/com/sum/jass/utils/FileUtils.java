@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.jass.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class FileUtils {
 
 	public static final String SEPARATOR = File.separator;
 
-	public static final String SUFFIX = ".shy";
+	public static final String SUFFIX = ".ss";
 
 	public static String getName(File file) {
 		return file.getName().replace(SUFFIX, "");
@@ -38,8 +38,8 @@ public class FileUtils {
 				getFilesRecursively(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files);
 
 			} else if (file.isFile()) {
-				if (file.getName().endsWith(".shy"))
-					files.put(packageStr + "." + file.getName().replace(".shy", ""), file);
+				if (file.getName().endsWith(SUFFIX))
+					files.put(packageStr + "." + file.getName().replace(SUFFIX, ""), file);
 			}
 		}
 	}

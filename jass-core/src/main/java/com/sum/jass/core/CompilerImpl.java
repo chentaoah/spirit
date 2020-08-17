@@ -1,4 +1,4 @@
-package com.sum.shy.core;
+package com.sum.jass.core;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.ClassResolver;
-import com.sum.shy.api.Compiler;
-import com.sum.shy.api.DocumentReader;
-import com.sum.shy.api.MemberVisiter;
-import com.sum.shy.api.PostProcessor;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.element.Document;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.api.ClassResolver;
+import com.sum.jass.api.Compiler;
+import com.sum.jass.api.DocumentReader;
+import com.sum.jass.api.MemberVisiter;
+import com.sum.jass.api.PostProcessor;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.common.Context;
+import com.sum.jass.pojo.element.Document;
+import com.sum.jass.utils.TypeUtils;
 
 public class CompilerImpl implements Compiler {
 

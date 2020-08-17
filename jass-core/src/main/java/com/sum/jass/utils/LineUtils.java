@@ -1,4 +1,4 @@
-package com.sum.shy.utils;
+package com.sum.jass.utils;
 
 public class LineUtils {
 

@@ -1,9 +1,9 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.lexer.ElementBuilder;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.api.lexer.ElementBuilder;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.utils.TypeUtils;
 
 public class Import {
 

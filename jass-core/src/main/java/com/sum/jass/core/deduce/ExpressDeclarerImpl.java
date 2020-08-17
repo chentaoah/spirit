@@ -1,19 +1,19 @@
-package com.sum.shy.core.deduce;
+package com.sum.jass.core.deduce;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.deduce.ElementVisiter;
-import com.sum.shy.api.deduce.ExpressDeclarer;
-import com.sum.shy.api.deduce.FastDeducer;
-import com.sum.shy.api.deduce.InvokeVisiter;
-import com.sum.shy.api.deduce.VariableTracker;
-import com.sum.shy.api.lexer.ElementBuilder;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.clazz.IVariable;
-import com.sum.shy.pojo.common.MethodContext;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.api.deduce.ElementVisiter;
+import com.sum.jass.api.deduce.ExpressDeclarer;
+import com.sum.jass.api.deduce.FastDeducer;
+import com.sum.jass.api.deduce.InvokeVisiter;
+import com.sum.jass.api.deduce.VariableTracker;
+import com.sum.jass.api.lexer.ElementBuilder;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.clazz.IVariable;
+import com.sum.jass.pojo.common.MethodContext;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.Token;
 
 public class ExpressDeclarerImpl implements ExpressDeclarer {
 

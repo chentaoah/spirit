@@ -1,4 +1,4 @@
-package com.sum.shy.pojo.common;
+package com.sum.jass.pojo.common;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

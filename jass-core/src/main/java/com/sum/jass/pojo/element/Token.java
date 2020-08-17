@@ -1,11 +1,11 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.pojo.common.Constants;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.pojo.common.Constants;
 
 public class Token extends Semantic {
 

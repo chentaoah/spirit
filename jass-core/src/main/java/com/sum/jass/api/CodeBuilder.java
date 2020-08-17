@@ -1,7 +1,7 @@
-package com.sum.shy.api;
+package com.sum.jass.api;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.shy.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IClass;
 
 @Service("code_builder")
 public interface CodeBuilder {

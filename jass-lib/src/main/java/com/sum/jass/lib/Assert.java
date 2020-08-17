@@ -1,4 +1,4 @@
-package com.sum.shy.lib;
+package com.sum.jass.lib;
 
 public class Assert {
 

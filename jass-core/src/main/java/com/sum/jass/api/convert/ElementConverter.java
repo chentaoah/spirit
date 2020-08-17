@@ -1,7 +1,7 @@
-package com.sum.shy.api.convert;
+package com.sum.jass.api.convert;
 
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.element.Element;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.element.Element;
 
 public interface ElementConverter {
 

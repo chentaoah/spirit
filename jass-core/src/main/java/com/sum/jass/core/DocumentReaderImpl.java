@@ -1,4 +1,4 @@
-package com.sum.shy.core;
+package com.sum.jass.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,13 +8,13 @@ import java.util.List;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.DocumentReader;
-import com.sum.shy.api.lexer.ElementBuilder;
-import com.sum.shy.pojo.element.Document;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Line;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.utils.LineUtils;
+import com.sum.jass.api.DocumentReader;
+import com.sum.jass.api.lexer.ElementBuilder;
+import com.sum.jass.pojo.element.Document;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Line;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.utils.LineUtils;
 
 public class DocumentReaderImpl implements DocumentReader {
 

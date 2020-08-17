@@ -1,9 +1,9 @@
-package com.sum.shy.api;
+package com.sum.jass.api;
 
 import java.io.File;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.shy.pojo.element.Document;
+import com.sum.jass.pojo.element.Document;
 
 @Service("document_reader")
 public interface DocumentReader {

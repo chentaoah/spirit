@@ -1,7 +1,7 @@
-package com.sum.shy.api.convert;
+package com.sum.jass.api.convert;
 
-import com.sum.shy.pojo.clazz.IAnnotation;
-import com.sum.shy.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IAnnotation;
+import com.sum.jass.pojo.clazz.IClass;
 
 public interface AnnotationConverter {
 

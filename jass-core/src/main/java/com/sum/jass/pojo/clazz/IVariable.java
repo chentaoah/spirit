@@ -1,4 +1,4 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
 public class IVariable {
 

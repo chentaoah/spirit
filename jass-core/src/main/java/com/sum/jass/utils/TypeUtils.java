@@ -1,12 +1,12 @@
-package com.sum.shy.utils;
+package com.sum.jass.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.common.TypeTable;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.common.TypeTable;
 
 public class TypeUtils {
 

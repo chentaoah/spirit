@@ -1,4 +1,4 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
 import java.util.ArrayList;
 import java.util.List;

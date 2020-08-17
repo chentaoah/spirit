@@ -1,10 +1,10 @@
-package com.sum.shy.api;
+package com.sum.jass.api;
 
 import java.util.List;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.element.Document;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.element.Document;
 
 @Service("class_resolver")
 public interface ClassResolver {

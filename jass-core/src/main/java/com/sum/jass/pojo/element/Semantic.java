@@ -1,7 +1,7 @@
-package com.sum.shy.pojo.element;
+package com.sum.jass.pojo.element;
 
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.SymbolTable;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.common.SymbolTable;
 
 public abstract class Semantic {
 

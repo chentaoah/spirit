@@ -1,11 +1,11 @@
-package com.sum.shy.api.lexer;
+package com.sum.jass.api.lexer;
 
 import java.util.List;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.shy.pojo.element.Statement;
-import com.sum.shy.pojo.element.SyntaxTree;
-import com.sum.shy.pojo.element.Token;
+import com.sum.jass.pojo.element.Statement;
+import com.sum.jass.pojo.element.SyntaxTree;
+import com.sum.jass.pojo.element.Token;
 
 @Service("tree_builder")
 public interface TreeBuilder {

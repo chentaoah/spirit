@@ -1,9 +1,9 @@
-package com.sum.shy.pojo.common;
+package com.sum.jass.pojo.common;
 
-import com.sum.shy.lib.StringUtils;
-import com.sum.shy.pojo.clazz.IType;
-import com.sum.shy.utils.ReflectUtils;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.lib.StringUtils;
+import com.sum.jass.pojo.clazz.IType;
+import com.sum.jass.utils.ReflectUtils;
+import com.sum.jass.utils.TypeUtils;
 
 public class TypeTable {
 

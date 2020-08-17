@@ -1,20 +1,20 @@
-package com.sum.shy.core;
+package com.sum.jass.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.ClassResolver;
-import com.sum.shy.api.lexer.ElementBuilder;
-import com.sum.shy.pojo.clazz.IAnnotation;
-import com.sum.shy.pojo.clazz.IClass;
-import com.sum.shy.pojo.clazz.IField;
-import com.sum.shy.pojo.clazz.IMethod;
-import com.sum.shy.pojo.clazz.Import;
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.element.Document;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.api.ClassResolver;
+import com.sum.jass.api.lexer.ElementBuilder;
+import com.sum.jass.pojo.clazz.IAnnotation;
+import com.sum.jass.pojo.clazz.IClass;
+import com.sum.jass.pojo.clazz.IField;
+import com.sum.jass.pojo.clazz.IMethod;
+import com.sum.jass.pojo.clazz.Import;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.element.Document;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.utils.TypeUtils;
 
 public class ClassResolverImpl implements ClassResolver {
 

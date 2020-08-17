@@ -1,17 +1,17 @@
-package com.sum.shy.pojo.clazz;
+package com.sum.jass.pojo.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.shy.api.link.TypeFactory;
-import com.sum.shy.lib.Assert;
-import com.sum.shy.pojo.common.Constants;
-import com.sum.shy.pojo.common.Context;
-import com.sum.shy.pojo.common.TypeTable;
-import com.sum.shy.pojo.element.Element;
-import com.sum.shy.pojo.element.Token;
-import com.sum.shy.utils.TypeUtils;
+import com.sum.jass.api.link.TypeFactory;
+import com.sum.jass.lib.Assert;
+import com.sum.jass.pojo.common.Constants;
+import com.sum.jass.pojo.common.Context;
+import com.sum.jass.pojo.common.TypeTable;
+import com.sum.jass.pojo.element.Element;
+import com.sum.jass.pojo.element.Token;
+import com.sum.jass.utils.TypeUtils;
 
 public class IClass {
 
