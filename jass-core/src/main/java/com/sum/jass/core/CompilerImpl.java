@@ -19,11 +19,8 @@ import com.sum.jass.utils.TypeUtils;
 public class CompilerImpl implements Compiler {
 
 	public static DocumentReader reader = ProxyFactory.get(DocumentReader.class);
-
 	public static ClassResolver resolver = ProxyFactory.get(ClassResolver.class);
-
 	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
-
 	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
 
 	@Override
