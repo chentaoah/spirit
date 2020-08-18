@@ -1,4 +1,4 @@
-package com.sum.jass.test.example;
+package com.sum.soon.test.example;
 
 import java.util.HashMap;
 import java.util.Map;

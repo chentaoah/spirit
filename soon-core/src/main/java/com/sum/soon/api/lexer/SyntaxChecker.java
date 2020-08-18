@@ -1,7 +1,7 @@
-package com.sum.jass.api.lexer;
+package com.sum.soon.api.lexer;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.pojo.element.Line;
+import com.sum.soon.pojo.element.Line;
 
 @Service(value = "syntax_checker", mockIfMissing = true)
 public interface SyntaxChecker {

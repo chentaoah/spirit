@@ -1,14 +1,14 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
-import com.sum.jass.test.example.ClassGenericTest;
-import com.sum.jass.test.example.MyTest;
-import com.sum.jass.test.example.GenericType;
+import com.sum.soon.test.example.ClassGenericTest;
+import com.sum.soon.test.example.MyTest;
+import com.sum.soon.test.example.GenericType;
 import com.sum.test.process.Main;
 import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.jass.lib.Collection;
+import com.sum.soon.lib.Collection;
 import java.util.List;
 import java.util.Map;
 

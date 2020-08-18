@@ -1,11 +1,11 @@
-package com.sum.jass.core.deduce;
+package com.sum.soon.core.deduce;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.deduce.TypeDeclarer;
-import com.sum.jass.api.link.TypeFactory;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.element.Element;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.api.deduce.TypeDeclarer;
+import com.sum.soon.api.link.TypeFactory;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.element.Element;
+import com.sum.soon.pojo.element.Token;
 
 public class TypeDeclarerImpl implements TypeDeclarer {
 

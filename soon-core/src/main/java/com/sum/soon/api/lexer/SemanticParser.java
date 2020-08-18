@@ -1,10 +1,10 @@
-package com.sum.jass.api.lexer;
+package com.sum.soon.api.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.pojo.element.Token;
 
 @Service("semantic_parser")
 public interface SemanticParser {

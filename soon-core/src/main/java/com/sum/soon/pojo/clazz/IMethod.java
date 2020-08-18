@@ -1,13 +1,13 @@
-package com.sum.jass.pojo.clazz;
+package com.sum.soon.pojo.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.link.TypeFactory;
-import com.sum.jass.pojo.common.Constants;
-import com.sum.jass.pojo.element.Element;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.api.link.TypeFactory;
+import com.sum.soon.pojo.common.Constants;
+import com.sum.soon.pojo.element.Element;
+import com.sum.soon.pojo.element.Token;
 
 public class IMethod extends AbsMember {
 

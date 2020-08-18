@@ -1,4 +1,4 @@
-package com.sum.jass.lib;
+package com.sum.soon.lib;
 
 public class StringUtils {
 

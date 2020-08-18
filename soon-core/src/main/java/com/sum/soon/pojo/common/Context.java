@@ -1,8 +1,8 @@
-package com.sum.jass.pojo.common;
+package com.sum.soon.pojo.common;
 
 import java.util.Map;
 
-import com.sum.jass.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IClass;
 
 public class Context {
 

@@ -1,8 +1,8 @@
-package com.sum.jass.pojo.clazz;
+package com.sum.soon.pojo.clazz;
 
 import java.util.List;
 
-import com.sum.jass.pojo.element.Element;
+import com.sum.soon.pojo.element.Element;
 
 public class IField extends AbsMember {
 

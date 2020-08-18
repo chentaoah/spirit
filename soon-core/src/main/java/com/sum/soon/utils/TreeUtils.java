@@ -1,7 +1,7 @@
-package com.sum.jass.utils;
+package com.sum.soon.utils;
 
-import com.sum.jass.pojo.element.Statement;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.pojo.element.Statement;
+import com.sum.soon.pojo.element.Token;
 
 public class TreeUtils {
 

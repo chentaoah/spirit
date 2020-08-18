@@ -1,14 +1,14 @@
-package com.sum.jass.api;
+package com.sum.soon.api;
 
 import java.util.Map;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.lib.Assert;
-import com.sum.jass.pojo.clazz.AbsMember;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IField;
-import com.sum.jass.pojo.clazz.IMethod;
-import com.sum.jass.pojo.clazz.IType;
+import com.sum.soon.lib.Assert;
+import com.sum.soon.pojo.clazz.AbsMember;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IField;
+import com.sum.soon.pojo.clazz.IMethod;
+import com.sum.soon.pojo.clazz.IType;
 
 @Service("member_visiter")
 public interface MemberVisiter {

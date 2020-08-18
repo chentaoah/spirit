@@ -1,20 +1,20 @@
-package com.sum.jass.core.deduce;
+package com.sum.soon.core.deduce;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.MemberVisiter;
-import com.sum.jass.api.deduce.VariableTracker;
-import com.sum.jass.api.link.ClassLinker;
-import com.sum.jass.api.link.TypeFactory;
-import com.sum.jass.lib.Assert;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IParameter;
-import com.sum.jass.pojo.clazz.IType;
-import com.sum.jass.pojo.clazz.IVariable;
-import com.sum.jass.pojo.common.Constants;
-import com.sum.jass.pojo.common.MethodContext;
-import com.sum.jass.pojo.element.Statement;
-import com.sum.jass.pojo.element.Token;
-import com.sum.jass.pojo.exception.NoSuchFieldException;
+import com.sum.soon.api.MemberVisiter;
+import com.sum.soon.api.deduce.VariableTracker;
+import com.sum.soon.api.link.ClassLinker;
+import com.sum.soon.api.link.TypeFactory;
+import com.sum.soon.lib.Assert;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IParameter;
+import com.sum.soon.pojo.clazz.IType;
+import com.sum.soon.pojo.clazz.IVariable;
+import com.sum.soon.pojo.common.Constants;
+import com.sum.soon.pojo.common.MethodContext;
+import com.sum.soon.pojo.element.Statement;
+import com.sum.soon.pojo.element.Token;
+import com.sum.soon.pojo.exception.NoSuchFieldException;
 
 public class VariableTrackerImpl implements VariableTracker {
 

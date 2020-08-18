@@ -1,7 +1,7 @@
-package com.sum.jass.api;
+package com.sum.soon.api;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IClass;
 
 @Service("code_builder")
 public interface CodeBuilder {

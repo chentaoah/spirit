@@ -1,11 +1,11 @@
-package com.sum.jass.api.link;
+package com.sum.soon.api.link;
 
 import java.util.List;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.pojo.clazz.IType;
-import com.sum.jass.pojo.exception.NoSuchFieldException;
-import com.sum.jass.pojo.exception.NoSuchMethodException;
+import com.sum.soon.pojo.clazz.IType;
+import com.sum.soon.pojo.exception.NoSuchFieldException;
+import com.sum.soon.pojo.exception.NoSuchMethodException;
 
 @Service("adaptive_linker")
 public interface ClassLinker {

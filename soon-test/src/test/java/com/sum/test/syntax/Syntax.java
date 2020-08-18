@@ -2,7 +2,7 @@ package com.sum.test.syntax;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.jass.lib.Collection;
+import com.sum.soon.lib.Collection;
 import java.util.List;
 import java.util.Map;
 

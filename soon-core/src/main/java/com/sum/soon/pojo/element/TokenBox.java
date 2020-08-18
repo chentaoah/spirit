@@ -1,9 +1,9 @@
-package com.sum.jass.pojo.element;
+package com.sum.soon.pojo.element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.jass.lib.Assert;
+import com.sum.soon.lib.Assert;
 
 public abstract class TokenBox {
 

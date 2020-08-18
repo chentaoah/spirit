@@ -1,12 +1,12 @@
-package com.sum.jass.pojo.common;
+package com.sum.soon.pojo.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.jass.pojo.clazz.IMethod;
-import com.sum.jass.pojo.clazz.IType;
-import com.sum.jass.pojo.clazz.IVariable;
+import com.sum.soon.pojo.clazz.IMethod;
+import com.sum.soon.pojo.clazz.IType;
+import com.sum.soon.pojo.clazz.IVariable;
 
 public class MethodContext {
 

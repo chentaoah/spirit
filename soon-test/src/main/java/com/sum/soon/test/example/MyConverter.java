@@ -1,8 +1,8 @@
-package com.sum.jass.test.example;
+package com.sum.soon.test.example;
 
-import com.sum.jass.api.convert.AnnotationConverter;
-import com.sum.jass.pojo.clazz.IAnnotation;
-import com.sum.jass.pojo.clazz.IClass;
+import com.sum.soon.api.convert.AnnotationConverter;
+import com.sum.soon.pojo.clazz.IAnnotation;
+import com.sum.soon.pojo.clazz.IClass;
 
 public class MyConverter implements AnnotationConverter {
 

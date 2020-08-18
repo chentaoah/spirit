@@ -1,19 +1,19 @@
-package com.sum.jass.core.deduce;
+package com.sum.soon.core.deduce;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.PostProcessor;
-import com.sum.jass.api.deduce.ElementVisiter;
-import com.sum.jass.api.deduce.ExpressDeclarer;
-import com.sum.jass.api.deduce.FastDeducer;
-import com.sum.jass.api.deduce.InvokeVisiter;
-import com.sum.jass.api.deduce.TypeDeclarer;
-import com.sum.jass.api.deduce.VariableTracker;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IVariable;
-import com.sum.jass.pojo.common.MethodContext;
-import com.sum.jass.pojo.element.Element;
-import com.sum.jass.pojo.element.Statement;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.api.PostProcessor;
+import com.sum.soon.api.deduce.ElementVisiter;
+import com.sum.soon.api.deduce.ExpressDeclarer;
+import com.sum.soon.api.deduce.FastDeducer;
+import com.sum.soon.api.deduce.InvokeVisiter;
+import com.sum.soon.api.deduce.TypeDeclarer;
+import com.sum.soon.api.deduce.VariableTracker;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IVariable;
+import com.sum.soon.pojo.common.MethodContext;
+import com.sum.soon.pojo.element.Element;
+import com.sum.soon.pojo.element.Statement;
+import com.sum.soon.pojo.element.Token;
 
 public class ElementVisiterImpl implements ElementVisiter {
 

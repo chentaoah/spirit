@@ -1,4 +1,4 @@
-package com.sum.jass.pojo.exception;
+package com.sum.soon.pojo.exception;
 
 public class NoSuchMethodException extends Exception {
 

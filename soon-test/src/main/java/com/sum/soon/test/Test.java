@@ -1,6 +1,6 @@
-package com.sum.jass.test;
+package com.sum.soon.test;
 
-import com.sum.jass.start.JavaStarter;
+import com.sum.soon.start.JavaStarter;
 
 public class Test {
 

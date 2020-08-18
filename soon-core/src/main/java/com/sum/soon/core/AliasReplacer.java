@@ -1,8 +1,8 @@
-package com.sum.jass.core;
+package com.sum.soon.core;
 
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.Import;
-import com.sum.jass.utils.LineUtils;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.Import;
+import com.sum.soon.utils.LineUtils;
 
 public class AliasReplacer {
 

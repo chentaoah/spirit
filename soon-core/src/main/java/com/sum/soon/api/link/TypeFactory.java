@@ -1,4 +1,4 @@
-package com.sum.jass.api.link;
+package com.sum.soon.api.link;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -11,12 +11,12 @@ import java.util.List;
 
 import com.sum.pisces.api.annotation.Service;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.lexer.SemanticParser;
-import com.sum.jass.lib.Assert;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IType;
-import com.sum.jass.pojo.common.TypeTable;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.api.lexer.SemanticParser;
+import com.sum.soon.lib.Assert;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IType;
+import com.sum.soon.pojo.common.TypeTable;
+import com.sum.soon.pojo.element.Token;
 
 @Service("type_factory")
 public interface TypeFactory {

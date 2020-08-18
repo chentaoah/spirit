@@ -1,9 +1,9 @@
-package com.sum.jass.pojo.element;
+package com.sum.soon.pojo.element;
 
 import java.util.List;
 
-import com.sum.jass.pojo.common.Constants;
-import com.sum.jass.pojo.common.KeywordTable;
+import com.sum.soon.pojo.common.Constants;
+import com.sum.soon.pojo.common.KeywordTable;
 
 public class SyntaxTree {
 

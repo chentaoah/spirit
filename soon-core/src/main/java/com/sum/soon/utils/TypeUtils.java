@@ -1,12 +1,12 @@
-package com.sum.jass.utils;
+package com.sum.soon.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.jass.lib.Assert;
-import com.sum.jass.pojo.common.TypeTable;
+import com.sum.soon.lib.Assert;
+import com.sum.soon.pojo.common.TypeTable;
 
 public class TypeUtils {
 

@@ -1,11 +1,11 @@
-package com.sum.jass.core.lexer;
+package com.sum.soon.core.lexer;
 
 import java.util.List;
 
-import com.sum.jass.api.lexer.StructRecognizer;
-import com.sum.jass.pojo.common.Constants;
-import com.sum.jass.pojo.common.KeywordTable;
-import com.sum.jass.pojo.element.Token;
+import com.sum.soon.api.lexer.StructRecognizer;
+import com.sum.soon.pojo.common.Constants;
+import com.sum.soon.pojo.common.KeywordTable;
+import com.sum.soon.pojo.element.Token;
 
 public class StructRecognizerImpl implements StructRecognizer {
 

@@ -1,19 +1,19 @@
-package com.sum.jass.core.deduce;
+package com.sum.soon.core.deduce;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.deduce.FastDeducer;
-import com.sum.jass.api.deduce.InvokeVisiter;
-import com.sum.jass.api.link.ClassLinker;
-import com.sum.jass.api.link.TypeFactory;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IType;
-import com.sum.jass.pojo.element.Statement;
-import com.sum.jass.pojo.element.Token;
-import com.sum.jass.pojo.exception.NoSuchFieldException;
-import com.sum.jass.pojo.exception.NoSuchMethodException;
+import com.sum.soon.api.deduce.FastDeducer;
+import com.sum.soon.api.deduce.InvokeVisiter;
+import com.sum.soon.api.link.ClassLinker;
+import com.sum.soon.api.link.TypeFactory;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IType;
+import com.sum.soon.pojo.element.Statement;
+import com.sum.soon.pojo.element.Token;
+import com.sum.soon.pojo.exception.NoSuchFieldException;
+import com.sum.soon.pojo.exception.NoSuchMethodException;
 
 public class InvokeVisiterImpl implements InvokeVisiter {
 

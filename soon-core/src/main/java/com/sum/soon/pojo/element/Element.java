@@ -1,10 +1,10 @@
-package com.sum.jass.pojo.element;
+package com.sum.soon.pojo.element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.jass.pojo.common.Constants;
-import com.sum.jass.utils.LineUtils;
+import com.sum.soon.pojo.common.Constants;
+import com.sum.soon.utils.LineUtils;
 
 public class Element extends Syntactic {
 

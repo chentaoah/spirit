@@ -1,4 +1,4 @@
-package com.sum.jass.pojo.common;
+package com.sum.soon.pojo.common;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

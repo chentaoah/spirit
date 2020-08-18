@@ -1,6 +1,6 @@
 package com.sum.test.process;
 
-import com.sum.jass.lib.StringUtils;
+import com.sum.soon.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,10 +1,10 @@
-package com.sum.jass.api.deduce;
+package com.sum.soon.api.deduce;
 
 import com.sum.pisces.api.annotation.Service;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.clazz.IVariable;
-import com.sum.jass.pojo.common.MethodContext;
-import com.sum.jass.pojo.element.Element;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.clazz.IVariable;
+import com.sum.soon.pojo.common.MethodContext;
+import com.sum.soon.pojo.element.Element;
 
 @Service("element_visiter")
 public interface ElementVisiter {

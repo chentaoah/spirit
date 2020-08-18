@@ -1,4 +1,4 @@
-package com.sum.jass.core;
+package com.sum.soon.core;
 
 import java.io.File;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.jass.lib.StringUtils;
-import com.sum.jass.pojo.clazz.IClass;
-import com.sum.jass.pojo.common.Constants;
+import com.sum.soon.lib.StringUtils;
+import com.sum.soon.pojo.clazz.IClass;
+import com.sum.soon.pojo.common.Constants;
 
 public class AutoImporter {
 

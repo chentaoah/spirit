@@ -1,6 +1,6 @@
-package com.sum.jass.pojo.element;
+package com.sum.soon.pojo.element;
 
-import com.sum.jass.utils.LineUtils;
+import com.sum.soon.utils.LineUtils;
 
 public class Line {
 

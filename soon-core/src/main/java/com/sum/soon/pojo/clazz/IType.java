@@ -1,4 +1,4 @@
-package com.sum.jass.pojo.clazz;
+package com.sum.soon.pojo.clazz;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.pisces.core.ProxyFactory;
-import com.sum.jass.api.link.ClassLinker;
-import com.sum.jass.api.link.TypeFactory;
-import com.sum.jass.lib.StringUtils;
-import com.sum.jass.pojo.common.TypeTable;
-import com.sum.jass.utils.TypeUtils;
+import com.sum.soon.api.link.ClassLinker;
+import com.sum.soon.api.link.TypeFactory;
+import com.sum.soon.lib.StringUtils;
+import com.sum.soon.pojo.common.TypeTable;
+import com.sum.soon.utils.TypeUtils;
 
 /**
  * 指的是已经在实际代码中，使用的类型描述
