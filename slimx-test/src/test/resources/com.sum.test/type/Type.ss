@@ -1,8 +1,8 @@
 
 import java.util.HashMap
-import com.sum.soon.test.example.ClassGenericTest
-import com.sum.soon.test.example.MyTest
-import com.sum.soon.test.example.GenericType
+import com.sum.slimx.test.example.ClassGenericTest
+import com.sum.slimx.test.example.MyTest
+import com.sum.slimx.test.example.GenericType
 
 @Deprecated
 class Type {

@@ -3,15 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.sum.soon</groupId>
-		<artifactId>soon-parent</artifactId>
+		<groupId>com.sum.slimx</groupId>
+		<artifactId>slimx-parent</artifactId>
 		<version>1.0.2</version>
 	</parent>
-	<artifactId>soon-test</artifactId>
+	<artifactId>slimx-test</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>com.sum.soon</groupId>
-			<artifactId>soon-core</artifactId>
+			<groupId>com.sum.slimx</groupId>
+			<artifactId>slimx-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

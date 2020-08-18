@@ -1,5 +1,5 @@
 
-import com.sum.soon.test.example.ClassGenericTest
+import com.sum.slimx.test.example.ClassGenericTest
 
 class Child extends Father{
 

@@ -1,9 +1,9 @@
 package com.sum.test.block;
 
-import com.sum.soon.lib.StringUtils;
+import com.sum.slimx.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.soon.lib.Collection;
+import com.sum.slimx.lib.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.List;

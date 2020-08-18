@@ -45,13 +45,13 @@ public class Main {
 9. 支持某些语句多行合并。例如：if s=="string" : print s
 10. 支持与Java的无缝集成。 :sweat: 底层不就是Java吗？有什么好集成的。
 
-上述功能点，具体可以参考soon-test模块中，src/test/resources/com.sum.test目录下的示例代码。  
+上述功能点，具体可以参考slimx-test模块中，src/test/resources/com.sum.test目录下的示例代码。  
 
 使用说明：
 1. 下载安装sublime编辑器，并将项目中的sublime-plugs目录下的所有文件，拷贝到sublime插件目录下的User文件夹中。
-2. 下载项目中的soon-deploy文件夹，到任意目录下。（soon-deploy文件夹为打包部署目录）
-3. 在eclipse中，借助maven命令导出工程依赖项，并拷贝到soon-deploy/lib_dep文件夹中。(Run As->Maven-build->dependency:copy-dependencies)
-4. 双击运行soon-deploy/bin/startup.bat，并在target目录下查看生成的示例代码。
+2. 下载项目中的slimx-deploy文件夹，到任意目录下。（slimx-deploy文件夹为打包部署目录）
+3. 在eclipse中，借助maven命令导出工程依赖项，并拷贝到slimx-deploy/lib_dep文件夹中。(Run As->Maven-build->dependency:copy-dependencies)
+4. 双击运行slimx-deploy/bin/startup.bat，并在target目录下查看生成的示例代码。
 
 未来：
 1. 编辑器提供提示功能。
