@@ -1,4 +1,4 @@
-# Jass
+# Funx
 Java简写转换工具。
 
 ```
