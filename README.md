@@ -1,4 +1,4 @@
-# Soon
+# Slimx
 Java简写转换工具。
 
 ```
