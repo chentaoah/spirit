@@ -3,17 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.sum.slimx</groupId>
-		<artifactId>slimx-parent</artifactId>
+		<groupId>com.sum.spirit</groupId>
+		<artifactId>spirit-parent</artifactId>
 		<version>1.0.2</version>
 	</parent>
-	<artifactId>slimx-core</artifactId>
+	<artifactId>spirit-core</artifactId>
 
 	<dependencies>
 		<!-- lib -->
 		<dependency>
-			<groupId>com.sum.slimx</groupId>
-			<artifactId>slimx-lib</artifactId>
+			<groupId>com.sum.spirit</groupId>
+			<artifactId>spirit-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- pisces -->
@@ -51,7 +51,7 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../slimx-deploy/lib</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../spirit-deploy/lib</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -65,7 +65,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../slimx-deploy/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../spirit-deploy/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
