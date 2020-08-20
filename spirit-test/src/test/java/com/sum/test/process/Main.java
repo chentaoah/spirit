@@ -1,6 +1,6 @@
 package com.sum.test.process;
 
-import com.sum.slimx.lib.StringUtils;
+import com.sum.spirit.lib.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

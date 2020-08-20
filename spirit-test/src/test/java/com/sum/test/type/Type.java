@@ -1,14 +1,14 @@
 package com.sum.test.type;
 
 import java.util.HashMap;
-import com.sum.slimx.test.example.ClassGenericTest;
-import com.sum.slimx.test.example.MyTest;
-import com.sum.slimx.test.example.GenericType;
+import com.sum.spirit.test.example.ClassGenericTest;
+import com.sum.spirit.test.example.MyTest;
+import com.sum.spirit.test.example.GenericType;
 import com.sum.test.process.Main;
 import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.slimx.lib.Collection;
+import com.sum.spirit.lib.Collection;
 import java.util.List;
 import java.util.Map;
 

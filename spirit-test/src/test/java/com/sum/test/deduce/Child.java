@@ -1,6 +1,6 @@
 package com.sum.test.deduce;
 
-import com.sum.slimx.test.example.ClassGenericTest;
+import com.sum.spirit.test.example.ClassGenericTest;
 import com.sum.test.deduce.Father;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
