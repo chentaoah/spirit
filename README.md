@@ -1,6 +1,6 @@
 # Spirit
 [![star](https://gitee.com/chentaoah/spirit/badge/star.svg?theme=white)](https://gitee.com/chentaoah/spirit/stargazers)
-[![Fork me on Gitee](https://gitee.com/chentaoah/spirit/widgets/widget_1.svg?color=265eeb)](https://gitee.com/chentaoah/spirit)
+
 Java简写转换工具。
 
 ```
