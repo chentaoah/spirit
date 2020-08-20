@@ -2,15 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.sum.slimx</groupId>
-	<artifactId>slimx-parent</artifactId>
+	<groupId>com.sum.spirit</groupId>
+	<artifactId>spirit-parent</artifactId>
 	<version>1.0.2</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>slimx-core</module>
-		<module>slimx-lib</module>
-		<module>slimx-test</module>
+		<module>spirit-core</module>
+		<module>spirit-lib</module>
+		<module>spirit-test</module>
 	</modules>
 
 	<properties>
