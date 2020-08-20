@@ -1,4 +1,4 @@
-# Slimx
+# Spirit
 Java简写转换工具。
 
 ```
