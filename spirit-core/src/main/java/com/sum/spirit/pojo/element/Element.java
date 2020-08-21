@@ -3,24 +3,23 @@ package com.sum.spirit.pojo.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.utils.LineUtils;
 
 public class Element extends Syntactic {
 
 	public Line line;
 
-	public List<Token> modifiers;
+	public Modifiers modifiers;
 
 	public Statement statement;
 
-	public AbstractSyntaxTree tree;
+	public AbsSyntaxTree tree;
 
 	public String syntax;
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, List<Token> modifiers, Statement statement, AbstractSyntaxTree tree, String syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree tree, String syntax) {
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;
@@ -36,6 +35,40 @@ public class Element extends Syntactic {
 		return line.getIndent();
 	}
 
+	public boolean isModified(String keyword) {
+		return modifiers.containsKeyword(keyword);
+	}
+
+	public Element addModifier(String keyword) {
+		modifiers.addKeywordAtFirst(keyword);
+		return this;
+	}
+
+	public Element replaceModifier(String keyword, String text) {
+		modifiers.replaceKeyword(keyword, text);
+		return this;
+	}
+
+	public Element insertModifier(String keyword, String text) {
+		modifiers.insertKeywordAfter(keyword, text);
+		return this;
+	}
+
+	public Element replaceStatement(String keyword, String text) {
+		replaceKeyword(keyword, text);
+		return this;
+	}
+
+	public Element removeStatement(String keyword) {
+		removeKeyword(keyword);
+		return this;
+	}
+
+	public Element insertStatement(String keyword, String text) {
+		insertKeywordAfter(keyword, text);
+		return this;
+	}
+
 	public Statement subStmt(int start, int end) {
 		return statement.subStmt(start, end);
 	}
@@ -46,57 +79,6 @@ public class Element extends Syntactic {
 
 	public boolean hasChildElement() {
 		return children.size() > 0;
-	}
-
-	public Element replaceKeyword(String keyword, String text) {
-		int index = findKeyword(keyword);
-		if (index != -1)
-			getTokens().set(index, new Token(Constants.KEYWORD_TOKEN, text));
-		return this;
-	}
-
-	public Element removeKeyword(String keyword) {
-		int index = findKeyword(keyword);
-		if (index != -1)
-			getTokens().remove(index);
-		return this;
-	}
-
-	public Element insertKeywordAfter(String keyword, String text) {
-		int index = findKeyword(keyword);
-		if (index != -1)
-			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
-		return this;
-	}
-
-	public Element addModifier(String keyword) {
-		modifiers.add(0, new Token(Constants.KEYWORD_TOKEN, keyword));
-		return this;
-	}
-
-	public Element replaceModifier(String keyword, String text) {
-		int i = 0;
-		for (Token token : modifiers) {
-			if (keyword.equals(token.toString())) {
-				modifiers.set(i, new Token(Constants.KEYWORD_TOKEN, text));
-				break;
-			}
-			i++;
-		}
-		return this;
-	}
-
-	public Element insertModifierAfter(String keyword, String text) {
-
-		return this;
-	}
-
-	public boolean isModified(String keyword) {
-		for (Token token : modifiers) {
-			if (keyword.equals(token.toString()))
-				return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -111,7 +93,7 @@ public class Element extends Syntactic {
 
 	@Override
 	public String toString() {
-		return statement.toString();
+		return modifiers + " " + statement;
 	}
 
 	public void debug() {

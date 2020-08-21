@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.lib.Assert;
+import com.sum.spirit.pojo.common.Constants;
 
 public abstract class TokenBox {
 
@@ -125,6 +126,28 @@ public abstract class TokenBox {
 
 	public boolean containsKeyword(String keyword) {
 		return findKeyword(keyword) != -1;
+	}
+
+	public void replaceKeyword(String keyword, String text) {
+		int index = findKeyword(keyword);
+		if (index != -1)
+			getTokens().set(index, new Token(Constants.KEYWORD_TOKEN, text));
+	}
+
+	public void removeKeyword(String keyword) {
+		int index = findKeyword(keyword);
+		if (index != -1)
+			getTokens().remove(index);
+	}
+
+	public void addKeywordAtFirst(String text) {
+		getTokens().add(0, new Token(Constants.KEYWORD_TOKEN, text));
+	}
+
+	public void insertKeywordAfter(String keyword, String text) {
+		int index = findKeyword(keyword);
+		if (index != -1)
+			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
 	}
 
 	public int findKeywordEnd(int index) {

@@ -74,8 +74,8 @@ public class JavaBuilder implements CodeBuilder {
 	public String buildBody(IClass clazz) {
 
 		StringBuilder classStr = new StringBuilder();
-		classStr.append("public "
-				+ clazz.root.insertKeywordAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPLS_KEYWORD, "implements") + "\n\n");
+		classStr.append(clazz.root.insertStatement(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceStatement(Constants.IMPLS_KEYWORD,
+				Constants.IMPLEMENTS_KEYWORD) + "\n\n");
 
 		// When building a method, sometimes imports and fields is added
 		// dynamically, so execute the method first
@@ -99,20 +99,13 @@ public class JavaBuilder implements CodeBuilder {
 			} else {
 				// public User()
 				// public static synchronized String methodName()
+				element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
 				if (element.isFuncDeclare()) {
-					element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
-					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild()) {
-//						element.insertAfter(keyword, text);
-					}
-
-//					String format = element.hasChildElement() ? "\tpublic %s%s%s%s\n" : "\tpublic %s%s%s%s;\n\n";
-//					String staticDesc = method.isStatic() ? "static " : "";
-//					String abstractDesc = clazz.isAbstract() && !element.hasChildElement() ? "abstract " : "";
-//					String syncDesc = method.isSync ? "synchronized " : "";
-//					methodsStr.append(String.format(format, staticDesc, abstractDesc, syncDesc, element.removeKeyword(Constants.SYNC_KEYWORD)));
+					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
+						element.insertModifier(Constants.PUBLIC_KEYWORD, Constants.ABSTRACT_KEYWORD);
+					methodsStr.append("\t" + element + "\n");
 
 				} else if (element.isFunc()) {
-					element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
 					if (method.isInit) {
 						element.removeKeyword(Constants.FUNC_KEYWORD);
 					} else {
@@ -133,16 +126,13 @@ public class JavaBuilder implements CodeBuilder {
 		StringBuilder fieldsStr = new StringBuilder();
 		// public static type + element
 		for (IField field : clazz.fields) {
-
 			// annotation
 			for (IAnnotation annotation : field.annotations) {
 				annotation = convert(clazz, annotation);
 				if (annotation != null)
 					fieldsStr.append("\t" + annotation + "\n");
 			}
-
-			String format = "\tpublic %s%s\n";
-			fieldsStr.append(String.format(format, field.isStatic() ? "static " : "", convert(clazz, field.element)));
+			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0)
 			fieldsStr.append("\n");

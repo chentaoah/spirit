@@ -13,9 +13,10 @@ import com.sum.spirit.api.lexer.SyntaxChecker;
 import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
+import com.sum.spirit.pojo.element.Modifiers;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.common.KeywordTable;
-import com.sum.spirit.pojo.element.AbstractSyntaxTree;
+import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 
 public class ElementBuilderImpl implements ElementBuilder {
@@ -40,7 +41,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			List<Token> tokens = parser.getTokens(words);
 
 			// 3.get modifiers
-			List<Token> modifiers = getModifiers(tokens);
+			Modifiers modifiers = createModifiers(tokens);
 
 			// 4.build statement
 			Statement statement = new Statement(tokens);
@@ -49,7 +50,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			String syntax = recognizer.getSyntax(tokens);
 
 			// 6.build an abstract syntax tree
-			AbstractSyntaxTree syntaxTree = null;
+			AbsSyntaxTree syntaxTree = null;
 			if (syntax == null) {
 				syntaxTree = builder.build(statement);
 				syntax = syntaxTree.getSyntax();
@@ -70,7 +71,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 		}
 	}
 
-	public List<Token> getModifiers(List<Token> tokens) {
+	public Modifiers createModifiers(List<Token> tokens) {
 		List<Token> modifiers = new ArrayList<>();
 		for (Token token : tokens) {
 			if (KeywordTable.isModifier(token.toString())) {
@@ -80,7 +81,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 				break;
 			}
 		}
-		return modifiers;
+		return new Modifiers(tokens);
 	}
 
 }

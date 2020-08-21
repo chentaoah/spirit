@@ -5,11 +5,11 @@ import java.util.List;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.KeywordTable;
 
-public class AbstractSyntaxTree {
+public class AbsSyntaxTree {
 
 	public List<Token> tokens;
 
-	public AbstractSyntaxTree(List<Token> tokens) {
+	public AbsSyntaxTree(List<Token> tokens) {
 		this.tokens = tokens;
 	}
 
