@@ -15,14 +15,14 @@ public class KeywordTable {
 		KEYWORDS.put("class", new Keyword("class", Keyword.STRUCT));
 		KEYWORDS.put("func", new Keyword("func", Keyword.STRUCT));
 
+		KEYWORDS.put("return", new Keyword("return", Keyword.LINE));
 		KEYWORDS.put("if", new Keyword("if", Keyword.LINE));
 		KEYWORDS.put("do", new Keyword("do", Keyword.LINE));
 		KEYWORDS.put("while", new Keyword("while", Keyword.LINE));
-		KEYWORDS.put("try", new Keyword("try", Keyword.LINE));
-		KEYWORDS.put("sync", new Keyword("sync", Keyword.LINE));
-		KEYWORDS.put("return", new Keyword("return", Keyword.LINE));
 		KEYWORDS.put("continue", new Keyword("continue", Keyword.LINE));
 		KEYWORDS.put("break", new Keyword("break", Keyword.LINE));
+		KEYWORDS.put("sync", new Keyword("sync", Keyword.LINE));
+		KEYWORDS.put("try", new Keyword("try", Keyword.LINE));
 		KEYWORDS.put("throw", new Keyword("throw", Keyword.LINE));
 		KEYWORDS.put("print", new Keyword("print", Keyword.LINE));
 		KEYWORDS.put("debug", new Keyword("debug", Keyword.LINE));
@@ -37,6 +37,8 @@ public class KeywordTable {
 		KEYWORDS.put("catch", new Keyword("catch", Keyword.TOKEN));
 		KEYWORDS.put("finally", new Keyword("finally", Keyword.TOKEN));
 		KEYWORDS.put("instanceof", new Keyword("instanceof", Keyword.TOKEN));
+		KEYWORDS.put("const", new Keyword("const", Keyword.TOKEN));
+		KEYWORDS.put("voliate", new Keyword("voliate", Keyword.TOKEN));
 	}
 
 	public static boolean isKeyword(String value) {
