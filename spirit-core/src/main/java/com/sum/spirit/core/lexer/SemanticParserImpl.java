@@ -42,6 +42,7 @@ public class SemanticParserImpl implements SemanticParser {
 	// expression
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
+	public static final Pattern CONST_PATTERN = Pattern.compile("^_[A-Z_]*_$");
 	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*$");
 	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
@@ -193,7 +194,7 @@ public class SemanticParserImpl implements SemanticParser {
 	}
 
 	public static boolean isVar(String word) {
-		return VAR_PATTERN.matcher(word).matches();
+		return VAR_PATTERN.matcher(word).matches() || CONST_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isAccess(String word) {

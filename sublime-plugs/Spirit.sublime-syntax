@@ -45,6 +45,10 @@ contexts:
     - match: '\b(null|true|false)\b'
       scope: keyword
 
+    # Constant 
+    - match: '\b_[A-Z_]*_\b'
+      scope: string
+
     # Number
     - match: '\b\d+(\.\d+)?(L)?\b'
       scope: constant.numeric
