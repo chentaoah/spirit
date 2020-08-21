@@ -12,9 +12,9 @@ public class MethodContext {
 
 	public IMethod method;
 	public List<IVariable> variables = new ArrayList<>();
-	public int depth = 0;// 深度
+	public int depth = 0;
 	public List<Integer> counts = new ArrayList<>(16);
-	public IType returnType;// 返回
+	public IType returnType;
 
 	public MethodContext(IMethod method) {
 		this.method = method;
