@@ -48,26 +48,26 @@ public class LexerImpl implements Lexer {
 				start = index;
 
 			if (c == '"') {
-				push(builder, index, '"', '"', "@str" + count++, replacedStrs);
+				pushSubprocess(builder, index, '"', '"', "@str" + count++, replacedStrs);
 
 			} else if (c == '\'') {
-				push(builder, index, '\'', '\'', "@char" + count++, replacedStrs);
+				pushSubprocess(builder, index, '\'', '\'', "@char" + count++, replacedStrs);
 
 			} else if (c == '{') {
-				push(builder, index, '{', '}', "@map" + count++, replacedStrs);
+				pushSubprocess(builder, index, '{', '}', "@map" + count++, replacedStrs);
 
 			} else if (c == '(') {
-				push(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
+				pushSubprocess(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
 				index = start >= 0 ? start : index;
 
 			} else if (c == '[') {// Java generally does not declare generic arrays
 				if (excludeChars.contains('{')) {
 					// if exclusion is configured, the suffix is ignored
-					push(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
+					pushSubprocess(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 
 				} else {
-					push(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
+					pushSubprocess(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 				}
 
@@ -77,11 +77,11 @@ public class LexerImpl implements Lexer {
 					if (d >= 'A' && d <= 'Z') {// generic types generally begin with a capital letter
 						if (excludeChars.contains('(')) {
 							// if exclusion is configured, the suffix is ignored
-							push(builder, start, '<', '>', "@generic" + count++, replacedStrs);
+							pushSubprocess(builder, start, '<', '>', "@generic" + count++, replacedStrs);
 							index = start;
 
 						} else {
-							push(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
+							pushSubprocess(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
 							index = start;
 						}
 					}
@@ -132,12 +132,12 @@ public class LexerImpl implements Lexer {
 		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
-	public static void push(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
+	public static void pushSubprocess(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, start, left, right);
 		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static void push(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
+	public static void pushSubprocess(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
 			Map<String, String> replacedStrs) {
 		int finalEnd = findEnd(builder, start, left, right);
 		if (finalEnd != -1 && finalEnd + 1 < builder.length()) {
