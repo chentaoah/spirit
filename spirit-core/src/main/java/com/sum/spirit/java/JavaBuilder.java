@@ -75,7 +75,7 @@ public class JavaBuilder implements CodeBuilder {
 
 		StringBuilder classStr = new StringBuilder();
 		classStr.append("public "
-				+ clazz.root.insertAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPLS_KEYWORD, "implements") + "\n\n");
+				+ clazz.root.insertKeywordAfter(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceKeyword(Constants.IMPLS_KEYWORD, "implements") + "\n\n");
 
 		// When building a method, sometimes imports and fields is added
 		// dynamically, so execute the method first
@@ -93,25 +93,32 @@ public class JavaBuilder implements CodeBuilder {
 			}
 
 			// If this method is the main method
-			if (method.isStatic && "main".equals(method.name)) {
+			if (method.isStatic() && "main".equals(method.name)) {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
 
 			} else {
 				// public User()
 				// public static synchronized String methodName()
 				if (element.isFuncDeclare()) {
-					String format = element.hasChildElement() ? "\tpublic %s%s%s%s\n" : "\tpublic %s%s%s%s;\n\n";
-					String staticDesc = method.isStatic ? "static " : "";
-					String abstractDesc = clazz.isAbstract() && !element.hasChildElement() ? "abstract " : "";
-					String syncDesc = method.isSync ? "synchronized " : "";
-					methodsStr.append(String.format(format, staticDesc, abstractDesc, syncDesc, element.removeKeyword(Constants.SYNC_KEYWORD)));
+					element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
+					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild()) {
+//						element.insertAfter(keyword, text);
+					}
+
+//					String format = element.hasChildElement() ? "\tpublic %s%s%s%s\n" : "\tpublic %s%s%s%s;\n\n";
+//					String staticDesc = method.isStatic() ? "static " : "";
+//					String abstractDesc = clazz.isAbstract() && !element.hasChildElement() ? "abstract " : "";
+//					String syncDesc = method.isSync ? "synchronized " : "";
+//					methodsStr.append(String.format(format, staticDesc, abstractDesc, syncDesc, element.removeKeyword(Constants.SYNC_KEYWORD)));
 
 				} else if (element.isFunc()) {
-					String format = "\tpublic %s%s%s%s\n";
-					String staticDesc = method.isStatic ? "static " : "";
-					String syncDesc = method.isSync ? "synchronized " : "";
-					methodsStr.append(String.format(format, staticDesc, syncDesc, !method.isInit ? TypeBuilder.build(clazz, method.type) + " " : "",
-							element.removeKeyword(Constants.FUNC_KEYWORD).removeKeyword(Constants.SYNC_KEYWORD)));
+					element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
+					if (method.isInit) {
+						element.removeKeyword(Constants.FUNC_KEYWORD);
+					} else {
+						element.replaceKeyword(Constants.FUNC_KEYWORD, TypeBuilder.build(clazz, method.type));
+					}
+					methodsStr.append("\t" + element + "\n");
 				}
 			}
 			// Content building within methods
@@ -135,7 +142,7 @@ public class JavaBuilder implements CodeBuilder {
 			}
 
 			String format = "\tpublic %s%s\n";
-			fieldsStr.append(String.format(format, field.isStatic ? "static " : "", convert(clazz, field.element)));
+			fieldsStr.append(String.format(format, field.isStatic() ? "static " : "", convert(clazz, field.element)));
 		}
 		if (fieldsStr.length() > 0)
 			fieldsStr.append("\n");

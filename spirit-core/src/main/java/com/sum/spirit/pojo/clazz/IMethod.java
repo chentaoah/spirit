@@ -15,23 +15,19 @@ public class IMethod extends AbsMember {
 
 	public boolean isInit;
 
-	public boolean isSync;
-
 	public List<IParameter> parameters = new ArrayList<>();
 
-	public IMethod(List<IAnnotation> annotations, boolean isStatic, Element element) {
+	public IMethod(List<IAnnotation> annotations, Element element) {
 
-		super(annotations, isStatic, element);
+		super(annotations, element);
 
 		Token methodToken = element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
 		if (methodToken.isTypeInit()) {
 			isInit = true;
-			isSync = false;
 			name = methodToken.getSimpleName();
 
 		} else if (methodToken.isLocalMethod()) {
 			isInit = false;
-			isSync = element.containsKeyword(Constants.SYNC_KEYWORD);
 			name = methodToken.getMemberName();
 
 		} else {
@@ -41,7 +37,6 @@ public class IMethod extends AbsMember {
 	}
 
 	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
-
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {

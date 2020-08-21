@@ -176,7 +176,5 @@ public abstract class TokenBox {
 		public List<Token> getTokens() {
 			return tokens;
 		}
-
 	}
-
 }

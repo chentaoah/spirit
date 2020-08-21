@@ -62,11 +62,41 @@ public class Element extends Syntactic {
 		return this;
 	}
 
-	public Element insertAfter(String keyword, String text) {
+	public Element insertKeywordAfter(String keyword, String text) {
 		int index = findKeyword(keyword);
 		if (index != -1)
 			getTokens().add(index + 1, new Token(Constants.KEYWORD_TOKEN, text));
 		return this;
+	}
+
+	public Element addModifier(String keyword) {
+		modifiers.add(0, new Token(Constants.KEYWORD_TOKEN, keyword));
+		return this;
+	}
+
+	public Element replaceModifier(String keyword, String text) {
+		int i = 0;
+		for (Token token : modifiers) {
+			if (keyword.equals(token.toString())) {
+				modifiers.set(i, new Token(Constants.KEYWORD_TOKEN, text));
+				break;
+			}
+			i++;
+		}
+		return this;
+	}
+
+	public Element insertModifierAfter(String keyword, String text) {
+
+		return this;
+	}
+
+	public boolean isModified(String keyword) {
+		for (Token token : modifiers) {
+			if (keyword.equals(token.toString()))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

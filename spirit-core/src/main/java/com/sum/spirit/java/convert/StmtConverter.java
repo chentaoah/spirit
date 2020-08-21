@@ -67,9 +67,8 @@ public class StmtConverter implements ElementConverter {
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-
 				Element logger = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				IField field = new IField(null, true, logger);
+				IField field = new IField(null, logger.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD));
 				clazz.fields.add(0, field);
 			}
 		}

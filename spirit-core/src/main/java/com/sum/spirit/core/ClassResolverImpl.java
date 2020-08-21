@@ -39,11 +39,11 @@ public class ClassResolverImpl implements ClassResolver {
 				annotations.add(new IAnnotation(element));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				mainClass.fields.add(new IField(annotations, true, element));
+				mainClass.fields.add(new IField(annotations, element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD)));
 				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				mainClass.methods.add(new IMethod(annotations, true, element));
+				mainClass.methods.add(new IMethod(annotations, element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD)));
 				annotations.clear();
 
 			} else if (element.isInterface() || element.isAbstract()) {
@@ -62,7 +62,7 @@ public class ClassResolverImpl implements ClassResolver {
 				if (document.name.equals(targetName)) {
 					mainClass.annotations.addAll(annotations);
 					annotations.clear();
-					mainClass.root = element;
+					mainClass.root = element.addModifier(Constants.PUBLIC_KEYWORD);
 					readRootElement(mainClass);
 
 				} else {
@@ -71,7 +71,7 @@ public class ClassResolverImpl implements ClassResolver {
 					clazz.imports = mainClass.imports;// 共用！
 					clazz.annotations.addAll(annotations);
 					annotations.clear();
-					clazz.root = element;
+					clazz.root = element.addModifier(Constants.PUBLIC_KEYWORD);
 					readRootElement(clazz);
 					classes.add(clazz); // 添加协同的类
 				}
@@ -94,11 +94,11 @@ public class ClassResolverImpl implements ClassResolver {
 				annotations.add(new IAnnotation(element));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				clazz.fields.add(new IField(annotations, false, element));
+				clazz.fields.add(new IField(annotations, element.addModifier(Constants.PUBLIC_KEYWORD)));
 				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				clazz.methods.add(new IMethod(annotations, false, element));
+				clazz.methods.add(new IMethod(annotations, element.addModifier(Constants.PUBLIC_KEYWORD)));
 				annotations.clear();
 			}
 		}

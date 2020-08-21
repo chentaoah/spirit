@@ -6,9 +6,9 @@ import com.sum.spirit.pojo.element.Element;
 
 public class IField extends AbsMember {
 
-	public IField(List<IAnnotation> annotations, boolean isStatic, Element element) {
+	public IField(List<IAnnotation> annotations, Element element) {
 
-		super(annotations, isStatic, element);
+		super(annotations, element);
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			name = element.getStr(1);
