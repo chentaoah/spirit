@@ -19,15 +19,10 @@ import com.sum.spirit.pojo.element.Token;
 public class ElementBuilderImpl implements ElementBuilder {
 
 	public static SyntaxChecker checker = ProxyFactory.get(SyntaxChecker.class);
-
 	public static Lexer lexer = ProxyFactory.get(Lexer.class);
-
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
-
 	public static StructRecognizer recognizer = ProxyFactory.get(StructRecognizer.class);
-
 	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
-
 	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
 
 	@Override
