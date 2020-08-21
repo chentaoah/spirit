@@ -18,9 +18,9 @@ public class FastDeducerImpl implements FastDeducer {
 	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
 
 	@Override
-	public IType derive(IClass clazz, Statement stmt) {
+	public IType derive(IClass clazz, Statement statement) {
 		// 构建树形结构
-		List<Token> tokens = builder.build(stmt.tokens);
+		List<Token> tokens = builder.build(statement.tokens);
 		for (Token token : tokens) {
 			if (token.getTypeAtt() != null) {// 如果有类型直接返回
 				return token.getTypeAtt();
@@ -29,7 +29,7 @@ public class FastDeducerImpl implements FastDeducer {
 				return getType(clazz, token.getValue());
 			}
 		}
-		throw new RuntimeException("Cannot deduce type!stmt:" + stmt.toString());
+		throw new RuntimeException("Cannot deduce type!statement:" + statement.toString());
 	}
 
 	public static IType getType(IClass clazz, Node node) {

@@ -10,9 +10,9 @@ import com.sum.spirit.pojo.element.Token;
 @Service("tree_builder")
 public interface TreeBuilder {
 
-	default SyntaxTree build(Statement stmt) {
+	default SyntaxTree build(Statement statement) {
 
-		List<Token> tokens = build(stmt.tokens);
+		List<Token> tokens = build(statement.tokens);
 
 		markTreeId(tokens);
 

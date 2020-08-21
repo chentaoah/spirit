@@ -21,36 +21,36 @@ public class StrLogicalConverter implements ElementConverter {
 
 	@Override
 	public void convert(IClass clazz, Element element) {
-		convertStmt(clazz, element.stmt);
+		convertStmt(clazz, element.statement);
 	}
 
-	public void convertStmt(IClass clazz, Statement stmt) {
+	public void convertStmt(IClass clazz, Statement statement) {
 		// Process the child nodes first, or it will affect the transformation of the
 		// upper layer
-		for (Token token : stmt.tokens) {
+		for (Token token : statement.tokens) {
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());
 		}
 
-		for (int index = 0; index < stmt.size(); index++) {
-			Token token = stmt.getToken(index);
+		for (int index = 0; index < statement.size(); index++) {
+			Token token = statement.getToken(index);
 			if (token.isOperator() && ("!".equals(token.toString()) || "&&".equals(token.toString()) || "||".equals(token.toString()))) {
 
 				if ("!".equals(token.toString())) {
-					replaceFollowingStr(clazz, stmt, index, token);
+					replaceFollowingStr(clazz, statement, index, token);
 
 				} else if ("&&".equals(token.toString()) || "||".equals(token.toString())) {
-					replacePreviousStr(clazz, stmt, index, token);
-					replaceFollowingStr(clazz, stmt, index, token);
+					replacePreviousStr(clazz, statement, index, token);
+					replaceFollowingStr(clazz, statement, index, token);
 				}
 			}
 		}
 	}
 
-	public void replacePreviousStr(IClass clazz, Statement stmt, int index, Token token) {
+	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {
 
-		int start = TreeUtils.findStart(stmt, index);
-		Statement lastSubStmt = stmt.subStmt(start, index);
+		int start = TreeUtils.findStart(statement, index);
+		Statement lastSubStmt = statement.subStmt(start, index);
 		IType type = deducer.derive(clazz, lastSubStmt);
 		if (type.isStr()) {
 
@@ -59,15 +59,15 @@ public class StrLogicalConverter implements ElementConverter {
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 			expressToken.setTreeId(token.getTreeId() + "-0");
-			stmt.replace(start, index, expressToken);
+			statement.replace(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 	}
 
-	public void replaceFollowingStr(IClass clazz, Statement stmt, int index, Token token) {
+	public void replaceFollowingStr(IClass clazz, Statement statement, int index, Token token) {
 
-		int end = TreeUtils.findEnd(stmt, index);
-		Statement nextSubStmt = stmt.subStmt(index + 1, end);
+		int end = TreeUtils.findEnd(statement, index);
+		Statement nextSubStmt = statement.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextSubStmt);
 		if (type.isStr()) {
 
@@ -76,7 +76,7 @@ public class StrLogicalConverter implements ElementConverter {
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 			expressToken.setTreeId(token.getTreeId() + "-1");
-			stmt.replace(index + 1, end, expressToken);
+			statement.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 	}

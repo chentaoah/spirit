@@ -23,15 +23,14 @@ import com.sum.spirit.pojo.element.Token;
 public class MemberVisiterImpl implements MemberVisiter {
 
 	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
-
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
-		Statement stmt = methodToken.getValue();
-		List<Statement> subStmts = stmt.subStmt("(", ")").split(",");
+		Statement statement = methodToken.getValue();
+		List<Statement> subStmts = statement.subStmt("(", ")").split(",");
 		for (Statement paramStmt : subStmts) {
 			IParameter parameter = new IParameter();
 			for (Token token : paramStmt.tokens) {

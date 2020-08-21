@@ -15,30 +15,30 @@ public class SeparatorConverter implements ElementConverter {
 	public void convert(IClass clazz, Element element) {
 
 		if (element.isIf() || element.isElseIf() || element.isFor() || element.isWhile() || element.isCatch() || element.isSync()) {
-			insertBrackets(clazz, element.stmt);
+			insertBrackets(clazz, element.statement);
 		}
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign() || element.isInvoke() || element.isReturn()
 				|| element.isSuper() || element.isThis() || element.isThrow() || element.isContinue() || element.isBreak()) {
-			addLineEnd(clazz, element.stmt);
+			addLineEnd(clazz, element.statement);
 		}
 	}
 
-	public void insertBrackets(IClass clazz, Statement stmt) {
+	public void insertBrackets(IClass clazz, Statement statement) {
 		// if text { // }catch Exception e{
-		int index = findLastKeyword(stmt);
-		stmt.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
-		if ("{".equals(stmt.last())) {
-			stmt.tokens.add(stmt.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")"));
+		int index = findLastKeyword(statement);
+		statement.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
+		if ("{".equals(statement.last())) {
+			statement.tokens.add(statement.size() - 1, new Token(Constants.SEPARATOR_TOKEN, ")"));
 		} else {
-			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")"));
+			statement.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ")"));
 		}
 	}
 
-	public int findLastKeyword(Statement stmt) {
+	public int findLastKeyword(Statement statement) {
 		int index = -1;
-		for (int i = 0; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
+		for (int i = 0; i < statement.size(); i++) {
+			Token token = statement.getToken(i);
 			if (token.isKeyword()) {
 				index = i;
 			} else {
@@ -52,9 +52,9 @@ public class SeparatorConverter implements ElementConverter {
 		return index;
 	}
 
-	public void addLineEnd(IClass clazz, Statement stmt) {
-		if (!"{".equals(stmt.last()))
-			stmt.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));
+	public void addLineEnd(IClass clazz, Statement statement) {
+		if (!"{".equals(statement.last()))
+			statement.tokens.add(new Token(Constants.SEPARATOR_TOKEN, ";"));
 	}
 
 }

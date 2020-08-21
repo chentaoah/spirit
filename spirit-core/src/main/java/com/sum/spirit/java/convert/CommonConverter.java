@@ -14,12 +14,12 @@ public class CommonConverter implements ElementConverter {
 
 	@Override
 	public void convert(IClass clazz, Element element) {
-		convertStmt(clazz, element.stmt);
+		convertStmt(clazz, element.statement);
 	}
 
-	public void convertStmt(IClass clazz, Statement stmt) {
+	public void convertStmt(IClass clazz, Statement statement) {
 
-		for (Token token : stmt.getTokens()) {
+		for (Token token : statement.getTokens()) {
 
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());

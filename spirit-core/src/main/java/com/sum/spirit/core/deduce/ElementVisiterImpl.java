@@ -42,10 +42,10 @@ public class ElementVisiterImpl implements ElementVisiter {
 			expressDeclarer.declare(clazz, context, element);
 
 			// 3.get the type of variable from context
-			tracker.track(clazz, context, element.stmt);
+			tracker.track(clazz, context, element.statement);
 
 			// 4.get the return value type of the method call
-			visiter.visit(clazz, element.stmt);
+			visiter.visit(clazz, element.statement);
 
 			// give a chance to change element
 			processor.postAfterVisitProcessor(clazz, context, element);

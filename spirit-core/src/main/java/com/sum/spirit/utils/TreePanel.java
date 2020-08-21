@@ -21,13 +21,13 @@ public class TreePanel {
 	}
 
 	public void debug(Element element) {
-		markPosition(0, element.stmt);
+		markPosition(0, element.statement);
 		buildTree(0, "", element.tree.tokens);
 		System.out.println(toString());
 	}
 
-	public void markPosition(int position, Statement stmt) {
-		List<Token> tokens = stmt.format();// 获取到插入空格后
+	public void markPosition(int position, Statement statement) {
+		List<Token> tokens = statement.format();// 获取到插入空格后
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setPosition(position);
@@ -41,8 +41,8 @@ public class TreePanel {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			if (token.canSplit()) {// 有子节点先打印子节点
-				Statement stmt = token.getValue();
-				buildTree(depth, separator, stmt.tokens);
+				Statement statement = token.getValue();
+				buildTree(depth, separator, statement.tokens);
 			} else {
 				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
 					print(depth, token.getPosition(), token.toString());
@@ -67,8 +67,8 @@ public class TreePanel {
 			print(depth - 1, position + text.length() / 2 + text.length() % 2 - 1, separator);// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 
 		if (token.canSplit()) {// 如果有语句，则先打印子语句
-			Statement stmt = token.getValue();
-			buildTree(depth, "", stmt.tokens);
+			Statement statement = token.getValue();
+			buildTree(depth, "", statement.tokens);
 		} else {
 			print(depth, position, text);
 		}
@@ -119,8 +119,8 @@ public class TreePanel {
 //		String text = "sequence = (sequence + 1) & sequenceMask";
 
 		Element element = new ElementBuilderImpl().build(new Line(text));
-		System.out.println(element.stmt.debug());
-		System.out.println(element.stmt.toString());
+		System.out.println(element.statement.debug());
+		System.out.println(element.statement.toString());
 		new TreePanel().debug(element);
 
 	}

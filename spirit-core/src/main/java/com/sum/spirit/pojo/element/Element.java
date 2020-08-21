@@ -10,7 +10,7 @@ public class Element extends Syntactic {
 
 	public Line line;
 
-	public Statement stmt;
+	public Statement statement;
 
 	public SyntaxTree tree;
 
@@ -18,9 +18,9 @@ public class Element extends Syntactic {
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Statement stmt, SyntaxTree tree, String syntax) {
+	public Element(Line line, Statement statement, SyntaxTree tree, String syntax) {
 		this.line = line;
-		this.stmt = stmt;
+		this.statement = statement;
 		this.tree = tree;
 		this.syntax = syntax;
 	}
@@ -34,11 +34,11 @@ public class Element extends Syntactic {
 	}
 
 	public Statement subStmt(int start, int end) {
-		return stmt.subStmt(start, end);
+		return statement.subStmt(start, end);
 	}
 
 	public List<Statement> split(String separator) {
-		return stmt.split(separator);
+		return statement.split(separator);
 	}
 
 	public boolean hasChildElement() {
@@ -68,7 +68,7 @@ public class Element extends Syntactic {
 
 	@Override
 	public List<Token> getTokens() {
-		return stmt.getTokens();
+		return statement.getTokens();
 	}
 
 	@Override
@@ -78,11 +78,11 @@ public class Element extends Syntactic {
 
 	@Override
 	public String toString() {
-		return stmt.toString();
+		return statement.toString();
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + stmt.debug());
+		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + statement.debug());
 		for (Element element : children)
 			element.debug();
 	}

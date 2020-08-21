@@ -22,11 +22,11 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	@Override
-	public void visit(IClass clazz, Statement stmt) {
+	public void visit(IClass clazz, Statement statement) {
 		try {
-			for (int index = 0; index < stmt.size(); index++) {
+			for (int index = 0; index < statement.size(); index++) {
 
-				Token token = stmt.getToken(index);
+				Token token = statement.getToken(index);
 
 				if (token.canSplit())
 					visit(clazz, token.getValue());
@@ -48,17 +48,17 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 					token.setTypeAtt(returnType);
 
 				} else if (token.isVisitField()) {
-					IType type = stmt.getToken(index - 1).getTypeAtt();
+					IType type = statement.getToken(index - 1).getTypeAtt();
 					IType returnType = linker.visitField(type, token.getMemberName());
 					token.setTypeAtt(returnType);
 
 				} else if (token.isInvokeMethod()) {
-					IType type = stmt.getToken(index - 1).getTypeAtt();
+					IType type = statement.getToken(index - 1).getTypeAtt();
 					IType returnType = linker.visitMethod(type, token.getMemberName(), parameterTypes);
 					token.setTypeAtt(returnType);
 
 				} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
-					IType type = stmt.getToken(index - 1).getTypeAtt();
+					IType type = statement.getToken(index - 1).getTypeAtt();
 					IType returnType = linker.visitField(type, token.getMemberName());
 					returnType = factory.create(returnType.getTargetName());
 					token.setTypeAtt(returnType);
@@ -71,9 +71,9 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 
 	public List<IType> getParameterTypes(IClass clazz, Token token) {
 		List<IType> parameterTypes = new ArrayList<>();
-		Statement stmt = token.getValue();
-		if (stmt.size() > 3) {
-			List<Statement> subStmts = stmt.subStmt(2, stmt.size() - 1).split(",");
+		Statement statement = token.getValue();
+		if (statement.size() > 3) {
+			List<Statement> subStmts = statement.subStmt(2, statement.size() - 1).split(",");
 			for (Statement subStmt : subStmts) {
 				IType parameterType = deducer.derive(clazz, subStmt);
 				parameterTypes.add(parameterType);

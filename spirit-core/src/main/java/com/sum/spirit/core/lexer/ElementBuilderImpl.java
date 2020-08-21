@@ -38,7 +38,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			List<Token> tokens = parser.getTokens(words);
 
 			// 3.build statement
-			Statement stmt = new Statement(tokens);
+			Statement statement = new Statement(tokens);
 
 			// 4.get structure grammar
 			String syntax = recognizer.getSyntax(tokens);
@@ -46,12 +46,12 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 5.build an abstract syntax tree
 			SyntaxTree tree = null;
 			if (syntax == null) {
-				tree = builder.build(stmt);
+				tree = builder.build(statement);
 				syntax = tree.getSyntax();
 			}
 
 			// 6.generate element
-			Element element = new Element(line, stmt, tree, syntax);
+			Element element = new Element(line, statement, tree, syntax);
 
 			// 7.post element processor
 			processor.postElementProcessor(line, element);

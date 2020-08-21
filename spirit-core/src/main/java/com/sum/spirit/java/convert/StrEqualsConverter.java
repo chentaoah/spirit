@@ -21,28 +21,28 @@ public class StrEqualsConverter implements ElementConverter {
 
 	@Override
 	public void convert(IClass clazz, Element element) {
-		convertStmt(clazz, element.stmt);
+		convertStmt(clazz, element.statement);
 	}
 
-	public void convertStmt(IClass clazz, Statement stmt) {
+	public void convertStmt(IClass clazz, Statement statement) {
 		// Process the child nodes first, or it will affect the transformation of the
 		// upper layer
-		for (Token token : stmt.tokens) {
+		for (Token token : statement.tokens) {
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());
 		}
 
-		for (int index = 0; index < stmt.size(); index++) {
-			Token token = stmt.getToken(index);
+		for (int index = 0; index < statement.size(); index++) {
+			Token token = statement.getToken(index);
 			if (token.isOperator() && ("==".equals(token.toString()) || "!=".equals(token.toString()))) {
 
-				int start = TreeUtils.findStart(stmt, index);
-				Statement lastSubStmt = stmt.subStmt(start, index);
+				int start = TreeUtils.findStart(statement, index);
+				Statement lastSubStmt = statement.subStmt(start, index);
 				IType lastType = deducer.derive(clazz, lastSubStmt);
 				if (lastType.isStr()) {
 
-					int end = TreeUtils.findEnd(stmt, index);
-					Statement nextSubStmt = stmt.subStmt(index + 1, end);
+					int end = TreeUtils.findEnd(statement, index);
+					Statement nextSubStmt = statement.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextSubStmt);
 					if (nextType.isStr()) {
 
@@ -57,7 +57,7 @@ public class StrEqualsConverter implements ElementConverter {
 						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 						expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 						expressToken.setTreeId(token.getTreeId());
-						stmt.replace(start, end, expressToken);
+						statement.replace(start, end, expressToken);
 						clazz.addImport(StringUtils.class.getName());
 					}
 				}

@@ -9,7 +9,7 @@ import com.sum.spirit.pojo.element.Statement;
 @Service("variable_tracker")
 public interface VariableTracker {
 
-	void track(IClass clazz, MethodContext context, Statement stmt);
+	void track(IClass clazz, MethodContext context, Statement statement);
 
 	IType findType(IClass clazz, MethodContext context, String name);
 

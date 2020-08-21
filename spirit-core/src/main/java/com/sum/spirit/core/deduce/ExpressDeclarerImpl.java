@@ -79,7 +79,7 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			// This step cannot be omitted. The accessor needs to mark the token
 			// of the
 			// original statement
-			subElement.stmt = subStmt;
+			subElement.statement = subStmt;
 
 			IVariable variable = elementVisiter.visit(clazz, context, subElement);
 			if (variable != null) {

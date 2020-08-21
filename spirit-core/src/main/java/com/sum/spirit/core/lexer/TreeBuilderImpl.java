@@ -56,8 +56,8 @@ public class TreeBuilderImpl implements TreeBuilder {
 			markTreeId(treeId + "-" + "1", node.right);
 
 		if (node.token.canSplit()) {
-			Statement stmt = node.token.getValue();
-			markTreeId(stmt.tokens);
+			Statement statement = node.token.getValue();
+			markTreeId(statement.tokens);
 		}
 
 	}

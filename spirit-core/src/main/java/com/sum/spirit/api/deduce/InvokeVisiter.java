@@ -7,6 +7,6 @@ import com.sum.spirit.pojo.element.Statement;
 @Service("invoke_visiter")
 public interface InvokeVisiter {
 
-	void visit(IClass clazz, Statement stmt);
+	void visit(IClass clazz, Statement statement);
 
 }

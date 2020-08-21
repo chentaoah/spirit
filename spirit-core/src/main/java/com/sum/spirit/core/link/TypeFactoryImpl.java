@@ -64,20 +64,20 @@ public class TypeFactoryImpl implements TypeFactory {
 			return create(clazz.findImport(simpleName));
 
 		} else if (token.value instanceof Statement) {
-			Statement stmt = token.getValue(); // List<String> // Class<?>
-			String simpleName = stmt.getStr(0);
+			Statement statement = token.getValue(); // List<String> // Class<?>
+			String simpleName = statement.getStr(0);
 			IType type = create(clazz.findImport(simpleName));
-			type.setGenericTypes(getGenericTypes(clazz, stmt));
+			type.setGenericTypes(getGenericTypes(clazz, statement));
 			return type;
 		}
 
 		throw new RuntimeException("Unknown token value type!");
 	}
 
-	public List<IType> getGenericTypes(IClass clazz, Statement stmt) {
+	public List<IType> getGenericTypes(IClass clazz, Statement statement) {
 		List<IType> genericTypes = new ArrayList<>();
-		for (int i = 1; i < stmt.size(); i++) {
-			Token token = stmt.getToken(i);
+		for (int i = 1; i < statement.size(); i++) {
+			Token token = statement.getToken(i);
 			if (token.isType())
 				genericTypes.add(create(clazz, token));
 		}
@@ -108,16 +108,16 @@ public class TypeFactoryImpl implements TypeFactory {
 	}
 
 	public IType getListType(IClass clazz, Token token) {
-		Statement stmt = token.getValue();
-		List<Statement> stmts = stmt.subStmt(1, stmt.size() - 1).split(",");
+		Statement statement = token.getValue();
+		List<Statement> stmts = statement.subStmt(1, statement.size() - 1).split(",");
 		return create(List.class, getGenericType(clazz, stmts));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
-		Statement stmt = token.getValue();
+		Statement statement = token.getValue();
 		List<Statement> keyStmts = new ArrayList<>();
 		List<Statement> valueStmts = new ArrayList<>();
-		for (Statement subStmt : stmt.subStmt(1, stmt.size() - 1).split(",")) {
+		for (Statement subStmt : statement.subStmt(1, statement.size() - 1).split(",")) {
 			List<Statement> subStmts = subStmt.split(":");
 			keyStmts.add(subStmts.get(0));
 			valueStmts.add(subStmts.get(1));
