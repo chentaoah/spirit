@@ -96,6 +96,11 @@ public class Type {
 		Integer integer = intsss.get(0);
 		int numberxxx = integer.intValue();
 		logger.info("" + numberxxx);
+		final int finalNum = 1000;
+		logger.info("" + finalNum);
+		final String strxxxx;
+		strxxxx = "hello";
+		logger.info(strxxxx);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {

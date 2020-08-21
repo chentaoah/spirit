@@ -120,6 +120,13 @@ class Type {
 		numberxxx=integer.intValue()
 		print ""+numberxxx
 
+		const finalNum=1000
+		print "" + finalNum
+
+		const String strxxxx
+		strxxxx="hello"
+		print strxxxx
+
 	}
 
 	func testParam(@Deprecated String str, Object obj){

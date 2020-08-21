@@ -27,6 +27,9 @@ public class StmtConverter implements ElementConverter {
 	@Override
 	public void convert(IClass clazz, Element element) {
 
+		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign())
+			element.replaceModifier(Constants.CONST_KEYWORD, Constants.FINAL_KEYWORD);
+
 		if (element.isSync()) {// sync s {
 			element.replaceKeyword(Constants.SYNC_KEYWORD, "synchronized");
 
