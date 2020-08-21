@@ -13,7 +13,7 @@ import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.SyntaxTree;
+import com.sum.spirit.pojo.element.AbstractSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 
 public class ElementBuilderImpl implements ElementBuilder {
@@ -44,14 +44,14 @@ public class ElementBuilderImpl implements ElementBuilder {
 			String syntax = recognizer.getSyntax(tokens);
 
 			// 5.build an abstract syntax tree
-			SyntaxTree tree = null;
+			AbstractSyntaxTree syntaxTree = null;
 			if (syntax == null) {
-				tree = builder.build(statement);
-				syntax = tree.getSyntax();
+				syntaxTree = builder.build(statement);
+				syntax = syntaxTree.getSyntax();
 			}
 
 			// 6.generate element
-			Element element = new Element(line, statement, tree, syntax);
+			Element element = new Element(line, statement, syntaxTree, syntax);
 
 			// 7.post element processor
 			processor.postElementProcessor(line, element);

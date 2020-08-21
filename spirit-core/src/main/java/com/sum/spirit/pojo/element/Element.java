@@ -12,13 +12,13 @@ public class Element extends Syntactic {
 
 	public Statement statement;
 
-	public SyntaxTree tree;
+	public AbstractSyntaxTree tree;
 
 	public String syntax;
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Statement statement, SyntaxTree tree, String syntax) {
+	public Element(Line line, Statement statement, AbstractSyntaxTree tree, String syntax) {
 		this.line = line;
 		this.statement = statement;
 		this.tree = tree;
