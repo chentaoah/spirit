@@ -43,7 +43,7 @@ public class KeywordTable {
 		KEYWORDS.put("private", new Keyword("private", Keyword.MODIFIER));
 		KEYWORDS.put("protected", new Keyword("protected", Keyword.MODIFIER));
 		KEYWORDS.put("const", new Keyword("const", Keyword.MODIFIER));
-		KEYWORDS.put("voliate", new Keyword("voliate", Keyword.MODIFIER));
+		KEYWORDS.put("volatile", new Keyword("volatile", Keyword.MODIFIER));
 		KEYWORDS.put("synch", new Keyword("synch", Keyword.MODIFIER));
 	}
 

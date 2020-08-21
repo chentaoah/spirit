@@ -1,6 +1,5 @@
 package com.sum.spirit.core.lexer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
@@ -15,7 +14,6 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;
 import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.common.KeywordTable;
 import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 
@@ -41,7 +39,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			List<Token> tokens = parser.getTokens(words);
 
 			// 3.get modifiers
-			Modifiers modifiers = createModifiers(tokens);
+			Modifiers modifiers = new Modifiers(tokens);
 
 			// 4.build statement
 			Statement statement = new Statement(tokens);
@@ -69,19 +67,6 @@ public class ElementBuilderImpl implements ElementBuilder {
 			line.debug();
 			throw new RuntimeException("Failed to build element!", e);
 		}
-	}
-
-	public Modifiers createModifiers(List<Token> tokens) {
-		List<Token> modifiers = new ArrayList<>();
-		for (Token token : tokens) {
-			if (KeywordTable.isModifier(token.toString())) {
-				modifiers.add(token);
-				tokens.remove(token);
-			} else {
-				break;
-			}
-		}
-		return new Modifiers(tokens);
 	}
 
 }

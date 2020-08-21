@@ -39,6 +39,8 @@ public class Type {
 	public String s111 = "I am a new assign syntax!";
 	public int num = Main.x;
 	public char myChar = 'c';
+	public final String cv = "test const voliate";
+	public volatile boolean vo = false;
 
 	@Deprecated
 	public void testType() {

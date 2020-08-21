@@ -25,7 +25,8 @@ public class SeparatorConverter implements ElementConverter {
 	}
 
 	public void insertBrackets(IClass clazz, Statement statement) {
-		// if text { // }catch Exception e{
+		// if text {
+		// }catch Exception e{
 		int index = findLastKeyword(statement);
 		statement.tokens.add(index + 1, new Token(Constants.SEPARATOR_TOKEN, "("));
 		if ("{".equals(statement.last())) {

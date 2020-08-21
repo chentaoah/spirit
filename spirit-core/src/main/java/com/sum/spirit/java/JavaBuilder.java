@@ -103,7 +103,11 @@ public class JavaBuilder implements CodeBuilder {
 				if (element.isFuncDeclare()) {
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
 						element.insertModifier(Constants.PUBLIC_KEYWORD, Constants.ABSTRACT_KEYWORD);
-					methodsStr.append("\t" + element + "\n");
+					if (element.hasChild() || element.hasChildElement()) {
+						methodsStr.append("\t" + element + "\n");
+					} else {
+						methodsStr.append("\t" + element + ";\n\n");
+					}
 
 				} else if (element.isFunc()) {
 					if (method.isInit) {
@@ -132,6 +136,7 @@ public class JavaBuilder implements CodeBuilder {
 				if (annotation != null)
 					fieldsStr.append("\t" + annotation + "\n");
 			}
+			field.element.replaceModifier(Constants.CONST_KEYWORD, Constants.FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0)

@@ -12,6 +12,7 @@ public class Constants {
 	public static final String PUBLIC_KEYWORD = "public";
 	public static final String STATIC_KEYWORD = "static";
 	public static final String SYNCH_KEYWORD = "synch";
+	public static final String CONST_KEYWORD = "const";
 	public static final String FUNC_KEYWORD = "func";
 	public static final String THROWS_KEYWORD = "throws";
 	public static final String SUPER_KEYWORD = "super";
@@ -29,6 +30,7 @@ public class Constants {
 	public static final String INSTANCEOF_KEYWORD = "instanceof";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
+	public static final String FINAL_KEYWORD = "final";
 
 	public static final String IMPORT_SYNTAX = "import";
 	public static final String ANNOTATION_SYNTAX = "annotation";

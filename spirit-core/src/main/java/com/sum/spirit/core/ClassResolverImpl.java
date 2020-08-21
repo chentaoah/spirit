@@ -50,7 +50,7 @@ public class ClassResolverImpl implements ClassResolver {
 				// Interface and abstract class can only have one main class
 				mainClass.annotations.addAll(annotations);
 				annotations.clear();
-				mainClass.root = element;
+				mainClass.root = element.addModifier(Constants.PUBLIC_KEYWORD);
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
@@ -77,9 +77,10 @@ public class ClassResolverImpl implements ClassResolver {
 				}
 			}
 		}
+
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass.root == null)
-			mainClass.root = builder.build("class " + document.name + " {");
+			mainClass.root = builder.build("class " + document.name + " {").addModifier(Constants.PUBLIC_KEYWORD);
 
 		return classes;
 	}

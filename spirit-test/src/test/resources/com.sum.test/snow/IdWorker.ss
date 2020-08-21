@@ -43,7 +43,7 @@ class IdWorker {
 		this.datacenterId = datacenterId
 	}
 
-	func sync nextId(){
+	synch func nextId(){
 		timestamp = timeGen()
 		if timestamp < lastTimestamp {
 			message = String.format("Clock moved backwards.Refusing to generate id for %d milliseconds", lastTimestamp - timestamp)

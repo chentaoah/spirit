@@ -93,7 +93,7 @@ public class Element extends Syntactic {
 
 	@Override
 	public String toString() {
-		return modifiers + " " + statement;
+		return modifiers == null || modifiers.size() == 0 ? statement.toString() : modifiers + " " + statement;
 	}
 
 	public void debug() {
