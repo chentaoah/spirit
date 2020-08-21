@@ -78,11 +78,10 @@ class Block {
 		return null
 	}
 	
-	func sync testSync(){
+	sync func testSync(){
 		sync s {
 			print "in sync!"
 		}
-	
 	}
 	
 	func testThrows() throws Exception {
