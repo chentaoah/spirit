@@ -30,6 +30,7 @@ class Type {
 	//测试静态访问
 	num=Main.x
 	myChar='c'
+	const voliate cv = "test const voliate"
 
 	@Deprecated
 	func testType(){

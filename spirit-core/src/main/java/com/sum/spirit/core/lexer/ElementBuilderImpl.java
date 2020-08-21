@@ -1,5 +1,6 @@
 package com.sum.spirit.core.lexer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.pisces.core.ProxyFactory;
@@ -13,6 +14,7 @@ import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Statement;
+import com.sum.spirit.pojo.common.KeywordTable;
 import com.sum.spirit.pojo.element.AbstractSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 
@@ -37,32 +39,48 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 2.semantic analysis
 			List<Token> tokens = parser.getTokens(words);
 
-			// 3.build statement
+			// 3.get modifiers
+			List<Token> modifiers = getModifiers(tokens);
+
+			// 4.build statement
 			Statement statement = new Statement(tokens);
 
-			// 4.get structure grammar
+			// 5.get structure grammar
 			String syntax = recognizer.getSyntax(tokens);
 
-			// 5.build an abstract syntax tree
+			// 6.build an abstract syntax tree
 			AbstractSyntaxTree syntaxTree = null;
 			if (syntax == null) {
 				syntaxTree = builder.build(statement);
 				syntax = syntaxTree.getSyntax();
 			}
 
-			// 6.generate element
-			Element element = new Element(line, statement, syntaxTree, syntax);
+			// 7.generate element
+			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
 
-			// 7.post element processor
+			// 8.post element processor
 			processor.postElementProcessor(line, element);
 
-			// 8.return element
+			// 9.return element
 			return element;
 
 		} catch (Exception e) {
 			line.debug();
 			throw new RuntimeException("Failed to build element!", e);
 		}
+	}
+
+	public List<Token> getModifiers(List<Token> tokens) {
+		List<Token> modifiers = new ArrayList<>();
+		for (Token token : tokens) {
+			if (KeywordTable.isModifier(token.toString())) {
+				modifiers.add(token);
+				tokens.remove(token);
+			} else {
+				break;
+			}
+		}
+		return modifiers;
 	}
 
 }

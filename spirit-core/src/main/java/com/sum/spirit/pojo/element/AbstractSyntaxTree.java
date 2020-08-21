@@ -16,7 +16,8 @@ public class AbstractSyntaxTree {
 	public String getSyntax() {
 
 		try {
-			Token first = tokens.get(0);
+			int start = 0;
+			Token first = tokens.get(start);
 
 			if (KeywordTable.isLine(first.toString()))
 				return first.toString();
@@ -71,8 +72,8 @@ public class AbstractSyntaxTree {
 				}
 			}
 
-			Token second = tokens.get(1);
-			Token third = tokens.get(2);
+			Token second = tokens.get(start + 1);
+			Token third = tokens.get(start + 2);
 
 			if (Constants.FOR_KEYWORD.equals(first.toString())) {
 				if (Constants.IN_KEYWORD.equals(third.toString())) {// for ? in ? {

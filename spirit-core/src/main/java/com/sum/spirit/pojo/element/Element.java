@@ -10,6 +10,8 @@ public class Element extends Syntactic {
 
 	public Line line;
 
+	public List<Token> modifiers;
+
 	public Statement statement;
 
 	public AbstractSyntaxTree tree;
@@ -18,8 +20,9 @@ public class Element extends Syntactic {
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Statement statement, AbstractSyntaxTree tree, String syntax) {
+	public Element(Line line, List<Token> modifiers, Statement statement, AbstractSyntaxTree tree, String syntax) {
 		this.line = line;
+		this.modifiers = modifiers;
 		this.statement = statement;
 		this.tree = tree;
 		this.syntax = syntax;

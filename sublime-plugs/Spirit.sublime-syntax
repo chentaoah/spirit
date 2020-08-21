@@ -37,6 +37,10 @@ contexts:
     - match: '\b(boolean|char|short|int|long|float|double|byte)\b'
       scope: keyword
 
+    # Modifier
+    - match: '\b(const|voliate)\b'
+      scope: keyword
+
     # Literal 
     - match: '\b(null|true|false)\b'
       scope: keyword

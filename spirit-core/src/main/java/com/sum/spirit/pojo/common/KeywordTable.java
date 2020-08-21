@@ -37,8 +37,9 @@ public class KeywordTable {
 		KEYWORDS.put("catch", new Keyword("catch", Keyword.TOKEN));
 		KEYWORDS.put("finally", new Keyword("finally", Keyword.TOKEN));
 		KEYWORDS.put("instanceof", new Keyword("instanceof", Keyword.TOKEN));
-		KEYWORDS.put("const", new Keyword("const", Keyword.TOKEN));
-		KEYWORDS.put("voliate", new Keyword("voliate", Keyword.TOKEN));
+
+		KEYWORDS.put("const", new Keyword("const", Keyword.MODIFIER));
+		KEYWORDS.put("voliate", new Keyword("voliate", Keyword.MODIFIER));
 	}
 
 	public static boolean isKeyword(String value) {
@@ -55,6 +56,10 @@ public class KeywordTable {
 
 	public static boolean isLine(String value) {
 		return isKeyword(value) && getKeyword(value).isLine();
+	}
+
+	public static boolean isModifier(String value) {
+		return isKeyword(value) && getKeyword(value).isModifier();
 	}
 
 }

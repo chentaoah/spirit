@@ -24,7 +24,6 @@ public class JavaBuilder implements CodeBuilder {
 	public List<ElementConverter> converters = new ArrayList<>();
 
 	public JavaBuilder() {
-
 		Map<String, AnnotationConverter> annoConverterMap = StaticFactory.FACTORY.getBeansOfType(AnnotationConverter.class);
 		annoConverters.addAll(annoConverterMap.values());
 		AnnotationUtils.sortByOrder(annoConverters);
