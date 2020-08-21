@@ -21,7 +21,6 @@ public class KeywordTable {
 		KEYWORDS.put("while", new Keyword("while", Keyword.LINE));
 		KEYWORDS.put("continue", new Keyword("continue", Keyword.LINE));
 		KEYWORDS.put("break", new Keyword("break", Keyword.LINE));
-		KEYWORDS.put("sync", new Keyword("sync", Keyword.LINE));
 		KEYWORDS.put("try", new Keyword("try", Keyword.LINE));
 		KEYWORDS.put("throw", new Keyword("throw", Keyword.LINE));
 		KEYWORDS.put("print", new Keyword("print", Keyword.LINE));
@@ -38,8 +37,14 @@ public class KeywordTable {
 		KEYWORDS.put("finally", new Keyword("finally", Keyword.TOKEN));
 		KEYWORDS.put("instanceof", new Keyword("instanceof", Keyword.TOKEN));
 
+		KEYWORDS.put("static", new Keyword("static", Keyword.MODIFIER));
+		KEYWORDS.put("public", new Keyword("public", Keyword.MODIFIER));
+		KEYWORDS.put("private", new Keyword("private", Keyword.MODIFIER));
+		KEYWORDS.put("protected", new Keyword("protected", Keyword.MODIFIER));
 		KEYWORDS.put("const", new Keyword("const", Keyword.MODIFIER));
 		KEYWORDS.put("voliate", new Keyword("voliate", Keyword.MODIFIER));
+
+		KEYWORDS.put("sync", new Keyword("sync", Keyword.LINE_OR_MODIFIER));
 	}
 
 	public static boolean isKeyword(String value) {

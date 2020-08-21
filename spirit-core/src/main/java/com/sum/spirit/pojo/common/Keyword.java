@@ -5,7 +5,8 @@ public class Keyword {
 	public static final int STRUCT = 1;// 结构级
 	public static final int LINE = 2;// 行级
 	public static final int TOKEN = 3;// 元素级
-	public static final int MODIFIER = 4;// 修饰级
+	public static final int MODIFIER = 4;// 修饰词
+	public static final int LINE_OR_MODIFIER = 5;// 两种可能
 
 	public String value;
 
