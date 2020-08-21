@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("serial")
 public class GenericType<T, K> extends HashMap<T, Integer> {
 
-	public static Logger logger = LoggerFactory.getLogger(GenericType.class);
+	public static final Logger logger = LoggerFactory.getLogger(GenericType.class);
 
 	public Integer testGeneric() {
 		return get("test");

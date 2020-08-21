@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public interface Service {
 
-	public static Logger logger = LoggerFactory.getLogger(Service.class);
+	public static final Logger logger = LoggerFactory.getLogger(Service.class);
 
 	public String one();
 

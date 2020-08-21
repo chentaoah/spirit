@@ -15,7 +15,7 @@ import java.util.Map;
 @Deprecated
 public class Type {
 
-	public static Logger logger = LoggerFactory.getLogger(Type.class);
+	public static final Logger logger = LoggerFactory.getLogger(Type.class);
 	public static final double _NUMBER_ = 100.0;
 	public static final String _NAME_ = "chentao";
 	@Deprecated

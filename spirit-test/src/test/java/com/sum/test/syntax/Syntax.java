@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Syntax {
 
-	public static Logger logger = LoggerFactory.getLogger(Syntax.class);
+	public static final Logger logger = LoggerFactory.getLogger(Syntax.class);
 	public List<String> list = Collection.newArrayList("first", "second");
 	public Map<String, Integer> map = Collection.newHashMap("key", 100, "key", 100);
 
