@@ -54,8 +54,8 @@ public class ClassResolverImpl implements ClassResolver {
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
-				// The generic type may be obtained here, but the filename is usually a simple
-				// name
+				// The generic type may be obtained here,
+				// but the filename is usually a simple name
 				String simpleName = element.getKeywordParam(Constants.CLASS_KEYWORD).toString();
 				String targetName = TypeUtils.getTargetName(simpleName);
 

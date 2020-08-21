@@ -38,7 +38,7 @@ contexts:
       scope: keyword
 
     # Modifier
-    - match: '\b(const|voliate)\b'
+    - match: '\b(const|voliate|synch)\b'
       scope: keyword
 
     # Literal 
