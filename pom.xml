@@ -12,6 +12,7 @@
 		<module>spirit-lib</module>
 		<module>spirit-test</module>
 		<module>spirit-java</module>
+		<module>spirit-plug</module>
 	</modules>
 
 	<properties>
