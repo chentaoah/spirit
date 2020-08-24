@@ -19,7 +19,5 @@ public class IField extends AbsMember {
 		} else {
 			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 		}
-
 	}
-
 }
