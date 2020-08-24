@@ -33,6 +33,7 @@ public class CompilerImpl implements Compiler {
 			Document document = reader.read(file);
 			// 2.post document processor
 			processor.postDocumentProcessor(path, document);
+
 			// 3.resolve classes
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 			classes.forEach((clazz) -> {
