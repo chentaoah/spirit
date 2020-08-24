@@ -67,7 +67,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 
 			IType declaredType = factory.create(clazz, method.element.getToken(0));
 
-			if (method.element.hasChildElement()) {
+			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : TypeTable.VOID_TYPE;
 				if (!declaredType.isMatch(returnType))
 					throw new RuntimeException("The derived type does not match the declared type!");

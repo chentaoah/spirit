@@ -28,7 +28,7 @@ public class Element extends Syntactic {
 	}
 
 	public boolean hasChild() {
-		return line.hasChild();
+		return line.hasChild() || children.size() > 0;
 	}
 
 	public String getIndent() {
@@ -75,10 +75,6 @@ public class Element extends Syntactic {
 
 	public List<Statement> split(String separator) {
 		return statement.split(separator);
-	}
-
-	public boolean hasChildElement() {
-		return children.size() > 0;
 	}
 
 	@Override

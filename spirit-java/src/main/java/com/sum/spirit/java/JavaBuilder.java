@@ -103,7 +103,7 @@ public class JavaBuilder implements CodeBuilder {
 				if (element.isFuncDeclare()) {
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
 						element.insertModifier(Constants.PUBLIC_KEYWORD, Constants.ABSTRACT_KEYWORD);
-					if (element.hasChild() || element.hasChildElement()) {
+					if (element.hasChild()) {
 						methodsStr.append("\t" + element + "\n");
 					} else {
 						methodsStr.append("\t" + element + ";\n\n");
@@ -120,7 +120,7 @@ public class JavaBuilder implements CodeBuilder {
 			}
 			// Content building within methods
 			// Note that this may be an empty element!!!
-			if (element.hasChild() || element.hasChildElement()) {
+			if (element.hasChild()) {
 				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
 				methodsStr.append("\t}\n\n");
 			}
@@ -150,7 +150,7 @@ public class JavaBuilder implements CodeBuilder {
 	public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, Element father) {
 		for (Element element : father.children) {
 			builder.append(indent + convert(clazz, element) + "\n");
-			if (element.hasChildElement())
+			if (element.hasChild())
 				convertMethodElement(builder, indent + "\t", clazz, element);
 		}
 	}
