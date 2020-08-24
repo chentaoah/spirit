@@ -52,7 +52,7 @@ public class ClassResolverImpl implements ClassResolver {
 				// Interface and abstract class can only have one main class
 				mainClass.annotations.addAll(annotations);
 				annotations.clear();
-				mainClass.root = element.addModifier(Constants.PUBLIC_KEYWORD);
+				mainClass.element = element.addModifier(Constants.PUBLIC_KEYWORD);
 				readRootElement(mainClass);
 
 			} else if (element.isClass()) {
@@ -64,7 +64,7 @@ public class ClassResolverImpl implements ClassResolver {
 				if (document.name.equals(targetName)) {
 					mainClass.annotations.addAll(annotations);
 					annotations.clear();
-					mainClass.root = element.addModifier(Constants.PUBLIC_KEYWORD);
+					mainClass.element = element.addModifier(Constants.PUBLIC_KEYWORD);
 					readRootElement(mainClass);
 
 				} else {
@@ -73,7 +73,7 @@ public class ClassResolverImpl implements ClassResolver {
 					clazz.imports = mainClass.imports;// 共用！
 					clazz.annotations.addAll(annotations);
 					annotations.clear();
-					clazz.root = element.addModifier(Constants.PUBLIC_KEYWORD);
+					clazz.element = element.addModifier(Constants.PUBLIC_KEYWORD);
 					readRootElement(clazz);
 					classes.add(clazz); // 添加协同的类
 				}
@@ -81,8 +81,8 @@ public class ClassResolverImpl implements ClassResolver {
 		}
 
 		// 如果不存在主类的声明，则虚拟一个Element
-		if (mainClass.root == null)
-			mainClass.root = builder.build("class " + document.name + " {").addModifier(Constants.PUBLIC_KEYWORD);
+		if (mainClass.element == null)
+			mainClass.element = builder.build("class " + document.name + " {").addModifier(Constants.PUBLIC_KEYWORD);
 
 		return classes;
 	}
@@ -92,7 +92,7 @@ public class ClassResolverImpl implements ClassResolver {
 		// Temporary variables, need to be cleared after use
 		List<IAnnotation> annotations = new ArrayList<>();
 
-		for (Element element : clazz.root.children) {
+		for (Element element : clazz.element.children) {
 			if (element.isAnnotation()) {
 				annotations.add(new IAnnotation(element));
 

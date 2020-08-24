@@ -20,30 +20,30 @@ public class IClass extends Importable {
 
 	public List<IAnnotation> annotations = new ArrayList<>();
 
-	public Element root;
+	public Element element;
 
 	public List<IField> fields = new ArrayList<>();
 
 	public List<IMethod> methods = new ArrayList<>();
 
 	public boolean isInterface() {
-		return root.isInterface();
+		return element.isInterface();
 	}
 
 	public boolean isAbstract() {
-		return root.isAbstract();
+		return element.isAbstract();
 	}
 
 	public boolean isClass() {
-		return root.isClass();
+		return element.isClass();
 	}
 
 	public Token getTypeToken() {
 		Token token = null;
 		if (isInterface()) {
-			token = root.getKeywordParam(Constants.INTERFACE_KEYWORD);
+			token = element.getKeywordParam(Constants.INTERFACE_KEYWORD);
 		} else if (isAbstract() || isClass()) {
-			token = root.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
+			token = element.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
 		}
 		Assert.isTrue(token != null && token.isType(), "Cannot get type token of class!");
 		return token;
@@ -77,7 +77,7 @@ public class IClass extends Importable {
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
-		Token token = root.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
+		Token token = element.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
 		return TypeTable.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
@@ -85,7 +85,7 @@ public class IClass extends Importable {
 
 	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
-		for (Token token : root.getKeywordParams(Constants.IMPLS_KEYWORD))
+		for (Token token : element.getKeywordParams(Constants.IMPLS_KEYWORD))
 			interfaces.add(factory.create(this, token));
 		return interfaces;
 	}

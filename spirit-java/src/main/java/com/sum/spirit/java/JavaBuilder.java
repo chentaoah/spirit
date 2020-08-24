@@ -74,7 +74,7 @@ public class JavaBuilder implements CodeBuilder {
 	public String buildBody(IClass clazz) {
 
 		StringBuilder classStr = new StringBuilder();
-		classStr.append(clazz.root.insertStatement(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceStatement(Constants.IMPLS_KEYWORD,
+		classStr.append(clazz.element.insertStatement(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceStatement(Constants.IMPLS_KEYWORD,
 				Constants.IMPLEMENTS_KEYWORD) + "\n\n");
 
 		// When building a method, sometimes imports and fields is added
