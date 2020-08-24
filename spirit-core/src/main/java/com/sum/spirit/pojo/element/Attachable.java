@@ -60,7 +60,6 @@ public abstract class Attachable extends Semantic {
 	}
 
 	public void setTypeAtt(IType typeAtt) {
-		Assert.notNull(typeAtt, "Type cannot be null!token:" + this.toString());
 		this.typeAtt = typeAtt;
 	}
 
