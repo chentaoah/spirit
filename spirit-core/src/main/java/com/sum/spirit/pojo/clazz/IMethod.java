@@ -33,7 +33,6 @@ public class IMethod extends AbsMember {
 		} else {
 			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 		}
-
 	}
 
 	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
