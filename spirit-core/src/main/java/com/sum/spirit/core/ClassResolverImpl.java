@@ -39,11 +39,13 @@ public class ClassResolverImpl implements ClassResolver {
 				annotations.add(new IAnnotation(element));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				mainClass.fields.add(new IField(annotations, element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD)));
+				element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD);
+				mainClass.fields.add(new IField(annotations, element));
 				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				mainClass.methods.add(new IMethod(annotations, element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD)));
+				element.addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD);
+				mainClass.methods.add(new IMethod(annotations, element));
 				annotations.clear();
 
 			} else if (element.isInterface() || element.isAbstract()) {
