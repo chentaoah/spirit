@@ -11,6 +11,7 @@
 		<module>spirit-core</module>
 		<module>spirit-lib</module>
 		<module>spirit-test</module>
+		<module>spirit-java</module>
 	</modules>
 
 	<properties>
