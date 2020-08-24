@@ -27,12 +27,12 @@ public class Element extends Syntactic {
 		this.syntax = syntax;
 	}
 
-	public boolean hasChild() {
-		return line.hasChild() || children.size() > 0;
-	}
-
 	public String getIndent() {
 		return line.getIndent();
+	}
+
+	public boolean hasChild() {
+		return line.hasChild() || children.size() > 0;
 	}
 
 	public boolean isModified(String keyword) {
