@@ -1,6 +1,6 @@
 package com.sum.spirit.test;
 
-import com.sum.spirit.start.JavaStarter;
+import com.sum.spirit.java.JavaStarter;
 
 public class SpiritTest {
 
