@@ -58,16 +58,16 @@ public class DocumentReaderImpl implements DocumentReader {
 
 	public List<String> splitLine(Element element) {
 		if (element.isIf() || element.isFor() || element.isForIn() || element.isWhile()) {
-			if (element.contains(":")) {
-				List<String> subLines = new ArrayList<>();
-				List<Statement> statements = element.split(":");
-				String indent = element.getIndent();
-				subLines.add(indent + statements.get(0).toString() + " {");
-				for (int i = 1; i < statements.size(); i++)
-					subLines.add(indent + "\t" + statements.get(i).toString());
-				subLines.add(indent + "}");
-				return subLines;
-			}
+			if (!element.contains(":"))
+				return null;
+			List<String> subLines = new ArrayList<>();
+			List<Statement> statements = element.split(":");
+			String indent = element.getIndent();
+			subLines.add(indent + statements.get(0).toString() + " {");
+			for (int i = 1; i < statements.size(); i++)
+				subLines.add(indent + "\t" + statements.get(i).toString());
+			subLines.add(indent + "}");
+			return subLines;
 		}
 		return null;
 	}
