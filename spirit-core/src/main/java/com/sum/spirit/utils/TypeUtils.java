@@ -24,7 +24,6 @@ public class TypeUtils {
 	}
 
 	public static String getTargetName(String name) {// className or simpleName or typeName
-
 		// 泛型
 		if (name.contains("<") && name.endsWith(">"))
 			return name.substring(0, name.indexOf('<'));
