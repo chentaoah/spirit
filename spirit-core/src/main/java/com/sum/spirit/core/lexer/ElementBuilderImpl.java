@@ -10,6 +10,7 @@ import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.api.lexer.StructRecognizer;
 import com.sum.spirit.api.lexer.SyntaxChecker;
 import com.sum.spirit.api.lexer.TreeBuilder;
+import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;
@@ -49,7 +50,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 
 			// 6.build an abstract syntax tree
 			AbsSyntaxTree syntaxTree = null;
-			if (syntax == null) {
+			if (StringUtils.isEmpty(syntax)) {
 				syntaxTree = builder.build(statement);
 				syntax = syntaxTree.getSyntax();
 			}
