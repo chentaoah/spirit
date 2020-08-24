@@ -22,7 +22,6 @@ import com.sum.spirit.pojo.element.Token;
 public interface TypeFactory {
 
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
-
 	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	default IType create(Class<?> clazz) {
