@@ -43,10 +43,10 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 				type = tracker.findType(clazz, context, varToken.toString());
 
 			if (type == null) {
-				Statement subStmt = element.subStmt(2, element.size());
-				tracker.track(clazz, context, subStmt);
-				visiter.visit(clazz, subStmt);
-				type = deducer.derive(clazz, subStmt);
+				Statement statement = element.subStmt(2, element.size());
+				tracker.track(clazz, context, statement);
+				visiter.visit(clazz, statement);
+				type = deducer.derive(clazz, statement);
 
 				// After marking, it is convenient for subsequent conversion to
 				// Java code and
@@ -58,10 +58,10 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 
 		} else if (element.isForIn()) {// for item in list {
 
-			Statement subStmt = element.subStmt(3, element.size() - 1);
-			tracker.track(clazz, context, subStmt);
-			visiter.visit(clazz, subStmt);
-			IType type = deducer.derive(clazz, subStmt);
+			Statement statement = element.subStmt(3, element.size() - 1);
+			tracker.track(clazz, context, statement);
+			visiter.visit(clazz, statement);
+			IType type = deducer.derive(clazz, statement);
 
 			// Get internal type from array or generic type
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
@@ -73,13 +73,13 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 			// Note that although the sub statement is obtained here, it has
 			// nothing to do
 			// with the original statement itself
-			Statement subStmt = element.subStmt(1, element.indexOf(";"));
-			Element subElement = builder.build(subStmt.toString());
+			Statement statement = element.subStmt(1, element.indexOf(";"));
+			Element subElement = builder.build(statement.toString());
 
 			// This step cannot be omitted. The accessor needs to mark the token
 			// of the
 			// original statement
-			subElement.statement = subStmt;
+			subElement.statement = statement;
 
 			IVariable variable = elementVisiter.visit(clazz, context, subElement);
 			if (variable != null) {

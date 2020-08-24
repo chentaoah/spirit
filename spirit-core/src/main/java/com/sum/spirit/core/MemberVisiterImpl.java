@@ -30,8 +30,8 @@ public class MemberVisiterImpl implements MemberVisiter {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
 		Statement statement = methodToken.getValue();
-		List<Statement> subStmts = statement.subStmt("(", ")").split(",");
-		for (Statement paramStmt : subStmts) {
+		List<Statement> statements = statement.subStmt("(", ")").split(",");
+		for (Statement paramStmt : statements) {
 			IParameter parameter = new IParameter();
 			for (Token token : paramStmt.tokens) {
 				if (token.isAnnotation()) {

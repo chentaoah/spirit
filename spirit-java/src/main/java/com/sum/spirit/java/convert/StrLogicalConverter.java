@@ -49,11 +49,11 @@ public class StrLogicalConverter implements ElementConverter {
 
 	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {
 		int start = TreeUtils.findStart(statement, index);
-		Statement lastSubStmt = statement.subStmt(start, index);
-		IType type = deducer.derive(clazz, lastSubStmt);
+		Statement lastStatement = statement.subStmt(start, index);
+		IType type = deducer.derive(clazz, lastStatement);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
-			String text = String.format(format, lastSubStmt);
+			String text = String.format(format, lastStatement);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 			expressToken.getTreeId().set(token.getTreeId().get() + "-0");
@@ -64,11 +64,11 @@ public class StrLogicalConverter implements ElementConverter {
 
 	public void replaceFollowingStr(IClass clazz, Statement statement, int index, Token token) {
 		int end = TreeUtils.findEnd(statement, index);
-		Statement nextSubStmt = statement.subStmt(index + 1, end);
-		IType type = deducer.derive(clazz, nextSubStmt);
+		Statement nextStatement = statement.subStmt(index + 1, end);
+		IType type = deducer.derive(clazz, nextStatement);
 		if (type.isStr()) {
 			String format = "StringUtils.isNotEmpty(%s)";
-			String text = String.format(format, nextSubStmt);
+			String text = String.format(format, nextStatement);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 			expressToken.getTreeId().set(token.getTreeId().get() + "-1");

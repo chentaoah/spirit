@@ -40,8 +40,8 @@ public class StmtConverter implements ElementConverter {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
-			Statement subStmt = element.subStmt(3, element.size() - 1);
-			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item, subStmt);
+			Statement statement = element.subStmt(3, element.size() - 1);
+			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item, statement);
 			element.replace(0, element.size(), new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
@@ -50,10 +50,10 @@ public class StmtConverter implements ElementConverter {
 				element.addToken(0, new Token(Constants.TYPE_TOKEN, TypeBuilder.build(clazz, token.getTypeAtt())));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
-			Statement subStmt = element.subStmt(1, element.size() - 1);
-			IType type = deducer.derive(clazz, subStmt);
+			Statement statement = element.subStmt(1, element.size() - 1);
+			IType type = deducer.derive(clazz, statement);
 			if (type.isStr()) {
-				String text = String.format("StringUtils.isNotEmpty(%s)", subStmt);
+				String text = String.format("StringUtils.isNotEmpty(%s)", statement);
 				element.replace(1, element.size() - 1, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 			}
 

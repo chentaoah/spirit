@@ -74,8 +74,8 @@ public class ElementVisiterImpl implements ElementVisiter {
 			return new IVariable(varToken.getTypeAtt(), varToken.toString());
 
 		} else if (element.isReturn()) {
-			Statement subStmt = element.subStmt(1, element.size());
-			return new IVariable(deducer.derive(clazz, subStmt), null);
+			Statement statement = element.subStmt(1, element.size());
+			return new IVariable(deducer.derive(clazz, statement), null);
 		}
 		return null;
 	}

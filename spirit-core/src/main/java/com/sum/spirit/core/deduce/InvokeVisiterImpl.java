@@ -40,8 +40,8 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 					token.setTypeAtt(factory.create(clazz, token));
 
 				} else if (token.isSubexpress()) {
-					Statement subStmt = token.getValue();
-					token.setTypeAtt(deducer.derive(clazz, subStmt.subStmt("(", ")")));
+					Statement subStatement = token.getValue();
+					token.setTypeAtt(deducer.derive(clazz, subStatement.subStmt("(", ")")));
 
 				} else if (token.isLocalMethod()) {
 					IType returnType = linker.visitMethod(clazz.toType().toThis(), token.getMemberName(), parameterTypes);
@@ -73,9 +73,9 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 		List<IType> parameterTypes = new ArrayList<>();
 		Statement statement = token.getValue();
 		if (statement.size() > 3) {
-			List<Statement> subStmts = statement.subStmt(2, statement.size() - 1).split(",");
-			for (Statement subStmt : subStmts) {
-				IType parameterType = deducer.derive(clazz, subStmt);
+			List<Statement> subStatements = statement.subStmt(2, statement.size() - 1).split(",");
+			for (Statement subStatement : subStatements) {
+				IType parameterType = deducer.derive(clazz, subStatement);
 				parameterTypes.add(parameterType);
 			}
 		}

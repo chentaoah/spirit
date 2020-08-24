@@ -37,13 +37,13 @@ public class StrEqualsConverter implements ElementConverter {
 			if (token.isOperator() && ("==".equals(token.toString()) || "!=".equals(token.toString()))) {
 
 				int start = TreeUtils.findStart(statement, index);
-				Statement lastSubStmt = statement.subStmt(start, index);
-				IType lastType = deducer.derive(clazz, lastSubStmt);
+				Statement lastStatement = statement.subStmt(start, index);
+				IType lastType = deducer.derive(clazz, lastStatement);
 				if (lastType.isStr()) {
 
 					int end = TreeUtils.findEnd(statement, index);
-					Statement nextSubStmt = statement.subStmt(index + 1, end);
-					IType nextType = deducer.derive(clazz, nextSubStmt);
+					Statement nextStatement = statement.subStmt(index + 1, end);
+					IType nextType = deducer.derive(clazz, nextStatement);
 					if (nextType.isStr()) {
 
 						String format = null;
@@ -53,7 +53,7 @@ public class StrEqualsConverter implements ElementConverter {
 							format = "!StringUtils.equals(%s, %s)";
 						}
 
-						String text = String.format(format, lastSubStmt, nextSubStmt);
+						String text = String.format(format, lastStatement, nextStatement);
 						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 						expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 						expressToken.setTreeId(token.getTreeId());

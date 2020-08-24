@@ -28,11 +28,11 @@ public class Statement extends TokenBox {
 	}
 
 	public List<Statement> split(String separator) {
-		List<Statement> subStmts = new ArrayList<>();
+		List<Statement> statements = new ArrayList<>();
 		List<List<Token>> tokensList = splitTokens(separator);
 		for (List<Token> tokens : tokensList)
-			subStmts.add(new Statement(tokens));
-		return subStmts;
+			statements.add(new Statement(tokens));
+		return statements;
 	}
 
 	@Override

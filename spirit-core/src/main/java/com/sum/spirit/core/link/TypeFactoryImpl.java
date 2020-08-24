@@ -109,30 +109,30 @@ public class TypeFactoryImpl implements TypeFactory {
 
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
-		List<Statement> stmts = statement.subStmt(1, statement.size() - 1).split(",");
-		return create(List.class, getGenericType(clazz, stmts));
+		List<Statement> statements = statement.subStmt(1, statement.size() - 1).split(",");
+		return create(List.class, getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> keyStmts = new ArrayList<>();
 		List<Statement> valueStmts = new ArrayList<>();
-		for (Statement subStmt : statement.subStmt(1, statement.size() - 1).split(",")) {
-			List<Statement> subStmts = subStmt.split(":");
-			keyStmts.add(subStmts.get(0));
-			valueStmts.add(subStmts.get(1));
+		for (Statement subStatement : statement.subStmt(1, statement.size() - 1).split(",")) {
+			List<Statement> sbuStatements = subStatement.split(":");
+			keyStmts.add(sbuStatements.get(0));
+			valueStmts.add(sbuStatements.get(1));
 		}
 		return create(Map.class, getGenericType(clazz, keyStmts), getGenericType(clazz, valueStmts));
 	}
 
-	public IType getGenericType(IClass clazz, List<Statement> stmts) {
+	public IType getGenericType(IClass clazz, List<Statement> statements) {
 
-		if (stmts.size() == 0)
+		if (statements.size() == 0)
 			return TypeTable.OBJECT_TYPE;
 
 		IType genericType = null;
-		for (Statement subStmt : stmts) {
-			IType wrappedType = deducer.derive(clazz, subStmt).getWrappedType();
+		for (Statement statement : statements) {
+			IType wrappedType = deducer.derive(clazz, statement).getWrappedType();
 			if (genericType == null) {
 				genericType = wrappedType;
 				continue;

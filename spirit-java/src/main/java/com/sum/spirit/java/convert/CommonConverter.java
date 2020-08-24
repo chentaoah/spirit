@@ -25,27 +25,27 @@ public class CommonConverter implements ElementConverter {
 				convertStmt(clazz, token.getValue());
 
 			if (token.isArrayInit()) {// String[10] => new String[10]
-				Statement subStmt = token.getValue();
-				subStmt.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
+				Statement subStatement = token.getValue();
+				subStatement.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
 
 			} else if (token.isTypeInit()) {// User() => new User()
-				Statement subStmt = token.getValue();
-				subStmt.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
+				Statement subStatement = token.getValue();
+				subStatement.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
 
 			} else if (token.isList()) {// ["value"] => Collection.newArrayList("value");
-				Statement subStmt = token.getValue();
-				subStmt.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newArrayList("));
-				subStmt.setToken(subStmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
+				Statement subStatement = token.getValue();
+				subStatement.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newArrayList("));
+				subStatement.setToken(subStatement.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
 				clazz.addImport(Collection.class.getName());
 
 			} else if (token.isMap()) {// {"key":"value"} => Collection.newHashMap("key","value");
-				Statement subStmt = token.getValue();
-				for (Token subToken : subStmt.tokens) {
+				Statement subStatement = token.getValue();
+				for (Token subToken : subStatement.tokens) {
 					if (subToken.isSeparator() && ":".equals(subToken.toString()))
 						subToken.value = ",";
 				}
-				subStmt.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newHashMap("));
-				subStmt.setToken(subStmt.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
+				subStatement.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newHashMap("));
+				subStatement.setToken(subStatement.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
 				clazz.addImport(Collection.class.getName());
 			}
 		}
