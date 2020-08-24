@@ -25,6 +25,10 @@ public class Line {
 		return text.trim().endsWith("{");
 	}
 
+	public boolean isEnding() {
+		return text.trim().startsWith("}");
+	}
+
 	public String getIndent() {
 		char firstChar = text.trim().charAt(0);
 		return text.substring(0, text.indexOf(firstChar));
