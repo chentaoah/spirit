@@ -57,5 +57,4 @@ public class CompilerImpl implements Compiler {
 
 		return allClasses;
 	}
-
 }
