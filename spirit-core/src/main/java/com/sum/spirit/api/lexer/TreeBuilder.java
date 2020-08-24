@@ -11,13 +11,9 @@ import com.sum.spirit.pojo.element.Token;
 public interface TreeBuilder {
 
 	default AbsSyntaxTree build(Statement statement) {
-
 		List<Token> tokens = build(statement.tokens);
-
 		markTreeId(tokens);
-
 		return new AbsSyntaxTree(tokens);
-
 	}
 
 	List<Token> build(List<Token> tokens);

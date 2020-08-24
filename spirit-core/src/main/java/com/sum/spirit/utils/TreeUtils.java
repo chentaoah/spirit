@@ -10,7 +10,7 @@ public class TreeUtils {
 		Token token = statement.getToken(index);
 		for (int j = index - 1; j >= 0; j--) {
 			Token lastToken = statement.getToken(j);
-			if (lastToken.getTreeId() != null && lastToken.getTreeId().startsWith(token.getTreeId())) {
+			if (lastToken.getTreeId().get() != null && lastToken.getTreeId().get().startsWith(token.getTreeId().get())) {
 				start = j;
 			} else {
 				break;
@@ -24,7 +24,7 @@ public class TreeUtils {
 		Token token = statement.getToken(index);
 		for (int j = index + 1; j < statement.size(); j++) {
 			Token nextToken = statement.getToken(j);
-			if (nextToken.getTreeId() != null && nextToken.getTreeId().startsWith(token.getTreeId())) {
+			if (nextToken.getTreeId().get() != null && nextToken.getTreeId().get().startsWith(token.getTreeId().get())) {
 				end = j + 1;
 			} else {
 				break;

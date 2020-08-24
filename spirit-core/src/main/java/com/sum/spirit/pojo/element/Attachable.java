@@ -1,14 +1,14 @@
 package com.sum.spirit.pojo.element;
 
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.utils.Holder;
 
 public abstract class Attachable extends Semantic {
 
 	public String simpleName;
 	public String memberName;
 	public int operand = -1;
-	public String treeId;
+	public Holder<String> treeId = new Holder<String>();
 	public IType typeAtt;
 	public boolean isDerived;
 	public int position;
@@ -47,11 +47,11 @@ public abstract class Attachable extends Semantic {
 		this.operand = operand;
 	}
 
-	public String getTreeId() {
+	public Holder<String> getTreeId() {
 		return treeId;
 	}
 
-	public void setTreeId(String treeId) {
+	public void setTreeId(Holder<String> treeId) {
 		this.treeId = treeId;
 	}
 

@@ -26,14 +26,13 @@ public class TreeBuilderImpl implements TreeBuilder {
 			Token token = tokens.get(i);
 			if (token.canSplit()) {
 				token = token.copy();
-				Statement subStmt = token.getValue();
-				subStmt.tokens = build(subStmt.tokens);
+				Statement statement = token.getValue();
+				statement.tokens = build(statement.tokens);
 				tokens.set(i, token);
 			}
 		}
 
 		return getNodeByGraph(tokens);
-
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 	public void markTreeId(String treeId, Node node) {
 
-		node.token.setTreeId(treeId);
+		node.token.getTreeId().set(treeId);
 
 		if (node.left != null)
 			markTreeId(treeId + "-" + "0", node.left);

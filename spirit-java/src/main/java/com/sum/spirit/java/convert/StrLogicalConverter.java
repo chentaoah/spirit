@@ -48,34 +48,30 @@ public class StrLogicalConverter implements ElementConverter {
 	}
 
 	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {
-
 		int start = TreeUtils.findStart(statement, index);
 		Statement lastSubStmt = statement.subStmt(start, index);
 		IType type = deducer.derive(clazz, lastSubStmt);
 		if (type.isStr()) {
-
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastSubStmt);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
-			expressToken.setTreeId(token.getTreeId() + "-0");
+			expressToken.getTreeId().set(token.getTreeId().get() + "-0");
 			statement.replace(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 	}
 
 	public void replaceFollowingStr(IClass clazz, Statement statement, int index, Token token) {
-
 		int end = TreeUtils.findEnd(statement, index);
 		Statement nextSubStmt = statement.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextSubStmt);
 		if (type.isStr()) {
-
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextSubStmt);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
 			expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
-			expressToken.setTreeId(token.getTreeId() + "-1");
+			expressToken.getTreeId().set(token.getTreeId().get() + "-1");
 			statement.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
