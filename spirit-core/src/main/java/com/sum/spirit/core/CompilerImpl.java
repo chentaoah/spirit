@@ -30,7 +30,7 @@ public class CompilerImpl implements Compiler {
 
 		files.forEach((path, file) -> {
 			// 1.read file
-			Document document = reader.read(file);
+			Document document = reader.readFile(file);
 			// 2.post document processor
 			processor.postDocumentProcessor(path, document);
 

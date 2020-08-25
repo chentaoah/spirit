@@ -21,7 +21,7 @@ public class DocumentReaderImpl implements DocumentReader {
 	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	@Override
-	public Document read(File file) {
+	public Document readFile(File file) {
 		try {
 			Document document = new Document(file);
 			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);

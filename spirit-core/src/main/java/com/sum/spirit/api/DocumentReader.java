@@ -8,6 +8,6 @@ import com.sum.spirit.pojo.element.Document;
 @Service("document_reader")
 public interface DocumentReader {
 
-	Document read(File file);
+	Document readFile(File file);
 
 }
