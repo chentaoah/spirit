@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,16 +30,6 @@ public class NativeFactory {
 		return type;
 	}
 
-	public static IType create(Class<?> clazz, IType... genericTypes) {
-		return create(clazz, Arrays.asList(genericTypes));
-	}
-
-	public static IType create(Class<?> clazz, List<IType> genericTypes) {
-		IType type = factory.create(clazz.getName());
-		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		return type;
-	}
-
 	public static IType create(Type nativeType) {
 		if (nativeType instanceof Class) {// String
 			return create((Class<?>) nativeType);
@@ -57,7 +46,7 @@ public class NativeFactory {
 			List<IType> genericTypes = new ArrayList<>();
 			for (Type actualType : parameterizedType.getActualTypeArguments())
 				genericTypes.add(create(actualType));
-			return create(rawType, genericTypes);
+			return factory.create(rawType.getName(), genericTypes);
 		}
 		throw new RuntimeException("Unknown type!");
 	}
