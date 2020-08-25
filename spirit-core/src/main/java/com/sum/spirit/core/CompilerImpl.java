@@ -37,6 +37,7 @@ public class CompilerImpl implements Compiler {
 			// 3.resolve classes
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 			classes.forEach((clazz) -> {
+				// add to all classess
 				allClasses.put(clazz.getClassName(), clazz);
 				// 4.post class processor
 				processor.postClassProcessor(clazz.getClassName(), clazz);
