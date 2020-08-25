@@ -1,9 +1,5 @@
 package com.sum.spirit.api.link;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +11,6 @@ import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Token;
 
 @Service("type_factory")
@@ -24,16 +19,13 @@ public interface TypeFactory {
 	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
 	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
-	default IType create(Class<?> clazz) {
-		IType type = create(clazz.getName());
-		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
-		if (typeVariables != null && typeVariables.length > 0) {
-			List<IType> genericTypes = new ArrayList<>();
-			for (TypeVariable<?> typeVariable : typeVariables)
-				genericTypes.add(createTypeVariable(typeVariable.toString()));
-			// Note that this is a non modifiable list
-			type.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		}
+	default IType create(String className, IType... genericTypes) {
+		return create(className, Arrays.asList(genericTypes));
+	}
+
+	default IType create(String className, List<IType> genericTypes) {
+		IType type = create(className);
+		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		return type;
 	}
 
@@ -41,37 +33,6 @@ public interface TypeFactory {
 		IType type = create(Object.class.getName());
 		type.setGenericName(genericName);
 		return type;
-	}
-
-	default IType create(Class<?> clazz, IType... genericTypes) {
-		return create(clazz, Arrays.asList(genericTypes));
-	}
-
-	default IType create(Class<?> clazz, List<IType> genericTypes) {
-		IType type = create(clazz.getName());
-		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		return type;
-	}
-
-	default IType create(Type nativeType) {
-		if (nativeType instanceof Class) {// String
-			return create((Class<?>) nativeType);
-
-		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeTable.WILDCARD_TYPE;
-
-		} else if (nativeType instanceof TypeVariable) {// T or K
-			return createTypeVariable(nativeType.toString());
-
-		} else if (nativeType instanceof ParameterizedType) {// List<T>
-			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
-			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
-			List<IType> genericTypes = new ArrayList<>();
-			for (Type actualType : parameterizedType.getActualTypeArguments())
-				genericTypes.add(create(actualType));
-			return create(rawType, genericTypes);
-		}
-		throw new RuntimeException("Unknown type!");
 	}
 
 	default IType populate(IType type, IType targetType) {

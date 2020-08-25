@@ -110,7 +110,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).split(",");
-		return create(List.class, getGenericType(clazz, statements));
+		return create(List.class.getName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -122,7 +122,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			keyStmts.add(sbuStatements.get(0));
 			valueStmts.add(sbuStatements.get(1));
 		}
-		return create(Map.class, getGenericType(clazz, keyStmts), getGenericType(clazz, valueStmts));
+		return create(Map.class.getName(), getGenericType(clazz, keyStmts), getGenericType(clazz, valueStmts));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
