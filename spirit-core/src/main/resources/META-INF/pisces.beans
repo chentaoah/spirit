@@ -24,10 +24,9 @@ fast_deducer=com.sum.spirit.core.deduce.FastDeducerImpl
 type_factory=com.sum.spirit.core.link.TypeFactoryImpl
 adaptive_linker=com.sum.spirit.core.link.AdaptiveLinker
 code_linker=com.sum.spirit.core.link.CodeLinker
-native_linker=com.sum.spirit.core.link.NativeLinker
 
 #
-code_builder=com.sum.spirit.java.JavaBuilder
+code_builder=com.sum.spirit.java.build.JavaBuilder
 common_converter=com.sum.spirit.java.convert.CommonConverter
 equals_converter=com.sum.spirit.java.convert.StrEqualsConverter
 logical_converter=com.sum.spirit.java.convert.StrLogicalConverter

@@ -8,7 +8,7 @@ import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.lexer.ElementBuilder;
-import com.sum.spirit.java.TypeBuilder;
+import com.sum.spirit.java.build.TypeBuilder;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IType;
