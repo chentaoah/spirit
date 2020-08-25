@@ -115,14 +115,14 @@ public class TypeFactoryImpl implements TypeFactory {
 
 	public IType getMapType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
-		List<Statement> keyStmts = new ArrayList<>();
-		List<Statement> valueStmts = new ArrayList<>();
+		List<Statement> keyStatements = new ArrayList<>();
+		List<Statement> valueStatements = new ArrayList<>();
 		for (Statement subStatement : statement.subStmt(1, statement.size() - 1).split(",")) {
-			List<Statement> sbuStatements = subStatement.split(":");
-			keyStmts.add(sbuStatements.get(0));
-			valueStmts.add(sbuStatements.get(1));
+			List<Statement> subStatements = subStatement.split(":");
+			keyStatements.add(subStatements.get(0));
+			valueStatements.add(subStatements.get(1));
 		}
-		return create(Map.class.getName(), getGenericType(clazz, keyStmts), getGenericType(clazz, valueStmts));
+		return create(Map.class.getName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
