@@ -46,7 +46,7 @@ public class NativeLinker implements ClassLinker {
 	public IType getSuperType(IType type) {
 		Class<?> clazz = toClass(type);
 		Type nativeSuperType = clazz.getGenericSuperclass();
-		IType superType = nativeSuperType != null ? NativeFactory.create(nativeSuperType) : null;
+		IType superType = nativeSuperType != null ? TypeAdapter.create(nativeSuperType) : null;
 		return factory.populate(type, superType);
 	}
 
@@ -55,7 +55,7 @@ public class NativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (Type interfaceType : clazz.getGenericInterfaces())
-			interfaceTypes.add(factory.populate(type, NativeFactory.create(interfaceType)));
+			interfaceTypes.add(factory.populate(type, TypeAdapter.create(interfaceType)));
 		return interfaceTypes;
 	}
 
@@ -161,7 +161,7 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
-		return populate(type, qualifyingTypes, mappingType, NativeFactory.create(nativeType));
+		return populate(type, qualifyingTypes, mappingType, TypeAdapter.create(nativeType));
 	}
 
 	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {
