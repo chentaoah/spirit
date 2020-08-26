@@ -13,7 +13,7 @@ import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.TypeTable;
 
-public class TypeAdapter {
+public class NativeTypeFactory {
 
 	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
