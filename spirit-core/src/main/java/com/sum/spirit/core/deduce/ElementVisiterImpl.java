@@ -1,6 +1,8 @@
 package com.sum.spirit.core.deduce;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.api.deduce.ElementVisiter;
 import com.sum.spirit.api.deduce.ExpressDeclarer;
@@ -15,14 +17,26 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class ElementVisiterImpl implements ElementVisiter {
 
-	public static TypeDeclarer declarer = ProxyFactory.get(TypeDeclarer.class);
-	public static ExpressDeclarer expressDeclarer = ProxyFactory.get(ExpressDeclarer.class);
-	public static VariableTracker tracker = ProxyFactory.get(VariableTracker.class);
-	public static InvokeVisiter visiter = ProxyFactory.get(InvokeVisiter.class);
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
-	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+	@Autowired
+	public TypeDeclarer declarer;
+
+	@Autowired
+	public ExpressDeclarer expressDeclarer;
+
+	@Autowired
+	public VariableTracker tracker;
+
+	@Autowired
+	public InvokeVisiter visiter;
+
+	@Autowired
+	public FastDeducer deducer;
+
+	@Autowired
+	public PostProcessor processor;
 
 	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {

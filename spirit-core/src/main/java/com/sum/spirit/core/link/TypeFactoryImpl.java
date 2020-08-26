@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
@@ -16,9 +18,11 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.utils.TypeUtils;
 
+@Component
 public class TypeFactoryImpl implements TypeFactory {
 
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	@Autowired
+	public FastDeducer deducer;
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性

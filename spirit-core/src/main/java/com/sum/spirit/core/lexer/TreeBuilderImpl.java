@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.Symbol;
@@ -12,6 +14,7 @@ import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class TreeBuilderImpl implements TreeBuilder {
 
 	@Override

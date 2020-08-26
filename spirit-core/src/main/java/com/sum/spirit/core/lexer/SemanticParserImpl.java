@@ -3,7 +3,9 @@ package com.sum.spirit.core.lexer;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.lexer.Lexer;
 import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
@@ -13,6 +15,7 @@ import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class SemanticParserImpl implements SemanticParser {
 	// special
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
@@ -51,7 +54,8 @@ public class SemanticParserImpl implements SemanticParser {
 	// prefix pattern
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
-	public static Lexer lexer = ProxyFactory.get(Lexer.class);
+	@Autowired
+	public Lexer lexer;
 
 	@Override
 	public Token getToken(String word) {

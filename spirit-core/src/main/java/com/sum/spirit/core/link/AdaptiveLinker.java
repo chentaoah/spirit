@@ -2,7 +2,11 @@ package com.sum.spirit.core.link;
 
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
@@ -12,13 +16,22 @@ import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
+@Component
+@Primary
 public class AdaptiveLinker implements ClassLinker {
 
 	public static final String ARRAY_LENGTH = "length";
 
-	public static ClassLinker codeLinker = ProxyFactory.cast(ClassLinker.class, "code_linker");
-	public static ClassLinker nativeLinker = ProxyFactory.cast(ClassLinker.class, "native_linker");
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	@Qualifier("codeLinker")
+	public ClassLinker codeLinker;
+
+	@Autowired
+	@Qualifier("nativeLinker")
+	public ClassLinker nativeLinker;
+
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	public <T> T toClass(IType type) {

@@ -3,14 +3,12 @@ package com.sum.spirit.api;
 import java.io.File;
 import java.util.Map;
 
-import com.sum.pisces.api.annotation.Service;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 
-@Service("post_processor")
 public interface PostProcessor {
 
 	void postStartProcessor(String[] args);

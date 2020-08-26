@@ -1,7 +1,9 @@
 package com.sum.spirit.java.convert;
 
-import com.sum.pisces.api.annotation.Order;
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.lib.StringUtils;
@@ -14,10 +16,12 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.utils.TreeUtils;
 
+@Component
 @Order(-60)
 public class StrLogicalConverter implements ElementConverter {
 
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	@Autowired
+	public FastDeducer deducer;
 
 	@Override
 	public void convert(IClass clazz, Element element) {

@@ -2,12 +2,10 @@ package com.sum.spirit.api.link;
 
 import java.util.List;
 
-import com.sum.pisces.api.annotation.Service;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
-@Service("adaptive_linker")
 public interface ClassLinker {
 
 	<T> T toClass(IType type);

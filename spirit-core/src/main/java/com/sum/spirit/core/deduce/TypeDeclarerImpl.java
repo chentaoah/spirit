@@ -1,15 +1,19 @@
 package com.sum.spirit.core.deduce;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.deduce.TypeDeclarer;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class TypeDeclarerImpl implements TypeDeclarer {
 
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	public void declare(IClass clazz, Element element) {

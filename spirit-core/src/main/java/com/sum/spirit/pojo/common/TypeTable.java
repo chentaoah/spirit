@@ -1,10 +1,10 @@
 package com.sum.spirit.pojo.common;
 
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.link.TypeAdapter;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.utils.ReflectUtils;
+import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 public class TypeTable {
@@ -45,8 +45,6 @@ public class TypeTable {
 
 	public static final IType NULL_TYPE;
 	public static final IType WILDCARD_TYPE;
-
-	public static TypeAdapter adapter = ProxyFactory.get(TypeAdapter.class);
 
 	static {
 		VOID_TYPE = build("void", "void", "void", true/* primitive */, false, false, false);
@@ -101,6 +99,7 @@ public class TypeTable {
 		type.setModifiers(IType.PUBLIC_MODIFIERS);
 		type.setGenericTypes(null);
 		// convert the type to native type
+		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
 		if (adapter != null)
 			return adapter.adapte(type);
 		return type;

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.DocumentReader;
 import com.sum.spirit.api.lexer.ElementBuilder;
 import com.sum.spirit.pojo.element.Document;
@@ -16,9 +18,11 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Statement;
 
+@Component
 public class DocumentReaderImpl implements DocumentReader {
 
-	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+	@Autowired
+	public ElementBuilder builder;
 
 	@Override
 	public Document readFile(File file) {

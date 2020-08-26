@@ -7,27 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.common.TypeTable;
+import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
-/**
- * 指的是已经在实际代码中，使用的类型描述
- * 
- * @author chentao26275
- *
- */
 public class IType {
 
 	public static final int THIS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
 	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
-
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
-	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
 
 	private String className;
 	private String simpleName;
@@ -62,6 +53,7 @@ public class IType {
 	}
 
 	public IType getTargetType() {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		return factory.create(getTargetName());
 	}
 
@@ -83,6 +75,7 @@ public class IType {
 		if (isArray())
 			return TypeTable.OBJECT_TYPE;
 
+		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
 		IType superType = linker.getSuperType(this);
 
 		if (superType == null)
@@ -106,6 +99,7 @@ public class IType {
 		if (isArray())
 			return new ArrayList<>();
 
+		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
 		return linker.getInterfaceTypes(this);
 	}
 

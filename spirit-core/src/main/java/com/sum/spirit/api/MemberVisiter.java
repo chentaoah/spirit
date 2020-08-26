@@ -2,7 +2,6 @@ package com.sum.spirit.api;
 
 import java.util.Map;
 
-import com.sum.pisces.api.annotation.Service;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.AbsMember;
 import com.sum.spirit.pojo.clazz.IClass;
@@ -10,7 +9,6 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IType;
 
-@Service("member_visiter")
 public interface MemberVisiter {
 
 	default void visit(Map<String, IClass> allClasses) {

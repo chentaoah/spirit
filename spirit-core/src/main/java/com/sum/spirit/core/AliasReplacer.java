@@ -1,12 +1,15 @@
 package com.sum.spirit.core;
 
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.utils.LineUtils;
 
+@Component
 public class AliasReplacer {
 
-	public static String replace(IClass clazz, String code) {
+	public String replace(IClass clazz, String code) {
 		for (Import imp : clazz.imports) {
 			if (imp.hasAlias())
 				code = replace(code, imp.getAlias(), imp.getClassName());
@@ -14,7 +17,7 @@ public class AliasReplacer {
 		return code;
 	}
 
-	public static String replace(String code, String alias, String className) {
+	public String replace(String code, String alias, String className) {
 		boolean flag = false;// 是否进入"符号的范围内
 		for (int i = 0; i < code.length(); i++) {
 			char c = code.charAt(i);
@@ -40,11 +43,6 @@ public class AliasReplacer {
 			}
 		}
 		return code;
-	}
-
-	public static void main(String[] args) {
-		String text = "G_Aliasxxx=\"Clock moved backwards.G_Alias to generate id for %d milliseconds\"+G_Alias;";
-		System.out.println(replace(text, "G_Alias", "XXX"));
 	}
 
 }

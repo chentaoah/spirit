@@ -2,9 +2,10 @@ package com.sum.spirit.java.convert;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-import com.sum.pisces.api.annotation.Order;
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.lexer.ElementBuilder;
@@ -17,12 +18,15 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 @Order(-40)
 public class StmtConverter implements ElementConverter {
 
-	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
+	@Autowired
+	public ElementBuilder builder;
 
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
+	@Autowired
+	public FastDeducer deducer;
 
 	@Override
 	public void convert(IClass clazz, Element element) {

@@ -3,7 +3,9 @@ package com.sum.spirit.core.link;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.MemberVisiter;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
@@ -16,11 +18,17 @@ import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
+@Component
 public class CodeLinker implements ClassLinker {
 
-	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
-	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public MemberVisiter visiter;
+
+	@Autowired
+	public ClassLinker linker;
+
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	@SuppressWarnings("unchecked")

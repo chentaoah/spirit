@@ -1,2 +1,0 @@
-native_linker=com.sum.spirit.java.link.NativeLinker
-type_adapter=com.sum.spirit.java.link.TypeAdapterImpl

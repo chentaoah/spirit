@@ -2,7 +2,9 @@ package com.sum.spirit.core.deduce;
 
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.lib.Assert;
@@ -13,9 +15,11 @@ import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class FastDeducerImpl implements FastDeducer {
 
-	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
+	@Autowired
+	public TreeBuilder builder;
 
 	@Override
 	public IType derive(IClass clazz, Statement statement) {

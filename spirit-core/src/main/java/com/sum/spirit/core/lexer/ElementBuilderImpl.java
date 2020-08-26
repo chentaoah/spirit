@@ -2,7 +2,9 @@ package com.sum.spirit.core.lexer;
 
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.api.lexer.ElementBuilder;
 import com.sum.spirit.api.lexer.Lexer;
@@ -18,20 +20,33 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class ElementBuilderImpl implements ElementBuilder {
 
-	public static SyntaxChecker checker = ProxyFactory.get(SyntaxChecker.class);
-	public static Lexer lexer = ProxyFactory.get(Lexer.class);
-	public static SemanticParser parser = ProxyFactory.get(SemanticParser.class);
-	public static StructRecognizer recognizer = ProxyFactory.get(StructRecognizer.class);
-	public static TreeBuilder builder = ProxyFactory.get(TreeBuilder.class);
-	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+	@Autowired(required = false)
+	public SyntaxChecker checker;
+
+	@Autowired
+	public Lexer lexer;
+
+	@Autowired
+	public SemanticParser parser;
+
+	@Autowired
+	public StructRecognizer recognizer;
+
+	@Autowired
+	public TreeBuilder builder;
+
+	@Autowired
+	public PostProcessor processor;
 
 	@Override
 	public Element build(Line line) {
 		try {
 			// give a chance to check the line
-			checker.check(line);
+			if (checker != null)
+				checker.check(line);
 
 			// 1.lexical analysis
 			List<String> words = lexer.getWords(line.text);

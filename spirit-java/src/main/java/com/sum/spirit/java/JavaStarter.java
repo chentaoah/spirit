@@ -3,21 +3,25 @@ package com.sum.spirit.java;
 import java.io.File;
 import java.util.Map;
 
-import com.sum.pisces.core.ProxyFactory;
-import com.sum.pisces.utils.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.api.PostProcessor;
+import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.utils.FileUtils;
 
 public class JavaStarter {
 
-	public static Compiler compiler = ProxyFactory.get(Compiler.class);
-	public static CodeBuilder builder = ProxyFactory.get(CodeBuilder.class);
-	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
-
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
+
+		ApplicationContext context = new AnnotationConfigApplicationContext("com.sum.spirit");
+		Compiler compiler = context.getBean(Compiler.class);
+		CodeBuilder builder = context.getBean(CodeBuilder.class);
+		PostProcessor processor = context.getBean(PostProcessor.class);
 
 		processor.postStartProcessor(args);
 

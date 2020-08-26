@@ -3,15 +3,13 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.utils.SpringUtils;
 
 public class IMethod extends AbsMember {
-
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public boolean isInit;
 
@@ -36,6 +34,7 @@ public class IMethod extends AbsMember {
 	}
 
 	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {

@@ -3,7 +3,6 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.common.Constants;
@@ -11,11 +10,10 @@ import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 public class IClass {
-
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
 
 	public String packageStr;
 
@@ -136,11 +134,13 @@ public class IClass {
 	}
 
 	public IType toType() {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		return factory.create(this, getTypeToken());
 
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		Token token = element.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
@@ -148,6 +148,7 @@ public class IClass {
 	}
 
 	public List<IType> getInterfaceTypes() {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		List<IType> interfaces = new ArrayList<>();
 		for (Token token : element.getKeywordParams(Constants.IMPLS_KEYWORD))
 			interfaces.add(factory.create(this, token));

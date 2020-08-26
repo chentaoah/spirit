@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.pisces.core.StaticFactory;
-import com.sum.pisces.utils.AnnotationUtils;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.convert.AnnotationConverter;
 import com.sum.spirit.api.convert.ElementConverter;
@@ -16,21 +18,24 @@ import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.utils.SpringUtils;
 
+@Component
+@DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder {
 
-	public List<AnnotationConverter> annoConverters = new ArrayList<>();
+	public List<AnnotationConverter> annoConverters;
 
-	public List<ElementConverter> converters = new ArrayList<>();
+	public List<ElementConverter> converters;
 
 	public JavaBuilder() {
-		Map<String, AnnotationConverter> annoConverterMap = StaticFactory.FACTORY.getBeansOfType(AnnotationConverter.class);
-		annoConverters.addAll(annoConverterMap.values());
-		AnnotationUtils.sortByOrder(annoConverters);
+		Map<String, AnnotationConverter> annoConverterMap = SpringUtils.getBeansOfType(AnnotationConverter.class);
+		annoConverters = new ArrayList<>(annoConverterMap.values());
+		annoConverters.sort(new AnnotationAwareOrderComparator());
 
-		Map<String, ElementConverter> converterMap = StaticFactory.FACTORY.getBeansOfType(ElementConverter.class);
-		converters.addAll(converterMap.values());
-		AnnotationUtils.sortByOrder(converters);
+		Map<String, ElementConverter> converterMap = SpringUtils.getBeansOfType(ElementConverter.class);
+		converters = new ArrayList<>(converterMap.values());
+		converters.sort(new AnnotationAwareOrderComparator());
 	}
 
 	@Override

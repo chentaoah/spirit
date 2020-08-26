@@ -1,13 +1,11 @@
 package com.sum.spirit.pojo.clazz;
 
-import com.sum.pisces.core.ProxyFactory;
 import com.sum.spirit.api.lexer.ElementBuilder;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 public class Import {
-
-	public static ElementBuilder builder = ProxyFactory.get(ElementBuilder.class);
 
 	public Element element;
 
@@ -16,6 +14,7 @@ public class Import {
 	}
 
 	public Import(String className) {
+		ElementBuilder builder = SpringUtils.getBean(ElementBuilder.class);
 		this.element = builder.build("import " + className);
 	}
 

@@ -2,7 +2,9 @@ package com.sum.spirit.core;
 
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.MemberVisiter;
 import com.sum.spirit.api.deduce.ElementVisiter;
 import com.sum.spirit.api.link.TypeFactory;
@@ -20,10 +22,14 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
+@Component
 public class MemberVisiterImpl implements MemberVisiter {
 
-	public static ElementVisiter visiter = ProxyFactory.get(ElementVisiter.class);
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public ElementVisiter visiter;
+
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	public void visitParameters(IClass clazz, IMethod method) {

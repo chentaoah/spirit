@@ -3,11 +3,21 @@ package com.sum.spirit.core;
 import java.io.File;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Document;
 
+@Component
 public class PostProcessorImpl implements PostProcessor {
+
+	@Autowired
+	public AliasReplacer replacer;
+
+	@Autowired
+	public AutoImporter importer;
 
 	public long timestamp;
 
@@ -26,12 +36,12 @@ public class PostProcessorImpl implements PostProcessor {
 
 	@Override
 	public void postBeforeProcessor(Map<String, File> files, Map<String, IClass> allClasses) {
-		AutoImporter.doImport(files, allClasses);
+		importer.doImport(files, allClasses);
 	}
 
 	@Override
 	public String postCodeProcessor(String[] args, IClass clazz, String code) {
-		code = AliasReplacer.replace(clazz, code);
+		code = replacer.replace(clazz, code);
 		System.out.println(code);
 		return code;
 	}

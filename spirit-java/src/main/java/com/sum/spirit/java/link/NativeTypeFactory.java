@@ -8,16 +8,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.TypeTable;
 
+@Component
 public class NativeTypeFactory {
 
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public TypeFactory factory;
 
-	public static IType create(Class<?> clazz) {
+	public IType create(Class<?> clazz) {
 		IType type = factory.create(clazz.getName());
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		if (typeVariables != null && typeVariables.length > 0) {
@@ -30,7 +34,7 @@ public class NativeTypeFactory {
 		return type;
 	}
 
-	public static IType create(Type nativeType) {
+	public IType create(Type nativeType) {
 		if (nativeType instanceof Class) {// String
 			return create((Class<?>) nativeType);
 

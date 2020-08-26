@@ -1,6 +1,8 @@
 package com.sum.spirit.core.deduce;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.MemberVisiter;
 import com.sum.spirit.api.deduce.VariableTracker;
 import com.sum.spirit.api.link.ClassLinker;
@@ -16,13 +18,17 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 
+@Component
 public class VariableTrackerImpl implements VariableTracker {
 
-	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
+	@Autowired
+	public MemberVisiter visiter;
 
-	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
+	@Autowired
+	public ClassLinker linker;
 
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	public void track(IClass clazz, MethodContext context, Statement statement) {

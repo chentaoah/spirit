@@ -3,7 +3,9 @@ package com.sum.spirit.core.deduce;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.deduce.InvokeVisiter;
 import com.sum.spirit.api.link.ClassLinker;
@@ -15,11 +17,17 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
+@Component
 public class InvokeVisiterImpl implements InvokeVisiter {
 
-	public static FastDeducer deducer = ProxyFactory.get(FastDeducer.class);
-	public static ClassLinker linker = ProxyFactory.get(ClassLinker.class);
-	public static TypeFactory factory = ProxyFactory.get(TypeFactory.class);
+	@Autowired
+	public FastDeducer deducer;
+
+	@Autowired
+	public ClassLinker linker;
+
+	@Autowired
+	public TypeFactory factory;
 
 	@Override
 	public void visit(IClass clazz, Statement statement) {

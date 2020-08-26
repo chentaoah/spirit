@@ -5,7 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.pisces.core.ProxyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.ClassResolver;
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.api.DocumentReader;
@@ -16,12 +18,20 @@ import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.utils.TypeUtils;
 
+@Component
 public class CompilerImpl implements Compiler {
 
-	public static DocumentReader reader = ProxyFactory.get(DocumentReader.class);
-	public static ClassResolver resolver = ProxyFactory.get(ClassResolver.class);
-	public static MemberVisiter visiter = ProxyFactory.get(MemberVisiter.class);
-	public static PostProcessor processor = ProxyFactory.get(PostProcessor.class);
+	@Autowired
+	public DocumentReader reader;
+
+	@Autowired
+	public ClassResolver resolver;
+
+	@Autowired
+	public MemberVisiter visiter;
+
+	@Autowired
+	public PostProcessor processor;
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {

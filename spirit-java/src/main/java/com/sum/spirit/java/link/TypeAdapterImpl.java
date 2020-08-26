@@ -3,9 +3,12 @@ package com.sum.spirit.java.link;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.link.TypeAdapter;
 import com.sum.spirit.pojo.clazz.IType;
 
+@Component
 public class TypeAdapterImpl implements TypeAdapter {
 
 	public static final Map<String, IType> TYPE_MAPPING = new ConcurrentHashMap<>();

@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Component;
+
 import com.sum.spirit.api.lexer.Lexer;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.common.Symbol;
 import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.utils.LineUtils;
 
+@Component
 public class LexerImpl implements Lexer {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
