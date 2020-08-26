@@ -15,13 +15,13 @@ import com.sum.spirit.utils.FileUtils;
 
 public class JavaStarter {
 
-	@SuppressWarnings("resource")
-	public static void main(String[] args) {
+	public static final String SCAN_PACKAGE = "com.sum.spirit";
+	public static ApplicationContext context = new AnnotationConfigApplicationContext(SCAN_PACKAGE);
+	public static Compiler compiler = context.getBean(Compiler.class);
+	public static CodeBuilder builder = context.getBean(CodeBuilder.class);
+	public static PostProcessor processor = context.getBean(PostProcessor.class);
 
-		ApplicationContext context = new AnnotationConfigApplicationContext("com.sum.spirit");
-		Compiler compiler = context.getBean(Compiler.class);
-		CodeBuilder builder = context.getBean(CodeBuilder.class);
-		PostProcessor processor = context.getBean(PostProcessor.class);
+	public static void main(String[] args) {
 
 		processor.postStartProcessor(args);
 
