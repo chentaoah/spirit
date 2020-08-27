@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.spirit.api.lexer.SemanticParser;
-import com.sum.spirit.api.link.TypeAdapter;
+import com.sum.spirit.api.link.NativeLoader;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.utils.SpringUtils;
@@ -95,26 +95,26 @@ public class TypeTable {
 		PRIMITIVE_ARRAY_MAPPING.put("float[]", FLOAT_ARRAY_TYPE);
 		PRIMITIVE_ARRAY_MAPPING.put("double[]", DOUBLE_ARRAY_TYPE);
 
-		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
-		if (adapter != null) {
-			VOID_WRAPPED_TYPE = adapter.adapte("VOID_WRAPPED_TYPE");
-			BOOLEAN_WRAPPED_TYPE = adapter.adapte("BOOLEAN_WRAPPED_TYPE");
-			CHAR_WRAPPED_TYPE = adapter.adapte("CHAR_WRAPPED_TYPE");
-			BYTE_WRAPPED_TYPE = adapter.adapte("BYTE_WRAPPED_TYPE");
-			SHORT_WRAPPED_TYPE = adapter.adapte("SHORT_WRAPPED_TYPE");
-			INT_WRAPPED_TYPE = adapter.adapte("INT_WRAPPED_TYPE");
-			LONG_WRAPPED_TYPE = adapter.adapte("LONG_WRAPPED_TYPE");
-			FLOAT_WRAPPED_TYPE = adapter.adapte("FLOAT_WRAPPED_TYPE");
-			DOUBLE_WRAPPED_TYPE = adapter.adapte("DOUBLE_WRAPPED_TYPE");
-			OBJECT_TYPE = adapter.adapte("OBJECT_TYPE");
-			STRING_TYPE = adapter.adapte("STRING_TYPE");
-			OBJECT_ARRAY_TYPE = adapter.adapte("OBJECT_ARRAY_TYPE");
-			STRING_ARRAY_TYPE = adapter.adapte("STRING_ARRAY_TYPE");
-			CLASS_TYPE = adapter.adapte("CLASS_TYPE");
-			LIST_TYPE = adapter.adapte("LIST_TYPE");
-			MAP_TYPE = adapter.adapte("MAP_TYPE");
-			NULL_TYPE = adapter.adapte("NULL_TYPE");
-			WILDCARD_TYPE = adapter.adapte("WILDCARD_TYPE");
+		NativeLoader loader = SpringUtils.getBean(NativeLoader.class);
+		if (loader != null) {
+			VOID_WRAPPED_TYPE = loader.loadType("VOID_WRAPPED_TYPE");
+			BOOLEAN_WRAPPED_TYPE = loader.loadType("BOOLEAN_WRAPPED_TYPE");
+			CHAR_WRAPPED_TYPE = loader.loadType("CHAR_WRAPPED_TYPE");
+			BYTE_WRAPPED_TYPE = loader.loadType("BYTE_WRAPPED_TYPE");
+			SHORT_WRAPPED_TYPE = loader.loadType("SHORT_WRAPPED_TYPE");
+			INT_WRAPPED_TYPE = loader.loadType("INT_WRAPPED_TYPE");
+			LONG_WRAPPED_TYPE = loader.loadType("LONG_WRAPPED_TYPE");
+			FLOAT_WRAPPED_TYPE = loader.loadType("FLOAT_WRAPPED_TYPE");
+			DOUBLE_WRAPPED_TYPE = loader.loadType("DOUBLE_WRAPPED_TYPE");
+			OBJECT_TYPE = loader.loadType("OBJECT_TYPE");
+			STRING_TYPE = loader.loadType("STRING_TYPE");
+			OBJECT_ARRAY_TYPE = loader.loadType("OBJECT_ARRAY_TYPE");
+			STRING_ARRAY_TYPE = loader.loadType("STRING_ARRAY_TYPE");
+			CLASS_TYPE = loader.loadType("CLASS_TYPE");
+			LIST_TYPE = loader.loadType("LIST_TYPE");
+			MAP_TYPE = loader.loadType("MAP_TYPE");
+			NULL_TYPE = loader.loadType("NULL_TYPE");
+			WILDCARD_TYPE = loader.loadType("WILDCARD_TYPE");
 		} else {
 			throw new RuntimeException("Basic types must be provided!");
 		}
@@ -141,9 +141,9 @@ public class TypeTable {
 		if (type != null)
 			return type.getClassName();
 
-		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
-		if (adapter != null)
-			className = adapter.provide(simpleName);
+		NativeLoader loader = SpringUtils.getBean(NativeLoader.class);
+		if (loader != null)
+			className = loader.findCommonType(simpleName);
 
 		return StringUtils.isNotEmpty(className) ? className : null;
 	}
