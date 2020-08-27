@@ -102,4 +102,6 @@ public class Constants {
 	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
 	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
 
+	public static final String ARRAY_LENGTH = "length";
+
 }

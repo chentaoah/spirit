@@ -20,8 +20,6 @@ import com.sum.spirit.pojo.exception.NoSuchMethodException;
 @Primary
 public class AdaptiveLinker implements ClassLinker {
 
-	public static final String ARRAY_LENGTH = "length";
-
 	@Autowired
 	@Qualifier("codeLinker")
 	public ClassLinker codeLinker;
@@ -68,7 +66,7 @@ public class AdaptiveLinker implements ClassLinker {
 			throw new RuntimeException("The primitive type has no field!");
 
 		// 访问数组length直接返回int类型
-		if (type.isArray() && ARRAY_LENGTH.equals(fieldName))
+		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
 			return TypeTable.INT_TYPE;
 
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
