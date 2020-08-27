@@ -2,7 +2,6 @@ package com.sum.spirit.core.link;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -115,7 +114,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).split(",");
-		return create(List.class.getName(), getGenericType(clazz, statements));
+		return create(TypeTable.LIST_TYPE.getClassName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -127,7 +126,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(Map.class.getName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(TypeTable.MAP_TYPE.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {

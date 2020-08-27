@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
+import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
@@ -55,7 +56,7 @@ public class StrLogicalConverter implements ElementConverter {
 		int start = TreeUtils.findStart(statement, index);
 		Statement lastStatement = statement.subStmt(start, index);
 		IType type = deducer.derive(clazz, lastStatement);
-		if (type.isStr()) {
+		if (TypeUtils.isStr(type)) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastStatement);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
@@ -70,7 +71,7 @@ public class StrLogicalConverter implements ElementConverter {
 		int end = TreeUtils.findEnd(statement, index);
 		Statement nextStatement = statement.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextStatement);
-		if (type.isStr()) {
+		if (TypeUtils.isStr(type)) {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextStatement);
 			Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);

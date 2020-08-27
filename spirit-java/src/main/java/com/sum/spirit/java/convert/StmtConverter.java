@@ -10,6 +10,7 @@ import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.lexer.ElementBuilder;
 import com.sum.spirit.java.build.TypeBuilder;
+import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IType;
@@ -56,7 +57,7 @@ public class StmtConverter implements ElementConverter {
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);
 			IType type = deducer.derive(clazz, statement);
-			if (type.isStr()) {
+			if (TypeUtils.isStr(type)) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", statement);
 				element.replace(1, element.size() - 1, new Token(Constants.CUSTOM_EXPRESS_TOKEN, text));
 			}

@@ -43,6 +43,10 @@ public class TypeTable {
 	public static final IType OBJECT_ARRAY_TYPE;
 	public static final IType STRING_ARRAY_TYPE;
 
+	public static final IType CLASS_TYPE;
+	public static final IType LIST_TYPE;
+	public static final IType MAP_TYPE;
+
 	public static final IType NULL_TYPE;
 	public static final IType WILDCARD_TYPE;
 
@@ -81,10 +85,13 @@ public class TypeTable {
 			STRING_TYPE = adapter.adapte("STRING_TYPE");
 			OBJECT_ARRAY_TYPE = adapter.adapte("OBJECT_ARRAY_TYPE");
 			STRING_ARRAY_TYPE = adapter.adapte("STRING_ARRAY_TYPE");
+			CLASS_TYPE = adapter.adapte("CLASS_TYPE");
+			LIST_TYPE = adapter.adapte("LIST_TYPE");
+			MAP_TYPE = adapter.adapte("MAP_TYPE");
 			NULL_TYPE = adapter.adapte("NULL_TYPE");
 			WILDCARD_TYPE = adapter.adapte("WILDCARD_TYPE");
 		} else {
-			throw new RuntimeException("Implementations of all basic types must be provided!");
+			throw new RuntimeException("Basic types must be provided!");
 		}
 	}
 

@@ -29,6 +29,10 @@ public class NativeAdapter implements TypeAdapter {
 		TYPE_MAPPING.put("OBJECT_ARRAY_TYPE", IType.build("[Ljava.lang.Object;", "Object[]", "java.lang.Object[]", false, true/* array */, false, false, true));
 		TYPE_MAPPING.put("STRING_ARRAY_TYPE", IType.build("[Ljava.lang.String;", "String[]", "java.lang.String[]", false, true/* array */, false, false, true));
 
+		TYPE_MAPPING.put("CLASS_TYPE", IType.build("java.lang.Class", "Class", "java.lang.Class", false, false, false, false, true));
+		TYPE_MAPPING.put("LIST_TYPE", IType.build("java.util.List", "List", "java.util.List", false, false, false, false, true));
+		TYPE_MAPPING.put("MAP_TYPE", IType.build("java.util.Map", "Map", "java.util.Map", false, false, false, false, true));
+
 		TYPE_MAPPING.put("NULL_TYPE", IType.build("java.lang.Object", "Object", "java.lang.Object", false, false, true/* null */, false, true));
 		TYPE_MAPPING.put("WILDCARD_TYPE", IType.build("java.lang.Object", "Object", "java.lang.Object", false, false, false, true/* wildcard */, true));
 	}

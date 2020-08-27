@@ -61,7 +61,7 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// xxx.class class是关键字
 		if (Constants.CLASS_KEYWORD.equals(fieldName))
-			return factory.create(Class.class.getName(), type.getWrappedType());
+			return factory.create(TypeTable.CLASS_TYPE.getClassName(), type.getWrappedType());
 
 		// 原始类型没有属性和方法
 		if (type.isPrimitive())

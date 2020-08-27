@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
+import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
@@ -43,12 +44,12 @@ public class StrEqualsConverter implements ElementConverter {
 				int start = TreeUtils.findStart(statement, index);
 				Statement lastStatement = statement.subStmt(start, index);
 				IType lastType = deducer.derive(clazz, lastStatement);
-				if (lastType.isStr()) {
+				if (TypeUtils.isStr(lastType)) {
 
 					int end = TreeUtils.findEnd(statement, index);
 					Statement nextStatement = statement.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextStatement);
-					if (nextType.isStr()) {
+					if (TypeUtils.isStr(nextType)) {
 
 						String format = null;
 						if ("==".equals(token.toString())) {
