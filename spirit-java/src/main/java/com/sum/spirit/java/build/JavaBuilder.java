@@ -9,7 +9,6 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
-import com.sum.spirit.java.api.AnnotationConverter;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
@@ -24,15 +23,9 @@ import com.sum.spirit.utils.SpringUtils;
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder {
 
-	public List<AnnotationConverter> annoConverters;
-
 	public List<ElementConverter> converters;
 
 	public JavaBuilder() {
-		Map<String, AnnotationConverter> annoConverterMap = SpringUtils.getBeansOfType(AnnotationConverter.class);
-		annoConverters = new ArrayList<>(annoConverterMap.values());
-		annoConverters.sort(new AnnotationAwareOrderComparator());
-
 		Map<String, ElementConverter> converterMap = SpringUtils.getBeansOfType(ElementConverter.class);
 		converters = new ArrayList<>(converterMap.values());
 		converters.sort(new AnnotationAwareOrderComparator());
@@ -67,11 +60,8 @@ public class JavaBuilder implements CodeBuilder {
 			builder.append("\n");
 
 		// annotation
-		for (IAnnotation annotation : clazz.annotations) {
-			annotation = convert(clazz, annotation);
-			if (annotation != null)
-				builder.append(annotation + "\n");
-		}
+		for (IAnnotation annotation : clazz.annotations)
+			builder.append(annotation + "\n");
 
 		return builder.toString();
 	}
@@ -91,11 +81,8 @@ public class JavaBuilder implements CodeBuilder {
 			Element element = method.element;
 
 			// annotation
-			for (IAnnotation annotation : method.annotations) {
-				annotation = convert(clazz, annotation);
-				if (annotation != null)
-					methodsStr.append("\t" + annotation + "\n");
-			}
+			for (IAnnotation annotation : method.annotations)
+				methodsStr.append("\t" + annotation + "\n");
 
 			// If this method is the main method
 			if (method.isStatic() && "main".equals(method.name)) {
@@ -136,11 +123,9 @@ public class JavaBuilder implements CodeBuilder {
 		// public static type + element
 		for (IField field : clazz.fields) {
 			// annotation
-			for (IAnnotation annotation : field.annotations) {
-				annotation = convert(clazz, annotation);
-				if (annotation != null)
-					fieldsStr.append("\t" + annotation + "\n");
-			}
+			for (IAnnotation annotation : field.annotations)
+				fieldsStr.append("\t" + annotation + "\n");
+
 			field.element.replaceModifier(Constants.CONST_KEYWORD, Constants.FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
@@ -158,14 +143,6 @@ public class JavaBuilder implements CodeBuilder {
 			if (element.hasChild())
 				convertMethodElement(builder, indent + "\t", clazz, element);
 		}
-	}
-
-	public IAnnotation convert(IClass clazz, IAnnotation annotation) {
-		for (AnnotationConverter converter : annoConverters) {
-			if (converter.isMatch(clazz, annotation))
-				return converter.convert(clazz, annotation);
-		}
-		return annotation;
 	}
 
 	public Element convert(IClass clazz, Element element) {
