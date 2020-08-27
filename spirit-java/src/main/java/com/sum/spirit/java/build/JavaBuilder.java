@@ -9,8 +9,8 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
-import com.sum.spirit.api.convert.AnnotationConverter;
-import com.sum.spirit.api.convert.ElementConverter;
+import com.sum.spirit.java.api.AnnotationConverter;
+import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;

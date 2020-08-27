@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.convert.ElementConverter;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.lexer.ElementBuilder;
+import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.build.TypeBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;

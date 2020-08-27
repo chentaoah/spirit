@@ -1,6 +1,6 @@
 package com.sum.spirit.test.example;
 
-import com.sum.spirit.api.convert.AnnotationConverter;
+import com.sum.spirit.java.api.AnnotationConverter;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 

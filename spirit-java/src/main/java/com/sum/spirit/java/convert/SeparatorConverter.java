@@ -3,7 +3,7 @@ package com.sum.spirit.java.convert;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.convert.ElementConverter;
+import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Element;
