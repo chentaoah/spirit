@@ -20,15 +20,10 @@ public class SemanticParserImpl implements SemanticParser {
 
 	@Override
 	public Token getToken(String word) {
-
 		Token token = new Token();
-		// 1.get token type
 		getTokenType(word, token);
-		// 2.get token value
 		getTokenValue(word, token);
-		// 3.get token Attachments
-		getAttachments(word, token);
-
+		getTokenAttas(word, token);
 		return token;
 	}
 
@@ -118,9 +113,11 @@ public class SemanticParserImpl implements SemanticParser {
 		return new Statement(tokens);
 	}
 
-	public void getAttachments(String word, Token token) {
+	public void getTokenAttas(String word, Token token) {
+		if (token.isAnnotation()) {
+			token.setSimpleName(getAnnotationName(word));
 
-		if (token.isArrayInit()) {
+		} else if (token.isArrayInit()) {
 			token.setSimpleName(getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
@@ -132,6 +129,12 @@ public class SemanticParserImpl implements SemanticParser {
 		} else if (token.isAccess()) {
 			token.setMemberName(getPrefix(word));
 		}
+	}
+
+	private String getAnnotationName(String word) {
+		if (word.contains("("))
+			word = word.substring(0, word.indexOf('('));
+		return word.substring(word.indexOf('@') + 1);
 	}
 
 	public String getPrefix(String word) {

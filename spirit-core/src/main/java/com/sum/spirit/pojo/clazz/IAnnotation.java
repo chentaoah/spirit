@@ -7,6 +7,8 @@ public class IAnnotation {
 
 	public Token token;
 
+	public IType type;
+
 	public IAnnotation(Element element) {
 		this(element.getToken(0));
 	}

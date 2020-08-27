@@ -1,17 +1,26 @@
 package com.sum.spirit.api;
 
+import java.util.List;
 import java.util.Map;
 
+import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.AbsMember;
+import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.utils.SpringUtils;
 
 public interface MemberVisiter {
 
 	default void visit(Map<String, IClass> allClasses) {
+		for (IClass clazz : allClasses.values()) {
+			visitAnnotations(clazz, clazz.annotations);
+			clazz.fields.forEach((field) -> visitAnnotations(clazz, field.annotations));
+			clazz.methods.forEach((method) -> visitAnnotations(clazz, method.annotations));
+		}
 		for (IClass clazz : allClasses.values())
 			clazz.methods.forEach((method) -> visitParameters(clazz, method));
 
@@ -36,6 +45,11 @@ public interface MemberVisiter {
 		}
 		member.unLock();
 		return type;
+	}
+
+	default void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
+		annotations.forEach((annotation) -> annotation.type = factory.create(clazz, annotation.token));
 	}
 
 	void visitParameters(IClass clazz, IMethod method);
