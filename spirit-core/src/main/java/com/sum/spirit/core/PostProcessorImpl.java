@@ -1,16 +1,23 @@
 package com.sum.spirit.core;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.ClassEnhancer;
 import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Document;
+import com.sum.spirit.utils.SpringUtils;
 
 @Component
+@DependsOn("springUtils")
 public class PostProcessorImpl implements PostProcessor {
 
 	@Autowired
@@ -19,6 +26,14 @@ public class PostProcessorImpl implements PostProcessor {
 	public AutoImporter importer;
 
 	public long timestamp;
+
+	public List<ClassEnhancer> enhancers;
+
+	public PostProcessorImpl() {
+		Map<String, ClassEnhancer> enhancerMap = SpringUtils.getBeansOfType(ClassEnhancer.class);
+		enhancers = new ArrayList<>(enhancerMap.values());
+		enhancers.sort(new AnnotationAwareOrderComparator());
+	}
 
 	@Override
 	public void whenApplicationStart(String[] args) {
@@ -40,7 +55,7 @@ public class PostProcessorImpl implements PostProcessor {
 
 	@Override
 	public void whenClassCompileFinish(IClass clazz) {
-
+		enhancers.forEach((enhancer) -> enhancer.enhance(clazz));
 	}
 
 	@Override

@@ -33,12 +33,9 @@ public class JavaBuilder implements CodeBuilder {
 
 	@Override
 	public String build(IClass clazz) {
-		StringBuilder builder = new StringBuilder();
-		// When building a method, sometimes imports and fields is added
-		// dynamically, so execute the method first
 		String body = buildBody(clazz);
 		String head = buildHead(clazz);
-		return builder.append(head).append(body).toString();
+		return new StringBuilder().append(head).append(body).toString();
 	}
 
 	public String buildHead(IClass clazz) {
