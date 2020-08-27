@@ -6,7 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.link.TypeAdapter;
+import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.utils.TypeUtils;
 
 @Component
 public class NativeAdapter implements TypeAdapter {
@@ -40,6 +42,11 @@ public class NativeAdapter implements TypeAdapter {
 	@Override
 	public IType adapte(String name) {
 		return TYPE_MAPPING.get(name);
+	}
+
+	@Override
+	public String provide(String simpleName) {
+		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 
 }

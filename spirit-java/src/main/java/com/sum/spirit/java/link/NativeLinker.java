@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
-import com.sum.spirit.utils.ReflectUtils;
 
 @Component
 public class NativeLinker implements ClassLinker {

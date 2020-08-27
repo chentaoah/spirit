@@ -3,9 +3,7 @@ package com.sum.spirit.pojo.common;
 import com.sum.spirit.api.link.TypeAdapter;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.utils.ReflectUtils;
 import com.sum.spirit.utils.SpringUtils;
-import com.sum.spirit.utils.TypeUtils;
 
 public class TypeTable {
 
@@ -212,7 +210,9 @@ public class TypeTable {
 			return DOUBLE_ARRAY_TYPE.getClassName();
 		}
 
-		className = ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
+		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
+		if (adapter != null)
+			className = adapter.provide(simpleName);
 
 		return StringUtils.isNotEmpty(className) ? className : null;
 	}

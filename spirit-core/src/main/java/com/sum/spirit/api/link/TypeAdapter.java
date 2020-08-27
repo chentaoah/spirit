@@ -6,4 +6,6 @@ public interface TypeAdapter {
 
 	IType adapte(String name);
 
+	String provide(String simpleName);
+
 }
