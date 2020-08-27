@@ -8,26 +8,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.link.TypeFactoryImpl;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.TypeTable;
 
 @Component
-public class NativeFactory {
-
-	@Autowired
-	public TypeFactory factory;
+public class NativeFactory extends TypeFactoryImpl {
 
 	public IType create(Class<?> clazz) {
-		IType type = factory.create(clazz.getName());
+		IType type = create(clazz.getName());
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		if (typeVariables != null && typeVariables.length > 0) {
 			List<IType> genericTypes = new ArrayList<>();
 			for (TypeVariable<?> typeVariable : typeVariables)
-				genericTypes.add(factory.createTypeVariable(typeVariable.toString()));
+				genericTypes.add(createTypeVariable(typeVariable.toString()));
 			// Note that this is a non modifiable list
 			type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		}
@@ -42,7 +38,7 @@ public class NativeFactory {
 			return TypeTable.WILDCARD_TYPE;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
-			return factory.createTypeVariable(nativeType.toString());
+			return createTypeVariable(nativeType.toString());
 
 		} else if (nativeType instanceof ParameterizedType) {// List<T>
 			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
@@ -50,7 +46,7 @@ public class NativeFactory {
 			List<IType> genericTypes = new ArrayList<>();
 			for (Type actualType : parameterizedType.getActualTypeArguments())
 				genericTypes.add(create(actualType));
-			return factory.create(rawType.getName(), genericTypes);
+			return create(rawType.getName(), genericTypes);
 		}
 		throw new RuntimeException("Unknown type!");
 	}

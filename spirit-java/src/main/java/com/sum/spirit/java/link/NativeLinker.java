@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.link.ClassLinker;
-import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
@@ -26,10 +25,7 @@ import com.sum.spirit.pojo.exception.NoSuchMethodException;
 public class NativeLinker implements ClassLinker {
 
 	@Autowired
-	public TypeFactory factory;
-
-	@Autowired
-	public NativeFactory nativeFactory;
+	public NativeFactory factory;
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -53,7 +49,7 @@ public class NativeLinker implements ClassLinker {
 	public IType getSuperType(IType type) {
 		Class<?> clazz = toClass(type);
 		Type nativeSuperType = clazz.getGenericSuperclass();
-		IType superType = nativeSuperType != null ? nativeFactory.create(nativeSuperType) : null;
+		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
 		return factory.populate(type, superType);
 	}
 
@@ -62,7 +58,7 @@ public class NativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (Type interfaceType : clazz.getGenericInterfaces())
-			interfaceTypes.add(factory.populate(type, nativeFactory.create(interfaceType)));
+			interfaceTypes.add(factory.populate(type, factory.create(interfaceType)));
 		return interfaceTypes;
 	}
 
@@ -168,7 +164,7 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, Type nativeType) {
-		return populate(type, qualifyingTypes, mappingType, nativeFactory.create(nativeType));
+		return populate(type, qualifyingTypes, mappingType, factory.create(nativeType));
 	}
 
 	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType mappingType, IType nativeType) {

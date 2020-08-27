@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.deduce.FastDeducer;
@@ -19,6 +20,7 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
+@Primary
 public class TypeFactoryImpl implements TypeFactory {
 
 	@Autowired
