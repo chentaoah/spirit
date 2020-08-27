@@ -217,17 +217,4 @@ public class TypeTable {
 		return StringUtils.isNotEmpty(className) ? className : null;
 	}
 
-	public static void main(String[] args) throws Exception {
-		Class<?>[] classes = new Class[] { boolean.class, boolean[].class, char.class, char[].class, short.class, short[].class, int.class, int[].class,
-				long.class, long[].class, float.class, float[].class, double.class, double[].class, byte.class, byte[].class, Object.class, Object[].class,
-				String.class, String[].class };
-		for (Class<?> clazz : classes) {
-			System.out.println("=== " + clazz.getSimpleName() + ".class ===");
-			System.out.println(clazz.getName());
-			System.out.println(clazz.getSimpleName());
-			System.out.println(clazz.getTypeName());
-			System.out.println(clazz.isPrimitive());
-			System.out.println(clazz.isArray());
-		}
-	}
 }
