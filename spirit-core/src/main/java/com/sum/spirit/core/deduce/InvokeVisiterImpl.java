@@ -22,10 +22,8 @@ public class InvokeVisiterImpl implements InvokeVisiter {
 
 	@Autowired
 	public FastDeducer deducer;
-
 	@Autowired
 	public ClassLinker linker;
-
 	@Autowired
 	public TypeFactory factory;
 
