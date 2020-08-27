@@ -4,6 +4,6 @@ import com.sum.spirit.pojo.clazz.IType;
 
 public interface TypeAdapter {
 
-	IType adapte(IType type);
+	IType adapte(String name);
 
 }

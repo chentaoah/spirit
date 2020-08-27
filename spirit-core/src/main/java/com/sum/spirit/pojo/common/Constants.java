@@ -1,5 +1,7 @@
 package com.sum.spirit.pojo.common;
 
+import java.lang.reflect.Modifier;
+
 public class Constants {
 
 	public static final String PACKAGE_KEYWORD = "package";// 高频出现的几个关键字
@@ -95,5 +97,9 @@ public class Constants {
 	public static final String CUSTOM_PREFIX_TOKEN = "custom_prefix";// 自定义前缀
 	public static final String CUSTOM_SUFFIX_TOKEN = "custom_suffix";// 自定义后缀
 	public static final String CUSTOM_EXPRESS_TOKEN = "custom_express";// 自定义表达式
+
+	public static final int THIS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
+	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
+	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
 
 }

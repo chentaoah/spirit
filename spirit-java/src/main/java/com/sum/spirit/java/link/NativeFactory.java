@@ -16,7 +16,7 @@ import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.TypeTable;
 
 @Component
-public class NativeTypeFactory {
+public class NativeFactory {
 
 	@Autowired
 	public TypeFactory factory;

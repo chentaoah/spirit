@@ -47,90 +47,64 @@ public class TypeTable {
 	public static final IType WILDCARD_TYPE;
 
 	static {
-		VOID_TYPE = build("void", "void", "void", true/* primitive */, false, false, false);
-		BOOLEAN_TYPE = build("boolean", "boolean", "boolean", true/* primitive */, false, false, false);
-		CHAR_TYPE = build("char", "char", "char", true/* primitive */, false, false, false);
-		BYTE_TYPE = build("byte", "byte", "byte", true/* primitive */, false, false, false);
-		SHORT_TYPE = build("short", "short", "short", true/* primitive */, false, false, false);
-		INT_TYPE = build("int", "int", "int", true/* primitive */, false, false, false);
-		LONG_TYPE = build("long", "long", "long", true/* primitive */, false, false, false);
-		FLOAT_TYPE = build("float", "float", "float", true/* primitive */, false, false, false);
-		DOUBLE_TYPE = build("double", "double", "double", true/* primitive */, false, false, false);
+		VOID_TYPE = IType.build("void", "void", "void", true/* primitive */, false, false, false, false);
+		BOOLEAN_TYPE = IType.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
+		CHAR_TYPE = IType.build("char", "char", "char", true/* primitive */, false, false, false, false);
+		BYTE_TYPE = IType.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
+		SHORT_TYPE = IType.build("short", "short", "short", true/* primitive */, false, false, false, false);
+		INT_TYPE = IType.build("int", "int", "int", true/* primitive */, false, false, false, false);
+		LONG_TYPE = IType.build("long", "long", "long", true/* primitive */, false, false, false, false);
+		FLOAT_TYPE = IType.build("float", "float", "float", true/* primitive */, false, false, false, false);
+		DOUBLE_TYPE = IType.build("double", "double", "double", true/* primitive */, false, false, false, false);
 
-		BOOLEAN_ARRAY_TYPE = build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false);
-		CHAR_ARRAY_TYPE = build("[C", "char[]", "char[]", false, true/* array */, false, false);
-		BYTE_ARRAY_TYPE = build("[B", "byte[]", "byte[]", false, true/* array */, false, false);
-		SHORT_ARRAY_TYPE = build("[S", "short[]", "short[]", false, true/* array */, false, false);
-		INT_ARRAY_TYPE = build("[I", "int[]", "int[]", false, true/* array */, false, false);
-		LONG_ARRAY_TYPE = build("[J", "long[]", "long[]", false, true/* array */, false, false);
-		FLOAT_ARRAY_TYPE = build("[F", "float[]", "float[]", false, true/* array */, false, false);
-		DOUBLE_ARRAY_TYPE = build("[D", "double[]", "double[]", false, true/* array */, false, false);
+		BOOLEAN_ARRAY_TYPE = IType.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
+		CHAR_ARRAY_TYPE = IType.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
+		BYTE_ARRAY_TYPE = IType.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
+		SHORT_ARRAY_TYPE = IType.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
+		INT_ARRAY_TYPE = IType.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
+		LONG_ARRAY_TYPE = IType.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
+		FLOAT_ARRAY_TYPE = IType.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
+		DOUBLE_ARRAY_TYPE = IType.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
-		VOID_WRAPPED_TYPE = build("spirit.lang.Void", "Void", "spirit.lang.Void", false, false, false, false);
-		BOOLEAN_WRAPPED_TYPE = build("spirit.lang.Boolean", "Boolean", "spirit.lang.Boolean", false, false, false, false);
-		CHAR_WRAPPED_TYPE = build("spirit.lang.Character", "Character", "spirit.lang.Character", false, false, false, false);
-		BYTE_WRAPPED_TYPE = build("spirit.lang.Byte", "Byte", "spirit.lang.Byte", false, false, false, false);
-		SHORT_WRAPPED_TYPE = build("spirit.lang.Short", "Short", "spirit.lang.Short", false, false, false, false);
-		INT_WRAPPED_TYPE = build("spirit.lang.Integer", "Integer", "spirit.lang.Integer", false, false, false, false);
-		LONG_WRAPPED_TYPE = build("spirit.lang.Long", "Long", "spirit.lang.Long", false, false, false, false);
-		FLOAT_WRAPPED_TYPE = build("spirit.lang.Float", "Float", "spirit.lang.Float", false, false, false, false);
-		DOUBLE_WRAPPED_TYPE = build("spirit.lang.Double", "Double", "spirit.lang.Double", false, false, false, false);
-
-		OBJECT_TYPE = build("spirit.lang.Object", "Object", "spirit.lang.Object", false, false, false, false);
-		STRING_TYPE = build("spirit.lang.String", "String", "spirit.lang.String", false, false, false, false);
-		OBJECT_ARRAY_TYPE = build("[Lspirit.lang.Object;", "Object[]", "spirit.lang.Object[]", false, true/* array */, false, false);
-		STRING_ARRAY_TYPE = build("[Lspirit.lang.String;", "String[]", "spirit.lang.String[]", false, true/* array */, false, false);
-
-		NULL_TYPE = build("spirit.lang.Object", "Object", "spirit.lang.Object", false, false, true/* null */, false);
-		WILDCARD_TYPE = build("spirit.lang.Object", "Object", "spirit.lang.Object", false, false, false, true/* wildcard */);
-	}
-
-	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull, boolean isWildcard) {
-		IType type = new IType();
-		type.setClassName(className);
-		type.setSimpleName(simpleName);
-		type.setTypeName(typeName);
-		type.setGenericName(null);
-		type.setPrimitive(isPrimitive);
-		type.setArray(isArray);
-		type.setNull(isNull);
-		type.setWildcard(isWildcard);
-		type.setNative(false);
-		type.setModifiers(IType.PUBLIC_MODIFIERS);
-		type.setGenericTypes(null);
-		// convert the type to native type
 		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
-		if (adapter != null)
-			return adapter.adapte(type);
-		return type;
+		if (adapter != null) {
+			VOID_WRAPPED_TYPE = adapter.adapte("VOID_WRAPPED_TYPE");
+			BOOLEAN_WRAPPED_TYPE = adapter.adapte("BOOLEAN_WRAPPED_TYPE");
+			CHAR_WRAPPED_TYPE = adapter.adapte("CHAR_WRAPPED_TYPE");
+			BYTE_WRAPPED_TYPE = adapter.adapte("BYTE_WRAPPED_TYPE");
+			SHORT_WRAPPED_TYPE = adapter.adapte("SHORT_WRAPPED_TYPE");
+			INT_WRAPPED_TYPE = adapter.adapte("INT_WRAPPED_TYPE");
+			LONG_WRAPPED_TYPE = adapter.adapte("LONG_WRAPPED_TYPE");
+			FLOAT_WRAPPED_TYPE = adapter.adapte("FLOAT_WRAPPED_TYPE");
+			DOUBLE_WRAPPED_TYPE = adapter.adapte("DOUBLE_WRAPPED_TYPE");
+			OBJECT_TYPE = adapter.adapte("OBJECT_TYPE");
+			STRING_TYPE = adapter.adapte("STRING_TYPE");
+			OBJECT_ARRAY_TYPE = adapter.adapte("OBJECT_ARRAY_TYPE");
+			STRING_ARRAY_TYPE = adapter.adapte("STRING_ARRAY_TYPE");
+			NULL_TYPE = adapter.adapte("NULL_TYPE");
+			WILDCARD_TYPE = adapter.adapte("WILDCARD_TYPE");
+		} else {
+			throw new RuntimeException("Implementations of all basic types must be provided!");
+		}
 	}
 
 	public static boolean isPrimitive(String className) {
-
 		if (VOID_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (BOOLEAN_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (CHAR_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (BYTE_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (SHORT_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (INT_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (LONG_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (FLOAT_TYPE.getClassName().equals(className)) {
 			return true;
-
 		} else if (DOUBLE_TYPE.getClassName().equals(className)) {
 			return true;
 		}
@@ -142,7 +116,6 @@ public class TypeTable {
 	}
 
 	public static IType getWrappedType(String className) {
-
 		if (VOID_TYPE.getClassName().equals(className)) {
 			return VOID_WRAPPED_TYPE;
 
@@ -174,7 +147,6 @@ public class TypeTable {
 	}
 
 	public static String getTargetName(String className) {
-
 		if (BOOLEAN_ARRAY_TYPE.getClassName().equals(className)) {
 			return BOOLEAN_TYPE.getClassName();
 

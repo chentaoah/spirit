@@ -1,6 +1,5 @@
 package com.sum.spirit.pojo.clazz;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,15 +9,12 @@ import com.google.common.base.Joiner;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.StringUtils;
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 public class IType {
-
-	public static final int THIS_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
-	public static final int SUPER_MODIFIERS = Modifier.PUBLIC | Modifier.PROTECTED;
-	public static final int PUBLIC_MODIFIERS = Modifier.PUBLIC;
 
 	private String className;
 	private String simpleName;
@@ -31,6 +27,23 @@ public class IType {
 	private boolean isNative;// 是否本地类型
 	private int modifiers;// 进行位运算后得到的修饰符
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
+
+	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull,
+			boolean isWildcard, boolean isNative) {
+		IType type = new IType();
+		type.setClassName(className);
+		type.setSimpleName(simpleName);
+		type.setTypeName(typeName);
+		type.setGenericName(null);
+		type.setPrimitive(isPrimitive);
+		type.setArray(isArray);
+		type.setNull(isNull);
+		type.setWildcard(isWildcard);
+		type.setNative(isNative);
+		type.setModifiers(Constants.PUBLIC_MODIFIERS);
+		type.setGenericTypes(new ArrayList<>());
+		return type;
+	}
 
 	public IType copy() {
 		IType type = new IType();
@@ -58,12 +71,12 @@ public class IType {
 	}
 
 	public IType toThis() {
-		this.setModifiers(IType.THIS_MODIFIERS);
+		this.setModifiers(Constants.THIS_MODIFIERS);
 		return this;
 	}
 
 	public IType toSuper() {
-		this.setModifiers(IType.SUPER_MODIFIERS);
+		this.setModifiers(Constants.SUPER_MODIFIERS);
 		return this;
 	}
 
@@ -81,11 +94,11 @@ public class IType {
 		if (superType == null)
 			return null;
 
-		if (modifiers == IType.THIS_MODIFIERS || modifiers == IType.SUPER_MODIFIERS) {
-			superType.setModifiers(IType.SUPER_MODIFIERS);
+		if (modifiers == Constants.THIS_MODIFIERS || modifiers == Constants.SUPER_MODIFIERS) {
+			superType.setModifiers(Constants.SUPER_MODIFIERS);
 
-		} else if (modifiers == IType.PUBLIC_MODIFIERS) {
-			superType.setModifiers(IType.PUBLIC_MODIFIERS);
+		} else if (modifiers == Constants.PUBLIC_MODIFIERS) {
+			superType.setModifiers(Constants.PUBLIC_MODIFIERS);
 		}
 
 		return superType;

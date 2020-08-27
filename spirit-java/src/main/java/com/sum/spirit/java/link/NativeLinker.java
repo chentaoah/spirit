@@ -29,7 +29,7 @@ public class NativeLinker implements ClassLinker {
 	public TypeFactory factory;
 
 	@Autowired
-	public NativeTypeFactory nativeFactory;
+	public NativeFactory nativeFactory;
 
 	@Override
 	@SuppressWarnings("unchecked")

@@ -12,6 +12,7 @@ import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Statement;
@@ -35,7 +36,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
-		type.setModifiers(IType.PUBLIC_MODIFIERS);
+		type.setModifiers(Constants.PUBLIC_MODIFIERS);
 		return type;
 	}
 
