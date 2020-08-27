@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.Lexer;
+import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
 @Component
-public class SemanticParserImpl extends AbsSemanticParser {
+public class SemanticParserImpl implements SemanticParser {
 
 	@Autowired
 	public Lexer lexer;

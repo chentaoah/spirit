@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.Lexer;
+import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.common.Symbol;
 import com.sum.spirit.pojo.common.SymbolTable;
@@ -114,7 +115,7 @@ public class LexerImpl implements Lexer {
 		// 6.continue splitting continuous access
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParserImpl.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParser.isDouble(word)) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(i);
 				words.addAll(i, subWords);
