@@ -22,16 +22,12 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 
 	@Autowired
 	public ElementBuilder builder;
-
 	@Autowired
 	public ElementVisiter elementVisiter;
-
 	@Autowired
 	public VariableTracker tracker;
-
 	@Autowired
 	public InvokeVisiter visiter;
-
 	@Autowired
 	public FastDeducer deducer;
 

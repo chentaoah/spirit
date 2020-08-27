@@ -27,7 +27,6 @@ public class MemberVisiterImpl implements MemberVisiter {
 
 	@Autowired
 	public ElementVisiter visiter;
-
 	@Autowired
 	public TypeFactory factory;
 

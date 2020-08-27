@@ -23,11 +23,9 @@ public class AdaptiveLinker implements ClassLinker {
 	@Autowired
 	@Qualifier("codeLinker")
 	public ClassLinker codeLinker;
-
 	@Autowired
 	@Qualifier("nativeLinker")
 	public ClassLinker nativeLinker;
-
 	@Autowired
 	public TypeFactory factory;
 

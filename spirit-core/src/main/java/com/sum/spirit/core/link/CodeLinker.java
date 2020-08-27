@@ -23,10 +23,8 @@ public class CodeLinker implements ClassLinker {
 
 	@Autowired
 	public MemberVisiter visiter;
-
 	@Autowired
 	public ClassLinker linker;
-
 	@Autowired
 	public TypeFactory factory;
 
