@@ -1,5 +1,9 @@
 package com.sum.spirit.pojo.common;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.api.link.TypeAdapter;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
@@ -48,6 +52,9 @@ public class TypeTable {
 	public static final IType NULL_TYPE;
 	public static final IType WILDCARD_TYPE;
 
+	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
+	public static final Map<String, IType> PRIMITIVE_ARRAY_MAPPING = new ConcurrentHashMap<>();
+
 	static {
 		VOID_TYPE = IType.build("void", "void", "void", true/* primitive */, false, false, false, false);
 		BOOLEAN_TYPE = IType.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
@@ -67,6 +74,26 @@ public class TypeTable {
 		LONG_ARRAY_TYPE = IType.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
 		FLOAT_ARRAY_TYPE = IType.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
 		DOUBLE_ARRAY_TYPE = IType.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
+
+		// Get target type by array type
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", BOOLEAN_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[C", CHAR_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[B", BYTE_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[S", SHORT_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[I", INT_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[J", LONG_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[F", FLOAT_TYPE);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[D", DOUBLE_TYPE);
+
+		// Get primitive type by array type
+		PRIMITIVE_ARRAY_MAPPING.put("boolean[]", BOOLEAN_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("char[]", CHAR_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("byte[]", BYTE_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("short[]", SHORT_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("int[]", INT_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("long[]", LONG_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("float[]", FLOAT_ARRAY_TYPE);
+		PRIMITIVE_ARRAY_MAPPING.put("double[]", DOUBLE_ARRAY_TYPE);
 
 		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
 		if (adapter != null) {
@@ -94,30 +121,31 @@ public class TypeTable {
 	}
 
 	public static boolean isPrimitive(String className) {
-		if (VOID_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (BOOLEAN_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (CHAR_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (BYTE_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (SHORT_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (INT_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (LONG_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (FLOAT_TYPE.getClassName().equals(className)) {
-			return true;
-		} else if (DOUBLE_TYPE.getClassName().equals(className)) {
-			return true;
-		}
-		return false;
+		return SemanticParser.isPrimitive(className);
 	}
 
-	public static String getPrimitive(String className) {
-		return isPrimitive(className) ? className : null;
+	public static String getTargetNameByPrimitiveArray(String className) {
+		IType type = PRIMITIVE_ARRAY_TARGET_MAPPING.get(className);
+		if (type != null)
+			return type.getClassName();
+		return null;
+	}
+
+	public static String getClassName(String simpleName) {
+
+		String className = isPrimitive(simpleName) ? simpleName : null;
+		if (StringUtils.isNotEmpty(className))
+			return className;
+
+		IType type = PRIMITIVE_ARRAY_MAPPING.get(simpleName);
+		if (type != null)
+			return type.getClassName();
+
+		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
+		if (adapter != null)
+			className = adapter.provide(simpleName);
+
+		return StringUtils.isNotEmpty(className) ? className : null;
 	}
 
 	public static IType getWrappedType(String className) {
@@ -149,72 +177,6 @@ public class TypeTable {
 			return DOUBLE_WRAPPED_TYPE;
 		}
 		return null;
-	}
-
-	public static String getTargetName(String className) {
-		if (BOOLEAN_ARRAY_TYPE.getClassName().equals(className)) {
-			return BOOLEAN_TYPE.getClassName();
-
-		} else if (CHAR_ARRAY_TYPE.getClassName().equals(className)) {
-			return CHAR_TYPE.getClassName();
-
-		} else if (BYTE_ARRAY_TYPE.getClassName().equals(className)) {
-			return BYTE_TYPE.getClassName();
-
-		} else if (SHORT_ARRAY_TYPE.getClassName().equals(className)) {
-			return SHORT_TYPE.getClassName();
-
-		} else if (INT_ARRAY_TYPE.getClassName().equals(className)) {
-			return INT_TYPE.getClassName();
-
-		} else if (LONG_ARRAY_TYPE.getClassName().equals(className)) {
-			return LONG_TYPE.getClassName();
-
-		} else if (FLOAT_ARRAY_TYPE.getClassName().equals(className)) {
-			return FLOAT_TYPE.getClassName();
-
-		} else if (DOUBLE_ARRAY_TYPE.getClassName().equals(className)) {
-			return DOUBLE_TYPE.getClassName();
-		}
-		return null;
-	}
-
-	public static String getClassName(String simpleName) {
-
-		String className = getPrimitive(simpleName);
-		if (StringUtils.isNotEmpty(className))
-			return className;
-
-		if (BOOLEAN_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return BOOLEAN_ARRAY_TYPE.getClassName();
-
-		} else if (CHAR_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return CHAR_ARRAY_TYPE.getClassName();
-
-		} else if (BYTE_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return BYTE_ARRAY_TYPE.getClassName();
-
-		} else if (SHORT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return SHORT_ARRAY_TYPE.getClassName();
-
-		} else if (INT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return INT_ARRAY_TYPE.getClassName();
-
-		} else if (LONG_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return LONG_ARRAY_TYPE.getClassName();
-
-		} else if (FLOAT_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return FLOAT_ARRAY_TYPE.getClassName();
-
-		} else if (DOUBLE_ARRAY_TYPE.getSimpleName().equals(simpleName)) {
-			return DOUBLE_ARRAY_TYPE.getClassName();
-		}
-
-		TypeAdapter adapter = SpringUtils.getBean(TypeAdapter.class);
-		if (adapter != null)
-			className = adapter.provide(simpleName);
-
-		return StringUtils.isNotEmpty(className) ? className : null;
 	}
 
 }

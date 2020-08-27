@@ -47,6 +47,10 @@ public interface SemanticParser {
 
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
+	public static boolean isPrimitive(String word) {
+		return PRIMITIVE_PATTERN.matcher(word).matches();
+	}
+
 	public static boolean isDouble(String word) {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
