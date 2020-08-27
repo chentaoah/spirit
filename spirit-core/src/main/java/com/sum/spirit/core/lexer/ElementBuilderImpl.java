@@ -10,7 +10,7 @@ import com.sum.spirit.api.lexer.ElementBuilder;
 import com.sum.spirit.api.lexer.Lexer;
 import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.api.lexer.StructRecognizer;
-import com.sum.spirit.api.lexer.SyntaxChecker;
+import com.sum.spirit.api.lexer.LineChecker;
 import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.element.Element;
@@ -24,7 +24,7 @@ import com.sum.spirit.pojo.element.Token;
 public class ElementBuilderImpl implements ElementBuilder {
 
 	@Autowired(required = false)
-	public SyntaxChecker checker;
+	public LineChecker checker;
 
 	@Autowired
 	public Lexer lexer;
