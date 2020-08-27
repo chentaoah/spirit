@@ -23,23 +23,23 @@ public class JavaStarter {
 
 	public static void main(String[] args) {
 
-		processor.postStartProcessor(args);
+		processor.whenApplicationStart(args);
 
 		String inputPath = args[0];
 		String outputPath = args.length >= 1 ? args[1] : null;
-
 		Map<String, File> files = FileUtils.getFiles(inputPath);
-		Map<String, IClass> allClasses = compiler.compile(files);
 
+		Map<String, IClass> allClasses = compiler.compile(files);
 		allClasses.forEach((className, clazz) -> {
 
+			processor.whenClassCompileFinish(clazz);
 			String code = builder.build(clazz);
-			code = processor.postCodeProcessor(args, clazz, code);
+			code = processor.processCode(clazz, code);
 
 			if (StringUtils.isNotEmpty(outputPath))
 				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
 		});
 
-		processor.postEndProcessor(args, files);
+		processor.whenApplicationEnd(args, files);
 	}
 }

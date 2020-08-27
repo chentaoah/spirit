@@ -43,7 +43,7 @@ public class TypeUtils {
 			return name.replace("[]", "");
 
 		} else if (name.startsWith("[")) {
-			String targetName = TypeTable.getTargetNameByPrimitiveArray(name);// [Z 转换成 boolean
+			String targetName = TypeTable.getPrimitiveArrayTargetName(name);// [Z 转换成 boolean
 			Assert.notEmpty(targetName, "Target name cannot be empty!");
 			return targetName;
 		}

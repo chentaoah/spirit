@@ -124,7 +124,7 @@ public class TypeTable {
 		return SemanticParser.isPrimitive(className);
 	}
 
-	public static String getTargetNameByPrimitiveArray(String className) {
+	public static String getPrimitiveArrayTargetName(String className) {
 		IType type = PRIMITIVE_ARRAY_TARGET_MAPPING.get(className);
 		if (type != null)
 			return type.getClassName();

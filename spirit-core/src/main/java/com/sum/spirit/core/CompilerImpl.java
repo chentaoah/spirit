@@ -38,30 +38,23 @@ public class CompilerImpl implements Compiler {
 		files.forEach((path, file) -> {
 			// 1.read file
 			Document document = reader.readFile(file);
+
 			// 2.post document processor
-			processor.postDocumentProcessor(path, document);
+			processor.whenDocumentReadFinish(path, document);
 
 			// 3.resolve classes
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
-			classes.forEach((clazz) -> {
-				// add to all classess
-				allClasses.put(clazz.getClassName(), clazz);
-				// 4.post class processor
-				processor.postClassProcessor(clazz.getClassName(), clazz);
-			});
+			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));
 		});
 
 		// 5.put in context
 		Context.get().classes = allClasses;
 
 		// 6.preprocessor.For example, AutoImporter
-		processor.postBeforeProcessor(files, allClasses);
+		processor.preprocessBeforeVisit(files, allClasses);
 
 		// 7.perform members derivation
 		visiter.visit(allClasses);
-
-		// 8.post processor
-		processor.postAfterProcessor(allClasses);
 
 		return allClasses;
 	}

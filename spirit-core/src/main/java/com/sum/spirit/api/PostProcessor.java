@@ -4,41 +4,20 @@ import java.io.File;
 import java.util.Map;
 
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Document;
-import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.Line;
 
 public interface PostProcessor {
 
-	void postStartProcessor(String[] args);
+	void whenApplicationStart(String[] args);
 
-	void postDocumentProcessor(String path, Document document);
+	void whenDocumentReadFinish(String path, Document document);
 
-	default void postClassProcessor(String className, IClass clazz) {
-		// ignore
-	}
+	void preprocessBeforeVisit(Map<String, File> files, Map<String, IClass> allClasses);
 
-	void postBeforeProcessor(Map<String, File> files, Map<String, IClass> allClasses);
+	void whenClassCompileFinish(IClass clazz);
 
-	default void postAfterProcessor(Map<String, IClass> allClasses) {
-		// ignore
-	}
+	String processCode(IClass clazz, String code);
 
-	default void postElementProcessor(Line line, Element element) {
-		// ignore
-	}
-
-	default void postBeforeVisitProcessor(IClass clazz, MethodContext context, Element element) {
-		// ignore
-	}
-
-	default void postAfterVisitProcessor(IClass clazz, MethodContext context, Element element) {
-		// ignore
-	}
-
-	String postCodeProcessor(String[] args, IClass clazz, String code);
-
-	void postEndProcessor(String[] args, Map<String, File> files);
+	void whenApplicationEnd(String[] args, Map<String, File> files);
 
 }

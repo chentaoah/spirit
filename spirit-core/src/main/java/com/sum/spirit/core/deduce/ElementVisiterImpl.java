@@ -36,9 +36,6 @@ public class ElementVisiterImpl implements ElementVisiter {
 	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
-			// give a chance to change element
-			processor.postBeforeVisitProcessor(clazz, context, element);
-
 			// 1.some statements need to declare variable types in advance
 			declarer.declare(clazz, element);
 
@@ -50,9 +47,6 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 			// 4.get the return value type of the method call
 			visiter.visit(clazz, element.statement);
-
-			// give a chance to change element
-			processor.postAfterVisitProcessor(clazz, context, element);
 
 			// 5.determine whether the syntax declares a variable
 			return getVariableIfPossible(clazz, element);

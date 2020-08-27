@@ -68,10 +68,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 7.generate element
 			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
 
-			// 8.post element processor
-			processor.postElementProcessor(line, element);
-
-			// 9.return element
+			// 8.return element
 			return element;
 
 		} catch (Exception e) {
