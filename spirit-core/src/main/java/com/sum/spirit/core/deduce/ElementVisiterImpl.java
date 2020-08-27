@@ -22,19 +22,14 @@ public class ElementVisiterImpl implements ElementVisiter {
 
 	@Autowired
 	public TypeDeclarer declarer;
-
 	@Autowired
 	public ExpressDeclarer expressDeclarer;
-
 	@Autowired
 	public VariableTracker tracker;
-
 	@Autowired
 	public InvokeVisiter visiter;
-
 	@Autowired
 	public FastDeducer deducer;
-
 	@Autowired
 	public PostProcessor processor;
 

@@ -25,19 +25,14 @@ public class ElementBuilderImpl implements ElementBuilder {
 
 	@Autowired(required = false)
 	public LineChecker checker;
-
 	@Autowired
 	public Lexer lexer;
-
 	@Autowired
 	public SemanticParser parser;
-
 	@Autowired
 	public StructRecognizer recognizer;
-
 	@Autowired
 	public TreeBuilder builder;
-
 	@Autowired
 	public PostProcessor processor;
 
