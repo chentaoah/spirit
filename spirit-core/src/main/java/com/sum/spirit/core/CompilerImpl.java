@@ -23,13 +23,10 @@ public class CompilerImpl implements Compiler {
 
 	@Autowired
 	public DocumentReader reader;
-
 	@Autowired
 	public ClassResolver resolver;
-
 	@Autowired
 	public MemberVisiter visiter;
-
 	@Autowired
 	public PostProcessor processor;
 
