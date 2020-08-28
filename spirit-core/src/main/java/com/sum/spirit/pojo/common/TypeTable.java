@@ -146,11 +146,17 @@ public class TypeTable {
 		if (nativeLoader != null)
 			className = nativeLoader.findLangType(simpleName);
 
+		if (StringUtils.isNotEmpty(className))
+			return className;
+
 		ExtendedLoader extendedLoader = SpringUtils.getBean(ExtendedLoader.class);
 		if (extendedLoader != null)
 			className = extendedLoader.findExtendedType(simpleName);
 
-		return StringUtils.isNotEmpty(className) ? className : null;
+		if (StringUtils.isNotEmpty(className))
+			return className;
+
+		return null;
 	}
 
 	public static IType getWrappedType(String className) {
