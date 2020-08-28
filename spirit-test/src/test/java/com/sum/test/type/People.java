@@ -1,11 +1,13 @@
 package com.sum.test.type;
 
+import com.sum.spirit.plug.annotation.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Data {
+@Data
+public class People {
 
-	public static final Logger logger = LoggerFactory.getLogger(Data.class);
+	public static final Logger logger = LoggerFactory.getLogger(People.class);
 	public String name = "chentao";
 	public int age = 28;
 	public double money = -10.0;

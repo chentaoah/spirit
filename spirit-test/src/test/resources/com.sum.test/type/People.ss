@@ -1,6 +1,6 @@
 
-//@Data
-class Data {
+@Data
+class People {
 
 	name = "chentao"
 	age = 28

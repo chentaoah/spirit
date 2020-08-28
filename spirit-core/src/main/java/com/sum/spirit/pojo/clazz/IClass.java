@@ -89,6 +89,14 @@ public class IClass {
 		return true;
 	}
 
+	public IAnnotation getAnnotation(String className) {
+		for (IAnnotation annotation : annotations) {
+			if (annotation.type.getClassName().equals(className))
+				return annotation;
+		}
+		return null;
+	}
+
 	public boolean isInterface() {
 		return element.isInterface();
 	}
