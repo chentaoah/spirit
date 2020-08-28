@@ -45,7 +45,7 @@ public class NativeLoaderImpl implements NativeLoader {
 	}
 
 	@Override
-	public String findCommonType(String simpleName) {
+	public String findLangType(String simpleName) {
 		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 

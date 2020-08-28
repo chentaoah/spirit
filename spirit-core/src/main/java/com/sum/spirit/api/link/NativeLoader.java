@@ -6,6 +6,6 @@ public interface NativeLoader {
 
 	IType loadType(String name);
 
-	String findCommonType(String simpleName);
+	String findLangType(String simpleName);
 
 }

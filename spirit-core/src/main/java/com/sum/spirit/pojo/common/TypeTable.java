@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.spirit.api.lexer.SemanticParser;
+import com.sum.spirit.api.link.ExtendedLoader;
 import com.sum.spirit.api.link.NativeLoader;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
@@ -141,9 +142,13 @@ public class TypeTable {
 		if (type != null)
 			return type.getClassName();
 
-		NativeLoader loader = SpringUtils.getBean(NativeLoader.class);
-		if (loader != null)
-			className = loader.findCommonType(simpleName);
+		NativeLoader nativeLoader = SpringUtils.getBean(NativeLoader.class);
+		if (nativeLoader != null)
+			className = nativeLoader.findLangType(simpleName);
+
+		ExtendedLoader extendedLoader = SpringUtils.getBean(ExtendedLoader.class);
+		if (extendedLoader != null)
+			className = extendedLoader.findExtendedType(simpleName);
 
 		return StringUtils.isNotEmpty(className) ? className : null;
 	}
