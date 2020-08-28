@@ -1,4 +1,4 @@
-package com.sum.spirit.plug;
+package com.sum.spirit.plug.enhancer;
 
 import java.util.ArrayList;
 
