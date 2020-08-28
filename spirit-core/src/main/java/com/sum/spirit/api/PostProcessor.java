@@ -12,7 +12,7 @@ public interface PostProcessor {
 
 	void whenDocumentReadFinish(String path, Document document);
 
-	void preprocessBeforeVisit(Map<String, File> files, Map<String, IClass> allClasses);
+	void whenAllClassesResolveFinish(Map<String, File> files, Map<String, IClass> allClasses);
 
 	void whenClassCompileFinish(IClass clazz);
 

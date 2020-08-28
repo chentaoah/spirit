@@ -51,7 +51,7 @@ public class PostProcessorImpl implements PostProcessor, InitializingBean {
 	}
 
 	@Override
-	public void preprocessBeforeVisit(Map<String, File> files, Map<String, IClass> allClasses) {
+	public void whenAllClassesResolveFinish(Map<String, File> files, Map<String, IClass> allClasses) {
 		importer.doImport(files, allClasses);
 	}
 

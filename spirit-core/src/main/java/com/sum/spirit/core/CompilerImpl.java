@@ -51,7 +51,7 @@ public class CompilerImpl implements Compiler {
 		Context.get().classes = allClasses;
 
 		// 6.preprocessor.For example, AutoImporter
-		processor.preprocessBeforeVisit(files, allClasses);
+		processor.whenAllClassesResolveFinish(files, allClasses);
 
 		// 7.perform members derivation
 		visiter.visit(allClasses);
