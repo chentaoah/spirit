@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
@@ -21,11 +22,12 @@ import com.sum.spirit.utils.SpringUtils;
 
 @Component
 @DependsOn("springUtils")
-public class JavaBuilder implements CodeBuilder {
+public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 	public List<ElementConverter> converters;
 
-	public JavaBuilder() {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		Map<String, ElementConverter> converterMap = SpringUtils.getBeansOfType(ElementConverter.class);
 		converters = new ArrayList<>(converterMap.values());
 		converters.sort(new AnnotationAwareOrderComparator());

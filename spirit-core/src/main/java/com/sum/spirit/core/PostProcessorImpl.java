@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
@@ -18,7 +19,7 @@ import com.sum.spirit.utils.SpringUtils;
 
 @Component
 @DependsOn("springUtils")
-public class PostProcessorImpl implements PostProcessor {
+public class PostProcessorImpl implements PostProcessor, InitializingBean {
 
 	@Autowired
 	public AliasReplacer replacer;
@@ -29,7 +30,8 @@ public class PostProcessorImpl implements PostProcessor {
 
 	public List<ClassEnhancer> enhancers;
 
-	public PostProcessorImpl() {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		Map<String, ClassEnhancer> enhancerMap = SpringUtils.getBeansOfType(ClassEnhancer.class);
 		enhancers = new ArrayList<>(enhancerMap.values());
 		enhancers.sort(new AnnotationAwareOrderComparator());
