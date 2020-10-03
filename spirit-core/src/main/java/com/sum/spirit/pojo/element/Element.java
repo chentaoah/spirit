@@ -3,6 +3,7 @@ package com.sum.spirit.pojo.element;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.pojo.common.SyntaxEnum;
 import com.sum.spirit.utils.LineUtils;
 
 public class Element extends Syntactic {
@@ -15,11 +16,11 @@ public class Element extends Syntactic {
 
 	public AbsSyntaxTree tree;
 
-	public String syntax;
+	public SyntaxEnum syntax;
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree tree, String syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree tree, SyntaxEnum syntax) {
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;
@@ -83,7 +84,7 @@ public class Element extends Syntactic {
 	}
 
 	@Override
-	public String getSyntax() {
+	public SyntaxEnum getSyntax() {
 		return syntax;
 	}
 

@@ -5,29 +5,29 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.StructRecognizer;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.KeywordTable;
+import com.sum.spirit.pojo.common.SyntaxEnum;
 import com.sum.spirit.pojo.element.Token;
 
 @Component
 public class StructRecognizerImpl implements StructRecognizer {
 
 	@Override
-	public String getSyntax(List<Token> tokens) {
+	public SyntaxEnum getSyntax(List<Token> tokens) {
 
 		Token first = tokens.get(0);
 
 		// keyword
 		if (KeywordTable.isStruct(first.toString()))
-			return first.toString();
+			return SyntaxEnum.valueOf(first.toString().toUpperCase());
 
 		// end
 		if (tokens.size() == 1 && "}".equals(first.toString()))
-			return Constants.END_SYNTAX;
+			return SyntaxEnum.END;
 
 		// annotation
 		if (tokens.size() == 1 && first.isAnnotation())
-			return Constants.ANNOTATION_SYNTAX;
+			return SyntaxEnum.ANNOTATION;
 
 		// unknown
 		return null;

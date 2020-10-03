@@ -52,22 +52,22 @@ public class LexerImpl implements Lexer {
 				start = index;
 
 			if (c == '"') {
-				pushSubprocess(builder, index, '"', '"', "@str" + count++, replacedStrs);
+				pushStack(builder, index, '"', '"', "@str" + count++, replacedStrs);
 
 			} else if (c == '\'') {
-				pushSubprocess(builder, index, '\'', '\'', "@char" + count++, replacedStrs);
+				pushStack(builder, index, '\'', '\'', "@char" + count++, replacedStrs);
 
 			} else if (c == '{') {
-				pushSubprocess(builder, index, '{', '}', "@map" + count++, replacedStrs);
+				pushStack(builder, index, '{', '}', "@map" + count++, replacedStrs);
 
 			} else if (c == '(') {
-				pushSubprocess(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
+				pushStack(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
 				index = start >= 0 ? start : index;
 
 			} else if (c == '[') {// Java generally does not declare generic arrays
 				if (excludeChars.contains('{')) {
 					// if exclusion is configured, the suffix is ignored
-					pushSubprocess(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
+					pushStack(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 
 				} else {
@@ -81,7 +81,7 @@ public class LexerImpl implements Lexer {
 					if (d >= 'A' && d <= 'Z') {// generic types generally begin with a capital letter
 						if (excludeChars.contains('(')) {
 							// if exclusion is configured, the suffix is ignored
-							pushSubprocess(builder, start, '<', '>', "@generic" + count++, replacedStrs);
+							pushStack(builder, start, '<', '>', "@generic" + count++, replacedStrs);
 							index = start;
 
 						} else {
@@ -136,7 +136,7 @@ public class LexerImpl implements Lexer {
 		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
-	public static void pushSubprocess(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
+	public static void pushStack(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, start, left, right);
 		replaceStr(builder, start, end, markName, replacedStrs);
 	}

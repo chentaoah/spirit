@@ -1,137 +1,137 @@
 package com.sum.spirit.pojo.element;
 
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.SyntaxEnum;
 
 public abstract class Syntactic extends TokenBox {
 
 	public boolean isImport() {
-		return Constants.IMPORT_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.IMPORT.equals(getSyntax());
 	}
 
 	public boolean isAnnotation() {
-		return Constants.ANNOTATION_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.ANNOTATION.equals(getSyntax());
 	}
 
 	public boolean isInterface() {
-		return Constants.INTERFACE_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.INTERFACE.equals(getSyntax());
 	}
 
 	public boolean isAbstract() {
-		return Constants.ABSTRACT_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.ABSTRACT.equals(getSyntax());
 	}
 
 	public boolean isClass() {
-		return Constants.CLASS_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isDeclare() {
-		return Constants.DECLARE_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isDeclareAssign() {
-		return Constants.DECLARE_ASSIGN_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isAssign() {
-		return Constants.ASSIGN_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isFuncDeclare() {
-		return Constants.FUNC_DECLARE_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isFunc() {
-		return Constants.FUNC_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isSuper() {
-		return Constants.SUPER_SYNTAX.equals(getSyntax());
-	}
-
-	public boolean isThis() {
-		return Constants.THIS_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.CLASS.equals(getSyntax());
 	}
 
 	public boolean isFieldAssign() {
-		return Constants.FIELD_ASSIGN_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.FIELD_ASSIGN.equals(getSyntax());
+	}
+
+	public boolean isFuncDeclare() {
+		return SyntaxEnum.FUNC_DECLARE.equals(getSyntax());
+	}
+
+	public boolean isFunc() {
+		return SyntaxEnum.FUNC.equals(getSyntax());
+	}
+
+	public boolean isSuper() {
+		return SyntaxEnum.SUPER.equals(getSyntax());
+	}
+
+	public boolean isThis() {
+		return SyntaxEnum.THIS.equals(getSyntax());
+	}
+
+	public boolean isDeclare() {
+		return SyntaxEnum.DECLARE.equals(getSyntax());
+	}
+
+	public boolean isDeclareAssign() {
+		return SyntaxEnum.DECLARE_ASSIGN.equals(getSyntax());
+	}
+
+	public boolean isAssign() {
+		return SyntaxEnum.ASSIGN.equals(getSyntax());
 	}
 
 	public boolean isInvoke() {
-		return Constants.INVOKE_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.INVOKE.equals(getSyntax());
 	}
 
 	public boolean isReturn() {
-		return Constants.RETURN_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.RETURN.equals(getSyntax());
 	}
 
 	public boolean isIf() {
-		return Constants.IF_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.IF.equals(getSyntax());
 	}
 
 	public boolean isElseIf() {
-		return Constants.ELSEIF_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.ELSEIF.equals(getSyntax());
 	}
 
 	public boolean isElse() {
-		return Constants.ELSE_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.ELSE.equals(getSyntax());
 	}
 
 	public boolean isEnd() {
-		return Constants.END_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.END.equals(getSyntax());
 	}
 
 	public boolean isFor() {
-		return Constants.FOR_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.FOR.equals(getSyntax());
 	}
 
 	public boolean isForIn() {
-		return Constants.FOR_IN_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.FOR_IN.equals(getSyntax());
 	}
 
 	public boolean isWhile() {
-		return Constants.WHILE_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.WHILE.equals(getSyntax());
 	}
 
 	public boolean isContinue() {
-		return Constants.CONTINUE_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.CONTINUE.equals(getSyntax());
 	}
 
 	public boolean isBreak() {
-		return Constants.BREAK_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.BREAK.equals(getSyntax());
 	}
 
 	public boolean isTry() {
-		return Constants.TRY_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.TRY.equals(getSyntax());
 	}
 
 	public boolean isCatch() {
-		return Constants.CATCH_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.CATCH.equals(getSyntax());
 	}
 
 	public boolean isFinally() {
-		return Constants.FINALLY_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.FINALLY.equals(getSyntax());
 	}
 
 	public boolean isThrow() {
-		return Constants.THROW_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.THROW.equals(getSyntax());
 	}
 
 	public boolean isSync() {
-		return Constants.SYNC_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.SYNC.equals(getSyntax());
 	}
 
 	public boolean isPrint() {
-		return Constants.PRINT_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.PRINT.equals(getSyntax());
 	}
 
 	public boolean isDebug() {
-		return Constants.DEBUG_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.DEBUG.equals(getSyntax());
 	}
 
 	public boolean isError() {
-		return Constants.ERROR_SYNTAX.equals(getSyntax());
+		return SyntaxEnum.ERROR.equals(getSyntax());
 	}
 
-	public abstract String getSyntax();
+	public abstract SyntaxEnum getSyntax();
 
 }
