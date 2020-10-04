@@ -8,8 +8,8 @@ import com.google.common.base.Joiner;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.StringUtils;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.TypeTable;
+import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
@@ -39,7 +39,7 @@ public class IType {
 		type.setNull(isNull);
 		type.setWildcard(isWildcard);
 		type.setNative(isNative);
-		type.setModifiers(Constants.PUBLIC_MODIFIERS);
+		type.setModifiers(ModifierEnum.PUBLIC.value);
 		type.setGenericTypes(new ArrayList<>());
 		return type;
 	}
@@ -70,12 +70,12 @@ public class IType {
 	}
 
 	public IType toThis() {
-		this.setModifiers(Constants.THIS_MODIFIERS);
+		this.setModifiers(ModifierEnum.THIS.value);
 		return this;
 	}
 
 	public IType toSuper() {
-		this.setModifiers(Constants.SUPER_MODIFIERS);
+		this.setModifiers(ModifierEnum.SUPER.value);
 		return this;
 	}
 
@@ -93,11 +93,11 @@ public class IType {
 		if (superType == null)
 			return null;
 
-		if (modifiers == Constants.THIS_MODIFIERS || modifiers == Constants.SUPER_MODIFIERS) {
-			superType.setModifiers(Constants.SUPER_MODIFIERS);
+		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
+			superType.setModifiers(ModifierEnum.SUPER.value);
 
-		} else if (modifiers == Constants.PUBLIC_MODIFIERS) {
-			superType.setModifiers(Constants.PUBLIC_MODIFIERS);
+		} else if (modifiers == ModifierEnum.PUBLIC.value) {
+			superType.setModifiers(ModifierEnum.PUBLIC.value);
 		}
 
 		return superType;

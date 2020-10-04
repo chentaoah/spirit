@@ -1,5 +1,8 @@
 package com.sum.spirit.pojo.enums;
 
+/**
+ * The enum of token
+ */
 public enum TokenEnum {
 	PATH, // 类访问全路径
 	ANNOTATION, // 注解
