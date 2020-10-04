@@ -17,6 +17,7 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.utils.SpringUtils;
 
@@ -68,7 +69,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	public String buildBody(IClass clazz) {
 
 		StringBuilder classStr = new StringBuilder();
-		classStr.append(clazz.element.insertStatement(Constants.ABSTRACT_KEYWORD, Constants.CLASS_KEYWORD).replaceStatement(Constants.IMPLS_KEYWORD,
+		classStr.append(clazz.element.insertStatement(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceStatement(KeywordEnum.IMPLS.value,
 				Constants.IMPLEMENTS_KEYWORD) + "\n\n");
 
 		// When building a method, sometimes imports and fields is added
@@ -90,10 +91,10 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			} else {
 				// public User()
 				// public static synchronized String methodName()
-				element.replaceModifier(Constants.SYNCH_KEYWORD, Constants.SYNCHRONIZED_KEYWORD);
+				element.replaceModifier(KeywordEnum.SYNCH.value, Constants.SYNCHRONIZED_KEYWORD);
 				if (element.isFuncDeclare()) {
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
-						element.insertModifier(Constants.PUBLIC_KEYWORD, Constants.ABSTRACT_KEYWORD);
+						element.insertModifier(KeywordEnum.PUBLIC.value, KeywordEnum.ABSTRACT.value);
 					if (element.hasChild()) {
 						methodsStr.append("\t" + element + "\n");
 					} else {
@@ -102,9 +103,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 				} else if (element.isFunc()) {
 					if (method.isInit) {
-						element.removeKeyword(Constants.FUNC_KEYWORD);
+						element.removeKeyword(KeywordEnum.FUNC.value);
 					} else {
-						element.replaceKeyword(Constants.FUNC_KEYWORD, TypeBuilder.build(clazz, method.type));
+						element.replaceKeyword(KeywordEnum.FUNC.value, TypeBuilder.build(clazz, method.type));
 					}
 					methodsStr.append("\t" + element + "\n");
 				}
@@ -125,7 +126,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			for (IAnnotation annotation : field.annotations)
 				fieldsStr.append("\t" + annotation + "\n");
 
-			field.element.replaceModifier(Constants.CONST_KEYWORD, Constants.FINAL_KEYWORD);
+			field.element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0)

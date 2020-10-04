@@ -15,6 +15,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -33,10 +34,10 @@ public class StmtConverter implements ElementConverter {
 	public void convert(IClass clazz, Element element) {
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign())
-			element.replaceModifier(Constants.CONST_KEYWORD, Constants.FINAL_KEYWORD);
+			element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
 
 		if (element.isSync()) {// sync s {
-			element.replaceKeyword(Constants.SYNC_KEYWORD, "synchronized");
+			element.replaceKeyword(KeywordEnum.SYNC.value, "synchronized");
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Token token = element.getToken(1);
@@ -77,7 +78,7 @@ public class StmtConverter implements ElementConverter {
 				clazz.addImport(LoggerFactory.class.getName());
 				Element logger = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				IField field = new IField(null,
-						logger.addModifier(Constants.FINAL_KEYWORD).addModifier(Constants.STATIC_KEYWORD).addModifier(Constants.PUBLIC_KEYWORD));
+						logger.addModifier(Constants.FINAL_KEYWORD).addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value));
 				clazz.fields.add(0, field);
 			}
 		}

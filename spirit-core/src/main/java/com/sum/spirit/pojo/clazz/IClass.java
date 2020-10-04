@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.Context;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
@@ -112,9 +112,9 @@ public class IClass {
 	public Token getTypeToken() {
 		Token token = null;
 		if (isInterface()) {
-			token = element.getKeywordParam(Constants.INTERFACE_KEYWORD);
+			token = element.getKeywordParam(KeywordEnum.INTERFACE.value);
 		} else if (isAbstract() || isClass()) {
-			token = element.getKeywordParam(Constants.CLASS_KEYWORD, Constants.ABSTRACT_KEYWORD);
+			token = element.getKeywordParam(KeywordEnum.CLASS.value, KeywordEnum.ABSTRACT.value);
 		}
 		Assert.isTrue(token != null && token.isType(), "Cannot get type token of class!");
 		return token;
@@ -149,7 +149,7 @@ public class IClass {
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		Token token = element.getKeywordParam(Constants.EXTENDS_KEYWORD);// 这里返回的,可以是泛型格式，而不是className
+		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
 		return TypeTable.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
@@ -158,7 +158,7 @@ public class IClass {
 	public List<IType> getInterfaceTypes() {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		List<IType> interfaces = new ArrayList<>();
-		for (Token token : element.getKeywordParams(Constants.IMPLS_KEYWORD))
+		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value))
 			interfaces.add(factory.create(this, token));
 		return interfaces;
 	}

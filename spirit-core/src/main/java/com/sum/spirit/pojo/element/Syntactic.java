@@ -69,7 +69,7 @@ public abstract class Syntactic extends TokenBox {
 	}
 
 	public boolean isElseIf() {
-		return SyntaxEnum.ELSEIF.equals(getSyntax());
+		return SyntaxEnum.ELSE_IF.equals(getSyntax());
 	}
 
 	public boolean isElse() {

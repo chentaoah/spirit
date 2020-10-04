@@ -4,32 +4,6 @@ import java.lang.reflect.Modifier;
 
 public class Constants {
 
-	public static final String PACKAGE_KEYWORD = "package";// 高频出现的几个关键字
-	public static final String IMPORT_KEYWORD = "import";
-	public static final String INTERFACE_KEYWORD = "interface";
-	public static final String ABSTRACT_KEYWORD = "abstract";
-	public static final String CLASS_KEYWORD = "class";
-	public static final String EXTENDS_KEYWORD = "extends";
-	public static final String IMPLS_KEYWORD = "impls";
-	public static final String PUBLIC_KEYWORD = "public";
-	public static final String STATIC_KEYWORD = "static";
-	public static final String SYNCH_KEYWORD = "synch";
-	public static final String CONST_KEYWORD = "const";
-	public static final String FUNC_KEYWORD = "func";
-	public static final String THROWS_KEYWORD = "throws";
-	public static final String SUPER_KEYWORD = "super";
-	public static final String THIS_KEYWORD = "this";
-	public static final String IF_KEYWORD = "if";
-	public static final String ELSE_KEYWORD = "else";
-	public static final String FOR_KEYWORD = "for";
-	public static final String IN_KEYWORD = "in";
-	public static final String CATCH_KEYWORD = "catch";
-	public static final String FINALLY_KEYWORD = "finally";
-	public static final String SYNC_KEYWORD = "sync";
-	public static final String PRINT_KEYWORD = "print";
-	public static final String DEBUG_KEYWORD = "debug";
-	public static final String ERROR_KEYWORD = "error";
-	public static final String INSTANCEOF_KEYWORD = "instanceof";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String FINAL_KEYWORD = "final";

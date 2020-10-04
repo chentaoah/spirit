@@ -12,7 +12,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 
 @Component
 public class AutoImporter {
@@ -40,7 +40,7 @@ public class AutoImporter {
 				if (StringUtils.isEmpty(line) || line.startsWith("//"))
 					continue;
 				// 3.包名 4.引入
-				if (line.startsWith(Constants.PACKAGE_KEYWORD) || line.startsWith(Constants.IMPORT_KEYWORD))
+				if (line.startsWith(KeywordEnum.PACKAGE.value) || line.startsWith(KeywordEnum.IMPORT.value))
 					continue;
 				// 找到大写开头的
 				Matcher matcher = TYPE_PATTERN.matcher(line);

@@ -12,7 +12,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -52,6 +52,12 @@ public class VariableTrackerImpl implements VariableTracker {
 				// Convert array type to element type
 				type = type.getTargetType();
 				token.setTypeAtt(type);
+
+			} else if (token.isKeyword() && (KeywordEnum.SUPER.value.equals(token.value) || KeywordEnum.THIS.value.equals(token.value))) {
+				String name = token.toString();
+				IType type = findType(clazz, context, name);
+				Assert.notNull(type, "Variable must be declared!name:" + name);
+				token.setTypeAtt(type);
 			}
 		}
 	}
@@ -60,11 +66,11 @@ public class VariableTrackerImpl implements VariableTracker {
 	public IType findType(IClass clazz, MethodContext context, String name) {
 
 		// super
-		if (Constants.SUPER_KEYWORD.equals(name))
+		if (KeywordEnum.SUPER.value.equals(name))
 			return clazz.getSuperType().toSuper();
 
 		// this
-		if (Constants.THIS_KEYWORD.equals(name))
+		if (KeywordEnum.THIS.value.equals(name))
 			return clazz.toType().toThis();
 
 		// find in context

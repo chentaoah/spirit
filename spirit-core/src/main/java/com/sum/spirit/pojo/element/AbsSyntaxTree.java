@@ -2,8 +2,7 @@ package com.sum.spirit.pojo.element;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.KeywordTable;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SyntaxEnum;
 
 public class AbsSyntaxTree {
@@ -20,15 +19,15 @@ public class AbsSyntaxTree {
 			int start = 0;
 			Token first = tokens.get(start);
 
-			if (KeywordTable.isLine(first.toString()))
+			if (KeywordEnum.isLine(first.toString()))
 				return SyntaxEnum.valueOf(first.toString().toUpperCase());
 
 			// if there is only one element, it may be a local method call
 			if (tokens.size() == 1 && first.isLocalMethod()) {
-				if (Constants.SUPER_KEYWORD.equals(first.getMemberName())) {
+				if (KeywordEnum.SUPER.value.equals(first.getMemberName())) {
 					return SyntaxEnum.SUPER;
 
-				} else if (Constants.THIS_KEYWORD.equals(first.getMemberName())) {
+				} else if (KeywordEnum.THIS.value.equals(first.getMemberName())) {
 					return SyntaxEnum.THIS;
 				}
 				return SyntaxEnum.INVOKE;
@@ -76,24 +75,24 @@ public class AbsSyntaxTree {
 			Token second = tokens.get(start + 1);
 			Token third = tokens.get(start + 2);
 
-			if (Constants.FOR_KEYWORD.equals(first.toString())) {
-				if (Constants.IN_KEYWORD.equals(third.toString())) {// for ? in ? {
+			if (KeywordEnum.FOR.value.equals(first.toString())) {
+				if (KeywordEnum.IN.value.equals(third.toString())) {// for ? in ? {
 					return SyntaxEnum.FOR_IN;
 				}
 				return SyntaxEnum.FOR;// for ?; ?; ? {
 			}
 
 			if ("}".equals(first.toString())) {
-				if (Constants.ELSE_KEYWORD.equals(second.toString())) {
-					if (Constants.IF_KEYWORD.equals(third.toString())) {// } else if ? {
-						return SyntaxEnum.ELSEIF;
+				if (KeywordEnum.ELSE.value.equals(second.toString())) {
+					if (KeywordEnum.IF.value.equals(third.toString())) {// } else if ? {
+						return SyntaxEnum.ELSE_IF;
 					} else {
 						return SyntaxEnum.ELSE;// } else {
 					}
-				} else if (Constants.CATCH_KEYWORD.equals(second.toString())) {// } catch Exception x {
+				} else if (KeywordEnum.CATCH.value.equals(second.toString())) {// } catch Exception x {
 					return SyntaxEnum.CATCH;
 
-				} else if (Constants.FINALLY_KEYWORD.equals(second.toString())) {// } finally {
+				} else if (KeywordEnum.FINALLY.value.equals(second.toString())) {// } finally {
 					return SyntaxEnum.FINALLY;
 				}
 			}

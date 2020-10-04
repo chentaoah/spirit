@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.KeywordTable;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.element.Token;
 
@@ -71,7 +71,7 @@ public interface SemanticParser {
 	}
 
 	default boolean isKeyword(String word) {
-		return KeywordTable.isKeyword(word);
+		return KeywordEnum.isKeyword(word);
 	}
 
 	default boolean isOperator(String word) {

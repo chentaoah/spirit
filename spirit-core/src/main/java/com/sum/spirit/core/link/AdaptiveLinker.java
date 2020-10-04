@@ -12,6 +12,7 @@ import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
@@ -56,7 +57,7 @@ public class AdaptiveLinker implements ClassLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		// xxx.class class是关键字
-		if (Constants.CLASS_KEYWORD.equals(fieldName))
+		if (KeywordEnum.CLASS.value.equals(fieldName))
 			return factory.create(TypeTable.CLASS_TYPE.getClassName(), type.getWrappedType());
 
 		// 原始类型没有属性和方法
@@ -88,7 +89,7 @@ public class AdaptiveLinker implements ClassLinker {
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
 
 		// super()和this()指代父类或者本身的构造函数，返回这个类本身
-		if (Constants.SUPER_KEYWORD.equals(methodName) || Constants.THIS_KEYWORD.equals(methodName))
+		if (KeywordEnum.SUPER.value.equals(methodName) || KeywordEnum.THIS.value.equals(methodName))
 			return type;
 
 		// 原始类型没有属性和方法

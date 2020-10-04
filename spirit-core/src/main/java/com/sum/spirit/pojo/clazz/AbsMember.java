@@ -3,7 +3,7 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
 
 public abstract class AbsMember {
@@ -20,7 +20,7 @@ public abstract class AbsMember {
 	}
 
 	public boolean isStatic() {
-		return element.isModified(Constants.STATIC_KEYWORD);
+		return element.isModified(KeywordEnum.STATIC.value);
 	}
 
 	public IType getType() {

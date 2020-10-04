@@ -1,6 +1,7 @@
 package com.sum.spirit.pojo.element;
 
 import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SymbolTable;
 
 public abstract class Semantic {
@@ -150,7 +151,7 @@ public abstract class Semantic {
 	}
 
 	public boolean isInstanceof() {
-		return isKeyword() && Constants.INSTANCEOF_KEYWORD.equals(getValue().toString());
+		return isKeyword() && KeywordEnum.INSTANCEOF.value.equals(getValue().toString());
 	}
 
 	public boolean isArithmetic() {

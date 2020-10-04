@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
 
 @Component
@@ -37,7 +37,7 @@ public class DataGetterSetterGenerator implements ClassEnhancer {
 
 	public void addGetMethod(IClass clazz, IField field) {
 		String name = toUpperCaseAtFirst(field.name);
-		Element element = builder.build(String.format("func get%s() {", name)).addModifier(Constants.PUBLIC_KEYWORD);
+		Element element = builder.build(String.format("func get%s() {", name)).addModifier(KeywordEnum.PUBLIC.value);
 		Element content = builder.build(String.format("\treturn %s", field.name));
 		element.children.add(content);
 		IMethod method = new IMethod(new ArrayList<>(), element);
@@ -49,7 +49,7 @@ public class DataGetterSetterGenerator implements ClassEnhancer {
 	public void addSetMethod(IClass clazz, IField field) {
 		String name = toUpperCaseAtFirst(field.name);
 		Element element = builder.build(String.format("func set%s(%s %s) {", name, field.type.getSimpleName(), field.name))
-				.addModifier(Constants.PUBLIC_KEYWORD);
+				.addModifier(KeywordEnum.PUBLIC.value);
 		Element content = builder.build(String.format("\tthis.%s = %s", field.name, field.name));
 		element.children.add(content);
 		IMethod method = new IMethod(new ArrayList<>(), element);

@@ -20,7 +20,7 @@ public enum SyntaxEnum {
 	INVOKE, // var1.invoke()
 	RETURN, // return var1
 	IF, // if i > 100 {
-	ELSEIF, // else if i < 100 {
+	ELSE_IF, // else if i < 100 {
 	ELSE, // else {
 	END, // }
 	FOR, // for

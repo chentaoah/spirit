@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.StructRecognizer;
-import com.sum.spirit.pojo.common.KeywordTable;
+import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SyntaxEnum;
 import com.sum.spirit.pojo.element.Token;
 
@@ -18,7 +18,7 @@ public class StructRecognizerImpl implements StructRecognizer {
 		Token first = tokens.get(0);
 
 		// keyword
-		if (KeywordTable.isStruct(first.toString()))
+		if (KeywordEnum.isStruct(first.toString()))
 			return SyntaxEnum.valueOf(first.toString().toUpperCase());
 
 		// end
