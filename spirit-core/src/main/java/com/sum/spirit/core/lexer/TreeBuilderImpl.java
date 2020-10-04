@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.TreeBuilder;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.Symbol;
 import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
 public class TreeBuilderImpl implements TreeBuilder {
@@ -134,7 +134,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 				if (currToken.getOperand() == Symbol.RIGHT || currToken.getOperand() == Symbol.BINARY)
 					node.right = removeRight(tokens, index);
 
-				tokens.set(index, new Token(Constants.NODE_TOKEN, node));
+				tokens.set(index, new Token(TokenEnum.NODE, node));
 			}
 		}
 

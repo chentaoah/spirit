@@ -12,8 +12,8 @@ import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.TypeTable;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 

@@ -16,9 +16,9 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;
 import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.common.SyntaxEnum;
 import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 @Component
 public class ElementBuilderImpl implements ElementBuilder {

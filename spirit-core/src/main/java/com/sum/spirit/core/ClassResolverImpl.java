@@ -13,9 +13,9 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.Import;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component

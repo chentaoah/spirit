@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.lexer.StructRecognizer;
-import com.sum.spirit.pojo.common.KeywordEnum;
-import com.sum.spirit.pojo.common.SyntaxEnum;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 @Component
 public class StructRecognizerImpl implements StructRecognizer {

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.Symbol;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 public class Statement extends TokenBox {
 
@@ -50,7 +50,7 @@ public class Statement extends TokenBox {
 		List<Token> tokens = copyTokens();
 
 		for (int i = tokens.size() - 1; i >= 1; i--)
-			tokens.add(i, new Token(Constants.SEPARATOR_TOKEN, " "));
+			tokens.add(i, new Token(TokenEnum.SEPARATOR, " "));
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);

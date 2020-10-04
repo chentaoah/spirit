@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.lib.Collection;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
 @Order(-100)
@@ -29,16 +29,16 @@ public class CommonConverter implements ElementConverter {
 
 			if (token.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = token.getValue();
-				subStatement.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
+				subStatement.addToken(0, new Token(TokenEnum.KEYWORD, "new"));
 
 			} else if (token.isTypeInit()) {// User() => new User()
 				Statement subStatement = token.getValue();
-				subStatement.addToken(0, new Token(Constants.KEYWORD_TOKEN, "new"));
+				subStatement.addToken(0, new Token(TokenEnum.KEYWORD, "new"));
 
 			} else if (token.isList()) {// ["value"] => Collection.newArrayList("value");
 				Statement subStatement = token.getValue();
-				subStatement.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newArrayList("));
-				subStatement.setToken(subStatement.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
+				subStatement.setToken(0, new Token(TokenEnum.CUSTOM_PREFIX, "Collection.newArrayList("));
+				subStatement.setToken(subStatement.size() - 1, new Token(TokenEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Collection.class.getName());
 
 			} else if (token.isMap()) {// {"key":"value"} => Collection.newHashMap("key","value");
@@ -47,8 +47,8 @@ public class CommonConverter implements ElementConverter {
 					if (subToken.isSeparator() && ":".equals(subToken.toString()))
 						subToken.value = ",";
 				}
-				subStatement.setToken(0, new Token(Constants.CUSTOM_PREFIX_TOKEN, "Collection.newHashMap("));
-				subStatement.setToken(subStatement.size() - 1, new Token(Constants.CUSTOM_SUFFIX_TOKEN, ")"));
+				subStatement.setToken(0, new Token(TokenEnum.CUSTOM_PREFIX, "Collection.newHashMap("));
+				subStatement.setToken(subStatement.size() - 1, new Token(TokenEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Collection.class.getName());
 			}
 		}

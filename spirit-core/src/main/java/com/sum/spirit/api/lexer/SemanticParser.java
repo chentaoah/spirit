@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 public interface SemanticParser {
 
@@ -93,17 +93,17 @@ public interface SemanticParser {
 				|| TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
-	default String getInitTokenType(String word) {
+	default TokenEnum getInitTokenType(String word) {
 		if (PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches())
-			return Constants.ARRAY_INIT_TOKEN;
+			return TokenEnum.ARRAY_INIT;
 		if (PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
-			return Constants.ARRAY_INIT_TOKEN;
+			return TokenEnum.ARRAY_INIT;
 		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches())
-			return Constants.ARRAY_INIT_TOKEN;
+			return TokenEnum.ARRAY_INIT;
 		if (TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
-			return Constants.ARRAY_INIT_TOKEN;
+			return TokenEnum.ARRAY_INIT;
 		if (TYPE_INIT_PATTERN.matcher(word).matches())
-			return Constants.TYPE_INIT_TOKEN;
+			return TokenEnum.TYPE_INIT;
 		return null;
 	}
 
@@ -113,25 +113,25 @@ public interface SemanticParser {
 				|| STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
-	default String getValueTokenType(String word) {
+	default TokenEnum getValueTokenType(String word) {
 		if (NULL_PATTERN.matcher(word).matches())
-			return Constants.NULL_TOKEN;
+			return TokenEnum.NULL;
 		if (BOOL_PATTERN.matcher(word).matches())
-			return Constants.BOOL_TOKEN;
+			return TokenEnum.BOOL;
 		if (CHAR_PATTERN.matcher(word).matches())
-			return Constants.CHAR_TOKEN;
+			return TokenEnum.CHAR;
 		if (INT_PATTERN.matcher(word).matches())
-			return Constants.INT_TOKEN;
+			return TokenEnum.INT;
 		if (LONG_PATTERN.matcher(word).matches())
-			return Constants.LONG_TOKEN;
+			return TokenEnum.LONG;
 		if (DOUBLE_PATTERN.matcher(word).matches())
-			return Constants.DOUBLE_TOKEN;
+			return TokenEnum.DOUBLE;
 		if (STR_PATTERN.matcher(word).matches())
-			return Constants.STR_TOKEN;
+			return TokenEnum.STR;
 		if (LIST_PATTERN.matcher(word).matches())
-			return Constants.LIST_TOKEN;
+			return TokenEnum.LIST;
 		if (MAP_PATTERN.matcher(word).matches())
-			return Constants.MAP_TOKEN;
+			return TokenEnum.MAP;
 		return null;
 	}
 
@@ -139,10 +139,10 @@ public interface SemanticParser {
 		return SUBEXPRESS_PATTERN.matcher(word).matches();
 	}
 
-	default String getSubexpressTokenType(String word) {
+	default TokenEnum getSubexpressTokenType(String word) {
 		if (isType(getCastType(word)))
-			return Constants.CAST_TOKEN;
-		return Constants.SUBEXPRESS_TOKEN;
+			return TokenEnum.CAST;
+		return TokenEnum.SUBEXPRESS;
 	}
 
 	default boolean isVar(String word) {
@@ -154,17 +154,17 @@ public interface SemanticParser {
 				|| VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches() || ARRAY_INDEX_PATTERN.matcher(word).matches();
 	}
 
-	default String getAccessTokenType(String word) {
+	default TokenEnum getAccessTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
-			return Constants.LOCAL_METHOD_TOKEN;
+			return TokenEnum.LOCAL_METHOD;
 		if (VISIT_FIELD_PATTERN.matcher(word).matches())
-			return Constants.VISIT_FIELD_TOKEN;
+			return TokenEnum.VISIT_FIELD;
 		if (INVOKE_METHOD_PATTERN.matcher(word).matches())
-			return Constants.INVOKE_METHOD_TOKEN;
+			return TokenEnum.INVOKE_METHOD;
 		if (VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches())
-			return Constants.VISIT_ARRAY_INDEX_TOKEN;
+			return TokenEnum.VISIT_ARRAY_INDEX;
 		if (ARRAY_INDEX_PATTERN.matcher(word).matches())
-			return Constants.ARRAY_INDEX_TOKEN;
+			return TokenEnum.ARRAY_INDEX;
 		return null;
 	}
 

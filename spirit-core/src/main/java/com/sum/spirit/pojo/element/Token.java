@@ -1,15 +1,17 @@
 package com.sum.spirit.pojo.element;
 
+import com.sum.spirit.pojo.enums.TokenEnum;
+
 public class Token extends Attachable {
 
-	public String type;
+	public TokenEnum type;
 
 	public Object value;
 
 	public Token() {
 	}
 
-	public Token(String type, Object value) {
+	public Token(TokenEnum type, Object value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -26,7 +28,7 @@ public class Token extends Attachable {
 	}
 
 	@Override
-	public String getType() {
+	public TokenEnum getType() {
 		return type;
 	}
 

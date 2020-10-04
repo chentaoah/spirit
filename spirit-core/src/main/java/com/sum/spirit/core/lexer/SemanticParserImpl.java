@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.lexer.Lexer;
 import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
 public class SemanticParserImpl implements SemanticParser {
@@ -30,22 +30,22 @@ public class SemanticParserImpl implements SemanticParser {
 	public void getTokenType(String word, Token token) {
 
 		if (isPath(word)) {
-			token.type = Constants.PATH_TOKEN;
+			token.type = TokenEnum.PATH;
 
 		} else if (isAnnotation(word)) {
-			token.type = Constants.ANNOTATION_TOKEN;
+			token.type = TokenEnum.ANNOTATION;
 
 		} else if (isKeyword(word)) {
-			token.type = Constants.KEYWORD_TOKEN;
+			token.type = TokenEnum.KEYWORD;
 
 		} else if (isOperator(word)) {
-			token.type = Constants.OPERATOR_TOKEN;
+			token.type = TokenEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
-			token.type = Constants.SEPARATOR_TOKEN;
+			token.type = TokenEnum.SEPARATOR;
 
 		} else if (isType(word)) {
-			token.type = Constants.TYPE_TOKEN;
+			token.type = TokenEnum.TYPE;
 
 		} else if (isInit(word)) {
 			token.type = getInitTokenType(word);
@@ -57,7 +57,7 @@ public class SemanticParserImpl implements SemanticParser {
 			token.type = getSubexpressTokenType(word);
 
 		} else if (isVar(word)) {
-			token.type = Constants.VAR_TOKEN;
+			token.type = TokenEnum.VAR;
 
 		} else if (isAccess(word)) {
 			token.type = getAccessTokenType(word);
@@ -89,7 +89,7 @@ public class SemanticParserImpl implements SemanticParser {
 		String first = words.get(0);
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			tokens = getTokens(words.subList(1, words.size()));
-			tokens.add(0, new Token(Constants.PREFIX_TOKEN, first));
+			tokens.add(0, new Token(TokenEnum.PREFIX, first));
 		} else {
 			tokens = getTokens(words);
 		}
@@ -98,13 +98,13 @@ public class SemanticParserImpl implements SemanticParser {
 			for (int i = 0; i < tokens.size(); i++) {
 				Token token = tokens.get(i);
 				if ("?".equals(token.toString())) {
-					tokens.set(i, new Token(Constants.TYPE_TOKEN, "?"));
+					tokens.set(i, new Token(TokenEnum.TYPE, "?"));
 
 				} else if ("<".equals(token.toString())) {
-					tokens.set(i, new Token(Constants.SEPARATOR_TOKEN, "<"));
+					tokens.set(i, new Token(TokenEnum.SEPARATOR, "<"));
 
 				} else if (">".equals(token.toString())) {
-					tokens.set(i, new Token(Constants.SEPARATOR_TOKEN, ">"));
+					tokens.set(i, new Token(TokenEnum.SEPARATOR, ">"));
 				}
 			}
 		}

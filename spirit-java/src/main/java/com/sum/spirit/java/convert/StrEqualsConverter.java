@@ -10,11 +10,11 @@ import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TokenEnum;
 import com.sum.spirit.utils.TreeUtils;
 
 @Component
@@ -59,7 +59,7 @@ public class StrEqualsConverter implements ElementConverter {
 						}
 
 						String text = String.format(format, lastStatement, nextStatement);
-						Token expressToken = new Token(Constants.CUSTOM_EXPRESS_TOKEN, text);
+						Token expressToken = new Token(TokenEnum.CUSTOM_EXPRESS, text);
 						expressToken.setTypeAtt(TypeTable.BOOLEAN_TYPE);
 						expressToken.setTreeId(token.getTreeId());
 						statement.replace(start, end, expressToken);

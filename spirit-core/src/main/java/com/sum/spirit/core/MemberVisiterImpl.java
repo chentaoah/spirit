@@ -15,12 +15,12 @@ import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
 public class MemberVisiterImpl implements MemberVisiter {
@@ -33,7 +33,7 @@ public class MemberVisiterImpl implements MemberVisiter {
 	@Override
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
-		Token methodToken = method.element.findToken(Constants.TYPE_INIT_TOKEN, Constants.LOCAL_METHOD_TOKEN);
+		Token methodToken = method.element.findToken(TokenEnum.TYPE_INIT, TokenEnum.LOCAL_METHOD);
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").split(",");
 		for (Statement paramStmt : statements) {

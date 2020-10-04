@@ -3,8 +3,8 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 
 public abstract class AbsMember {
 

@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.common;
+package com.sum.spirit.pojo.enums;
 
 /**
  * The enum of syntax

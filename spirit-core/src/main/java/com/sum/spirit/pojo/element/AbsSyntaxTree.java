@@ -2,8 +2,8 @@ package com.sum.spirit.pojo.element;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.common.KeywordEnum;
-import com.sum.spirit.pojo.common.SyntaxEnum;
+import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 public class AbsSyntaxTree {
 

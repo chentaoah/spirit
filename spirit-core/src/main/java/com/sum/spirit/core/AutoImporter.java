@@ -12,7 +12,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.KeywordEnum;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 
 @Component
 public class AutoImporter {

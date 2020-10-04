@@ -13,8 +13,8 @@ import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 
 @Component
 public class DataGetterSetterGenerator implements ClassEnhancer {

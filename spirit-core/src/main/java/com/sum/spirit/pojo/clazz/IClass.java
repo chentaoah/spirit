@@ -6,10 +6,10 @@ import java.util.List;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.common.Context;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 

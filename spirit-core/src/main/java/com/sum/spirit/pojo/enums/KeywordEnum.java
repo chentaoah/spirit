@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.common;
+package com.sum.spirit.pojo.enums;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

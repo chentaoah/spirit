@@ -3,7 +3,7 @@ package com.sum.spirit.pojo.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.common.SyntaxEnum;
+import com.sum.spirit.pojo.enums.SyntaxEnum;
 import com.sum.spirit.utils.LineUtils;
 
 public class Element extends Syntactic {

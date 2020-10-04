@@ -1,125 +1,125 @@
 package com.sum.spirit.pojo.element;
 
-import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.KeywordEnum;
 import com.sum.spirit.pojo.common.SymbolTable;
+import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.TokenEnum;
 
 public abstract class Semantic {
 
 	public boolean isAnnotation() {
-		return Constants.ANNOTATION_TOKEN.equals(getType());
+		return TokenEnum.ANNOTATION.equals(getType());
 	}
 
 	public boolean isKeyword() {
-		return Constants.KEYWORD_TOKEN.equals(getType());
+		return TokenEnum.KEYWORD.equals(getType());
 	}
 
 	public boolean isOperator() {
-		return Constants.OPERATOR_TOKEN.equals(getType());
+		return TokenEnum.OPERATOR.equals(getType());
 	}
 
 	public boolean isSeparator() {
-		return Constants.SEPARATOR_TOKEN.equals(getType());
+		return TokenEnum.SEPARATOR.equals(getType());
 	}
 
 	public boolean isType() {
-		return Constants.TYPE_TOKEN.equals(getType());
+		return TokenEnum.TYPE.equals(getType());
 	}
 
 	public boolean isArrayInit() {
-		return Constants.ARRAY_INIT_TOKEN.equals(getType());
+		return TokenEnum.ARRAY_INIT.equals(getType());
 	}
 
 	public boolean isTypeInit() {
-		return Constants.TYPE_INIT_TOKEN.equals(getType());
+		return TokenEnum.TYPE_INIT.equals(getType());
 	}
 
 	public boolean isNull() {
-		return Constants.NULL_TOKEN.equals(getType());
+		return TokenEnum.NULL.equals(getType());
 	}
 
 	public boolean isBool() {
-		return Constants.BOOL_TOKEN.equals(getType());
+		return TokenEnum.BOOL.equals(getType());
 	}
 
 	public boolean isChar() {
-		return Constants.CHAR_TOKEN.equals(getType());
+		return TokenEnum.CHAR.equals(getType());
 	}
 
 	public boolean isInt() {
-		return Constants.INT_TOKEN.equals(getType());
+		return TokenEnum.INT.equals(getType());
 	}
 
 	public boolean isLong() {
-		return Constants.LONG_TOKEN.equals(getType());
+		return TokenEnum.LONG.equals(getType());
 	}
 
 	public boolean isDouble() {
-		return Constants.DOUBLE_TOKEN.equals(getType());
+		return TokenEnum.DOUBLE.equals(getType());
 	}
 
 	public boolean isStr() {
-		return Constants.STR_TOKEN.equals(getType());
+		return TokenEnum.STR.equals(getType());
 	}
 
 	public boolean isList() {
-		return Constants.LIST_TOKEN.equals(getType());
+		return TokenEnum.LIST.equals(getType());
 	}
 
 	public boolean isMap() {
-		return Constants.MAP_TOKEN.equals(getType());
+		return TokenEnum.MAP.equals(getType());
 	}
 
 	public boolean isSubexpress() {
-		return Constants.SUBEXPRESS_TOKEN.equals(getType());
+		return TokenEnum.SUBEXPRESS.equals(getType());
 	}
 
 	public boolean isCast() {
-		return Constants.CAST_TOKEN.equals(getType());
+		return TokenEnum.CAST.equals(getType());
 	}
 
 	public boolean isVar() {
-		return Constants.VAR_TOKEN.equals(getType());
+		return TokenEnum.VAR.equals(getType());
 	}
 
 	public boolean isLocalMethod() {
-		return Constants.LOCAL_METHOD_TOKEN.equals(getType());
+		return TokenEnum.LOCAL_METHOD.equals(getType());
 	}
 
 	public boolean isVisitField() {
-		return Constants.VISIT_FIELD_TOKEN.equals(getType());
+		return TokenEnum.VISIT_FIELD.equals(getType());
 	}
 
 	public boolean isInvokeMethod() {
-		return Constants.INVOKE_METHOD_TOKEN.equals(getType());
+		return TokenEnum.INVOKE_METHOD.equals(getType());
 	}
 
 	public boolean isVisitArrayIndex() {
-		return Constants.VISIT_ARRAY_INDEX_TOKEN.equals(getType());
+		return TokenEnum.VISIT_ARRAY_INDEX.equals(getType());
 	}
 
 	public boolean isArrayIndex() {
-		return Constants.ARRAY_INDEX_TOKEN.equals(getType());
+		return TokenEnum.ARRAY_INDEX.equals(getType());
 	}
 
 	public boolean isPrefix() {
-		return Constants.PREFIX_TOKEN.equals(getType());
+		return TokenEnum.PREFIX.equals(getType());
 	}
 
 	public boolean isNode() {
-		return Constants.NODE_TOKEN.equals(getType());
+		return TokenEnum.NODE.equals(getType());
 	}
 
 	public boolean isCustomPrefix() {
-		return Constants.CUSTOM_PREFIX_TOKEN.equals(getType());
+		return TokenEnum.CUSTOM_PREFIX.equals(getType());
 	}
 
 	public boolean isCustomSuffix() {
-		return Constants.CUSTOM_SUFFIX_TOKEN.equals(getType());
+		return TokenEnum.CUSTOM_SUFFIX.equals(getType());
 	}
 
 	public boolean isCustomExpress() {
-		return Constants.CUSTOM_EXPRESS_TOKEN.equals(getType());
+		return TokenEnum.CUSTOM_EXPRESS.equals(getType());
 	}
 
 	public boolean isInit() {
@@ -182,7 +182,7 @@ public abstract class Semantic {
 		return isOperator() && ("<<".equals(getValue()) || ">>".equals(getValue()));
 	}
 
-	public abstract String getType();
+	public abstract TokenEnum getType();
 
 	public abstract <T> T getValue();
 
