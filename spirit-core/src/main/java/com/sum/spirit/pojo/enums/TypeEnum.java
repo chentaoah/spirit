@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.api.link.ExtendedLoader;
 import com.sum.spirit.api.link.NativeLoader;
+import com.sum.spirit.lib.Assert;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.utils.SpringUtils;
@@ -53,6 +54,7 @@ public enum TypeEnum {
 	WILDCARD;//
 
 	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
+
 	public static final Map<String, IType> PRIMITIVE_ARRAY_MAPPING = new ConcurrentHashMap<>();
 
 	static {
@@ -96,28 +98,8 @@ public enum TypeEnum {
 		PRIMITIVE_ARRAY_MAPPING.put("double[]", DOUBLE_ARRAY.value);
 
 		NativeLoader loader = SpringUtils.getBean(NativeLoader.class);
-		if (loader != null) {
-			VOID_WRAPPED.value = loader.loadType("VOID_WRAPPED_TYPE");
-			BOOLEAN_WRAPPED.value = loader.loadType("BOOLEAN_WRAPPED_TYPE");
-			CHAR_WRAPPED.value = loader.loadType("CHAR_WRAPPED_TYPE");
-			BYTE_WRAPPED.value = loader.loadType("BYTE_WRAPPED_TYPE");
-			SHORT_WRAPPED.value = loader.loadType("SHORT_WRAPPED_TYPE");
-			INT_WRAPPED.value = loader.loadType("INT_WRAPPED_TYPE");
-			LONG_WRAPPED.value = loader.loadType("LONG_WRAPPED_TYPE");
-			FLOAT_WRAPPED.value = loader.loadType("FLOAT_WRAPPED_TYPE");
-			DOUBLE_WRAPPED.value = loader.loadType("DOUBLE_WRAPPED_TYPE");
-			OBJECT.value = loader.loadType("OBJECT_TYPE");
-			STRING.value = loader.loadType("STRING_TYPE");
-			OBJECT_ARRAY.value = loader.loadType("OBJECT_ARRAY_TYPE");
-			STRING_ARRAY.value = loader.loadType("STRING_ARRAY_TYPE");
-			CLASS.value = loader.loadType("CLASS_TYPE");
-			LIST.value = loader.loadType("LIST_TYPE");
-			MAP.value = loader.loadType("MAP_TYPE");
-			NULL.value = loader.loadType("NULL_TYPE");
-			WILDCARD.value = loader.loadType("WILDCARD_TYPE");
-		} else {
-			throw new RuntimeException("Basic types must be provided!");
-		}
+		Assert.notNull(loader, "Basic types must be provided!");
+		loader.loadNativeTypeEnum();
 	}
 
 	public static boolean isPrimitive(String className) {
