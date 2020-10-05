@@ -6,10 +6,10 @@ import java.util.List;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.common.Context;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
@@ -48,7 +48,7 @@ public class IClass {
 			return !isArray ? className : "[L" + className + ";";
 
 		// 3.如果是基本类型，基本类型数组，或者java.lang.下的类，则直接返回
-		className = TypeTable.getClassName(simpleName);
+		className = TypeEnum.getClassName(simpleName);
 		if (className != null)
 			return className;
 
@@ -63,7 +63,7 @@ public class IClass {
 		String lastName = TypeUtils.getLastName(className);
 
 		// 1. 基本类型不添加和java.lang.包下不添加
-		if (TypeTable.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
+		if (TypeEnum.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
 			return true;
 
 		// 2.如果是本身,不添加
@@ -152,7 +152,7 @@ public class IClass {
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
-		return TypeTable.OBJECT_TYPE;// 如果不存在继承，则默认是继承Object
+		return TypeEnum.OBJECT.value;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {

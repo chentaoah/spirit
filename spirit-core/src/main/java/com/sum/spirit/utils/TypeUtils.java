@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.common.TypeTable;
+import com.sum.spirit.pojo.enums.TypeEnum;
 
 public class TypeUtils {
 
@@ -43,7 +43,7 @@ public class TypeUtils {
 			return name.replace("[]", "");
 
 		} else if (name.startsWith("[")) {
-			String targetName = TypeTable.getPrimitiveArrayTargetName(name);// [Z 转换成 boolean
+			String targetName = TypeEnum.getPrimitiveArrayTargetName(name);// [Z 转换成 boolean
 			Assert.notEmpty(targetName, "Target name cannot be empty!");
 			return targetName;
 		}

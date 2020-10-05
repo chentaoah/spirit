@@ -9,8 +9,8 @@ import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
 public interface TypeFactory {
@@ -26,7 +26,7 @@ public interface TypeFactory {
 	}
 
 	default IType createTypeVariable(String genericName) {// T or K
-		IType type = create(TypeTable.OBJECT_TYPE.getClassName());
+		IType type = create(TypeEnum.OBJECT.value.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

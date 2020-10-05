@@ -13,10 +13,10 @@ import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.Context;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.ModifierEnum;
+import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
@@ -32,7 +32,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
 		type.setTypeName(TypeUtils.getTypeName(className));
-		type.setPrimitive(TypeTable.isPrimitive(className));
+		type.setPrimitive(TypeEnum.isPrimitive(className));
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);
@@ -62,7 +62,7 @@ public class TypeFactoryImpl implements TypeFactory {
 			String simpleName = token.getValue();
 
 			if ("?".equals(simpleName))
-				return TypeTable.WILDCARD_TYPE;// ?
+				return TypeEnum.WILDCARD.value;// ?
 
 			if (clazz.getTypeVariableIndex(simpleName) >= 0)
 				return createTypeVariable(simpleName);// T or K
@@ -92,19 +92,19 @@ public class TypeFactoryImpl implements TypeFactory {
 
 	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return TypeTable.BOOLEAN_TYPE;
+			return TypeEnum.BOOLEAN.value;
 		} else if (token.isChar()) {
-			return TypeTable.CHAR_TYPE;
+			return TypeEnum.CHAR.value;
 		} else if (token.isInt()) {
-			return TypeTable.INT_TYPE;
+			return TypeEnum.INT.value;
 		} else if (token.isLong()) {
-			return TypeTable.LONG_TYPE;
+			return TypeEnum.LONG.value;
 		} else if (token.isDouble()) {
-			return TypeTable.DOUBLE_TYPE;
+			return TypeEnum.DOUBLE.value;
 		} else if (token.isNull()) {
-			return TypeTable.NULL_TYPE;
+			return TypeEnum.NULL.value;
 		} else if (token.isStr()) {
-			return TypeTable.STRING_TYPE;
+			return TypeEnum.STRING.value;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -116,7 +116,7 @@ public class TypeFactoryImpl implements TypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).split(",");
-		return create(TypeTable.LIST_TYPE.getClassName(), getGenericType(clazz, statements));
+		return create(TypeEnum.LIST.value.getClassName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -128,13 +128,13 @@ public class TypeFactoryImpl implements TypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(TypeTable.MAP_TYPE.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(TypeEnum.MAP.value.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
 
 		if (statements.size() == 0)
-			return TypeTable.OBJECT_TYPE;
+			return TypeEnum.OBJECT.value;
 
 		IType genericType = null;
 		for (Statement statement : statements) {
@@ -147,7 +147,7 @@ public class TypeFactoryImpl implements TypeFactory {
 				genericType = wrappedType;
 
 			} else if (!genericType.isMatch(wrappedType)) {// 不同则使用Object
-				genericType = TypeTable.OBJECT_TYPE;
+				genericType = TypeEnum.OBJECT.value;
 				break;
 			}
 		}

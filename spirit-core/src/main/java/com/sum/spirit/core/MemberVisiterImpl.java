@@ -16,11 +16,11 @@ import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.common.MethodContext;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
 public class MemberVisiterImpl implements MemberVisiter {
@@ -66,14 +66,14 @@ public class MemberVisiterImpl implements MemberVisiter {
 		visitChildElement(clazz, context, method.element);
 
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : TypeTable.VOID_TYPE;
+			return context.returnType != null ? context.returnType : TypeEnum.VOID.value;
 
 		} else if (method.element.isFuncDeclare()) {
 
 			IType declaredType = factory.create(clazz, method.element.getToken(0));
 
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : TypeTable.VOID_TYPE;
+				IType returnType = context.returnType != null ? context.returnType : TypeEnum.VOID.value;
 				if (!declaredType.isMatch(returnType))
 					throw new RuntimeException("The derived type does not match the declared type!");
 			}

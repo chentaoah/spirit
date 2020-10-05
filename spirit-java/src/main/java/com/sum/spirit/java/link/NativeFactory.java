@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.link.TypeFactoryImpl;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.TypeTable;
+import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
 public class NativeFactory extends TypeFactoryImpl {
@@ -35,7 +35,7 @@ public class NativeFactory extends TypeFactoryImpl {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeTable.WILDCARD_TYPE;
+			return TypeEnum.WILDCARD.value;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

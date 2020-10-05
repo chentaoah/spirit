@@ -12,8 +12,8 @@ import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
@@ -58,7 +58,7 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// xxx.class class是关键字
 		if (KeywordEnum.CLASS.value.equals(fieldName))
-			return factory.create(TypeTable.CLASS_TYPE.getClassName(), type.getWrappedType());
+			return factory.create(TypeEnum.CLASS.value.getClassName(), type.getWrappedType());
 
 		// 原始类型没有属性和方法
 		if (type.isPrimitive())
@@ -66,7 +66,7 @@ public class AdaptiveLinker implements ClassLinker {
 
 		// 访问数组length直接返回int类型
 		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
-			return TypeTable.INT_TYPE;
+			return TypeEnum.INT.value;
 
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
 

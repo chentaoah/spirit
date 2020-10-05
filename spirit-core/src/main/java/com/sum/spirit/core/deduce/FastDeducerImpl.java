@@ -10,10 +10,10 @@ import com.sum.spirit.api.lexer.TreeBuilder;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
 public class FastDeducerImpl implements FastDeducer {
@@ -44,7 +44,7 @@ public class FastDeducerImpl implements FastDeducer {
 		Token token = node.token;
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return TypeTable.BOOLEAN_TYPE;
+			return TypeEnum.BOOLEAN.value;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			if (node.left != null) {// 先取左边的，再取右边的

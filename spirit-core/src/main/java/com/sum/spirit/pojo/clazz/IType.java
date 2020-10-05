@@ -8,8 +8,8 @@ import com.google.common.base.Joiner;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.StringUtils;
-import com.sum.spirit.pojo.common.TypeTable;
 import com.sum.spirit.pojo.enums.ModifierEnum;
+import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
@@ -85,7 +85,7 @@ public class IType {
 			return null;
 
 		if (isArray())
-			return TypeTable.OBJECT_TYPE;
+			return TypeEnum.OBJECT.value;
 
 		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
 		IType superType = linker.getSuperType(this);
@@ -116,7 +116,7 @@ public class IType {
 	}
 
 	public IType getWrappedType() {
-		IType wrappedType = TypeTable.getWrappedType(getClassName());
+		IType wrappedType = TypeEnum.getWrappedType(getClassName());
 		return wrappedType != null ? wrappedType : this;
 	}
 
