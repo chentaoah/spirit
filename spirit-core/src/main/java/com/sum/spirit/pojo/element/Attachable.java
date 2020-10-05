@@ -1,13 +1,14 @@
 package com.sum.spirit.pojo.element;
 
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.utils.Holder;
 
 public abstract class Attachable extends Semantic {
 
 	public String simpleName;
 	public String memberName;
-	public int operand = -1;
+	public OperandEnum operand;
 	public Holder<String> treeId = new Holder<String>();
 	public IType typeAtt;
 	public boolean isDerived;
@@ -39,11 +40,11 @@ public abstract class Attachable extends Semantic {
 		this.memberName = memberName;
 	}
 
-	public int getOperand() {
+	public OperandEnum getOperand() {
 		return operand;
 	}
 
-	public void setOperand(int operand) {
+	public void setOperand(OperandEnum operand) {
 		this.operand = operand;
 	}
 

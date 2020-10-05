@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.common.Symbol;
+import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
 public class Statement extends TokenBox {
@@ -63,13 +63,13 @@ public class Statement extends TokenBox {
 						continue;
 
 					} else if ("++".equals(lastToken.toString()) || "--".equals(lastToken.toString())) {
-						if (lastToken.getOperand() == Symbol.RIGHT) {
+						if (lastToken.getOperand() == OperandEnum.RIGHT) {
 							tokens.remove(i);
 							continue;
 						}
 
 					} else if ("-".equals(lastToken.toString())) {
-						if (lastToken.getOperand() == Symbol.RIGHT) {
+						if (lastToken.getOperand() == OperandEnum.RIGHT) {
 							tokens.remove(i);
 							continue;
 						}
@@ -88,7 +88,7 @@ public class Statement extends TokenBox {
 
 				if (nextToken.isOperator()) {
 					if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
-						if (nextToken.getOperand() == Symbol.LEFT) {
+						if (nextToken.getOperand() == OperandEnum.LEFT) {
 							tokens.remove(i);
 							continue;
 						}

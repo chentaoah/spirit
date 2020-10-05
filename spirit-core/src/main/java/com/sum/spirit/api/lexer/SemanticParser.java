@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
 public interface SemanticParser {
@@ -75,11 +75,11 @@ public interface SemanticParser {
 	}
 
 	default boolean isOperator(String word) {
-		return SymbolTable.isOperator(word);
+		return SymbolEnum.isOperator(word);
 	}
 
 	default boolean isSeparator(String word) {
-		return SymbolTable.isSeparator(word);
+		return SymbolEnum.isSeparator(word);
 	}
 
 	default boolean isType(String word) {

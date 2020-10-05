@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.lexer.Lexer;
 import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.StringUtils;
-import com.sum.spirit.pojo.common.Symbol;
-import com.sum.spirit.pojo.common.SymbolTable;
+import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.utils.LineUtils;
 
 @Component
@@ -99,15 +98,15 @@ public class LexerImpl implements Lexer {
 		text = builder.toString();
 
 		// 2.add space for easy split
-		for (Symbol symbol : SymbolTable.SINGLE_SYMBOLS)
-			text = text.replaceAll(symbol.regex, " " + symbol.value + " ");
+		for (SymbolEnum symbolEnum : SymbolEnum.SIGLE_SYMBOLS)
+			text = text.replaceAll(symbolEnum.regex, " " + symbolEnum.value + " ");
 
 		// 3.remove extra space
 		text = LineUtils.mergeSpaces(text);
 
 		// 4.correction of wrong symbols
-		for (Symbol symbol : SymbolTable.DOUBLE_SYMBOLS)
-			text = text.replaceAll(symbol.badRegex, symbol.value);
+		for (SymbolEnum symbolEnum : SymbolEnum.DOUBLE_SYMBOLS)
+			text = text.replaceAll(symbolEnum.badRegex, symbolEnum.value);
 
 		// 5.split by ' '
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));

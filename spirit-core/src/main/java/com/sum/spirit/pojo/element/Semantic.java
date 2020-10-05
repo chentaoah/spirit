@@ -1,7 +1,7 @@
 package com.sum.spirit.pojo.element;
 
-import com.sum.spirit.pojo.common.SymbolTable;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
 public abstract class Semantic {
@@ -155,23 +155,23 @@ public abstract class Semantic {
 	}
 
 	public boolean isArithmetic() {
-		return isOperator() && SymbolTable.isArithmetic(getValue().toString());
+		return isOperator() && SymbolEnum.isArithmetic(getValue().toString());
 	}
 
 	public boolean isBitwise() {
-		return isOperator() && SymbolTable.isBitwise(getValue().toString());
+		return isOperator() && SymbolEnum.isBitwise(getValue().toString());
 	}
 
 	public boolean isRelation() {
-		return isOperator() && SymbolTable.isRelation(getValue().toString());
+		return isOperator() && SymbolEnum.isRelation(getValue().toString());
 	}
 
 	public boolean isLogical() {
-		return isOperator() && SymbolTable.isLogical(getValue().toString());
+		return isOperator() && SymbolEnum.isLogical(getValue().toString());
 	}
 
 	public boolean isAssign() {
-		return isOperator() && SymbolTable.isAssign(getValue().toString());
+		return isOperator() && SymbolEnum.isAssign(getValue().toString());
 	}
 
 	public boolean isEquals() {
