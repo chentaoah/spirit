@@ -67,7 +67,7 @@ public class LexerImpl implements Lexer {
 
 			} else if (c == '[') {
 				// 一般来说，Java中没有泛型数组的声明方式
-				if (ignoreChars.contains('{')) {
+				if (ignoreChars.contains('{') && index > end) {
 					pushStack(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 
@@ -81,7 +81,7 @@ public class LexerImpl implements Lexer {
 					char d = builder.charAt(start);
 					// 一般泛型声明都是以大写字母开头的
 					if (d >= 'A' && d <= 'Z') {
-						if (ignoreChars.contains('(')) {
+						if (ignoreChars.contains('(') && index > end) {
 							pushStack(builder, start, '<', '>', "@generic" + count++, replacedStrs);
 							index = start;
 
