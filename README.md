@@ -2,7 +2,7 @@
 [![star](https://gitee.com/chentaoah/spirit/badge/star.svg?theme=white)](https://gitee.com/chentaoah/spirit/stargazers)
 [![fork](https://gitee.com/chentaoah/spirit/badge/fork.svg?theme=white)](https://gitee.com/chentaoah/spirit/members)
 
-Java简写转换工具。
+一种轻量的语言。
 
 ```
 func main(){
