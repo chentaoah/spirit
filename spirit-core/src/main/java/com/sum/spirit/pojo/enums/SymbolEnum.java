@@ -65,6 +65,14 @@ public enum SymbolEnum {
 		return OPERATOR_MAP.containsKey(value) || SEPARATOR_MAP.containsKey(value);
 	}
 
+	public static boolean isOperator(String value) {
+		return OPERATOR_MAP.containsKey(value);
+	}
+
+	public static boolean isSeparator(String value) {
+		return SEPARATOR_MAP.containsKey(value);
+	}
+
 	public static SymbolEnum getOperator(String value) {
 		return OPERATOR_MAP.get(value);
 	}
@@ -74,31 +82,31 @@ public enum SymbolEnum {
 	}
 
 	public static int getPriority(String value) {
-		return isSymbol(value) ? getOperator(value).priority : -1;
+		return isOperator(value) ? getOperator(value).priority : -1;
 	}
 
 	public static boolean isArithmetic(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.ARITHMETIC;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.ARITHMETIC;
 	}
 
 	public static boolean isBitwise(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.BITWISE;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.BITWISE;
 	}
 
 	public static boolean isRelation(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.RELATION;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.RELATION;
 	}
 
 	public static boolean isLogical(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.LOGICAL;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.LOGICAL;
 	}
 
 	public static boolean isConditional(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.CONDITIONAL;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.CONDITIONAL;
 	}
 
 	public static boolean isAssign(String value) {
-		return isSymbol(value) && getOperator(value).category == OperatorEnum.ASSIGN;
+		return isOperator(value) && getOperator(value).category == OperatorEnum.ASSIGN;
 	}
 
 	// 符号值
