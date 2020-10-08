@@ -16,7 +16,6 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.Import;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.SpringUtils;
@@ -24,6 +23,10 @@ import com.sum.spirit.utils.SpringUtils;
 @Component
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
+
+	public static final String IMPLEMENTS_KEYWORD = "implements";
+	public static final String FINAL_KEYWORD = "final";
+	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 
 	public List<ElementConverter> converters;
 
@@ -69,8 +72,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	public String buildBody(IClass clazz) {
 
 		StringBuilder classStr = new StringBuilder();
-		classStr.append(clazz.element.insertStatement(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceStatement(KeywordEnum.IMPLS.value,
-				Constants.IMPLEMENTS_KEYWORD) + "\n\n");
+		classStr.append(
+				clazz.element.insertStatement(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceStatement(KeywordEnum.IMPLS.value, IMPLEMENTS_KEYWORD)
+						+ "\n\n");
 
 		// When building a method, sometimes imports and fields is added
 		// dynamically, so execute the method first
@@ -91,7 +95,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			} else {
 				// public User()
 				// public static synchronized String methodName()
-				element.replaceModifier(KeywordEnum.SYNCH.value, Constants.SYNCHRONIZED_KEYWORD);
+				element.replaceModifier(KeywordEnum.SYNCH.value, SYNCHRONIZED_KEYWORD);
 				if (element.isFuncDeclare()) {
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
 						element.insertModifier(KeywordEnum.PUBLIC.value, KeywordEnum.ABSTRACT.value);
@@ -126,7 +130,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			for (IAnnotation annotation : field.annotations)
 				fieldsStr.append("\t" + annotation + "\n");
 
-			field.element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
+			field.element.replaceModifier(KeywordEnum.CONST.value, FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0)

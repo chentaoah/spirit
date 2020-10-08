@@ -11,7 +11,6 @@ import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
@@ -20,6 +19,8 @@ import com.sum.spirit.pojo.exception.NoSuchMethodException;
 @Component
 @Primary
 public class AdaptiveLinker implements ClassLinker {
+
+	public static final String ARRAY_LENGTH = "length";
 
 	@Autowired
 	@Qualifier("codeLinker")
@@ -65,7 +66,7 @@ public class AdaptiveLinker implements ClassLinker {
 			throw new RuntimeException("The primitive type has no field!");
 
 		// 访问数组length直接返回int类型
-		if (type.isArray() && Constants.ARRAY_LENGTH.equals(fieldName))
+		if (type.isArray() && AdaptiveLinker.ARRAY_LENGTH.equals(fieldName))
 			return TypeEnum.INT.value;
 
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
