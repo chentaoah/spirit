@@ -83,17 +83,19 @@ public class SemanticParserImpl implements SemanticParser {
 
 		if (isType && (!word.contains("<") && !word.contains(">")))
 			return word;
-
-		List<String> words = isType ? lexer.getWords(word, '<') : lexer.getWords(word, '[', '{', '(');
+		// 如果是类型，则直接用尖括号进行拆分
+		// 如果是其他，则不使用尖括号进行拆分
+		List<String> words = isType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
 		List<Token> tokens = null;
 		String first = words.get(0);
+		// 如果第一个单词是一个前缀的话，则标记该token为一个前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			tokens = getTokens(words.subList(1, words.size()));
 			tokens.add(0, new Token(TokenEnum.PREFIX, first));
 		} else {
 			tokens = getTokens(words);
 		}
-
+		// 如果是类型，则对尖括号内的类型进行一定的特殊处理
 		if (isType) {
 			for (int i = 0; i < tokens.size(); i++) {
 				Token token = tokens.get(i);

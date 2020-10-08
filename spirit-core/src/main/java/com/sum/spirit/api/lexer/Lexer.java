@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Lexer {
 
-	List<String> getWords(String text, Character... excludes);
+	List<String> getWords(String text, Character... ignoreOnceChars);
 
 }

@@ -21,32 +21,34 @@ public class LexerImpl implements Lexer {
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
 	@Override
-	public List<String> getWords(String text, Character... excludes) {
+	public List<String> getWords(String text, Character... ignoreOnceChars) {
 
-		// when parsing method content, empty content is passed in
+		// 拆分方法体时，会传入空的text
 		if (StringUtils.isEmpty(text))
 			return new ArrayList<>();
 
-		List<Character> excludeChars = new ArrayList<>(Arrays.asList(excludes));
+		List<Character> ignoreChars = new ArrayList<>(Arrays.asList(ignoreOnceChars));
 		List<String> words = new ArrayList<>();
 		Map<String, String> replacedStrs = new HashMap<>();
 		StringBuilder builder = new StringBuilder(text.trim());
 
-		// 1.overall replacement
-		for (int index = 0, count = 0, start = -1; index < builder.length(); index++) {
+		// 1.整体替换
+		// start 每个片段起始位置的游标
+		// end 上一次忽略和跳过的结束位置的游标，为了保证最外层的被拆分，内部依然进行整体替换
+		for (int index = 0, count = 0, start = -1, end = -1; index < builder.length(); index++) {
+
 			char c = builder.charAt(index);
 
-			// here is a special usage of lexical analysis
-			// the character will be ignored once,
-			// the outermost character is split,
-			// but the inner character is not split
-			if (excludeChars.contains(c)) {
+			// 如果该字符在集合中，那么则忽略一次，达到只拆分最外层符号的效果
+			// index > end 其实是一种保护机制，让内部的字符，不被忽略
+			if (ignoreChars.contains(c) && index > end) {
 				start = -1;
-				excludeChars.remove(new Character(c));
+				end = findEnd(builder, index, c, LineUtils.flipChar(c));
+				ignoreChars.remove(new Character(c));
 				continue;
 			}
 
-			// determine whether to continue characters
+			// 判断是否接续字符，或者“.”字符，以即时更新起始索引
 			if ((start < 0 && isContinueChar(c)) || c == '.')
 				start = index;
 
@@ -63,28 +65,28 @@ public class LexerImpl implements Lexer {
 				pushStack(builder, start >= 0 ? start : index, '(', ')', "@invoke_like" + count++, replacedStrs);
 				index = start >= 0 ? start : index;
 
-			} else if (c == '[') {// Java generally does not declare generic arrays
-				if (excludeChars.contains('{')) {
-					// if exclusion is configured, the suffix is ignored
+			} else if (c == '[') {
+				// 一般来说，Java中没有泛型数组的声明方式
+				if (ignoreChars.contains('{')) {
 					pushStack(builder, start >= 0 ? start : index, '[', ']', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 
 				} else {
-					pushSubprocess(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
+					pushStack(builder, start >= 0 ? start : index, '[', ']', '{', '}', "@array_like" + count++, replacedStrs);
 					index = start >= 0 ? start : index;
 				}
 
 			} else if (c == '<') {
 				if (start >= 0) {
 					char d = builder.charAt(start);
-					if (d >= 'A' && d <= 'Z') {// generic types generally begin with a capital letter
-						if (excludeChars.contains('(')) {
-							// if exclusion is configured, the suffix is ignored
+					// 一般泛型声明都是以大写字母开头的
+					if (d >= 'A' && d <= 'Z') {
+						if (ignoreChars.contains('(')) {
 							pushStack(builder, start, '<', '>', "@generic" + count++, replacedStrs);
 							index = start;
 
 						} else {
-							pushSubprocess(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
+							pushStack(builder, start, '<', '>', '(', ')', "@generic" + count++, replacedStrs);
 							index = start;
 						}
 					}
@@ -97,21 +99,21 @@ public class LexerImpl implements Lexer {
 
 		text = builder.toString();
 
-		// 2.add space for easy split
+		// 2.添加空格，使拆分更简单
 		for (SymbolEnum symbolEnum : SymbolEnum.SIGLE_SYMBOLS)
 			text = text.replaceAll(symbolEnum.regex, " " + symbolEnum.value + " ");
 
-		// 3.remove extra space
+		// 3.去掉多余的空格
 		text = LineUtils.mergeSpaces(text);
 
-		// 4.correction of wrong symbols
+		// 4.将被拆开的双字符符号中间的空格去掉
 		for (SymbolEnum symbolEnum : SymbolEnum.DOUBLE_SYMBOLS)
 			text = text.replaceAll(symbolEnum.badRegex, symbolEnum.value);
 
-		// 5.split by ' '
+		// 5.通过空格进行拆分
 		words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
-		// 6.continue splitting continuous access
+		// 6.如果一个片段中，包含“.”，那么进行更细致的拆分
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
 			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParser.isDouble(word)) {
@@ -121,7 +123,7 @@ public class LexerImpl implements Lexer {
 			}
 		}
 
-		// 7.retrieve the replaced whole
+		// 7.将被替换的片段，重新替换回来
 		for (int i = 0; i < words.size(); i++) {
 			String str = replacedStrs.get(words.get(i));
 			if (str != null)
@@ -140,11 +142,12 @@ public class LexerImpl implements Lexer {
 		replaceStr(builder, start, end, markName, replacedStrs);
 	}
 
-	public static void pushSubprocess(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
+	public static void pushStack(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName,
 			Map<String, String> replacedStrs) {
 		int finalEnd = findEnd(builder, start, left, right);
 		if (finalEnd != -1 && finalEnd + 1 < builder.length()) {
 			char c = builder.charAt(finalEnd + 1);
+			// 允许中间有个空格
 			if (c == ' ' && finalEnd + 2 < builder.length()) {
 				char d = builder.charAt(finalEnd + 2);
 				if (d == left1) {
@@ -167,6 +170,7 @@ public class LexerImpl implements Lexer {
 		boolean flag = false;
 		for (int index = start, count = 0; index < builder.length(); index++) {
 			char c = builder.charAt(index);
+			// 如果是“"”符号，并且没有被转义
 			if (c == '"' && LineUtils.isNotEscaped(builder.toString(), index))
 				flag = !flag;
 			if (!flag) {

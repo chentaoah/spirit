@@ -21,7 +21,6 @@ public enum TypeEnum {
 	LONG, //
 	FLOAT, //
 	DOUBLE, //
-
 	BOOLEAN_ARRAY, //
 	CHAR_ARRAY, //
 	BYTE_ARRAY, //
@@ -30,7 +29,6 @@ public enum TypeEnum {
 	LONG_ARRAY, //
 	FLOAT_ARRAY, //
 	DOUBLE_ARRAY, //
-
 	VOID_WRAPPED, //
 	BOOLEAN_WRAPPED, //
 	CHAR_WRAPPED, //
@@ -40,16 +38,13 @@ public enum TypeEnum {
 	LONG_WRAPPED, //
 	FLOAT_WRAPPED, //
 	DOUBLE_WRAPPED, //
-
 	OBJECT, //
 	STRING, //
 	OBJECT_ARRAY, //
 	STRING_ARRAY, //
-
 	CLASS, //
 	LIST, //
 	MAP, //
-
 	NULL, //
 	WILDCARD;//
 

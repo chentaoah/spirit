@@ -15,6 +15,7 @@ public interface SemanticParser {
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
 
 	public static final String PRIMITIVE_ENUM = "void|boolean|char|short|int|long|float|double|byte";
+
 	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")$");
 	public static final Pattern PRIMITIVE_ARRAY_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]$");
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
@@ -26,6 +27,7 @@ public interface SemanticParser {
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
 	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
+
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
 	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
 	public static final Pattern CHAR_PATTERN = Pattern.compile("^'[\\s\\S]*'$");
