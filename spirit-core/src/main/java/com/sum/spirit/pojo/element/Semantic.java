@@ -7,119 +7,119 @@ import com.sum.spirit.pojo.enums.TokenEnum;
 public abstract class Semantic {
 
 	public boolean isAnnotation() {
-		return TokenEnum.ANNOTATION.equals(getType());
+		return getType() == TokenEnum.ANNOTATION;
 	}
 
 	public boolean isKeyword() {
-		return TokenEnum.KEYWORD.equals(getType());
+		return getType() == TokenEnum.KEYWORD;
 	}
 
 	public boolean isOperator() {
-		return TokenEnum.OPERATOR.equals(getType());
+		return getType() == TokenEnum.OPERATOR;
 	}
 
 	public boolean isSeparator() {
-		return TokenEnum.SEPARATOR.equals(getType());
+		return getType() == TokenEnum.SEPARATOR;
 	}
 
 	public boolean isType() {
-		return TokenEnum.TYPE.equals(getType());
+		return getType() == TokenEnum.TYPE;
 	}
 
 	public boolean isArrayInit() {
-		return TokenEnum.ARRAY_INIT.equals(getType());
+		return getType() == TokenEnum.ARRAY_INIT;
 	}
 
 	public boolean isTypeInit() {
-		return TokenEnum.TYPE_INIT.equals(getType());
+		return getType() == TokenEnum.TYPE_INIT;
 	}
 
 	public boolean isNull() {
-		return TokenEnum.NULL.equals(getType());
+		return getType() == TokenEnum.NULL;
 	}
 
 	public boolean isBool() {
-		return TokenEnum.BOOL.equals(getType());
+		return getType() == TokenEnum.BOOL;
 	}
 
 	public boolean isChar() {
-		return TokenEnum.CHAR.equals(getType());
+		return getType() == TokenEnum.CHAR;
 	}
 
 	public boolean isInt() {
-		return TokenEnum.INT.equals(getType());
+		return getType() == TokenEnum.INT;
 	}
 
 	public boolean isLong() {
-		return TokenEnum.LONG.equals(getType());
+		return getType() == TokenEnum.LONG;
 	}
 
 	public boolean isDouble() {
-		return TokenEnum.DOUBLE.equals(getType());
+		return getType() == TokenEnum.DOUBLE;
 	}
 
 	public boolean isStr() {
-		return TokenEnum.STR.equals(getType());
+		return getType() == TokenEnum.STR;
 	}
 
 	public boolean isList() {
-		return TokenEnum.LIST.equals(getType());
+		return getType() == TokenEnum.LIST;
 	}
 
 	public boolean isMap() {
-		return TokenEnum.MAP.equals(getType());
+		return getType() == TokenEnum.MAP;
 	}
 
 	public boolean isSubexpress() {
-		return TokenEnum.SUBEXPRESS.equals(getType());
+		return getType() == TokenEnum.SUBEXPRESS;
 	}
 
 	public boolean isCast() {
-		return TokenEnum.CAST.equals(getType());
+		return getType() == TokenEnum.CAST;
 	}
 
 	public boolean isVar() {
-		return TokenEnum.VAR.equals(getType());
+		return getType() == TokenEnum.VAR;
 	}
 
 	public boolean isLocalMethod() {
-		return TokenEnum.LOCAL_METHOD.equals(getType());
+		return getType() == TokenEnum.LOCAL_METHOD;
 	}
 
 	public boolean isVisitField() {
-		return TokenEnum.VISIT_FIELD.equals(getType());
+		return getType() == TokenEnum.VISIT_FIELD;
 	}
 
 	public boolean isInvokeMethod() {
-		return TokenEnum.INVOKE_METHOD.equals(getType());
+		return getType() == TokenEnum.INVOKE_METHOD;
 	}
 
 	public boolean isVisitArrayIndex() {
-		return TokenEnum.VISIT_ARRAY_INDEX.equals(getType());
+		return getType() == TokenEnum.VISIT_ARRAY_INDEX;
 	}
 
 	public boolean isArrayIndex() {
-		return TokenEnum.ARRAY_INDEX.equals(getType());
+		return getType() == TokenEnum.ARRAY_INDEX;
 	}
 
 	public boolean isPrefix() {
-		return TokenEnum.PREFIX.equals(getType());
+		return getType() == TokenEnum.PREFIX;
 	}
 
 	public boolean isNode() {
-		return TokenEnum.NODE.equals(getType());
+		return getType() == TokenEnum.NODE;
 	}
 
 	public boolean isCustomPrefix() {
-		return TokenEnum.CUSTOM_PREFIX.equals(getType());
+		return getType() == TokenEnum.CUSTOM_PREFIX;
 	}
 
 	public boolean isCustomSuffix() {
-		return TokenEnum.CUSTOM_SUFFIX.equals(getType());
+		return getType() == TokenEnum.CUSTOM_SUFFIX;
 	}
 
 	public boolean isCustomExpress() {
-		return TokenEnum.CUSTOM_EXPRESS.equals(getType());
+		return getType() == TokenEnum.CUSTOM_EXPRESS;
 	}
 
 	public boolean isInit() {
@@ -148,6 +148,10 @@ public abstract class Semantic {
 
 	public boolean canSplit() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
+	}
+
+	public boolean isModifier() {
+		return isKeyword() && KeywordEnum.isModifier(getValue());
 	}
 
 	public boolean isInstanceof() {

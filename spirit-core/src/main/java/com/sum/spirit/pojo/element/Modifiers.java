@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.enums.KeywordEnum;
 
 public class Modifiers extends TokenBox {
 
@@ -16,7 +15,7 @@ public class Modifiers extends TokenBox {
 		Iterator<Token> iterable = tokens.iterator();
 		while (iterable.hasNext()) {
 			Token token = iterable.next();
-			if (KeywordEnum.isModifier(token.toString())) {
+			if (token.isModifier()) {
 				modifiers.add(token);
 				iterable.remove();
 			} else {
