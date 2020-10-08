@@ -12,8 +12,8 @@ import com.sum.spirit.api.deduce.TypeDeclarer;
 import com.sum.spirit.api.deduce.VariableTracker;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 

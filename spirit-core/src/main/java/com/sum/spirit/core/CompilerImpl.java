@@ -14,7 +14,6 @@ import com.sum.spirit.api.DocumentReader;
 import com.sum.spirit.api.MemberVisiter;
 import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.utils.TypeUtils;
 
@@ -30,32 +29,52 @@ public class CompilerImpl implements Compiler {
 	@Autowired
 	public PostProcessor processor;
 
+	// 此次编译的所有的类
+	public Map<String, IClass> classes;
+
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
 
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
 
 		files.forEach((path, file) -> {
-			// 1.read file
+			// 1.读取文件
 			Document document = reader.readFile(file);
-
-			// 2.post document processor
 			processor.whenDocumentReadFinish(path, document);
 
-			// 3.resolve classes
+			// 2.解析类型
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));
 		});
 
-		// 5.put in context
-		Context.get().classes = allClasses;
+		// 3.放入上下文
+		classes = allClasses;
 
-		// 6.preprocessor.For example, AutoImporter
+		// 4.AutoImporter
 		processor.whenAllClassesResolveFinish(files, allClasses);
 
-		// 7.perform members derivation
+		// 5.进行类型成员变量的推导
 		visiter.visit(allClasses);
 
 		return allClasses;
+	}
+
+	@Override
+	public boolean contains(String className) {
+		return classes.containsKey(className);
+	}
+
+	@Override
+	public IClass findClass(String className) {
+		return classes.get(className);
+	}
+
+	@Override
+	public String getClassName(String lastName) {
+		for (String className : classes.keySet()) {
+			if (className.endsWith("." + lastName))
+				return className;
+		}
+		return null;
 	}
 }

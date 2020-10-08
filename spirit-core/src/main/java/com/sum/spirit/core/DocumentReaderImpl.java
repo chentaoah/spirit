@@ -33,11 +33,11 @@ public class DocumentReaderImpl implements DocumentReader {
 			stack.push(document);
 			for (int number = 0; number < fileLines.size(); number++) {
 				String text = fileLines.get(number);
-				// create line object
+				// 创建行对象
 				Line line = new Line(number + 1, text);
 				if (line.isIgnore())
 					continue;
-				// create element object
+				// 创建元素对象
 				Element element = builder.build(line);
 				// what like "if xxx : xxx : xxx"
 				List<String> sublines = splitLine(element);

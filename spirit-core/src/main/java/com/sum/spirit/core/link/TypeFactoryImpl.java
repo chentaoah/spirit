@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.Compiler;
 import com.sum.spirit.api.deduce.FastDeducer;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.ModifierEnum;
@@ -23,6 +23,8 @@ import com.sum.spirit.utils.TypeUtils;
 @Primary
 public class TypeFactoryImpl implements TypeFactory {
 
+	@Autowired
+	public Compiler compiler;
 	@Autowired
 	public FastDeducer deducer;
 
@@ -36,7 +38,7 @@ public class TypeFactoryImpl implements TypeFactory {
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);
-		type.setNative(!Context.get().contains(TypeUtils.getTargetName(className)));
+		type.setNative(!compiler.contains(TypeUtils.getTargetName(className)));
 		type.setModifiers(ModifierEnum.PUBLIC.value);
 		return type;
 	}

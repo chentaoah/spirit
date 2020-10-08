@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.Compiler;
 import com.sum.spirit.api.MemberVisiter;
 import com.sum.spirit.api.link.ClassLinker;
 import com.sum.spirit.api.link.TypeFactory;
@@ -14,13 +15,14 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
 @Component
 public class CodeLinker implements ClassLinker {
 
+	@Autowired
+	public Compiler compiler;
 	@Autowired
 	public MemberVisiter visiter;
 	@Autowired
@@ -32,7 +34,7 @@ public class CodeLinker implements ClassLinker {
 	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
 		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-		return (T) Context.get().findClass(type.getClassName());
+		return (T) compiler.findClass(type.getClassName());
 	}
 
 	@Override

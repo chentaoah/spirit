@@ -3,9 +3,9 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.api.Compiler;
 import com.sum.spirit.api.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.common.Context;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
@@ -43,7 +43,8 @@ public class IClass {
 		}
 
 		// 2.在所有类里面找，包括这个类本身也在其中
-		String className = Context.get().getClassName(targetName);
+		Compiler compiler = SpringUtils.getBean(Compiler.class);
+		String className = compiler.getClassName(targetName);
 		if (className != null)
 			return !isArray ? className : "[L" + className + ";";
 
