@@ -58,9 +58,13 @@ public interface SemanticParser {
 	}
 
 	default List<Token> getTokens(List<String> words) {
+		return getTokens(words, false);
+	}
+
+	default List<Token> getTokens(List<String> words, boolean isInsideType) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words)
-			tokens.add(getToken(word));
+			tokens.add(getToken(word, isInsideType));
 		return tokens;
 	}
 
@@ -77,11 +81,11 @@ public interface SemanticParser {
 	}
 
 	default boolean isOperator(String word) {
-		return SymbolEnum.isOperator(word);
+		return SymbolEnum.getOperator(word) != null;
 	}
 
 	default boolean isSeparator(String word) {
-		return SymbolEnum.isSeparator(word);
+		return SymbolEnum.getSeparator(word) != null;
 	}
 
 	default boolean isType(String word) {
@@ -174,6 +178,6 @@ public interface SemanticParser {
 		return word.substring(1, word.length() - 1);
 	}
 
-	Token getToken(String word);
+	Token getToken(String word, boolean isInsideType);
 
 }

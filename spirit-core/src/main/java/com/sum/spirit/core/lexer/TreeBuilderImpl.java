@@ -86,7 +86,7 @@ public class TreeBuilderImpl implements TreeBuilder {
 
 			} else if (currToken.isOperator()) {
 				String value = currToken.toString();
-				SymbolEnum symbol = SymbolEnum.getSymbol(value);
+				SymbolEnum symbol = SymbolEnum.getOperator(value);
 				priority = symbol.priority;
 				operand = symbol.operand;
 

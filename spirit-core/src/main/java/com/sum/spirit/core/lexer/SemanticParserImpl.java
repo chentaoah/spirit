@@ -19,15 +19,15 @@ public class SemanticParserImpl implements SemanticParser {
 	public Lexer lexer;
 
 	@Override
-	public Token getToken(String word) {
+	public Token getToken(String word, boolean isInsideType) {
 		Token token = new Token();
-		getTokenType(word, token);
+		getTokenType(word, token, isInsideType);
 		getTokenValue(word, token);
 		getTokenAttas(word, token);
 		return token;
 	}
 
-	public void getTokenType(String word, Token token) {
+	public void getTokenType(String word, Token token, boolean isInsideType) {
 
 		if (isPath(word)) {
 			token.type = TokenEnum.PATH;
@@ -38,13 +38,13 @@ public class SemanticParserImpl implements SemanticParser {
 		} else if (isKeyword(word)) {
 			token.type = TokenEnum.KEYWORD;
 
-		} else if (isOperator(word)) {
+		} else if (isOperator(word) && !isInsideType) {// 类型声明中，一般不包含操作符
 			token.type = TokenEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
 			token.type = TokenEnum.SEPARATOR;
 
-		} else if (isType(word)) {
+		} else if (isType(word) || (isInsideType && "?".equals(word))) {
 			token.type = TokenEnum.TYPE;
 
 		} else if (isInit(word)) {
@@ -72,45 +72,29 @@ public class SemanticParserImpl implements SemanticParser {
 			token.value = getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			token.value = getStatement(word, false);// split array init is to better add the keyword 'new'
+			// 拆分数组是为了更好的添加new这个关键字
+			token.value = getStatement(word, false);
 
 		} else {
 			token.value = word;
 		}
 	}
 
-	public Object getStatement(String word, boolean isType) {
-
-		if (isType && (!word.contains("<") && !word.contains(">")))
+	public Object getStatement(String word, boolean isInsideType) {
+		if (isInsideType && (!word.contains("<") && !word.contains(">")))
 			return word;
 		// 如果是类型，则直接用尖括号进行拆分
 		// 如果是其他，则不使用尖括号进行拆分
-		List<String> words = isType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
-		List<Token> tokens = null;
+		List<String> words = isInsideType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
 		String first = words.get(0);
-		// 如果第一个单词是一个前缀的话，则标记该token为一个前缀
+		List<Token> tokens = null;
+		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
-			tokens = getTokens(words.subList(1, words.size()));
+			tokens = getTokens(words.subList(1, words.size()), isInsideType);
 			tokens.add(0, new Token(TokenEnum.PREFIX, first));
 		} else {
-			tokens = getTokens(words);
+			tokens = getTokens(words, isInsideType);
 		}
-		// 如果是类型，则对尖括号内的类型进行一定的特殊处理
-		if (isType) {
-			for (int i = 0; i < tokens.size(); i++) {
-				Token token = tokens.get(i);
-				if ("?".equals(token.toString())) {
-					tokens.set(i, new Token(TokenEnum.TYPE, "?"));
-
-				} else if ("<".equals(token.toString())) {
-					tokens.set(i, new Token(TokenEnum.SEPARATOR, "<"));
-
-				} else if (">".equals(token.toString())) {
-					tokens.set(i, new Token(TokenEnum.SEPARATOR, ">"));
-				}
-			}
-		}
-
 		Assert.notNull(tokens, "Tokens can not be null!");
 		return new Statement(tokens);
 	}

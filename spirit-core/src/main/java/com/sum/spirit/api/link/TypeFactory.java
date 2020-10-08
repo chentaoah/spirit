@@ -59,7 +59,7 @@ public interface TypeFactory {
 	default IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
 		SemanticParser parser = SpringUtils.getBean(SemanticParser.class);
-		return create(clazz, parser.getToken(text));
+		return create(clazz, parser.getToken(text, false));
 	}
 
 	IType create(String className);
