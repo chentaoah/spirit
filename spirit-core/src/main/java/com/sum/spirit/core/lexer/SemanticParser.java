@@ -16,15 +16,15 @@ public class SemanticParser extends AbsSemanticParser {
 	@Autowired
 	public Lexer lexer;
 
-	public Token getToken(String word, boolean isInsideType) {
+	public Token getToken(String word, boolean insideType) {
 		Token token = new Token();
-		getTokenType(word, token, isInsideType);
+		getTokenType(word, token, insideType);
 		getTokenValue(word, token);
 		getTokenAttas(word, token);
 		return token;
 	}
 
-	public void getTokenType(String word, Token token, boolean isInsideType) {
+	public void getTokenType(String word, Token token, boolean insideType) {
 
 		if (isPath(word)) {
 			token.type = TokenTypeEnum.PATH;
@@ -35,13 +35,13 @@ public class SemanticParser extends AbsSemanticParser {
 		} else if (isKeyword(word)) {
 			token.type = TokenTypeEnum.KEYWORD;
 
-		} else if (isOperator(word) && !isInsideType) {// 类型声明中，一般不包含操作符
+		} else if (isOperator(word) && !insideType) {// 类型声明中，一般不包含操作符
 			token.type = TokenTypeEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
 			token.type = TokenTypeEnum.SEPARATOR;
 
-		} else if (isType(word) || (isInsideType && "?".equals(word))) {
+		} else if (isType(word) || (insideType && "?".equals(word))) {
 			token.type = TokenTypeEnum.TYPE;
 
 		} else if (isInit(word)) {
@@ -77,20 +77,20 @@ public class SemanticParser extends AbsSemanticParser {
 		}
 	}
 
-	public Object getStatement(String word, boolean isInsideType) {
-		if (isInsideType && (!word.contains("<") && !word.contains(">")))
+	public Object getStatement(String word, boolean insideType) {
+		if (insideType && (!word.contains("<") && !word.contains(">")))
 			return word;
 		// 如果是类型，则直接用尖括号进行拆分
 		// 如果是其他，则不使用尖括号进行拆分
-		List<String> words = isInsideType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
+		List<String> words = insideType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
 		String first = words.get(0);
 		List<Token> tokens = null;
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
-			tokens = getTokens(words.subList(1, words.size()), isInsideType);
+			tokens = getTokens(words.subList(1, words.size()), insideType);
 			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
 		} else {
-			tokens = getTokens(words, isInsideType);
+			tokens = getTokens(words, insideType);
 		}
 		Assert.notNull(tokens, "Tokens can not be null!");
 		return new Statement(tokens);

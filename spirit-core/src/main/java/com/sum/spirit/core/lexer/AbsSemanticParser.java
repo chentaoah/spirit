@@ -61,10 +61,10 @@ public abstract class AbsSemanticParser {
 		return getTokens(words, false);
 	}
 
-	public List<Token> getTokens(List<String> words, boolean isInsideType) {
+	public List<Token> getTokens(List<String> words, boolean insideType) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words)
-			tokens.add(getToken(word, isInsideType));
+			tokens.add(getToken(word, insideType));
 		return tokens;
 	}
 
@@ -178,6 +178,6 @@ public abstract class AbsSemanticParser {
 		return word.substring(1, word.length() - 1);
 	}
 
-	public abstract Token getToken(String word, boolean isInsideType);
+	public abstract Token getToken(String word, boolean insideType);
 
 }
