@@ -3,10 +3,9 @@ package com.sum.spirit.core.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.MemberVisiter;
-import com.sum.spirit.api.deduce.VariableTracker;
-import com.sum.spirit.api.link.ClassLinker;
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.core.MemberVisiter;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
@@ -19,7 +18,7 @@ import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 
 @Component
-public class VariableTrackerImpl implements VariableTracker {
+public class VariableTracker {
 
 	@Autowired
 	public MemberVisiter visiter;
@@ -28,7 +27,6 @@ public class VariableTrackerImpl implements VariableTracker {
 	@Autowired
 	public TypeFactory factory;
 
-	@Override
 	public void track(IClass clazz, MethodContext context, Statement statement) {
 
 		for (Token token : statement.tokens) {
@@ -62,7 +60,6 @@ public class VariableTrackerImpl implements VariableTracker {
 		}
 	}
 
-	@Override
 	public IType findType(IClass clazz, MethodContext context, String name) {
 
 		// super

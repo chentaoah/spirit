@@ -8,7 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.api.PostProcessor;
+import com.sum.spirit.core.PostProcessor;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.utils.FileUtils;

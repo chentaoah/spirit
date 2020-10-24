@@ -3,13 +3,7 @@ package com.sum.spirit.core.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.PostProcessor;
-import com.sum.spirit.api.deduce.ElementVisiter;
-import com.sum.spirit.api.deduce.ExpressDeclarer;
-import com.sum.spirit.api.deduce.FastDeducer;
-import com.sum.spirit.api.deduce.InvokeVisiter;
-import com.sum.spirit.api.deduce.TypeDeclarer;
-import com.sum.spirit.api.deduce.VariableTracker;
+import com.sum.spirit.core.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
@@ -18,7 +12,7 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
 @Component
-public class ElementVisiterImpl implements ElementVisiter {
+public class ElementVisiter {
 
 	@Autowired
 	public TypeDeclarer declarer;
@@ -33,7 +27,6 @@ public class ElementVisiterImpl implements ElementVisiter {
 	@Autowired
 	public PostProcessor processor;
 
-	@Override
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {
 			// 1.some statements need to declare variable types in advance

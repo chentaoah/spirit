@@ -6,8 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.ClassResolver;
-import com.sum.spirit.api.lexer.ElementBuilder;
+import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -19,12 +18,11 @@ import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-public class ClassResolverImpl implements ClassResolver {
+public class ClassResolver {
 
 	@Autowired
 	public ElementBuilder builder;
 
-	@Override
 	public List<IClass> resolve(String packageStr, Document document) {
 
 		List<IClass> classes = new ArrayList<>();

@@ -5,20 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.lexer.Lexer;
-import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
-public class SemanticParserImpl implements SemanticParser {
+public class SemanticParser extends AbsSemanticParser {
 
 	@Autowired
 	public Lexer lexer;
 
-	@Override
 	public Token getToken(String word, boolean isInsideType) {
 		Token token = new Token();
 		getTokenType(word, token, isInsideType);

@@ -3,7 +3,7 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenEnum;

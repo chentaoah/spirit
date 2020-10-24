@@ -9,18 +9,15 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.lexer.Lexer;
-import com.sum.spirit.api.lexer.SemanticParser;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.utils.LineUtils;
 
 @Component
-public class LexerImpl implements Lexer {
+public class Lexer {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
-	@Override
 	public List<String> getWords(String text, Character... ignoreOnceChars) {
 
 		// 拆分方法体时，会传入空的text
@@ -116,7 +113,7 @@ public class LexerImpl implements Lexer {
 		// 6.如果一个片段中，包含“.”，那么进行更细致的拆分
 		for (int i = 0; i < words.size(); i++) {
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !SemanticParser.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !AbsSemanticParser.isDouble(word)) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(i);
 				words.addAll(i, subWords);

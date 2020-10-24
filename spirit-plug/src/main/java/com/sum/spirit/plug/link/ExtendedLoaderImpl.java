@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.link.ExtendedLoader;
+import com.sum.spirit.api.ExtendedLoader;
 import com.sum.spirit.plug.annotation.Data;
 
 @Component

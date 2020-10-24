@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
@@ -145,7 +145,6 @@ public class IClass {
 	public IType toType() {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		return factory.create(this, getTypeToken());
-
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>

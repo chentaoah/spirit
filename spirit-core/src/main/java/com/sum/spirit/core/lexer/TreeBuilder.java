@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.lexer.TreeBuilder;
+import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -15,9 +15,14 @@ import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
 @Component
-public class TreeBuilderImpl implements TreeBuilder {
+public class TreeBuilder {
 
-	@Override
+	public AbsSyntaxTree build(Statement statement) {
+		List<Token> tokens = build(statement.tokens);
+		markTreeId(tokens);
+		return new AbsSyntaxTree(tokens);
+	}
+
 	public List<Token> build(List<Token> tokens) {
 
 		if (tokens.size() == 1)
@@ -38,7 +43,6 @@ public class TreeBuilderImpl implements TreeBuilder {
 		return getNodeByGraph(tokens);
 	}
 
-	@Override
 	public void markTreeId(List<Token> tokens) {
 		int count = 0;
 		for (Token token : tokens) {

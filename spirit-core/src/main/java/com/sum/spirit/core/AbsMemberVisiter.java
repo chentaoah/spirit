@@ -1,9 +1,9 @@
-package com.sum.spirit.api;
+package com.sum.spirit.core;
 
 import java.util.List;
 import java.util.Map;
 
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.AbsMember;
 import com.sum.spirit.pojo.clazz.IAnnotation;
@@ -13,9 +13,9 @@ import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.utils.SpringUtils;
 
-public interface MemberVisiter {
+public abstract class AbsMemberVisiter {
 
-	default void visit(Map<String, IClass> allClasses) {
+	public void visit(Map<String, IClass> allClasses) {
 		for (IClass clazz : allClasses.values()) {
 			visitAnnotations(clazz, clazz.annotations);
 			clazz.fields.forEach((field) -> visitAnnotations(clazz, field.annotations));
@@ -30,7 +30,7 @@ public interface MemberVisiter {
 		}
 	}
 
-	default IType visitMember(IClass clazz, AbsMember member) {
+	public IType visitMember(IClass clazz, AbsMember member) {
 		member.lock();
 		IType type = member.getType();
 		if (type == null) {
@@ -47,15 +47,15 @@ public interface MemberVisiter {
 		return type;
 	}
 
-	default void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
+	public void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		annotations.forEach((annotation) -> annotation.type = factory.create(clazz, annotation.token));
 	}
 
-	void visitParameters(IClass clazz, IMethod method);
+	public abstract void visitParameters(IClass clazz, IMethod method);
 
-	IType visitField(IClass clazz, IField field);
+	public abstract IType visitField(IClass clazz, IField field);
 
-	IType visitMethod(IClass clazz, IMethod method);
+	public abstract IType visitMethod(IClass clazz, IMethod method);
 
 }

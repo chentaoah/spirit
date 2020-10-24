@@ -3,9 +3,9 @@ package com.sum.spirit.pojo.enums;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sum.spirit.api.lexer.SemanticParser;
-import com.sum.spirit.api.link.ExtendedLoader;
-import com.sum.spirit.api.link.NativeLoader;
+import com.sum.spirit.api.ExtendedLoader;
+import com.sum.spirit.api.NativeLoader;
+import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IType;
@@ -98,7 +98,7 @@ public enum TypeEnum {
 	}
 
 	public static boolean isPrimitive(String className) {
-		return SemanticParser.isPrimitive(className);
+		return AbsSemanticParser.isPrimitive(className);
 	}
 
 	public static String getPrimitiveArrayTargetName(String className) {

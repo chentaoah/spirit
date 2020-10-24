@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.deduce.FastDeducer;
-import com.sum.spirit.api.lexer.TreeBuilder;
+import com.sum.spirit.core.lexer.TreeBuilder;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
@@ -16,12 +15,11 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
-public class FastDeducerImpl implements FastDeducer {
+public class FastDeducer {
 
 	@Autowired
 	public TreeBuilder builder;
 
-	@Override
 	public IType derive(IClass clazz, Statement statement) {
 		// 构建树形结构
 		List<Token> tokens = builder.build(statement.tokens);

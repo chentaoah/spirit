@@ -14,7 +14,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.link.ClassLinker;
+import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IType;

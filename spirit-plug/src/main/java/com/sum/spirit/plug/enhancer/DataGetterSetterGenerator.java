@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassEnhancer;
-import com.sum.spirit.api.MemberVisiter;
-import com.sum.spirit.api.lexer.ElementBuilder;
+import com.sum.spirit.core.MemberVisiter;
+import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.plug.annotation.Data;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;

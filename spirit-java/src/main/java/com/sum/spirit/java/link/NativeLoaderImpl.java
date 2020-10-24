@@ -2,7 +2,7 @@ package com.sum.spirit.java.link;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.link.NativeLoader;
+import com.sum.spirit.api.NativeLoader;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;

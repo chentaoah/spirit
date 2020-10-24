@@ -3,12 +3,7 @@ package com.sum.spirit.core.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.deduce.ElementVisiter;
-import com.sum.spirit.api.deduce.ExpressDeclarer;
-import com.sum.spirit.api.deduce.FastDeducer;
-import com.sum.spirit.api.deduce.InvokeVisiter;
-import com.sum.spirit.api.deduce.VariableTracker;
-import com.sum.spirit.api.lexer.ElementBuilder;
+import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
@@ -18,7 +13,7 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 
 @Component
-public class ExpressDeclarerImpl implements ExpressDeclarer {
+public class ExpressDeclarer {
 
 	@Autowired
 	public ElementBuilder builder;
@@ -31,7 +26,6 @@ public class ExpressDeclarerImpl implements ExpressDeclarer {
 	@Autowired
 	public FastDeducer deducer;
 
-	@Override
 	public void declare(IClass clazz, MethodContext context, Element element) {
 
 		if (element.isAssign()) {// text = "abc"

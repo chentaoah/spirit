@@ -1,4 +1,4 @@
-package com.sum.spirit.api.lexer;
+package com.sum.spirit.core.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenEnum;
 
-public interface SemanticParser {
+public abstract class AbsSemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
@@ -57,49 +57,49 @@ public interface SemanticParser {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 
-	default List<Token> getTokens(List<String> words) {
+	public List<Token> getTokens(List<String> words) {
 		return getTokens(words, false);
 	}
 
-	default List<Token> getTokens(List<String> words, boolean isInsideType) {
+	public List<Token> getTokens(List<String> words, boolean isInsideType) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words)
 			tokens.add(getToken(word, isInsideType));
 		return tokens;
 	}
 
-	default boolean isPath(String word) {
+	public boolean isPath(String word) {
 		return !DOUBLE_PATTERN.matcher(word).matches() && PATH_PATTERN.matcher(word).matches();
 	}
 
-	default boolean isAnnotation(String word) {
+	public boolean isAnnotation(String word) {
 		return ANNOTATION_PATTERN.matcher(word).matches();
 	}
 
-	default boolean isKeyword(String word) {
+	public boolean isKeyword(String word) {
 		return KeywordEnum.isKeyword(word);
 	}
 
-	default boolean isOperator(String word) {
+	public boolean isOperator(String word) {
 		return SymbolEnum.getOperator(word) != null;
 	}
 
-	default boolean isSeparator(String word) {
+	public boolean isSeparator(String word) {
 		return SymbolEnum.getSeparator(word) != null;
 	}
 
-	default boolean isType(String word) {
+	public boolean isType(String word) {
 		return PRIMITIVE_PATTERN.matcher(word).matches() || PRIMITIVE_ARRAY_PATTERN.matcher(word).matches() || TYPE_PATTERN.matcher(word).matches()
 				|| TYPE_ARRAY_PATTERN.matcher(word).matches() || GENERIC_TYPE_PATTERN.matcher(word).matches();
 	}
 
-	default boolean isInit(String word) {
+	public boolean isInit(String word) {
 		return PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches() || PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()
 				|| TYPE_INIT_PATTERN.matcher(word).matches();
 	}
 
-	default TokenEnum getInitTokenType(String word) {
+	public TokenEnum getInitTokenType(String word) {
 		if (PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches())
 			return TokenEnum.ARRAY_INIT;
 		if (PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches())
@@ -113,13 +113,13 @@ public interface SemanticParser {
 		return null;
 	}
 
-	default boolean isValue(String word) {
+	public boolean isValue(String word) {
 		return NULL_PATTERN.matcher(word).matches() || BOOL_PATTERN.matcher(word).matches() || CHAR_PATTERN.matcher(word).matches()
 				|| INT_PATTERN.matcher(word).matches() || LONG_PATTERN.matcher(word).matches() || DOUBLE_PATTERN.matcher(word).matches()
 				|| STR_PATTERN.matcher(word).matches() || LIST_PATTERN.matcher(word).matches() || MAP_PATTERN.matcher(word).matches();
 	}
 
-	default TokenEnum getValueTokenType(String word) {
+	public TokenEnum getValueTokenType(String word) {
 		if (NULL_PATTERN.matcher(word).matches())
 			return TokenEnum.NULL;
 		if (BOOL_PATTERN.matcher(word).matches())
@@ -141,26 +141,26 @@ public interface SemanticParser {
 		return null;
 	}
 
-	default boolean isSubexpress(String word) {
+	public boolean isSubexpress(String word) {
 		return SUBEXPRESS_PATTERN.matcher(word).matches();
 	}
 
-	default TokenEnum getSubexpressTokenType(String word) {
+	public TokenEnum getSubexpressTokenType(String word) {
 		if (isType(getCastType(word)))
 			return TokenEnum.CAST;
 		return TokenEnum.SUBEXPRESS;
 	}
 
-	default boolean isVar(String word) {
+	public boolean isVar(String word) {
 		return VAR_PATTERN.matcher(word).matches() || CONST_PATTERN.matcher(word).matches();
 	}
 
-	default boolean isAccess(String word) {
+	public boolean isAccess(String word) {
 		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || VISIT_FIELD_PATTERN.matcher(word).matches() || INVOKE_METHOD_PATTERN.matcher(word).matches()
 				|| VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches() || ARRAY_INDEX_PATTERN.matcher(word).matches();
 	}
 
-	default TokenEnum getAccessTokenType(String word) {
+	public TokenEnum getAccessTokenType(String word) {
 		if (INVOKE_LOCAL_PATTERN.matcher(word).matches())
 			return TokenEnum.LOCAL_METHOD;
 		if (VISIT_FIELD_PATTERN.matcher(word).matches())
@@ -174,10 +174,10 @@ public interface SemanticParser {
 		return null;
 	}
 
-	default String getCastType(String word) {
+	public String getCastType(String word) {
 		return word.substring(1, word.length() - 1);
 	}
 
-	Token getToken(String word, boolean isInsideType);
+	public abstract Token getToken(String word, boolean isInsideType);
 
 }

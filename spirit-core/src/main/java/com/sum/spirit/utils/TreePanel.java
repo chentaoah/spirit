@@ -3,7 +3,7 @@ package com.sum.spirit.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.core.lexer.ElementBuilderImpl;
+import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
@@ -118,7 +118,7 @@ public class TreePanel {
 //		String text = "for i=0; i<list.size(); i++ {";
 //		String text = "sequence = (sequence + 1) & sequenceMask";
 
-		Element element = new ElementBuilderImpl().build(new Line(text));
+		Element element = new ElementBuilder().build(new Line(text));
 		System.out.println(element.statement.debug());
 		System.out.println(element.statement.toString());
 		new TreePanel().debug(element);

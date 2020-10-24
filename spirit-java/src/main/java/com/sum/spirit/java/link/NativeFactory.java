@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.link.TypeFactoryImpl;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
-public class NativeFactory extends TypeFactoryImpl {
+public class NativeFactory extends TypeFactory {
 
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());

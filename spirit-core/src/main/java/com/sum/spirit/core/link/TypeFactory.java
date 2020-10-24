@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.api.deduce.FastDeducer;
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.deduce.FastDeducer;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
@@ -21,7 +20,7 @@ import com.sum.spirit.utils.TypeUtils;
 
 @Component
 @Primary
-public class TypeFactoryImpl implements TypeFactory {
+public class TypeFactory extends AbsTypeFactory {
 
 	@Autowired
 	public Compiler compiler;

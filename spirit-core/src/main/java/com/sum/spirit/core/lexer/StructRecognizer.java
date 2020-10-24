@@ -4,15 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.lexer.StructRecognizer;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 @Component
-public class StructRecognizerImpl implements StructRecognizer {
+public class StructRecognizer {
 
-	@Override
 	public SyntaxEnum getSyntax(List<Token> tokens) {
 
 		Token first = tokens.get(0);

@@ -5,13 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.PostProcessor;
-import com.sum.spirit.api.lexer.ElementBuilder;
-import com.sum.spirit.api.lexer.Lexer;
-import com.sum.spirit.api.lexer.SemanticParser;
-import com.sum.spirit.api.lexer.StructRecognizer;
-import com.sum.spirit.api.lexer.LineChecker;
-import com.sum.spirit.api.lexer.TreeBuilder;
+import com.sum.spirit.api.LineChecker;
+import com.sum.spirit.core.PostProcessor;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;
@@ -21,14 +16,14 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 @Component
-public class ElementBuilderImpl implements ElementBuilder {
+public class ElementBuilder {
 
 	@Autowired(required = false)
 	public LineChecker checker;
 	@Autowired
 	public Lexer lexer;
 	@Autowired
-	public SemanticParser parser;
+	public AbsSemanticParser parser;
 	@Autowired
 	public StructRecognizer recognizer;
 	@Autowired
@@ -36,7 +31,10 @@ public class ElementBuilderImpl implements ElementBuilder {
 	@Autowired
 	public PostProcessor processor;
 
-	@Override
+	public Element build(String text) {
+		return build(new Line(text));
+	}
+
 	public Element build(Line line) {
 		try {
 			// 语法校验

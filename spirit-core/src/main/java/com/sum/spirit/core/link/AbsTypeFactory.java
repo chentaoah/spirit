@@ -1,11 +1,12 @@
-package com.sum.spirit.api.link;
+package com.sum.spirit.core.link;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.sum.spirit.api.lexer.SemanticParser;
+import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
@@ -13,25 +14,25 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
-public interface TypeFactory {
+public abstract class AbsTypeFactory {
 
-	default IType create(String className, IType... genericTypes) {
+	public IType create(String className, IType... genericTypes) {
 		return create(className, Arrays.asList(genericTypes));
 	}
 
-	default IType create(String className, List<IType> genericTypes) {
+	public IType create(String className, List<IType> genericTypes) {
 		IType type = create(className);
 		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		return type;
 	}
 
-	default IType createTypeVariable(String genericName) {// T or K
+	public IType createTypeVariable(String genericName) {// T or K
 		IType type = create(TypeEnum.OBJECT.value.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}
 
-	default IType populate(IType type, IType targetType) {
+	public IType populate(IType type, IType targetType) {
 
 		if (targetType == null)
 			return null;
@@ -56,14 +57,14 @@ public interface TypeFactory {
 		return targetType;
 	}
 
-	default IType create(IClass clazz, String text) {
+	public IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
-		SemanticParser parser = SpringUtils.getBean(SemanticParser.class);
+		AbsSemanticParser parser = SpringUtils.getBean(AbsSemanticParser.class);
 		return create(clazz, parser.getToken(text, false));
 	}
 
-	IType create(String className);
+	public abstract IType create(String className);
 
-	IType create(IClass clazz, Token token);
+	public abstract IType create(IClass clazz, Token token);
 
 }

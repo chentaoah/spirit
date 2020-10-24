@@ -8,11 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.ClassResolver;
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.api.DocumentReader;
-import com.sum.spirit.api.MemberVisiter;
-import com.sum.spirit.api.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.utils.TypeUtils;

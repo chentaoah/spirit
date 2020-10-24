@@ -1,4 +1,4 @@
-package com.sum.spirit.api.link;
+package com.sum.spirit.api;
 
 import java.util.List;
 

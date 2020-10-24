@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.deduce.FastDeducer;
+import com.sum.spirit.core.deduce.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.lib.StringUtils;

@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.MemberVisiter;
-import com.sum.spirit.api.deduce.ElementVisiter;
-import com.sum.spirit.api.link.TypeFactory;
+import com.sum.spirit.core.deduce.ElementVisiter;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -23,14 +22,13 @@ import com.sum.spirit.pojo.enums.TokenEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
-public class MemberVisiterImpl implements MemberVisiter {
+public class MemberVisiter extends AbsMemberVisiter {
 
 	@Autowired
 	public ElementVisiter visiter;
 	@Autowired
 	public TypeFactory factory;
 
-	@Override
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(TokenEnum.TYPE_INIT, TokenEnum.LOCAL_METHOD);
@@ -53,13 +51,11 @@ public class MemberVisiterImpl implements MemberVisiter {
 		}
 	}
 
-	@Override
 	public IType visitField(IClass clazz, IField field) {
 		IVariable variable = visiter.visit(clazz, null, field.element);
 		return variable.type;
 	}
 
-	@Override
 	public IType visitMethod(IClass clazz, IMethod method) {
 
 		MethodContext context = new MethodContext(method);
