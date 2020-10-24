@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 public class Statement extends TokenBox {
 
@@ -50,7 +50,7 @@ public class Statement extends TokenBox {
 		List<Token> tokens = copyTokens();
 
 		for (int i = tokens.size() - 1; i >= 1; i--)
-			tokens.add(i, new Token(TokenEnum.SEPARATOR, " "));
+			tokens.add(i, new Token(TokenTypeEnum.SEPARATOR, " "));
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);

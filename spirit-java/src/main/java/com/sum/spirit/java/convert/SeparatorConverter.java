@@ -8,7 +8,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-20)
@@ -31,11 +31,11 @@ public class SeparatorConverter implements ElementConverter {
 		// if text {
 		// }catch Exception e{
 		int index = findLastKeyword(statement);
-		statement.tokens.add(index + 1, new Token(TokenEnum.SEPARATOR, "("));
+		statement.tokens.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
 		if ("{".equals(statement.last())) {
-			statement.tokens.add(statement.size() - 1, new Token(TokenEnum.SEPARATOR, ")"));
+			statement.tokens.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
 		} else {
-			statement.tokens.add(new Token(TokenEnum.SEPARATOR, ")"));
+			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
 		}
 	}
 
@@ -58,7 +58,7 @@ public class SeparatorConverter implements ElementConverter {
 
 	public void addLineEnd(IClass clazz, Statement statement) {
 		if (!"{".equals(statement.last()))
-			statement.tokens.add(new Token(TokenEnum.SEPARATOR, ";"));
+			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
 	}
 
 }

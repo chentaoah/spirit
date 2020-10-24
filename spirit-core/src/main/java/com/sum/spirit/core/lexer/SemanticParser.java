@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 public class SemanticParser extends AbsSemanticParser {
@@ -27,22 +27,22 @@ public class SemanticParser extends AbsSemanticParser {
 	public void getTokenType(String word, Token token, boolean isInsideType) {
 
 		if (isPath(word)) {
-			token.type = TokenEnum.PATH;
+			token.type = TokenTypeEnum.PATH;
 
 		} else if (isAnnotation(word)) {
-			token.type = TokenEnum.ANNOTATION;
+			token.type = TokenTypeEnum.ANNOTATION;
 
 		} else if (isKeyword(word)) {
-			token.type = TokenEnum.KEYWORD;
+			token.type = TokenTypeEnum.KEYWORD;
 
 		} else if (isOperator(word) && !isInsideType) {// 类型声明中，一般不包含操作符
-			token.type = TokenEnum.OPERATOR;
+			token.type = TokenTypeEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
-			token.type = TokenEnum.SEPARATOR;
+			token.type = TokenTypeEnum.SEPARATOR;
 
 		} else if (isType(word) || (isInsideType && "?".equals(word))) {
-			token.type = TokenEnum.TYPE;
+			token.type = TokenTypeEnum.TYPE;
 
 		} else if (isInit(word)) {
 			token.type = getInitTokenType(word);
@@ -54,7 +54,7 @@ public class SemanticParser extends AbsSemanticParser {
 			token.type = getSubexpressTokenType(word);
 
 		} else if (isVar(word)) {
-			token.type = TokenEnum.VAR;
+			token.type = TokenTypeEnum.VAR;
 
 		} else if (isAccess(word)) {
 			token.type = getAccessTokenType(word);
@@ -88,7 +88,7 @@ public class SemanticParser extends AbsSemanticParser {
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			tokens = getTokens(words.subList(1, words.size()), isInsideType);
-			tokens.add(0, new Token(TokenEnum.PREFIX, first));
+			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
 		} else {
 			tokens = getTokens(words, isInsideType);
 		}

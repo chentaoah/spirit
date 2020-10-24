@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TreeUtils;
 
@@ -59,7 +59,7 @@ public class StrEqualsConverter implements ElementConverter {
 						}
 
 						String text = String.format(format, lastStatement, nextStatement);
-						Token expressToken = new Token(TokenEnum.CUSTOM_EXPRESS, text);
+						Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 						expressToken.setTypeAtt(TypeEnum.BOOLEAN.value);
 						expressToken.setTreeId(token.getTreeId());
 						statement.replace(start, end, expressToken);

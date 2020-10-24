@@ -2,124 +2,124 @@ package com.sum.spirit.pojo.element;
 
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 public abstract class Semantic {
 
 	public boolean isAnnotation() {
-		return getType() == TokenEnum.ANNOTATION;
+		return getType() == TokenTypeEnum.ANNOTATION;
 	}
 
 	public boolean isKeyword() {
-		return getType() == TokenEnum.KEYWORD;
+		return getType() == TokenTypeEnum.KEYWORD;
 	}
 
 	public boolean isOperator() {
-		return getType() == TokenEnum.OPERATOR;
+		return getType() == TokenTypeEnum.OPERATOR;
 	}
 
 	public boolean isSeparator() {
-		return getType() == TokenEnum.SEPARATOR;
+		return getType() == TokenTypeEnum.SEPARATOR;
 	}
 
 	public boolean isType() {
-		return getType() == TokenEnum.TYPE;
+		return getType() == TokenTypeEnum.TYPE;
 	}
 
 	public boolean isArrayInit() {
-		return getType() == TokenEnum.ARRAY_INIT;
+		return getType() == TokenTypeEnum.ARRAY_INIT;
 	}
 
 	public boolean isTypeInit() {
-		return getType() == TokenEnum.TYPE_INIT;
+		return getType() == TokenTypeEnum.TYPE_INIT;
 	}
 
 	public boolean isNull() {
-		return getType() == TokenEnum.NULL;
+		return getType() == TokenTypeEnum.NULL;
 	}
 
 	public boolean isBool() {
-		return getType() == TokenEnum.BOOL;
+		return getType() == TokenTypeEnum.BOOL;
 	}
 
 	public boolean isChar() {
-		return getType() == TokenEnum.CHAR;
+		return getType() == TokenTypeEnum.CHAR;
 	}
 
 	public boolean isInt() {
-		return getType() == TokenEnum.INT;
+		return getType() == TokenTypeEnum.INT;
 	}
 
 	public boolean isLong() {
-		return getType() == TokenEnum.LONG;
+		return getType() == TokenTypeEnum.LONG;
 	}
 
 	public boolean isDouble() {
-		return getType() == TokenEnum.DOUBLE;
+		return getType() == TokenTypeEnum.DOUBLE;
 	}
 
 	public boolean isStr() {
-		return getType() == TokenEnum.STR;
+		return getType() == TokenTypeEnum.STR;
 	}
 
 	public boolean isList() {
-		return getType() == TokenEnum.LIST;
+		return getType() == TokenTypeEnum.LIST;
 	}
 
 	public boolean isMap() {
-		return getType() == TokenEnum.MAP;
+		return getType() == TokenTypeEnum.MAP;
 	}
 
 	public boolean isSubexpress() {
-		return getType() == TokenEnum.SUBEXPRESS;
+		return getType() == TokenTypeEnum.SUBEXPRESS;
 	}
 
 	public boolean isCast() {
-		return getType() == TokenEnum.CAST;
+		return getType() == TokenTypeEnum.CAST;
 	}
 
 	public boolean isVar() {
-		return getType() == TokenEnum.VAR;
+		return getType() == TokenTypeEnum.VAR;
 	}
 
 	public boolean isLocalMethod() {
-		return getType() == TokenEnum.LOCAL_METHOD;
+		return getType() == TokenTypeEnum.LOCAL_METHOD;
 	}
 
 	public boolean isVisitField() {
-		return getType() == TokenEnum.VISIT_FIELD;
+		return getType() == TokenTypeEnum.VISIT_FIELD;
 	}
 
 	public boolean isInvokeMethod() {
-		return getType() == TokenEnum.INVOKE_METHOD;
+		return getType() == TokenTypeEnum.INVOKE_METHOD;
 	}
 
 	public boolean isVisitArrayIndex() {
-		return getType() == TokenEnum.VISIT_ARRAY_INDEX;
+		return getType() == TokenTypeEnum.VISIT_ARRAY_INDEX;
 	}
 
 	public boolean isArrayIndex() {
-		return getType() == TokenEnum.ARRAY_INDEX;
+		return getType() == TokenTypeEnum.ARRAY_INDEX;
 	}
 
 	public boolean isPrefix() {
-		return getType() == TokenEnum.PREFIX;
+		return getType() == TokenTypeEnum.PREFIX;
 	}
 
 	public boolean isNode() {
-		return getType() == TokenEnum.NODE;
+		return getType() == TokenTypeEnum.NODE;
 	}
 
 	public boolean isCustomPrefix() {
-		return getType() == TokenEnum.CUSTOM_PREFIX;
+		return getType() == TokenTypeEnum.CUSTOM_PREFIX;
 	}
 
 	public boolean isCustomSuffix() {
-		return getType() == TokenEnum.CUSTOM_SUFFIX;
+		return getType() == TokenTypeEnum.CUSTOM_SUFFIX;
 	}
 
 	public boolean isCustomExpress() {
-		return getType() == TokenEnum.CUSTOM_EXPRESS;
+		return getType() == TokenTypeEnum.CUSTOM_EXPRESS;
 	}
 
 	public boolean isInit() {
@@ -186,7 +186,7 @@ public abstract class Semantic {
 		return isOperator() && ("<<".equals(getValue()) || ">>".equals(getValue()));
 	}
 
-	public abstract TokenEnum getType();
+	public abstract TokenTypeEnum getType();
 
 	public abstract <T> T getValue();
 

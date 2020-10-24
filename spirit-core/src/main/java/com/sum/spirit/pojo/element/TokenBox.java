@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 public abstract class TokenBox {
 
@@ -55,10 +55,10 @@ public abstract class TokenBox {
 		return getTokens().get(index);
 	}
 
-	public Token findToken(TokenEnum... types) {
+	public Token findToken(TokenTypeEnum... types) {
 		for (Token token : getTokens()) {
 			Assert.notNull(token.type, "Token type cannot be empty!");
-			for (TokenEnum type : types) {
+			for (TokenTypeEnum type : types) {
 				if (token.type.equals(type))
 					return token;
 			}
@@ -131,7 +131,7 @@ public abstract class TokenBox {
 	public void replaceKeyword(String keyword, String text) {
 		int index = findKeyword(keyword);
 		if (index != -1)
-			getTokens().set(index, new Token(TokenEnum.KEYWORD, text));
+			getTokens().set(index, new Token(TokenTypeEnum.KEYWORD, text));
 	}
 
 	public void removeKeyword(String keyword) {
@@ -141,13 +141,13 @@ public abstract class TokenBox {
 	}
 
 	public void addKeywordAtFirst(String text) {
-		getTokens().add(0, new Token(TokenEnum.KEYWORD, text));
+		getTokens().add(0, new Token(TokenTypeEnum.KEYWORD, text));
 	}
 
 	public void insertKeywordAfter(String keyword, String text) {
 		int index = findKeyword(keyword);
 		if (index != -1)
-			getTokens().add(index + 1, new Token(TokenEnum.KEYWORD, text));
+			getTokens().add(index + 1, new Token(TokenTypeEnum.KEYWORD, text));
 	}
 
 	public int findKeywordEnd(int index) {

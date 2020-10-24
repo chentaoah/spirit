@@ -7,42 +7,46 @@ import java.util.Map;
  * The enum of keyword
  */
 public enum KeywordEnum {
-	PACKAGE("package", TypeEnum.STRUCT), //
-	IMPORT("import", TypeEnum.STRUCT), //
-	INTERFACE("interface", TypeEnum.STRUCT), //
-	ABSTRACT("abstract", TypeEnum.STRUCT), //
-	CLASS("class", TypeEnum.STRUCT), //
-	FUNC("func", TypeEnum.STRUCT), //
-	RETURN("return", TypeEnum.LINE), //
-	IF("if", TypeEnum.LINE), //
-	DO("do", TypeEnum.LINE), //
-	WHILE("while", TypeEnum.LINE), //
-	CONTINUE("continue", TypeEnum.LINE), //
-	BREAK("break", TypeEnum.LINE), //
-	TRY("try", TypeEnum.LINE), //
-	THROW("throw", TypeEnum.LINE), //
-	SYNC("sync", TypeEnum.LINE), //
-	PRINT("print", TypeEnum.LINE), //
-	DEBUG("debug", TypeEnum.LINE), //
-	ERROR("error", TypeEnum.LINE), //
-	EXTENDS("extends", TypeEnum.TOKEN), //
-	IMPLS("impls", TypeEnum.TOKEN), //
-	THROWS("throws", TypeEnum.TOKEN), //
-	SUPER("super", TypeEnum.TOKEN), //
-	THIS("this", TypeEnum.TOKEN), //
-	ELSE("else", TypeEnum.TOKEN), //
-	FOR("for", TypeEnum.TOKEN), //
-	IN("in", TypeEnum.TOKEN), //
-	CATCH("catch", TypeEnum.TOKEN), //
-	FINALLY("finally", TypeEnum.TOKEN), //
-	INSTANCEOF("instanceof", TypeEnum.TOKEN), //
-	STATIC("static", TypeEnum.MODIFIER), //
-	PUBLIC("public", TypeEnum.MODIFIER), //
-	PRIVATE("private", TypeEnum.MODIFIER), //
-	PROTECTED("protected", TypeEnum.MODIFIER), //
-	CONST("const", TypeEnum.MODIFIER), //
-	VOLATILE("volatile", TypeEnum.MODIFIER), //
-	SYNCH("synch", TypeEnum.MODIFIER);//
+
+	PACKAGE("package", KeywordTypeEnum.STRUCT), //
+	IMPORT("import", KeywordTypeEnum.STRUCT), //
+	INTERFACE("interface", KeywordTypeEnum.STRUCT), //
+	ABSTRACT("abstract", KeywordTypeEnum.STRUCT), //
+	CLASS("class", KeywordTypeEnum.STRUCT), //
+	FUNC("func", KeywordTypeEnum.STRUCT), //
+
+	RETURN("return", KeywordTypeEnum.LINE), //
+	IF("if", KeywordTypeEnum.LINE), //
+	DO("do", KeywordTypeEnum.LINE), //
+	WHILE("while", KeywordTypeEnum.LINE), //
+	CONTINUE("continue", KeywordTypeEnum.LINE), //
+	BREAK("break", KeywordTypeEnum.LINE), //
+	TRY("try", KeywordTypeEnum.LINE), //
+	THROW("throw", KeywordTypeEnum.LINE), //
+	SYNC("sync", KeywordTypeEnum.LINE), //
+	PRINT("print", KeywordTypeEnum.LINE), //
+	DEBUG("debug", KeywordTypeEnum.LINE), //
+	ERROR("error", KeywordTypeEnum.LINE), //
+
+	EXTENDS("extends", KeywordTypeEnum.TOKEN), //
+	IMPLS("impls", KeywordTypeEnum.TOKEN), //
+	THROWS("throws", KeywordTypeEnum.TOKEN), //
+	SUPER("super", KeywordTypeEnum.TOKEN), //
+	THIS("this", KeywordTypeEnum.TOKEN), //
+	ELSE("else", KeywordTypeEnum.TOKEN), //
+	FOR("for", KeywordTypeEnum.TOKEN), //
+	IN("in", KeywordTypeEnum.TOKEN), //
+	CATCH("catch", KeywordTypeEnum.TOKEN), //
+	FINALLY("finally", KeywordTypeEnum.TOKEN), //
+	INSTANCEOF("instanceof", KeywordTypeEnum.TOKEN), //
+
+	STATIC("static", KeywordTypeEnum.MODIFIER), //
+	PUBLIC("public", KeywordTypeEnum.MODIFIER), //
+	PRIVATE("private", KeywordTypeEnum.MODIFIER), //
+	PROTECTED("protected", KeywordTypeEnum.MODIFIER), //
+	CONST("const", KeywordTypeEnum.MODIFIER), //
+	VOLATILE("volatile", KeywordTypeEnum.MODIFIER), //
+	SYNCH("synch", KeywordTypeEnum.MODIFIER);//
 
 	public static final Map<String, KeywordEnum> KEYWORD_MAP = new LinkedHashMap<>();
 
@@ -60,27 +64,27 @@ public enum KeywordEnum {
 	}
 
 	public static boolean isStruct(String value) {
-		return isKeyword(value) && getKeyword(value).type == TypeEnum.STRUCT;
+		return isKeyword(value) && getKeyword(value).type == KeywordTypeEnum.STRUCT;
 	}
 
 	public static boolean isLine(String value) {
-		return isKeyword(value) && getKeyword(value).type == TypeEnum.LINE;
+		return isKeyword(value) && getKeyword(value).type == KeywordTypeEnum.LINE;
 	}
 
 	public static boolean isModifier(String value) {
-		return isKeyword(value) && getKeyword(value).type == TypeEnum.MODIFIER;
+		return isKeyword(value) && getKeyword(value).type == KeywordTypeEnum.MODIFIER;
 	}
 
 	public String value;
 
-	public TypeEnum type;
+	public KeywordTypeEnum type;
 
-	private KeywordEnum(String value, TypeEnum type) {
+	private KeywordEnum(String value, KeywordTypeEnum type) {
 		this.value = value;
 		this.type = type;
 	}
 
-	public enum TypeEnum {
+	public enum KeywordTypeEnum {
 		STRUCT, LINE, TOKEN, MODIFIER
 	}
 

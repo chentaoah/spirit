@@ -12,7 +12,7 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 public class TreeBuilder {
@@ -138,7 +138,7 @@ public class TreeBuilder {
 				if (currToken.getOperand() == OperandEnum.RIGHT || currToken.getOperand() == OperandEnum.BINARY)
 					node.right = removeRight(tokens, index);
 
-				tokens.set(index, new Token(TokenEnum.NODE, node));
+				tokens.set(index, new Token(TokenTypeEnum.NODE, node));
 			}
 		}
 

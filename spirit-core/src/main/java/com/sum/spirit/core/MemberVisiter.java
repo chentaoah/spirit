@@ -18,7 +18,7 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
@@ -31,7 +31,7 @@ public class MemberVisiter extends AbsMemberVisiter {
 
 	public void visitParameters(IClass clazz, IMethod method) {
 		// invoke() // User()
-		Token methodToken = method.element.findToken(TokenEnum.TYPE_INIT, TokenEnum.LOCAL_METHOD);
+		Token methodToken = method.element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").split(",");
 		for (Statement paramStmt : statements) {

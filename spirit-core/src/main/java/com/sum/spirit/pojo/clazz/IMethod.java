@@ -6,7 +6,7 @@ import java.util.List;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
-import com.sum.spirit.pojo.enums.TokenEnum;
+import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
 public class IMethod extends AbsMember {
@@ -19,7 +19,7 @@ public class IMethod extends AbsMember {
 
 		super(annotations, element);
 
-		Token methodToken = element.findToken(TokenEnum.TYPE_INIT, TokenEnum.LOCAL_METHOD);
+		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
 			isInit = true;
 			name = methodToken.getSimpleName();
