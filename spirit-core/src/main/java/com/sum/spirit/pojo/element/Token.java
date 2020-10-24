@@ -1,5 +1,8 @@
 package com.sum.spirit.pojo.element;
 
+import java.util.Map;
+
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 public class Token extends AttributeMap {
@@ -16,15 +19,10 @@ public class Token extends AttributeMap {
 		this.value = value;
 	}
 
-	public Token copy() {
-		Token token = null;
-		if (canSplit()) {
-			token = new Token(type, ((Statement) getValue()).copy());
-		} else {
-			token = new Token(type, value);
-		}
-		token.copyAttributes(this);
-		return token;
+	public Token(TokenTypeEnum type, Object value, Map<AttributeEnum, Object> attributes) {
+		this.type = type;
+		this.value = value;
+		this.attributes = attributes;
 	}
 
 	@Override

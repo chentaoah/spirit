@@ -23,7 +23,7 @@ public class ElementBuilder {
 	@Autowired
 	public Lexer lexer;
 	@Autowired
-	public AbsSemanticParser parser;
+	public SemanticParser parser;
 	@Autowired
 	public StructRecognizer recognizer;
 	@Autowired

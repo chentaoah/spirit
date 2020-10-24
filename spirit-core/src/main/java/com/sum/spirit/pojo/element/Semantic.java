@@ -106,10 +106,6 @@ public abstract class Semantic {
 		return getType() == TokenTypeEnum.PREFIX;
 	}
 
-	public boolean isNode() {
-		return getType() == TokenTypeEnum.NODE;
-	}
-
 	public boolean isCustomPrefix() {
 		return getType() == TokenTypeEnum.CUSTOM_PREFIX;
 	}

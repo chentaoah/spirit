@@ -16,10 +16,6 @@ public class Statement extends TokenBox {
 		this.tokens = tokens;
 	}
 
-	public Statement copy() {
-		return new Statement(copyTokens());
-	}
-
 	public Statement subStmt(int start, int end) {
 		return new Statement(subTokens(start, end));
 	}

@@ -14,17 +14,17 @@ public class Element extends Syntactic {
 
 	public Statement statement;
 
-	public AbsSyntaxTree tree;
+	public AbsSyntaxTree syntaxTree;
 
 	public SyntaxEnum syntax;
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree tree, SyntaxEnum syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree syntaxTree, SyntaxEnum syntax) {
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;
-		this.tree = tree;
+		this.syntaxTree = syntaxTree;
 		this.syntax = syntax;
 	}
 

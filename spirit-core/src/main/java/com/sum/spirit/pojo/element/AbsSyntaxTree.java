@@ -8,24 +8,27 @@ import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 public class AbsSyntaxTree {
 
-	public List<Token> tokens;
+	public static final int START_INDEX = 0;
 
-	public AbsSyntaxTree(List<Token> tokens) {
-		this.tokens = tokens;
+	public List<Node> nodes;
+
+	public AbsSyntaxTree(List<Node> nodes) {
+		this.nodes = nodes;
 	}
 
 	public SyntaxEnum getSyntax() {
 
 		try {
-			int start = 0;
-			Token first = tokens.get(start);
+			Node firstNode = nodes.get(START_INDEX);
+			Token firstToken = firstNode.token;
 
-			if (KeywordEnum.isLine(first.toString()))
-				return SyntaxEnum.valueOf(first.toString().toUpperCase());
+			// 如果是行级别关键字，则直接返回语法枚举
+			if (KeywordEnum.isLine(firstToken.toString()))
+				return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
 
-			// if there is only one element, it may be a local method call
-			if (tokens.size() == 1 && first.isLocalMethod()) {
-				String memberName = first.getAttribute(AttributeEnum.MEMBER_NAME);
+			// 如果只有一个节点，可能是方法调用
+			if (nodes.size() == 1 && firstToken.isLocalMethod()) {
+				String memberName = firstToken.getAttribute(AttributeEnum.MEMBER_NAME);
 				if (KeywordEnum.SUPER.value.equals(memberName)) {
 					return SyntaxEnum.SUPER;
 
@@ -35,72 +38,68 @@ public class AbsSyntaxTree {
 				return SyntaxEnum.INVOKE;
 			}
 
-			// deriving syntax from abstract syntax tree
-			if (tokens.size() == 1 && first.isNode()) {
-				Node node = first.getValue();
-				Token token = node.token;
-				if (token.isType()) {
-					Token rightToken = node.right.token;
-					if (rightToken.isVar()) { // String text
+			// 通过抽象语法树进行推导
+			if (nodes.size() == 1) {
+				if (firstToken.isType()) {
+					Token nextToken = firstNode.next.token;
+					if (nextToken.isVar()) { // String text
 						return SyntaxEnum.DECLARE;
 
-					} else if (rightToken.isLocalMethod()) { // String test()
+					} else if (nextToken.isLocalMethod()) { // String test()
 						return SyntaxEnum.FUNC_DECLARE;
 					}
-				} else if (token.isAssign()) {
-					Token leftToken = node.left.token;
-					if (leftToken.isType()) {// String text = "abc"
+				} else if (firstToken.isAssign()) {
+					Token prevToken = firstNode.prev.token;
+					if (prevToken.isType()) {// String text = "abc"
 						return SyntaxEnum.DECLARE_ASSIGN;
 
-					} else if (leftToken.isVar()) {// text = "abc"
+					} else if (prevToken.isVar()) {// text = "abc"
 						return SyntaxEnum.ASSIGN;
 
-					} else if (leftToken.isVisitField()) {// var.text = "abc"
+					} else if (prevToken.isVisitField()) {// var.text = "abc"
 						return SyntaxEnum.FIELD_ASSIGN;
 					}
-				} else if (token.isInvokeMethod()) {// list.get(0)
+				} else if (firstToken.isInvokeMethod()) {// list.get(0)
 					return SyntaxEnum.INVOKE;
 				}
 				return SyntaxEnum.INVOKE;
 			}
 
-			if (tokens.size() == 2 && first.isNode()) {
-				Node node = first.getValue();
-				Token token = node.token;
-				if (token.isType()) {
-					Token rightToken = node.right.token;
-					if (rightToken.isLocalMethod()) // String test() {
+			if (nodes.size() == 2) {
+				if (firstToken.isType()) {
+					Token nextToken = firstNode.next.token;
+					if (nextToken.isLocalMethod()) // String test() {
 						return SyntaxEnum.FUNC_DECLARE;
 				}
 			}
 
-			Token second = tokens.get(start + 1);
-			Token third = tokens.get(start + 2);
+			Token secondToken = nodes.get(START_INDEX + 1).token;
+			Token thirdToken = nodes.get(START_INDEX + 2).token;
 
-			if (KeywordEnum.FOR.value.equals(first.toString())) {
-				if (KeywordEnum.IN.value.equals(third.toString())) {// for ? in ? {
+			if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
+				// for ? in ? {
+				if (KeywordEnum.IN.value.equals(thirdToken.toString()))
 					return SyntaxEnum.FOR_IN;
-				}
 				return SyntaxEnum.FOR;// for ?; ?; ? {
 			}
 
-			if ("}".equals(first.toString())) {
-				if (KeywordEnum.ELSE.value.equals(second.toString())) {
-					if (KeywordEnum.IF.value.equals(third.toString())) {// } else if ? {
+			if ("}".equals(firstToken.toString())) {
+				if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {
+					if (KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
 						return SyntaxEnum.ELSE_IF;
 					} else {
 						return SyntaxEnum.ELSE;// } else {
 					}
-				} else if (KeywordEnum.CATCH.value.equals(second.toString())) {// } catch Exception x {
+				} else if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
 					return SyntaxEnum.CATCH;
 
-				} else if (KeywordEnum.FINALLY.value.equals(second.toString())) {// } finally {
+				} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
 					return SyntaxEnum.FINALLY;
 				}
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to get current syntax!tokens of tree:" + tokens.toString());
+			throw new RuntimeException("Unable to get current syntax!tokens of tree:" + nodes.toString());
 		}
 
 		throw new RuntimeException("Unknown syntax!");

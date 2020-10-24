@@ -30,7 +30,6 @@ public enum TokenTypeEnum {
 	VISIT_ARRAY_INDEX, // 访问字段,并通过索引访问数组中的元素
 	ARRAY_INDEX, // 访问字段,并通过索引访问数组中的元素
 	PREFIX, // 前缀
-	NODE, // 节点
 	CUSTOM_PREFIX, // 自定义前缀
 	CUSTOM_SUFFIX, // 自定义后缀
 	CUSTOM_EXPRESS // 自定义表达式

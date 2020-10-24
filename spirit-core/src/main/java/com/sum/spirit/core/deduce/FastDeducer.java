@@ -1,7 +1,5 @@
 package com.sum.spirit.core.deduce;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,40 +21,35 @@ public class FastDeducer {
 
 	public IType derive(IClass clazz, Statement statement) {
 		// 构建树形结构
-		List<Token> tokens = builder.build(statement.tokens);
-		for (Token token : tokens) {
-			if (token.getAttribute(AttributeEnum.TYPE) != null) {// 如果有类型直接返回
-				return token.getAttribute(AttributeEnum.TYPE);
-
-			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
-				return getType(clazz, token.getValue());
-			}
+		IType type = null;
+		for (Node node : builder.buildNodes(statement.tokens)) {
+			type = getTypeByNode(clazz, node);
 		}
-		throw new RuntimeException("Cannot deduce type!statement:" + statement.toString());
+		// 校验
+		Assert.notNull(type, "Type is null!");
+		return type;
 	}
 
-	public static IType getType(IClass clazz, Node node) {
-
-		if (node == null)
-			return null;
+	public static IType getTypeByNode(IClass clazz, Node node) {
 
 		Token token = node.token;
-		// 如果是逻辑判断，或者类型判断关键字
-		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
+
+		// 如果有类型直接返回
+		if (token.getAttribute(AttributeEnum.TYPE) != null)
+			return token.getAttribute(AttributeEnum.TYPE);
+
+		if (token.isLogical() || token.isRelation() || token.isInstanceof()) { // 如果是逻辑判断，或者类型判断关键字
 			return TypeEnum.BOOLEAN.value;
 
-		} else if (token.isArithmetic() || token.isBitwise()) {
-			if (node.left != null) {// 先取左边的，再取右边的
-				return getType(clazz, node.left);
+		} else if (token.isArithmetic() || token.isBitwise()) {// 先取左边的，再取右边的
+			if (node.prev != null) {
+				return getTypeByNode(clazz, node.prev);
 
-			} else if (node.right != null) {
-				return getType(clazz, node.right);
+			} else if (node.next != null) {
+				return getTypeByNode(clazz, node.next);
 			}
 		}
-
-		Assert.notNull(token.getAttribute(AttributeEnum.TYPE), "Type is null!");
-		return token.getAttribute(AttributeEnum.TYPE);
-
+		return null;
 	}
 
 }

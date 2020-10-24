@@ -9,10 +9,6 @@ public abstract class AttributeMap extends Semantic {
 
 	public Map<AttributeEnum, Object> attributes = new HashMap<>();
 
-	public void copyAttributes(AttributeMap attributeMap) {
-		attributes = attributeMap.attributes;
-	}
-
 	@SuppressWarnings("unchecked")
 	public <T> T getAttribute(AttributeEnum attributeEnum) {
 		return (T) attributes.get(attributeEnum);
