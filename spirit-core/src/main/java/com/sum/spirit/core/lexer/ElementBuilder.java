@@ -40,32 +40,24 @@ public class ElementBuilder {
 			// 语法校验
 			if (checker != null)
 				checker.check(line);
-
 			// 1.词法分析
 			List<String> words = lexer.getWords(line.text);
-
 			// 2.语义分析
 			List<Token> tokens = parser.getTokens(words);
-
 			// 3.修饰词
 			Modifiers modifiers = new Modifiers(tokens);
-
 			// 4.语句
 			Statement statement = new Statement(tokens);
-
 			// 5.语法枚举
 			SyntaxEnum syntax = recognizer.getSyntax(tokens);
-
 			// 6.构建语法树
 			AbsSyntaxTree syntaxTree = null;
 			if (syntax == null) {
 				syntaxTree = builder.build(statement);
 				syntax = syntaxTree.getSyntax();
 			}
-
 			// 7.创建元素
 			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
-
 			// 8.返回元素
 			return element;
 

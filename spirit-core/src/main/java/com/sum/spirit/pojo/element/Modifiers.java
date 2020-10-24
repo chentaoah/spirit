@@ -8,21 +8,19 @@ import com.google.common.base.Joiner;
 
 public class Modifiers extends TokenBox {
 
-	public List<Token> tokens;
+	public List<Token> tokens = new ArrayList<>();
 
 	public Modifiers(List<Token> tokens) {
-		List<Token> modifiers = new ArrayList<>();
 		Iterator<Token> iterable = tokens.iterator();
 		while (iterable.hasNext()) {
 			Token token = iterable.next();
 			if (token.isModifier()) {
-				modifiers.add(token);
+				this.tokens.add(token);
 				iterable.remove();
-			} else {
-				break;
+				continue;
 			}
+			break;
 		}
-		this.tokens = modifiers;
 	}
 
 	@Override

@@ -19,13 +19,13 @@ public class SemanticParser extends AbsSemanticParser {
 
 	public Token getToken(String word, boolean insideType) {
 		Token token = new Token();
-		getTokenType(word, token, insideType);
-		getTokenValue(word, token);
-		getTokenAttributes(word, token);
+		setTokenType(word, token, insideType);
+		setTokenValue(word, token);
+		setTokenAttributes(word, token);
 		return token;
 	}
 
-	public void getTokenType(String word, Token token, boolean insideType) {
+	public void setTokenType(String word, Token token, boolean insideType) {
 
 		if (isPath(word)) {
 			token.type = TokenTypeEnum.PATH;
@@ -64,7 +64,7 @@ public class SemanticParser extends AbsSemanticParser {
 		Assert.notNull(token.type, "Token type cannot be null!");
 	}
 
-	public void getTokenValue(String word, Token token) {
+	public void setTokenValue(String word, Token token) {
 
 		if (token.isType()) {
 			token.value = getStatement(word, true);
@@ -97,7 +97,7 @@ public class SemanticParser extends AbsSemanticParser {
 		return new Statement(tokens);
 	}
 
-	public void getTokenAttributes(String word, Token token) {
+	public void setTokenAttributes(String word, Token token) {
 		if (token.isAnnotation()) {
 			token.setAttribute(AttributeEnum.SIMPLE_NAME, getAnnotationName(word));
 
