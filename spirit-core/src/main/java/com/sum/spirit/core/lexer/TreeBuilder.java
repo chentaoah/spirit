@@ -32,13 +32,15 @@ public class TreeBuilder {
 		// index是为了让node记住自己的索引位置
 		for (int index = 0; index < tokens.size(); index++) {
 			Token token = tokens.get(index);
-			if (token.canSplit()) {// 1.设置语法树
+			if (token.canSplit()) {
+				// 1.设置语法树
 				AbsSyntaxTree syntaxTree = build((Statement) token.value);
 				// 拷贝一个新的token
 				Token newToken = new Token(token.type, syntaxTree, token.attributes);
 				nodes.add(new Node(index, newToken));
 
-			} else {// 2.设置为token
+			} else {
+				// 2.设置为token
 				nodes.add(new Node(index, token));
 			}
 		}
