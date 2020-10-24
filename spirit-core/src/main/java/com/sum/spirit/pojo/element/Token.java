@@ -2,7 +2,7 @@ package com.sum.spirit.pojo.element;
 
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
-public class Token extends Attachable {
+public class Token extends AttributeMap {
 
 	public TokenTypeEnum type;
 
@@ -23,7 +23,7 @@ public class Token extends Attachable {
 		} else {
 			token = new Token(type, value);
 		}
-		token.copyAtt(this);
+		token.copyAttributes(this);
 		return token;
 	}
 

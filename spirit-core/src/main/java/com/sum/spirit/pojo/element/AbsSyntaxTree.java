@@ -2,6 +2,7 @@ package com.sum.spirit.pojo.element;
 
 import java.util.List;
 
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
@@ -24,10 +25,11 @@ public class AbsSyntaxTree {
 
 			// if there is only one element, it may be a local method call
 			if (tokens.size() == 1 && first.isLocalMethod()) {
-				if (KeywordEnum.SUPER.value.equals(first.getMemberName())) {
+				String memberName = first.getAttribute(AttributeEnum.MEMBER_NAME);
+				if (KeywordEnum.SUPER.value.equals(memberName)) {
 					return SyntaxEnum.SUPER;
 
-				} else if (KeywordEnum.THIS.value.equals(first.getMemberName())) {
+				} else if (KeywordEnum.THIS.value.equals(memberName)) {
 					return SyntaxEnum.THIS;
 				}
 				return SyntaxEnum.INVOKE;

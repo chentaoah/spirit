@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
@@ -20,7 +21,7 @@ public class SemanticParser extends AbsSemanticParser {
 		Token token = new Token();
 		getTokenType(word, token, insideType);
 		getTokenValue(word, token);
-		getTokenAttas(word, token);
+		getTokenAttributes(word, token);
 		return token;
 	}
 
@@ -96,21 +97,21 @@ public class SemanticParser extends AbsSemanticParser {
 		return new Statement(tokens);
 	}
 
-	public void getTokenAttas(String word, Token token) {
+	public void getTokenAttributes(String word, Token token) {
 		if (token.isAnnotation()) {
-			token.setSimpleName(getAnnotationName(word));
+			token.setAttribute(AttributeEnum.SIMPLE_NAME, getAnnotationName(word));
 
 		} else if (token.isArrayInit()) {
-			token.setSimpleName(getPrefix(word) + "[]");
+			token.setAttribute(AttributeEnum.SIMPLE_NAME, getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
-			token.setSimpleName(getPrefix(word));
+			token.setAttribute(AttributeEnum.SIMPLE_NAME, getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setSimpleName(getCastType(word));
+			token.setAttribute(AttributeEnum.SIMPLE_NAME, getCastType(word));
 
 		} else if (token.isAccess()) {
-			token.setMemberName(getPrefix(word));
+			token.setAttribute(AttributeEnum.MEMBER_NAME, getPrefix(word));
 		}
 	}
 

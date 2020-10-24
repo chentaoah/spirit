@@ -10,6 +10,7 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 public class ElementVisiter {
@@ -55,19 +56,19 @@ public class ElementVisiter {
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
 
 		} else if (element.isCatch()) {
 			Token varToken = element.getToken(3);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
 
 		} else if (element.isAssign()) {
 			Token varToken = element.getToken(0);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
 
 		} else if (element.isForIn()) {
 			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getTypeAtt(), varToken.toString());
+			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
 
 		} else if (element.isReturn()) {
 			Statement statement = element.subStmt(1, element.size());

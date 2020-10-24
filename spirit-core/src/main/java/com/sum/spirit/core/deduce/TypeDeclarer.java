@@ -7,6 +7,7 @@ import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 public class TypeDeclarer {
@@ -19,12 +20,12 @@ public class TypeDeclarer {
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			Token typeToken = element.getToken(0);
 			Token varToken = element.getToken(1);
-			varToken.setTypeAtt(factory.create(clazz, typeToken));
+			varToken.setAttribute(AttributeEnum.TYPE, factory.create(clazz, typeToken));
 
 		} else if (element.isCatch()) {// }catch Exception e{
 			Token typeToken = element.getToken(2);
 			Token varToken = element.getToken(3);
-			varToken.setTypeAtt(factory.create(clazz, typeToken));
+			varToken.setAttribute(AttributeEnum.TYPE, factory.create(clazz, typeToken));
 		}
 	}
 

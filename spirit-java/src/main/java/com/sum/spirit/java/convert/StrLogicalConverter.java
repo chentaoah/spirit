@@ -13,6 +13,7 @@ import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TreeUtils;
@@ -60,8 +61,8 @@ public class StrLogicalConverter implements ElementConverter {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setTypeAtt(TypeEnum.BOOLEAN.value);
-			expressToken.getTreeId().set(token.getTreeId().get() + "-0");
+			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.BOOLEAN.value);
+			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-0");
 			statement.replace(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
@@ -75,8 +76,8 @@ public class StrLogicalConverter implements ElementConverter {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setTypeAtt(TypeEnum.BOOLEAN.value);
-			expressToken.getTreeId().set(token.getTreeId().get() + "-1");
+			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.BOOLEAN.value);
+			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-1");
 			statement.replace(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}

@@ -11,6 +11,7 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 public class ExpressDeclarer {
@@ -49,10 +50,10 @@ public class ExpressDeclarer {
 				// After marking, it is convenient for subsequent conversion to
 				// Java code and
 				// automatic addition of type
-				varToken.setDerived(true);
+				varToken.setAttribute(AttributeEnum.DERIVED, true);
 			}
 
-			varToken.setTypeAtt(type);
+			varToken.setAttribute(AttributeEnum.TYPE, type);
 
 		} else if (element.isForIn()) {// for item in list {
 
@@ -64,7 +65,7 @@ public class ExpressDeclarer {
 			// Get internal type from array or generic type
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
-			varToken.setTypeAtt(type);
+			varToken.setAttribute(AttributeEnum.TYPE, type);
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 

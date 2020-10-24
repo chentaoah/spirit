@@ -12,6 +12,7 @@ import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
@@ -24,8 +25,8 @@ public class FastDeducer {
 		// 构建树形结构
 		List<Token> tokens = builder.build(statement.tokens);
 		for (Token token : tokens) {
-			if (token.getTypeAtt() != null) {// 如果有类型直接返回
-				return token.getTypeAtt();
+			if (token.getAttribute(AttributeEnum.TYPE) != null) {// 如果有类型直接返回
+				return token.getAttribute(AttributeEnum.TYPE);
 
 			} else if (token.isNode()) {// 如果是节点，则推导节点的类型
 				return getType(clazz, token.getValue());
@@ -53,8 +54,8 @@ public class FastDeducer {
 			}
 		}
 
-		Assert.notNull(token.getTypeAtt(), "Type is null!");
-		return token.getTypeAtt();
+		Assert.notNull(token.getAttribute(AttributeEnum.TYPE), "Type is null!");
+		return token.getAttribute(AttributeEnum.TYPE);
 
 	}
 

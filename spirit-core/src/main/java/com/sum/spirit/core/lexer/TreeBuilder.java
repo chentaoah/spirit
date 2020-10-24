@@ -10,6 +10,7 @@ import com.sum.spirit.pojo.element.AbsSyntaxTree;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
@@ -53,7 +54,7 @@ public class TreeBuilder {
 
 	public void markTreeId(String treeId, Node node) {
 
-		node.token.getTreeId().set(treeId);
+		node.token.setAttribute(AttributeEnum.TREE_ID, treeId);
 
 		if (node.left != null)
 			markTreeId(treeId + "-" + "0", node.left);
@@ -110,7 +111,7 @@ public class TreeBuilder {
 				@SuppressWarnings("unchecked")
 				List<Integer> list = (List<Integer>) graph[index];
 				list.add(i);
-				currToken.setOperand(operand);
+				currToken.setAttribute(AttributeEnum.OPERAND, operand);
 			}
 		}
 
@@ -127,15 +128,15 @@ public class TreeBuilder {
 				Token currToken = tokens.get(index);
 
 				resetOperandIfMultiple(tokens, index, currToken);
-				if (currToken.getOperand() == OperandEnum.MULTIPLE)
+				if (currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.MULTIPLE)
 					throw new RuntimeException("Unable to know the operand of the symbol!");
 
 				Node node = new Node(currToken);
 
-				if (currToken.getOperand() == OperandEnum.LEFT || currToken.getOperand() == OperandEnum.BINARY)
+				if (currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.LEFT || currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.BINARY)
 					node.left = removeLeft(tokens, index);
 
-				if (currToken.getOperand() == OperandEnum.RIGHT || currToken.getOperand() == OperandEnum.BINARY)
+				if (currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.RIGHT || currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.BINARY)
 					node.right = removeRight(tokens, index);
 
 				tokens.set(index, new Token(TokenTypeEnum.NODE, node));
@@ -149,7 +150,7 @@ public class TreeBuilder {
 	}
 
 	public void resetOperandIfMultiple(List<Token> tokens, int index, Token currToken) {
-		if (currToken.getOperand() == OperandEnum.MULTIPLE) {
+		if (currToken.getAttribute(AttributeEnum.OPERAND) == OperandEnum.MULTIPLE) {
 
 			Token lastToken = getLastToken(tokens, index);
 			Token nextToken = getNextToken(tokens, index);
@@ -157,18 +158,18 @@ public class TreeBuilder {
 			String value = currToken.toString();
 			if ("++".equals(value) || "--".equals(value)) {
 				if (lastToken != null && (lastToken.isVar() || lastToken.isNode())) {
-					currToken.setOperand(OperandEnum.LEFT);
+					currToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.LEFT);
 
 				} else if (nextToken != null && (nextToken.isVar() || nextToken.isNode())) {
-					currToken.setOperand(OperandEnum.RIGHT);
+					currToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.RIGHT);
 				}
 
 			} else if ("-".equals(value)) {// 100 + (-10) // var = -1
 				if (lastToken != null && (lastToken.isNumber() || lastToken.isVar() || lastToken.isNode())) {
-					currToken.setOperand(OperandEnum.BINARY);
+					currToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.BINARY);
 
 				} else {
-					currToken.setOperand(OperandEnum.RIGHT);
+					currToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.RIGHT);
 				}
 			}
 		}

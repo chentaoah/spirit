@@ -10,6 +10,7 @@ import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public class TreePanel {
 
@@ -30,7 +31,7 @@ public class TreePanel {
 		List<Token> tokens = statement.format();// 获取到插入空格后
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			token.setPosition(position);
+			token.setAttribute(AttributeEnum.POSITION, position);
 			if (token.canSplit())
 				markPosition(position, token.getValue());
 			position += token.toString().length();
@@ -45,7 +46,7 @@ public class TreePanel {
 				buildTree(depth, separator, statement.tokens);
 			} else {
 				if (!token.isNode()) {// 如果不是一个聚合的节点，则直接打印
-					print(depth, token.getPosition(), token.toString());
+					print(depth, token.getAttribute(AttributeEnum.POSITION), token.toString());
 				} else {// 如果是聚合以后的节点，则构建树结构
 					Node node = token.getValue();
 					buildTree(depth, separator, node);
@@ -60,7 +61,7 @@ public class TreePanel {
 			return;
 
 		Token token = node.token;
-		int position = token.getPosition();// 节点位置
+		int position = token.getAttribute(AttributeEnum.POSITION);// 节点位置
 		String text = token.toString(); // 节点内容
 		// 获取上一行
 		if (StringUtils.isNotEmpty(separator))

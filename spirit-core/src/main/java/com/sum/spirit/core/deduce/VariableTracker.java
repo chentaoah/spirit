@@ -14,6 +14,7 @@ import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 
@@ -34,28 +35,28 @@ public class VariableTracker {
 			if (token.canSplit())
 				track(clazz, context, token.getValue());
 
-			if (token.getTypeAtt() != null)
+			if (token.getAttribute(AttributeEnum.TYPE) != null)
 				continue;
 
 			if (token.isVar()) {
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setTypeAtt(type);
+				token.setAttribute(AttributeEnum.TYPE, type);
 
 			} else if (token.isArrayIndex()) {
-				String name = token.getMemberName();
+				String name = token.getAttribute(AttributeEnum.MEMBER_NAME);
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
 				// Convert array type to element type
 				type = type.getTargetType();
-				token.setTypeAtt(type);
+				token.setAttribute(AttributeEnum.TYPE, type);
 
 			} else if (token.isKeyword() && (KeywordEnum.SUPER.value.equals(token.value) || KeywordEnum.THIS.value.equals(token.value))) {
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setTypeAtt(type);
+				token.setAttribute(AttributeEnum.TYPE, type);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 
@@ -34,37 +35,41 @@ public class InvokeVisiter {
 				if (token.canSplit())
 					visit(clazz, token.getValue());
 
-				if (token.getTypeAtt() != null)
+				if (token.getAttribute(AttributeEnum.TYPE) != null)
 					continue;
 
 				List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 
 				if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
-					token.setTypeAtt(factory.create(clazz, token));
+					token.setAttribute(AttributeEnum.TYPE, factory.create(clazz, token));
 
 				} else if (token.isSubexpress()) {
 					Statement subStatement = token.getValue();
-					token.setTypeAtt(deducer.derive(clazz, subStatement.subStmt("(", ")")));
+					token.setAttribute(AttributeEnum.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
 
 				} else if (token.isLocalMethod()) {
-					IType returnType = linker.visitMethod(clazz.toType().toThis(), token.getMemberName(), parameterTypes);
-					token.setTypeAtt(returnType);
+					String memberName = token.getAttribute(AttributeEnum.MEMBER_NAME);
+					IType returnType = linker.visitMethod(clazz.toType().toThis(), memberName, parameterTypes);
+					token.setAttribute(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitField()) {
-					IType type = statement.getToken(index - 1).getTypeAtt();
-					IType returnType = linker.visitField(type, token.getMemberName());
-					token.setTypeAtt(returnType);
+					IType type = statement.getToken(index - 1).getAttribute(AttributeEnum.TYPE);
+					String memberName = token.getAttribute(AttributeEnum.MEMBER_NAME);
+					IType returnType = linker.visitField(type, memberName);
+					token.setAttribute(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isInvokeMethod()) {
-					IType type = statement.getToken(index - 1).getTypeAtt();
-					IType returnType = linker.visitMethod(type, token.getMemberName(), parameterTypes);
-					token.setTypeAtt(returnType);
+					IType type = statement.getToken(index - 1).getAttribute(AttributeEnum.TYPE);
+					String memberName = token.getAttribute(AttributeEnum.MEMBER_NAME);
+					IType returnType = linker.visitMethod(type, memberName, parameterTypes);
+					token.setAttribute(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
-					IType type = statement.getToken(index - 1).getTypeAtt();
-					IType returnType = linker.visitField(type, token.getMemberName());
+					IType type = statement.getToken(index - 1).getAttribute(AttributeEnum.TYPE);
+					String memberName = token.getAttribute(AttributeEnum.MEMBER_NAME);
+					IType returnType = linker.visitField(type, memberName);
 					returnType = factory.create(returnType.getTargetName());
-					token.setTypeAtt(returnType);
+					token.setAttribute(AttributeEnum.TYPE, returnType);
 				}
 			}
 		} catch (NoSuchFieldException | NoSuchMethodException e) {

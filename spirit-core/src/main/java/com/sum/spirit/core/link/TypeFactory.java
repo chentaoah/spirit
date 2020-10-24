@@ -14,6 +14,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeUtils;
@@ -48,7 +49,7 @@ public class TypeFactory extends AbsTypeFactory {
 			return doCreate(clazz, token);
 
 		} else if (token.isAnnotation() || token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, token.getSimpleName());
+			return create(clazz, (String) token.getAttribute(AttributeEnum.SIMPLE_NAME));
 
 		} else if (token.isValue()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);

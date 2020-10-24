@@ -18,6 +18,7 @@ import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
@@ -42,19 +43,24 @@ public class StmtConverter implements ElementConverter {
 
 		} else if (element.isFor()) {// for i=0; i<100; i++ {
 			Token token = element.getToken(1);
-			if (!token.isType() && token.isVar() && token.isDerived())
-				element.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, token.getTypeAtt())));
+			boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
+			IType type = token.getAttribute(AttributeEnum.TYPE);
+			if (!token.isType() && token.isVar() && derived)
+				element.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
+			IType type = item.getAttribute(AttributeEnum.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
-			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, item.getTypeAtt()), item, statement);
+			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, type), item, statement);
 			element.replace(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.getToken(0);
-			if (token.isVar() && token.isDerived())
-				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, token.getTypeAtt())));
+			boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
+			IType type = token.getAttribute(AttributeEnum.TYPE);
+			if (token.isVar() && derived)
+				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);

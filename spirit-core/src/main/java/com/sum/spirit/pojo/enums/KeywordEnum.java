@@ -46,7 +46,7 @@ public enum KeywordEnum {
 	PROTECTED("protected", KeywordTypeEnum.MODIFIER), //
 	CONST("const", KeywordTypeEnum.MODIFIER), //
 	VOLATILE("volatile", KeywordTypeEnum.MODIFIER), //
-	SYNCH("synch", KeywordTypeEnum.MODIFIER);//
+	SYNCH("synch", KeywordTypeEnum.MODIFIER); //
 
 	public static final Map<String, KeywordEnum> KEYWORD_MAP = new LinkedHashMap<>();
 

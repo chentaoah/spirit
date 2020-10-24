@@ -6,6 +6,7 @@ import java.util.List;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
@@ -22,11 +23,11 @@ public class IMethod extends AbsMember {
 		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
 			isInit = true;
-			name = methodToken.getSimpleName();
+			name = methodToken.getAttribute(AttributeEnum.SIMPLE_NAME);
 
 		} else if (methodToken.isLocalMethod()) {
 			isInit = false;
-			name = methodToken.getMemberName();
+			name = methodToken.getAttribute(AttributeEnum.MEMBER_NAME);
 
 		} else {
 			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
