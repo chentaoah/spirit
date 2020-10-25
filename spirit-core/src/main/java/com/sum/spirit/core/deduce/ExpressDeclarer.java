@@ -56,34 +56,28 @@ public class ExpressDeclarer {
 			varToken.setAttribute(AttributeEnum.TYPE, type);
 
 		} else if (element.isForIn()) {// for item in list {
-
 			Statement statement = element.subStmt(3, element.size() - 1);
 			tracker.track(clazz, context, statement);
 			visiter.visit(clazz, statement);
 			IType type = deducer.derive(clazz, statement);
-
 			// Get internal type from array or generic type
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			varToken.setAttribute(AttributeEnum.TYPE, type);
 
-		} else if (element.isFor()) {// for i=0; i<100; i++ {
-
-			// Note that although the sub statement is obtained here, it has
-			// nothing to do
-			// with the original statement itself
-			Statement statement = element.subStmt(1, element.indexOf(";"));
-			Element subElement = builder.build(statement.toString());
-
-			// This step cannot be omitted. The accessor needs to mark the token
-			// of the
-			// original statement
-			subElement.statement = statement;
-
-			IVariable variable = elementVisiter.visit(clazz, context, subElement);
-			if (variable != null) {
-				variable.blockId = context.getBlockId();
-				context.variables.add(variable);
+		} else if (element.isFor()) {// for (i=0; i<100; i++) {
+			Token secondToken = element.getToken(1);
+			if (secondToken.isSubexpress()) {
+				Statement statement = secondToken.getValue();
+				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
+				Element subElement = builder.build(subStatement.toString());
+				// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
+				subElement.statement = subStatement;
+				IVariable variable = elementVisiter.visit(clazz, context, subElement);
+				if (variable != null) {
+					variable.blockId = context.getBlockId();
+					context.variables.add(variable);
+				}
 			}
 		}
 	}

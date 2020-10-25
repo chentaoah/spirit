@@ -41,12 +41,19 @@ public class StmtConverter implements ElementConverter {
 		if (element.isSync()) {// sync s {
 			element.replaceKeyword(KeywordEnum.SYNC.value, "synchronized");
 
-		} else if (element.isFor()) {// for i=0; i<100; i++ {
-			Token token = element.getToken(1);
-			boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
-			IType type = token.getAttribute(AttributeEnum.TYPE);
-			if (!token.isType() && token.isVar() && derived)
-				element.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
+		} else if (element.isFor()) {// for (i=0; i<100; i++) {
+			Token secondToken = element.getToken(1);
+			if (secondToken.isSubexpress()) {
+				Statement statement = secondToken.getValue();
+				Token token = statement.getToken(1);
+				if (!token.isType() && token.isVar()) {
+					boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
+					if (derived) {
+						IType type = token.getAttribute(AttributeEnum.TYPE);
+						statement.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
+					}
+				}
+			}
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);

@@ -3,7 +3,6 @@ package com.sum.spirit.core.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.PostProcessor;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
@@ -25,8 +24,6 @@ public class ElementVisiter {
 	public InvokeVisiter visiter;
 	@Autowired
 	public FastDeducer deducer;
-	@Autowired
-	public PostProcessor processor;
 
 	public IVariable visit(IClass clazz, MethodContext context, Element element) {
 		try {

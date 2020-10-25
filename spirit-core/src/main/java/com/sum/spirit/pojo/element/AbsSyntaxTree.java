@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 public class AbsSyntaxTree {
@@ -77,13 +78,18 @@ public class AbsSyntaxTree {
 			Token thirdToken = nodes.get(START_INDEX + 2).token;
 
 			if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
+				// for (i=0; i<10; i++) {
+				if (secondToken.isSubexpress())
+					return SyntaxEnum.FOR;
+
 				// for ? in ? {
 				if (KeywordEnum.IN.value.equals(thirdToken.toString()))
 					return SyntaxEnum.FOR_IN;
-				return SyntaxEnum.FOR;// for ?; ?; ? {
+
+				throw new RuntimeException("Unknown syntax!");
 			}
 
-			if ("}".equals(firstToken.toString())) {
+			if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
 				if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {
 					if (KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
 						return SyntaxEnum.ELSE_IF;

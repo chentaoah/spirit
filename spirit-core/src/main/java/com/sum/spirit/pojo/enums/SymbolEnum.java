@@ -32,12 +32,18 @@ public enum SymbolEnum {
 	QUESTION_MARK("?", "\\?", SymbolTypeEnum.OPERATOR, OperatorEnum.CONDITIONAL, 5, OperandEnum.BINARY),
 	ASSIGN("=", "=", SymbolTypeEnum.OPERATOR, OperatorEnum.ASSIGN, 5, OperandEnum.BINARY),
 
-	LEFT_PARENTHESIS("(", "\\(", SymbolTypeEnum.SEPARATOR, null, 0, null), RIGHT_PARENTHESIS(")", "\\)", SymbolTypeEnum.SEPARATOR, null, 0, null),
-	LEFT_ANGLE_BRACKET("<", "<", SymbolTypeEnum.SEPARATOR, null, 0, null), RIGHT_ANGLE_BRACKET(">", ">", SymbolTypeEnum.SEPARATOR, null, 0, null),
-	LEFT_SQUARE_BRACKET("[", "\\[", SymbolTypeEnum.SEPARATOR, null, 0, null), RIGHT_SQUARE_BRACKET("]", "\\]", SymbolTypeEnum.SEPARATOR, null, 0, null),
-	LEFT_CURLY_BRACKET("{", "\\{", SymbolTypeEnum.SEPARATOR, null, 0, null), RIGHT_CURLY_BRACKET("}", "\\}", SymbolTypeEnum.SEPARATOR, null, 0, null),
-	COLON(":", "\\:", SymbolTypeEnum.SEPARATOR, null, 0, null), DOUBLE_COLON("::", "[:]{2}", "\\: \\:", SymbolTypeEnum.SEPARATOR, null, 0, null),
-	COMMA(",", ",", SymbolTypeEnum.SEPARATOR, null, 0, null), SEMICOLON(";", ";", SymbolTypeEnum.SEPARATOR, null, 0, null);
+	LEFT_PARENTHESIS("(", "\\(", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	RIGHT_PARENTHESIS(")", "\\)", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	LEFT_ANGLE_BRACKET("<", "<", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	RIGHT_ANGLE_BRACKET(">", ">", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	LEFT_SQUARE_BRACKET("[", "\\[", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	RIGHT_SQUARE_BRACKET("]", "\\]", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	LEFT_CURLY_BRACKET("{", "\\{", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	RIGHT_CURLY_BRACKET("}", "\\}", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	COLON(":", "\\:", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	DOUBLE_COLON("::", "[:]{2}", "\\: \\:", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	COMMA(",", ",", SymbolTypeEnum.SEPARATOR, null, 0, null), //
+	SEMICOLON(";", ";", SymbolTypeEnum.SEPARATOR, null, 0, null); //
 
 	public static final List<SymbolEnum> SIGLE_SYMBOLS = new ArrayList<>();
 
