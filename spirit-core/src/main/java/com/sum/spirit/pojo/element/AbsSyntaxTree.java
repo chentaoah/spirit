@@ -126,7 +126,7 @@ public class AbsSyntaxTree {
 			lines.add(new Line(i + 1, LineUtils.getSpaces(150)));
 
 		// 遍历节点，并构造树结构
-		buildTree(lines, 0, "", nodes);
+		buildTree(lines, 0, nodes);
 
 		// 打印
 		StringBuilder builder = new StringBuilder();
@@ -137,9 +137,9 @@ public class AbsSyntaxTree {
 		return builder.toString();
 	}
 
-	public void buildTree(List<Line> lines, int depth, String separator, List<Node> nodes) {
+	public void buildTree(List<Line> lines, int depth, List<Node> nodes) {
 		for (Node node : nodes)
-			buildTree(lines, depth, separator, node);
+			buildTree(lines, depth, "", node);
 	}
 
 	public void buildTree(List<Line> lines, int depth, String separator, Node node) {
@@ -155,7 +155,7 @@ public class AbsSyntaxTree {
 		// 如果该节点是语法树
 		if (node.canSplit()) {
 			AbsSyntaxTree syntaxTree = token.getValue();
-			buildTree(lines, depth, "", syntaxTree.nodes);
+			buildTree(lines, depth, syntaxTree.nodes);
 
 		} else {
 			println(lines, depth, position, token.toString());
