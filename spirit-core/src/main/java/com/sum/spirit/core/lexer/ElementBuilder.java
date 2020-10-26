@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.LineChecker;
 import com.sum.spirit.core.PostProcessor;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
@@ -18,7 +17,7 @@ import com.sum.spirit.pojo.enums.SyntaxEnum;
 @Component
 public class ElementBuilder {
 
-	@Autowired(required = false)
+	@Autowired
 	public LineChecker checker;
 	@Autowired
 	public Lexer lexer;
@@ -38,8 +37,7 @@ public class ElementBuilder {
 	public Element build(Line line) {
 		try {
 			// 语法校验
-			if (checker != null)
-				checker.check(line);
+			checker.check(line);
 			// 1.词法分析
 			List<String> words = lexer.getWords(line.text);
 			// 2.语义分析
