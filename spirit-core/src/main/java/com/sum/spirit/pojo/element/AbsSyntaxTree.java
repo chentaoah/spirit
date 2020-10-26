@@ -1,11 +1,14 @@
 package com.sum.spirit.pojo.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
+import com.sum.spirit.utils.LineUtils;
 
 public class AbsSyntaxTree {
 
@@ -24,7 +27,7 @@ public class AbsSyntaxTree {
 			Token firstToken = firstNode.token;
 
 			// 如果是行级别关键字，则直接返回语法枚举
-			if (KeywordEnum.isLine(firstToken.toString()))
+			if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString()))
 				return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
 
 			// 如果只有一个节点，可能是方法调用
@@ -105,11 +108,73 @@ public class AbsSyntaxTree {
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to get current syntax!tokens of tree:" + nodes.toString());
+			throw new RuntimeException("Unable to get current syntax!");
 		}
 
 		throw new RuntimeException("Unknown syntax!");
+	}
 
+	@Override
+	public String toString() {
+		throw new RuntimeException("The method toString() should not be called");
+	}
+
+	public String debug() {
+		// 生成打印的面板
+		List<Line> lines = new ArrayList<>();
+		for (int i = 0; i < 20; i++)
+			lines.add(new Line(i + 1, LineUtils.getSpaces(150)));
+
+		// 遍历节点，并构造树结构
+		buildTree(lines, 0, "", nodes);
+
+		// 打印
+		StringBuilder builder = new StringBuilder();
+		for (Line line : lines) {
+			if (!line.isIgnore())
+				builder.append(line.text + "\n");
+		}
+		return builder.toString();
+	}
+
+	public void buildTree(List<Line> lines, int depth, String separator, List<Node> nodes) {
+		for (Node node : nodes)
+			buildTree(lines, depth, separator, node);
+	}
+
+	public void buildTree(List<Line> lines, int depth, String separator, Node node) {
+
+		Token token = node.token;
+		int position = token.getAttribute(AttributeEnum.POSITION);
+		int length = token.getAttribute(AttributeEnum.LENGTH);
+
+		// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
+		if (StringUtils.isNotEmpty(separator))
+			println(lines, depth - 1, position + length / 2 + length % 2 - 1, separator);
+
+		// 如果该节点是语法树
+		if (node.canSplit()) {
+			AbsSyntaxTree syntaxTree = token.getValue();
+			buildTree(lines, depth, "", syntaxTree.nodes);
+
+		} else {
+			println(lines, depth, position, token.toString());
+		}
+
+		// 左边节点
+		if (node.prev != null)
+			buildTree(lines, depth + 2, "/", node.prev);
+
+		// 右边节点
+		if (node.next != null)
+			buildTree(lines, depth + 2, "\\", node.next);
+	}
+
+	public void println(List<Line> lines, int depth, int position, String text) {
+		Line line = lines.get(depth);
+		StringBuilder builder = new StringBuilder(line.text);
+		builder.replace(position, position + text.length(), text);
+		line.text = builder.toString();
 	}
 
 }

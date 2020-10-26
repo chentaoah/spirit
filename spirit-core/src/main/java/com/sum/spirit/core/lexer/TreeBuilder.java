@@ -18,11 +18,13 @@ import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 @Component
 public class TreeBuilder {
 
-	public AbsSyntaxTree build(Statement statement) {
+	public AbsSyntaxTree buildTree(Statement statement) {
 		// 用语句构建节点树
 		List<Node> nodes = buildNodes(statement.tokens);
 		// 标记树节点id
 		markTreeId(nodes);
+		// 标记所有的位置
+		markPosition(0, statement);
 		// 返回抽象语法树
 		return new AbsSyntaxTree(nodes);
 	}
@@ -34,7 +36,7 @@ public class TreeBuilder {
 			Token token = tokens.get(index);
 			if (token.canSplit()) {
 				// 1.设置语法树
-				AbsSyntaxTree syntaxTree = build((Statement) token.value);
+				AbsSyntaxTree syntaxTree = buildTree(token.getValue());
 				// 拷贝一个新的token
 				Token newToken = new Token(token.type, syntaxTree, token.attributes);
 				nodes.add(new Node(index, newToken));
@@ -47,7 +49,7 @@ public class TreeBuilder {
 		// 构建图谱
 		List<Integer>[] graph = getGraphByTokens(tokens);
 		// 通过图谱快速建立二叉树
-		getNodesByGraph(tokens, graph, nodes);
+		gatherNodesByGraph(tokens, graph, nodes);
 
 		return nodes;
 	}
@@ -104,7 +106,7 @@ public class TreeBuilder {
 		return graph;
 	}
 
-	public void getNodesByGraph(List<Token> tokens, List<Integer>[] graph, List<Node> nodes) {
+	public void gatherNodesByGraph(List<Token> tokens, List<Integer>[] graph, List<Node> nodes) {
 		for (List<Integer> indexs : graph) {
 			if (indexs == null)
 				continue;
@@ -225,8 +227,22 @@ public class TreeBuilder {
 			markTreeId(treeId + "-" + "1", node.next);
 
 		if (node.canSplit()) {
-			AbsSyntaxTree syntaxTree = (AbsSyntaxTree) node.token.value;
+			AbsSyntaxTree syntaxTree = node.token.getValue();
 			markTreeId(syntaxTree.nodes);
+		}
+	}
+
+	public void markPosition(int position, Statement statement) {
+		// 获取到插入空格后
+		List<Token> tokens = statement.format();
+		for (int i = 0; i < tokens.size(); i++) {
+			Token token = tokens.get(i);
+			token.setAttribute(AttributeEnum.POSITION, position);
+			if (token.canSplit())
+				markPosition(position, token.getValue());
+			int length = token.toString().length();
+			token.setAttribute(AttributeEnum.LENGTH, length);
+			position += length;
 		}
 	}
 

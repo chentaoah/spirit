@@ -7,5 +7,6 @@ public enum AttributeEnum {
 	TREE_ID, // 树节点id
 	TYPE, // 类型
 	DERIVED, // 是否声明
-	POSITION; // 在语句中的位置
+	POSITION, // 在语句中的位置
+	LENGTH; // 字符串的宽度
 }

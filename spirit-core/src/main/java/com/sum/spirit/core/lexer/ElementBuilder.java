@@ -51,7 +51,7 @@ public class ElementBuilder {
 			// 6.构建语法树
 			AbsSyntaxTree syntaxTree = null;
 			if (syntax == null) {
-				syntaxTree = builder.build(statement);
+				syntaxTree = builder.buildTree(statement);
 				syntax = syntaxTree.getSyntax();
 			}
 			// 7.创建元素
