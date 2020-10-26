@@ -1,10 +1,10 @@
 package com.sum.spirit.pojo.enums;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.sum.spirit.api.ExtendedLoader;
-import com.sum.spirit.api.NativeLoader;
+import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.lib.StringUtils;
@@ -92,9 +92,11 @@ public enum TypeEnum {
 		PRIMITIVE_ARRAY_MAPPING.put("float[]", FLOAT_ARRAY.value);
 		PRIMITIVE_ARRAY_MAPPING.put("double[]", DOUBLE_ARRAY.value);
 
-		NativeLoader loader = SpringUtils.getBean(NativeLoader.class);
-		Assert.notNull(loader, "Basic types must be provided!");
-		loader.loadNativeTypeEnum();
+		// 类加载器
+		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
+		Assert.notNull(classLoaders.size() == 0, "Class loader must be provided!");
+		for (ClassLoader classLoader : classLoaders)
+			classLoader.load();
 	}
 
 	public static boolean isPrimitive(String className) {
@@ -118,19 +120,12 @@ public enum TypeEnum {
 		if (type != null)
 			return type.getClassName();
 
-		NativeLoader nativeLoader = SpringUtils.getBean(NativeLoader.class);
-		if (nativeLoader != null)
-			className = nativeLoader.findLangType(simpleName);
-
-		if (StringUtils.isNotEmpty(className))
-			return className;
-
-		ExtendedLoader extendedLoader = SpringUtils.getBean(ExtendedLoader.class);
-		if (extendedLoader != null)
-			className = extendedLoader.findExtendedType(simpleName);
-
-		if (StringUtils.isNotEmpty(className))
-			return className;
+		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
+		for (ClassLoader classLoader : classLoaders) {
+			className = classLoader.getClassName(simpleName);
+			if (StringUtils.isNotEmpty(className))
+				return className;
+		}
 
 		return null;
 	}

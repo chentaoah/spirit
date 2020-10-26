@@ -13,6 +13,6 @@ public interface Compiler {
 
 	IClass findClass(String className);
 
-	String getClassName(String lastName);
+	String getClassName(String simpleName);
 
 }

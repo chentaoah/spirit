@@ -1,18 +1,20 @@
 package com.sum.spirit.java.link;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.NativeLoader;
+import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-public class NativeLoaderImpl implements NativeLoader {
+@Order(-100)
+public class BootstrapClassLoader implements ClassLoader {
 
 	@Override
-	public void loadNativeTypeEnum() {
+	public void load() {
 		TypeEnum.VOID_WRAPPED.value = IType.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true);
 		TypeEnum.BOOLEAN_WRAPPED.value = IType.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true);
 		TypeEnum.CHAR_WRAPPED.value = IType.build("java.lang.Character", "Character", "java.lang.Character", false, false, false, false, true);
@@ -37,7 +39,7 @@ public class NativeLoaderImpl implements NativeLoader {
 	}
 
 	@Override
-	public String findLangType(String simpleName) {
+	public String getClassName(String simpleName) {
 		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 

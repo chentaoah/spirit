@@ -66,9 +66,9 @@ public class CompilerImpl implements Compiler {
 	}
 
 	@Override
-	public String getClassName(String lastName) {
+	public String getClassName(String simpleName) {
 		for (String className : classes.keySet()) {
-			if (className.endsWith("." + lastName))
+			if (className.endsWith("." + simpleName))
 				return className;
 		}
 		return null;
