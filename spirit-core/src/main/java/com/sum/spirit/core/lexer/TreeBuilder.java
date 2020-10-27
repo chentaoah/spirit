@@ -24,7 +24,7 @@ public class TreeBuilder {
 		// 标记树节点id
 		markTreeId(nodes);
 		// 标记所有的位置
-		markPosition(0, statement);
+		markPositionAndLength(0, statement);
 		// 返回抽象语法树
 		return new AbsSyntaxTree(nodes);
 	}
@@ -232,14 +232,14 @@ public class TreeBuilder {
 		}
 	}
 
-	public void markPosition(int position, Statement statement) {
+	public void markPositionAndLength(int position, Statement statement) {
 		// 获取到插入空格后
 		List<Token> tokens = statement.format();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setAttribute(AttributeEnum.POSITION, position);
 			if (token.canSplit())
-				markPosition(position, token.getValue());
+				markPositionAndLength(position, token.getValue());
 			int length = token.toString().length();
 			token.setAttribute(AttributeEnum.LENGTH, length);
 			position += length;
