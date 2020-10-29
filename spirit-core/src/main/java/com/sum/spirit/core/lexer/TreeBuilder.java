@@ -38,7 +38,7 @@ public class TreeBuilder {
 				// 1.设置语法树
 				AbsSyntaxTree syntaxTree = buildTree(token.getValue());
 				// 拷贝一个新的token
-				Token newToken = new Token(token.type, syntaxTree, token.attributes);
+				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);
 				nodes.add(new Node(index, newToken));
 
 			} else {

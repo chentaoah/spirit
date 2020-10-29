@@ -6,71 +6,76 @@ import java.util.List;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
-public abstract class TokenBox {
+public class TokenBox {
 
-	public int size() {
-		return getTokens().size();
-	}
+	public List<Token> tokens;
 
-	public boolean contains(int index) {
-		return index < size();
+	public TokenBox(List<Token> tokens) {
+		this.tokens = tokens;
 	}
 
 	public boolean isFocusOn(Token token) {
 		return token.isOperator() || token.isSeparator();
 	}
 
+	public int size() {
+		return tokens.size();
+	}
+
+	public boolean contains(int index) {
+		return index < tokens.size();
+	}
+
 	public int indexOf(Token token) {
-		return getTokens().indexOf(token);
+		return tokens.indexOf(token);
 	}
 
 	public boolean contains(Token token) {
-		return getTokens().contains(token);
+		return tokens.contains(token);
 	}
 
 	public Token getToken(int index) {
-		return getTokens().get(index);
+		return tokens.get(index);
 	}
 
 	public void addToken(Token token) {
-		getTokens().add(token);
+		tokens.add(token);
 	}
 
 	public void addToken(int index, Token token) {
-		getTokens().add(index, token);
+		tokens.add(index, token);
 	}
 
 	public void setToken(int index, Token token) {
-		getTokens().set(index, token);
+		tokens.set(index, token);
 	}
 
 	public void removeToken(int index) {
-		getTokens().remove(index);
+		tokens.remove(index);
 	}
 
 	public void removeToken(Token token) {
-		getTokens().remove(token);
+		tokens.remove(token);
 	}
 
 	public List<Token> copyTokens() {
-		return new ArrayList<>(getTokens());
+		return new ArrayList<>(tokens);
 	}
 
 	public List<Token> subTokens(int start, int end) {
-		return new ArrayList<>(getTokens().subList(start, end));
+		return new ArrayList<>(tokens.subList(start, end));
 	}
 
 	public void replaceTokens(int start, int end, Token token) {
-		List<Token> tokens = getTokens();
 		for (int i = end - 1; i >= start; i--)
 			tokens.remove(i);
 		tokens.add(start, token);
 	}
 
 	public Token findToken(TokenTypeEnum... tokenTypes) {
-		for (Token token : getTokens()) {
+		for (Token token : tokens) {
 			for (TokenTypeEnum type : tokenTypes) {
-				if (token.type == type)
+				if (token.tokenType == type)
 					return token;
 			}
 		}
@@ -80,7 +85,7 @@ public abstract class TokenBox {
 	public List<List<Token>> splitTokens(String separator) {
 		List<List<Token>> tokensList = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
-			Token token = getTokens().get(i);
+			Token token = tokens.get(i);
 			if (isFocusOn(token) && separator.equals(token.toString())) {
 				tokensList.add(subTokens(last, i));
 				last = i + 1;
@@ -92,7 +97,6 @@ public abstract class TokenBox {
 	}
 
 	public int indexOf(String str) {
-		List<Token> tokens = getTokens();
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
 			if (isFocusOn(token) && str.equals(token.toString()))
@@ -103,7 +107,6 @@ public abstract class TokenBox {
 
 	public int lastIndexOf(String str) {
 		int index = -1;
-		List<Token> tokens = getTokens();
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
 			if (isFocusOn(token) && str.equals(token.toString()))
@@ -189,7 +192,7 @@ public abstract class TokenBox {
 		int index = indexOfKeyword(keyword);
 		if (index != -1) {
 			int end = findKeywordEnd(index);
-			List<List<Token>> tokensList = new DefaultTokenBox(subTokens(index + 1, end)).splitTokens(",");
+			List<List<Token>> tokensList = new TokenBox(subTokens(index + 1, end)).splitTokens(",");
 			for (List<Token> tokens : tokensList) {
 				Assert.isTrue(tokens.size() == 1, "The size must be 1!");
 				params.add(tokens.get(0));
@@ -198,19 +201,4 @@ public abstract class TokenBox {
 		return params;
 	}
 
-	public abstract List<Token> getTokens();
-
-	public static class DefaultTokenBox extends TokenBox {
-
-		public List<Token> tokens;
-
-		public DefaultTokenBox(List<Token> tokens) {
-			this.tokens = tokens;
-		}
-
-		@Override
-		public List<Token> getTokens() {
-			return tokens;
-		}
-	}
 }

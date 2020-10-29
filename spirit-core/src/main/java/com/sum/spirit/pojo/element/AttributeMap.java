@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
-public abstract class AttributeMap extends Semantic {
+public abstract class AttributeMap {
 
 	public Map<AttributeEnum, Object> attributes = new HashMap<>();
 

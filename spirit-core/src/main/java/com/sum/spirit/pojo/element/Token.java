@@ -5,29 +5,23 @@ import java.util.Map;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
-public class Token extends AttributeMap {
-
-	public TokenTypeEnum type;
+public class Token extends Semantic {
 
 	public Object value;
 
 	public Token() {
+		super(null);
 	}
 
-	public Token(TokenTypeEnum type, Object value) {
-		this.type = type;
+	public Token(TokenTypeEnum tokenType, Object value) {
+		super(tokenType);
 		this.value = value;
 	}
 
-	public Token(TokenTypeEnum type, Object value, Map<AttributeEnum, Object> attributes) {
-		this.type = type;
+	public Token(TokenTypeEnum tokenType, Object value, Map<AttributeEnum, Object> attributes) {
+		super(tokenType);
 		this.value = value;
 		this.attributes = attributes;
-	}
-
-	@Override
-	public TokenTypeEnum getType() {
-		return type;
 	}
 
 	@Override
@@ -42,7 +36,7 @@ public class Token extends AttributeMap {
 	}
 
 	public String debug() {
-		return "<" + type + ", " + value + ">";
+		return "<" + tokenType + ", " + value + ">";
 	}
 
 }

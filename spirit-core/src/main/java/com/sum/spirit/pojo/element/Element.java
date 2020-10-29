@@ -16,16 +16,14 @@ public class Element extends Syntactic {
 
 	public AbsSyntaxTree syntaxTree;
 
-	public SyntaxEnum syntax;
-
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree syntaxTree, SyntaxEnum syntax) {
+		super(statement.tokens, syntax);
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;
 		this.syntaxTree = syntaxTree;
-		this.syntax = syntax;
 	}
 
 	public String getIndent() {
@@ -76,16 +74,6 @@ public class Element extends Syntactic {
 
 	public List<Statement> split(String separator) {
 		return statement.split(separator);
-	}
-
-	@Override
-	public List<Token> getTokens() {
-		return statement.getTokens();
-	}
-
-	@Override
-	public SyntaxEnum getSyntax() {
-		return syntax;
 	}
 
 	@Override

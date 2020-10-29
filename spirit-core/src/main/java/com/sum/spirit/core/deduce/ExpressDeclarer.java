@@ -73,6 +73,7 @@ public class ExpressDeclarer {
 				Element subElement = builder.build(subStatement.toString());
 				// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
 				subElement.statement = subStatement;
+				subElement.tokens = subStatement.tokens;
 				IVariable variable = elementVisiter.visit(clazz, context, subElement);
 				if (variable != null) {
 					variable.blockId = context.getBlockId();

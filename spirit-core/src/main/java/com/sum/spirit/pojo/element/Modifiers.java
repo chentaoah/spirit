@@ -8,9 +8,8 @@ import com.google.common.base.Joiner;
 
 public class Modifiers extends TokenBox {
 
-	public List<Token> tokens = new ArrayList<>();
-
 	public Modifiers(List<Token> tokens) {
+		super(new ArrayList<>());
 		Iterator<Token> iterable = tokens.iterator();
 		while (iterable.hasNext()) {
 			Token token = iterable.next();
@@ -21,11 +20,6 @@ public class Modifiers extends TokenBox {
 			}
 			break;
 		}
-	}
-
-	@Override
-	public List<Token> getTokens() {
-		return tokens;
 	}
 
 	@Override

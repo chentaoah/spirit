@@ -22,7 +22,7 @@ public class CommonConverter implements ElementConverter {
 
 	public void convertStmt(IClass clazz, Statement statement) {
 
-		for (Token token : statement.getTokens()) {
+		for (Token token : statement.tokens) {
 
 			if (token.canSplit())
 				convertStmt(clazz, token.getValue());

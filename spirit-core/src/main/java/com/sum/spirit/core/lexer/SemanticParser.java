@@ -28,40 +28,40 @@ public class SemanticParser extends AbsSemanticParser {
 	public void setTokenType(String word, Token token, boolean insideType) {
 
 		if (isPath(word)) {
-			token.type = TokenTypeEnum.PATH;
+			token.tokenType = TokenTypeEnum.PATH;
 
 		} else if (isAnnotation(word)) {
-			token.type = TokenTypeEnum.ANNOTATION;
+			token.tokenType = TokenTypeEnum.ANNOTATION;
 
 		} else if (isKeyword(word)) {
-			token.type = TokenTypeEnum.KEYWORD;
+			token.tokenType = TokenTypeEnum.KEYWORD;
 
 		} else if (isOperator(word) && !insideType) {// 类型声明中，一般不包含操作符
-			token.type = TokenTypeEnum.OPERATOR;
+			token.tokenType = TokenTypeEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
-			token.type = TokenTypeEnum.SEPARATOR;
+			token.tokenType = TokenTypeEnum.SEPARATOR;
 
 		} else if (isType(word) || (insideType && "?".equals(word))) {
-			token.type = TokenTypeEnum.TYPE;
+			token.tokenType = TokenTypeEnum.TYPE;
 
 		} else if (isInit(word)) {
-			token.type = getInitTokenType(word);
+			token.tokenType = getInitTokenType(word);
 
 		} else if (isValue(word)) {
-			token.type = getValueTokenType(word);
+			token.tokenType = getValueTokenType(word);
 
 		} else if (isSubexpress(word)) {
-			token.type = getSubexpressTokenType(word);
+			token.tokenType = getSubexpressTokenType(word);
 
 		} else if (isVar(word)) {
-			token.type = TokenTypeEnum.VAR;
+			token.tokenType = TokenTypeEnum.VAR;
 
 		} else if (isAccess(word)) {
-			token.type = getAccessTokenType(word);
+			token.tokenType = getAccessTokenType(word);
 		}
 
-		Assert.notNull(token.type, "Token type cannot be null!");
+		Assert.notNull(token.tokenType, "Token type cannot be null!");
 	}
 
 	public void setTokenValue(String word, Token token) {

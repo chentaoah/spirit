@@ -4,118 +4,124 @@ import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
-public abstract class Semantic {
+public abstract class Semantic extends AttributeMap {
+
+	public TokenTypeEnum tokenType;
+
+	public Semantic(TokenTypeEnum tokenType) {
+		this.tokenType = tokenType;
+	}
 
 	public boolean isAnnotation() {
-		return getType() == TokenTypeEnum.ANNOTATION;
+		return tokenType == TokenTypeEnum.ANNOTATION;
 	}
 
 	public boolean isKeyword() {
-		return getType() == TokenTypeEnum.KEYWORD;
+		return tokenType == TokenTypeEnum.KEYWORD;
 	}
 
 	public boolean isOperator() {
-		return getType() == TokenTypeEnum.OPERATOR;
+		return tokenType == TokenTypeEnum.OPERATOR;
 	}
 
 	public boolean isSeparator() {
-		return getType() == TokenTypeEnum.SEPARATOR;
+		return tokenType == TokenTypeEnum.SEPARATOR;
 	}
 
 	public boolean isType() {
-		return getType() == TokenTypeEnum.TYPE;
+		return tokenType == TokenTypeEnum.TYPE;
 	}
 
 	public boolean isArrayInit() {
-		return getType() == TokenTypeEnum.ARRAY_INIT;
+		return tokenType == TokenTypeEnum.ARRAY_INIT;
 	}
 
 	public boolean isTypeInit() {
-		return getType() == TokenTypeEnum.TYPE_INIT;
+		return tokenType == TokenTypeEnum.TYPE_INIT;
 	}
 
 	public boolean isNull() {
-		return getType() == TokenTypeEnum.NULL;
+		return tokenType == TokenTypeEnum.NULL;
 	}
 
 	public boolean isBool() {
-		return getType() == TokenTypeEnum.BOOL;
+		return tokenType == TokenTypeEnum.BOOL;
 	}
 
 	public boolean isChar() {
-		return getType() == TokenTypeEnum.CHAR;
+		return tokenType == TokenTypeEnum.CHAR;
 	}
 
 	public boolean isInt() {
-		return getType() == TokenTypeEnum.INT;
+		return tokenType == TokenTypeEnum.INT;
 	}
 
 	public boolean isLong() {
-		return getType() == TokenTypeEnum.LONG;
+		return tokenType == TokenTypeEnum.LONG;
 	}
 
 	public boolean isDouble() {
-		return getType() == TokenTypeEnum.DOUBLE;
+		return tokenType == TokenTypeEnum.DOUBLE;
 	}
 
 	public boolean isStr() {
-		return getType() == TokenTypeEnum.STR;
+		return tokenType == TokenTypeEnum.STR;
 	}
 
 	public boolean isList() {
-		return getType() == TokenTypeEnum.LIST;
+		return tokenType == TokenTypeEnum.LIST;
 	}
 
 	public boolean isMap() {
-		return getType() == TokenTypeEnum.MAP;
+		return tokenType == TokenTypeEnum.MAP;
 	}
 
 	public boolean isSubexpress() {
-		return getType() == TokenTypeEnum.SUBEXPRESS;
+		return tokenType == TokenTypeEnum.SUBEXPRESS;
 	}
 
 	public boolean isCast() {
-		return getType() == TokenTypeEnum.CAST;
+		return tokenType == TokenTypeEnum.CAST;
 	}
 
 	public boolean isVar() {
-		return getType() == TokenTypeEnum.VAR;
+		return tokenType == TokenTypeEnum.VAR;
 	}
 
 	public boolean isLocalMethod() {
-		return getType() == TokenTypeEnum.LOCAL_METHOD;
+		return tokenType == TokenTypeEnum.LOCAL_METHOD;
 	}
 
 	public boolean isVisitField() {
-		return getType() == TokenTypeEnum.VISIT_FIELD;
+		return tokenType == TokenTypeEnum.VISIT_FIELD;
 	}
 
 	public boolean isInvokeMethod() {
-		return getType() == TokenTypeEnum.INVOKE_METHOD;
+		return tokenType == TokenTypeEnum.INVOKE_METHOD;
 	}
 
 	public boolean isVisitArrayIndex() {
-		return getType() == TokenTypeEnum.VISIT_ARRAY_INDEX;
+		return tokenType == TokenTypeEnum.VISIT_ARRAY_INDEX;
 	}
 
 	public boolean isArrayIndex() {
-		return getType() == TokenTypeEnum.ARRAY_INDEX;
+		return tokenType == TokenTypeEnum.ARRAY_INDEX;
 	}
 
 	public boolean isPrefix() {
-		return getType() == TokenTypeEnum.PREFIX;
+		return tokenType == TokenTypeEnum.PREFIX;
 	}
 
 	public boolean isCustomPrefix() {
-		return getType() == TokenTypeEnum.CUSTOM_PREFIX;
+		return tokenType == TokenTypeEnum.CUSTOM_PREFIX;
 	}
 
 	public boolean isCustomSuffix() {
-		return getType() == TokenTypeEnum.CUSTOM_SUFFIX;
+		return tokenType == TokenTypeEnum.CUSTOM_SUFFIX;
 	}
 
 	public boolean isCustomExpress() {
-		return getType() == TokenTypeEnum.CUSTOM_EXPRESS;
+		return tokenType == TokenTypeEnum.CUSTOM_EXPRESS;
 	}
 
 	public boolean isInit() {
@@ -181,8 +187,6 @@ public abstract class Semantic {
 	public boolean isShift() {
 		return isOperator() && ("<<".equals(getValue()) || ">>".equals(getValue()));
 	}
-
-	public abstract TokenTypeEnum getType();
 
 	public abstract <T> T getValue();
 

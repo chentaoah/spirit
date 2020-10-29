@@ -1,137 +1,144 @@
 package com.sum.spirit.pojo.element;
 
+import java.util.List;
+
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 public abstract class Syntactic extends TokenBox {
 
+	public SyntaxEnum syntax;
+
+	public Syntactic(List<Token> tokens, SyntaxEnum syntax) {
+		super(tokens);
+		this.syntax = syntax;
+	}
+
 	public boolean isImport() {
-		return getSyntax() == SyntaxEnum.IMPORT;
+		return syntax == SyntaxEnum.IMPORT;
 	}
 
 	public boolean isAnnotation() {
-		return getSyntax() == SyntaxEnum.ANNOTATION;
+		return syntax == SyntaxEnum.ANNOTATION;
 	}
 
 	public boolean isInterface() {
-		return getSyntax() == SyntaxEnum.INTERFACE;
+		return syntax == SyntaxEnum.INTERFACE;
 	}
 
 	public boolean isAbstract() {
-		return getSyntax() == SyntaxEnum.ABSTRACT;
+		return syntax == SyntaxEnum.ABSTRACT;
 	}
 
 	public boolean isClass() {
-		return getSyntax() == SyntaxEnum.CLASS;
+		return syntax == SyntaxEnum.CLASS;
 	}
 
 	public boolean isFieldAssign() {
-		return getSyntax() == SyntaxEnum.FIELD_ASSIGN;
+		return syntax == SyntaxEnum.FIELD_ASSIGN;
 	}
 
 	public boolean isFuncDeclare() {
-		return getSyntax() == SyntaxEnum.FUNC_DECLARE;
+		return syntax == SyntaxEnum.FUNC_DECLARE;
 	}
 
 	public boolean isFunc() {
-		return getSyntax() == SyntaxEnum.FUNC;
+		return syntax == SyntaxEnum.FUNC;
 	}
 
 	public boolean isSuper() {
-		return getSyntax() == SyntaxEnum.SUPER;
+		return syntax == SyntaxEnum.SUPER;
 	}
 
 	public boolean isThis() {
-		return getSyntax() == SyntaxEnum.THIS;
+		return syntax == SyntaxEnum.THIS;
 	}
 
 	public boolean isDeclare() {
-		return getSyntax() == SyntaxEnum.DECLARE;
+		return syntax == SyntaxEnum.DECLARE;
 	}
 
 	public boolean isDeclareAssign() {
-		return getSyntax() == SyntaxEnum.DECLARE_ASSIGN;
+		return syntax == SyntaxEnum.DECLARE_ASSIGN;
 	}
 
 	public boolean isAssign() {
-		return getSyntax() == SyntaxEnum.ASSIGN;
+		return syntax == SyntaxEnum.ASSIGN;
 	}
 
 	public boolean isInvoke() {
-		return getSyntax() == SyntaxEnum.INVOKE;
+		return syntax == SyntaxEnum.INVOKE;
 	}
 
 	public boolean isReturn() {
-		return getSyntax() == SyntaxEnum.RETURN;
+		return syntax == SyntaxEnum.RETURN;
 	}
 
 	public boolean isIf() {
-		return getSyntax() == SyntaxEnum.IF;
+		return syntax == SyntaxEnum.IF;
 	}
 
 	public boolean isElseIf() {
-		return getSyntax() == SyntaxEnum.ELSE_IF;
+		return syntax == SyntaxEnum.ELSE_IF;
 	}
 
 	public boolean isElse() {
-		return getSyntax() == SyntaxEnum.ELSE;
+		return syntax == SyntaxEnum.ELSE;
 	}
 
 	public boolean isEnd() {
-		return getSyntax() == SyntaxEnum.END;
+		return syntax == SyntaxEnum.END;
 	}
 
 	public boolean isFor() {
-		return getSyntax() == SyntaxEnum.FOR;
+		return syntax == SyntaxEnum.FOR;
 	}
 
 	public boolean isForIn() {
-		return getSyntax() == SyntaxEnum.FOR_IN;
+		return syntax == SyntaxEnum.FOR_IN;
 	}
 
 	public boolean isWhile() {
-		return getSyntax() == SyntaxEnum.WHILE;
+		return syntax == SyntaxEnum.WHILE;
 	}
 
 	public boolean isContinue() {
-		return getSyntax() == SyntaxEnum.CONTINUE;
+		return syntax == SyntaxEnum.CONTINUE;
 	}
 
 	public boolean isBreak() {
-		return getSyntax() == SyntaxEnum.BREAK;
+		return syntax == SyntaxEnum.BREAK;
 	}
 
 	public boolean isTry() {
-		return getSyntax() == SyntaxEnum.TRY;
+		return syntax == SyntaxEnum.TRY;
 	}
 
 	public boolean isCatch() {
-		return getSyntax() == SyntaxEnum.CATCH;
+		return syntax == SyntaxEnum.CATCH;
 	}
 
 	public boolean isFinally() {
-		return getSyntax() == SyntaxEnum.FINALLY;
+		return syntax == SyntaxEnum.FINALLY;
 	}
 
 	public boolean isThrow() {
-		return getSyntax() == SyntaxEnum.THROW;
+		return syntax == SyntaxEnum.THROW;
 	}
 
 	public boolean isSync() {
-		return getSyntax() == SyntaxEnum.SYNC;
+		return syntax == SyntaxEnum.SYNC;
 	}
 
 	public boolean isPrint() {
-		return getSyntax() == SyntaxEnum.PRINT;
+		return syntax == SyntaxEnum.PRINT;
 	}
 
 	public boolean isDebug() {
-		return getSyntax() == SyntaxEnum.DEBUG;
+		return syntax == SyntaxEnum.DEBUG;
 	}
 
 	public boolean isError() {
-		return getSyntax() == SyntaxEnum.ERROR;
+		return syntax == SyntaxEnum.ERROR;
 	}
-
-	public abstract SyntaxEnum getSyntax();
 
 }

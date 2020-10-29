@@ -10,10 +10,8 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 public class Statement extends TokenBox {
 
-	public List<Token> tokens;
-
 	public Statement(List<Token> tokens) {
-		this.tokens = tokens;
+		super(tokens);
 	}
 
 	public Statement subStmt(int start, int end) {
@@ -30,11 +28,6 @@ public class Statement extends TokenBox {
 		for (List<Token> tokens : tokensList)
 			statements.add(new Statement(tokens));
 		return statements;
-	}
-
-	@Override
-	public List<Token> getTokens() {
-		return tokens;
 	}
 
 	@Override
@@ -123,10 +116,10 @@ public class Statement extends TokenBox {
 	}
 
 	public String debug() {
-		StringBuilder sb = new StringBuilder();
-		for (Token token : getTokens())
-			sb.append(token.debug() + " ");
-		return sb.toString().trim();
+		StringBuilder builder = new StringBuilder();
+		for (Token token : tokens)
+			builder.append(token.debug() + " ");
+		return builder.toString().trim();
 	}
 
 }
