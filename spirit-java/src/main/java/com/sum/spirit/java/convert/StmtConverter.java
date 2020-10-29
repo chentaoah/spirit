@@ -60,7 +60,7 @@ public class StmtConverter implements ElementConverter {
 			IType type = item.getAttribute(AttributeEnum.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
 			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, type), item, statement);
-			element.replace(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
+			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.getToken(0);
@@ -74,7 +74,7 @@ public class StmtConverter implements ElementConverter {
 			IType type = deducer.derive(clazz, statement);
 			if (TypeUtils.isStr(type)) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", statement);
-				element.replace(1, element.size() - 1, new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
+				element.replaceTokens(1, element.size() - 1, new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 			}
 
 		} else if (element.isPrint() || element.isDebug() || element.isError()) {

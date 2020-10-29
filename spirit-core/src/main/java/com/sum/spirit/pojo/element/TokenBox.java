@@ -12,78 +12,44 @@ public abstract class TokenBox {
 		return getTokens().size();
 	}
 
-	public int indexOf(Token token) {
-		return getTokens().indexOf(token);
-	}
-
-	public int indexOf(String str) {
-		Assert.notEmpty(str, "Str cannot be empty!");
-		List<Token> tokens = getTokens();
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if (isMatch(token) && str.equals(token.toString()))
-				return i;
-		}
-		return -1;
-	}
-
-	public int lastIndexOf(String str) {
-		Assert.notEmpty(str, "Str cannot be empty!");
-		int index = -1;
-		List<Token> tokens = getTokens();
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if (isMatch(token) && str.equals(token.toString()))
-				index = i > index ? i : index;
-		}
-		return index;
-	}
-
-	public boolean isMatch(Token token) {
-		return token.isSeparator() || token.isOperator();
-	}
-
 	public boolean contains(int index) {
 		return index < size();
 	}
 
-	public boolean contains(String str) {
-		return indexOf(str) >= 0;
+	public boolean isFocusOn(Token token) {
+		return token.isOperator() || token.isSeparator();
+	}
+
+	public int indexOf(Token token) {
+		return getTokens().indexOf(token);
+	}
+
+	public boolean contains(Token token) {
+		return getTokens().contains(token);
 	}
 
 	public Token getToken(int index) {
 		return getTokens().get(index);
 	}
 
-	public Token findToken(TokenTypeEnum... types) {
-		for (Token token : getTokens()) {
-			Assert.notNull(token.type, "Token type cannot be empty!");
-			for (TokenTypeEnum type : types) {
-				if (token.type.equals(type))
-					return token;
-			}
-		}
-		return null;
-	}
-
-	public String last() {
-		return getStr(size() - 1);
-	}
-
-	public String getStr(int index) {
-		return getToken(index).toString();
+	public void addToken(Token token) {
+		getTokens().add(token);
 	}
 
 	public void addToken(int index, Token token) {
 		getTokens().add(index, token);
 	}
 
-	public void addToken(Token token) {
-		getTokens().add(token);
-	}
-
 	public void setToken(int index, Token token) {
 		getTokens().set(index, token);
+	}
+
+	public void removeToken(int index) {
+		getTokens().remove(index);
+	}
+
+	public void removeToken(Token token) {
+		getTokens().remove(token);
 	}
 
 	public List<Token> copyTokens() {
@@ -94,11 +60,28 @@ public abstract class TokenBox {
 		return new ArrayList<>(getTokens().subList(start, end));
 	}
 
+	public void replaceTokens(int start, int end, Token token) {
+		List<Token> tokens = getTokens();
+		for (int i = end - 1; i >= start; i--)
+			tokens.remove(i);
+		tokens.add(start, token);
+	}
+
+	public Token findToken(TokenTypeEnum... tokenTypes) {
+		for (Token token : getTokens()) {
+			for (TokenTypeEnum type : tokenTypes) {
+				if (token.type == type)
+					return token;
+			}
+		}
+		return null;
+	}
+
 	public List<List<Token>> splitTokens(String separator) {
 		List<List<Token>> tokensList = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
 			Token token = getTokens().get(i);
-			if (isMatch(token) && separator.equals(token.toString())) {
+			if (isFocusOn(token) && separator.equals(token.toString())) {
 				tokensList.add(subTokens(last, i));
 				last = i + 1;
 			} else if (i == size() - 1) {
@@ -108,14 +91,44 @@ public abstract class TokenBox {
 		return tokensList;
 	}
 
-	public void replace(int start, int end, Token token) {
+	public int indexOf(String str) {
 		List<Token> tokens = getTokens();
-		for (int i = end - 1; i >= start; i--)
-			tokens.remove(i);
-		tokens.add(start, token);
+		for (int i = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if (isFocusOn(token) && str.equals(token.toString()))
+				return i;
+		}
+		return -1;
 	}
 
-	public int findKeyword(String keyword) {
+	public int lastIndexOf(String str) {
+		int index = -1;
+		List<Token> tokens = getTokens();
+		for (int i = 0; i < size(); i++) {
+			Token token = tokens.get(i);
+			if (isFocusOn(token) && str.equals(token.toString()))
+				index = i > index ? i : index;
+		}
+		return index;
+	}
+
+	public boolean contains(String str) {
+		return indexOf(str) >= 0;
+	}
+
+	public String getStr(int index) {
+		return getToken(index).toString();
+	}
+
+	public String first() {
+		return getStr(0);
+	}
+
+	public String last() {
+		return getStr(size() - 1);
+	}
+
+	public int indexOfKeyword(String keyword) {
 		for (int i = 0; i < size(); i++) {
 			Token token = getToken(i);
 			if (token.isKeyword() && keyword.equals(token.toString()))
@@ -125,29 +138,29 @@ public abstract class TokenBox {
 	}
 
 	public boolean containsKeyword(String keyword) {
-		return findKeyword(keyword) != -1;
-	}
-
-	public void replaceKeyword(String keyword, String text) {
-		int index = findKeyword(keyword);
-		if (index != -1)
-			getTokens().set(index, new Token(TokenTypeEnum.KEYWORD, text));
+		return indexOfKeyword(keyword) != -1;
 	}
 
 	public void removeKeyword(String keyword) {
-		int index = findKeyword(keyword);
+		int index = indexOfKeyword(keyword);
 		if (index != -1)
-			getTokens().remove(index);
+			removeToken(index);
 	}
 
-	public void addKeywordAtFirst(String text) {
-		getTokens().add(0, new Token(TokenTypeEnum.KEYWORD, text));
+	public void replaceKeyword(String keyword, String newKeyword) {
+		int index = indexOfKeyword(keyword);
+		if (index != -1)
+			setToken(index, new Token(TokenTypeEnum.KEYWORD, newKeyword));
 	}
 
-	public void insertKeywordAfter(String keyword, String text) {
-		int index = findKeyword(keyword);
+	public void addKeywordAtFirst(String keyword) {
+		addToken(0, new Token(TokenTypeEnum.KEYWORD, keyword));
+	}
+
+	public void insertKeywordAfter(String keyword, String newKeyword) {
+		int index = indexOfKeyword(keyword);
 		if (index != -1)
-			getTokens().add(index + 1, new Token(TokenTypeEnum.KEYWORD, text));
+			addToken(index + 1, new Token(TokenTypeEnum.KEYWORD, newKeyword));
 	}
 
 	public int findKeywordEnd(int index) {
@@ -164,7 +177,7 @@ public abstract class TokenBox {
 
 	public Token getKeywordParam(String... keywords) {
 		for (String keyword : keywords) {
-			int index = findKeyword(keyword);
+			int index = indexOfKeyword(keyword);
 			if (index != -1 && contains(index + 1))
 				return getToken(index + 1);
 		}
@@ -173,7 +186,7 @@ public abstract class TokenBox {
 
 	public List<Token> getKeywordParams(String keyword) {
 		List<Token> params = new ArrayList<>();
-		int index = findKeyword(keyword);
+		int index = indexOfKeyword(keyword);
 		if (index != -1) {
 			int end = findKeywordEnd(index);
 			List<List<Token>> tokensList = new DefaultTokenBox(subTokens(index + 1, end)).splitTokens(",");

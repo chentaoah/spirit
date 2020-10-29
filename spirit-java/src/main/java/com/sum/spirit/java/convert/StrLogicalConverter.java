@@ -63,7 +63,7 @@ public class StrLogicalConverter implements ElementConverter {
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.BOOLEAN.value);
 			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-0");
-			statement.replace(start, index, expressToken);
+			statement.replaceTokens(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 	}
@@ -78,7 +78,7 @@ public class StrLogicalConverter implements ElementConverter {
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.BOOLEAN.value);
 			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-1");
-			statement.replace(index + 1, end, expressToken);
+			statement.replaceTokens(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
 	}
