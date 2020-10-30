@@ -82,18 +82,18 @@ public class TokenBox {
 		return null;
 	}
 
-	public List<List<Token>> splitTokens(String separator) {
-		List<List<Token>> tokensList = new ArrayList<>();
+	public List<TokenBox> splitTokens(String separator) {
+		List<TokenBox> tokenBoxs = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
 			Token token = tokens.get(i);
 			if (isFocusOn(token) && separator.equals(token.toString())) {
-				tokensList.add(subTokens(last, i));
+				tokenBoxs.add(new TokenBox(subTokens(last, i)));
 				last = i + 1;
 			} else if (i == size() - 1) {
-				tokensList.add(subTokens(last, i + 1));
+				tokenBoxs.add(new TokenBox(subTokens(last, i + 1)));
 			}
 		}
-		return tokensList;
+		return tokenBoxs;
 	}
 
 	public int indexOf(String str) {
@@ -192,10 +192,10 @@ public class TokenBox {
 		int index = indexOfKeyword(keyword);
 		if (index != -1) {
 			int end = findKeywordEnd(index);
-			List<List<Token>> tokensList = new TokenBox(subTokens(index + 1, end)).splitTokens(",");
-			for (List<Token> tokens : tokensList) {
-				Assert.isTrue(tokens.size() == 1, "The size must be 1!");
-				params.add(tokens.get(0));
+			List<TokenBox> tokenBoxs = new TokenBox(subTokens(index + 1, end)).splitTokens(",");
+			for (TokenBox tokenBox : tokenBoxs) {
+				Assert.isTrue(tokenBox.size() == 1, "The size must be 1!");
+				params.add(tokenBox.getToken(0));
 			}
 		}
 		return params;

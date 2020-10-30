@@ -24,9 +24,9 @@ public class Statement extends TokenBox {
 
 	public List<Statement> split(String separator) {
 		List<Statement> statements = new ArrayList<>();
-		List<List<Token>> tokensList = splitTokens(separator);
-		for (List<Token> tokens : tokensList)
-			statements.add(new Statement(tokens));
+		List<TokenBox> tokenBoxs = splitTokens(separator);
+		for (TokenBox tokenBox : tokenBoxs)
+			statements.add(new Statement(tokenBox.tokens));
 		return statements;
 	}
 
