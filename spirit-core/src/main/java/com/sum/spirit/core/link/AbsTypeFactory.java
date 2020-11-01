@@ -10,6 +10,7 @@ import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.pojo.clazz.ITypeBuilder;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
@@ -37,7 +38,7 @@ public abstract class AbsTypeFactory {
 		if (targetType == null)
 			return null;
 
-		targetType = targetType.copy();
+		targetType = ITypeBuilder.copy(targetType);
 
 		if (targetType.isGenericType()) {
 			List<IType> genericTypes = new ArrayList<>();
@@ -52,7 +53,7 @@ public abstract class AbsTypeFactory {
 			Assert.isTrue(index >= 0, "Index of type variable less than 0!");
 			Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
 			List<IType> genericTypes = type.getGenericTypes();
-			return genericTypes.get(index).copy();
+			return ITypeBuilder.copy(genericTypes.get(index));
 		}
 		return targetType;
 	}

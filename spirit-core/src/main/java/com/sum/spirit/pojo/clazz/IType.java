@@ -1,7 +1,6 @@
 package com.sum.spirit.pojo.clazz;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Joiner;
@@ -26,39 +25,6 @@ public class IType {
 	private boolean isNative;// 是否本地类型
 	private int modifiers;// 进行位运算后得到的修饰符
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
-
-	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull, boolean isWildcard,
-			boolean isNative) {
-		IType type = new IType();
-		type.setClassName(className);
-		type.setSimpleName(simpleName);
-		type.setTypeName(typeName);
-		type.setGenericName(null);
-		type.setPrimitive(isPrimitive);
-		type.setArray(isArray);
-		type.setNull(isNull);
-		type.setWildcard(isWildcard);
-		type.setNative(isNative);
-		type.setModifiers(ModifierEnum.PUBLIC.value);
-		type.setGenericTypes(new ArrayList<>());
-		return type;
-	}
-
-	public IType copy() {
-		IType type = new IType();
-		type.setClassName(className);
-		type.setSimpleName(simpleName);
-		type.setTypeName(typeName);
-		type.setGenericName(genericName);
-		type.setPrimitive(isPrimitive);
-		type.setArray(isArray);
-		type.setNull(isNull);
-		type.setWildcard(isWildcard);
-		type.setNative(isNative);
-		type.setModifiers(modifiers);
-		type.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		return type;
-	}
 
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
