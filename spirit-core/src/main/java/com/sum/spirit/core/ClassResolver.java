@@ -27,7 +27,7 @@ public class ClassResolver {
 
 		List<IClass> classes = new ArrayList<>();
 		List<Import> imports = new ArrayList<>();
-		List<IAnnotation> cacheAnnotations = new ArrayList<>();
+		List<IAnnotation> annotations = new ArrayList<>();
 		IClass mainClass = null;
 		List<IField> fields = new ArrayList<>();
 		List<IMethod> methods = new ArrayList<>();
@@ -37,22 +37,22 @@ public class ClassResolver {
 				imports.add(new Import(element));
 
 			} else if (element.isAnnotation()) {
-				cacheAnnotations.add(new IAnnotation(element.getToken(0)));
+				annotations.add(new IAnnotation(element.getToken(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
-				fields.add(new IField(cacheAnnotations, element));
-				cacheAnnotations.clear();
+				fields.add(new IField(annotations, element));
+				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
 				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
-				methods.add(new IMethod(cacheAnnotations, element));
-				cacheAnnotations.clear();
+				methods.add(new IMethod(annotations, element));
+				annotations.clear();
 
 			} else if (element.isInterface() || element.isAbstract()) {
 				// 接口和抽象类，只允许出现一个主类
-				mainClass = new IClass(imports, cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value));
-				cacheAnnotations.clear();
+				mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+				annotations.clear();
 				mainClass.packageStr = packageStr;
 				mainClass.fields = fields;
 				mainClass.methods = methods;
@@ -65,8 +65,8 @@ public class ClassResolver {
 				String targetName = TypeUtils.getTargetName(simpleName);
 
 				if (document.name.equals(targetName)) {
-					mainClass = new IClass(imports, cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value));
-					cacheAnnotations.clear();
+					mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+					annotations.clear();
 					mainClass.packageStr = packageStr;
 					mainClass.fields = fields;
 					mainClass.methods = methods;
@@ -74,8 +74,8 @@ public class ClassResolver {
 					classes.add(mainClass);
 
 				} else {
-					IClass clazz = new IClass(imports, cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value));
-					cacheAnnotations.clear();
+					IClass clazz = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+					annotations.clear();
 					clazz.packageStr = packageStr;
 					clazz.fields = new ArrayList<>();
 					clazz.methods = new ArrayList<>();
@@ -88,8 +88,8 @@ public class ClassResolver {
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass == null) {
 			Element element = builder.build("class " + document.name + " {");
-			mainClass = new IClass(imports, cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value));
-			cacheAnnotations.clear();
+			mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+			annotations.clear();
 			mainClass.packageStr = packageStr;
 			mainClass.fields = fields;
 			mainClass.methods = methods;
@@ -101,19 +101,19 @@ public class ClassResolver {
 
 	public void readRootElement(IClass clazz) {
 
-		List<IAnnotation> cacheAnnotations = new ArrayList<>();
+		List<IAnnotation> annotations = new ArrayList<>();
 
 		for (Element element : clazz.element.children) {
 			if (element.isAnnotation()) {
-				cacheAnnotations.add(new IAnnotation(element.getToken(0)));
+				annotations.add(new IAnnotation(element.getToken(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				clazz.fields.add(new IField(cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value)));
-				cacheAnnotations.clear();
+				clazz.fields.add(new IField(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
+				annotations.clear();
 
 			} else if (element.isFuncDeclare() || element.isFunc()) {
-				clazz.methods.add(new IMethod(cacheAnnotations, element.addModifier(KeywordEnum.PUBLIC.value)));
-				cacheAnnotations.clear();
+				clazz.methods.add(new IMethod(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
+				annotations.clear();
 			}
 		}
 	}
