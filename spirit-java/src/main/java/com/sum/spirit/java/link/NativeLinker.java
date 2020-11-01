@@ -20,6 +20,7 @@ import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
+import com.sum.spirit.utils.SpringUtils;
 
 @Component
 public class NativeLinker implements ClassLinker {
@@ -63,8 +64,13 @@ public class NativeLinker implements ClassLinker {
 	}
 
 	@Override
-	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
+	public boolean isMoreAbstract(IType abstractType, IType type) {
+		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
+		return linker.isMoreAbstract(abstractType, type);
+	}
 
+	@Override
+	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!fieldName:" + fieldName);
 		try {
 			Class<?> clazz = toClass(type);
@@ -80,7 +86,6 @@ public class NativeLinker implements ClassLinker {
 
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
-
 		Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
 		try {
 			Method method = findMethod(type, methodName, parameterTypes);
@@ -104,7 +109,7 @@ public class NativeLinker implements ClassLinker {
 				for (Parameter parameter : method.getParameters()) {
 					IType parameterType = parameterTypes.get(index++);
 					IType nativeParameterType = populate(type, null, parameterType, parameter.getParameterizedType());
-					if (!(nativeParameterType.isMatch(parameterType))) {
+					if (!isMoreAbstract(nativeParameterType, parameterType)) {
 						flag = false;
 						break;
 					}
@@ -131,7 +136,7 @@ public class NativeLinker implements ClassLinker {
 				for (int i = 0; i < parameters.length - 1; i++) {
 					IType parameterType = parameterTypes.get(i);
 					IType nativeParameterType = populate(type, null, parameterType, parameters[i].getParameterizedType());
-					if (!(nativeParameterType.isMatch(parameterType))) {
+					if (!isMoreAbstract(nativeParameterType, parameterType)) {
 						flag = false;
 						break;
 					}
@@ -141,7 +146,7 @@ public class NativeLinker implements ClassLinker {
 					IType targetType = populate(type, null, null, lastParameter.getParameterizedType()).getTargetType();
 					for (int i = parameters.length - 1; i < parameterTypes.size(); i++) {
 						IType parameterType = parameterTypes.get(i);
-						if (!(targetType.isMatch(parameterType))) {
+						if (!isMoreAbstract(targetType, parameterType)) {
 							flag = false;
 							break;
 						}

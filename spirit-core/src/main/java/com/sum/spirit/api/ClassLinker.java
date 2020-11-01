@@ -16,6 +16,8 @@ public interface ClassLinker {
 
 	List<IType> getInterfaceTypes(IType type);
 
+	boolean isMoreAbstract(IType abstractType, IType type);
+
 	IType visitField(IType type, String fieldName) throws NoSuchFieldException;
 
 	IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException;

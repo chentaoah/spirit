@@ -3,6 +3,7 @@ package com.sum.spirit.pojo.clazz;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.element.Element;
@@ -44,11 +45,12 @@ public class IMethod extends Member {
 
 	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
+		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
 		if (getName().equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
 				IType returnType = factory.populate(type, parameter.getType());
-				if (!returnType.isMatch(parameterTypes.get(count++)))
+				if (!linker.isMoreAbstract(returnType, parameterTypes.get(count++)))
 					return false;
 			}
 			return true;

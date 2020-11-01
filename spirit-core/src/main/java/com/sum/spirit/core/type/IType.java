@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
@@ -25,6 +24,19 @@ public class IType {
 	private int modifiers;// 进行位运算后得到的修饰符
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
+	public boolean isGenericType() {
+		return genericTypes != null && genericTypes.size() > 0;
+	}
+
+	public boolean isTypeVariable() {
+		return StringUtils.isNotEmpty(genericName);
+	}
+
+	public IType getWrappedType() {
+		IType wrappedType = TypeEnum.getWrappedType(getClassName());
+		return wrappedType != null ? wrappedType : this;
+	}
+
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
 	}
@@ -34,92 +46,14 @@ public class IType {
 		return factory.create(getTargetName());
 	}
 
-	public IType toThis() {
-		this.setModifiers(ModifierEnum.THIS.value);
-		return this;
-	}
-
 	public IType toSuper() {
 		this.setModifiers(ModifierEnum.SUPER.value);
 		return this;
 	}
 
-	public IType getSuperType() {
-
-		if (isPrimitive())
-			return null;
-
-		if (isArray())
-			return TypeEnum.OBJECT.value;
-
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		IType superType = linker.getSuperType(this);
-
-		if (superType == null)
-			return null;
-
-		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
-			superType.setModifiers(ModifierEnum.SUPER.value);
-
-		} else if (modifiers == ModifierEnum.PUBLIC.value) {
-			superType.setModifiers(ModifierEnum.PUBLIC.value);
-		}
-
-		return superType;
-	}
-
-	public List<IType> getInterfaceTypes() {
-
-		if (isPrimitive())
-			return new ArrayList<>();
-
-		if (isArray())
-			return new ArrayList<>();
-
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		return linker.getInterfaceTypes(this);
-	}
-
-	public IType getWrappedType() {
-		IType wrappedType = TypeEnum.getWrappedType(getClassName());
-		return wrappedType != null ? wrappedType : this;
-	}
-
-	public boolean isMatch(IType type) {
-
-		if (type == null)
-			return false;
-
-		// Null can not match any type
-		if (isNull())
-			return false;
-
-		// Any type can match null
-		if (type.isNull())
-			return true;
-
-		// 这个方法还要判断泛型
-		if (equals(type))
-			return true;
-
-		// 这个方法中，还要考虑到自动拆组包
-		if (isMatch(type.getWrappedType().getSuperType()))
-			return true;
-
-		for (IType inter : type.getInterfaceTypes()) {
-			if (isMatch(inter))
-				return true;
-		}
-
-		return false;
-	}
-
-	public boolean isGenericType() {
-		return genericTypes != null && genericTypes.size() > 0;
-	}
-
-	public boolean isTypeVariable() {
-		return StringUtils.isNotEmpty(genericName);
+	public IType toThis() {
+		this.setModifiers(ModifierEnum.THIS.value);
+		return this;
 	}
 
 	@Override

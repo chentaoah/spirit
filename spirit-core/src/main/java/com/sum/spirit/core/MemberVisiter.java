@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.type.TypeFactory;
@@ -33,6 +34,8 @@ public class MemberVisiter extends AbsMemberVisiter {
 	public ElementVisiter visiter;
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public ClassLinker linker;
 
 	public void visitParameters(IClass clazz, IMethod method) {
 		// User() // invoke()
@@ -76,15 +79,12 @@ public class MemberVisiter extends AbsMemberVisiter {
 			return context.returnType != null ? context.returnType : TypeEnum.VOID.value;
 
 		} else if (method.element.isFuncDeclare()) {
-
 			IType declaredType = factory.create(clazz, method.element.getToken(0));
-
 			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : TypeEnum.VOID.value;
-				if (!declaredType.isMatch(returnType))
+				if (!linker.isMoreAbstract(declaredType, returnType))
 					throw new RuntimeException("The derived type does not match the declared type!");
 			}
-
 			return declaredType;
 		}
 
@@ -113,7 +113,7 @@ public class MemberVisiter extends AbsMemberVisiter {
 					// If there are multiple return statements, take the most abstract return type
 					// Null can not match any type
 					// Any type can match null
-					if (variable.getType().isMatch(context.returnType)) {
+					if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
 						context.returnType = variable.getType();
 					} else {
 						if (!variable.getType().isNull())

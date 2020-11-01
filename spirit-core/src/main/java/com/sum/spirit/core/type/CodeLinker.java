@@ -15,6 +15,7 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
+import com.sum.spirit.utils.SpringUtils;
 
 @Component
 public class CodeLinker implements ClassLinker {
@@ -54,6 +55,12 @@ public class CodeLinker implements ClassLinker {
 		for (IType interfaceType : clazz.getInterfaceTypes())
 			interfaceTypes.add(factory.populate(type, interfaceType));
 		return interfaceTypes;
+	}
+
+	@Override
+	public boolean isMoreAbstract(IType abstractType, IType type) {
+		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
+		return linker.isMoreAbstract(abstractType, type);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.lib.Assert;
@@ -26,6 +27,8 @@ public class TypeFactory extends AbsTypeFactory {
 	public Compiler compiler;
 	@Autowired
 	public FastDeducer deducer;
+	@Autowired
+	public ClassLinker linker;
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性
@@ -144,10 +147,10 @@ public class TypeFactory extends AbsTypeFactory {
 				genericType = wrappedType;
 				continue;
 			}
-			if (wrappedType.isMatch(genericType)) {// 更抽象则替换
+			if (linker.isMoreAbstract(wrappedType, genericType)) {// 更抽象则替换
 				genericType = wrappedType;
 
-			} else if (!genericType.isMatch(wrappedType)) {// 不同则使用Object
+			} else if (!linker.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
 				genericType = TypeEnum.OBJECT.value;
 				break;
 			}
