@@ -36,7 +36,7 @@ public abstract class AbsTypeFactory {
 		if (targetType == null)
 			return null;
 
-		targetType = ITypeBuilder.copy(targetType);
+		targetType = TypeBuilder.copy(targetType);
 
 		if (targetType.isGenericType()) {
 			List<IType> genericTypes = new ArrayList<>();
@@ -51,7 +51,7 @@ public abstract class AbsTypeFactory {
 			Assert.isTrue(index >= 0, "Index of type variable less than 0!");
 			Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
 			List<IType> genericTypes = type.getGenericTypes();
-			return ITypeBuilder.copy(genericTypes.get(index));
+			return TypeBuilder.copy(genericTypes.get(index));
 		}
 		return targetType;
 	}

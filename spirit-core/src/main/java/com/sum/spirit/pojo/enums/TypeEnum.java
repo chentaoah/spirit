@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.core.type.IType;
-import com.sum.spirit.core.type.ITypeBuilder;
+import com.sum.spirit.core.type.TypeBuilder;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.utils.SpringUtils;
@@ -54,24 +54,24 @@ public enum TypeEnum {
 	public static final Map<String, IType> PRIMITIVE_ARRAY_MAPPING = new ConcurrentHashMap<>();
 
 	static {
-		VOID.value = ITypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
-		BOOLEAN.value = ITypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
-		CHAR.value = ITypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
-		BYTE.value = ITypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
-		SHORT.value = ITypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
-		INT.value = ITypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
-		LONG.value = ITypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
-		FLOAT.value = ITypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
-		DOUBLE.value = ITypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
+		VOID.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
+		BOOLEAN.value = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
+		CHAR.value = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
+		BYTE.value = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
+		SHORT.value = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
+		INT.value = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
+		LONG.value = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
+		FLOAT.value = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
+		DOUBLE.value = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
 
-		BOOLEAN_ARRAY.value = ITypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
-		CHAR_ARRAY.value = ITypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
-		BYTE_ARRAY.value = ITypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
-		SHORT_ARRAY.value = ITypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
-		INT_ARRAY.value = ITypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
-		LONG_ARRAY.value = ITypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
-		FLOAT_ARRAY.value = ITypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
-		DOUBLE_ARRAY.value = ITypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
+		BOOLEAN_ARRAY.value = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
+		CHAR_ARRAY.value = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
+		BYTE_ARRAY.value = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
+		SHORT_ARRAY.value = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
+		INT_ARRAY.value = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
+		LONG_ARRAY.value = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
+		FLOAT_ARRAY.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
+		DOUBLE_ARRAY.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
 		// Get target type by array type
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", BOOLEAN.value);

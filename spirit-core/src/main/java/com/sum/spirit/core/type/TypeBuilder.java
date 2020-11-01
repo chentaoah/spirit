@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import com.sum.spirit.pojo.enums.ModifierEnum;
 
-public class ITypeBuilder {
+public class TypeBuilder {
 
 	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull, boolean isWildcard,
 			boolean isNative) {
