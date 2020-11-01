@@ -1,11 +1,14 @@
 package com.sum.spirit.core;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.deduce.ElementVisiter;
+import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
@@ -25,35 +28,43 @@ import com.sum.spirit.pojo.enums.TypeEnum;
 public class MemberVisiter extends AbsMemberVisiter {
 
 	@Autowired
+	public ElementBuilder builder;
+	@Autowired
 	public ElementVisiter visiter;
 	@Autowired
 	public TypeFactory factory;
 
 	public void visitParameters(IClass clazz, IMethod method) {
-		// invoke() // User()
+		// User() // invoke()
 		Token methodToken = method.element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			IParameter parameter = new IParameter();
-			for (Token token : paramStmt.tokens) {
-				if (token.isAnnotation()) {
-					parameter.annotations.add(new IAnnotation(token));
-
-				} else if (token.isType()) {
-					parameter.type = factory.create(clazz, token);
-
-				} else if (token.isVar()) {
-					parameter.name = token.toString();
-				}
-			}
+			List<IAnnotation> annotations = getAnnotations(paramStmt);
+			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
+			parameter.setType(factory.create(clazz, paramStmt.getToken(0)));
 			method.parameters.add(parameter);
 		}
 	}
 
+	private List<IAnnotation> getAnnotations(Statement paramStmt) {
+		List<IAnnotation> annotations = new ArrayList<>();
+		Iterator<Token> iterable = paramStmt.tokens.iterator();
+		while (iterable.hasNext()) {
+			Token token = iterable.next();
+			if (token.isAnnotation()) {
+				annotations.add(new IAnnotation(token));
+				iterable.remove();
+				continue;
+			}
+			break;
+		}
+		return annotations;
+	}
+
 	public IType visitField(IClass clazz, IField field) {
 		IVariable variable = visiter.visit(clazz, null, field.element);
-		return variable.type;
+		return variable.getType();
 	}
 
 	public IType visitMethod(IClass clazz, IMethod method) {
@@ -97,15 +108,15 @@ public class MemberVisiter extends AbsMemberVisiter {
 			} else if (element.isReturn() && variable != null) {
 				// If there is no return type, accept most types
 				if (context.returnType == null) {
-					context.returnType = variable.type;
+					context.returnType = variable.getType();
 				} else {
 					// If there are multiple return statements, take the most abstract return type
 					// Null can not match any type
 					// Any type can match null
-					if (variable.type.isMatch(context.returnType)) {
-						context.returnType = variable.type;
+					if (variable.getType().isMatch(context.returnType)) {
+						context.returnType = variable.getType();
 					} else {
-						if (!variable.type.isNull())
+						if (!variable.getType().isNull())
 							throw new RuntimeException("Multiple return types do not match");
 					}
 				}

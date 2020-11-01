@@ -70,16 +70,14 @@ public class ExpressDeclarer {
 			if (secondToken.isSubexpress()) {
 				Statement statement = secondToken.getValue();
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
-				Element subElement = builder.build(subStatement.toString());
-				// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
-				subElement.statement = subStatement;
-				subElement.tokens = subStatement.tokens;
+				Element subElement = builder.rebuild(subStatement);
 				IVariable variable = elementVisiter.visit(clazz, context, subElement);
 				if (variable != null) {
 					variable.blockId = context.getBlockId();
 					context.variables.add(variable);
 				}
 			}
+//			System.out.println(element.syntaxTree.debug());
 		}
 	}
 

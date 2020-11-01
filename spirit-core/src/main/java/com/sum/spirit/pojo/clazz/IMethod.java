@@ -10,36 +10,43 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
-public class IMethod extends AbsMember {
-
-	public boolean isInit;
+public class IMethod extends Member {
 
 	public List<IParameter> parameters = new ArrayList<>();
 
 	public IMethod(List<IAnnotation> annotations, Element element) {
-
 		super(annotations, element);
+	}
 
+	@Override
+	public String getName() {
 		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
-			isInit = true;
-			name = methodToken.getAttribute(AttributeEnum.SIMPLE_NAME);
+			return methodToken.getAttribute(AttributeEnum.SIMPLE_NAME);
 
 		} else if (methodToken.isLocalMethod()) {
-			isInit = false;
-			name = methodToken.getAttribute(AttributeEnum.MEMBER_NAME);
-
-		} else {
-			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
+			return methodToken.getAttribute(AttributeEnum.MEMBER_NAME);
 		}
+		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
+	}
+
+	public boolean isInit() {
+		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
+		if (methodToken.isTypeInit()) {
+			return true;
+
+		} else if (methodToken.isLocalMethod()) {
+			return false;
+		}
+		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}
 
 	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		if (name.equals(methodName) && parameters.size() == parameterTypes.size()) {
+		if (getName().equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
-				IType returnType = factory.populate(type, parameter.type);
+				IType returnType = factory.populate(type, parameter.getType());
 				if (!returnType.isMatch(parameterTypes.get(count++)))
 					return false;
 			}

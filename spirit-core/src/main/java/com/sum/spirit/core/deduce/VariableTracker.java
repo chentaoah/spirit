@@ -75,13 +75,13 @@ public class VariableTracker {
 		if (context != null) {
 			// find in variable
 			for (IVariable variable : context.variables) {
-				if (variable.name.equals(name) && context.getBlockId().startsWith(variable.blockId))
-					return variable.type;
+				if (variable.getName().equals(name) && context.getBlockId().startsWith(variable.blockId))
+					return variable.getType();
 			}
 			// find in parameters
 			for (IParameter parameter : context.method.parameters) {
-				if (parameter.name.equals(name))
-					return parameter.type;
+				if (parameter.getName().equals(name))
+					return parameter.getType();
 			}
 		}
 

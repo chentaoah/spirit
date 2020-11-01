@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.clazz.AbsMember;
+import com.sum.spirit.pojo.clazz.Member;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -30,7 +30,7 @@ public abstract class AbsMemberVisiter {
 		}
 	}
 
-	public IType visitMember(IClass clazz, AbsMember member) {
+	public IType visitMember(IClass clazz, Member member) {
 		member.lock();
 		IType type = member.getType();
 		if (type == null) {
@@ -49,7 +49,7 @@ public abstract class AbsMemberVisiter {
 
 	public void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		annotations.forEach((annotation) -> annotation.type = factory.create(clazz, annotation.token));
+		annotations.forEach((annotation) -> annotation.setType(factory.create(clazz, annotation.token)));
 	}
 
 	public abstract void visitParameters(IClass clazz, IMethod method);

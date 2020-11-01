@@ -36,9 +36,9 @@ public class DataGetterSetterGenerator implements ClassEnhancer {
 	}
 
 	public void addGetMethod(IClass clazz, IField field) {
-		String name = toUpperCaseAtFirst(field.name);
+		String name = toUpperCaseAtFirst(field.getName());
 		Element element = builder.build(String.format("func get%s() {", name)).addModifier(KeywordEnum.PUBLIC.value);
-		Element content = builder.build(String.format("\treturn %s", field.name));
+		Element content = builder.build(String.format("\treturn %s", field.getName()));
 		element.children.add(content);
 		IMethod method = new IMethod(new ArrayList<>(), element);
 		visiter.visitParameters(clazz, method);
@@ -47,10 +47,10 @@ public class DataGetterSetterGenerator implements ClassEnhancer {
 	}
 
 	public void addSetMethod(IClass clazz, IField field) {
-		String name = toUpperCaseAtFirst(field.name);
-		Element element = builder.build(String.format("func set%s(%s %s) {", name, field.type.getSimpleName(), field.name))
+		String name = toUpperCaseAtFirst(field.getName());
+		Element element = builder.build(String.format("func set%s(%s %s) {", name, field.getType().getSimpleName(), field.getName()))
 				.addModifier(KeywordEnum.PUBLIC.value);
-		Element content = builder.build(String.format("\tthis.%s = %s", field.name, field.name));
+		Element content = builder.build(String.format("\tthis.%s = %s", field.getName(), field.getName()));
 		element.children.add(content);
 		IMethod method = new IMethod(new ArrayList<>(), element);
 		visiter.visitParameters(clazz, method);

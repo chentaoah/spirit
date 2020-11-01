@@ -1,25 +1,20 @@
 package com.sum.spirit.pojo.clazz;
 
-public class IVariable {
+import com.sum.spirit.pojo.element.Token;
+
+public class IVariable extends Tokened {
 
 	public String blockId;
 
-	public IType type;
-
-	public String name;
-
-	public IVariable() {
+	public IVariable(Token token) {
+		super(token);
 	}
 
-	public IVariable(String blockId, IType type, String name) {
-		this.blockId = blockId;
-		this.type = type;
-		this.name = name;
-	}
-
-	public IVariable(IType type, String name) {
-		this.type = type;
-		this.name = name;
+	@Override
+	public String getName() {
+		if (token == null)
+			return "NO_NAME";
+		return super.getName();
 	}
 
 }

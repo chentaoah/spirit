@@ -53,23 +53,33 @@ public class ElementVisiter {
 
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
+			IVariable variable = new IVariable(varToken);
+			variable.setType(varToken.getAttribute(AttributeEnum.TYPE));
+			return variable;
 
 		} else if (element.isCatch()) {
 			Token varToken = element.getToken(3);
-			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
+			IVariable variable = new IVariable(varToken);
+			variable.setType(varToken.getAttribute(AttributeEnum.TYPE));
+			return variable;
 
 		} else if (element.isAssign()) {
 			Token varToken = element.getToken(0);
-			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
+			IVariable variable = new IVariable(varToken);
+			variable.setType(varToken.getAttribute(AttributeEnum.TYPE));
+			return variable;
 
 		} else if (element.isForIn()) {
 			Token varToken = element.getToken(1);
-			return new IVariable(varToken.getAttribute(AttributeEnum.TYPE), varToken.toString());
+			IVariable variable = new IVariable(varToken);
+			variable.setType(varToken.getAttribute(AttributeEnum.TYPE));
+			return variable;
 
 		} else if (element.isReturn()) {
 			Statement statement = element.subStmt(1, element.size());
-			return new IVariable(deducer.derive(clazz, statement), null);
+			IVariable variable = new IVariable(null);
+			variable.setType(deducer.derive(clazz, statement));
+			return variable;
 		}
 		return null;
 	}

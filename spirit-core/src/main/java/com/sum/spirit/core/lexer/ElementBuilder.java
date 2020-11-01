@@ -65,4 +65,12 @@ public class ElementBuilder {
 		}
 	}
 
+	public Element rebuild(Statement statement) {
+		Element element = build(statement.toString());
+		// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
+		element.statement = statement;
+		element.tokens = statement.tokens;
+		return element;
+	}
+
 }

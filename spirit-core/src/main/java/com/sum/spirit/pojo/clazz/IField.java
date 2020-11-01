@@ -4,20 +4,21 @@ import java.util.List;
 
 import com.sum.spirit.pojo.element.Element;
 
-public class IField extends AbsMember {
+public class IField extends Member {
 
 	public IField(List<IAnnotation> annotations, Element element) {
-
 		super(annotations, element);
+	}
 
+	@Override
+	public String getName() {
 		if (element.isDeclare() || element.isDeclareAssign()) {
-			name = element.getStr(1);
+			return element.getStr(1);
 
 		} else if (element.isAssign()) {
-			name = element.getStr(0);
-
-		} else {
-			throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
+			return element.getStr(0);
 		}
+		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}
+
 }

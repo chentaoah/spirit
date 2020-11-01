@@ -67,9 +67,8 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	public String buildBody(IClass clazz) {
 
 		StringBuilder classStr = new StringBuilder();
-		classStr.append(
-				clazz.element.insertKeywordAfter$(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceKeyword$(KeywordEnum.IMPLS.value, IMPLEMENTS_KEYWORD)
-						+ "\n\n");
+		classStr.append(clazz.element.insertKeywordAfter$(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceKeyword$(KeywordEnum.IMPLS.value,
+				IMPLEMENTS_KEYWORD) + "\n\n");
 
 		// When building a method, sometimes imports and fields is added
 		// dynamically, so execute the method first
@@ -84,7 +83,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 				methodsStr.append("\t" + annotation + "\n");
 
 			// If this method is the main method
-			if (method.isStatic() && "main".equals(method.name)) {
+			if (method.isStatic() && "main".equals(method.getName())) {
 				methodsStr.append("\tpublic static void main(String[] args) {\n");
 
 			} else {
@@ -101,10 +100,10 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 					}
 
 				} else if (element.isFunc()) {
-					if (method.isInit) {
+					if (method.isInit()) {
 						element.removeKeyword(KeywordEnum.FUNC.value);
 					} else {
-						element.replaceKeyword(KeywordEnum.FUNC.value, TypeBuilder.build(clazz, method.type));
+						element.replaceKeyword(KeywordEnum.FUNC.value, TypeBuilder.build(clazz, method.getType()));
 					}
 					methodsStr.append("\t" + element + "\n");
 				}
