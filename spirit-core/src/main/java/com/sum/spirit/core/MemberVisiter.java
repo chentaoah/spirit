@@ -33,7 +33,7 @@ public class MemberVisiter extends AbsMemberVisiter {
 		// invoke() // User()
 		Token methodToken = method.element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		Statement statement = methodToken.getValue();
-		List<Statement> statements = statement.subStmt("(", ")").split(",");
+		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
 			IParameter parameter = new IParameter();
 			for (Token token : paramStmt.tokens) {

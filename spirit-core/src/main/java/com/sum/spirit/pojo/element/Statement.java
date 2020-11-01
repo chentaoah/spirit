@@ -22,7 +22,7 @@ public class Statement extends TokenBox {
 		return subStmt(indexOf(left) + 1, lastIndexOf(right));
 	}
 
-	public List<Statement> split(String separator) {
+	public List<Statement> splitStmt(String separator) {
 		List<Statement> statements = new ArrayList<>();
 		List<TokenBox> tokenBoxs = splitTokens(separator);
 		for (TokenBox tokenBox : tokenBoxs)

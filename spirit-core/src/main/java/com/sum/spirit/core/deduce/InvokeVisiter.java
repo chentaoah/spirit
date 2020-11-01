@@ -81,7 +81,7 @@ public class InvokeVisiter {
 		List<IType> parameterTypes = new ArrayList<>();
 		Statement statement = token.getValue();
 		if (statement.size() > 3) {
-			List<Statement> subStatements = statement.subStmt(2, statement.size() - 1).split(",");
+			List<Statement> subStatements = statement.subStmt(2, statement.size() - 1).splitStmt(",");
 			for (Statement subStatement : subStatements) {
 				IType parameterType = deducer.derive(clazz, subStatement);
 				parameterTypes.add(parameterType);

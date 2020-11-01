@@ -73,7 +73,7 @@ public class Element extends Syntactic {
 	}
 
 	public List<Statement> split(String separator) {
-		return statement.split(separator);
+		return statement.splitStmt(separator);
 	}
 
 	@Override

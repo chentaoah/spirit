@@ -117,7 +117,7 @@ public class TypeFactory extends AbsTypeFactory {
 
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
-		List<Statement> statements = statement.subStmt(1, statement.size() - 1).split(",");
+		List<Statement> statements = statement.subStmt(1, statement.size() - 1).splitStmt(",");
 		return create(TypeEnum.LIST.value.getClassName(), getGenericType(clazz, statements));
 	}
 
@@ -125,8 +125,8 @@ public class TypeFactory extends AbsTypeFactory {
 		Statement statement = token.getValue();
 		List<Statement> keyStatements = new ArrayList<>();
 		List<Statement> valueStatements = new ArrayList<>();
-		for (Statement subStatement : statement.subStmt(1, statement.size() - 1).split(",")) {
-			List<Statement> subStatements = subStatement.split(":");
+		for (Statement subStatement : statement.subStmt(1, statement.size() - 1).splitStmt(",")) {
+			List<Statement> subStatements = subStatement.splitStmt(":");
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
