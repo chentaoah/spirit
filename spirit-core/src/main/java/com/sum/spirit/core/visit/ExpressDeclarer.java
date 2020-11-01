@@ -1,11 +1,11 @@
-package com.sum.spirit.core.deduce;
+package com.sum.spirit.core.visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.ElementBuilder;
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.link;
+package com.sum.spirit.core.type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +9,6 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.clazz.ITypeBuilder;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;

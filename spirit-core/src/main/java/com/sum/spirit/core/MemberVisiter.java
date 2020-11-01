@@ -7,15 +7,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.deduce.ElementVisiter;
 import com.sum.spirit.core.lexer.ElementBuilder;
-import com.sum.spirit.core.link.TypeFactory;
+import com.sum.spirit.core.type.IType;
+import com.sum.spirit.core.type.TypeFactory;
+import com.sum.spirit.core.visit.ElementVisiter;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;

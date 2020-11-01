@@ -2,7 +2,7 @@ package com.sum.spirit.api;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 

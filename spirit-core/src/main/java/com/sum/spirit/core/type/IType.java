@@ -1,11 +1,10 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.core.type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;

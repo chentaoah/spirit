@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.core.type;
 
 import java.util.ArrayList;
 import java.util.Collections;

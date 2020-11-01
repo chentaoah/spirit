@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IType;
 
 public class TypeBuilder {
 

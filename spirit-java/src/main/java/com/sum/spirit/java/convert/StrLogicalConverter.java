@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.deduce.FastDeducer;
+import com.sum.spirit.core.type.IType;
+import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;

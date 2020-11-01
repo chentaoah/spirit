@@ -6,10 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.core.lexer.AbsSemanticParser;
+import com.sum.spirit.core.type.IType;
+import com.sum.spirit.core.type.ITypeBuilder;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.lib.StringUtils;
-import com.sum.spirit.pojo.clazz.IType;
-import com.sum.spirit.pojo.clazz.ITypeBuilder;
 import com.sum.spirit.utils.SpringUtils;
 
 public enum TypeEnum {

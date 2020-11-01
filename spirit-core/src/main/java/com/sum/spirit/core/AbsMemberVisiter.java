@@ -3,14 +3,14 @@ package com.sum.spirit.core;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.spirit.core.link.TypeFactory;
+import com.sum.spirit.core.type.IType;
+import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.Member;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.utils.SpringUtils;
 
 public abstract class AbsMemberVisiter {

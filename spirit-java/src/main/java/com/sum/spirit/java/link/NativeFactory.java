@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.IType;
+import com.sum.spirit.core.type.IType;
+import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component

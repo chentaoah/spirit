@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 

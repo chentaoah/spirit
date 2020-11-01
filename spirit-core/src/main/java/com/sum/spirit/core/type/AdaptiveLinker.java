@@ -1,4 +1,4 @@
-package com.sum.spirit.core.link;
+package com.sum.spirit.core.type;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.lib.Assert;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;

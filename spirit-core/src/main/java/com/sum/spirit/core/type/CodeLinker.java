@@ -1,4 +1,4 @@
-package com.sum.spirit.core.link;
+package com.sum.spirit.core.type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.IType;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
 

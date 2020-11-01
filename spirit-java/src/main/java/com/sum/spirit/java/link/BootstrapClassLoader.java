@@ -4,8 +4,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.core.type.ITypeBuilder;
 import com.sum.spirit.java.utils.ReflectUtils;
-import com.sum.spirit.pojo.clazz.ITypeBuilder;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeUtils;
 

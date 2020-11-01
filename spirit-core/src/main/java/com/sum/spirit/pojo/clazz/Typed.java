@@ -1,5 +1,6 @@
 package com.sum.spirit.pojo.clazz;
 
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.lib.Assert;
 
 public abstract class Typed {
