@@ -1,5 +1,6 @@
 package com.sum.spirit.pojo.element;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.sum.spirit.pojo.enums.AttributeEnum;
@@ -10,18 +11,17 @@ public class Token extends Semantic {
 	public Object value;
 
 	public Token() {
-		super(null);
+		super(null, new HashMap<>());
 	}
 
 	public Token(TokenTypeEnum tokenType, Object value) {
-		super(tokenType);
+		super(tokenType, new HashMap<>());
 		this.value = value;
 	}
 
 	public Token(TokenTypeEnum tokenType, Object value, Map<AttributeEnum, Object> attributes) {
-		super(tokenType);
+		super(tokenType, new HashMap<>());
 		this.value = value;
-		this.attributes = attributes;
 	}
 
 	@Override

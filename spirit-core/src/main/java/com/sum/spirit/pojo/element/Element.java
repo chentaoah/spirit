@@ -19,7 +19,7 @@ public class Element extends Syntactic {
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree syntaxTree, SyntaxEnum syntax) {
-		super(statement.tokens, syntax);
+		super(syntax, statement.tokens);
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;

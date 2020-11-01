@@ -1,13 +1,16 @@
 package com.sum.spirit.pojo.element;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public abstract class AttributeMap {
 
-	public Map<AttributeEnum, Object> attributes = new HashMap<>();
+	public Map<AttributeEnum, Object> attributes;
+
+	public AttributeMap(Map<AttributeEnum, Object> attributes) {
+		this.attributes = attributes;
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T getAttribute(AttributeEnum attributeEnum) {

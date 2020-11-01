@@ -1,5 +1,8 @@
 package com.sum.spirit.pojo.element;
 
+import java.util.Map;
+
+import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
@@ -8,7 +11,8 @@ public abstract class Semantic extends AttributeMap {
 
 	public TokenTypeEnum tokenType;
 
-	public Semantic(TokenTypeEnum tokenType) {
+	public Semantic(TokenTypeEnum tokenType, Map<AttributeEnum, Object> attributes) {
+		super(attributes);
 		this.tokenType = tokenType;
 	}
 

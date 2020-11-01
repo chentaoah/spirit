@@ -8,7 +8,7 @@ public abstract class Syntactic extends TokenBox {
 
 	public SyntaxEnum syntax;
 
-	public Syntactic(List<Token> tokens, SyntaxEnum syntax) {
+	public Syntactic(SyntaxEnum syntax, List<Token> tokens) {
 		super(tokens);
 		this.syntax = syntax;
 	}
