@@ -20,7 +20,7 @@ public class Token extends Semantic {
 	}
 
 	public Token(TokenTypeEnum tokenType, Object value, Map<AttributeEnum, Object> attributes) {
-		super(tokenType, new HashMap<>());
+		super(tokenType, attributes);
 		this.value = value;
 	}
 
