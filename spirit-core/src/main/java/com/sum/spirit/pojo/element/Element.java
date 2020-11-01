@@ -43,28 +43,28 @@ public class Element extends Syntactic {
 		return this;
 	}
 
-	public Element replaceModifier(String keyword, String text) {
-		modifiers.replaceKeyword(keyword, text);
+	public Element replaceModifier(String keyword, String newKeyword) {
+		modifiers.replaceKeyword(keyword, newKeyword);
 		return this;
 	}
 
-	public Element insertModifier(String keyword, String text) {
-		modifiers.insertKeywordAfter(keyword, text);
+	public Element insertModifier(String keyword, String newKeyword) {
+		modifiers.insertKeywordAfter(keyword, newKeyword);
 		return this;
 	}
 
-	public Element replaceStatement(String keyword, String text) {
-		replaceKeyword(keyword, text);
+	public Element replaceKeyword$(String keyword, String newKeyword) {
+		replaceKeyword(keyword, newKeyword);
 		return this;
 	}
 
-	public Element removeStatement(String keyword) {
+	public Element insertKeywordAfter$(String keyword, String newKeyword) {
+		insertKeywordAfter(keyword, newKeyword);
+		return this;
+	}
+
+	public Element removeKeyword$(String keyword) {
 		removeKeyword(keyword);
-		return this;
-	}
-
-	public Element insertStatement(String keyword, String text) {
-		insertKeywordAfter(keyword, text);
 		return this;
 	}
 
@@ -72,7 +72,7 @@ public class Element extends Syntactic {
 		return statement.subStmt(start, end);
 	}
 
-	public List<Statement> split(String separator) {
+	public List<Statement> splitStmt(String separator) {
 		return statement.splitStmt(separator);
 	}
 

@@ -68,7 +68,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 		StringBuilder classStr = new StringBuilder();
 		classStr.append(
-				clazz.element.insertStatement(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceStatement(KeywordEnum.IMPLS.value, IMPLEMENTS_KEYWORD)
+				clazz.element.insertKeywordAfter$(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value).replaceKeyword$(KeywordEnum.IMPLS.value, IMPLEMENTS_KEYWORD)
 						+ "\n\n");
 
 		// When building a method, sometimes imports and fields is added

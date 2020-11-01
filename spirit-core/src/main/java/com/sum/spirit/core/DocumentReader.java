@@ -63,7 +63,7 @@ public class DocumentReader {
 			if (!element.contains(":"))
 				return null;
 			List<String> subLines = new ArrayList<>();
-			List<Statement> statements = element.split(":");
+			List<Statement> statements = element.splitStmt(":");
 			String indent = element.getIndent();
 			subLines.add(indent + statements.get(0).toString() + " {");
 			for (int i = 1; i < statements.size(); i++)
