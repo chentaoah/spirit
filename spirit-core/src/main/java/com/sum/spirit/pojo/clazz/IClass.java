@@ -25,6 +25,11 @@ public class IClass extends Imported {
 		super(imports, annotations, element);
 	}
 
+	@Override
+	public String getName() {
+		return getSimpleName();
+	}
+
 	public boolean isInterface() {
 		return element.isInterface();
 	}
@@ -63,11 +68,6 @@ public class IClass extends Imported {
 
 	public String getSimpleName() {
 		return TypeUtils.getTargetName(getTypeToken().toString());
-	}
-
-	@Override
-	public String getName() {
-		return getSimpleName();
 	}
 
 	@Override
