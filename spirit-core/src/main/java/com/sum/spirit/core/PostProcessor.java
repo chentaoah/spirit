@@ -1,14 +1,12 @@
 package com.sum.spirit.core;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassEnhancer;
@@ -31,9 +29,7 @@ public class PostProcessor implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Map<String, ClassEnhancer> enhancerMap = SpringUtils.getBeansOfType(ClassEnhancer.class);
-		enhancers = new ArrayList<>(enhancerMap.values());
-		enhancers.sort(new AnnotationAwareOrderComparator());
+		enhancers = SpringUtils.getBeansAndSort(ClassEnhancer.class);
 	}
 
 	public void whenApplicationStart(String[] args) {
