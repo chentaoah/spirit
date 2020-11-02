@@ -71,11 +71,11 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 		if (type == null)
 			return false;
 
-		// Null can not match any type
+		// null类型不能比任何类型抽象
 		if (abstractType.isNull())
 			return false;
 
-		// Any type can match null
+		// 任何类型都能比null抽象
 		if (type.isNull())
 			return true;
 

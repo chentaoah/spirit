@@ -8,13 +8,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.Compiler;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-public class CompilerImpl implements Compiler {
+public class CompilerImpl extends AbsCompilerImpl {
 
 	@Autowired
 	public DocumentReader reader;
@@ -24,9 +23,6 @@ public class CompilerImpl implements Compiler {
 	public MemberVisiter visiter;
 	@Autowired
 	public PostProcessor processor;
-
-	// 此次编译的所有的类
-	public Map<String, IClass> classes;
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
@@ -55,22 +51,4 @@ public class CompilerImpl implements Compiler {
 		return allClasses;
 	}
 
-	@Override
-	public boolean contains(String className) {
-		return classes.containsKey(className);
-	}
-
-	@Override
-	public IClass findClass(String className) {
-		return classes.get(className);
-	}
-
-	@Override
-	public String getClassName(String simpleName) {
-		for (String className : classes.keySet()) {
-			if (className.endsWith("." + simpleName))
-				return className;
-		}
-		return null;
-	}
 }
