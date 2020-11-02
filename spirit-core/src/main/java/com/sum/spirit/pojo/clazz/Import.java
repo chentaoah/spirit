@@ -5,17 +5,19 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
-public class Import {
-
-	public Element element;
+public class Import extends Elemented {
 
 	public Import(Element element) {
-		this.element = element;
+		super(element);
 	}
 
 	public Import(String className) {
-		ElementBuilder builder = SpringUtils.getBean(ElementBuilder.class);
-		this.element = builder.build("import " + className);
+		super(SpringUtils.getBean(ElementBuilder.class).build("import " + className));
+	}
+
+	@Override
+	public String getName() {
+		return getClassName();
 	}
 
 	public String getClassName() {
