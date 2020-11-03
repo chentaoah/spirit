@@ -13,41 +13,10 @@ import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.utils.SpringUtils;
 
 public enum TypeEnum {
-	VOID, //
-	BOOLEAN, //
-	CHAR, //
-	BYTE, //
-	SHORT, //
-	INT, //
-	LONG, //
-	FLOAT, //
-	DOUBLE, //
-	BOOLEAN_ARRAY, //
-	CHAR_ARRAY, //
-	BYTE_ARRAY, //
-	SHORT_ARRAY, //
-	INT_ARRAY, //
-	LONG_ARRAY, //
-	FLOAT_ARRAY, //
-	DOUBLE_ARRAY, //
-	VOID_WRAPPED, //
-	BOOLEAN_WRAPPED, //
-	CHAR_WRAPPED, //
-	BYTE_WRAPPED, //
-	SHORT_WRAPPED, //
-	INT_WRAPPED, //
-	LONG_WRAPPED, //
-	FLOAT_WRAPPED, //
-	DOUBLE_WRAPPED, //
-	OBJECT, //
-	STRING, //
-	OBJECT_ARRAY, //
-	STRING_ARRAY, //
-	CLASS, //
-	LIST, //
-	MAP, //
-	NULL, //
-	WILDCARD;//
+	VOID, BOOLEAN, CHAR, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, //
+	BOOLEAN_ARRAY, CHAR_ARRAY, BYTE_ARRAY, SHORT_ARRAY, INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, VOID_WRAPPED, //
+	BOOLEAN_WRAPPED, CHAR_WRAPPED, BYTE_WRAPPED, SHORT_WRAPPED, INT_WRAPPED, LONG_WRAPPED, FLOAT_WRAPPED, DOUBLE_WRAPPED, //
+	OBJECT, STRING, OBJECT_ARRAY, STRING_ARRAY, CLASS, LIST, MAP, NULL, WILDCARD;
 
 	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
 
@@ -73,7 +42,6 @@ public enum TypeEnum {
 		FLOAT_ARRAY.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
 		DOUBLE_ARRAY.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
-		// Get target type by array type
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", BOOLEAN.value);
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[C", CHAR.value);
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[B", BYTE.value);
@@ -83,7 +51,6 @@ public enum TypeEnum {
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[F", FLOAT.value);
 		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[D", DOUBLE.value);
 
-		// Get primitive type by array type
 		PRIMITIVE_ARRAY_MAPPING.put("boolean[]", BOOLEAN_ARRAY.value);
 		PRIMITIVE_ARRAY_MAPPING.put("char[]", CHAR_ARRAY.value);
 		PRIMITIVE_ARRAY_MAPPING.put("byte[]", BYTE_ARRAY.value);
@@ -112,7 +79,6 @@ public enum TypeEnum {
 	}
 
 	public static String getClassName(String simpleName) {
-
 		String className = isPrimitive(simpleName) ? simpleName : null;
 		if (StringUtils.isNotEmpty(className))
 			return className;
@@ -120,13 +86,6 @@ public enum TypeEnum {
 		IType type = PRIMITIVE_ARRAY_MAPPING.get(simpleName);
 		if (type != null)
 			return type.getClassName();
-
-		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
-		for (ClassLoader classLoader : classLoaders) {
-			className = classLoader.getClassName(simpleName);
-			if (StringUtils.isNotEmpty(className))
-				return className;
-		}
 
 		return null;
 	}

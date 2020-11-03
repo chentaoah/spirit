@@ -49,7 +49,7 @@ public class AutoImporter {
 					// 找到大写的
 					String targetName = matcher.group(matcher.groupCount() - 1);
 					// 查询类名
-					String className = clazz.findImport(targetName);
+					String className = clazz.findClassName(targetName);
 					// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
 					clazz.addImport(className);
 				}

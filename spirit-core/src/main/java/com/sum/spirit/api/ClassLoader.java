@@ -6,4 +6,8 @@ public interface ClassLoader {
 
 	String getClassName(String simpleName);
 
+	boolean isLoaded(String className);
+
+	boolean shouldImport(String className);
+
 }

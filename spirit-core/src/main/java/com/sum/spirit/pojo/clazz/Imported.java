@@ -2,7 +2,9 @@ package com.sum.spirit.pojo.clazz;
 
 import java.util.List;
 
+import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.api.Compiler;
+import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
@@ -17,7 +19,7 @@ public abstract class Imported extends Annotated {
 		this.imports = imports;
 	}
 
-	public String findImport(String simpleName) {
+	public String findClassName(String simpleName) {
 		// 如果是className，则直接返回
 		if (simpleName.contains("."))
 			return simpleName;
@@ -27,42 +29,77 @@ public abstract class Imported extends Annotated {
 		boolean isArray = TypeUtils.isArray(simpleName);
 
 		// 1.首先先去引入里面找
-		for (Import imp : imports) {
-			if (imp.isMatch(targetName))
-				return !isArray ? imp.getClassName() : "[L" + imp.getClassName() + ";";
-		}
+		Import imp = getImport(targetName);
+		String className = imp != null ? imp.getClassName() : null;
+		if (className != null)
+			return TypeUtils.getClassName(isArray, className);
 
 		// 2.在所有类里面找，包括这个类本身也在其中
 		Compiler compiler = SpringUtils.getBean(Compiler.class);
-		String className = compiler.getClassName(targetName);
-		if (className != null)
-			return !isArray ? className : "[L" + className + ";";
+		String className1 = compiler.getClassName(targetName);
+		if (className1 != null)
+			return TypeUtils.getClassName(isArray, className1);
 
-		// 3.如果是基本类型，基本类型数组，或者java.lang.下的类，则直接返回
-		className = TypeEnum.getClassName(simpleName);
-		if (className != null)
-			return className;
+		// 3.如果是基本类型，基本类型数组
+		String className2 = TypeEnum.getClassName(simpleName);
+		if (className2 != null)
+			return className2;
+
+		// 4.使用类加载器，进行查询
+		String className3 = getClassNameByClassLoader(targetName);
+		if (className3 != null)
+			return TypeUtils.getClassName(isArray, className3);
 
 		// 如果一直没有找到就抛出异常
 		throw new RuntimeException("No import info found!simpleName:[" + simpleName + "]");
 	}
 
-	public boolean addImport(String className) {
+	public Import getImport(String simpleName) {
+		for (Import imp : imports) {
+			if (imp.isMatch(simpleName))
+				return imp;
+		}
+		return null;
+	}
 
+	public String getClassNameByClassLoader(String simpleName) {
+		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
+		for (ClassLoader classLoader : classLoaders) {
+			String className = classLoader.getClassName(simpleName);
+			if (StringUtils.isNotEmpty(className))
+				return className;
+		}
+		return null;
+	}
+
+	public boolean shouldImport(String className) {
+		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
+		for (ClassLoader classLoader : classLoaders) {
+			if (classLoader.isLoaded(className))
+				return classLoader.shouldImport(className);
+		}
+		return true;
+	}
+
+	public boolean addImport(String className) {
 		// 如果是数组，则把修饰符号去掉
 		String targetName = TypeUtils.getTargetName(className);
 		String lastName = TypeUtils.getLastName(className);
 
-		// 1. 基本类型不添加和java.lang.包下不添加
-		if (TypeEnum.isPrimitive(targetName) || targetName.equals("java.lang." + lastName))
+		// 1. 原始类型不添加
+		if (TypeEnum.isPrimitive(targetName))
 			return true;
 
-		// 2.如果是本身,不添加
+		// 2.基础类型或拓展类型不添加
+		if (!shouldImport(targetName))
+			return true;
+
+		// 3.如果是本身,不添加
 		if (getClassName().equals(targetName))
 			return true;
 
-		// 3.如果引入了，则不必再添加了
-		// 4.如果没有引入，但是typeName相同，则无法引入
+		// 4.如果引入了，则不必再添加了
+		// 5.如果没有引入，但是typeName相同，则无法引入
 		for (Import imp : imports) {
 			if (!imp.hasAlias()) {
 				if (imp.getClassName().equals(targetName)) {

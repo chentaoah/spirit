@@ -43,4 +43,14 @@ public class BootstrapClassLoader implements ClassLoader {
 		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 
+	@Override
+	public boolean isLoaded(String className) {
+		return className.startsWith("java.lang.");
+	}
+
+	@Override
+	public boolean shouldImport(String className) {
+		return false;
+	}
+
 }

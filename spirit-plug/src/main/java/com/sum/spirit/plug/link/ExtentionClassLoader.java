@@ -29,4 +29,14 @@ public class ExtentionClassLoader implements ClassLoader {
 		return TYPE_MAPPING.get(simpleName);
 	}
 
+	@Override
+	public boolean isLoaded(String className) {
+		return Data.class.getName().equals(className);
+	}
+
+	@Override
+	public boolean shouldImport(String className) {
+		return true;
+	}
+
 }

@@ -36,8 +36,8 @@ public class Import extends Elemented {
 		return hasAlias() ? element.getStr(2) : null;
 	}
 
-	public boolean isMatch(String lastName) {
-		return hasAlias() ? getAlias().equals(lastName) : getLastName().equals(lastName);
+	public boolean isMatch(String simpleName) {
+		return hasAlias() ? getAlias().equals(simpleName) : getLastName().equals(simpleName);
 	}
 
 }

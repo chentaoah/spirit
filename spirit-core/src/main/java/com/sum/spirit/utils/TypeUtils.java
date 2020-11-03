@@ -43,7 +43,8 @@ public class TypeUtils {
 			return name.replace("[]", "");
 
 		} else if (name.startsWith("[")) {
-			String targetName = TypeEnum.getPrimitiveArrayTargetName(name);// [Z 转换成 boolean
+			// [Z 转换成 boolean
+			String targetName = TypeEnum.getPrimitiveArrayTargetName(name);
 			Assert.notEmpty(targetName, "Target name cannot be empty!");
 			return targetName;
 		}
@@ -62,6 +63,10 @@ public class TypeUtils {
 
 	public static String getTypeName(String className) {
 		return getTargetName(className) + (isArray(className) ? "[]" : "");
+	}
+
+	public static String getClassName(boolean isArray, String className) {
+		return !isArray ? className : "[L" + className + ";";
 	}
 
 }
