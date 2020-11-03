@@ -72,15 +72,6 @@ public abstract class Imported extends Annotated {
 		return null;
 	}
 
-	public boolean shouldImport(String className) {
-		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
-		for (ClassLoader classLoader : classLoaders) {
-			if (classLoader.isLoaded(className))
-				return classLoader.shouldImport(className);
-		}
-		return true;
-	}
-
 	public boolean addImport(String className) {
 		// 如果是数组，则把修饰符号去掉
 		String targetName = TypeUtils.getTargetName(className);
@@ -114,6 +105,15 @@ public abstract class Imported extends Annotated {
 			}
 		}
 		imports.add(new Import(targetName));
+		return true;
+	}
+
+	public boolean shouldImport(String className) {
+		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
+		for (ClassLoader classLoader : classLoaders) {
+			if (classLoader.isLoaded(className))
+				return classLoader.shouldImport(className);
+		}
 		return true;
 	}
 
