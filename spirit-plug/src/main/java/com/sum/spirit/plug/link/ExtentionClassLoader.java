@@ -10,7 +10,7 @@ import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.plug.annotation.Data;
 
 @Component
-@Order(-80)
+@Order(-60)
 public class ExtentionClassLoader implements ClassLoader {
 
 	public static final Map<String, String> TYPE_MAPPING = new ConcurrentHashMap<>();
@@ -37,6 +37,11 @@ public class ExtentionClassLoader implements ClassLoader {
 	@Override
 	public boolean shouldImport(String className) {
 		return true;
+	}
+
+	@Override
+	public <T> T getClass(String className) {
+		return null;
 	}
 
 }

@@ -10,7 +10,7 @@ import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-@Order(-100)
+@Order(-80)
 public class BootstrapClassLoader implements ClassLoader {
 
 	@Override
@@ -51,6 +51,11 @@ public class BootstrapClassLoader implements ClassLoader {
 	@Override
 	public boolean shouldImport(String className) {
 		return false;
+	}
+
+	@Override
+	public <T> T getClass(String className) {
+		return null;
 	}
 
 }

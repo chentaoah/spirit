@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.api.Compiler;
+import com.sum.spirit.core.SystemClassLoader;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
@@ -24,7 +24,7 @@ import com.sum.spirit.utils.TypeUtils;
 public class TypeFactory extends AbsTypeFactory {
 
 	@Autowired
-	public Compiler compiler;
+	public SystemClassLoader systemClassLoader;
 	@Autowired
 	public FastDeducer deducer;
 	@Autowired
@@ -40,7 +40,7 @@ public class TypeFactory extends AbsTypeFactory {
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);
-		type.setNative(!compiler.contains(TypeUtils.getTargetName(className)));
+		type.setNative(!systemClassLoader.isLoaded(TypeUtils.getTargetName(className)));
 		type.setModifiers(ModifierEnum.PUBLIC.value);
 		return type;
 	}

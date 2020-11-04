@@ -8,12 +8,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.Compiler;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-public class CompilerImpl extends AbsCompilerImpl {
+public class CompilerImpl implements Compiler {
 
 	@Autowired
 	public DocumentReader reader;
@@ -23,6 +24,8 @@ public class CompilerImpl extends AbsCompilerImpl {
 	public MemberVisiter visiter;
 	@Autowired
 	public PostProcessor processor;
+	@Autowired
+	public SystemClassLoader systemClassLoader;
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
@@ -40,7 +43,7 @@ public class CompilerImpl extends AbsCompilerImpl {
 		});
 
 		// 3.放入上下文
-		classes = allClasses;
+		systemClassLoader.classes = allClasses;
 
 		// 4.AutoImporter
 		processor.whenAllClassesResolveFinish(files, allClasses);

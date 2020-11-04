@@ -10,4 +10,6 @@ public interface ClassLoader {
 
 	boolean shouldImport(String className);
 
+	<T> T getClass(String className);
+
 }

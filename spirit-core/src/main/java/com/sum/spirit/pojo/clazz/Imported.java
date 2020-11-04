@@ -3,7 +3,6 @@ package com.sum.spirit.pojo.clazz;
 import java.util.List;
 
 import com.sum.spirit.api.ClassLoader;
-import com.sum.spirit.api.Compiler;
 import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
@@ -24,28 +23,22 @@ public abstract class Imported extends Annotated {
 		if (simpleName.contains("."))
 			return simpleName;
 
+		// 1.如果是基本类型，基本类型数组
+		String className1 = TypeEnum.getClassName(simpleName);
+		if (className1 != null)
+			return className1;
+
 		// 如果传进来是个数组，那么处理一下
 		String targetName = TypeUtils.getTargetName(simpleName);
 		boolean isArray = TypeUtils.isArray(simpleName);
 
-		// 1.首先先去引入里面找
+		// 2.首先先去引入里面找
 		Import imp = getImport(targetName);
-		String className = imp != null ? imp.getClassName() : null;
-		if (className != null)
-			return TypeUtils.getClassName(isArray, className);
-
-		// 2.在所有类里面找，包括这个类本身也在其中
-		Compiler compiler = SpringUtils.getBean(Compiler.class);
-		String className1 = compiler.getClassName(targetName);
-		if (className1 != null)
-			return TypeUtils.getClassName(isArray, className1);
-
-		// 3.如果是基本类型，基本类型数组
-		String className2 = TypeEnum.getClassName(simpleName);
+		String className2 = imp != null ? imp.getClassName() : null;
 		if (className2 != null)
-			return className2;
+			return TypeUtils.getClassName(isArray, className2);
 
-		// 4.使用类加载器，进行查询
+		// 3.使用类加载器，进行查询
 		String className3 = getClassNameByClassLoader(targetName);
 		if (className3 != null)
 			return TypeUtils.getClassName(isArray, className3);
@@ -77,16 +70,16 @@ public abstract class Imported extends Annotated {
 		String targetName = TypeUtils.getTargetName(className);
 		String lastName = TypeUtils.getLastName(className);
 
-		// 1. 原始类型不添加
+		// 1.如果是本身,不添加
+		if (getClassName().equals(targetName))
+			return true;
+
+		// 3. 原始类型不添加
 		if (TypeEnum.isPrimitive(targetName))
 			return true;
 
-		// 2.基础类型或拓展类型不添加
+		// 3.基础类型或拓展类型不添加
 		if (!shouldImport(targetName))
-			return true;
-
-		// 3.如果是本身,不添加
-		if (getClassName().equals(targetName))
 			return true;
 
 		// 4.如果引入了，则不必再添加了

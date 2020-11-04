@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.api.Compiler;
 import com.sum.spirit.core.MemberVisiter;
+import com.sum.spirit.core.SystemClassLoader;
 import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -21,7 +21,7 @@ import com.sum.spirit.utils.SpringUtils;
 public class CodeLinker implements ClassLinker {
 
 	@Autowired
-	public Compiler compiler;
+	public SystemClassLoader systemClassLoader;
 	@Autowired
 	public MemberVisiter visiter;
 	@Autowired
@@ -33,7 +33,7 @@ public class CodeLinker implements ClassLinker {
 	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
 		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-		return (T) compiler.findClass(type.getClassName());
+		return (T) systemClassLoader.getClass(type.getClassName());
 	}
 
 	@Override
