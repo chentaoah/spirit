@@ -54,8 +54,9 @@ public class BootstrapClassLoader implements ClassLoader {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> T getClass(String className) {
-		return null;
+		return (T) ReflectUtils.getClass(className);// 可能是数组
 	}
 
 }

@@ -26,12 +26,13 @@ import com.sum.spirit.utils.SpringUtils;
 public class NativeLinker implements ClassLinker {
 
 	@Autowired
+	public BootstrapClassLoader bootstrapClassLoader;
+	@Autowired
 	public NativeFactory factory;
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
-		return (T) ReflectUtils.getClass(type.getClassName());// 可能是数组
+		return bootstrapClassLoader.getClass(type.getClassName());// 可能是数组
 	}
 
 	@Override

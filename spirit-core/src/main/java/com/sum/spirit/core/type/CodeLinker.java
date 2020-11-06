@@ -23,11 +23,9 @@ public class CodeLinker implements ClassLinker {
 	@Autowired
 	public SystemClassLoader systemClassLoader;
 	@Autowired
-	public MemberVisiter visiter;
-	@Autowired
-	public ClassLinker linker;
-	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public MemberVisiter visiter;
 
 	@Override
 	@SuppressWarnings("unchecked")
