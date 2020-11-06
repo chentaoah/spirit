@@ -3,7 +3,7 @@ package com.sum.spirit.java.link;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.core.AbsClassLoader;
 import com.sum.spirit.core.type.TypeBuilder;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.enums.TypeEnum;
@@ -11,7 +11,7 @@ import com.sum.spirit.utils.TypeUtils;
 
 @Component
 @Order(-80)
-public class BootstrapClassLoader implements ClassLoader {
+public class BootstrapClassLoader extends AbsClassLoader {
 
 	@Override
 	public void load() {
@@ -49,7 +49,7 @@ public class BootstrapClassLoader implements ClassLoader {
 	}
 
 	@Override
-	public boolean shouldImport(String className) {
+	public boolean shouldImport(String selfClassName, String className) {
 		return false;
 	}
 

@@ -1,7 +1,5 @@
 package com.sum.test.inner;
 
-import com.sum.test.inner.Inner;
-
 public class Outside {
 
 	public int f1 = 100;

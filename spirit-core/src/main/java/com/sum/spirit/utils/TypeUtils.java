@@ -69,4 +69,10 @@ public class TypeUtils {
 		return !isArray ? className : "[L" + className + ";";
 	}
 
+	public static boolean isSamePackage(String className1, String className2) {
+		String packageStr1 = className1.substring(0, className1.lastIndexOf('.'));
+		String packageStr2 = className2.substring(0, className2.lastIndexOf('.'));
+		return packageStr1.equals(packageStr2);
+	}
+
 }

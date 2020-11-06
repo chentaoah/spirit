@@ -1,6 +1,5 @@
 package com.sum.test.auto;
 
-import com.sum.test.auto.Friend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

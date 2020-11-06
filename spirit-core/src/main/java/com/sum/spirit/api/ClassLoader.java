@@ -8,7 +8,7 @@ public interface ClassLoader {
 
 	boolean isLoaded(String className);
 
-	boolean shouldImport(String className);
+	boolean shouldImport(String selfClassName, String className);
 
 	<T> T getClass(String className);
 

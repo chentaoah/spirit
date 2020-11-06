@@ -1,7 +1,5 @@
 package com.sum.test.deduce;
 
-import com.sum.test.deduce.Child;
-
 public class Father {
 
 	public Child child = new Child();

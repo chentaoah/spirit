@@ -1,7 +1,5 @@
 package com.sum.test.inner;
 
-import com.sum.test.inner.Inner;
-
 public class Inner {
 
 	public String f1 = "I am Inner!";

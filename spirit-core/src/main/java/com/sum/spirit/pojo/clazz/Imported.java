@@ -44,11 +44,11 @@ public abstract class Imported extends Annotated {
 		return null;
 	}
 
-	public boolean shouldImport(String className) {
+	public boolean shouldImport(String selfClassName, String className) {
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
 		for (ClassLoader classLoader : classLoaders) {
 			if (classLoader.isLoaded(className))
-				return classLoader.shouldImport(className);
+				return classLoader.shouldImport(selfClassName, className);
 		}
 		return true;
 	}
@@ -87,27 +87,23 @@ public abstract class Imported extends Annotated {
 		String targetName = TypeUtils.getTargetName(className);
 		String lastName = TypeUtils.getLastName(className);
 
-		// 1.如果是本身,不添加
-		if (getClassName().equals(targetName))
-			return true;
-
-		// 2. 原始类型不添加
+		// 1. 原始类型不添加
 		if (TypeEnum.isPrimitive(targetName))
 			return true;
 
-		// 3.基础类型或拓展类型不添加
-		if (!shouldImport(targetName))
-			return true;
-
-		// 4.如果引入了，则不必引入了
+		// 2.如果引入了，则不必引入了
 		Import imp = findImportByClassName(targetName);
 		if (imp != null)
 			return !imp.hasAlias() ? true : false;
 
-		// 5.如果存在简称相同的，则也不能引入
+		// 3.如果存在简称相同的，则也不能引入
 		Import imp1 = findImport(lastName);
 		if (imp1 != null)
 			return false;
+
+		// 4.基础类型或拓展类型不添加
+		if (!shouldImport(getClassName(), targetName))
+			return true;
 
 		imports.add(new Import(targetName));
 		return true;
