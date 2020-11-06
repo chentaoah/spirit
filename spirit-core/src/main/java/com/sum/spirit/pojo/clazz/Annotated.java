@@ -22,4 +22,13 @@ public abstract class Annotated extends Elemented {
 		return null;
 	}
 
+	public IAnnotation removeAnnotation(String className) {
+		IAnnotation annotation = getAnnotation(className);
+		if (annotation != null) {
+			annotations.remove(annotation);
+			return annotation;
+		}
+		return null;
+	}
+
 }
