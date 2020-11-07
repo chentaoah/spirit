@@ -35,28 +35,28 @@ public class VariableTracker {
 			if (token.canSplit())
 				track(clazz, context, token.getValue());
 
-			if (token.getAttribute(AttributeEnum.TYPE) != null)
+			if (token.attr(AttributeEnum.TYPE) != null)
 				continue;
 
 			if (token.isVar()) {
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setAttribute(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (token.isArrayIndex()) {
-				String name = token.getAttribute(AttributeEnum.MEMBER_NAME);
+			} else if (token.isArrayIndex()) {// .strs[0]
+				String name = token.attr(AttributeEnum.MEMBER_NAME);
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				// Convert array type to element type
+				// 转换数组类型为目标类型
 				type = type.getTargetType();
-				token.setAttribute(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (token.isKeyword() && (KeywordEnum.SUPER.value.equals(token.value) || KeywordEnum.THIS.value.equals(token.value))) {
 				String name = token.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setAttribute(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 			}
 		}
 	}
@@ -71,24 +71,21 @@ public class VariableTracker {
 		if (KeywordEnum.THIS.value.equals(name))
 			return clazz.toType().toThis();
 
-		// find in context
 		if (context != null) {
-			// find in variable
-			for (IVariable variable : context.variables) {
+			for (IVariable variable : context.variables) {// 变量
 				if (variable.getName().equals(name) && context.getBlockId().startsWith(variable.blockId))
 					return variable.getType();
 			}
-			// find in parameters
-			for (IParameter parameter : context.method.parameters) {
+			for (IParameter parameter : context.method.parameters) {// 入参
 				if (parameter.getName().equals(name))
 					return parameter.getType();
 			}
 		}
 
-		// Look from the parent class,
-		// but note that the parent class may be native
+		// 从本身和父类里面寻找，父类可能是native的
 		try {
 			return linker.visitField(clazz.toType().toThis(), name);
+
 		} catch (NoSuchFieldException e) {
 			return null;
 		}

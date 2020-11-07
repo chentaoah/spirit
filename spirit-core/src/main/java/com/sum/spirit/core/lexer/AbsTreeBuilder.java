@@ -29,7 +29,7 @@ public abstract class AbsTreeBuilder {
 
 	public void markTreeId(String treeId, Node node) {
 
-		node.token.setAttribute(AttributeEnum.TREE_ID, treeId);
+		node.token.setAttr(AttributeEnum.TREE_ID, treeId);
 
 		if (node.prev != null)
 			markTreeId(treeId + "-" + "0", node.prev);
@@ -48,11 +48,11 @@ public abstract class AbsTreeBuilder {
 		List<Token> tokens = statement.format();
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			token.setAttribute(AttributeEnum.POSITION, position);
+			token.setAttr(AttributeEnum.POSITION, position);
 			if (token.canSplit())
 				markPositionAndLength(position, token.getValue());
 			int length = token.toString().length();
-			token.setAttribute(AttributeEnum.LENGTH, length);
+			token.setAttr(AttributeEnum.LENGTH, length);
 			position += length;
 		}
 	}

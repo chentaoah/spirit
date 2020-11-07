@@ -30,30 +30,21 @@ public class ExpressDeclarer {
 	public void declare(IClass clazz, MethodContext context, Element element) {
 
 		if (element.isAssign()) {// text = "abc"
-
 			Token varToken = element.getToken(0);
 			IType type = null;
-
-			// If there is a method context, it means that the method return
-			// type is
-			// currently being derived, then try to get the type from the
-			// context first
+			// 如果有上下文，则先从上下文中找
 			if (context != null)
 				type = tracker.findType(clazz, context, varToken.toString());
-
+			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());
 				tracker.track(clazz, context, statement);
 				visiter.visit(clazz, statement);
 				type = deducer.derive(clazz, statement);
-
-				// After marking, it is convenient for subsequent conversion to
-				// Java code and
-				// automatic addition of type
-				varToken.setAttribute(AttributeEnum.DERIVED, true);
+				// 标记类型是否经过推导而来
+				varToken.setAttr(AttributeEnum.DERIVED, true);
 			}
-
-			varToken.setAttribute(AttributeEnum.TYPE, type);
+			varToken.setAttr(AttributeEnum.TYPE, type);
 
 		} else if (element.isForIn()) {// for item in list {
 			Statement statement = element.subStmt(3, element.size() - 1);
@@ -63,7 +54,7 @@ public class ExpressDeclarer {
 			// Get internal type from array or generic type
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
-			varToken.setAttribute(AttributeEnum.TYPE, type);
+			varToken.setAttr(AttributeEnum.TYPE, type);
 
 		} else if (element.isFor()) {// for (i=0; i<100; i++) {
 			Token secondToken = element.getToken(1);

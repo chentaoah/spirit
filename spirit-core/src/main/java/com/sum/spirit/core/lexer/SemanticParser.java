@@ -99,19 +99,19 @@ public class SemanticParser extends AbsSemanticParser {
 
 	public void setTokenAttributes(String word, Token token) {
 		if (token.isAnnotation()) {
-			token.setAttribute(AttributeEnum.SIMPLE_NAME, getAnnotationName(word));
+			token.setAttr(AttributeEnum.SIMPLE_NAME, getAnnotationName(word));
 
 		} else if (token.isArrayInit()) {
-			token.setAttribute(AttributeEnum.SIMPLE_NAME, getPrefix(word) + "[]");
+			token.setAttr(AttributeEnum.SIMPLE_NAME, getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
-			token.setAttribute(AttributeEnum.SIMPLE_NAME, getPrefix(word));
+			token.setAttr(AttributeEnum.SIMPLE_NAME, getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setAttribute(AttributeEnum.SIMPLE_NAME, getCastType(word));
+			token.setAttr(AttributeEnum.SIMPLE_NAME, getCastType(word));
 
 		} else if (token.isAccess()) {
-			token.setAttribute(AttributeEnum.MEMBER_NAME, getPrefix(word));
+			token.setAttr(AttributeEnum.MEMBER_NAME, getPrefix(word));
 		}
 	}
 

@@ -61,8 +61,8 @@ public class StrLogicalConverter implements ElementConverter {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, lastStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
-			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-0");
+			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
+			expressToken.setAttr(AttributeEnum.TREE_ID, token.attr(AttributeEnum.TREE_ID) + "-0");
 			statement.replaceTokens(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
@@ -76,8 +76,8 @@ public class StrLogicalConverter implements ElementConverter {
 			String format = "StringUtils.isNotEmpty(%s)";
 			String text = String.format(format, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
-			expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID) + "-1");
+			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
+			expressToken.setAttr(AttributeEnum.TREE_ID, token.attr(AttributeEnum.TREE_ID) + "-1");
 			statement.replaceTokens(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}

@@ -20,12 +20,12 @@ public class TypeDeclarer {
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			Token typeToken = element.getToken(0);
 			Token varToken = element.getToken(1);
-			varToken.setAttribute(AttributeEnum.TYPE, factory.create(clazz, typeToken));
+			varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
 
 		} else if (element.isCatch()) {// }catch Exception e{
 			Token typeToken = element.getToken(2);
 			Token varToken = element.getToken(3);
-			varToken.setAttribute(AttributeEnum.TYPE, factory.create(clazz, typeToken));
+			varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
 		}
 	}
 

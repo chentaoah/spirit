@@ -88,7 +88,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 					graph[index] = new ArrayList<Integer>();
 				graph[index].add(i);
 				// 记录操作数
-				currentToken.setAttribute(AttributeEnum.OPERAND, operand);
+				currentToken.setAttr(AttributeEnum.OPERAND, operand);
 			}
 		}
 		return graph;
@@ -112,7 +112,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 					// 如果是多义的操作符，则进行判断后，确定真正的操作数
 					resetOperandIfMultiple(iterator, currentToken);
 
-					OperandEnum operandEnum = currentToken.getAttribute(AttributeEnum.OPERAND);
+					OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
 					if (operandEnum == OperandEnum.LEFT) {
 						// 使用迭代器，必须非常小心nextIndex
 						iterator.previous();
@@ -143,7 +143,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 
 	public void resetOperandIfMultiple(ListIterator<Node> iterator, Token currentToken) {
 
-		OperandEnum operandEnum = currentToken.getAttribute(AttributeEnum.OPERAND);
+		OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
 			Node lastNode = getLastNode(iterator);
 			Node nextNode = getNextNode(iterator);
@@ -152,25 +152,25 @@ public class TreeBuilder extends AbsTreeBuilder {
 			if ("++".equals(value) || "--".equals(value)) {
 				if (lastNode != null) {
 					if (lastNode.isDirty() || lastNode.token.isVar()) {
-						currentToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.LEFT);
+						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.LEFT);
 						return;
 					}
 				}
 				if (nextNode != null) {
 					if (nextNode.isDirty() || nextNode.token.isVar()) {
-						currentToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.RIGHT);
+						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
 						return;
 					}
 				}
 			} else if ("-".equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
 					if (lastNode.isDirty() || (lastNode.token.isNumber() || lastNode.token.isVar())) {
-						currentToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.BINARY);
+						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.BINARY);
 					} else {
-						currentToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.RIGHT);
+						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
 					}
 				} else {
-					currentToken.setAttribute(AttributeEnum.OPERAND, OperandEnum.RIGHT);
+					currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
 				}
 			}
 		}

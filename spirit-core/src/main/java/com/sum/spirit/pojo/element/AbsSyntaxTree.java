@@ -32,7 +32,7 @@ public class AbsSyntaxTree {
 
 			// 如果只有一个节点，可能是方法调用
 			if (nodes.size() == 1 && firstToken.isLocalMethod()) {
-				String memberName = firstToken.getAttribute(AttributeEnum.MEMBER_NAME);
+				String memberName = firstToken.attr(AttributeEnum.MEMBER_NAME);
 				if (KeywordEnum.SUPER.value.equals(memberName)) {
 					return SyntaxEnum.SUPER;
 
@@ -145,8 +145,8 @@ public class AbsSyntaxTree {
 	public void buildTree(List<Line> lines, int depth, String separator, Node node) {
 
 		Token token = node.token;
-		int position = token.getAttribute(AttributeEnum.POSITION);
-		int length = token.getAttribute(AttributeEnum.LENGTH);
+		int position = token.attr(AttributeEnum.POSITION);
+		int length = token.attr(AttributeEnum.LENGTH);
 
 		// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
 		if (StringUtils.isNotEmpty(separator))

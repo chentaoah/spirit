@@ -47,9 +47,9 @@ public class StmtConverter implements ElementConverter {
 				Statement statement = secondToken.getValue();
 				Token token = statement.getToken(1);
 				if (!token.isType() && token.isVar()) {
-					boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
+					boolean derived = token.attr(AttributeEnum.DERIVED, false);
 					if (derived) {
-						IType type = token.getAttribute(AttributeEnum.TYPE);
+						IType type = token.attr(AttributeEnum.TYPE);
 						statement.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
 					}
 				}
@@ -57,15 +57,15 @@ public class StmtConverter implements ElementConverter {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.getToken(1);
-			IType type = item.getAttribute(AttributeEnum.TYPE);
+			IType type = item.attr(AttributeEnum.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
 			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, type), item, statement);
 			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.getToken(0);
-			boolean derived = token.getAttribute(AttributeEnum.DERIVED, false);
-			IType type = token.getAttribute(AttributeEnum.TYPE);
+			boolean derived = token.attr(AttributeEnum.DERIVED, false);
+			IType type = token.attr(AttributeEnum.TYPE);
 			if (token.isVar() && derived)
 				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
 

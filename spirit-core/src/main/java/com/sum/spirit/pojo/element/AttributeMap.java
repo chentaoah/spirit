@@ -13,15 +13,15 @@ public abstract class AttributeMap {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getAttribute(AttributeEnum attributeEnum) {
+	public <T> T attr(AttributeEnum attributeEnum) {
 		return (T) attributes.get(attributeEnum);
 	}
 
-	public boolean getAttribute(AttributeEnum attributeEnum, boolean defaultValue) {
+	public boolean attr(AttributeEnum attributeEnum, boolean defaultValue) {
 		return (boolean) attributes.getOrDefault(attributeEnum, defaultValue);
 	}
 
-	public void setAttribute(AttributeEnum attributeEnum, Object value) {
+	public void setAttr(AttributeEnum attributeEnum, Object value) {
 		attributes.put(attributeEnum, value);
 	}
 

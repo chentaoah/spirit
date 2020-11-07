@@ -51,7 +51,7 @@ public class TypeFactory extends AbsTypeFactory {
 			return doCreate(clazz, token);
 
 		} else if (token.isAnnotation() || token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, (String) token.getAttribute(AttributeEnum.SIMPLE_NAME));
+			return create(clazz, (String) token.attr(AttributeEnum.SIMPLE_NAME));
 
 		} else if (token.isValue()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);

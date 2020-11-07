@@ -24,10 +24,10 @@ public class IMethod extends Member {
 	public String getName() {
 		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
-			return methodToken.getAttribute(AttributeEnum.SIMPLE_NAME);
+			return methodToken.attr(AttributeEnum.SIMPLE_NAME);
 
 		} else if (methodToken.isLocalMethod()) {
-			return methodToken.getAttribute(AttributeEnum.MEMBER_NAME);
+			return methodToken.attr(AttributeEnum.MEMBER_NAME);
 		}
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}

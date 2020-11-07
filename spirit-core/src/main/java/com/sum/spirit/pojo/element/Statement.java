@@ -53,14 +53,14 @@ public class Statement extends TokenBox {
 						continue;
 
 					} else if ("++".equals(lastToken.toString()) || "--".equals(lastToken.toString())) {
-						OperandEnum operandEnum = lastToken.getAttribute(AttributeEnum.OPERAND);
+						OperandEnum operandEnum = lastToken.attr(AttributeEnum.OPERAND);
 						if (operandEnum == OperandEnum.RIGHT) {
 							tokens.remove(i);
 							continue;
 						}
 
 					} else if ("-".equals(lastToken.toString())) {
-						OperandEnum operandEnum = lastToken.getAttribute(AttributeEnum.OPERAND);
+						OperandEnum operandEnum = lastToken.attr(AttributeEnum.OPERAND);
 						if (operandEnum == OperandEnum.RIGHT) {
 							tokens.remove(i);
 							continue;
@@ -80,7 +80,7 @@ public class Statement extends TokenBox {
 
 				if (nextToken.isOperator()) {
 					if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
-						OperandEnum operandEnum = nextToken.getAttribute(AttributeEnum.OPERAND);
+						OperandEnum operandEnum = nextToken.attr(AttributeEnum.OPERAND);
 						if (operandEnum == OperandEnum.LEFT) {
 							tokens.remove(i);
 							continue;

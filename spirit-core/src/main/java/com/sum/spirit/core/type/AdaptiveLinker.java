@@ -17,6 +17,7 @@ import com.sum.spirit.pojo.exception.NoSuchMethodException;
 public class AdaptiveLinker extends AbsAdaptiveLinker {
 
 	public static final String ARRAY_LENGTH = "length";
+
 	@Autowired
 	public TypeFactory factory;
 

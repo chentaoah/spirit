@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.TreeBuilder;
 import com.sum.spirit.core.type.IType;
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
@@ -21,13 +20,12 @@ public class FastDeducer {
 
 	public IType derive(IClass clazz, Statement statement) {
 		// 构建树形结构
-		IType type = null;
 		for (Node node : builder.buildNodes(statement.tokens)) {
-			type = getTypeByNode(clazz, node);
+			IType type = getTypeByNode(clazz, node);
+			if (type != null)
+				return type;
 		}
-		// 校验
-		Assert.notNull(type, "Type is null!");
-		return type;
+		throw new RuntimeException("Cannot derive the type!");
 	}
 
 	public static IType getTypeByNode(IClass clazz, Node node) {
@@ -35,20 +33,22 @@ public class FastDeducer {
 		Token token = node.token;
 
 		// 如果有类型直接返回
-		if (token.getAttribute(AttributeEnum.TYPE) != null)
-			return token.getAttribute(AttributeEnum.TYPE);
+		if (token.attr(AttributeEnum.TYPE) != null)
+			return token.attr(AttributeEnum.TYPE);
 
-		if (token.isLogical() || token.isRelation() || token.isInstanceof()) { // 如果是逻辑判断，或者类型判断关键字
+		// 如果是逻辑判断，或者类型判断关键字
+		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
 			return TypeEnum.boolean_t.value;
 
-		} else if (token.isArithmetic() || token.isBitwise()) {// 先取左边的，再取右边的
+		} else if (token.isArithmetic() || token.isBitwise()) {
+			// 先取左边的，再取右边的
 			if (node.prev != null) {
 				return getTypeByNode(clazz, node.prev);
-
 			} else if (node.next != null) {
 				return getTypeByNode(clazz, node.next);
 			}
 		}
+
 		return null;
 	}
 

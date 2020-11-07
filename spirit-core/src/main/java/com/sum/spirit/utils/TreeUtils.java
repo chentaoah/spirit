@@ -9,10 +9,10 @@ public class TreeUtils {
 	public static int findStart(Statement statement, int index) {
 		int start = -1;
 		Token token = statement.getToken(index);
-		String treeId = token.getAttribute(AttributeEnum.TREE_ID);
+		String treeId = token.attr(AttributeEnum.TREE_ID);
 		for (int j = index - 1; j >= 0; j--) {
 			Token lastToken = statement.getToken(j);
-			String lastTreeId = lastToken.getAttribute(AttributeEnum.TREE_ID);
+			String lastTreeId = lastToken.attr(AttributeEnum.TREE_ID);
 			if (lastTreeId != null && lastTreeId.startsWith(treeId)) {
 				start = j;
 			} else {
@@ -25,10 +25,10 @@ public class TreeUtils {
 	public static int findEnd(Statement statement, int index) {
 		int end = -1;
 		Token token = statement.getToken(index);
-		String treeId = token.getAttribute(AttributeEnum.TREE_ID);
+		String treeId = token.attr(AttributeEnum.TREE_ID);
 		for (int j = index + 1; j < statement.size(); j++) {
 			Token nextToken = statement.getToken(j);
-			String nextTreeId = nextToken.getAttribute(AttributeEnum.TREE_ID);
+			String nextTreeId = nextToken.attr(AttributeEnum.TREE_ID);
 			if (nextTreeId != null && nextTreeId.startsWith(treeId)) {
 				end = j + 1;
 			} else {

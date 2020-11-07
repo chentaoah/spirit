@@ -13,7 +13,7 @@ public abstract class Tokened extends Typed {
 
 	public String getName() {
 		if (token.isAnnotation()) {
-			return token.getAttribute(AttributeEnum.SIMPLE_NAME);
+			return token.attr(AttributeEnum.SIMPLE_NAME);
 
 		} else if (token.isVar()) {
 			return token.toString();
