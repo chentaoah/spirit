@@ -23,12 +23,10 @@ public class AutoImporter {
 
 	public void visitAnnotated(IClass clazz, Annotated annotated) {
 		annotated.annotations.forEach((annotation) -> clazz.addImport(clazz.getClassName(annotation.getName())));
-		visitElement(clazz, annotated.element);
-		if (annotated instanceof IMethod)
-			annotated.element.children.forEach((element) -> visitElement(clazz, element));
+		visitElement(clazz, annotated.element, annotated instanceof IMethod);
 	}
 
-	public void visitElement(IClass clazz, Element element) {
+	public void visitElement(IClass clazz, Element element, boolean visitChildren) {
 		String line = element.line.text;
 		line = line.replaceAll("(?<=\").*?(?=\")", "").trim(); // 把字符串都替换掉
 		Matcher matcher = TYPE_PATTERN.matcher(line);
@@ -37,6 +35,9 @@ public class AutoImporter {
 			String className = clazz.getClassName(targetName);
 			clazz.addImport(className);
 		}
+		// 递归
+		if (visitChildren)
+			element.children.forEach((child) -> visitElement(clazz, child, visitChildren));
 	}
 
 }
