@@ -68,7 +68,6 @@ public class ExpressDeclarer {
 					context.variables.add(variable);
 				}
 			}
-//			System.out.println(element.syntaxTree.debug());
 		}
 	}
 
