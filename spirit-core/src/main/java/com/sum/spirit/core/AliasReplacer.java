@@ -10,10 +10,8 @@ import com.sum.spirit.utils.LineUtils;
 public class AliasReplacer {
 
 	public String replace(IClass clazz, String code) {
-		for (Import imp : clazz.imports) {
-			if (imp.hasAlias())
-				code = replace(code, imp.getAlias(), imp.getClassName());
-		}
+		for (Import imp : clazz.getAliasImports())
+			code = replace(code, imp.getAlias(), imp.getClassName());
 		return code;
 	}
 

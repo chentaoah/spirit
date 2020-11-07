@@ -2,6 +2,7 @@ package com.sum.spirit.pojo.clazz;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.lib.StringUtils;
@@ -33,6 +34,10 @@ public abstract class Imported extends Annotated {
 				return imp;
 		}
 		return null;
+	}
+
+	public List<Import> getAliasImports() {
+		return imports.stream().filter(imp -> imp.hasAlias()).collect(Collectors.toList());
 	}
 
 	public String getClassNameByClassLoader(String simpleName) {
