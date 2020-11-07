@@ -96,14 +96,6 @@ public class IClass extends Imported {
 		return interfaces;
 	}
 
-	public List<IField> getFields() {
-		return fields;
-	}
-
-	public List<IMethod> getMethods() {
-		return methods;
-	}
-
 	public IField getField(String fieldName) {
 		for (IField field : fields) {
 			if (field.getName().equals(fieldName))
