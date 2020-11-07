@@ -51,7 +51,7 @@ public class ExpressDeclarer {
 			tracker.track(clazz, context, statement);
 			visiter.visit(clazz, statement);
 			IType type = deducer.derive(clazz, statement);
-			// Get internal type from array or generic type
+			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
 			Token varToken = element.getToken(1);
 			varToken.setAttr(AttributeEnum.TYPE, type);

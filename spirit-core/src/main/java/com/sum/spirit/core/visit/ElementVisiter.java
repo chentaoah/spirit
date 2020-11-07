@@ -29,16 +29,12 @@ public class ElementVisiter {
 		try {
 			// 1.一部分语句需要提前声明类型
 			declarer.declare(clazz, element);
-
 			// 2.一部分语句中的表达式，需要进行推导
 			expressDeclarer.declare(clazz, context, element);
-
 			// 3.变量追踪
 			tracker.track(clazz, context, element.statement);
-
 			// 4.方法推导
 			visiter.visit(clazz, element.statement);
-
 			// 5.判断语法是否声明了一个变量
 			return getVariableIfPossible(clazz, element);
 
