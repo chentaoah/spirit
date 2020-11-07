@@ -23,9 +23,9 @@ public class CompilerImpl implements Compiler {
 	@Autowired
 	public MemberVisiter visiter;
 	@Autowired
-	public PostProcessor processor;
-	@Autowired
 	public SystemClassLoader systemClassLoader;
+	@Autowired
+	public PostProcessor processor;
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
@@ -44,11 +44,9 @@ public class CompilerImpl implements Compiler {
 
 		// 3.放入上下文
 		systemClassLoader.classes = allClasses;
+		processor.whenClassesLoadFinish(allClasses);
 
-		// 4.AutoImporter
-		processor.whenAllClassesResolveFinish(files, allClasses);
-
-		// 5.进行类型成员变量的推导
+		// 4.进行类型成员变量的推导
 		visiter.visit(allClasses);
 
 		return allClasses;

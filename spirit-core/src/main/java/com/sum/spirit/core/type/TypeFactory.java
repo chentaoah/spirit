@@ -71,12 +71,12 @@ public class TypeFactory extends AbsTypeFactory {
 			if (clazz.getTypeVariableIndex(simpleName) >= 0)
 				return createTypeVariable(simpleName);// T or K
 
-			return create(clazz.findClassName(simpleName));
+			return create(clazz.getClassName(simpleName));
 
 		} else if (token.value instanceof Statement) {
 			Statement statement = token.getValue(); // List<String> // Class<?>
 			String simpleName = statement.getStr(0);
-			IType type = create(clazz.findClassName(simpleName));
+			IType type = create(clazz.getClassName(simpleName));
 			type.setGenericTypes(getGenericTypes(clazz, statement));
 			return type;
 		}

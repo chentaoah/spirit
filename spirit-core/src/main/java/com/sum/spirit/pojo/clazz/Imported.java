@@ -1,5 +1,6 @@
 package com.sum.spirit.pojo.clazz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.api.ClassLoader;
@@ -15,7 +16,7 @@ public abstract class Imported extends Annotated {
 
 	public Imported(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
-		this.imports = imports;
+		this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
 	}
 
 	public Import findImport(String simpleName) {
@@ -53,7 +54,7 @@ public abstract class Imported extends Annotated {
 		return true;
 	}
 
-	public String findClassName(String simpleName) {
+	public String getClassName(String simpleName) {
 		// 如果是className，则直接返回
 		if (simpleName.contains("."))
 			return simpleName;

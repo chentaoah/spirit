@@ -1,61 +1,41 @@
 package com.sum.spirit.core;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.sum.spirit.lib.StringUtils;
+import com.sum.spirit.pojo.clazz.Annotated;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.clazz.IMethod;
+import com.sum.spirit.pojo.element.Element;
 
 @Component
 public class AutoImporter {
 
-	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");
+	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");// 间接排除了泛型类型T
 
-	public void doImport(Map<String, File> files, Map<String, IClass> allClasses) {
-		for (Map.Entry<String, File> entry : files.entrySet()) {
-			IClass clazz = allClasses.get(entry.getKey());
-			doImport(clazz, entry.getValue());
-		}
+	public void visitClass(IClass clazz) {
+		visitAnnotated(clazz, clazz);
+		clazz.fields.forEach((field) -> visitAnnotated(clazz, field));
+		clazz.methods.forEach((method) -> visitAnnotated(clazz, method));
 	}
 
-	public void doImport(IClass clazz, File file) {
-		try {
-			// 不在字符串内，并且大写开头的单词
-			List<String> fileLines = Files.readLines(file, Charsets.UTF_8);
-			// 遍历每一行
-			for (int index = 0; index < fileLines.size(); index++) {
-				// 获取一行
-				String line = fileLines.get(index);
-				// 把字符串都替换掉
-				line = line.replaceAll("(?<=\").*?(?=\")", "").trim();
-				// 1.空 2.注释
-				if (StringUtils.isEmpty(line) || line.startsWith("//"))
-					continue;
-				// 3.包名 4.引入
-				if (line.startsWith(KeywordEnum.PACKAGE.value) || line.startsWith(KeywordEnum.IMPORT.value))
-					continue;
-				// 找到大写开头的
-				Matcher matcher = TYPE_PATTERN.matcher(line);
-				// 这里的find方法并不会一次找到所有的
-				while (matcher.find() && matcher.groupCount() > 0) {
-					// 找到大写的
-					String targetName = matcher.group(matcher.groupCount() - 1);
-					// 查询类名
-					String className = clazz.findClassName(targetName);
-					// 注意：主类添加引用，相当于协同类也会添加，因为共用了一个imports
-					clazz.addImport(className);
-				}
-			}
-		} catch (Exception e) {
-			new RuntimeException("Auto import failed!", e);
+	public void visitAnnotated(IClass clazz, Annotated annotated) {
+		annotated.annotations.forEach((annotation) -> clazz.addImport(clazz.getClassName(annotation.getName())));
+		visitElement(clazz, annotated.element);
+		if (annotated instanceof IMethod)
+			annotated.element.children.forEach((element) -> visitElement(clazz, element));
+	}
+
+	public void visitElement(IClass clazz, Element element) {
+		String line = element.line.text;
+		line = line.replaceAll("(?<=\").*?(?=\")", "").trim(); // 把字符串都替换掉
+		Matcher matcher = TYPE_PATTERN.matcher(line);
+		while (matcher.find() && matcher.groupCount() > 0) {
+			String targetName = matcher.group(matcher.groupCount() - 1);
+			String className = clazz.getClassName(targetName);
+			clazz.addImport(className);
 		}
 	}
 

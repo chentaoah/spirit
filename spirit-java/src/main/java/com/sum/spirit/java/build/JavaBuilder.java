@@ -48,10 +48,10 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 		// import
 		boolean flag = false;
-		for (Import iImport : clazz.imports) {
-			if (!iImport.hasAlias()) {
+		for (Import imp : clazz.imports) {
+			if (!imp.hasAlias()) {
 				flag = true;
-				builder.append(iImport.element + ";\n");
+				builder.append(imp.element + ";\n");
 			}
 		}
 		if (flag)

@@ -19,9 +19,9 @@ import com.sum.spirit.utils.SpringUtils;
 public class PostProcessor implements InitializingBean {
 
 	@Autowired
-	public AliasReplacer replacer;
-	@Autowired
 	public AutoImporter importer;
+	@Autowired
+	public AliasReplacer replacer;
 
 	public long timestamp;
 
@@ -43,8 +43,8 @@ public class PostProcessor implements InitializingBean {
 		document.debug();
 	}
 
-	public void whenAllClassesResolveFinish(Map<String, File> files, Map<String, IClass> allClasses) {
-		importer.doImport(files, allClasses);
+	public void whenClassesLoadFinish(Map<String, IClass> allClasses) {
+		allClasses.forEach((className, clazz) -> importer.visitClass(clazz));
 	}
 
 	public void whenClassCompileFinish(IClass clazz) {
