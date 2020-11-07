@@ -22,4 +22,9 @@ public abstract class AbsClassLoader implements ClassLoader {
 		return true;
 	}
 
+	@Override
+	public <T> T getClass(String className) {
+		return null;
+	}
+
 }

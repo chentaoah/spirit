@@ -29,14 +29,4 @@ public class ExtentionClassLoader extends AbsClassLoader {
 		return Data.class.getName().equals(className);
 	}
 
-	@Override
-	public boolean shouldImport(String selfClassName, String className) {
-		return super.shouldImport(selfClassName, className) && true;
-	}
-
-	@Override
-	public <T> T getClass(String className) {
-		return null;
-	}
-
 }
