@@ -28,4 +28,8 @@ class Inner {
 		return 18
 	}
 
+	func testImport(){
+		print Father().toString()
+	}
+
 }
