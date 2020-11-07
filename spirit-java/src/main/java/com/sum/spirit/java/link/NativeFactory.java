@@ -35,7 +35,7 @@ public class NativeFactory extends TypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeEnum.WILDCARD.value;
+			return TypeEnum.Wildcard.value;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

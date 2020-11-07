@@ -39,7 +39,7 @@ public class FastDeducer {
 			return token.getAttribute(AttributeEnum.TYPE);
 
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) { // 如果是逻辑判断，或者类型判断关键字
-			return TypeEnum.BOOLEAN.value;
+			return TypeEnum.boolean_t.value;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {// 先取左边的，再取右边的
 			if (node.prev != null) {

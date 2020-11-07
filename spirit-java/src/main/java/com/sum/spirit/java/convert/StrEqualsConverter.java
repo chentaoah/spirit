@@ -61,7 +61,7 @@ public class StrEqualsConverter implements ElementConverter {
 
 						String text = String.format(format, lastStatement, nextStatement);
 						Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-						expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.BOOLEAN.value);
+						expressToken.setAttribute(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
 						expressToken.setAttribute(AttributeEnum.TREE_ID, token.getAttribute(AttributeEnum.TREE_ID));
 						statement.replaceTokens(start, end, expressToken);
 						clazz.addImport(StringUtils.class.getName());

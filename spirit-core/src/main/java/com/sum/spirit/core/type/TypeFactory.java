@@ -66,7 +66,7 @@ public class TypeFactory extends AbsTypeFactory {
 			String simpleName = token.getValue();
 
 			if ("?".equals(simpleName))
-				return TypeEnum.WILDCARD.value;// ?
+				return TypeEnum.Wildcard.value;// ?
 
 			if (clazz.getTypeVariableIndex(simpleName) >= 0)
 				return createTypeVariable(simpleName);// T or K
@@ -96,19 +96,19 @@ public class TypeFactory extends AbsTypeFactory {
 
 	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return TypeEnum.BOOLEAN.value;
+			return TypeEnum.boolean_t.value;
 		} else if (token.isChar()) {
-			return TypeEnum.CHAR.value;
+			return TypeEnum.char_t.value;
 		} else if (token.isInt()) {
-			return TypeEnum.INT.value;
+			return TypeEnum.int_t.value;
 		} else if (token.isLong()) {
-			return TypeEnum.LONG.value;
+			return TypeEnum.long_t.value;
 		} else if (token.isDouble()) {
-			return TypeEnum.DOUBLE.value;
+			return TypeEnum.double_t.value;
 		} else if (token.isNull()) {
-			return TypeEnum.NULL.value;
+			return TypeEnum.Null.value;
 		} else if (token.isStr()) {
-			return TypeEnum.STRING.value;
+			return TypeEnum.String.value;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -120,7 +120,7 @@ public class TypeFactory extends AbsTypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).splitStmt(",");
-		return create(TypeEnum.LIST.value.getClassName(), getGenericType(clazz, statements));
+		return create(TypeEnum.List.value.getClassName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -132,13 +132,13 @@ public class TypeFactory extends AbsTypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(TypeEnum.MAP.value.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(TypeEnum.Map.value.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
 
 		if (statements.size() == 0)
-			return TypeEnum.OBJECT.value;
+			return TypeEnum.Object.value;
 
 		IType genericType = null;
 		for (Statement statement : statements) {
@@ -151,7 +151,7 @@ public class TypeFactory extends AbsTypeFactory {
 				genericType = wrappedType;
 
 			} else if (!linker.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
-				genericType = TypeEnum.OBJECT.value;
+				genericType = TypeEnum.Object.value;
 				break;
 			}
 		}

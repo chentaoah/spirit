@@ -26,7 +26,7 @@ public abstract class AbsTypeFactory {
 	}
 
 	public IType createTypeVariable(String genericName) {// T or K
-		IType type = create(TypeEnum.OBJECT.value.getClassName());
+		IType type = create(TypeEnum.Object.value.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

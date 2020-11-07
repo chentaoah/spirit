@@ -36,7 +36,7 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 			return null;
 
 		if (type.isArray())
-			return TypeEnum.OBJECT.value;
+			return TypeEnum.Object.value;
 
 		IType superType = !type.isNative() ? codeLinker.getSuperType(type) : nativeLinker.getSuperType(type);
 		if (superType == null)

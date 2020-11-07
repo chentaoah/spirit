@@ -85,7 +85,7 @@ public class IClass extends Imported {
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null)
 			return factory.create(this, token);
-		return TypeEnum.OBJECT.value;// 如果不存在继承，则默认是继承Object
+		return TypeEnum.Object.value;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {

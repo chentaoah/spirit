@@ -28,7 +28,7 @@ public class AdaptiveLinker extends AbsAdaptiveLinker {
 
 		// xxx.class class是关键字
 		if (KeywordEnum.CLASS.value.equals(fieldName))
-			return factory.create(TypeEnum.CLASS.value.getClassName(), type.getWrappedType());
+			return factory.create(TypeEnum.Class.value.getClassName(), type.getWrappedType());
 
 		// 原始类型没有属性和方法
 		if (type.isPrimitive())
@@ -36,7 +36,7 @@ public class AdaptiveLinker extends AbsAdaptiveLinker {
 
 		// 访问数组length直接返回int类型
 		if (type.isArray() && AdaptiveLinker.ARRAY_LENGTH.equals(fieldName))
-			return TypeEnum.INT.value;
+			return TypeEnum.int_t.value;
 
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);
 

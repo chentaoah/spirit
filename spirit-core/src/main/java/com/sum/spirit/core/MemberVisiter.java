@@ -25,14 +25,14 @@ public class MemberVisiter extends AbsMemberVisiter {
 		visitChildElement(clazz, context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : TypeEnum.VOID.value;
+			return context.returnType != null ? context.returnType : TypeEnum.void_t.value;
 
 		} else if (method.element.isFuncDeclare()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.getToken(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : TypeEnum.VOID.value;
+				IType returnType = context.returnType != null ? context.returnType : TypeEnum.void_t.value;
 				// 进行类型校验
 				if (!linker.isMoreAbstract(declaredType, returnType))
 					throw new RuntimeException("The derived type does not match the declared type!");

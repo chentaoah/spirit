@@ -13,52 +13,54 @@ import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.utils.SpringUtils;
 
 public enum TypeEnum {
-	VOID, BOOLEAN, CHAR, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, //
-	BOOLEAN_ARRAY, CHAR_ARRAY, BYTE_ARRAY, SHORT_ARRAY, INT_ARRAY, LONG_ARRAY, FLOAT_ARRAY, DOUBLE_ARRAY, VOID_WRAPPED, //
-	BOOLEAN_WRAPPED, CHAR_WRAPPED, BYTE_WRAPPED, SHORT_WRAPPED, INT_WRAPPED, LONG_WRAPPED, FLOAT_WRAPPED, DOUBLE_WRAPPED, //
-	OBJECT, STRING, OBJECT_ARRAY, STRING_ARRAY, CLASS, LIST, MAP, NULL, WILDCARD;
+
+	void_t, boolean_t, char_t, byte_t, short_t, int_t, long_t, float_t, double_t, //
+	boolean_a, char_a, byte_a, short_a, int_a, long_a, float_a, double_a, //
+
+	Void, Boolean, Character, Byte, Short, Integer, Long, Float, Double, //
+	Object, String, Object_Array, String_Array, Class, List, Map, Null, Wildcard;
 
 	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
 
 	public static final Map<String, IType> PRIMITIVE_ARRAY_MAPPING = new ConcurrentHashMap<>();
 
 	static {
-		VOID.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
-		BOOLEAN.value = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
-		CHAR.value = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
-		BYTE.value = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
-		SHORT.value = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
-		INT.value = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
-		LONG.value = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
-		FLOAT.value = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
-		DOUBLE.value = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
+		void_t.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
+		boolean_t.value = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
+		char_t.value = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
+		byte_t.value = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
+		short_t.value = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
+		int_t.value = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
+		long_t.value = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
+		float_t.value = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
+		double_t.value = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
 
-		BOOLEAN_ARRAY.value = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
-		CHAR_ARRAY.value = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
-		BYTE_ARRAY.value = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
-		SHORT_ARRAY.value = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
-		INT_ARRAY.value = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
-		LONG_ARRAY.value = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
-		FLOAT_ARRAY.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
-		DOUBLE_ARRAY.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
+		boolean_a.value = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
+		char_a.value = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
+		byte_a.value = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
+		short_a.value = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
+		int_a.value = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
+		long_a.value = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
+		float_a.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
+		double_a.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", BOOLEAN.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[C", CHAR.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[B", BYTE.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[S", SHORT.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[I", INT.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[J", LONG.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[F", FLOAT.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[D", DOUBLE.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", boolean_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[C", char_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[B", byte_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[S", short_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[I", int_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[J", long_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[F", float_t.value);
+		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[D", double_t.value);
 
-		PRIMITIVE_ARRAY_MAPPING.put("boolean[]", BOOLEAN_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("char[]", CHAR_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("byte[]", BYTE_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("short[]", SHORT_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("int[]", INT_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("long[]", LONG_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("float[]", FLOAT_ARRAY.value);
-		PRIMITIVE_ARRAY_MAPPING.put("double[]", DOUBLE_ARRAY.value);
+		PRIMITIVE_ARRAY_MAPPING.put("boolean[]", boolean_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("char[]", char_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("byte[]", byte_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("short[]", short_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("int[]", int_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("long[]", long_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("float[]", float_a.value);
+		PRIMITIVE_ARRAY_MAPPING.put("double[]", double_a.value);
 
 		// 类加载器
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
@@ -91,32 +93,32 @@ public enum TypeEnum {
 	}
 
 	public static IType getWrappedType(String className) {
-		if (VOID.value.getClassName().equals(className)) {
-			return VOID_WRAPPED.value;
+		if (void_t.value.getClassName().equals(className)) {
+			return Void.value;
 
-		} else if (BOOLEAN.value.getClassName().equals(className)) {
-			return BOOLEAN_WRAPPED.value;
+		} else if (boolean_t.value.getClassName().equals(className)) {
+			return Boolean.value;
 
-		} else if (CHAR.value.getClassName().equals(className)) {
-			return CHAR_WRAPPED.value;
+		} else if (char_t.value.getClassName().equals(className)) {
+			return Character.value;
 
-		} else if (BYTE.value.getClassName().equals(className)) {
-			return BYTE_WRAPPED.value;
+		} else if (byte_t.value.getClassName().equals(className)) {
+			return Byte.value;
 
-		} else if (SHORT.value.getClassName().equals(className)) {
-			return SHORT_WRAPPED.value;
+		} else if (short_t.value.getClassName().equals(className)) {
+			return Short.value;
 
-		} else if (INT.value.getClassName().equals(className)) {
-			return INT_WRAPPED.value;
+		} else if (int_t.value.getClassName().equals(className)) {
+			return Integer.value;
 
-		} else if (LONG.value.getClassName().equals(className)) {
-			return LONG_WRAPPED.value;
+		} else if (long_t.value.getClassName().equals(className)) {
+			return Long.value;
 
-		} else if (FLOAT.value.getClassName().equals(className)) {
-			return FLOAT_WRAPPED.value;
+		} else if (float_t.value.getClassName().equals(className)) {
+			return Float.value;
 
-		} else if (DOUBLE.value.getClassName().equals(className)) {
-			return DOUBLE_WRAPPED.value;
+		} else if (double_t.value.getClassName().equals(className)) {
+			return Double.value;
 		}
 		return null;
 	}
