@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.java.api.ElementConverter;
-import com.sum.spirit.java.common.Constants;
+import com.sum.spirit.java.pojo.common.Constants;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;

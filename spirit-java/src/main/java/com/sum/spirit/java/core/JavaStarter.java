@@ -1,4 +1,4 @@
-package com.sum.spirit.java;
+package com.sum.spirit.java.core;
 
 import java.io.File;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.sum.spirit.java.link;
+package com.sum.spirit.java.core.link;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

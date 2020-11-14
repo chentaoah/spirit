@@ -1,4 +1,4 @@
-package com.sum.spirit.java.convert;
+package com.sum.spirit.java.core.convert;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
-import com.sum.spirit.java.common.Constants;
 import com.sum.spirit.java.core.TypeBuilder;
+import com.sum.spirit.java.pojo.common.Constants;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;

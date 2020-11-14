@@ -1,4 +1,4 @@
-package com.sum.spirit.java.common;
+package com.sum.spirit.java.pojo.common;
 
 public class Constants {
 
