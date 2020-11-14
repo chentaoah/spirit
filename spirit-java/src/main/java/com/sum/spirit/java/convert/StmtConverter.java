@@ -10,8 +10,8 @@ import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
-import com.sum.spirit.java.build.JavaBuilder;
 import com.sum.spirit.java.build.TypeBuilder;
+import com.sum.spirit.java.common.Constants;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -36,7 +36,7 @@ public class StmtConverter implements ElementConverter {
 	public void convert(IClass clazz, Element element) {
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign())
-			element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
+			element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
 
 		if (element.isSync()) {// sync s {
 			element.replaceKeyword(KeywordEnum.SYNC.value, "synchronized");
@@ -92,7 +92,7 @@ public class StmtConverter implements ElementConverter {
 				clazz.addImport(LoggerFactory.class.getName());
 				Element logger = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				IField field = new IField(null,
-						logger.addModifier(JavaBuilder.FINAL_KEYWORD).addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value));
+						logger.addModifier(Constants.FINAL_KEYWORD).addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value));
 				clazz.fields.add(0, field);
 			}
 		}

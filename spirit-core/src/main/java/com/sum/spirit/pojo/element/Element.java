@@ -53,21 +53,6 @@ public class Element extends Syntactic {
 		return this;
 	}
 
-	public Element replaceKeyword$(String keyword, String newKeyword) {
-		replaceKeyword(keyword, newKeyword);
-		return this;
-	}
-
-	public Element insertKeywordAfter$(String keyword, String newKeyword) {
-		insertKeywordAfter(keyword, newKeyword);
-		return this;
-	}
-
-	public Element removeKeyword$(String keyword) {
-		removeKeyword(keyword);
-		return this;
-	}
-
 	public Statement subStmt(int start, int end) {
 		return statement.subStmt(start, end);
 	}

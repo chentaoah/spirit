@@ -36,6 +36,10 @@ public abstract class Imported extends Annotated {
 		return null;
 	}
 
+	public List<Import> getImports() {
+		return imports.stream().filter(imp -> !imp.hasAlias()).collect(Collectors.toList());
+	}
+
 	public List<Import> getAliasImports() {
 		return imports.stream().filter(imp -> imp.hasAlias()).collect(Collectors.toList());
 	}
