@@ -22,13 +22,11 @@ public class AbsSyntaxTree {
 
 	public SyntaxEnum getSyntax() {
 
-		Node firstNode = nodes.get(START_INDEX);
-		Token firstToken = firstNode.token;
-		// 如果是行级别关键字，则直接返回语法枚举
-		if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString()))
-			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
+		SyntaxEnum syntax = getLineSyntax();
+		if (syntax != null)
+			return syntax;
 
-		SyntaxEnum syntax = getSyntaxByOneNode();
+		syntax = getSyntaxByOneNode();
 		if (syntax != null)
 			return syntax;
 
@@ -41,6 +39,18 @@ public class AbsSyntaxTree {
 			return syntax;
 
 		throw new RuntimeException("Unknown syntax!");
+	}
+
+	private SyntaxEnum getLineSyntax() {
+
+		Node firstNode = nodes.get(START_INDEX);
+		Token firstToken = firstNode.token;
+
+		// 如果是行级别关键字，则直接返回语法枚举
+		if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString()))
+			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
+
+		return null;
 	}
 
 	public SyntaxEnum getSyntaxByOneNode() {
