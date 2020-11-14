@@ -1,4 +1,4 @@
-package com.sum.spirit.java.build;
+package com.sum.spirit.java.core;
 
 import java.util.List;
 
