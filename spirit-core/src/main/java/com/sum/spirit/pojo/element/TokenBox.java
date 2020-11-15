@@ -3,8 +3,8 @@ package com.sum.spirit.pojo.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
+import com.sum.spirit.utils.Assert;
 
 public class TokenBox {
 

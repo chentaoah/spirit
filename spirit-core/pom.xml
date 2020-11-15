@@ -10,12 +10,6 @@
 	<artifactId>spirit-core</artifactId>
 
 	<dependencies>
-		<!-- lib -->
-		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-lib</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- spring core -->
 		<dependency>
 			<groupId>org.springframework</groupId>

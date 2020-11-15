@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.MemberVisiter;
 import com.sum.spirit.core.SystemClassLoader;
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.pojo.exception.NoSuchMethodException;
+import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component

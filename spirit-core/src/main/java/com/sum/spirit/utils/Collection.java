@@ -1,4 +1,4 @@
-package com.sum.spirit.lib;
+package com.sum.spirit.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

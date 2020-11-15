@@ -8,7 +8,7 @@ import com.sum.test.process.Main;
 import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.lib.Collection;
+import com.sum.spirit.utils.Collection;
 import java.util.List;
 import java.util.Map;
 

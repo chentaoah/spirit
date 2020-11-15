@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 public class TypeUtils {

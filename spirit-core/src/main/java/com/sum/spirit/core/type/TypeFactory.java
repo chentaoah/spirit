@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.SystemClassLoader;
 import com.sum.spirit.core.visit.FastDeducer;
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component

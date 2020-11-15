@@ -11,7 +11,6 @@ import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.core.visit.ElementVisiter;
-import com.sum.spirit.lib.Assert;
 import com.sum.spirit.pojo.clazz.Member;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -22,6 +21,7 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 
 public abstract class AbsMemberVisiter {

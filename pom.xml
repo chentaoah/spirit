@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>spirit-lib</module>
 		<module>spirit-core</module>
 		<module>spirit-java</module>
 		<module>spirit-plug</module>

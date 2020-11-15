@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.lib.StringUtils;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.utils.LineUtils;
+import com.sum.spirit.utils.StringUtils;
 
 @Component
 public class Lexer {
