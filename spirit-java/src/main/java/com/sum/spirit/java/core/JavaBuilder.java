@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.pojo.common.Constants;
+import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
@@ -108,7 +109,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 					if (method.isInit()) {
 						element.removeKeyword(KeywordEnum.FUNC.value);
 					} else {
-						element.replaceKeyword(KeywordEnum.FUNC.value, TypeBuilder.build(clazz, method.getType()));
+						element.replaceKeyword(KeywordEnum.FUNC.value, TypeUtils.build(clazz, method.getType()));
 					}
 					methodsStr.append("\t" + element + "\n");
 				}

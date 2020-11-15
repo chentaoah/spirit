@@ -53,7 +53,7 @@ public class StrLogicalConverter implements ElementConverter {
 	}
 
 	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {
-		int start = TreeUtils.findStart(statement, index);
+		int start = TreeUtils.findStartByTreeId(statement, index);
 		Statement lastStatement = statement.subStmt(start, index);
 		IType type = deducer.derive(clazz, lastStatement);
 		if (TypeUtils.isStr(type)) {
@@ -67,7 +67,7 @@ public class StrLogicalConverter implements ElementConverter {
 	}
 
 	public void replaceFollowingStr(IClass clazz, Statement statement, int index, Token token) {
-		int end = TreeUtils.findEnd(statement, index);
+		int end = TreeUtils.findEndByTreeId(statement, index);
 		Statement nextStatement = statement.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextStatement);
 		if (TypeUtils.isStr(type)) {

@@ -1,5 +1,7 @@
 package com.sum.spirit.java.core.convert;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import com.sum.spirit.core.lexer.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
-import com.sum.spirit.java.core.TypeBuilder;
 import com.sum.spirit.java.pojo.common.Constants;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
@@ -39,7 +40,7 @@ public class StmtConverter implements ElementConverter {
 			element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
 
 		if (element.isSync()) {// sync s {
-			element.replaceKeyword(KeywordEnum.SYNC.value, "synchronized");
+			element.replaceKeyword(KeywordEnum.SYNC.value, Constants.SYNCHRONIZED_KEYWORD);
 
 		} else if (element.isFor()) {// for (i=0; i<100; i++) {
 			Token secondToken = element.getToken(1);
@@ -50,7 +51,7 @@ public class StmtConverter implements ElementConverter {
 					boolean derived = token.attr(AttributeEnum.DERIVED, false);
 					if (derived) {
 						IType type = token.attr(AttributeEnum.TYPE);
-						statement.addToken(1, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
+						statement.addToken(1, new Token(TokenTypeEnum.TYPE, TypeUtils.build(clazz, type)));
 					}
 				}
 			}
@@ -59,7 +60,7 @@ public class StmtConverter implements ElementConverter {
 			Token item = element.getToken(1);
 			IType type = item.attr(AttributeEnum.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
-			String text = String.format("for (%s %s : %s) {", TypeBuilder.build(clazz, type), item, statement);
+			String text = String.format("for (%s %s : %s) {", TypeUtils.build(clazz, type), item, statement);
 			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
@@ -67,7 +68,7 @@ public class StmtConverter implements ElementConverter {
 			boolean derived = token.attr(AttributeEnum.DERIVED, false);
 			IType type = token.attr(AttributeEnum.TYPE);
 			if (token.isVar() && derived)
-				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeBuilder.build(clazz, type)));
+				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeUtils.build(clazz, type)));
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);
@@ -90,9 +91,11 @@ public class StmtConverter implements ElementConverter {
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-				Element logger = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				IField field = new IField(null,
-						logger.addModifier(Constants.FINAL_KEYWORD).addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value));
+				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				loggerElement.addModifier(Constants.FINAL_KEYWORD);
+				loggerElement.addModifier(KeywordEnum.STATIC.value);
+				loggerElement.addModifier(KeywordEnum.PUBLIC.value);
+				IField field = new IField(new ArrayList<>(), loggerElement);
 				clazz.fields.add(0, field);
 			}
 		}

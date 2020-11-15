@@ -41,11 +41,11 @@ public class StrEqualsConverter implements ElementConverter {
 		for (int index = 0; index < statement.size(); index++) {
 			Token token = statement.getToken(index);
 			if (token.isEquals() || token.isUnequals()) {
-				int start = TreeUtils.findStart(statement, index);
+				int start = TreeUtils.findStartByTreeId(statement, index);
 				Statement lastStatement = statement.subStmt(start, index);
 				IType lastType = deducer.derive(clazz, lastStatement);
 				if (TypeUtils.isStr(lastType)) {
-					int end = TreeUtils.findEnd(statement, index);
+					int end = TreeUtils.findEndByTreeId(statement, index);
 					Statement nextStatement = statement.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextStatement);
 					if (TypeUtils.isStr(nextType)) {
