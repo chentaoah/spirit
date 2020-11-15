@@ -44,7 +44,7 @@ public class ReflectUtils {
 		return false;
 	}
 
-	public static boolean isMatch(Member member, int... modifiers) {
+	public static boolean isAccessible(Member member, int... modifiers) {
 		int mod = member.getModifiers();
 		for (int modifier : modifiers) {
 			if ((mod & modifier) != 0)

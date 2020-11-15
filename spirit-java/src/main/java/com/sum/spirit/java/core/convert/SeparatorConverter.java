@@ -16,7 +16,6 @@ public class SeparatorConverter implements ElementConverter {
 
 	@Override
 	public void convert(IClass clazz, Element element) {
-
 		if (element.isIf() || element.isElseIf() || element.isWhile() || element.isCatch() || element.isSync()) {
 			insertBrackets(clazz, element.statement);
 		}

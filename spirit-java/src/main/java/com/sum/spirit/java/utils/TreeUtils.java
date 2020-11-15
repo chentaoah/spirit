@@ -1,4 +1,4 @@
-package com.sum.spirit.utils;
+package com.sum.spirit.java.utils;
 
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;

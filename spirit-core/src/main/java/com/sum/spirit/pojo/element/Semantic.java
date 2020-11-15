@@ -185,11 +185,27 @@ public abstract class Semantic extends AttributeMap {
 	}
 
 	public boolean isEquals() {
-		return isOperator() && ("==".equals(getValue()) || "!=".equals(getValue()));
+		return isOperator() && SymbolEnum.EQUAL.value.equals(getValue());
+	}
+
+	public boolean isUnequals() {
+		return isOperator() && SymbolEnum.UNEQUAL.value.equals(getValue());
 	}
 
 	public boolean isShift() {
-		return isOperator() && ("<<".equals(getValue()) || ">>".equals(getValue()));
+		return isOperator() && (SymbolEnum.LEFT_SHIFT.value.equals(getValue()) || SymbolEnum.RIGHT_SHIFT.value.equals(getValue()));
+	}
+
+	public boolean isNegate() {
+		return isOperator() && SymbolEnum.NEGATE.value.equals(getValue());
+	}
+
+	public boolean isLogicAnd() {
+		return isOperator() && SymbolEnum.AND.value.equals(getValue());
+	}
+
+	public boolean isLogicOr() {
+		return isOperator() && SymbolEnum.OR.value.equals(getValue());
 	}
 
 	public abstract <T> T getValue();

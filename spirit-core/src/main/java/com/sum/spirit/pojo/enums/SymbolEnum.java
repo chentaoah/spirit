@@ -9,7 +9,7 @@ public enum SymbolEnum {
 
 	INCREASE("++", "\\+\\+", "\\+ \\+", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.MULTIPLE),
 	DECREASE("--", "--", "- -", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.MULTIPLE),
-	NOT("!", "\\!", SymbolTypeEnum.OPERATOR, OperatorEnum.LOGICAL, 40, OperandEnum.RIGHT),
+	NEGATE("!", "\\!", SymbolTypeEnum.OPERATOR, OperatorEnum.LOGICAL, 40, OperandEnum.RIGHT),
 	MULTIPLY("*", "\\*", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 35, OperandEnum.BINARY),
 	DIVIDE("/", "/", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 35, OperandEnum.BINARY),
 	REMIND("%", "%", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 35, OperandEnum.BINARY),
