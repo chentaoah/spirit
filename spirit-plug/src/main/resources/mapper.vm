@@ -93,6 +93,7 @@
 #buildSelectContent($fields)
 		</where>
 	</select>
+##======================================================================================
 
 ##构建查询语句的宏
 #macro(buildSelectContent $fields)
