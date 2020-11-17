@@ -23,10 +23,10 @@ public class VelocityTest {
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
 		// 获取模板文件
-//		Template t = ve.getTemplate("mapper.vm");
-//		Template t = ve.getTemplate("sql.vm");
-//		Template t = ve.getTemplate("dao.vm");
-		Template t = ve.getTemplate("markdown.vm", "UTF-8");
+//		Template t = ve.getTemplate("mapper.vm", "UTF-8");
+		Template t = ve.getTemplate("sql.vm", "UTF-8");
+//		Template t = ve.getTemplate("dao.vm", "UTF-8");
+//		Template t = ve.getTemplate("markdown.vm", "UTF-8");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
 		ctx.put("package", "com.sum.test");
@@ -37,12 +37,13 @@ public class VelocityTest {
 		ctx.put("tableName", "user_info");
 		ctx.put("tableComment", "用户信息表");
 		List<FieldInfo> fieldInfos = new ArrayList<>();
-		fieldInfos.add(new FieldInfo("Integer", "id", "id", "#{id}", "", 0, "", "主键", true /* primary */, false, false, false));
-		fieldInfos.add(new FieldInfo("String", "name", "name", "#{name}", "VARCHAR", 50, "", "名称", false, false, false, false));
-		fieldInfos.add(new FieldInfo("Integer", "age", "age", "#{age}", "NUMBER", 0, "", "年龄", false, false, false, false));
-		fieldInfos.add(new FieldInfo("String", "userName", "user_name", "#{userName}", "TEXT", 50, "", "用户名称", false, true /* like */, false, false));
-		fieldInfos.add(new FieldInfo("Date", "updateTime", "update_time", "#{updateTime}", "DATETIME", 0, "", "更新时间", false, false, true /* range */, false));
-		fieldInfos.add(new FieldInfo("Integer", "userType", "user_type", "#{userType}", "ENUM", 0, "0", "用户类型", false, false, false, true /* required */));
+		fieldInfos.add(new FieldInfo("id", "Integer", false, "id", "NUMBER", 0, true /* primary */, true /* not null */, "", "主键", false, false));
+		fieldInfos.add(new FieldInfo("name", "String", false, "name", "VARCHAR", 50, false, false, "", "名称", true /* like */, false));
+		fieldInfos.add(new FieldInfo("age", "Integer", false, "age", "NUMBER", 0, false, false, "", "年龄", false, false));
+		fieldInfos.add(new FieldInfo("userName", "String", false, "user_name", "VARCHAR", 50, false, false, "", "用户名称", true /* like */, false));
+		fieldInfos.add(new FieldInfo("updateTime", "Date", false, "update_time", "DATETIME", 0, false, false, "", "更新时间", false, true /* range */));
+		fieldInfos
+				.add(new FieldInfo("userType", "Integer", true /* required */, "user_type", "ENUM", 0, false, true /* not null */, "0", "用户类型", false, false));
 		// 索引
 		ctx.put("fields", fieldInfos);
 		List<String> indexs = new ArrayList<>();
@@ -55,45 +56,40 @@ public class VelocityTest {
 	}
 
 	public static class FieldInfo {
-		public String javaType;// Integer, String, Date
-		public String property;
-		public String column;
-		public String express;
-		public String jdbcType;// 类型 枚举ENUM，数字NUMBER，浮点数字DECIMAL，短字符串VARCHAR，长字符串TEXT，时间DATETIME
-		public int length;// 长度
-		public String defaultValue;
-		public String comment;
-		public boolean primary = false;
-		public boolean like = false;
-		public boolean range = false;
-		public boolean required = false;
+		public String property;// 属性名
+		public String express;// 表达式
+		public String javaType;// 类型。Integer, String, Date
+		public boolean required = false;// 是否必须传值
 
-		public FieldInfo(String javaType, String property, String column, String express, String jdbcType, int length, String defaultValue, String comment,
-				boolean primary, boolean like, boolean range, boolean required) {
-			this.javaType = javaType;
+		public String column;// 字段名
+		public String jdbcType;// 类型。枚举ENUM，数字NUMBER，浮点数字DECIMAL，短字符串VARCHAR，长字符串TEXT，时间DATETIME
+		public int length;// 长度
+		public boolean primary = false;// 是否主键
+		public boolean notNull = false;// 非空
+		public String defaultValue; // 默认值
+		public String comment; // 备注
+		public boolean like = false; // 是否模糊查询
+		public boolean range = false;// 是否范围查询
+
+		public FieldInfo(String property, String javaType, boolean required, String column, String jdbcType, int length, boolean primary, boolean notNull,
+				String defaultValue, String comment, boolean like, boolean range) {
 			this.property = property;
+			this.express = "#{" + property + "}";
+			this.javaType = javaType;
+			this.required = required;
 			this.column = column;
-			this.express = express;
 			this.jdbcType = jdbcType;
 			this.length = length;
+			this.primary = primary;
+			this.notNull = notNull;
 			this.defaultValue = defaultValue;
 			this.comment = comment;
-			this.primary = primary;
 			this.like = like;
 			this.range = range;
-			this.required = required;
 		}
 
 		public String getUpperCase() {
 			return property.substring(0, 1).toUpperCase() + property.substring(1);
-		}
-
-		public String getJavaType() {
-			return javaType;
-		}
-
-		public void setJavaType(String javaType) {
-			this.javaType = javaType;
 		}
 
 		public String getProperty() {
@@ -104,20 +100,36 @@ public class VelocityTest {
 			this.property = property;
 		}
 
-		public String getColumn() {
-			return column;
-		}
-
-		public void setColumn(String column) {
-			this.column = column;
-		}
-
 		public String getExpress() {
 			return express;
 		}
 
 		public void setExpress(String express) {
 			this.express = express;
+		}
+
+		public String getJavaType() {
+			return javaType;
+		}
+
+		public void setJavaType(String javaType) {
+			this.javaType = javaType;
+		}
+
+		public boolean isRequired() {
+			return required;
+		}
+
+		public void setRequired(boolean required) {
+			this.required = required;
+		}
+
+		public String getColumn() {
+			return column;
+		}
+
+		public void setColumn(String column) {
+			this.column = column;
 		}
 
 		public String getJdbcType() {
@@ -136,6 +148,22 @@ public class VelocityTest {
 			this.length = length;
 		}
 
+		public boolean isPrimary() {
+			return primary;
+		}
+
+		public void setPrimary(boolean primary) {
+			this.primary = primary;
+		}
+
+		public boolean isNotNull() {
+			return notNull;
+		}
+
+		public void setNotNull(boolean notNull) {
+			this.notNull = notNull;
+		}
+
 		public String getDefaultValue() {
 			return defaultValue;
 		}
@@ -152,14 +180,6 @@ public class VelocityTest {
 			this.comment = comment;
 		}
 
-		public boolean isPrimary() {
-			return primary;
-		}
-
-		public void setPrimary(boolean primary) {
-			this.primary = primary;
-		}
-
 		public boolean isLike() {
 			return like;
 		}
@@ -174,14 +194,6 @@ public class VelocityTest {
 
 		public void setRange(boolean range) {
 			this.range = range;
-		}
-
-		public boolean isRequired() {
-			return required;
-		}
-
-		public void setRequired(boolean required) {
-			this.required = required;
 		}
 
 	}

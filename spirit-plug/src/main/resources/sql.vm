@@ -3,7 +3,7 @@ CREATE TABLE `${tableName}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
 #foreach(${field} in ${fields})
 #if(${field.column} != "id")
-#if(${field.required} == true)
+#if(${field.notNull} == true)
 #set($suffix = " NOT NULL")
 #end
 #if(${field.defaultValue} != "")
