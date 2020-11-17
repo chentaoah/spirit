@@ -22,9 +22,9 @@ public interface ${daoSimpleName} {
 
 #end
 #end
-	List<${voSimpleName}> query(${voSimpleName} entity);
+	List<${voSimpleName}> query(${voSimpleName} entity, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
 	
-	int queryCount(${voSimpleName} entity);
+	int queryCount(${voSimpleName} entity, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
 	
 	List<${voSimpleName}> queryByMap(Map<String, Object> map);
 	
