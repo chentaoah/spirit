@@ -23,9 +23,9 @@
 ##======================================================================================
 
 ##======================================================================================
-	<insert id="save" parameterType="${voClassName}">
+	<insert id="save" parameterType="${voClassName}" useGeneratedKeys="true" keyProperty="id">
 		insert into ${tableName} (<include refid="columns" />) values
-		(null,
+		(
 #foreach(${field} in ${fields})
 #if(${velocityCount} < ${fields.size()})
 		${field.express},
@@ -38,7 +38,7 @@
 ##======================================================================================
 	
 ##======================================================================================
-	<delete id="deleteById" parameterType="int" resultType="java.lang.Integer">
+	<delete id="deleteById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
 		delete from ${tableName} where id = #{id}
 	</delete>
 ##======================================================================================

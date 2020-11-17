@@ -10,11 +10,11 @@ import ${voClassName};
 @Mapper
 public interface ${daoSimpleName} {
 
-	void save(${voSimpleName} entity);
+	Integer save(${voSimpleName} entity);
 
-	int deleteById(@Param("id") Integer id);
+	Integer deleteById(@Param("id") Integer id);
 	
-	int update(${voSimpleName} entity);
+	Integer update(${voSimpleName} entity);
 	
 #foreach(${field} in ${fields})
 #if(${field.primary} == true)
@@ -24,10 +24,10 @@ public interface ${daoSimpleName} {
 #end
 	List<${voSimpleName}> query(@Param("p") ${voSimpleName} entity, @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
 	
-	int queryCount(${voSimpleName} entity);
+	Integer queryCount(${voSimpleName} entity);
 	
 	List<${voSimpleName}> queryByMap(Map<String, Object> map);
 	
-	int queryCountByMap(Map<String, Object> map);
+	Integer queryCountByMap(Map<String, Object> map);
 
 }
