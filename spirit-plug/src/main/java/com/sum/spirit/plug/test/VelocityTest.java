@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -24,8 +25,8 @@ public class VelocityTest {
 		ve.init();
 		// 获取模板文件
 //		Template t = ve.getTemplate("mapper.vm", "UTF-8");
-		Template t = ve.getTemplate("sql.vm", "UTF-8");
-//		Template t = ve.getTemplate("dao.vm", "UTF-8");
+//		Template t = ve.getTemplate("sql.vm", "UTF-8");
+		Template t = ve.getTemplate("dao.vm", "UTF-8");
 //		Template t = ve.getTemplate("markdown.vm", "UTF-8");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
@@ -56,8 +57,9 @@ public class VelocityTest {
 	}
 
 	public static class FieldInfo {
+
+		public String prefix;// 前缀
 		public String property;// 属性名
-		public String express;// 表达式
 		public String javaType;// 类型。Integer, String, Date
 		public boolean required = false;// 是否必须传值
 
@@ -74,7 +76,6 @@ public class VelocityTest {
 		public FieldInfo(String property, String javaType, boolean required, String column, String jdbcType, int length, boolean primary, boolean notNull,
 				String defaultValue, String comment, boolean like, boolean range) {
 			this.property = property;
-			this.express = "#{" + property + "}";
 			this.javaType = javaType;
 			this.required = required;
 			this.column = column;
@@ -92,20 +93,24 @@ public class VelocityTest {
 			return property.substring(0, 1).toUpperCase() + property.substring(1);
 		}
 
+		public String getExpress() {
+			return "#{" + getProperty() + "}";
+		}
+
+		public String getPrefix() {
+			return prefix;
+		}
+
+		public void setPrefix(String prefix) {
+			this.prefix = prefix;
+		}
+
 		public String getProperty() {
-			return property;
+			return StringUtils.isNotEmpty(prefix) ? prefix + "." + property : property;
 		}
 
 		public void setProperty(String property) {
 			this.property = property;
-		}
-
-		public String getExpress() {
-			return express;
-		}
-
-		public void setExpress(String express) {
-			this.express = express;
 		}
 
 		public String getJavaType() {

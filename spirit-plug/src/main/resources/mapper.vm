@@ -64,10 +64,10 @@
 	
 #end
 #end
-	<select id="query" parameterType="${voClassName}" resultMap="resultMap">
+	<select id="query" resultMap="resultMap">
 		select <include refid="columns" /> from ${tableName}
 		<where>
-#buildSelectContent($fields)
+#buildSelectContent($fields, "p")
 		</where>
 		order by id desc limit #{startIndex}, #{pageSize}
 	</select>
@@ -75,29 +75,32 @@
 	<select id="queryCount" parameterType="${voClassName}" resultType="java.lang.Integer">
 		select count(*) from ${tableName}
 		<where>
-#buildSelectContent($fields)
+#buildSelectContent($fields, "")
 		</where>
 	</select>
 	
-	<select id="queryByMap" parameterType="Map" resultMap="resultMap">
+	<select id="queryByMap" parameterType="java.util.Map" resultMap="resultMap">
 		select <include refid="columns" /> from ${tableName}
 		<where>
-#buildSelectContent($fields)
+#buildSelectContent($fields, "")
 		</where>
 		order by id desc limit #{startIndex}, #{pageSize}
 	</select>
 	
-	<select id="queryCountByMap" parameterType="Map" resultType="java.lang.Integer">
+	<select id="queryCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(*) from ${tableName}
 		<where>
-#buildSelectContent($fields)
+#buildSelectContent($fields, "")
 		</where>
 	</select>
 ##======================================================================================
 
 ##构建查询语句的宏
-#macro(buildSelectContent $fields)
+#macro(buildSelectContent $fields $obj)
 #foreach(${field} in ${fields})
+#if(${obj} != "")
+#set($field.prefix = $obj)
+#end
 #if(${velocityCount} > 1)
 #set($prefix = "and ")
 #end
@@ -115,6 +118,7 @@
 #else
 			<if test="${field.property} != null and ${field.property} != ''">$!{prefix}${field.column} = ${field.express}</if>
 #end
+#set($field.prefix = "")
 #set($prefix = "")
 #end
 #end
