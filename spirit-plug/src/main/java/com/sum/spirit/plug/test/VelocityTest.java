@@ -25,7 +25,8 @@ public class VelocityTest {
 		// 获取模板文件
 //		Template t = ve.getTemplate("mapper.vm");
 //		Template t = ve.getTemplate("sql.vm");
-		Template t = ve.getTemplate("dao.vm");
+//		Template t = ve.getTemplate("dao.vm");
+		Template t = ve.getTemplate("markdown.vm", "UTF-8");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
 		ctx.put("package", "com.sum.test");
