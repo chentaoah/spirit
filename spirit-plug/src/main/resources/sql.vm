@@ -1,0 +1,37 @@
+DROP TABLE IF EXISTS `${tableName}`;
+CREATE TABLE `${tableName}` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+#foreach(${field} in ${fields})
+#if(${field.column} != "id")
+#if(${field.required} == true)
+#set($suffix = " NOT NULL")
+#end
+#if(${field.defaultValue} != "")
+#set($suffix = $!{suffix} + " DEFAULT '" + ${field.defaultValue} + "'")
+#end
+#if(${field.comment} != "")
+#set($suffix = $!{suffix} + " COMMENT '" + ${field.comment} + "'")
+#end
+#if(${field.type} == "ENUM")
+  `${field.column}` tinyint(4)$!{suffix},
+#elseif(${field.type} == "NUMBER")
+  `${field.column}` int(11)$!{suffix},
+#elseif(${field.type} == "VARCHAR")
+  `${field.column}` varchar(${field.length})$!{suffix},
+#elseif(${field.type} == "TEXT")
+  `${field.column}` text$!{suffix},
+#elseif(${field.type} == "DATETIME")
+  `${field.column}` datetime$!{suffix},
+#end
+#end
+#set($suffix = "")
+#end
+  PRIMARY KEY (`id`),
+#foreach(${index} in ${indexs})
+#if(${velocityCount} < ${indexs.size()})
+  KEY `idx${velocityCount}` (${index}),
+#else
+  KEY `idx${velocityCount}` (${index})
+#end
+#end
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='${tableComment}';
