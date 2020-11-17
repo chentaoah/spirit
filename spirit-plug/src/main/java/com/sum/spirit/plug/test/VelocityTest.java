@@ -24,20 +24,24 @@ public class VelocityTest {
 		ve.init();
 		// 获取模板文件
 //		Template t = ve.getTemplate("mapper.vm");
-		Template t = ve.getTemplate("sql.vm");
+//		Template t = ve.getTemplate("sql.vm");
+		Template t = ve.getTemplate("dao.vm");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
-		ctx.put("daoClassName", "com.sum.testDto");
-		ctx.put("voClassName", "com.sum.testVo");
+		ctx.put("package", "com.sum.test");
+		ctx.put("daoClassName", "com.sum.TestDto");
+		ctx.put("daoSimpleName", "TestDto");
+		ctx.put("voClassName", "com.sum.TestVo");
+		ctx.put("voSimpleName", "TestVo");
 		ctx.put("tableName", "user_info");
 		ctx.put("tableComment", "用户信息表");
 		List<FieldInfo> fieldInfos = new ArrayList<>();
-		fieldInfos.add(new FieldInfo("id", "id", "#{id}", "", 0, "", "主键", true /* primary */, false, false, false));
-		fieldInfos.add(new FieldInfo("name", "name", "#{name}", "VARCHAR", 50, "", "名称", false, false, false, false));
-		fieldInfos.add(new FieldInfo("age", "age", "#{age}", "NUMBER", 0, "", "年龄", false, false, false, false));
-		fieldInfos.add(new FieldInfo("userName", "user_name", "#{userName}", "TEXT", 50, "", "用户名称", false, true /* like */, false, false));
-		fieldInfos.add(new FieldInfo("updateTime", "update_time", "#{updateTime}", "DATETIME", 0, "", "更新时间", false, false, true /* range */, false));
-		fieldInfos.add(new FieldInfo("userType", "user_type", "#{userType}", "ENUM", 0, "0", "用户类型", false, false, false, true /* required */));
+		fieldInfos.add(new FieldInfo("Integer", "id", "id", "#{id}", "", 0, "", "主键", true /* primary */, false, false, false));
+		fieldInfos.add(new FieldInfo("String", "name", "name", "#{name}", "VARCHAR", 50, "", "名称", false, false, false, false));
+		fieldInfos.add(new FieldInfo("Integer", "age", "age", "#{age}", "NUMBER", 0, "", "年龄", false, false, false, false));
+		fieldInfos.add(new FieldInfo("String", "userName", "user_name", "#{userName}", "TEXT", 50, "", "用户名称", false, true /* like */, false, false));
+		fieldInfos.add(new FieldInfo("Date", "updateTime", "update_time", "#{updateTime}", "DATETIME", 0, "", "更新时间", false, false, true /* range */, false));
+		fieldInfos.add(new FieldInfo("Integer", "userType", "user_type", "#{userType}", "ENUM", 0, "0", "用户类型", false, false, false, true /* required */));
 		// 索引
 		ctx.put("fields", fieldInfos);
 		List<String> indexs = new ArrayList<>();
@@ -50,10 +54,11 @@ public class VelocityTest {
 	}
 
 	public static class FieldInfo {
+		public String javaType;// Integer, String, Date
 		public String property;
 		public String column;
 		public String express;
-		public String type;// 类型 枚举ENUM，数字NUMBER，浮点数字DECIMAL，短字符串VARCHAR，长字符串TEXT，时间DATETIME
+		public String jdbcType;// 类型 枚举ENUM，数字NUMBER，浮点数字DECIMAL，短字符串VARCHAR，长字符串TEXT，时间DATETIME
 		public int length;// 长度
 		public String defaultValue;
 		public String comment;
@@ -62,12 +67,13 @@ public class VelocityTest {
 		public boolean range = false;
 		public boolean required = false;
 
-		public FieldInfo(String property, String column, String express, String type, int length, String defaultValue, String comment, boolean primary,
-				boolean like, boolean range, boolean required) {
+		public FieldInfo(String javaType, String property, String column, String express, String jdbcType, int length, String defaultValue, String comment,
+				boolean primary, boolean like, boolean range, boolean required) {
+			this.javaType = javaType;
 			this.property = property;
 			this.column = column;
 			this.express = express;
-			this.type = type;
+			this.jdbcType = jdbcType;
 			this.length = length;
 			this.defaultValue = defaultValue;
 			this.comment = comment;
@@ -79,6 +85,14 @@ public class VelocityTest {
 
 		public String getUpperCase() {
 			return property.substring(0, 1).toUpperCase() + property.substring(1);
+		}
+
+		public String getJavaType() {
+			return javaType;
+		}
+
+		public void setJavaType(String javaType) {
+			this.javaType = javaType;
 		}
 
 		public String getProperty() {
@@ -105,12 +119,12 @@ public class VelocityTest {
 			this.express = express;
 		}
 
-		public String getType() {
-			return type;
+		public String getJdbcType() {
+			return jdbcType;
 		}
 
-		public void setType(String type) {
-			this.type = type;
+		public void setJdbcType(String jdbcType) {
+			this.jdbcType = jdbcType;
 		}
 
 		public int getLength() {
@@ -119,6 +133,14 @@ public class VelocityTest {
 
 		public void setLength(int length) {
 			this.length = length;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
 		}
 
 		public String getComment() {
@@ -159,14 +181,6 @@ public class VelocityTest {
 
 		public void setRequired(boolean required) {
 			this.required = required;
-		}
-
-		public String getDefaultValue() {
-			return defaultValue;
-		}
-
-		public void setDefaultValue(String defaultValue) {
-			this.defaultValue = defaultValue;
 		}
 
 	}

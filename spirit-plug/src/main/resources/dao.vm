@@ -1,0 +1,33 @@
+package ${package}.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import ${voClassName};
+
+@Mapper
+public interface ${daoSimpleName} {
+
+	void save(${voSimpleName} entity);
+
+	int deleteById(@Param("id") Integer id);
+	
+	int update(${voSimpleName} entity);
+	
+#foreach(${field} in ${fields})
+#if(${field.primary} == true)
+	${voSimpleName} queryBy${field.upperCase}(@Param("${field.property}") ${field.javaType} ${field.property})
+
+#end
+#end
+	List<${voSimpleName}> query(${voSimpleName} entity);
+	
+	int queryCount(${voSimpleName} entity);
+	
+	List<${voSimpleName}> queryByMap(Map<String, Object> map);
+	
+	int queryCountByMap(Map<String, Object> map);
+
+}

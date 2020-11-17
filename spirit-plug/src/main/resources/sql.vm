@@ -12,15 +12,15 @@ CREATE TABLE `${tableName}` (
 #if(${field.comment} != "")
 #set($suffix = $!{suffix} + " COMMENT '" + ${field.comment} + "'")
 #end
-#if(${field.type} == "ENUM")
+#if(${field.jdbcType} == "ENUM")
   `${field.column}` tinyint(4)$!{suffix},
-#elseif(${field.type} == "NUMBER")
+#elseif(${field.jdbcType} == "NUMBER")
   `${field.column}` int(11)$!{suffix},
-#elseif(${field.type} == "VARCHAR")
+#elseif(${field.jdbcType} == "VARCHAR")
   `${field.column}` varchar(${field.length})$!{suffix},
-#elseif(${field.type} == "TEXT")
+#elseif(${field.jdbcType} == "TEXT")
   `${field.column}` text$!{suffix},
-#elseif(${field.type} == "DATETIME")
+#elseif(${field.jdbcType} == "DATETIME")
   `${field.column}` datetime$!{suffix},
 #end
 #end
