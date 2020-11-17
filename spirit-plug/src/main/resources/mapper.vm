@@ -110,7 +110,12 @@
 			<if test="${field.property}Lower != null and ${field.property}Lower != ''">$!{prefix}${field.column} &gt;= #{${field.property}Lower}</if>
 			<if test="${field.property}Upper != null and ${field.property}Upper != ''">$!{prefix}${field.column} &lt;= #{${field.property}Upper}</if>
 #elseif(${free} == true && ${field.jdbcType} == "ENUM")
-			<if test="${field.property} != null>$!{prefix}${field.column} in
+			<if test="${field.property} != null">$!{prefix}${field.column} in
+				<foreach collection="${field.property}" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="${field.property}Exclude != null">$!{prefix}${field.column} not in
 				<foreach collection="${field.property}" index="index" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
