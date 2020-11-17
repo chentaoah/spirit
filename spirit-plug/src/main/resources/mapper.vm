@@ -67,7 +67,7 @@
 	<select id="query" resultMap="resultMap">
 		select <include refid="columns" /> from ${tableName}
 		<where>
-#buildSelectContent($fields, "p")
+#buildSelectContent($fields, "p", false)
 		</where>
 		order by id desc limit #{startIndex}, #{pageSize}
 	</select>
@@ -75,14 +75,14 @@
 	<select id="queryCount" parameterType="${voClassName}" resultType="java.lang.Integer">
 		select count(*) from ${tableName}
 		<where>
-#buildSelectContent($fields, "")
+#buildSelectContent($fields, "" , false)
 		</where>
 	</select>
 	
 	<select id="queryByMap" parameterType="java.util.Map" resultMap="resultMap">
 		select <include refid="columns" /> from ${tableName}
 		<where>
-#buildSelectContent($fields, "")
+#buildSelectContent($fields, "", true)
 		</where>
 		order by id desc limit #{startIndex}, #{pageSize}
 	</select>
@@ -90,13 +90,13 @@
 	<select id="queryCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(*) from ${tableName}
 		<where>
-#buildSelectContent($fields, "")
+#buildSelectContent($fields, "", true)
 		</where>
 	</select>
 ##======================================================================================
 
 ##构建查询语句的宏
-#macro(buildSelectContent $fields $obj)
+#macro(buildSelectContent $fields $obj $free)
 #foreach(${field} in ${fields})
 #if(${obj} != "")
 #set($field.prefix = $obj)
@@ -106,10 +106,10 @@
 #end
 #if(${field.like} == true)
 			<if test="${field.property} != null and ${field.property} != ''">$!{prefix}${field.column} like concat('%', ${field.express}, '%')</if>
-#elseif(${field.range} == true)
+#elseif(${free} == true && ${field.range} == true)
 			<if test="${field.property}Lower != null and ${field.property}Lower != ''">$!{prefix}${field.column} &gt;= #{${field.property}Lower}</if>
 			<if test="${field.property}Upper != null and ${field.property}Upper != ''">$!{prefix}${field.column} &lt;= #{${field.property}Upper}</if>
-#elseif(${field.jdbcType} == "ENUM")
+#elseif(${free} == true && ${field.jdbcType} == "ENUM")
 			<if test="${field.property} != null>$!{prefix}${field.column} in
 				<foreach collection="${field.property}" index="index" item="item" open="(" separator="," close=")">
 					#{item}
