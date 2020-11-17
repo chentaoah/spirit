@@ -116,7 +116,7 @@
 				</foreach>
 			</if>
 			<if test="${field.property}Exclude != null">$!{prefix}${field.column} not in
-				<foreach collection="${field.property}" index="index" item="item" open="(" separator="," close=")">
+				<foreach collection="${field.property}Exclude" index="index" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
 			</if>
