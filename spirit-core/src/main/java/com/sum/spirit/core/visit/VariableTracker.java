@@ -15,7 +15,6 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
-import com.sum.spirit.pojo.exception.NoSuchFieldException;
 import com.sum.spirit.utils.Assert;
 
 @Component
