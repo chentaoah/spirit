@@ -26,11 +26,14 @@
 	<insert id="save" parameterType="${voClassName}" useGeneratedKeys="true" keyProperty="id">
 		insert into ${tableName} (<include refid="columns" />) values
 		(
+		null,
 #foreach(${field} in ${fields})
+#if(${field.property} != "id")
 #if(${velocityCount} < ${fields.size()})
 		${field.express},
 #else
 		${field.express}
+#end
 #end
 #end
 		)
