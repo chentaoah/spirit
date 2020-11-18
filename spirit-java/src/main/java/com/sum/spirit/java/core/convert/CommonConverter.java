@@ -10,7 +10,7 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
-import com.sum.spirit.utils.Collection;
+import com.sum.spirit.utils.MapBuilder;
 
 @Component
 @Order(-100)
@@ -48,9 +48,9 @@ public class CommonConverter implements ElementConverter {
 					if (subToken.isSeparator() && ":".equals(subToken.toString()))
 						subToken.value = ",";
 				}
-				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Collection.newHashMap("));
+				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "MapBuilder.of("));
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
-				clazz.addImport(Collection.class.getName());
+				clazz.addImport(MapBuilder.class.getName());
 			}
 		}
 	}

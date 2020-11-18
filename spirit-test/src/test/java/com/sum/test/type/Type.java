@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import java.util.List;
-import com.sum.spirit.utils.Collection;
+import com.sum.spirit.utils.MapBuilder;
 import java.util.Map;
 
 @Deprecated
@@ -26,11 +26,11 @@ public class Type {
 	public double d = 100.0;
 	public String s = "string";
 	public List<Object> emptyList = Lists.newArrayList();
-	public Map<Object, Object> emptyMap = Collection.newHashMap();
+	public Map<Object, Object> emptyMap = MapBuilder.of();
 	public List<String> list = Lists.newArrayList("first", "second", "third");
 	public List<Object> list1 = Lists.newArrayList("string", 100);
-	public Map<String, Integer> map = Collection.newHashMap("key1", 123, "key2", 456);
-	public Map<String, Object> map1 = Collection.newHashMap("key1", "string", "key2", 100);
+	public Map<String, Integer> map = MapBuilder.of("key1", 123, "key2", 456);
+	public Map<String, Object> map1 = MapBuilder.of("key1", "string", "key2", 100);
 	public boolean[] bArray = new boolean[10];
 	public char[] cArray = new char[10];
 	public short[] sArray = new short[10];
