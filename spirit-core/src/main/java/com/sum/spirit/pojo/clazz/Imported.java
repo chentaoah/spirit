@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
-import com.sum.spirit.utils.StringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 public abstract class Imported extends Annotated {

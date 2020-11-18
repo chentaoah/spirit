@@ -1,6 +1,6 @@
 package com.sum.test.block;
 
-import com.sum.spirit.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.spirit.utils.Collection;

@@ -3,12 +3,13 @@ package com.sum.spirit.pojo.element;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 import com.sum.spirit.utils.LineUtils;
-import com.sum.spirit.utils.StringUtils;
 
 public class AbsSyntaxTree {
 

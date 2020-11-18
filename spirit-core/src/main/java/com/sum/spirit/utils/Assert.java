@@ -1,5 +1,7 @@
 package com.sum.spirit.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Assert {
 
 	public static void isTrue(boolean bool, String message) {

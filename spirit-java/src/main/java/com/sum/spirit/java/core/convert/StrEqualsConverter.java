@@ -1,5 +1,6 @@
 package com.sum.spirit.java.core.convert;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,6 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.StringUtils;
 
 @Component
 @Order(-80)
