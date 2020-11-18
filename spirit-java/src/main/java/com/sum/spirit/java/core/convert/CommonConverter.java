@@ -42,7 +42,7 @@ public class CommonConverter implements ElementConverter {
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Lists.class.getName());
 
-			} else if (token.isMap()) {// {"key":"value"} => Collection.newHashMap("key","value");
+			} else if (token.isMap()) {// {"key":"value"} => MapBuilder.of("key","value");
 				Statement subStatement = token.getValue();
 				for (Token subToken : subStatement.tokens) {
 					if (subToken.isSeparator() && ":".equals(subToken.toString()))
