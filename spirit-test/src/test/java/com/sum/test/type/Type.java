@@ -16,8 +16,8 @@ import java.util.Map;
 public class Type {
 
 	public static final Logger logger = LoggerFactory.getLogger(Type.class);
-	public static final double _NUMBER_ = 100.0;
-	public static final String _NAME_ = "chentao";
+	public static final double NUMBER = 100.0;
+	public static final String NAME = "chentao";
 	@Deprecated
 	public boolean b = true;
 	public boolean b1 = false;

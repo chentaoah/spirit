@@ -3,8 +3,10 @@ package com.sum.spirit.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.lexer.SemanticParser;
 import com.sum.spirit.pojo.clazz.Annotated;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IMethod;
@@ -14,6 +16,9 @@ import com.sum.spirit.pojo.element.Element;
 public class AutoImporter {
 
 	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");// 间接排除了泛型类型T
+
+	@Autowired
+	public SemanticParser parser;
 
 	public void visitClass(IClass clazz) {
 		visitAnnotated(clazz, clazz);
@@ -32,8 +37,10 @@ public class AutoImporter {
 		Matcher matcher = TYPE_PATTERN.matcher(line);
 		while (matcher.find() && matcher.groupCount() > 0) {
 			String targetName = matcher.group(matcher.groupCount() - 1);
-			String className = clazz.getClassName(targetName);
-			clazz.addImport(className);
+			if (parser.isType(targetName)) {
+				String className = clazz.getClassName(targetName);
+				clazz.addImport(className);
+			}
 		}
 		// 递归
 		if (visitChildren)
