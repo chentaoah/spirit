@@ -4,8 +4,8 @@ import com.sum.spirit.test.example.ClassGenericTest
 import com.sum.spirit.test.example.MyTest
 import com.sum.spirit.test.example.GenericType
 
-const _NUMBER_ = 100.0
-const _NAME_ = "chentao"
+const NUMBER = 100.0
+const NAME = "chentao"
 
 @Deprecated
 class Type {
