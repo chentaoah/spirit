@@ -46,7 +46,7 @@ contexts:
       scope: keyword
 
     # Constant 
-    - match: '\b_[A-Z_]*_\b'
+    - match: '\b[A-Z_]{2,}\b'
       scope: string
 
     # Number
