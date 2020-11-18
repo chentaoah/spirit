@@ -99,20 +99,20 @@
 ##======================================================================================
 
 ##构建查询语句的宏
-#macro(buildSelectContent $fields $obj $free)
+#macro(buildSelectContent $fields $p $range)
 #foreach(${field} in ${fields})
-#if(${obj} != "")
-#set($field.prefix = $obj)
+#if(${p} != "")
+#set($field.prefix = $p)
 #end
 #if(${velocityCount} > 1)
 #set($prefix = "and ")
 #end
 #if(${field.like} == true)
 			<if test="${field.property} != null and ${field.property} != ''">$!{prefix}${field.column} like concat('%', ${field.express}, '%')</if>
-#elseif(${free} == true && ${field.range} == true)
+#elseif(${range} == true && ${field.range} == true)
 			<if test="${field.property}Lower != null and ${field.property}Lower != ''">$!{prefix}${field.column} &gt;= #{${field.property}Lower}</if>
 			<if test="${field.property}Upper != null and ${field.property}Upper != ''">$!{prefix}${field.column} &lt;= #{${field.property}Upper}</if>
-#elseif(${free} == true && ${field.jdbcType} == "ENUM")
+#elseif(${range} == true && ${field.jdbcType} == "ENUM")
 			<if test="${field.property} != null">$!{prefix}${field.column} in
 				<foreach collection="${field.property}" index="index" item="item" open="(" separator="," close=")">
 					#{item}
