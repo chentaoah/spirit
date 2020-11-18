@@ -1,8 +1,9 @@
-package com.sum.spirit.core.type;
+package com.sum.spirit.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 
 public class TypeBuilder {

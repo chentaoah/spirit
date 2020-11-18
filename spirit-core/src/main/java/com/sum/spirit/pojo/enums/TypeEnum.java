@@ -9,9 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.core.lexer.AbsSemanticParser;
 import com.sum.spirit.core.type.IType;
-import com.sum.spirit.core.type.TypeBuilder;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
+import com.sum.spirit.utils.TypeBuilder;
 
 public enum TypeEnum {
 
