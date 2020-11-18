@@ -8,8 +8,9 @@ import com.sum.test.process.Main;
 import com.sum.test.clazz.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.utils.Collection;
+import com.google.common.collect.Lists;
 import java.util.List;
+import com.sum.spirit.utils.Collection;
 import java.util.Map;
 
 @Deprecated
@@ -24,10 +25,10 @@ public class Type {
 	public int i = 100;
 	public double d = 100.0;
 	public String s = "string";
-	public List<Object> emptyList = Collection.newArrayList();
+	public List<Object> emptyList = Lists.newArrayList();
 	public Map<Object, Object> emptyMap = Collection.newHashMap();
-	public List<String> list = Collection.newArrayList("first", "second", "third");
-	public List<Object> list1 = Collection.newArrayList("string", 100);
+	public List<String> list = Lists.newArrayList("first", "second", "third");
+	public List<Object> list1 = Lists.newArrayList("string", 100);
 	public Map<String, Integer> map = Collection.newHashMap("key1", 123, "key2", 456);
 	public Map<String, Object> map1 = Collection.newHashMap("key1", "string", "key2", 100);
 	public boolean[] bArray = new boolean[10];
@@ -92,7 +93,7 @@ public class Type {
 		GenericType<String, String> generic = new GenericType<String, String>();
 		Integer gKey = generic.get("test");
 		logger.info(gKey + "");
-		List<Integer> intsss = Collection.newArrayList(1, 123, 8987879);
+		List<Integer> intsss = Lists.newArrayList(1, 123, 8987879);
 		Integer integer = intsss.get(0);
 		int numberxxx = integer.intValue();
 		logger.info("" + numberxxx);

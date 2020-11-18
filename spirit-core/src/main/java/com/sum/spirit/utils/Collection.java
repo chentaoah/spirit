@@ -1,19 +1,9 @@
 package com.sum.spirit.utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Collection {
-
-	@SuppressWarnings("unchecked")
-	public static <T> T newArrayList(Object... objs) {
-		List<Object> list = new ArrayList<>();
-		for (int i = 0; i < objs.length; i++)
-			list.add(objs[i]);
-		return (T) list;
-	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> T newHashMap(Object... objs) {

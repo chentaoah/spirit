@@ -3,6 +3,7 @@ package com.sum.spirit.java.core.convert;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Element;
@@ -35,11 +36,11 @@ public class CommonConverter implements ElementConverter {
 				Statement subStatement = token.getValue();
 				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-			} else if (token.isList()) {// ["value"] => Collection.newArrayList("value");
+			} else if (token.isList()) {// ["value"] => Lists.newArrayList("value");
 				Statement subStatement = token.getValue();
-				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Collection.newArrayList("));
+				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
-				clazz.addImport(Collection.class.getName());
+				clazz.addImport(Lists.class.getName());
 
 			} else if (token.isMap()) {// {"key":"value"} => Collection.newHashMap("key","value");
 				Statement subStatement = token.getValue();

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.sum.spirit.utils.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import com.google.common.collect.Lists;
 import java.util.List;
 
 public class Block {
@@ -48,7 +49,7 @@ public class Block {
 		for (Entry<String, Integer> entry : map.entrySet()) {
 			logger.info("test entry!", entry.getKey());
 		}
-		List<String> list = Collection.newArrayList("first", "second", "third");
+		List<String> list = Lists.newArrayList("first", "second", "third");
 		for (String str : list) {
 			logger.info(str);
 			break;

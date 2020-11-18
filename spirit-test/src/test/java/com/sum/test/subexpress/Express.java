@@ -3,7 +3,7 @@ package com.sum.test.subexpress;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.utils.Collection;
+import com.google.common.collect.Lists;
 import java.util.List;
 
 public class Express {
@@ -30,7 +30,7 @@ public class Express {
 	public String testTree() {
 		boolean b = (x + 1 > 0 && y < 100) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("test tree", b);
-		List<String> list = Collection.newArrayList("one", "two", "three");
+		List<String> list = Lists.newArrayList("one", "two", "three");
 		boolean b1 = ((Object) list.get(1)).toString().length() + 100 > 0;
 		logger.info("tree", b1);
 		String s1 = ((Object) list.get(1)).toString();
