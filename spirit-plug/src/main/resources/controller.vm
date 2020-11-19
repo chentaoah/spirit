@@ -64,7 +64,7 @@ public class ${controllerSimpleName} {
 	}
 
 	@RequestMapping("query")
-	public Result queryOperationAudit(@RequestBody Map<String, Object> map) {
+	public Result query(@RequestBody Map<String, Object> map) {
 		try {
 			List<${voSimpleName}> vos = dao.queryByMap(map);
 			Integer count = dao.queryCountByMap(map);
