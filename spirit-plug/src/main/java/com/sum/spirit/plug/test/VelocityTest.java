@@ -28,13 +28,21 @@ public class VelocityTest {
 //		Template t = ve.getTemplate("sql.vm", "UTF-8");
 //		Template t = ve.getTemplate("dao.vm", "UTF-8");
 //		Template t = ve.getTemplate("markdown.vm", "UTF-8");
+//		Template t = ve.getTemplate("controller.vm", "UTF-8");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
+
 		ctx.put("package", "com.sum.test");
+
+		ctx.put("path", "test");
+		ctx.put("controllerClassName", "com.sum.TestController");
+		ctx.put("controllerSimpleName", "TestController");
+
 		ctx.put("daoClassName", "com.sum.TestDto");
 		ctx.put("daoSimpleName", "TestDto");
 		ctx.put("voClassName", "com.sum.TestVo");
 		ctx.put("voSimpleName", "TestVo");
+
 		ctx.put("tableName", "user_info");
 		ctx.put("tableComment", "用户信息表");
 		List<FieldInfo> fieldInfos = new ArrayList<>();

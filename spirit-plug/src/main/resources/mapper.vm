@@ -51,7 +51,9 @@
 		update ${tableName}
 		<set>
 #foreach(${field} in ${fields})
+#if(${field.property} != "id")
 			<if test="${field.property} != null">${field.column} = ${field.express},</if>
+#end
 #end
 		</set>
 		where id = #{id}

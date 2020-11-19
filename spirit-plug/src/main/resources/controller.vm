@@ -1,0 +1,81 @@
+package ${package}.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import ${daoClassName};
+
+@RestController
+@RequestMapping("${path}")
+public class ${controllerSimpleName} {
+
+	private static final Logger logger = LoggerFactory.getLogger(${controllerSimpleName}.class);
+
+	@Autowired
+	private ${daoSimpleName} dao;
+
+	@RequestMapping("add")
+	public Result add(@RequestBody ${voSimpleName} vo) {
+		try {
+			dao.save(vo);
+			logger.info("The request was executed successfully!path:{}", "add");
+			return new Result("200", "success");
+			
+		} catch (Exception e) {
+			logger.error("Request execution failed!path:{}", "add", e);
+			return new Result("500", "failed", e.getMessage());
+		}
+	}
+	
+	@RequestMapping("delete")
+	public Result delete(@RequestParam("id") String id) {
+		try {
+			dao.deleteById(id);
+			logger.info("The request was executed successfully!path:{}", "delete");
+			return new Result("200", "success");
+			
+		} catch (Exception e) {
+			logger.error("Request execution failed!path:{}", "delete", e);
+			return new Result("500", "failed", e.getMessage());
+		}
+	}
+	
+	@RequestMapping("update")
+	public Result update(@RequestBody List<${voSimpleName}> vos) {
+		try {
+			for (${voSimpleName} vo : vos) {
+				dao.update(vo);
+			}
+			logger.info("The request was executed successfully!path:{}", "update");
+			return new Result("200", "success");
+
+		} catch (Exception e) {
+			logger.error("Request execution failed!path:{}", "update", e);
+			return new Result("500", "failed", e.getMessage());
+		}
+	}
+
+	@RequestMapping("query")
+	public Result queryOperationAudit(@RequestBody Map<String, Object> map) {
+		try {
+			List<${voSimpleName}> vos = dao.queryByMap(map);
+			Integer count = dao.queryCountByMap(map);
+			PageInfo<${voSimpleName}> pageInfo = new PageInfo<>(vos, count, map);
+			logger.info("The request was executed successfully!path:{}", "query");
+			return new Result("200", "success", pageInfo);
+
+		} catch (Exception e) {
+			logger.error("Request execution failed!path:{}", "query", e);
+			return new Result("500", "failed", e.getMessage());
+		}
+	}
+
+}
