@@ -24,11 +24,12 @@ public class VelocityTest {
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
 		// 获取模板文件
-//		Template t = ve.getTemplate("mapper.vm", "UTF-8");
+		Template t = ve.getTemplate("mapper.vm", "UTF-8");
 //		Template t = ve.getTemplate("sql.vm", "UTF-8");
 //		Template t = ve.getTemplate("dao.vm", "UTF-8");
 //		Template t = ve.getTemplate("markdown.vm", "UTF-8");
-		Template t = ve.getTemplate("controller.vm", "UTF-8");
+//		Template t = ve.getTemplate("controller.vm", "UTF-8");
+//		Template t = ve.getTemplate("json.vm", "UTF-8");
 		// 设置变量
 		VelocityContext ctx = new VelocityContext();
 
