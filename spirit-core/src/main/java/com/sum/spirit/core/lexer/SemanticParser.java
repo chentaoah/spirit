@@ -15,7 +15,7 @@ import com.sum.spirit.utils.Assert;
 public class SemanticParser extends AbsSemanticParser {
 
 	@Autowired
-	public Lexer lexer;
+	public Lexerx lexer;
 
 	public Token getToken(String word, boolean insideType) {
 		Token token = new Token();

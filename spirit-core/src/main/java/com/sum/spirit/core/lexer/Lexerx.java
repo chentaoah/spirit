@@ -1,4 +1,4 @@
-package com.sum.spirit.core.lexerx;
+package com.sum.spirit.core.lexer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,17 +9,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.lexer.AbsSemanticParser;
+import com.sum.spirit.api.LexerAction;
+import com.sum.spirit.core.lexer.action.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
+import com.sum.spirit.utils.SpringUtils;
 
 @Component
-public class Lexerx {
+public class Lexerx implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
-	public List<LexerAction> actions = new ArrayList<>();
+	public List<LexerAction> actions;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		actions = SpringUtils.getBeansAndSort(LexerAction.class);
+	}
 
 	public List<String> getWords(String text, Character... ignoreOnceChars) {
 
@@ -82,13 +90,14 @@ public class Lexerx {
 	}
 
 	public boolean isContinueChar(char c) {
-		return true;
+		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
 	}
 
 	public void pushStackIfNecessary(LexerEvent event) {
 		for (LexerAction action : actions) {
-			if (action.isTrigger(event.c)) {
+			if (action.isTrigger(event)) {
 				action.pushStack(event);
+				return;
 			}
 		}
 	}

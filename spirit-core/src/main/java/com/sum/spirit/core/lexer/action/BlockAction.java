@@ -1,14 +1,53 @@
-package com.sum.spirit.core.lexerx;
+package com.sum.spirit.core.lexer.action;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SeparatorAction extends AbsLexerAction {
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import com.sum.spirit.utils.LineUtils;
+
+@Component
+@Order(-100)
+public class BlockAction extends AbsLexerAction {
 
 	@Override
-	public boolean isTrigger(char c) {
-		return c == '"' || c == '\'' || c == '{' || c == '(' || c == '[' || c == '<';
+	public boolean isTrigger(LexerEvent event) {
+
+		StringBuilder builder = event.builder;
+		AtomicInteger index = event.index;
+		char c = event.c;
+		AtomicInteger start = event.start;
+		AtomicInteger end = event.end;
+		List<Character> ignoreChars = event.ignoreChars;
+
+		// 是否忽略该字符
+		if (ignoreChars.contains(c) && index.get() > end.get()) {
+			start.set(-1);
+			end.set(findEnd(builder, index.get(), c, LineUtils.flipChar(c)));
+			ignoreChars.remove(new Character(c));
+			return false;
+		}
+
+		if (index.get() == builder.length() - 1) {
+			return false;
+		}
+
+		if (c == '"' || c == '\'' || c == '{' || c == '(' || c == '[') {
+			return true;
+
+		} else if (c == '<') {
+			if (start.get() >= 0) {
+				char d = event.builder.charAt(start.get());
+				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -50,20 +89,17 @@ public class SeparatorAction extends AbsLexerAction {
 			}
 
 		} else if (c == '<') {
-			if (start.get() >= 0) {
-				char d = builder.charAt(start.get());
-				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
-					if (ignoreChars.contains('(') && index.get() > end.get()) {
-						pushStack(builder, start.get(), '<', '>', "@generic" + count.getAndIncrement(), replacedStrs);
-						index.set(start.get());
+			if (ignoreChars.contains('(') && index.get() > end.get()) {
+				pushStack(builder, start.get(), '<', '>', "@generic" + count.getAndIncrement(), replacedStrs);
+				index.set(start.get());
 
-					} else {
-						pushStack(builder, start.get(), '<', '>', '(', ')', "@generic" + count.getAndIncrement(), replacedStrs);
-						index.set(start.get());
-					}
-				}
+			} else {
+				pushStack(builder, start.get(), '<', '>', '(', ')', "@generic" + count.getAndIncrement(), replacedStrs);
+				index.set(start.get());
 			}
 		}
+		// 重置
+		event.c = builder.charAt(index.get());
 	}
 
 }

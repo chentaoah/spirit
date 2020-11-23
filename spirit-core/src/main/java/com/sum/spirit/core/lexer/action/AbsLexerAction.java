@@ -1,15 +1,11 @@
-package com.sum.spirit.core.lexerx;
+package com.sum.spirit.core.lexer.action;
 
 import java.util.Map;
 
+import com.sum.spirit.api.LexerAction;
 import com.sum.spirit.utils.LineUtils;
 
 public abstract class AbsLexerAction implements LexerAction {
-
-	@Override
-	public boolean isTrigger(char c) {
-		return false;
-	}
 
 	public void pushStack(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, start, left, right);
@@ -39,7 +35,7 @@ public abstract class AbsLexerAction implements LexerAction {
 		replaceStr(builder, start, finalEnd, markName, replacedStrs);
 	}
 
-	public int findEnd(StringBuilder builder, int start, char left, char right) {
+	public static int findEnd(StringBuilder builder, int start, char left, char right) {
 		boolean flag = false;
 		for (int index = start, count = 0; index < builder.length(); index++) {
 			char c = builder.charAt(index);
