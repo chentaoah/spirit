@@ -78,7 +78,7 @@ public class Lexer implements InitializingBean {
 
 			// 这里使用统一的逻辑处理
 			LexerEvent event = new LexerEvent(builder, index, c, count, start, end, replacedStrs, ignoreChars);
-			pushStackIfNecessary(event);
+			pushStackIfTrigger(event);
 
 			if (!isContinuous(c)) {
 				start.set(-1);
@@ -96,7 +96,7 @@ public class Lexer implements InitializingBean {
 		return c == '.';
 	}
 
-	public void pushStackIfNecessary(LexerEvent event) {
+	public void pushStackIfTrigger(LexerEvent event) {
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
 				action.pushStack(event);
