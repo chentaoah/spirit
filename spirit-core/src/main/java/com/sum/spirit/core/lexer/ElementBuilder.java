@@ -20,7 +20,7 @@ public class ElementBuilder {
 	@Autowired
 	public LineChecker checker;
 	@Autowired
-	public Lexerx lexer;
+	public Lexer lexer;
 	@Autowired
 	public SemanticParser parser;
 	@Autowired
@@ -36,9 +36,6 @@ public class ElementBuilder {
 
 	public Element build(Line line) {
 		try {
-			if (line.text.trim().equals("inner=Inner()")) {
-				System.out.println("===========");
-			}
 			// 语法校验
 			checker.check(line);
 			// 1.词法分析

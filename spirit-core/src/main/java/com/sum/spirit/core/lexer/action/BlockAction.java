@@ -98,8 +98,7 @@ public class BlockAction extends AbsLexerAction {
 				index.set(start.get());
 			}
 		}
-		// 重置
-		event.c = builder.charAt(index.get());
+
 	}
 
 }

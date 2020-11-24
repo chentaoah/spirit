@@ -18,7 +18,7 @@ import com.sum.spirit.utils.LineUtils;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component
-public class Lexerx implements InitializingBean {
+public class Lexer implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
@@ -64,7 +64,6 @@ public class Lexerx implements InitializingBean {
 	private Map<String, String> triggerActions(StringBuilder builder, List<Character> ignoreChars) {
 
 		Map<String, String> replacedStrs = new HashMap<>();
-
 		AtomicInteger index = new AtomicInteger(0);
 		AtomicInteger count = new AtomicInteger(0);
 		AtomicInteger start = new AtomicInteger(-1);
