@@ -2,6 +2,8 @@ package com.sum.spirit.plug.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,26 +28,30 @@ public class FlowTest {
 				"	D --> END[\"return\"]\r\n" + //
 				"	G --> END[\"return\"]\r\n" + //
 				"	F -->|a == 4| END[\"return\"]";//
-
 //		System.out.println(text);
+
 		List<String> lines = Arrays.asList(text.split("\r\n"));
 		FlowLexer lexer = new FlowLexer();
 		Map<String, Component> components = new HashMap<>();
 		List<Element> elements = new ArrayList<>();
+
 		for (String line : lines) {
 			List<String> words = lexer.getWords(line);
 			Element element = new Element(words);
 			elements.add(element);
 		}
+
 		for (Element element : elements) {// 统计所有节点，并且去重
 			addOrRecover(components, element.leftComponent);
 			addOrRecover(components, element.rightComponent);
 		}
+
 		for (Element element : elements) {// 分析依赖关系
 			Component component = components.get(element.leftComponent.name);
 			Condition condition = element.condition == null ? new Condition("|" + ACCEPT_ALL + "|") : element.condition;
 			component.connections.put(condition, components.get(element.rightComponent.name));
 		}
+
 		StringBuilder builder = new StringBuilder();
 		buildCode(builder, components.get("START"), "\t");
 		System.out.println(builder);
@@ -62,7 +68,14 @@ public class FlowTest {
 	}
 
 	public static void buildCode(StringBuilder builder, Component component, String indent) {
-		for (Entry<Condition, Component> entry : component.connections.entrySet()) {
+		List<Entry<Condition, Component>> list = new ArrayList<>(component.connections.entrySet());
+		Collections.sort(list, new Comparator<Entry<Condition, Component>>() {
+			@Override
+			public int compare(Entry<Condition, Component> o1, Entry<Condition, Component> o2) {
+				return o1.getKey().getNumber() - o2.getKey().getNumber();
+			}
+		});
+		for (Entry<Condition, Component> entry : list) {
 			if (ACCEPT_ALL.equals(entry.getKey().expression)) {
 				builder.append(indent).append(entry.getValue().expression).append(";\n");
 				buildCode(builder, entry.getValue(), indent);
@@ -95,7 +108,7 @@ public class FlowTest {
 
 		@Override
 		public String toString() {
-			return leftComponent + " -->|" + condition + "| " + rightComponent;
+			return leftComponent + " -->" + condition + " " + rightComponent;
 		}
 
 	}
@@ -129,9 +142,13 @@ public class FlowTest {
 			this.expression = word.substring(1, word.length() - 1);
 		}
 
+		public int getNumber() {
+			return ACCEPT_ALL.equals(expression) ? 1 : -1;
+		}
+
 		@Override
 		public String toString() {
-			return expression;
+			return "|" + expression + "|";
 		}
 
 	}
