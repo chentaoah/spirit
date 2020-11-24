@@ -10,15 +10,18 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.LexerAction;
+import com.sum.spirit.core.lexer.action.AbsLexerAction;
 import com.sum.spirit.core.lexer.action.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component
-public class Lexer implements InitializingBean {
+@DependsOn("springUtils")
+public class Lexer extends AbsLexerAction implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
@@ -26,7 +29,7 @@ public class Lexer implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(LexerAction.class);
+		actions = SpringUtils.getBeansAndSort(LexerAction.class, Lexer.class);// 排除自己
 	}
 
 	public List<String> getWords(String text, Character... ignoreOnceChars) {
@@ -78,7 +81,9 @@ public class Lexer implements InitializingBean {
 
 			// 这里使用统一的逻辑处理
 			LexerEvent event = new LexerEvent(builder, index, c, count, start, end, replacedStrs, ignoreChars);
-			pushStackIfTrigger(event);
+			if (isTrigger(event)) {
+				pushStack(event);
+			}
 
 			if (!isContinuous(c)) {
 				start.set(-1);
@@ -96,7 +101,13 @@ public class Lexer implements InitializingBean {
 		return c == '.';
 	}
 
-	public void pushStackIfTrigger(LexerEvent event) {
+	@Override
+	public boolean isTrigger(LexerEvent event) {
+		return true;
+	}
+
+	@Override
+	public void pushStack(LexerEvent event) {
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
 				action.pushStack(event);

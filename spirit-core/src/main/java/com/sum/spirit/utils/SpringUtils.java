@@ -3,6 +3,7 @@ package com.sum.spirit.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -35,6 +36,14 @@ public class SpringUtils implements ApplicationContextAware {
 	public static <T> List<T> getBeansAndSort(Class<T> type) {
 		Map<String, T> beanMap = context.getBeansOfType(type);
 		List<T> beans = new ArrayList<>(beanMap.values());
+		beans.sort(new AnnotationAwareOrderComparator());
+		return beans;
+	}
+
+	public static <T> List<T> getBeansAndSort(Class<T> type, Class<?> excludedType) {
+		Map<String, T> beanMap = context.getBeansOfType(type);
+		List<T> beans = new ArrayList<>(beanMap.values());
+		beans = beans.stream().filter((t) -> t.getClass() != excludedType).collect(Collectors.toList());
 		beans.sort(new AnnotationAwareOrderComparator());
 		return beans;
 	}
