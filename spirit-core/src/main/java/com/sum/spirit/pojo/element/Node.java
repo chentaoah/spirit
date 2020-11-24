@@ -20,7 +20,7 @@ public class Node {
 	}
 
 	public boolean canSplit() {
-		return token != null && token.value != null && token.value instanceof AbsSyntaxTree;
+		return token != null && token.value != null && token.value instanceof SyntaxTree;
 	}
 
 	@Override

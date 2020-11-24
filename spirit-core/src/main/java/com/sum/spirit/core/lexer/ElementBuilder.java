@@ -10,7 +10,7 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;
 import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.AbsSyntaxTree;
+import com.sum.spirit.pojo.element.SyntaxTree;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
@@ -49,7 +49,7 @@ public class ElementBuilder {
 			// 5.语法枚举
 			SyntaxEnum syntax = recognizer.getSyntax(tokens);
 			// 6.构建语法树
-			AbsSyntaxTree syntaxTree = null;
+			SyntaxTree syntaxTree = null;
 			if (syntax == null) {
 				syntaxTree = builder.buildTree(statement);
 				syntax = syntaxTree.getSyntax();

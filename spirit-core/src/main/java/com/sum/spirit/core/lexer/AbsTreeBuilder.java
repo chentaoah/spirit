@@ -2,7 +2,7 @@ package com.sum.spirit.core.lexer;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.element.AbsSyntaxTree;
+import com.sum.spirit.pojo.element.SyntaxTree;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -10,7 +10,7 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public abstract class AbsTreeBuilder {
 
-	public AbsSyntaxTree buildTree(Statement statement) {
+	public SyntaxTree buildTree(Statement statement) {
 		// 用语句构建节点树
 		List<Node> nodes = buildNodes(statement.tokens);
 		// 标记树节点id
@@ -18,7 +18,7 @@ public abstract class AbsTreeBuilder {
 		// 标记所有的位置
 		markPositionAndLength(0, statement);
 		// 返回抽象语法树
-		return new AbsSyntaxTree(nodes);
+		return new SyntaxTree(nodes);
 	}
 
 	public void markTreeId(List<Node> nodes) {
@@ -38,7 +38,7 @@ public abstract class AbsTreeBuilder {
 			markTreeId(treeId + "-" + "1", node.next);
 
 		if (node.canSplit()) {
-			AbsSyntaxTree syntaxTree = node.token.getValue();
+			SyntaxTree syntaxTree = node.token.getValue();
 			markTreeId(syntaxTree.nodes);
 		}
 	}

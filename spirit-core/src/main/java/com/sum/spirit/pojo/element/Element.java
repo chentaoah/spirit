@@ -14,11 +14,11 @@ public class Element extends Syntactic {
 
 	public Statement statement;
 
-	public AbsSyntaxTree syntaxTree;
+	public SyntaxTree syntaxTree;
 
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Modifiers modifiers, Statement statement, AbsSyntaxTree syntaxTree, SyntaxEnum syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
 		super(syntax, statement.tokens);
 		this.line = line;
 		this.modifiers = modifiers;

@@ -11,13 +11,13 @@ import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 import com.sum.spirit.utils.LineUtils;
 
-public class AbsSyntaxTree {
+public class SyntaxTree {
 
 	public static final int START_INDEX = 0;
 
 	public List<Node> nodes;
 
-	public AbsSyntaxTree(List<Node> nodes) {
+	public SyntaxTree(List<Node> nodes) {
 		this.nodes = nodes;
 	}
 
@@ -184,7 +184,7 @@ public class AbsSyntaxTree {
 
 		// 如果该节点是语法树
 		if (node.canSplit()) {
-			AbsSyntaxTree syntaxTree = token.getValue();
+			SyntaxTree syntaxTree = token.getValue();
 			buildTree(lines, depth, syntaxTree.nodes);
 
 		} else {

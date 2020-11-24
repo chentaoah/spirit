@@ -7,7 +7,7 @@ import java.util.ListIterator;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.element.AbsSyntaxTree;
+import com.sum.spirit.pojo.element.SyntaxTree;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
@@ -24,7 +24,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 			Token token = tokens.get(index);
 			if (token.canSplit()) {
 				// 1.设置语法树
-				AbsSyntaxTree syntaxTree = buildTree(token.getValue());
+				SyntaxTree syntaxTree = buildTree(token.getValue());
 				// 拷贝一个新的token
 				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);
 				nodes.add(new Node(index, newToken));
