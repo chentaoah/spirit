@@ -72,7 +72,7 @@ public class Lexer implements InitializingBean {
 		for (; index.get() < builder.length(); index.incrementAndGet()) {
 			char c = builder.charAt(index.get());
 
-			if ((start.get() < 0 && isContinueChar(c)) || c == '.') {
+			if ((start.get() < 0 && isContinuous(c)) || isRefreshed(c)) {
 				start.set(index.get());
 			}
 
@@ -80,7 +80,7 @@ public class Lexer implements InitializingBean {
 			LexerEvent event = new LexerEvent(builder, index, c, count, start, end, replacedStrs, ignoreChars);
 			pushStackIfNecessary(event);
 
-			if (!isContinueChar(c)) {
+			if (!isContinuous(c)) {
 				start.set(-1);
 			}
 		}
@@ -88,8 +88,12 @@ public class Lexer implements InitializingBean {
 		return replacedStrs;
 	}
 
-	public boolean isContinueChar(char c) {
+	public boolean isContinuous(char c) {// 是否连续
 		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
+	}
+
+	public boolean isRefreshed(char c) {// 是否需要刷新
+		return c == '.';
 	}
 
 	public void pushStackIfNecessary(LexerEvent event) {
