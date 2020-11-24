@@ -43,12 +43,22 @@ public abstract class AbsLexerAction implements LexerAction {
 			if (!flag) {
 				if (right == '"')
 					return index;
-				if (c == left) {
-					count++;
-				} else if (c == right) {
-					count--;
-					if (count == 0)
-						return index;
+				if (count % 2 == 0) {// 防止完全一样的分隔符|xxx|
+					if (c == left) {
+						count++;
+					} else if (c == right) {
+						count--;
+						if (count == 0)
+							return index;
+					}
+				} else {
+					if (c == right) {
+						count--;
+						if (count == 0)
+							return index;
+					} else if (c == left) {
+						count++;
+					}
 				}
 			}
 		}
