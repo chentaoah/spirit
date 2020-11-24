@@ -16,8 +16,7 @@ public abstract class AbsLexerAction implements LexerAction {
 		int finalEnd = findEnd(builder, start, left, right);
 		if (finalEnd != -1 && finalEnd + 1 < builder.length()) {
 			char c = builder.charAt(finalEnd + 1);
-			// 允许中间有个空格
-			if (c == ' ' && finalEnd + 2 < builder.length()) {
+			if (c == ' ' && finalEnd + 2 < builder.length()) {// 允许中间有个空格
 				char d = builder.charAt(finalEnd + 2);
 				if (d == left1) {
 					int secondEnd = findEnd(builder, finalEnd + 2, left1, right1);
