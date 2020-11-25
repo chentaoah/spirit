@@ -64,7 +64,7 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 		return words;
 	}
 
-	private Map<String, String> triggerActions(StringBuilder builder, List<Character> ignoreChars) {
+	public Map<String, String> triggerActions(StringBuilder builder, List<Character> ignoreChars) {
 
 		Map<String, String> replacedStrs = new HashMap<>();
 		AtomicInteger index = new AtomicInteger(0);

@@ -63,7 +63,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		return classStr.toString();
 	}
 
-	private String buildFields(IClass clazz) {
+	public String buildFields(IClass clazz) {
 		// fields
 		StringBuilder fieldsStr = new StringBuilder();
 		// public static type + element
@@ -78,7 +78,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		return fieldsStr.toString();
 	}
 
-	private String buildMethods(IClass clazz) {
+	public String buildMethods(IClass clazz) {
 		// 当构建方法体时，需要动态引入一些类型和字段，所以先构建方法体
 		StringBuilder methodsStr = new StringBuilder();
 		// public static type + element

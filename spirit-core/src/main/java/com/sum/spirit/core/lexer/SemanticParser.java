@@ -115,7 +115,7 @@ public class SemanticParser extends AbsSemanticParser {
 		}
 	}
 
-	private String getAnnotationName(String word) {
+	public String getAnnotationName(String word) {
 		if (word.contains("("))
 			word = word.substring(0, word.indexOf('('));
 		return word.substring(word.indexOf('@') + 1);

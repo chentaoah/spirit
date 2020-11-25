@@ -60,7 +60,7 @@ public class SyntaxTree {
 		throw new RuntimeException("Unknown syntax!");
 	}
 
-	private SyntaxEnum getLineSyntax() {
+	public SyntaxEnum getLineSyntax() {
 
 		Node firstNode = nodes.get(START_INDEX);
 		Token firstToken = firstNode.token;
@@ -131,7 +131,7 @@ public class SyntaxTree {
 		throw new RuntimeException("Unknown syntax!");
 	}
 
-	private SyntaxEnum getSyntaxByThreeNodes() {
+	public SyntaxEnum getSyntaxByThreeNodes() {
 
 		Token firstToken = nodes.get(START_INDEX).token;
 		Token secondToken = nodes.get(START_INDEX + 1).token;

@@ -17,7 +17,7 @@ public class VelocityTest {
 		test2();
 	}
 
-	private static void test2() {
+	public static void test2() {
 		// 初始化模板引擎
 		VelocityEngine ve = new VelocityEngine();
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");

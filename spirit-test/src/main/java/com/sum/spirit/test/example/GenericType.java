@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class GenericType<T, K> extends HashMap<T, Integer> {
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
 	public String test(T t) {
 		return "";
