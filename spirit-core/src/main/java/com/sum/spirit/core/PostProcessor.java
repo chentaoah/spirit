@@ -33,8 +33,9 @@ public class PostProcessor implements InitializingBean {
 	}
 
 	public void whenApplicationStart(String[] args) {
-		System.out.println("input:" + args[0]);
-		System.out.println("output:" + args[1]);
+		for (String arg : args) {
+			System.out.println(arg);
+		}
 		System.out.println("");
 		timestamp = System.currentTimeMillis();
 	}

@@ -18,6 +18,9 @@ import com.sum.spirit.api.Compiler;
 @Component
 public class JavaRunner implements ApplicationRunner {
 
+	public static final String INPUT_ARG = "input";
+	public static final String OUTPUT_ARG = "output";
+
 	@Autowired
 	public Compiler compiler;
 	@Autowired
@@ -28,14 +31,12 @@ public class JavaRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		String[] sourceArgs = args.getSourceArgs();
+		processor.whenApplicationStart(args.getSourceArgs());
 
-		processor.whenApplicationStart(sourceArgs);
+		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
+		String outputPath = args.containsOption(OUTPUT_ARG) ? args.getOptionValues(OUTPUT_ARG).get(0) : null;
 
-		String inputPath = sourceArgs[0];
-		String outputPath = sourceArgs.length >= 1 ? sourceArgs[1] : null;
 		Map<String, File> files = FileUtils.getFiles(inputPath);
-
 		Map<String, IClass> allClasses = compiler.compile(files);
 		allClasses.forEach((className, clazz) -> {
 
@@ -47,7 +48,7 @@ public class JavaRunner implements ApplicationRunner {
 				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
 		});
 
-		processor.whenApplicationEnd(sourceArgs, files);
+		processor.whenApplicationEnd(args.getSourceArgs(), files);
 	}
 
 }
