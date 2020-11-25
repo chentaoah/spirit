@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.type.IType;
+import com.sum.spirit.java.core.BootstrapClassLoader;
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;

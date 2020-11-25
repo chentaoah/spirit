@@ -34,7 +34,7 @@ public class AdaptiveLinker extends AbsAdaptiveLinker {
 			throw new RuntimeException("The primitive type has no field!");
 
 		// 访问数组length直接返回int类型
-		if (type.isArray() && AdaptiveLinker.ARRAY_LENGTH.equals(fieldName))
+		if (type.isArray() && ARRAY_LENGTH.equals(fieldName))
 			return TypeEnum.int_t.value;
 
 		IType returnType = !type.isNative() ? codeLinker.visitField(type, fieldName) : nativeLinker.visitField(type, fieldName);

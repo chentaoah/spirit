@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-plug</artifactId>
+			<artifactId>spirit-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

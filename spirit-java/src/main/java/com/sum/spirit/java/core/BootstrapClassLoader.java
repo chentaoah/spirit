@@ -1,4 +1,4 @@
-package com.sum.spirit.java.core.link;
+package com.sum.spirit.java.core;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
