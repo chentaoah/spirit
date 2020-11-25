@@ -21,6 +21,24 @@ public class SyntaxTree {
 		this.nodes = nodes;
 	}
 
+	public static SyntaxEnum getSyntax(List<Token> tokens) {
+		Token first = tokens.get(0);
+		// keyword
+		if (KeywordEnum.isStruct(first.toString())) {
+			return SyntaxEnum.valueOf(first.toString().toUpperCase());
+		}
+		// end
+		if (tokens.size() == 1 && "}".equals(first.toString())) {
+			return SyntaxEnum.END;
+		}
+		// annotation
+		if (tokens.size() == 1 && first.isAnnotation()) {
+			return SyntaxEnum.ANNOTATION;
+		}
+		// unknown
+		return null;
+	}
+
 	public SyntaxEnum getSyntax() {
 
 		SyntaxEnum syntax = getLineSyntax();

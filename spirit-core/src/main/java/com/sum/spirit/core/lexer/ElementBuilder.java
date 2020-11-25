@@ -24,8 +24,6 @@ public class ElementBuilder {
 	@Autowired
 	public SemanticParser parser;
 	@Autowired
-	public StructRecognizer recognizer;
-	@Autowired
 	public TreeBuilder builder;
 	@Autowired
 	public PostProcessor processor;
@@ -47,7 +45,7 @@ public class ElementBuilder {
 			// 4.语句
 			Statement statement = new Statement(tokens);
 			// 5.语法枚举
-			SyntaxEnum syntax = recognizer.getSyntax(tokens);
+			SyntaxEnum syntax = SyntaxTree.getSyntax(tokens);
 			// 6.构建语法树
 			SyntaxTree syntaxTree = null;
 			if (syntax == null) {
