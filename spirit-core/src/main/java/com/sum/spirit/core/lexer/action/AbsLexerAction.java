@@ -66,10 +66,13 @@ public abstract class AbsLexerAction implements LexerAction {
 	}
 
 	public void replaceStr(StringBuilder builder, int start, int end, String markName, Map<String, String> replacedStrs) {
-		if (end == -1)
+		if (end == -1) {
 			return;
+		}
 		String content = builder.substring(start, end + 1);
-		replacedStrs.put(markName, content);
+		if (replacedStrs != null) {
+			replacedStrs.put(markName, content);
+		}
 		builder.replace(start, end + 1, " " + markName + " ");
 	}
 

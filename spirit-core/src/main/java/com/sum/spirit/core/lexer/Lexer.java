@@ -39,9 +39,7 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 		}
 
 		StringBuilder builder = new StringBuilder(text.trim());
-		List<Character> ignoreChars = new ArrayList<>(Arrays.asList(ignoreOnceChars));
-		Map<String, String> replacedStrs = triggerActions(builder, ignoreChars);// 触发事件
-
+		Map<String, String> replacedStrs = replace(builder, ignoreOnceChars);// 触发事件
 		text = LineUtils.mergeSpaces(builder.toString());// 去掉多余的空格
 		List<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
 
@@ -64,8 +62,9 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 		return words;
 	}
 
-	public Map<String, String> triggerActions(StringBuilder builder, List<Character> ignoreChars) {
+	public Map<String, String> replace(StringBuilder builder, Character... ignoreOnceChars) {
 
+		List<Character> ignoreChars = new ArrayList<>(Arrays.asList(ignoreOnceChars));
 		Map<String, String> replacedStrs = new HashMap<>();
 		AtomicInteger index = new AtomicInteger(0);
 		AtomicInteger count = new AtomicInteger(0);

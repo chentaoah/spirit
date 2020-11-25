@@ -1,7 +1,11 @@
 package com.sum.spirit.core;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.lexer.Lexer;
+import com.sum.spirit.core.lexer.action.LexerEvent;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.utils.LineUtils;
@@ -10,37 +14,55 @@ import com.sum.spirit.utils.LineUtils;
 public class AliasReplacer {
 
 	public String replace(IClass clazz, String code) {
-		for (Import imp : clazz.getAliasImports())
+		for (Import imp : clazz.getAliasImports()) {
 			code = replace(code, imp.getAlias(), imp.getClassName());
+		}
 		return code;
 	}
 
 	public String replace(String code, String alias, String className) {
-		boolean flag = false;// 是否进入"符号的范围内
-		for (int i = 0; i < code.length(); i++) {
-			char c = code.charAt(i);
-			// 确保字符不在字符串中
-			if (c == '"' && LineUtils.isNotEscaped(code, i))
-				flag = !flag;
-			// 是一个普通字符，并且首字母和别名首字母相同
-			if (!flag && LineUtils.isLetter(c) && c == alias.charAt(0)) {
-				// 前面的字符不是一个字母
-				if (i - 1 >= 0 && LineUtils.isLetter(code.charAt(i - 1)))
-					continue;
-				// 从匹配的字符开始，截取出和别名长度一致的字符串
-				String str = code.substring(i, i + alias.length());
-				// 判断是否一致
-				if (alias.equals(str)) {
-					// 后面的字符不是一个字母
-					if (i + alias.length() < code.length() && LineUtils.isLetter(code.charAt(i + alias.length())))
-						continue;
-					// 替换
-					code = new StringBuilder(code).replace(i, i + alias.length(), className).toString();
-					i = i + className.length() - 1;
+		StringBuilder builder = new StringBuilder(code);
+		AliasLexer lexer = new AliasLexer(alias, className);
+		lexer.replace(builder);
+		return builder.toString();
+	}
+
+	public static class AliasLexer extends Lexer {
+
+		public String alias;
+		public String className;
+
+		public AliasLexer(String alias, String className) {
+			this.alias = alias;
+			this.className = className;
+		}
+
+		@Override
+		public boolean isTrigger(LexerEvent event) {
+			StringBuilder builder = event.builder;
+			AtomicInteger index = event.index;
+			char c = event.c;
+			if (c == '"') {
+				index.set(findEnd(builder, index.get(), '"', '"'));
+			} else if (c == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(index.get() - 1))) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public void pushStack(LexerEvent event) {
+			StringBuilder builder = event.builder;
+			AtomicInteger index = event.index;
+			int idx = index.get() + alias.length();
+			String text = builder.substring(index.get(), idx);
+			if (alias.equals(text)) {
+				if (idx < builder.length() && !LineUtils.isLetter(builder.charAt(idx))) {
+					builder.replace(index.get(), idx, className);
 				}
 			}
 		}
-		return code;
+
 	}
 
 }
