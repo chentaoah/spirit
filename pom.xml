@@ -10,7 +10,7 @@
 	<modules>
 		<module>spirit-core</module>
 		<module>spirit-java</module>
-		<module>spirit-plug</module>
+		<module>spirit-plugs</module>
 		<module>spirit-starter</module>
 		<module>spirit-test</module>
 	</modules>

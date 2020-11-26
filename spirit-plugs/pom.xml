@@ -7,7 +7,7 @@
 		<artifactId>spirit-parent</artifactId>
 		<version>1.0.2</version>
 	</parent>
-	<artifactId>spirit-plug</artifactId>
+	<artifactId>spirit-plugs</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
