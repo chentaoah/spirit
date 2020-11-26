@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.spirit.core.lexer.ElementBuilder;
+import com.sum.spirit.core.build.ElementBuilder;
 import com.sum.spirit.pojo.element.Document;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;

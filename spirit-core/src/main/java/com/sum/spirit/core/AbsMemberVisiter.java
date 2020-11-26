@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.core.lexer.ElementBuilder;
+import com.sum.spirit.core.build.ElementBuilder;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.core.visit.ElementVisiter;

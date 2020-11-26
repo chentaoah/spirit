@@ -1,4 +1,4 @@
-package com.sum.spirit.core.lexer;
+package com.sum.spirit.core.build;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.ClassLoader;
-import com.sum.spirit.core.lexer.AbsSemanticParser;
+import com.sum.spirit.core.build.AbsSemanticParser;
 import com.sum.spirit.core.type.IType;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;

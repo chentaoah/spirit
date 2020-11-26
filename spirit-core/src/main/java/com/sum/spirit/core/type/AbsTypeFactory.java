@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.lexer.AbsSemanticParser;
+import com.sum.spirit.core.build.AbsSemanticParser;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
