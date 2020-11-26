@@ -42,10 +42,11 @@ public abstract class AbsLexerAction implements LexerAction {
 			char c = builder.charAt(index);
 			if (c == '"' && LineUtils.isNotEscaped(builder.toString(), index)) {// 如果是“"”符号，并且没有被转义
 				flag = !flag;
+				if (!flag && right == '"') {
+					return index;
+				}
 			}
 			if (!flag) {
-				if (right == '"')
-					return index;
 				if (count % 2 == 0) {// 防止完全一样的分隔符|xxx|
 					if (c == left) {
 						count++;
