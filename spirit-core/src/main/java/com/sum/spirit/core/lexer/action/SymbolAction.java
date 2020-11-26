@@ -29,7 +29,7 @@ public class SymbolAction extends AbsLexerAction {
 		if (index.get() + 1 < builder.length()) {
 			String str = builder.substring(index.get(), index.get() + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
-				replaceStr(builder, index.get(), index.get() + 1, "@symbol" + count.getAndIncrement(), replacedStrs);
+				replaceStr(builder, index.get(), index.get() + 2, "@symbol" + count.getAndIncrement(), replacedStrs);
 				return;
 			}
 		}
@@ -37,7 +37,7 @@ public class SymbolAction extends AbsLexerAction {
 		// 尝试获取一个字符，判断是否双字符符号
 		String str = builder.substring(index.get(), index.get() + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
-			replaceStr(builder, index.get(), index.get(), "@symbol" + count.getAndIncrement(), replacedStrs);
+			replaceStr(builder, index.get(), index.get() + 1, "@symbol" + count.getAndIncrement(), replacedStrs);
 			return;
 		}
 

@@ -9,7 +9,7 @@ public abstract class AbsLexerAction implements LexerAction {
 
 	public void pushStack(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
 		int end = findEnd(builder, start, left, right);
-		replaceStr(builder, start, end, markName, replacedStrs);
+		replaceStr(builder, start, end + 1, markName, replacedStrs);
 	}
 
 	public void pushStack(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName, Map<String, String> replacedStrs) {
@@ -31,7 +31,7 @@ public abstract class AbsLexerAction implements LexerAction {
 				}
 			}
 		}
-		replaceStr(builder, start, finalEnd, markName, replacedStrs);
+		replaceStr(builder, start, finalEnd + 1, markName, replacedStrs);
 	}
 
 	public static int findEnd(StringBuilder builder, int start, char left, char right) {
@@ -69,11 +69,11 @@ public abstract class AbsLexerAction implements LexerAction {
 		if (end == -1) {
 			return;
 		}
-		String content = builder.substring(start, end + 1);
+		String content = builder.substring(start, end);
 		if (replacedStrs != null) {
 			replacedStrs.put(markName, content);
 		}
-		builder.replace(start, end + 1, " " + markName + " ");
+		builder.replace(start, end, " " + markName + " ");
 	}
 
 }
