@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.java.api.ElementConverter;
-import com.sum.spirit.java.pojo.common.Constants;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -21,6 +20,10 @@ import com.sum.spirit.utils.SpringUtils;
 @Component
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
+
+	public static final String IMPLEMENTS_KEYWORD = "implements";
+	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
+	public static final String FINAL_KEYWORD = "final";
 
 	public List<ElementConverter> converters;
 
@@ -54,7 +57,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		StringBuilder classStr = new StringBuilder();
 		// 处理一部分关键字
 		clazz.element.insertKeywordAfter(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value);
-		clazz.element.replaceKeyword(KeywordEnum.IMPLS.value, Constants.IMPLEMENTS_KEYWORD);
+		clazz.element.replaceKeyword(KeywordEnum.IMPLS.value, JavaBuilder.IMPLEMENTS_KEYWORD);
 		classStr.append(clazz.element + "\n\n");
 		// 当构建方法体时，需要动态引入一些类型和字段，所以先构建方法体
 		String methodsStr = buildMethods(clazz);
@@ -70,7 +73,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		for (IField field : clazz.fields) {
 			// annotation
 			field.annotations.forEach((annotation) -> fieldsStr.append("\t" + annotation + "\n"));
-			field.element.replaceModifier(KeywordEnum.CONST.value, Constants.FINAL_KEYWORD);
+			field.element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0)
@@ -93,7 +96,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 			} else {// public User() // public static synchronized String methodName()
 				// 替换关键字
-				element.replaceModifier(KeywordEnum.SYNCH.value, Constants.SYNCHRONIZED_KEYWORD);
+				element.replaceModifier(KeywordEnum.SYNCH.value, JavaBuilder.SYNCHRONIZED_KEYWORD);
 				if (element.isFuncDeclare()) {
 					// 抽象类型的没有方法体的方法，需要加上abstract关键字
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
