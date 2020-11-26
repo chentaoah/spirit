@@ -25,7 +25,7 @@ public class FlowLexer extends Lexer {
 		Map<String, String> replacedStrs = event.replacedStrs;
 
 		if (c == '-') {
-			replaceStr(builder, index.get(), index.get() + 2, "@symbol" + count.getAndIncrement(), replacedStrs);
+			replaceStr(builder, index.get(), index.get() + 3, "@symbol" + count.getAndIncrement(), replacedStrs);
 
 		} else if (c == '|') {
 			pushStack(builder, index.get(), '|', '|', "@condition" + count.getAndIncrement(), replacedStrs);
