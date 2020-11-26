@@ -74,7 +74,7 @@ public class Type {
 		logger.info("strs{}", strs[0]);
 		int yyy = 1;
 		int iii = 100 + yyy++ + 100;
-		iii = ++yyy + 100;
+		iii = yyy + 100;
 		logger.info(iii + "");
 		MyTest objxxx = ClassGenericTest.class.getAnnotation(MyTest.class);
 		String ssss = objxxx.value();

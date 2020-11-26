@@ -88,7 +88,7 @@ class Type {
 
 		yyy=1
 		iii=100+yyy+++100
-		iii=++yyy+100
+		iii=yyy+100
 		print iii+""
 
 		objxxx=ClassGenericTest.class.getAnnotation(MyTest.class)

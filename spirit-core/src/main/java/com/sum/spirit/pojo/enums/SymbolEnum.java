@@ -5,8 +5,8 @@ import java.util.Map;
 
 public enum SymbolEnum {
 
-	INCREASE("++", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.MULTIPLE),
-	DECREASE("--", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.MULTIPLE),
+	INCREASE("++", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.LEFT),
+	DECREASE("--", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 40, OperandEnum.LEFT),
 	NEGATE("!", SymbolTypeEnum.OPERATOR, OperatorEnum.LOGICAL, 40, OperandEnum.RIGHT),
 	MULTIPLY("*", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 35, OperandEnum.BINARY),
 	DIVIDE("/", SymbolTypeEnum.OPERATOR, OperatorEnum.ARITHMETIC, 35, OperandEnum.BINARY),
@@ -78,16 +78,16 @@ public enum SymbolEnum {
 		return false;
 	}
 
-	public static boolean isSymbol(String value) {
-		return OPERATOR_MAP.containsKey(value) || SEPARATOR_MAP.containsKey(value);
-	}
-
 	public static boolean isSingleSymbol(String value) {
 		return SINGLE_SYMBOL.containsKey(value);
 	}
 
 	public static boolean isDoubleSymbol(String value) {
 		return DOUBLE_SYMBOL.containsKey(value);
+	}
+
+	public static boolean isSymbol(String value) {
+		return OPERATOR_MAP.containsKey(value) || SEPARATOR_MAP.containsKey(value);
 	}
 
 	public static boolean isOperator(String value) {

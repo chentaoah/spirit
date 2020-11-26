@@ -8,8 +8,9 @@ import com.sum.spirit.pojo.element.Line;
 public class LineChecker {
 
 	void check(Line line) {
-		if (line.text.endsWith(";"))
+		if (line.text.endsWith(";")) {
 			throw new RuntimeException("Please do not end with a colon!");
+		}
 	}
 
 }

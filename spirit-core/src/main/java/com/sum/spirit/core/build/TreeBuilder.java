@@ -37,7 +37,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 		// 构建图谱
 		List<Integer>[] graph = getGraphByTokens(tokens);
 		// 通过图谱快速建立二叉树
-		gatherNodesByGraph(tokens, graph, nodes);
+		gatherNodesByGraph(graph, nodes);
 
 		return nodes;
 	}
@@ -54,6 +54,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
 			// 优先级和操作数
 			int priority = -1;
+
 			OperandEnum operand = null;
 
 			if (currentToken.isType()) {
@@ -94,19 +95,19 @@ public class TreeBuilder extends AbsTreeBuilder {
 		return graph;
 	}
 
-	public void gatherNodesByGraph(List<Token> tokens, List<Integer>[] graph, List<Node> nodes) {
+	public void gatherNodesByGraph(List<Integer>[] graph, List<Node> nodes) {
 		for (List<Integer> indexs : graph) {
-			if (indexs == null)
+			if (indexs == null) {
 				continue;
-
+			}
 			for (int index : indexs) {
 				ListIterator<Node> iterator = nodes.listIterator();
 				while (iterator.hasNext()) {
 					// 这里注意，next已经将索向后推进了
 					Node node = iterator.next();
-					if (node.index != index)
+					if (node.index != index) {
 						continue;
-
+					}
 					// 获取当前节点的token
 					Token currentToken = node.token;
 					// 如果是多义的操作符，则进行判断后，确定真正的操作数
@@ -142,27 +143,11 @@ public class TreeBuilder extends AbsTreeBuilder {
 	}
 
 	public void resetOperandIfMultiple(ListIterator<Node> iterator, Token currentToken) {
-
 		OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
 			Node lastNode = getLastNode(iterator);
-			Node nextNode = getNextNode(iterator);
-
 			String value = currentToken.toString();
-			if ("++".equals(value) || "--".equals(value)) {
-				if (lastNode != null) {
-					if (lastNode.isDirty() || lastNode.token.isVar()) {
-						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.LEFT);
-						return;
-					}
-				}
-				if (nextNode != null) {
-					if (nextNode.isDirty() || nextNode.token.isVar()) {
-						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
-						return;
-					}
-				}
-			} else if ("-".equals(value)) {// 100 + (-10) // var = -1
+			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
 					if (lastNode.isDirty() || (lastNode.token.isNumber() || lastNode.token.isVar())) {
 						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.BINARY);

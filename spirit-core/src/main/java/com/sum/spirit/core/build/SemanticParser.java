@@ -80,10 +80,10 @@ public class SemanticParser extends AbsSemanticParser {
 	}
 
 	public Object getStatement(String word, boolean insideType) {
-		if (insideType && (!word.contains("<") && !word.contains(">")))
+		if (insideType && (!word.contains("<") && !word.contains(">"))) {
 			return word;
-		// 如果是类型，则直接用尖括号进行拆分
-		// 如果是其他，则不使用尖括号进行拆分
+		}
+		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
 		List<String> words = insideType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
 		String first = words.get(0);
 		List<Token> tokens = null;
