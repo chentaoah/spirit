@@ -1,4 +1,4 @@
-package com.sum.spirit.core.lexer;
+package com.sum.spirit.core.build.lexer;
 
 import java.util.Map;
 

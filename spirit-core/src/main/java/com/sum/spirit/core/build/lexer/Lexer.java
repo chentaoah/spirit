@@ -1,4 +1,4 @@
-package com.sum.spirit.core.build;
+package com.sum.spirit.core.build.lexer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.LexerAction;
-import com.sum.spirit.core.lexer.AbsLexerAction;
-import com.sum.spirit.core.lexer.LexerEvent;
+import com.sum.spirit.core.build.AbsSemanticParser;
 import com.sum.spirit.utils.LineUtils;
 import com.sum.spirit.utils.SpringUtils;
 

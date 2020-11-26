@@ -3,8 +3,8 @@ package com.sum.spirit.plug.test;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.sum.spirit.core.build.Lexer;
-import com.sum.spirit.core.lexer.LexerEvent;
+import com.sum.spirit.core.build.lexer.Lexer;
+import com.sum.spirit.core.build.lexer.LexerEvent;
 
 public class FlowLexer extends Lexer {
 
