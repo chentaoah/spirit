@@ -20,14 +20,16 @@ public abstract class AbsLexerAction implements LexerAction {
 				char d = builder.charAt(finalEnd + 2);
 				if (d == left1) {
 					int secondEnd = findEnd(builder, finalEnd + 2, left1, right1);
-					if (secondEnd != -1)
+					if (secondEnd != -1) {
 						finalEnd = secondEnd;
+					}
 				}
 			} else {
 				if (c == left1) {
 					int secondEnd = findEnd(builder, finalEnd + 1, left1, right1);
-					if (secondEnd != -1)
+					if (secondEnd != -1) {
 						finalEnd = secondEnd;
+					}
 				}
 			}
 		}
@@ -38,8 +40,9 @@ public abstract class AbsLexerAction implements LexerAction {
 		boolean flag = false;
 		for (int index = start, count = 0; index < builder.length(); index++) {
 			char c = builder.charAt(index);
-			if (c == '"' && LineUtils.isNotEscaped(builder.toString(), index))// 如果是“"”符号，并且没有被转义
+			if (c == '"' && LineUtils.isNotEscaped(builder.toString(), index)) {// 如果是“"”符号，并且没有被转义
 				flag = !flag;
+			}
 			if (!flag) {
 				if (right == '"')
 					return index;
@@ -48,14 +51,16 @@ public abstract class AbsLexerAction implements LexerAction {
 						count++;
 					} else if (c == right) {
 						count--;
-						if (count == 0)
+						if (count == 0) {
 							return index;
+						}
 					}
 				} else {
 					if (c == right) {
 						count--;
-						if (count == 0)
+						if (count == 0) {
 							return index;
+						}
 					} else if (c == left) {
 						count++;
 					}
