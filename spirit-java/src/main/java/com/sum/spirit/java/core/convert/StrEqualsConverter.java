@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.utils.TreeUtils;
@@ -17,6 +16,7 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.pojo.type.IType;
 
 @Component
 @Order(-80)

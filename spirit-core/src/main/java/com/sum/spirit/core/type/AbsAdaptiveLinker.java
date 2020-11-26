@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.pojo.type.IType;
 
 public abstract class AbsAdaptiveLinker implements ClassLinker {
 

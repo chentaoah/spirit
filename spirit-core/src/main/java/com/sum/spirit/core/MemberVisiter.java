@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.pojo.type.IType;
 
 @Component
 public class MemberVisiter extends AbsMemberVisiter {

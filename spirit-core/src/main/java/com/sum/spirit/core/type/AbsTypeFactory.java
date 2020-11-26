@@ -10,6 +10,7 @@ import com.sum.spirit.core.build.AbsSemanticParser;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeBuilder;

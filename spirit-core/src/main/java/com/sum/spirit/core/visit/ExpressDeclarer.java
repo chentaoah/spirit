@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.build.ElementBuilder;
-import com.sum.spirit.core.type.IType;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.element.Element;
@@ -12,6 +11,7 @@ import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
+import com.sum.spirit.pojo.type.IType;
 
 @Component
 public class ExpressDeclarer {

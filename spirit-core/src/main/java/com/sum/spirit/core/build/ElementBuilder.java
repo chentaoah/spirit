@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.PostProcessor;
-import com.sum.spirit.core.build.lexer.Lexer;
+import com.sum.spirit.core.lexer.Lexer;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;

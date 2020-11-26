@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.type.IType;
 import com.sum.spirit.java.utils.ReflectUtils;
+import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.Assert;
 
 @Component

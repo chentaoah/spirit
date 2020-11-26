@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.MemberVisiter;
-import com.sum.spirit.core.type.IType;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
@@ -15,6 +14,7 @@ import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.Assert;
 
 @Component

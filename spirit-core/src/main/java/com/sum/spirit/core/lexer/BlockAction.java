@@ -1,4 +1,4 @@
-package com.sum.spirit.core.build.lexer;
+package com.sum.spirit.core.lexer;
 
 import java.util.List;
 import java.util.Map;
@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.pojo.lexer.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 
 @Component
