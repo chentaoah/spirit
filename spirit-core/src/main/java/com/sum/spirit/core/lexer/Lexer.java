@@ -33,8 +33,8 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 	}
 
 	public List<String> getWords(String text, Character... ignoreOnceChars) {
-
-		if (StringUtils.isEmpty(text)) {// 拆分方法体时，会传入空的text
+		// 拆分方法体时，会传入空的text
+		if (StringUtils.isEmpty(text)) {
 			return new ArrayList<>();
 		}
 
