@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.type.IType;
 
 public class MethodContext {
 

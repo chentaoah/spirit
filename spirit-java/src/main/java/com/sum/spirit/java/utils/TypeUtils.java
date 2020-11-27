@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.type.IType;
+import com.sum.spirit.pojo.common.IType;
 
 public class TypeUtils {
 

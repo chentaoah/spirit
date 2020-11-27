@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.lexer;
+package com.sum.spirit.pojo.common;
 
 import java.util.List;
 import java.util.Map;

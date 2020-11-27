@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
-import com.sum.spirit.pojo.type.IType;
 
 @Component
 public class InvokeVisiter {

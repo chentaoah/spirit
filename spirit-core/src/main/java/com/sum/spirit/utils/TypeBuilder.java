@@ -3,8 +3,8 @@ package com.sum.spirit.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.ModifierEnum;
-import com.sum.spirit.pojo.type.IType;
 
 public class TypeBuilder {
 

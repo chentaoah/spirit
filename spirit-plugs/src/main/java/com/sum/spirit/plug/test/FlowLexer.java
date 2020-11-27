@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.sum.spirit.core.lexer.Lexer;
-import com.sum.spirit.pojo.lexer.LexerEvent;
+import com.sum.spirit.pojo.common.LexerEvent;
 
 public class FlowLexer extends Lexer {
 

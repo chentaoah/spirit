@@ -9,12 +9,12 @@ import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.element.MethodContext;
+import com.sum.spirit.pojo.common.IType;
+import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
-import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.Assert;
 
 @Component

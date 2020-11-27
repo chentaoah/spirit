@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.lexer.LexerEvent;
+import com.sum.spirit.pojo.common.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 
 @Component

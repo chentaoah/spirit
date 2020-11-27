@@ -2,7 +2,7 @@ package com.sum.spirit.api;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.type.IType;
+import com.sum.spirit.pojo.common.IType;
 
 public interface ClassLinker {
 

@@ -13,7 +13,6 @@ import com.sum.spirit.core.visit.ElementVisiter;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
-import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -21,6 +20,7 @@ import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.clazz.frame.IMember;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 

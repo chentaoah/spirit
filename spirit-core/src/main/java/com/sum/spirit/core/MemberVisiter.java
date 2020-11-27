@@ -7,10 +7,10 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.common.IType;
+import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.MethodContext;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.pojo.type.IType;
 
 @Component
 public class MemberVisiter extends AbsMemberVisiter {

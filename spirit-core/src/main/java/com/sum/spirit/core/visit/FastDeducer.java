@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.build.TreeBuilder;
 import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Node;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.pojo.type.IType;
 
 @Component
 public class FastDeducer {

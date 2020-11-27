@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.java.core.BootstrapClassLoader;
-import com.sum.spirit.pojo.type.IType;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 
 public abstract class AbsNativeLinker implements ClassLinker {

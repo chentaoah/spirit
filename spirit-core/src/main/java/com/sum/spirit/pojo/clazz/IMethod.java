@@ -6,11 +6,11 @@ import java.util.List;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.frame.IMember;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
-import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.SpringUtils;
 
 public class IMethod extends IMember {

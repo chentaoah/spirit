@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.pojo.common.LexerEvent;
 import com.sum.spirit.pojo.enums.SymbolEnum;
-import com.sum.spirit.pojo.lexer.LexerEvent;
 
 @Component
 @Order(-80)
