@@ -3,9 +3,6 @@ package com.sum.spirit.pojo.enums;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * The enum of keyword
- */
 public enum KeywordEnum {
 
 	PACKAGE("package", KeywordTypeEnum.STRUCT), //

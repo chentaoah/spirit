@@ -2,9 +2,6 @@ package com.sum.spirit.pojo.enums;
 
 import java.lang.reflect.Modifier;
 
-/**
- * The enum of modifier
- */
 public enum ModifierEnum {
 
 	THIS(Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE),

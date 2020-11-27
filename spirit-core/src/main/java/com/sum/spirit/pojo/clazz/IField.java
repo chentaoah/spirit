@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sum.spirit.pojo.element.Element;
 
-public class IField extends Member {
+public class IField extends IMember {
 
 	public IField(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);

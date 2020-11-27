@@ -5,11 +5,11 @@ import java.util.List;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 
-public abstract class Member extends Annotated {
+public abstract class IMember extends Annotated {
 
 	public volatile boolean isLock = false;
 
-	public Member(List<IAnnotation> annotations, Element element) {
+	public IMember(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 	}
 

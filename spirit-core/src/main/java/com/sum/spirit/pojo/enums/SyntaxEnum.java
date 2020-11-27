@@ -1,8 +1,5 @@
 package com.sum.spirit.pojo.enums;
 
-/**
- * The enum of syntax
- */
 public enum SyntaxEnum {
 	IMPORT, // import
 	ANNOTATION, // @Annotation

@@ -12,7 +12,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.type.IType;
 import com.sum.spirit.utils.SpringUtils;
 
-public class IMethod extends Member {
+public class IMethod extends IMember {
 
 	public List<IParameter> parameters = new ArrayList<>();
 
