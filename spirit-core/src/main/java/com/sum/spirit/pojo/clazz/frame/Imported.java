@@ -25,16 +25,18 @@ public abstract class Imported extends Annotated {
 
 	public Import findImport(String simpleName) {
 		for (Import imp : imports) {
-			if (imp.matchSimpleName(simpleName))
+			if (imp.matchSimpleName(simpleName)) {
 				return imp;
+			}
 		}
 		return null;
 	}
 
 	public Import findImportByClassName(String className) {
 		for (Import imp : imports) {
-			if (imp.matchClassName(className))
+			if (imp.matchClassName(className)) {
 				return imp;
+			}
 		}
 		return null;
 	}
