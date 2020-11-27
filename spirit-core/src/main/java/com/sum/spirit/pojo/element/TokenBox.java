@@ -72,7 +72,7 @@ public class TokenBox {
 		tokens.add(start, token);
 	}
 
-	public Token findToken(TokenTypeEnum... tokenTypes) {
+	public Token findOneTokenOf(TokenTypeEnum... tokenTypes) {
 		for (Token token : tokens) {
 			for (TokenTypeEnum type : tokenTypes) {
 				if (token.tokenType == type)

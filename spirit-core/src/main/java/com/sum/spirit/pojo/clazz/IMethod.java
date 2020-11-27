@@ -22,7 +22,7 @@ public class IMethod extends IMember {
 	}
 
 	public String getName() {
-		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
+		Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
 			return methodToken.attr(AttributeEnum.SIMPLE_NAME);
 
@@ -33,7 +33,7 @@ public class IMethod extends IMember {
 	}
 
 	public boolean isInit() {
-		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
+		Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
 			return true;
 
