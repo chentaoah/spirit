@@ -3,6 +3,7 @@ package com.sum.spirit.pojo.element;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sum.spirit.pojo.element.frame.Semantic;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 

@@ -1,8 +1,9 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.frame;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.Assert;
 
