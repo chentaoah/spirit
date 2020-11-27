@@ -26,11 +26,6 @@ public class IClass extends Imported {
 		super(imports, annotations, element);
 	}
 
-	@Override
-	public String getName() {
-		return getSimpleName();
-	}
-
 	public boolean isInterface() {
 		return element.isInterface();
 	}

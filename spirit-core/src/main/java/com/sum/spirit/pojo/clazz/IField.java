@@ -11,7 +11,6 @@ public class IField extends IMember {
 		super(annotations, element);
 	}
 
-	@Override
 	public String getName() {
 		if (element.isDeclare() || element.isDeclareAssign()) {
 			return element.getStr(1);

@@ -17,8 +17,9 @@ public abstract class Annotated extends Elemented {
 
 	public IAnnotation getAnnotation(String className) {
 		for (IAnnotation annotation : annotations) {
-			if (annotation.getType().getClassName().equals(className))
+			if (annotation.getType().getClassName().equals(className)) {
 				return annotation;
+			}
 		}
 		return null;
 	}

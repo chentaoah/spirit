@@ -16,11 +16,6 @@ public class Import extends Elemented {
 		super(SpringUtils.getBean(ElementBuilder.class).build("import " + className));
 	}
 
-	@Override
-	public String getName() {
-		return getClassName();
-	}
-
 	public String getClassName() {
 		return element.getStr(1);
 	}

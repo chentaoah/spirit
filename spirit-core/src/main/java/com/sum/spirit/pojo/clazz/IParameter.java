@@ -11,7 +11,6 @@ public class IParameter extends Annotated {
 		super(annotations, element);
 	}
 
-	@Override
 	public String getName() {
 		if (element.isDeclare())
 			return element.getStr(1);

@@ -21,7 +21,6 @@ public class IMethod extends IMember {
 		super(annotations, element);
 	}
 
-	@Override
 	public String getName() {
 		Token methodToken = element.findToken(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {

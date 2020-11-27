@@ -10,6 +10,4 @@ public abstract class Elemented extends Typed {
 		this.element = element;
 	}
 
-	public abstract String getName();
-
 }

@@ -66,7 +66,7 @@ public abstract class Imported extends Annotated {
 		return true;
 	}
 
-	public String getClassName(String simpleName) {
+	public String findClassName(String simpleName) {
 		// 如果是className，则直接返回
 		if (simpleName.contains("."))
 			return simpleName;

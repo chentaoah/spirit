@@ -27,7 +27,7 @@ public class AutoImporter {
 	}
 
 	public void visitAnnotated(IClass clazz, Annotated annotated) {
-		annotated.annotations.forEach((annotation) -> clazz.addImport(clazz.getClassName(annotation.getName())));
+		annotated.annotations.forEach((annotation) -> clazz.addImport(clazz.findClassName(annotation.getName())));
 		visitElement(clazz, annotated.element, annotated instanceof IMethod);
 	}
 
@@ -38,7 +38,7 @@ public class AutoImporter {
 		while (matcher.find() && matcher.groupCount() > 0) {
 			String targetName = matcher.group(matcher.groupCount() - 1);
 			if (parser.isType(targetName)) {
-				String className = clazz.getClassName(targetName);
+				String className = clazz.findClassName(targetName);
 				clazz.addImport(className);
 			}
 		}
