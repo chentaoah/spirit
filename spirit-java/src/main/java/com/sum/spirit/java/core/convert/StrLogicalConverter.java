@@ -35,8 +35,9 @@ public class StrLogicalConverter implements ElementConverter {
 	public void convertStmt(IClass clazz, Statement statement) {
 		// 先处理子节点，下层节点的结果，会间接影响上层
 		for (Token token : statement.tokens) {
-			if (token.canSplit())
+			if (token.canSplit()) {
 				convertStmt(clazz, token.getValue());
+			}
 		}
 		for (int index = 0; index < statement.size(); index++) {
 			Token token = statement.getToken(index);

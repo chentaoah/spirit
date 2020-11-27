@@ -12,8 +12,9 @@ public class IParameter extends Annotated {
 	}
 
 	public String getName() {
-		if (element.isDeclare())
+		if (element.isDeclare()) {
 			return element.getStr(1);
+		}
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}
 

@@ -48,8 +48,9 @@ public enum KeywordEnum {
 	public static final Map<String, KeywordEnum> KEYWORD_MAP = new LinkedHashMap<>();
 
 	static {
-		for (KeywordEnum keywordEnum : values())
+		for (KeywordEnum keywordEnum : values()) {
 			KEYWORD_MAP.put(keywordEnum.value, keywordEnum);
+		}
 	}
 
 	public static boolean isKeyword(String value) {

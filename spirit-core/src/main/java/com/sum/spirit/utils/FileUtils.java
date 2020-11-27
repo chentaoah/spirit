@@ -23,8 +23,9 @@ public class FileUtils {
 		Map<String, File> files = new LinkedHashMap<>();
 
 		File directory = new File(inputPath);
-		if (!directory.isDirectory())
+		if (!directory.isDirectory()) {
 			return files;
+		}
 
 		// The directory is CLASSPATH
 		getFilesRecursively(directory, null, files);
@@ -38,8 +39,9 @@ public class FileUtils {
 				getFilesRecursively(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files);
 
 			} else if (file.isFile()) {
-				if (file.getName().endsWith(SUFFIX))
+				if (file.getName().endsWith(SUFFIX)) {
 					files.put(packageStr + "." + file.getName().replace(SUFFIX, ""), file);
+				}
 			}
 		}
 	}
@@ -51,11 +53,13 @@ public class FileUtils {
 		File file = new File(filePath);
 
 		try {
-			if (!directory.exists())
+			if (!directory.exists()) {
 				directory.mkdirs();
+			}
 
-			if (!file.exists())
+			if (!file.exists()) {
 				file.createNewFile();
+			}
 
 			// Code changed due to guava upgrade
 			Files.asCharSink(file, Charsets.UTF_8).write(code);

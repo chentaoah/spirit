@@ -43,8 +43,9 @@ public class AutoImporter {
 			}
 		}
 		// 递归
-		if (visitChildren)
+		if (visitChildren) {
 			element.children.forEach((child) -> visitElement(clazz, child, visitChildren));
+		}
 	}
 
 }

@@ -49,8 +49,9 @@ public class CodeLinker implements ClassLinker {
 	public List<IType> getInterfaceTypes(IType type) {
 		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (IType interfaceType : clazz.getInterfaceTypes())
+		for (IType interfaceType : clazz.getInterfaceTypes()) {
 			interfaceTypes.add(factory.populate(type, interfaceType));
+		}
 		return interfaceTypes;
 	}
 
@@ -64,8 +65,9 @@ public class CodeLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
-		if (field != null)
+		if (field != null) {
 			return factory.populate(type, visiter.visitMember(clazz, field));
+		}
 		return null;
 	}
 
@@ -73,8 +75,9 @@ public class CodeLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
 		IMethod method = clazz.getMethod(type, methodName, parameterTypes);
-		if (method != null)
+		if (method != null) {
 			return factory.populate(type, visiter.visitMember(clazz, method));
+		}
 		return null;
 	}
 

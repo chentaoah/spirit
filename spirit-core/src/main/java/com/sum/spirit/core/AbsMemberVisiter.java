@@ -41,8 +41,9 @@ public abstract class AbsMemberVisiter {
 			clazz.methods.forEach((method) -> visitAnnotations(clazz, method.annotations));
 		}
 		// 解析所有的方法入参
-		for (IClass clazz : allClasses.values())
+		for (IClass clazz : allClasses.values()) {
 			clazz.methods.forEach((method) -> visitParameters(clazz, method));
+		}
 
 		// 解析所有字段和方法内容
 		for (IClass clazz : allClasses.values()) {

@@ -35,15 +35,17 @@ public abstract class AbsTypeFactory {
 
 	public IType populate(IType type, IType targetType) {
 
-		if (targetType == null)
+		if (targetType == null) {
 			return null;
+		}
 
 		targetType = TypeBuilder.copy(targetType);
 
 		if (targetType.isGenericType()) {
 			List<IType> genericTypes = new ArrayList<>();
-			for (IType genericType : targetType.getGenericTypes())
+			for (IType genericType : targetType.getGenericTypes()) {
 				genericTypes.add(populate(type, genericType));
+			}
 			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
 		} else if (targetType.isTypeVariable()) {

@@ -67,10 +67,14 @@ public class TypeFactory extends AbsTypeFactory {
 			String simpleName = token.getValue();
 
 			if ("?".equals(simpleName))
+			 {
 				return TypeEnum.Wildcard.value;// ?
+			}
 
 			if (clazz.getTypeVariableIndex(simpleName) >= 0)
+			 {
 				return createTypeVariable(simpleName);// T or K
+			}
 
 			return create(clazz.findClassName(simpleName));
 
@@ -89,8 +93,9 @@ public class TypeFactory extends AbsTypeFactory {
 		List<IType> genericTypes = new ArrayList<>();
 		for (int i = 1; i < statement.size(); i++) {
 			Token token = statement.getToken(i);
-			if (token.isType())
+			if (token.isType()) {
 				genericTypes.add(create(clazz, token));
+			}
 		}
 		return genericTypes;
 	}
@@ -138,8 +143,9 @@ public class TypeFactory extends AbsTypeFactory {
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
 
-		if (statements.size() == 0)
+		if (statements.size() == 0) {
 			return TypeEnum.Object.value;
+		}
 
 		IType genericType = null;
 		for (Statement statement : statements) {

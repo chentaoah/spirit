@@ -66,8 +66,9 @@ public enum TypeEnum {
 		// 类加载器
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
 		Assert.notNull(classLoaders.size() == 0, "Class loader must be provided!");
-		for (ClassLoader classLoader : classLoaders)
+		for (ClassLoader classLoader : classLoaders) {
 			classLoader.load();
+		}
 	}
 
 	public static boolean isPrimitive(String className) {
@@ -76,19 +77,22 @@ public enum TypeEnum {
 
 	public static String getPrimitiveArrayTargetName(String className) {
 		IType type = PRIMITIVE_ARRAY_TARGET_MAPPING.get(className);
-		if (type != null)
+		if (type != null) {
 			return type.getClassName();
+		}
 		return null;
 	}
 
 	public static String getClassName(String simpleName) {
 		String className = isPrimitive(simpleName) ? simpleName : null;
-		if (StringUtils.isNotEmpty(className))
+		if (StringUtils.isNotEmpty(className)) {
 			return className;
+		}
 
 		IType type = PRIMITIVE_ARRAY_MAPPING.get(simpleName);
-		if (type != null)
+		if (type != null) {
 			return type.getClassName();
+		}
 
 		return null;
 	}

@@ -18,6 +18,7 @@ public class SemanticParser extends AbsSemanticParser {
 	@Autowired
 	public Lexer lexer;
 
+	@Override
 	public Token getToken(String word, boolean insideType) {
 		Token token = new Token();
 		setTokenType(word, token, insideType);
@@ -117,8 +118,9 @@ public class SemanticParser extends AbsSemanticParser {
 	}
 
 	public String getAnnotationName(String word) {
-		if (word.contains("("))
+		if (word.contains("(")) {
 			word = word.substring(0, word.indexOf('('));
+		}
 		return word.substring(word.indexOf('@') + 1);
 	}
 

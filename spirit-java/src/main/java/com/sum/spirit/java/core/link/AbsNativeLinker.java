@@ -30,8 +30,9 @@ public abstract class AbsNativeLinker implements ClassLinker {
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		for (int i = 0; i < typeVariables.length; i++) {
 			TypeVariable<?> typeVariable = typeVariables[i];
-			if (typeVariable.toString().equals(genericName))
+			if (typeVariable.toString().equals(genericName)) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -48,8 +49,9 @@ public abstract class AbsNativeLinker implements ClassLinker {
 	public List<IType> getInterfaceTypes(IType type) {
 		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (Type interfaceType : clazz.getGenericInterfaces())
+		for (Type interfaceType : clazz.getGenericInterfaces()) {
 			interfaceTypes.add(factory.populate(type, factory.create(interfaceType)));
+		}
 		return interfaceTypes;
 	}
 

@@ -22,8 +22,9 @@ public class NativeFactory extends TypeFactory {
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
 		if (typeVariables != null && typeVariables.length > 0) {
 			List<IType> genericTypes = new ArrayList<>();
-			for (TypeVariable<?> typeVariable : typeVariables)
+			for (TypeVariable<?> typeVariable : typeVariables) {
 				genericTypes.add(createTypeVariable(typeVariable.toString()));
+			}
 			// Note that this is a non modifiable list
 			type.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		}
@@ -44,8 +45,9 @@ public class NativeFactory extends TypeFactory {
 			ParameterizedType parameterizedType = (ParameterizedType) nativeType;
 			Class<?> rawType = (Class<?>) parameterizedType.getRawType();
 			List<IType> genericTypes = new ArrayList<>();
-			for (Type actualType : parameterizedType.getActualTypeArguments())
+			for (Type actualType : parameterizedType.getActualTypeArguments()) {
 				genericTypes.add(create(actualType));
+			}
 			return create(rawType.getName(), genericTypes);
 		}
 		throw new RuntimeException("Unknown type!");

@@ -29,14 +29,16 @@ public class MethodContext {
 	}
 
 	public void increaseCount() {
-		while (depth >= counts.size())
+		while (depth >= counts.size()) {
 			counts.add(0);
+		}
 		counts.set(depth, counts.get(depth) + 1);
 	}
 
 	public String getBlockId() {
-		while (depth >= counts.size())
+		while (depth >= counts.size()) {
 			counts.add(0);
+		}
 		return Joiner.on("-").join(counts.subList(0, depth + 1));
 	}
 

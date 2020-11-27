@@ -44,8 +44,9 @@ public class JavaRunner implements ApplicationRunner {
 			String code = builder.build(clazz);
 			code = processor.processCode(clazz, code);
 
-			if (StringUtils.isNotEmpty(outputPath))
+			if (StringUtils.isNotEmpty(outputPath)) {
 				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
+			}
 		});
 
 		processor.whenApplicationEnd(args.getSourceArgs(), files);

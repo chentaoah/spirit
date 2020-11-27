@@ -25,8 +25,9 @@ public class NativeLinker extends AbsNativeLinker {
 		try {
 			Class<?> clazz = toClass(type);
 			Field field = ReflectUtils.getDeclaredField(clazz, fieldName);
-			if (field != null && ReflectUtils.isAccessible(field, type.getModifiers()))
+			if (field != null && ReflectUtils.isAccessible(field, type.getModifiers())) {
 				return populate(type, null, null, field.getGenericType());
+			}
 			return null;
 
 		} catch (Exception e) {
@@ -64,14 +65,16 @@ public class NativeLinker extends AbsNativeLinker {
 						break;
 					}
 				}
-				if (flag)
+				if (flag) {
 					return method;
+				}
 			}
 		}
 
 		Method method = findIndefiniteMethod(type, methodName, parameterTypes);
-		if (method != null)
+		if (method != null) {
 			return method;
+		}
 
 		return null;
 	}
@@ -102,8 +105,9 @@ public class NativeLinker extends AbsNativeLinker {
 						}
 					}
 				}
-				if (flag)
+				if (flag) {
 					return method;
+				}
 			}
 		}
 		return null;
@@ -113,8 +117,9 @@ public class NativeLinker extends AbsNativeLinker {
 		Map<String, IType> qualifyingTypes = new HashMap<>();
 		int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
 		Parameter[] parameters = method.getParameters();
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			populate(type, qualifyingTypes, parameterTypes.get(i), parameters[i].getParameterizedType());
+		}
 		return qualifyingTypes;
 	}
 
@@ -145,8 +150,9 @@ public class NativeLinker extends AbsNativeLinker {
 					return qualifyingTypes.get(genericName);
 				} else {
 					// 放入限定类型的集合中，以便推导返回类型
-					if (qualifyingTypes != null)
+					if (qualifyingTypes != null) {
 						qualifyingTypes.put(genericName, mappingType);
+					}
 					// 3.也可能是影射的入参中的泛型参数
 					return mappingType;
 				}

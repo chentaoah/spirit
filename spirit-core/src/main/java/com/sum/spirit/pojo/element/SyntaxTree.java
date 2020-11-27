@@ -42,20 +42,24 @@ public class SyntaxTree {
 	public SyntaxEnum getSyntax() {
 
 		SyntaxEnum syntax = getLineSyntax();
-		if (syntax != null)
+		if (syntax != null) {
 			return syntax;
+		}
 
 		syntax = getSyntaxByOneNode();
-		if (syntax != null)
+		if (syntax != null) {
 			return syntax;
+		}
 
 		syntax = getSyntaxByTwoNodes();
-		if (syntax != null)
+		if (syntax != null) {
 			return syntax;
+		}
 
 		syntax = getSyntaxByThreeNodes();
-		if (syntax != null)
+		if (syntax != null) {
 			return syntax;
+		}
 
 		throw new RuntimeException("Unknown syntax!");
 	}
@@ -66,16 +70,18 @@ public class SyntaxTree {
 		Token firstToken = firstNode.token;
 
 		// 如果是行级别关键字，则直接返回语法枚举
-		if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString()))
+		if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString())) {
 			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
+		}
 
 		return null;
 	}
 
 	public SyntaxEnum getSyntaxByOneNode() {
 
-		if (nodes.size() != 1)
+		if (nodes.size() != 1) {
 			return null;
+		}
 
 		Node firstNode = nodes.get(START_INDEX);
 		Token firstToken = firstNode.token;
@@ -117,15 +123,17 @@ public class SyntaxTree {
 
 	public SyntaxEnum getSyntaxByTwoNodes() {
 
-		if (nodes.size() != 2)
+		if (nodes.size() != 2) {
 			return null;
+		}
 
 		Node firstNode = nodes.get(START_INDEX);
 		Token firstToken = firstNode.token;
 		if (firstToken.isType()) {
 			Token nextToken = firstNode.next.token;
-			if (nextToken.isLocalMethod()) // String test() {
+			if (nextToken.isLocalMethod()) {
 				return SyntaxEnum.FUNC_DECLARE;
+			}
 		}
 
 		throw new RuntimeException("Unknown syntax!");
@@ -139,9 +147,13 @@ public class SyntaxTree {
 
 		if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
 			if (secondToken.isSubexpress())
+			 {
 				return SyntaxEnum.FOR;// for (i=0; i<10; i++) {
+			}
 			if (KeywordEnum.IN.value.equals(thirdToken.toString()))
+			 {
 				return SyntaxEnum.FOR_IN;// for ? in ? {
+			}
 			throw new RuntimeException("Unknown syntax!");
 		}
 
@@ -170,8 +182,9 @@ public class SyntaxTree {
 	public String debug() {
 		// 生成打印的面板
 		List<Line> lines = new ArrayList<>();
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < 20; i++) {
 			lines.add(new Line(i + 1, LineUtils.getSpaces(150)));
+		}
 
 		// 遍历节点，并构造树结构
 		buildTree(lines, 0, nodes);
@@ -179,15 +192,17 @@ public class SyntaxTree {
 		// 打印
 		StringBuilder builder = new StringBuilder();
 		for (Line line : lines) {
-			if (!line.isIgnore())
+			if (!line.isIgnore()) {
 				builder.append(line.text + "\n");
+			}
 		}
 		return builder.toString();
 	}
 
 	public void buildTree(List<Line> lines, int depth, List<Node> nodes) {
-		for (Node node : nodes)
+		for (Node node : nodes) {
 			buildTree(lines, depth, "", node);
+		}
 	}
 
 	public void buildTree(List<Line> lines, int depth, String separator, Node node) {
@@ -197,8 +212,9 @@ public class SyntaxTree {
 		int length = token.attr(AttributeEnum.LENGTH);
 
 		// 尽量上上面的分割符在中间,奇数在中间,偶数在中间偏左一个
-		if (StringUtils.isNotEmpty(separator))
+		if (StringUtils.isNotEmpty(separator)) {
 			println(lines, depth - 1, position + length / 2 + length % 2 - 1, separator);
+		}
 
 		// 如果该节点是语法树
 		if (node.canSplit()) {
@@ -210,12 +226,14 @@ public class SyntaxTree {
 		}
 
 		// 左边节点
-		if (node.prev != null)
+		if (node.prev != null) {
 			buildTree(lines, depth + 2, "/", node.prev);
+		}
 
 		// 右边节点
-		if (node.next != null)
+		if (node.next != null) {
 			buildTree(lines, depth + 2, "\\", node.next);
+		}
 	}
 
 	public void println(List<Line> lines, int depth, int position, String text) {

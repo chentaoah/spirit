@@ -36,8 +36,9 @@ public class StmtConverter implements ElementConverter {
 	@Override
 	public void convert(IClass clazz, Element element) {
 
-		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign())
+		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 			element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
+		}
 
 		if (element.isSync()) {// sync s {
 			element.replaceKeyword(KeywordEnum.SYNC.value, JavaBuilder.SYNCHRONIZED_KEYWORD);
@@ -67,8 +68,9 @@ public class StmtConverter implements ElementConverter {
 			Token token = element.getToken(0);
 			boolean derived = token.attr(AttributeEnum.DERIVED, false);
 			IType type = token.attr(AttributeEnum.TYPE);
-			if (token.isVar() && derived)
+			if (token.isVar() && derived) {
 				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeUtils.build(clazz, type)));
+			}
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);

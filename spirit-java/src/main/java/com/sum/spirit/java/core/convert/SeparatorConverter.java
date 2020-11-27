@@ -56,8 +56,9 @@ public class SeparatorConverter implements ElementConverter {
 	}
 
 	public void addLineEnd(IClass clazz, Statement statement) {
-		if (!"{".equals(statement.last()))
+		if (!"{".equals(statement.last())) {
 			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
+		}
 	}
 
 }

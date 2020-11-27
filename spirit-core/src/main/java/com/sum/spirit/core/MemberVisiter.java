@@ -18,6 +18,7 @@ public class MemberVisiter extends AbsMemberVisiter {
 	@Autowired
 	public ClassLinker linker;
 
+	@Override
 	public IType visitMethod(IClass clazz, IMethod method) {
 		// 方法上下文
 		MethodContext context = new MethodContext(method);
@@ -34,8 +35,9 @@ public class MemberVisiter extends AbsMemberVisiter {
 			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : TypeEnum.void_t.value;
 				// 进行类型校验
-				if (!linker.isMoreAbstract(declaredType, returnType))
+				if (!linker.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
+				}
 			}
 			// 最终返回声明的类型
 			return declaredType;
@@ -47,8 +49,9 @@ public class MemberVisiter extends AbsMemberVisiter {
 		// 遍历所有子元素
 		for (Element element : father.children) {
 			// 提前将深度加一，以获得正确的blockId
-			if (element.children.size() > 0)
+			if (element.children.size() > 0) {
 				context.increaseDepth();
+			}
 			// 对该元素进行分析
 			IVariable variable = visiter.visit(clazz, context, element);
 			// 如果该元素不是return语句，并且变量不为空，则将变量添加到上下文中

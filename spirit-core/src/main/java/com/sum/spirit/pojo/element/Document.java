@@ -15,8 +15,9 @@ public class Document extends ArrayList<Element> {
 	}
 
 	public void debug() {
-		for (Element element : this)
+		for (Element element : this) {
 			element.debug();
+		}
 	}
 
 }

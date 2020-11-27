@@ -22,8 +22,9 @@ public class FastDeducer {
 		// 构建树形结构
 		for (Node node : builder.buildNodes(statement.tokens)) {
 			IType type = getTypeByNode(clazz, node);
-			if (type != null)
+			if (type != null) {
 				return type;
+			}
 		}
 		throw new RuntimeException("Cannot derive the type!");
 	}
@@ -33,8 +34,9 @@ public class FastDeducer {
 		Token token = node.token;
 
 		// 如果有类型直接返回
-		if (token.attr(AttributeEnum.TYPE) != null)
+		if (token.attr(AttributeEnum.TYPE) != null) {
 			return token.attr(AttributeEnum.TYPE);
+		}
 
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {

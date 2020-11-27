@@ -55,8 +55,9 @@ public class IClass extends Imported {
 		names.remove(0);
 		int index = 0;
 		for (String name : names) {
-			if (name.equals(genericName))
+			if (name.equals(genericName)) {
 				return index;
+			}
 			index++;
 		}
 		return -1;
@@ -79,31 +80,35 @@ public class IClass extends Imported {
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
-		if (token != null)
+		if (token != null) {
 			return factory.create(this, token);
+		}
 		return TypeEnum.Object.value;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		List<IType> interfaces = new ArrayList<>();
-		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value))
+		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
 			interfaces.add(factory.create(this, token));
+		}
 		return interfaces;
 	}
 
 	public IField getField(String fieldName) {
 		for (IField field : fields) {
-			if (field.getName().equals(fieldName))
+			if (field.getName().equals(fieldName)) {
 				return field;
+			}
 		}
 		return null;
 	}
 
 	public IMethod getMethod(IType type, String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
-			if (method.isMatch(type, methodName, parameterTypes))
+			if (method.isMatch(type, methodName, parameterTypes)) {
 				return method;
+			}
 		}
 		return null;
 	}

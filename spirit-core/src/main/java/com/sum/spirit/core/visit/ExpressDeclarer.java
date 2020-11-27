@@ -33,8 +33,9 @@ public class ExpressDeclarer {
 			Token varToken = element.getToken(0);
 			IType type = null;
 			// 如果有上下文，则先从上下文中找
-			if (context != null)
+			if (context != null) {
 				type = tracker.findType(clazz, context, varToken.toString());
+			}
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());

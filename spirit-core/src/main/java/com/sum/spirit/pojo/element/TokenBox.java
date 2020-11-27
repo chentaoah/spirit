@@ -67,16 +67,18 @@ public class TokenBox {
 	}
 
 	public void replaceTokens(int start, int end, Token token) {
-		for (int i = end - 1; i >= start; i--)
+		for (int i = end - 1; i >= start; i--) {
 			tokens.remove(i);
+		}
 		tokens.add(start, token);
 	}
 
 	public Token findOneTokenOf(TokenTypeEnum... tokenTypes) {
 		for (Token token : tokens) {
 			for (TokenTypeEnum type : tokenTypes) {
-				if (token.tokenType == type)
+				if (token.tokenType == type) {
 					return token;
+				}
 			}
 		}
 		return null;
@@ -99,8 +101,9 @@ public class TokenBox {
 	public int indexOf(String str) {
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isFocusOn(token) && str.equals(token.toString()))
+			if (isFocusOn(token) && str.equals(token.toString())) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -109,8 +112,9 @@ public class TokenBox {
 		int index = -1;
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isFocusOn(token) && str.equals(token.toString()))
+			if (isFocusOn(token) && str.equals(token.toString())) {
 				index = i > index ? i : index;
+			}
 		}
 		return index;
 	}
@@ -134,8 +138,9 @@ public class TokenBox {
 	public int indexOfKeyword(String keyword) {
 		for (int i = 0; i < size(); i++) {
 			Token token = getToken(i);
-			if (token.isKeyword() && keyword.equals(token.toString()))
+			if (token.isKeyword() && keyword.equals(token.toString())) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -146,14 +151,16 @@ public class TokenBox {
 
 	public void removeKeyword(String keyword) {
 		int index = indexOfKeyword(keyword);
-		if (index != -1)
+		if (index != -1) {
 			removeToken(index);
+		}
 	}
 
 	public void replaceKeyword(String keyword, String newKeyword) {
 		int index = indexOfKeyword(keyword);
-		if (index != -1)
+		if (index != -1) {
 			setToken(index, new Token(TokenTypeEnum.KEYWORD, newKeyword));
+		}
 	}
 
 	public void addKeywordAtFirst(String keyword) {
@@ -162,8 +169,9 @@ public class TokenBox {
 
 	public void insertKeywordAfter(String keyword, String newKeyword) {
 		int index = indexOfKeyword(keyword);
-		if (index != -1)
+		if (index != -1) {
 			addToken(index + 1, new Token(TokenTypeEnum.KEYWORD, newKeyword));
+		}
 	}
 
 	public int findKeywordEnd(int index) {
@@ -181,8 +189,9 @@ public class TokenBox {
 	public Token getKeywordParam(String... keywords) {
 		for (String keyword : keywords) {
 			int index = indexOfKeyword(keyword);
-			if (index != -1 && contains(index + 1))
+			if (index != -1 && contains(index + 1)) {
 				return getToken(index + 1);
+			}
 		}
 		return null;
 	}

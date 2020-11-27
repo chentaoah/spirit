@@ -13,8 +13,9 @@ public class IVariable extends Tokened {
 
 	@Override
 	public String getName() {
-		if (token == null)
+		if (token == null) {
 			return "NO_NAME";
+		}
 		return super.getName();
 	}
 

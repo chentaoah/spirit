@@ -23,19 +23,22 @@ public abstract class AbsTreeBuilder {
 
 	public void markTreeId(List<Node> nodes) {
 		int count = 0;
-		for (Node node : nodes)
+		for (Node node : nodes) {
 			markTreeId(count++ + "", node);
+		}
 	}
 
 	public void markTreeId(String treeId, Node node) {
 
 		node.token.setAttr(AttributeEnum.TREE_ID, treeId);
 
-		if (node.prev != null)
+		if (node.prev != null) {
 			markTreeId(treeId + "-" + "0", node.prev);
+		}
 
-		if (node.next != null)
+		if (node.next != null) {
 			markTreeId(treeId + "-" + "1", node.next);
+		}
 
 		if (node.canSplit()) {
 			SyntaxTree syntaxTree = node.token.getValue();
@@ -49,8 +52,9 @@ public abstract class AbsTreeBuilder {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setAttr(AttributeEnum.POSITION, position);
-			if (token.canSplit())
+			if (token.canSplit()) {
 				markPositionAndLength(position, token.getValue());
+			}
 			int length = token.toString().length();
 			token.setAttr(AttributeEnum.LENGTH, length);
 			position += length;

@@ -31,11 +31,13 @@ public class VariableTracker {
 
 		for (Token token : statement.tokens) {
 
-			if (token.canSplit())
+			if (token.canSplit()) {
 				track(clazz, context, token.getValue());
+			}
 
-			if (token.attr(AttributeEnum.TYPE) != null)
+			if (token.attr(AttributeEnum.TYPE) != null) {
 				continue;
+			}
 
 			if (token.isVar()) {
 				String name = token.toString();
@@ -63,21 +65,25 @@ public class VariableTracker {
 	public IType findType(IClass clazz, MethodContext context, String name) {
 
 		// super
-		if (KeywordEnum.SUPER.value.equals(name))
+		if (KeywordEnum.SUPER.value.equals(name)) {
 			return clazz.getSuperType().toSuper();
+		}
 
 		// this
-		if (KeywordEnum.THIS.value.equals(name))
+		if (KeywordEnum.THIS.value.equals(name)) {
 			return clazz.toType().toThis();
+		}
 
 		if (context != null) {
 			for (IVariable variable : context.variables) {// 变量
-				if (variable.getName().equals(name) && context.getBlockId().startsWith(variable.blockId))
+				if (variable.getName().equals(name) && context.getBlockId().startsWith(variable.blockId)) {
 					return variable.getType();
+				}
 			}
 			for (IParameter parameter : context.method.parameters) {// 入参
-				if (parameter.getName().equals(name))
+				if (parameter.getName().equals(name)) {
 					return parameter.getType();
+				}
 			}
 		}
 

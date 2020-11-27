@@ -30,11 +30,13 @@ public class InvokeVisiter {
 
 				Token token = statement.getToken(index);
 
-				if (token.canSplit())
+				if (token.canSplit()) {
 					visit(clazz, token.getValue());
+				}
 
-				if (token.attr(AttributeEnum.TYPE) != null)
+				if (token.attr(AttributeEnum.TYPE) != null) {
 					continue;
+				}
 
 				List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 

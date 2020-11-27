@@ -13,11 +13,13 @@ public abstract class AbsClassLoader implements ClassLoader {
 	@Override
 	public boolean shouldImport(String selfClassName, String className) {
 		// 类名相同不用添加
-		if (selfClassName.equals(className))
+		if (selfClassName.equals(className)) {
 			return false;
+		}
 		// 同个包下不用添加
-		if (TypeUtils.isSamePackage(selfClassName, className))
+		if (TypeUtils.isSamePackage(selfClassName, className)) {
 			return false;
+		}
 
 		return true;
 	}

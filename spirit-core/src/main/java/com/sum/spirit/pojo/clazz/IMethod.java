@@ -50,8 +50,9 @@ public class IMethod extends IMember {
 			int count = 0;
 			for (IParameter parameter : parameters) {
 				IType returnType = factory.populate(type, parameter.getType());
-				if (!linker.isMoreAbstract(returnType, parameterTypes.get(count++)))
+				if (!linker.isMoreAbstract(returnType, parameterTypes.get(count++))) {
 					return false;
+				}
 			}
 			return true;
 		}

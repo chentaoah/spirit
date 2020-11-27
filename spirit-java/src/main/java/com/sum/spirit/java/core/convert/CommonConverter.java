@@ -25,8 +25,9 @@ public class CommonConverter implements ElementConverter {
 
 		for (Token token : statement.tokens) {
 
-			if (token.canSplit())
+			if (token.canSplit()) {
 				convertStmt(clazz, token.getValue());
+			}
 
 			if (token.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = token.getValue();
@@ -45,8 +46,9 @@ public class CommonConverter implements ElementConverter {
 			} else if (token.isMap()) {// {"key":"value"} => MapBuilder.of("key","value");
 				Statement subStatement = token.getValue();
 				for (Token subToken : subStatement.tokens) {
-					if (subToken.isSeparator() && ":".equals(subToken.toString()))
+					if (subToken.isSeparator() && ":".equals(subToken.toString())) {
 						subToken.value = ",";
+					}
 				}
 				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "MapBuilder.of("));
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));

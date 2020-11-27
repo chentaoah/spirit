@@ -17,8 +17,9 @@ public class SystemClassLoader extends AbsClassLoader {
 	@Override
 	public String getClassName(String simpleName) {
 		for (String className : classes.keySet()) {
-			if (className.endsWith("." + simpleName))
+			if (className.endsWith("." + simpleName)) {
 				return className;
+			}
 		}
 		return null;
 	}

@@ -61,8 +61,9 @@ public class IType {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (!(obj instanceof IType))
+		if (!(obj instanceof IType)) {
 			return false;
+		}
 
 		IType typeToMatch = (IType) obj;
 		boolean flag = getClassName().equals(typeToMatch.getClassName());
@@ -80,10 +81,12 @@ public class IType {
 
 	@Override
 	public String toString() {
-		if (isGenericType())
+		if (isGenericType()) {
 			return className + "<" + Joiner.on(", ").join(genericTypes) + ">";
-		if (isTypeVariable())
+		}
+		if (isTypeVariable()) {
 			return genericName;
+		}
 		return className;
 	}
 

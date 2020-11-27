@@ -46,8 +46,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		// import
 		List<Import> imports = clazz.getImports();
 		imports.forEach((imp) -> builder.append(imp.element + ";\n"));
-		if (imports.size() > 0)
+		if (imports.size() > 0) {
 			builder.append("\n");
+		}
 		// annotation
 		clazz.annotations.forEach((annotation) -> builder.append(annotation + "\n"));
 		return builder.toString();
@@ -76,8 +77,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			field.element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
 			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
 		}
-		if (fieldsStr.length() > 0)
+		if (fieldsStr.length() > 0) {
 			fieldsStr.append("\n");
+		}
 		return fieldsStr.toString();
 	}
 
@@ -99,8 +101,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 				element.replaceModifier(KeywordEnum.SYNCH.value, JavaBuilder.SYNCHRONIZED_KEYWORD);
 				if (element.isFuncDeclare()) {
 					// 抽象类型的没有方法体的方法，需要加上abstract关键字
-					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild())
+					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild()) {
 						element.insertModifier(KeywordEnum.PUBLIC.value, KeywordEnum.ABSTRACT.value);
+					}
 
 					if (element.hasChild()) {
 						methodsStr.append("\t" + element + "\n");
@@ -129,14 +132,16 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, Element father) {
 		for (Element element : father.children) {
 			builder.append(indent + convert(clazz, element) + "\n");
-			if (element.hasChild())
+			if (element.hasChild()) {
 				convertMethodElement(builder, indent + "\t", clazz, element);
+			}
 		}
 	}
 
 	public Element convert(IClass clazz, Element element) {
-		for (ElementConverter converter : converters)
+		for (ElementConverter converter : converters) {
 			converter.convert(clazz, element);
+		}
 		return element;
 	}
 

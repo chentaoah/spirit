@@ -19,8 +19,9 @@ public abstract class IMember extends Annotated {
 	}
 
 	public void lock() {
-		if (isLock)
+		if (isLock) {
 			throw new RuntimeException("There is a circular dependency!");
+		}
 		isLock = true;
 	}
 

@@ -17,6 +17,7 @@ import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 @Component
 public class TreeBuilder extends AbsTreeBuilder {
 
+	@Override
 	public List<Node> buildNodes(List<Token> tokens) {
 		List<Node> nodes = new LinkedList<>();
 		// index是为了让node记住自己的索引位置
@@ -85,8 +86,9 @@ public class TreeBuilder extends AbsTreeBuilder {
 			// 如果优先级大于0，则添加到图谱中
 			if (priority > 0) {
 				int index = 12 - priority / 5;
-				if (graph[index] == null)
+				if (graph[index] == null) {
 					graph[index] = new ArrayList<Integer>();
+				}
 				graph[index].add(i);
 				// 记录操作数
 				currentToken.setAttr(AttributeEnum.OPERAND, operand);

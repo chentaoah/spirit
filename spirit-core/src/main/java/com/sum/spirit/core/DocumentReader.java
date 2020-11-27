@@ -33,8 +33,9 @@ public class DocumentReader {
 				String text = fileLines.get(number);
 				// 创建行对象
 				Line line = new Line(number + 1, text);
-				if (line.isIgnore())
+				if (line.isIgnore()) {
 					continue;
+				}
 				// 创建元素对象
 				Element element = builder.build(line);
 				// what like "if xxx : xxx : xxx"
@@ -44,11 +45,13 @@ public class DocumentReader {
 					fileLines.addAll(number, sublines);
 					number--;
 				} else {
-					if (line.isEnding())
+					if (line.isEnding()) {
 						stack.pop();
+					}
 					stack.peek().add(element);
-					if (line.hasChild())
+					if (line.hasChild()) {
 						stack.push(element.children);
+					}
 				}
 			}
 			return document;
@@ -60,14 +63,16 @@ public class DocumentReader {
 
 	public List<String> splitLine(Element element) {
 		if (element.isIf() || element.isFor() || element.isForIn() || element.isWhile()) {
-			if (!element.contains(":"))
+			if (!element.contains(":")) {
 				return null;
+			}
 			List<String> subLines = new ArrayList<>();
 			List<Statement> statements = element.splitStmt(":");
 			String indent = element.getIndent();
 			subLines.add(indent + statements.get(0).toString() + " {");
-			for (int i = 1; i < statements.size(); i++)
+			for (int i = 1; i < statements.size(); i++) {
 				subLines.add(indent + "\t" + statements.get(i).toString());
+			}
 			subLines.add(indent + "}");
 			return subLines;
 		}

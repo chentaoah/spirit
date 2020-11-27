@@ -18,8 +18,9 @@ public class ReflectUtils {
 	public static String getClassName(String targetName, boolean isArray) {
 		try {
 			Class<?> clazz = ReflectUtils.getClass("java.lang." + targetName);
-			if (clazz != null)
+			if (clazz != null) {
 				return isArray ? "[L" + clazz.getName() + ";" : clazz.getName();
+			}
 		} catch (Exception e) {
 			// ignore
 		}
@@ -29,8 +30,9 @@ public class ReflectUtils {
 	public static Field getDeclaredField(Class<?> clazz, String fieldName) {
 		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
-			if (field.getName().equals(fieldName))
+			if (field.getName().equals(fieldName)) {
 				return field;
+			}
 		}
 		return null;
 	}
@@ -47,8 +49,9 @@ public class ReflectUtils {
 	public static boolean isAccessible(Member member, int... modifiers) {
 		int mod = member.getModifiers();
 		for (int modifier : modifiers) {
-			if ((mod & modifier) != 0)
+			if ((mod & modifier) != 0) {
 				return true;
+			}
 		}
 		return false;
 	}

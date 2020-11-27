@@ -25,8 +25,9 @@ public class Statement extends TokenBox {
 	public List<Statement> splitStmt(String separator) {
 		List<Statement> statements = new ArrayList<>();
 		List<TokenBox> tokenBoxs = splitTokens(separator);
-		for (TokenBox tokenBox : tokenBoxs)
+		for (TokenBox tokenBox : tokenBoxs) {
 			statements.add(new Statement(tokenBox.tokens));
+		}
 		return statements;
 	}
 
@@ -39,8 +40,9 @@ public class Statement extends TokenBox {
 
 		List<Token> tokens = copyTokens();
 
-		for (int i = tokens.size() - 1; i >= 1; i--)
+		for (int i = tokens.size() - 1; i >= 1; i--) {
 			tokens.add(i, new Token(TokenTypeEnum.SEPARATOR, " "));
+		}
 
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
@@ -117,8 +119,9 @@ public class Statement extends TokenBox {
 
 	public String debug() {
 		StringBuilder builder = new StringBuilder();
-		for (Token token : tokens)
+		for (Token token : tokens) {
 			builder.append(token.debug() + " ");
+		}
 		return builder.toString().trim();
 	}
 
