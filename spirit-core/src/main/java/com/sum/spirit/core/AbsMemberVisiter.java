@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sum.spirit.core.build.ElementBuilder;
 import com.sum.spirit.core.type.TypeFactory;
 import com.sum.spirit.core.visit.ElementVisiter;
-import com.sum.spirit.pojo.clazz.IMember;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
@@ -21,6 +20,7 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.clazz.frame.IMember;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 

@@ -2,6 +2,7 @@ package com.sum.spirit.pojo.clazz;
 
 import java.util.List;
 
+import com.sum.spirit.pojo.clazz.frame.IMember;
 import com.sum.spirit.pojo.element.Element;
 
 public class IField extends IMember {

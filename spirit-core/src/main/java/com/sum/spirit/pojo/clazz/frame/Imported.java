@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.pojo.clazz.frame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.pojo.clazz.IAnnotation;
+import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;

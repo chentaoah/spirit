@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.pojo.clazz.frame;
 
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;

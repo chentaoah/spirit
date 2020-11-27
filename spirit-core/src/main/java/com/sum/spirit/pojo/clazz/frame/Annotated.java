@@ -1,8 +1,9 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.pojo.clazz.frame;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.element.Element;
 
 public abstract class Annotated extends Elemented {
