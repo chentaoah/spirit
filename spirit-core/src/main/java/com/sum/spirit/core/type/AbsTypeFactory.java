@@ -14,11 +14,12 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.Assert;
-import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeBuilder;
 
 public abstract class AbsTypeFactory {
 
+	@Autowired
+	public ClassLinker linker;
 	@Autowired
 	public SemanticParser parser;
 
@@ -39,31 +40,32 @@ public abstract class AbsTypeFactory {
 	}
 
 	public IType populate(IType type, IType targetType) {
-
 		if (targetType == null) {
 			return null;
 		}
 		// 拷贝一份
 		targetType = TypeBuilder.copy(targetType);
-
-		if (targetType.isGenericType()) {
+		if (targetType.isGenericType()) {// 如果是泛型
 			List<IType> genericTypes = new ArrayList<>();
 			for (IType genericType : targetType.getGenericTypes()) {
 				genericTypes.add(populate(type, genericType));
 			}
 			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 
-		} else if (targetType.isTypeVariable()) {
-			ClassLinker linker = SpringUtils.getBean("adaptiveLinker", ClassLinker.class);
+		} else if (targetType.isTypeVariable()) {// 如果是泛型参数
 			int index = linker.getTypeVariableIndex(type, targetType.getGenericName());
-			Assert.isTrue(index >= 0, "Index of type variable less than 0!");
-			Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
-			List<IType> genericTypes = type.getGenericTypes();
-			// 拷贝一份
-			return TypeBuilder.copy(genericTypes.get(index));
+			if (checkIndex(type, index)) {
+				List<IType> genericTypes = type.getGenericTypes();
+				return TypeBuilder.copy(genericTypes.get(index));
+			}
 		}
-
 		return targetType;
+	}
+
+	public boolean checkIndex(IType type, int index) {
+		Assert.isTrue(index >= 0, "Index of type variable less than 0!");
+		Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
+		return true;
 	}
 
 	public IType create(IClass clazz, String text) {

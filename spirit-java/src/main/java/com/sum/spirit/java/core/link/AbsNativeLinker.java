@@ -33,10 +33,10 @@ public abstract class AbsNativeLinker implements ClassLinker {
 	public int getTypeVariableIndex(IType type, String genericName) {
 		Class<?> clazz = toClass(type);
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
-		for (int i = 0; i < typeVariables.length; i++) {
-			TypeVariable<?> typeVariable = typeVariables[i];
+		for (int index = 0; index < typeVariables.length; index++) {
+			TypeVariable<?> typeVariable = typeVariables[index];
 			if (typeVariable.toString().equals(genericName)) {
-				return i;
+				return index;
 			}
 		}
 		return -1;
