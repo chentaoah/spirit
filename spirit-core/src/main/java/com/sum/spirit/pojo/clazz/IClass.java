@@ -102,7 +102,7 @@ public class IClass extends Imported {
 
 	public IMethod getMethod(IType type, String methodName, List<IType> parameterTypes) {
 		for (IMethod method : methods) {
-			if (method.isMatch(type, methodName, parameterTypes)) {
+			if (method.matches(type, methodName, parameterTypes)) {
 				return method;
 			}
 		}

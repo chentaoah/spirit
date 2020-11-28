@@ -43,7 +43,7 @@ public class IMethod extends IMember {
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}
 
-	public boolean isMatch(IType type, String methodName, List<IType> parameterTypes) {
+	public boolean matches(IType type, String methodName, List<IType> parameterTypes) {
 		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
 		if (getName().equals(methodName) && parameters.size() == parameterTypes.size()) {

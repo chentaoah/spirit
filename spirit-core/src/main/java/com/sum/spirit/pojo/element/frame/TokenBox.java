@@ -15,7 +15,7 @@ public class TokenBox {
 		this.tokens = tokens;
 	}
 
-	public boolean isFocusOn(Token token) {
+	public boolean matches(Token token) {
 		return token.isOperator() || token.isSeparator();
 	}
 
@@ -89,7 +89,7 @@ public class TokenBox {
 		List<TokenBox> tokenBoxs = new ArrayList<>();
 		for (int i = 0, last = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isFocusOn(token) && separator.equals(token.toString())) {
+			if (matches(token) && separator.equals(token.toString())) {
 				tokenBoxs.add(new TokenBox(subTokens(last, i)));
 				last = i + 1;
 			} else if (i == size() - 1) {
@@ -102,7 +102,7 @@ public class TokenBox {
 	public int indexOf(String str) {
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isFocusOn(token) && str.equals(token.toString())) {
+			if (matches(token) && str.equals(token.toString())) {
 				return i;
 			}
 		}
@@ -113,7 +113,7 @@ public class TokenBox {
 		int index = -1;
 		for (int i = 0; i < size(); i++) {
 			Token token = tokens.get(i);
-			if (isFocusOn(token) && str.equals(token.toString())) {
+			if (matches(token) && str.equals(token.toString())) {
 				index = i > index ? i : index;
 			}
 		}
