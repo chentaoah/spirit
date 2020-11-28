@@ -36,6 +36,7 @@ public class AdaptiveLinker extends AbsAdaptiveLinker {
 		if (type.isArray() && ARRAY_LENGTH.equals(fieldName)) {
 			return TypeEnum.int_t.value;
 		}
+		// 向上遍历推导
 		IType returnType = getLinker(type).visitField(type, fieldName);
 		if (returnType == null) {
 			IType superType = getSuperType(type);
@@ -65,6 +66,7 @@ public class AdaptiveLinker extends AbsAdaptiveLinker {
 		if (type.isArray()) {
 			throw new RuntimeException("Array has no method!");
 		}
+		// 向上遍历推导
 		IType returnType = getLinker(type).visitMethod(type, methodName, parameterTypes);
 		if (returnType == null) {
 			IType superType = getSuperType(type);
