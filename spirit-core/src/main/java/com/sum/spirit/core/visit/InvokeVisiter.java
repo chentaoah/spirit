@@ -49,7 +49,7 @@ public class InvokeVisiter {
 
 				} else if (token.isLocalMethod()) {
 					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-					IType returnType = linker.visitMethod(clazz.toType().toThis(), memberName, parameterTypes);
+					IType returnType = linker.visitMethod(clazz.getType().toThis(), memberName, parameterTypes);
 					token.setAttr(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitField()) {

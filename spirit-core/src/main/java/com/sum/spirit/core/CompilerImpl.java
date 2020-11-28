@@ -21,7 +21,7 @@ public class CompilerImpl implements Compiler {
 	@Autowired
 	public ClassResolver resolver;
 	@Autowired
-	public MemberVisiter visiter;
+	public ClassVisiter visiter;
 	@Autowired
 	public SystemClassLoader systemClassLoader;
 	@Autowired

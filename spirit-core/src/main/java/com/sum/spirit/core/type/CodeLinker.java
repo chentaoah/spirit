@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.MemberVisiter;
+import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.SystemClassLoader;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
@@ -24,7 +24,7 @@ public class CodeLinker implements ClassLinker {
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
-	public MemberVisiter visiter;
+	public ClassVisiter visiter;
 
 	@Override
 	@SuppressWarnings("unchecked")

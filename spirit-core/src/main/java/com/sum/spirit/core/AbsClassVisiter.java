@@ -24,14 +24,14 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 
-public abstract class AbsMemberVisiter {
+public abstract class AbsClassVisiter {
 
+	@Autowired
+	public TypeFactory factory;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
 	public ElementVisiter visiter;
-	@Autowired
-	public TypeFactory factory;
 
 	public void visit(Map<String, IClass> allClasses) {
 		// 解析所有的注解
@@ -40,11 +40,14 @@ public abstract class AbsMemberVisiter {
 			clazz.fields.forEach((field) -> visitAnnotations(clazz, field.annotations));
 			clazz.methods.forEach((method) -> visitAnnotations(clazz, method.annotations));
 		}
+		// 解析类的类型
+		for (IClass clazz : allClasses.values()) {
+			clazz.setType(factory.create(clazz, clazz.getTypeToken()));
+		}
 		// 解析所有的方法入参
 		for (IClass clazz : allClasses.values()) {
 			clazz.methods.forEach((method) -> visitParameters(clazz, method));
 		}
-
 		// 解析所有字段和方法内容
 		for (IClass clazz : allClasses.values()) {
 			clazz.fields.forEach((field) -> visitMember(clazz, field));

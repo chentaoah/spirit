@@ -51,6 +51,7 @@ public class IClass extends Imported {
 
 	public int getTypeVariableIndex(String genericName) {
 		String simpleName = getTypeToken().toString();
+		// 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
 		List<String> names = TypeUtils.splitName(simpleName);
 		names.remove(0);
 		int index = 0;
@@ -70,11 +71,6 @@ public class IClass extends Imported {
 	@Override
 	public String getClassName() {
 		return packageStr + "." + getSimpleName();
-	}
-
-	public IType toType() {
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		return factory.create(this, getTypeToken());
 	}
 
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>

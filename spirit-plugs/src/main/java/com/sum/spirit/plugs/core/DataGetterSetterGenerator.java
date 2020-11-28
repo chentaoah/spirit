@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassEnhancer;
-import com.sum.spirit.core.MemberVisiter;
+import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.build.ElementBuilder;
 import com.sum.spirit.plugs.api.Data;
 import com.sum.spirit.pojo.clazz.IAnnotation;
@@ -22,7 +22,7 @@ public class DataGetterSetterGenerator implements ClassEnhancer {
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public MemberVisiter visiter;
+	public ClassVisiter visiter;
 
 	@Override
 	public void enhance(IClass clazz) {

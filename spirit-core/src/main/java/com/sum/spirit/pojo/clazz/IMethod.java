@@ -49,8 +49,8 @@ public class IMethod extends IMember {
 		if (getName().equals(methodName) && parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : parameters) {
-				IType returnType = factory.populate(type, parameter.getType());
-				if (!linker.isMoreAbstract(returnType, parameterTypes.get(count++))) {
+				IType parameterType = factory.populate(type, parameter.getType());
+				if (!linker.isMoreAbstract(parameterType, parameterTypes.get(count++))) {
 					return false;
 				}
 			}
