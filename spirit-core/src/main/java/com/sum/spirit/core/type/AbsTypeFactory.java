@@ -1,6 +1,5 @@
 package com.sum.spirit.core.type;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,26 +39,16 @@ public abstract class AbsTypeFactory {
 	}
 
 	public IType populate(IType type, IType targetType) {
-		if (targetType == null) {
+		// 使用匿名表达式
+		return new TypeVisiter().visit(targetType, (rawType, index, currentType) -> {
+			if (currentType.isTypeVariable()) {
+				int idx = linker.getTypeVariableIndex(type, currentType.getGenericName());
+				if (checkIndex(type, idx)) {
+					return TypeBuilder.copy(type.getGenericTypes().get(idx));
+				}
+			}
 			return null;
-		}
-		// 拷贝一份
-		targetType = TypeBuilder.copy(targetType);
-		if (targetType.isGenericType()) {// 如果是泛型
-			List<IType> genericTypes = new ArrayList<>();
-			for (IType genericType : targetType.getGenericTypes()) {
-				genericTypes.add(populate(type, genericType));
-			}
-			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
-
-		} else if (targetType.isTypeVariable()) {// 如果是泛型参数
-			int index = linker.getTypeVariableIndex(type, targetType.getGenericName());
-			if (checkIndex(type, index)) {
-				List<IType> genericTypes = type.getGenericTypes();
-				return TypeBuilder.copy(genericTypes.get(index));
-			}
-		}
-		return targetType;
+		});
 	}
 
 	public boolean checkIndex(IType type, int index) {

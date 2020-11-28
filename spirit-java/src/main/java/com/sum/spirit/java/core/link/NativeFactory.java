@@ -13,6 +13,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.type.TypeFactory;
+import com.sum.spirit.core.type.TypeVisiter;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
@@ -74,36 +75,6 @@ public class NativeFactory extends TypeFactory {
 		return targetType;
 	}
 
-	public IType populate(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-
-		if (targetType.isGenericType()) {// List<T>
-			List<IType> genericTypes = new ArrayList<>();
-			int index = 0;
-			for (IType genericType : targetType.getGenericTypes()) {
-				IType genericMappingType = parameterType.getGenericTypes().get(index++);
-				genericTypes.add(populate(genericMappingType, genericType, qualifyingTypes));
-			}
-			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
-
-		} else if (targetType.isTypeVariable()) {// T or K
-			String genericName = targetType.getGenericName();
-			// 如果已经存在了，则必须统一
-			if (qualifyingTypes.containsKey(genericName)) {
-				IType existType = qualifyingTypes.get(genericName);
-				if (!existType.equals(parameterType)) {
-					throw new RuntimeException("Parameter qualification types are not uniform!");
-				}
-				return existType;
-
-			} else {
-				parameterType = TypeBuilder.copy(parameterType);
-				qualifyingTypes.put(genericName, parameterType);
-				return parameterType;
-			}
-		}
-		return targetType;
-	}
-
 	public IType populate(IType type, Map<String, IType> qualifyingTypes, IType targetType) {
 		// 先使用类型填充
 		targetType = populate(type, targetType);
@@ -113,20 +84,37 @@ public class NativeFactory extends TypeFactory {
 		return targetType;
 	}
 
-	public IType populate(Map<String, IType> qualifyingTypes, IType targetType) {
+	public IType populate(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
+		// 使用匿名表达式
+		return new TypeVisiter().visit(parameterType, targetType, (rawType, index, referenceType, currentType) -> {
+			if (currentType.isTypeVariable()) {
+				String genericName = currentType.getGenericName();
+				// 如果已经存在了，则必须统一
+				if (qualifyingTypes.containsKey(genericName)) {
+					IType existType = qualifyingTypes.get(genericName);
+					if (!existType.equals(parameterType)) {
+						throw new RuntimeException("Parameter qualification types are not uniform!");
+					}
+					return existType;
 
-		if (targetType.isGenericType()) {// List<T>
-			List<IType> genericTypes = new ArrayList<>();
-			for (IType genericType : targetType.getGenericTypes()) {
-				genericTypes.add(populate(qualifyingTypes, genericType));
+				} else {
+					referenceType = TypeBuilder.copy(referenceType);
+					qualifyingTypes.put(genericName, referenceType);
+					return referenceType;
+				}
 			}
-			targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
+			return null;
+		});
+	}
 
-		} else if (targetType.isTypeVariable()) {// T or K
-			String genericName = targetType.getGenericName();
-			return qualifyingTypes.get(genericName);
-		}
-		return targetType;
+	public IType populate(Map<String, IType> qualifyingTypes, IType targetType) {
+		// 使用匿名表达式
+		return new TypeVisiter().visit(targetType, (rawType, index, currentType) -> {
+			if (currentType.isTypeVariable()) {
+				return qualifyingTypes.get(targetType.getGenericName());
+			}
+			return null;
+		});
 	}
 
 }
