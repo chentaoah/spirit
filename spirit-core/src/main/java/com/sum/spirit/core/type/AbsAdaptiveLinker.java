@@ -32,20 +32,16 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 
 	@Override
 	public IType getSuperType(IType type) {
-
 		if (type.isPrimitive()) {
 			return null;
 		}
-
 		if (type.isArray()) {
 			return TypeEnum.Object.value;
 		}
-
 		IType superType = !type.isNative() ? codeLinker.getSuperType(type) : nativeLinker.getSuperType(type);
 		if (superType == null) {
 			return null;
 		}
-
 		int modifiers = type.getModifiers();
 		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
 			superType.setModifiers(ModifierEnum.SUPER.value);
@@ -53,58 +49,47 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 		} else if (modifiers == ModifierEnum.PUBLIC.value) {
 			superType.setModifiers(ModifierEnum.PUBLIC.value);
 		}
-
 		return superType;
 	}
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
-
 		if (type.isPrimitive()) {
 			return new ArrayList<>();
 		}
-
 		if (type.isArray()) {
 			return new ArrayList<>();
 		}
-
 		return !type.isNative() ? codeLinker.getInterfaceTypes(type) : nativeLinker.getInterfaceTypes(type);
 	}
 
 	@Override
 	public boolean isMoreAbstract(IType abstractType, IType type) {
-
 		if (type == null) {
 			return false;
 		}
-
 		// null类型不能比任何类型抽象
 		if (abstractType.isNull()) {
 			return false;
 		}
-
 		// 任何类型都能比null抽象
 		if (type.isNull()) {
 			return true;
 		}
-
 		// 这个方法还要判断泛型
 		if (type.equals(abstractType)) {
 			return true;
 		}
-
 		// 这个方法中，还要考虑到自动拆组包
 		if (isMoreAbstract(abstractType, getSuperType(type.getWrappedType()))) {
 			return true;
 		}
-
 		// 接口
 		for (IType inter : getInterfaceTypes(type)) {
 			if (isMoreAbstract(abstractType, inter)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

@@ -78,7 +78,6 @@ public class TypeFactory extends AbsTypeFactory {
 			type.setGenericTypes(getGenericTypes(clazz, statement));
 			return type;
 		}
-
 		throw new RuntimeException("Unknown token value type!");
 	}
 
