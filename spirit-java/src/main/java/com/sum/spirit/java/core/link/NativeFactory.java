@@ -95,7 +95,8 @@ public class NativeFactory extends TypeFactory {
 					if (!existType.equals(parameterType)) {
 						throw new RuntimeException("Parameter qualification types are not uniform!");
 					}
-					return existType;
+					referenceType = TypeBuilder.copy(referenceType);
+					return referenceType;
 
 				} else {
 					referenceType = TypeBuilder.copy(referenceType);
