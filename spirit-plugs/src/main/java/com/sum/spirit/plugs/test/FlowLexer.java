@@ -1,4 +1,4 @@
-package com.sum.spirit.plug.test;
+package com.sum.spirit.plugs.test;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;

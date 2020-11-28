@@ -6,7 +6,7 @@ import com.sum.spirit.utils.TypeUtils;
 public abstract class AbsClassLoader implements ClassLoader {
 
 	@Override
-	public void load() {
+	public void prepareEnvironment() {
 		// ignore
 	}
 
@@ -23,10 +23,5 @@ public abstract class AbsClassLoader implements ClassLoader {
 
 		return true;
 	}
-
-	@Override
-	public <T> T getClass(String className) {
-		return null;
-	}
-
+	
 }

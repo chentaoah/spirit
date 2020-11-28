@@ -2,7 +2,7 @@ package com.sum.spirit.api;
 
 public interface ClassLoader {
 
-	void load();
+	void prepareEnvironment();
 
 	String getClassName(String simpleName);
 

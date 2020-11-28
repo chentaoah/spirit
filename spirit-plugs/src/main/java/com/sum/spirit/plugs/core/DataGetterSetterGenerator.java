@@ -1,4 +1,4 @@
-package com.sum.spirit.plug.enhancer;
+package com.sum.spirit.plugs.core;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ClassEnhancer;
 import com.sum.spirit.core.MemberVisiter;
 import com.sum.spirit.core.build.ElementBuilder;
-import com.sum.spirit.plug.annotation.Data;
+import com.sum.spirit.plugs.api.Data;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;

@@ -1,4 +1,4 @@
-package com.sum.spirit.plug.link;
+package com.sum.spirit.plugs.core;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,7 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AbsClassLoader;
-import com.sum.spirit.plug.annotation.Data;
+import com.sum.spirit.plugs.api.Data;
 
 @Component
 @Order(-60)
@@ -27,6 +27,11 @@ public class ExtentionClassLoader extends AbsClassLoader {
 	@Override
 	public boolean isLoaded(String className) {
 		return Data.class.getName().equals(className);
+	}
+
+	@Override
+	public <T> T getClass(String className) {
+		return null;
 	}
 
 }

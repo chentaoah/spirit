@@ -1,6 +1,6 @@
 package com.sum.test.type;
 
-import com.sum.spirit.plug.annotation.Data;
+import com.sum.spirit.plugs.api.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
