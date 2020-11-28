@@ -61,21 +61,14 @@ public class TypeFactory extends AbsTypeFactory {
 	}
 
 	public IType doCreate(IClass clazz, Token token) {
-
 		if (token.value instanceof String) {// String // String[] //? //T,K
-
 			String simpleName = token.getValue();
-
-			if ("?".equals(simpleName))
-			 {
+			if ("?".equals(simpleName)) {
 				return TypeEnum.Wildcard.value;// ?
 			}
-
-			if (clazz.getTypeVariableIndex(simpleName) >= 0)
-			 {
+			if (clazz.getTypeVariableIndex(simpleName) >= 0) {
 				return createTypeVariable(simpleName);// T or K
 			}
-
 			return create(clazz.findClassName(simpleName));
 
 		} else if (token.value instanceof Statement) {
@@ -142,11 +135,10 @@ public class TypeFactory extends AbsTypeFactory {
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
-
+		// 如果没有元素，则返回Object类型
 		if (statements.size() == 0) {
 			return TypeEnum.Object.value;
 		}
-
 		IType genericType = null;
 		for (Statement statement : statements) {
 			IType wrappedType = deducer.derive(clazz, statement).getWrappedType();
