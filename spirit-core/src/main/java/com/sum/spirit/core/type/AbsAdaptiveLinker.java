@@ -3,31 +3,50 @@ package com.sum.spirit.core.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.utils.SpringUtils;
 
-public abstract class AbsAdaptiveLinker implements ClassLinker {
+public abstract class AbsAdaptiveLinker implements ClassLinker, InitializingBean {
 
-	@Autowired
-	@Qualifier("codeLinker")
-	public ClassLinker codeLinker;
-	@Autowired
-	@Qualifier("nativeLinker")
-	public ClassLinker nativeLinker;
+	public List<ClassLinker> linkers;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		linkers = SpringUtils.getBeansAndSort(ClassLinker.class, getClass());// 排除自己
+	}
+
+	@Override
+	public boolean canLink(IType type) {
+		for (ClassLinker linker : linkers) {
+			if (linker.canLink(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public ClassLinker getLinker(IType type) {
+		for (ClassLinker linker : linkers) {
+			if (linker.canLink(type)) {
+				return linker;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public <T> T toClass(IType type) {
-		return !type.isNative() ? codeLinker.toClass(type) : nativeLinker.toClass(type);
+		return getLinker(type).toClass(type);
 	}
 
 	@Override
 	public int getTypeVariableIndex(IType type, String genericName) {
-		return !type.isNative() ? codeLinker.getTypeVariableIndex(type, genericName) : nativeLinker.getTypeVariableIndex(type, genericName);
+		return getLinker(type).getTypeVariableIndex(type, genericName);
 	}
 
 	@Override
@@ -38,7 +57,7 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 		if (type.isArray()) {
 			return TypeEnum.Object.value;
 		}
-		IType superType = !type.isNative() ? codeLinker.getSuperType(type) : nativeLinker.getSuperType(type);
+		IType superType = getLinker(type).getSuperType(type);
 		if (superType == null) {
 			return null;
 		}
@@ -60,7 +79,7 @@ public abstract class AbsAdaptiveLinker implements ClassLinker {
 		if (type.isArray()) {
 			return new ArrayList<>();
 		}
-		return !type.isNative() ? codeLinker.getInterfaceTypes(type) : nativeLinker.getInterfaceTypes(type);
+		return getLinker(type).getInterfaceTypes(type);
 	}
 
 	@Override

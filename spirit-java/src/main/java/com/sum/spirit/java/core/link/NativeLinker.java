@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.java.utils.ReflectUtils;
@@ -17,6 +18,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.Assert;
 
 @Component
+@Order(-80)
 public class NativeLinker extends AbsNativeLinker {
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
@@ -17,6 +18,7 @@ import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component
+@Order(-100)
 public class CodeLinker implements ClassLinker {
 
 	@Autowired
@@ -25,6 +27,11 @@ public class CodeLinker implements ClassLinker {
 	public TypeFactory factory;
 	@Autowired
 	public ClassVisiter visiter;
+
+	@Override
+	public boolean canLink(IType type) {
+		return !type.isNative();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

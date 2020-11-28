@@ -37,7 +37,6 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 		if (StringUtils.isEmpty(text)) {
 			return new ArrayList<>();
 		}
-
 		StringBuilder builder = new StringBuilder(text.trim());
 		// 触发事件
 		Map<String, String> replacedStrs = replace(builder, ignoreOnceChars);

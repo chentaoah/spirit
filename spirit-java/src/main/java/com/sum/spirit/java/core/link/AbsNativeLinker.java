@@ -20,6 +20,11 @@ public abstract class AbsNativeLinker implements ClassLinker {
 	public NativeFactory factory;
 
 	@Override
+	public boolean canLink(IType type) {
+		return type.isNative();
+	}
+
+	@Override
 	public <T> T toClass(IType type) {
 		return bootstrapClassLoader.getClass(type.getClassName());// 可能是数组
 	}

@@ -6,6 +6,8 @@ import com.sum.spirit.pojo.common.IType;
 
 public interface ClassLinker {
 
+	boolean canLink(IType type);
+
 	<T> T toClass(IType type);
 
 	int getTypeVariableIndex(IType type, String genericName);
