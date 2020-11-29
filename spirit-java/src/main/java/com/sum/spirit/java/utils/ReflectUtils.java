@@ -46,6 +46,10 @@ public class ReflectUtils {
 		return false;
 	}
 
+	public static boolean isIndefinite(Parameter lastParameter) {
+		return lastParameter.toString().contains("...");
+	}
+
 	public static boolean isAccessible(Member member, int... modifiers) {
 		int mod = member.getModifiers();
 		for (int modifier : modifiers) {
