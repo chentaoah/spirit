@@ -29,12 +29,10 @@ public class TypeUtils {
 		if (name.contains("<") && name.endsWith(">")) {
 			return name.substring(0, name.indexOf('<'));
 		}
-
 		// 内部类
 		if (name.contains(".") && name.contains("$")) {
 			name = name.replaceAll("\\$", ".");
 		}
-
 		// 数组
 		if (!isArray(name)) {
 			return name;
