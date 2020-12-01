@@ -3,7 +3,7 @@ package com.sum.spirit.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapBuilder {
+public class Maps {
 
 	/**
 	 * Creates an instance of {@code HashMap}

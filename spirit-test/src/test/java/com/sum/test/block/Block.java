@@ -3,7 +3,7 @@ package com.sum.test.block;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.utils.MapBuilder;
+import com.sum.spirit.utils.Maps;
 import java.util.Map;
 import java.util.Map.Entry;
 import com.google.common.collect.Lists;
@@ -39,7 +39,7 @@ public class Block {
 	}
 
 	public void testFor() {
-		Map<String, Integer> map = MapBuilder.of("key", 100, "key", 100);
+		Map<String, Integer> map = Maps.of("key", 100, "key", 100);
 		for (String key : map.keySet()) {
 			logger.info(key);
 		}
