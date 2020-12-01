@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.utils.Assert;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-80)

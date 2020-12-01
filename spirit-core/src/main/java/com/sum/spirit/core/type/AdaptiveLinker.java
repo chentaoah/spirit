@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.Assert;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary

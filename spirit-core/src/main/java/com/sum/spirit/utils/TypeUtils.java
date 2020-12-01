@@ -7,6 +7,8 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
+import cn.hutool.core.lang.Assert;
+
 public class TypeUtils {
 
 	public static String getPackage(String className) {

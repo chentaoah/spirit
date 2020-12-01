@@ -14,8 +14,9 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-100)

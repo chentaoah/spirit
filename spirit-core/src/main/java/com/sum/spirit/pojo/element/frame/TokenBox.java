@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
-import com.sum.spirit.utils.Assert;
+
+import cn.hutool.core.lang.Assert;
 
 public class TokenBox {
 

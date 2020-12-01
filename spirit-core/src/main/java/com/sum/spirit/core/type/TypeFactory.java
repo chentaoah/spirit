@@ -17,8 +17,9 @@ import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.TypeUtils;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary

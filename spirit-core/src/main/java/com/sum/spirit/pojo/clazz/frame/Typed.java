@@ -1,7 +1,8 @@
 package com.sum.spirit.pojo.clazz.frame;
 
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.utils.Assert;
+
+import cn.hutool.core.lang.Assert;
 
 public abstract class Typed {
 

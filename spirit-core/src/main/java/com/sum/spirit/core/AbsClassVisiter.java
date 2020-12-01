@@ -21,8 +21,9 @@ import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.clazz.frame.IMember;
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
+
+import cn.hutool.core.lang.Assert;
 
 public abstract class AbsClassVisiter {
 

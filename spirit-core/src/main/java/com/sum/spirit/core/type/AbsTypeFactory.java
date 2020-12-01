@@ -12,8 +12,9 @@ import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.TypeBuilder;
+
+import cn.hutool.core.lang.Assert;
 
 public abstract class AbsTypeFactory {
 

@@ -10,9 +10,10 @@ import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.Assert;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
+
+import cn.hutool.core.lang.Assert;
 
 public class IClass extends Imported {
 
