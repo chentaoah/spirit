@@ -20,7 +20,7 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<springBoot.version>2.2.2.RELEASE</springBoot.version>
+		<spring.boot.version>2.2.2.RELEASE</spring.boot.version>
 		<hutool.version>5.5.1</hutool.version>
 		<guava.version>29.0-jre</guava.version>
 		<lang3.version>3.9</lang3.version>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>${springBoot.version}</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 		<!-- hutool -->
 		<dependency>

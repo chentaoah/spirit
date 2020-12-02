@@ -1,5 +1,4 @@
 
-@Data
 class People {
 
 	name = "chentao"

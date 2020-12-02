@@ -1,5 +1,0 @@
-|参数名称|类型|必需|说明|
-| ---- | ---- | ---- | ---- |
-#foreach(${field} in ${fields})
-|${field.property}|${field.javaType}|${field.required}|${field.comment}|
-#end
