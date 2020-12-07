@@ -31,7 +31,6 @@ public class CompilerImpl implements Compiler {
 	public Map<String, IClass> compile(Map<String, File> files) {
 
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
-
 		files.forEach((path, file) -> {
 			// 1.读取文件
 			Document document = reader.readFile(file);
