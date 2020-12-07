@@ -7,15 +7,15 @@ import java.util.Map;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.sum.spirit.pojo.common.Constants;
 
 public class FileUtils {
 
 	public static final String SEPARATOR = File.separator;
 
-	public static final String SUFFIX = ".ss";
-
 	public static String getName(File file) {
-		return file.getName().replace(SUFFIX, "");
+		String suffix = "." + ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY);
+		return file.getName().replace(suffix, "");
 	}
 
 	public static Map<String, File> getFiles(String inputPath) {
@@ -39,8 +39,9 @@ public class FileUtils {
 				getFilesRecursively(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files);
 
 			} else if (file.isFile()) {
-				if (file.getName().endsWith(SUFFIX)) {
-					files.put(packageStr + "." + file.getName().replace(SUFFIX, ""), file);
+				String suffix = "." + ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY);
+				if (file.getName().endsWith(suffix)) {
+					files.put(packageStr + "." + file.getName().replace(suffix, ""), file);
 				}
 			}
 		}
