@@ -13,6 +13,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
+import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 public class InvokeVisiter {
@@ -25,56 +26,53 @@ public class InvokeVisiter {
 	public TypeFactory factory;
 
 	public void visit(IClass clazz, Statement statement) {
-		try {
-			for (int index = 0; index < statement.size(); index++) {
 
-				Token token = statement.getToken(index);
-
-				if (token.canSplit()) {
-					visit(clazz, token.getValue());
+		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
+			try {
+				// 如果有类型，则直接返回
+				if (currentToken.attr(AttributeEnum.TYPE) != null) {
+					return null;
 				}
+				// 获取参数
+				List<IType> parameterTypes = currentToken.isInvoke() ? getParameterTypes(clazz, currentToken) : null;
 
-				if (token.attr(AttributeEnum.TYPE) != null) {
-					continue;
-				}
+				if (currentToken.isType() || currentToken.isArrayInit() || currentToken.isTypeInit() || currentToken.isCast() || currentToken.isValue()) {
+					currentToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, currentToken));
 
-				List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
+				} else if (currentToken.isSubexpress()) {
+					Statement subStatement = currentToken.getValue();
+					currentToken.setAttr(AttributeEnum.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
 
-				if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
-					token.setAttr(AttributeEnum.TYPE, factory.create(clazz, token));
-
-				} else if (token.isSubexpress()) {
-					Statement subStatement = token.getValue();
-					token.setAttr(AttributeEnum.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
-
-				} else if (token.isLocalMethod()) {
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+				} else if (currentToken.isLocalMethod()) {
+					String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitMethod(clazz.getType().toThis(), memberName, parameterTypes);
-					token.setAttr(AttributeEnum.TYPE, returnType);
+					currentToken.setAttr(AttributeEnum.TYPE, returnType);
 
-				} else if (token.isVisitField()) {
-					IType type = statement.getToken(index - 1).attr(AttributeEnum.TYPE);
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+				} else if (currentToken.isVisitField()) {
+					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitField(type, memberName);
-					token.setAttr(AttributeEnum.TYPE, returnType);
+					currentToken.setAttr(AttributeEnum.TYPE, returnType);
 
-				} else if (token.isInvokeMethod()) {
-					IType type = statement.getToken(index - 1).attr(AttributeEnum.TYPE);
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+				} else if (currentToken.isInvokeMethod()) {
+					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitMethod(type, memberName, parameterTypes);
-					token.setAttr(AttributeEnum.TYPE, returnType);
+					currentToken.setAttr(AttributeEnum.TYPE, returnType);
 
-				} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
-					IType type = statement.getToken(index - 1).attr(AttributeEnum.TYPE);
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+				} else if (currentToken.isVisitArrayIndex()) {// what like ".str[0]"
+					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitField(type, memberName);
 					returnType = factory.create(returnType.getTargetName());
-					token.setAttr(AttributeEnum.TYPE, returnType);
+					currentToken.setAttr(AttributeEnum.TYPE, returnType);
 				}
+				return null;
+
+			} catch (NoSuchFieldException | NoSuchMethodException e) {
+				throw new RuntimeException("Link failed for class member!", e);
 			}
-		} catch (NoSuchFieldException | NoSuchMethodException e) {
-			throw new RuntimeException("Link failed for class member!", e);
-		}
+		});
 	}
 
 	public List<IType> getParameterTypes(IClass clazz, Token token) {

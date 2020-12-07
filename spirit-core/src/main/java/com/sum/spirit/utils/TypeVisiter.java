@@ -1,11 +1,10 @@
-package com.sum.spirit.core.d.type;
+package com.sum.spirit.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.utils.TypeBuilder;
 
 public class TypeVisiter {
 
@@ -13,11 +12,11 @@ public class TypeVisiter {
 		return visit(null, -1, null, targetType, action);
 	}
 
-	public IType visit(IType referenceType, IType targetType, ReferenceAction action) {
+	public IType visit(IType referenceType, IType targetType, ReferAction action) {
 		return visit(null, -1, referenceType, targetType, action);
 	}
 
-	private IType visit(IType rawType, int index, IType referenceType, IType targetType, Action action) {
+	private IType visit(IType rawType, int index, IType referType, IType targetType, Action action) {
 		// 校验
 		if (targetType == null) {
 			return targetType;
@@ -28,8 +27,8 @@ public class TypeVisiter {
 		IType returnType = null;
 		if (action instanceof SimpleAction) {
 			returnType = ((SimpleAction) action).execute(rawType, index, targetType);
-		} else if (action instanceof ReferenceAction) {
-			returnType = ((ReferenceAction) action).execute(rawType, index, referenceType, targetType);
+		} else if (action instanceof ReferAction) {
+			returnType = ((ReferAction) action).execute(rawType, index, referType, targetType);
 		}
 		if (returnType != null) {
 			targetType = returnType;
@@ -41,7 +40,9 @@ public class TypeVisiter {
 			// 是否修改的标志
 			boolean flag = false;
 			for (int idx = 0; idx < genericTypes.size(); idx++) {
-				returnType = visit(targetType, idx, referenceType != null ? referenceType.getGenericTypes().get(idx) : null, genericTypes.get(idx), action);
+				// 更新参考类型
+				IType referGenericType = referType != null ? referType.getGenericTypes().get(idx) : null;
+				returnType = visit(targetType, idx, referGenericType, genericTypes.get(idx), action);
 				if (returnType != null) {
 					genericTypes.set(idx, returnType);
 					flag = true;
@@ -61,7 +62,7 @@ public class TypeVisiter {
 		IType execute(IType rawType, int index, IType targetType);
 	}
 
-	public static interface ReferenceAction extends Action {
+	public static interface ReferAction extends Action {
 		IType execute(IType rawType, int index, IType referenceType, IType targetType);
 	}
 

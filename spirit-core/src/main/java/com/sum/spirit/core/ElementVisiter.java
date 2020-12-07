@@ -47,7 +47,6 @@ public class ElementVisiter {
 			element.debug();
 			throw new RuntimeException("Failed to derive element!", e);
 		}
-
 	}
 
 	public IVariable getVariableIfPossible(IClass clazz, Element element) {

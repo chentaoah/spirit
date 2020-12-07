@@ -29,7 +29,6 @@ public class ExpressDeclarer {
 	public FastDeducer deducer;
 
 	public void declare(IClass clazz, MethodContext context, Element element) {
-
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.getToken(0);
 			IType type = null;

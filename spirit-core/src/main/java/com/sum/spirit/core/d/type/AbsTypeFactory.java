@@ -13,6 +13,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
+import com.sum.spirit.utils.TypeVisiter;
 
 import cn.hutool.core.lang.Assert;
 

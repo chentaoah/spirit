@@ -12,9 +12,9 @@ import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.utils.StmtVisiter;
 
 import cn.hutool.core.lang.Assert;
 
@@ -29,68 +29,58 @@ public class VariableTracker {
 	public TypeFactory factory;
 
 	public void track(IClass clazz, MethodContext context, Statement statement) {
-
-		for (Token token : statement.tokens) {
-
-			if (token.canSplit()) {
-				track(clazz, context, token.getValue());
+		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
+			if (currentToken.attr(AttributeEnum.TYPE) != null) {
+				return null;
 			}
-
-			if (token.attr(AttributeEnum.TYPE) != null) {
-				continue;
-			}
-
-			if (token.isVar()) {
-				String name = token.toString();
+			if (currentToken.isVar()) {
+				String name = currentToken.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setAttr(AttributeEnum.TYPE, type);
+				currentToken.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (token.isArrayIndex()) {// .strs[0]
-				String name = token.attr(AttributeEnum.MEMBER_NAME);
+			} else if (currentToken.isArrayIndex()) {// .strs[0]
+				String name = currentToken.attr(AttributeEnum.MEMBER_NAME);
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
 				// 转换数组类型为目标类型
 				type = type.getTargetType();
-				token.setAttr(AttributeEnum.TYPE, type);
+				currentToken.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (token.isKeyword() && (KeywordEnum.SUPER.value.equals(token.value) || KeywordEnum.THIS.value.equals(token.value))) {
-				String name = token.toString();
+			} else if (currentToken.isKeyword() && (KeywordEnum.SUPER.value.equals(currentToken.value) || KeywordEnum.THIS.value.equals(currentToken.value))) {
+				String name = currentToken.toString();
 				IType type = findType(clazz, context, name);
 				Assert.notNull(type, "Variable must be declared!name:" + name);
-				token.setAttr(AttributeEnum.TYPE, type);
+				currentToken.setAttr(AttributeEnum.TYPE, type);
 			}
-		}
+			return null;
+		});
 	}
 
-	public IType findType(IClass clazz, MethodContext context, String name) {
-
+	public IType findType(IClass clazz, MethodContext context, String variableName) {
 		// super
-		if (KeywordEnum.SUPER.value.equals(name)) {
+		if (KeywordEnum.SUPER.value.equals(variableName)) {
 			return clazz.getSuperType().toSuper();
 		}
-
 		// this
-		if (KeywordEnum.THIS.value.equals(name)) {
+		if (KeywordEnum.THIS.value.equals(variableName)) {
 			return clazz.getType().toThis();
 		}
-
 		if (context != null) {
 			for (IVariable variable : context.variables) {// 变量
-				if (variable.getName().equals(name) && context.getBlockId().startsWith(variable.blockId)) {
+				if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
 					return variable.getType();
 				}
 			}
 			for (IParameter parameter : context.method.parameters) {// 入参
-				if (parameter.getName().equals(name)) {
+				if (parameter.getName().equals(variableName)) {
 					return parameter.getType();
 				}
 			}
 		}
-
 		// 从本身和父类里面寻找，父类可能是native的
 		try {
-			return linker.visitField(clazz.getType().toThis(), name);
+			return linker.visitField(clazz.getType().toThis(), variableName);
 
 		} catch (NoSuchFieldException e) {
 			return null;
