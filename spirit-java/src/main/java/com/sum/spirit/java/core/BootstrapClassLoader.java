@@ -14,7 +14,7 @@ import com.sum.spirit.utils.TypeUtils;
 public class BootstrapClassLoader extends AbsClassLoader {
 
 	@Override
-	public void prepareEnvironment() {
+	public void prepare() {
 		TypeEnum.Void.value = TypeBuilder.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true);
 		TypeEnum.Boolean.value = TypeBuilder.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true);
 		TypeEnum.Character.value = TypeBuilder.build("java.lang.Character", "Character", "java.lang.Character", false, false, false, false, true);

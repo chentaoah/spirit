@@ -36,7 +36,6 @@ public class CompilerImpl implements Compiler {
 			// 1.读取文件
 			Document document = reader.readFile(file);
 			processor.whenDocumentReadFinish(path, document);
-
 			// 2.解析类型
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));

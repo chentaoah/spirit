@@ -6,7 +6,7 @@ import com.sum.spirit.utils.TypeUtils;
 public abstract class AbsClassLoader implements ClassLoader {
 
 	@Override
-	public void prepareEnvironment() {
+	public void prepare() {
 		// ignore
 	}
 

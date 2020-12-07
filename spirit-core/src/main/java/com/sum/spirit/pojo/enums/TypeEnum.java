@@ -68,7 +68,7 @@ public enum TypeEnum {
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
 		Assert.notNull(classLoaders.size() == 0, "Class loader must be provided!");
 		for (ClassLoader classLoader : classLoaders) {
-			classLoader.prepareEnvironment();
+			classLoader.prepare();
 		}
 	}
 
