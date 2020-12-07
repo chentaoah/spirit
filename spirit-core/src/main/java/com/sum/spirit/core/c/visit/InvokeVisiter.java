@@ -26,7 +26,6 @@ public class InvokeVisiter {
 	public TypeFactory factory;
 
 	public void visit(IClass clazz, Statement statement) {
-
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			try {
 				// 如果有类型，则直接返回
