@@ -1,11 +1,11 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core.c.visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.ClassVisiter;
-import com.sum.spirit.core.type.TypeFactory;
+import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;

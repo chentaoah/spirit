@@ -146,12 +146,10 @@ public class SyntaxTree {
 		Token thirdToken = nodes.get(START_INDEX + 2).token;
 
 		if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
-			if (secondToken.isSubexpress())
-			 {
+			if (secondToken.isSubexpress()) {
 				return SyntaxEnum.FOR;// for (i=0; i<10; i++) {
 			}
-			if (KeywordEnum.IN.value.equals(thirdToken.toString()))
-			 {
+			if (KeywordEnum.IN.value.equals(thirdToken.toString())) {
 				return SyntaxEnum.FOR_IN;// for ? in ? {
 			}
 			throw new RuntimeException("Unknown syntax!");

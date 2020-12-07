@@ -7,12 +7,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.core.build.ElementBuilder;
-import com.sum.spirit.core.type.TypeFactory;
-import com.sum.spirit.core.visit.ElementVisiter;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
+import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;

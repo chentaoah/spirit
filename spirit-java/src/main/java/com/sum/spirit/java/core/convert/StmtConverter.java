@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.build.ElementBuilder;
-import com.sum.spirit.core.visit.FastDeducer;
+import com.sum.spirit.core.ElementBuilder;
+import com.sum.spirit.core.c.visit.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.core.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;

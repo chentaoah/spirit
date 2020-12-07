@@ -1,4 +1,4 @@
-package com.sum.spirit.core.build;
+package com.sum.spirit.core.b.build;
 
 import java.util.List;
 
@@ -29,17 +29,13 @@ public abstract class AbsTreeBuilder {
 	}
 
 	public void markTreeId(String treeId, Node node) {
-
 		node.token.setAttr(AttributeEnum.TREE_ID, treeId);
-
 		if (node.prev != null) {
 			markTreeId(treeId + "-" + "0", node.prev);
 		}
-
 		if (node.next != null) {
 			markTreeId(treeId + "-" + "1", node.next);
 		}
-
 		if (node.canSplit()) {
 			SyntaxTree syntaxTree = node.token.getValue();
 			markTreeId(syntaxTree.nodes);

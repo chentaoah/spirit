@@ -1,4 +1,4 @@
-package com.sum.spirit.core.lexer;
+package com.sum.spirit.core.a.lexer;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -1,8 +1,13 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.c.visit.ExpressDeclarer;
+import com.sum.spirit.core.c.visit.FastDeducer;
+import com.sum.spirit.core.c.visit.InvokeVisiter;
+import com.sum.spirit.core.c.visit.TypeDeclarer;
+import com.sum.spirit.core.c.visit.VariableTracker;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.common.MethodContext;

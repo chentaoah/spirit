@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.type.TypeFactory;
-import com.sum.spirit.core.type.TypeVisiter;
+import com.sum.spirit.core.d.type.TypeFactory;
+import com.sum.spirit.core.d.type.TypeVisiter;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;

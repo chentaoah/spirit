@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.build.SemanticParser;
+import com.sum.spirit.core.b.build.SemanticParser;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.frame.Annotated;

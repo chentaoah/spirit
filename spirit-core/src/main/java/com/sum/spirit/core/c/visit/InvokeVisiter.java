@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core.c.visit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.type.TypeFactory;
+import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;

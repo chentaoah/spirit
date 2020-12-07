@@ -1,4 +1,4 @@
-package com.sum.spirit.core.type;
+package com.sum.spirit.core.d.type;
 
 import java.util.ArrayList;
 import java.util.Collections;

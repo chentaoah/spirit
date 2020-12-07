@@ -1,4 +1,4 @@
-package com.sum.spirit.core.build;
+package com.sum.spirit.core.b.build;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

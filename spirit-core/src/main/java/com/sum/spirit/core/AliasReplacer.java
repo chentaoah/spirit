@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.lexer.Lexer;
+import com.sum.spirit.core.a.lexer.Lexer;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.Import;
 import com.sum.spirit.pojo.common.LexerEvent;

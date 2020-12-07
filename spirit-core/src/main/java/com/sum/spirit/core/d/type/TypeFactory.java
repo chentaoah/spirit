@@ -1,4 +1,4 @@
-package com.sum.spirit.core.type;
+package com.sum.spirit.core.d.type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.SystemClassLoader;
-import com.sum.spirit.core.visit.FastDeducer;
+import com.sum.spirit.core.c.visit.FastDeducer;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;
