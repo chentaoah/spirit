@@ -9,8 +9,6 @@ import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IParameter;
-import com.sum.spirit.pojo.clazz.IVariable;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
@@ -70,25 +68,28 @@ public class VariableTracker implements ElementAction {
 		});
 	}
 
-	public IType findType(IClass clazz, MethodContext context, String variableName) {
-		// super
-		if (KeywordEnum.SUPER.value.equals(variableName)) {
+	public IType findKeywordType(IClass clazz, String variableName) {
+		if (KeywordEnum.SUPER.value.equals(variableName)) {// super
 			return clazz.getSuperType().toSuper();
-		}
-		// this
-		if (KeywordEnum.THIS.value.equals(variableName)) {
+
+		} else if (KeywordEnum.THIS.value.equals(variableName)) {// this
 			return clazz.getType().toThis();
 		}
+		return null;
+	}
+
+	public IType findType(IClass clazz, MethodContext context, String variableName) {
+
+		IType type = findKeywordType(clazz, variableName);
+		if (type != null) {
+			return type;
+		}
+
+		// 上下文
 		if (context != null) {
-			for (IVariable variable : context.variables) {// 变量
-				if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
-					return variable.getType();
-				}
-			}
-			for (IParameter parameter : context.method.parameters) {// 入参
-				if (parameter.getName().equals(variableName)) {
-					return parameter.getType();
-				}
+			type = context.findVariableType(variableName);
+			if (type != null) {
+				return type;
 			}
 		}
 		// 从本身和父类里面寻找，父类可能是native的

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.clazz.IMethod;
+import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
 
 public class MethodContext {
@@ -39,6 +40,22 @@ public class MethodContext {
 			counts.add(0);
 		}
 		return Joiner.on("-").join(counts.subList(0, depth + 1));
+	}
+
+	public IType findVariableType(String variableName) {
+		// 变量
+		for (IVariable variable : variables) {
+			if (variable.getName().equals(variableName) && getBlockId().startsWith(variable.blockId)) {
+				return variable.getType();
+			}
+		}
+		// 方法入参
+		for (IParameter parameter : method.parameters) {
+			if (parameter.getName().equals(variableName)) {
+				return parameter.getType();
+			}
+		}
+		return null;
 	}
 
 }
