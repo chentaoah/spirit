@@ -2,8 +2,8 @@
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
 file_extensions:
-  - ss
-scope: source.ss
+  - sp
+scope: source.sp
 contexts:
   main:
     # Annotation
