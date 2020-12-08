@@ -74,7 +74,7 @@ public class VariableTracker implements ElementAction {
 		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
 	}
 
-	public IType findTypeInContext(MethodContext context, String variableName) {
+	public IType findTypeByContext(MethodContext context, String variableName) {
 		if (context != null) {
 			return context.findVariableType(variableName);
 		}
@@ -92,7 +92,7 @@ public class VariableTracker implements ElementAction {
 	}
 
 	public IType findVariableType(IClass clazz, MethodContext context, String variableName) {
-		IType type = findTypeInContext(context, variableName);
+		IType type = findTypeByContext(context, variableName);
 		if (type == null) {
 			type = findTypeByInherit(clazz, variableName);
 		}
