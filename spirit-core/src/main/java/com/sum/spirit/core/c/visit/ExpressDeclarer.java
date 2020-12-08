@@ -47,7 +47,7 @@ public class ExpressDeclarer implements ElementAction {
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.getToken(0);
 			// 如果上下文中有，则先取上下文中的
-			IType type = context != null ? tracker.findType(clazz, context, varToken.toString()) : null;
+			IType type = context != null ? tracker.findVariableType(clazz, context, varToken.toString()) : null;
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());

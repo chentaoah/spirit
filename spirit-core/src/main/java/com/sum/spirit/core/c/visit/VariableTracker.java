@@ -46,22 +46,18 @@ public class VariableTracker implements ElementAction {
 			}
 			if (currentToken.isVariable()) {// variable
 				String variableName = currentToken.toString();
-				IType type = findType(clazz, context, variableName);
-				Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
+				IType type = getVariableType(clazz, context, variableName);
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (currentToken.isArrayIndex()) {// .strs[0]
 				String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
-				IType type = findType(clazz, context, memberName);
-				Assert.notNull(type, "Variable must be declared!variableName:" + memberName);
-				// 转换数组类型为目标类型
-				type = type.getTargetType();
+				IType type = getVariableType(clazz, context, memberName);
+				type = type.getTargetType();// 转换数组类型为目标类型
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (currentToken.isKeyword() && KeywordEnum.isKeywordVariable(currentToken.getValue())) {
 				String variableName = currentToken.toString();
-				IType type = findType(clazz, context, variableName);
-				Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
+				IType type = findKeywordType(clazz, variableName);
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 			}
 			return null;
@@ -69,36 +65,44 @@ public class VariableTracker implements ElementAction {
 	}
 
 	public IType findKeywordType(IClass clazz, String variableName) {
-		if (KeywordEnum.SUPER.value.equals(variableName)) {// super
+		if (KeywordEnum.isSuper(variableName)) {// super
 			return clazz.getSuperType().toSuper();
 
-		} else if (KeywordEnum.THIS.value.equals(variableName)) {// this
+		} else if (KeywordEnum.isThis(variableName)) {// this
 			return clazz.getType().toThis();
+		}
+		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
+	}
+
+	public IType findTypeInContext(MethodContext context, String variableName) {
+		if (context != null) {
+			return context.findVariableType(variableName);
 		}
 		return null;
 	}
 
-	public IType findType(IClass clazz, MethodContext context, String variableName) {
-
-		IType type = findKeywordType(clazz, variableName);
-		if (type != null) {
-			return type;
-		}
-
-		// 上下文
-		if (context != null) {
-			type = context.findVariableType(variableName);
-			if (type != null) {
-				return type;
-			}
-		}
-		// 从本身和父类里面寻找，父类可能是native的
+	public IType findTypeByInherit(IClass clazz, String variableName) {
 		try {
+			// 从本身和父类里面寻找，父类可能是native的
 			return linker.visitField(clazz.getType().toThis(), variableName);
 
 		} catch (NoSuchFieldException e) {
 			return null;
 		}
+	}
+
+	public IType findVariableType(IClass clazz, MethodContext context, String variableName) {
+		IType type = findTypeInContext(context, variableName);
+		if (type == null) {
+			type = findTypeByInherit(clazz, variableName);
+		}
+		return type;
+	}
+
+	public IType getVariableType(IClass clazz, MethodContext context, String variableName) {
+		IType type = findVariableType(clazz, context, variableName);
+		Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
+		return type;
 	}
 
 }
