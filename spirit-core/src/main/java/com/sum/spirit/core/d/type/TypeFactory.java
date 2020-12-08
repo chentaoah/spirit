@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.core.SystemClassLoader;
-import com.sum.spirit.core.c.visit.FastDeducer;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;

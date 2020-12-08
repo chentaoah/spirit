@@ -1,31 +1,42 @@
 package com.sum.spirit.core.c.visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
-public class TypeDeclarer {
+@Order(-100)
+public class TypeDeclarer implements ElementAction {
 
 	@Autowired
 	public TypeFactory factory;
 
-	public void declare(IClass clazz, Element element) {
+	@Override
+	public boolean isTrigger(ElementEvent event) {
+		return event.element != null;
+	}
+
+	@Override
+	public void visit(ElementEvent event) {
+		Element element = event.element;
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
-			Token typeToken = element.getToken(0);
-			Token varToken = element.getToken(1);
-			varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
+			setTypeByTypeToken(event.clazz, element.getToken(0), element.getToken(1));
 
 		} else if (element.isCatch()) {// }catch Exception e{
-			Token typeToken = element.getToken(2);
-			Token varToken = element.getToken(3);
-			varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
+			setTypeByTypeToken(event.clazz, element.getToken(2), element.getToken(3));
 		}
+	}
+
+	public void setTypeByTypeToken(IClass clazz, Token typeToken, Token varToken) {
+		varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
 	}
 
 }

@@ -1,14 +1,17 @@
 package com.sum.spirit.core.c.visit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Statement;
@@ -19,7 +22,8 @@ import com.sum.spirit.utils.StmtVisiter;
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class VariableTracker {
+@Order(-60)
+public class VariableTracker implements ElementAction {
 
 	@Autowired
 	public ClassVisiter visiter;
@@ -28,7 +32,16 @@ public class VariableTracker {
 	@Autowired
 	public TypeFactory factory;
 
-	public void track(IClass clazz, MethodContext context, Statement statement) {
+	@Override
+	public boolean isTrigger(ElementEvent event) {
+		return event.element != null || event.statement != null;
+	}
+
+	@Override
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		MethodContext context = event.context;
+		Statement statement = event.element != null ? event.element.statement : event.statement;
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			if (currentToken.attr(AttributeEnum.TYPE) != null) {
 				return null;
@@ -40,9 +53,9 @@ public class VariableTracker {
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (currentToken.isArrayIndex()) {// .strs[0]
-				String name = currentToken.attr(AttributeEnum.MEMBER_NAME);
-				IType type = findType(clazz, context, name);
-				Assert.notNull(type, "Variable must be declared!variableName:" + name);
+				String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
+				IType type = findType(clazz, context, memberName);
+				Assert.notNull(type, "Variable must be declared!variableName:" + memberName);
 				// 转换数组类型为目标类型
 				type = type.getTargetType();
 				currentToken.setAttr(AttributeEnum.TYPE, type);

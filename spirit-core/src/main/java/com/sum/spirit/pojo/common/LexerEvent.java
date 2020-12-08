@@ -7,19 +7,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LexerEvent {
 
 	public StringBuilder builder;
-
 	public AtomicInteger index;
-
 	public char c;
-
 	public AtomicInteger count;
-
 	public AtomicInteger start;
-
 	public AtomicInteger end;
-
 	public Map<String, String> replacedStrs;
-
 	public List<Character> ignoreChars;
 
 	public LexerEvent(StringBuilder builder, AtomicInteger index, char c, AtomicInteger count, AtomicInteger start, AtomicInteger end,

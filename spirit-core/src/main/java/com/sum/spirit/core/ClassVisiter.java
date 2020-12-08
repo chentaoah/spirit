@@ -53,7 +53,7 @@ public class ClassVisiter extends AbsClassVisiter {
 				context.increaseDepth();
 			}
 			// 对该元素进行分析
-			IVariable variable = visiter.visit(clazz, context, element);
+			IVariable variable = visiter.visitElement(clazz, element, context);
 			// 如果该元素不是return语句，并且变量不为空，则将变量添加到上下文中
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();

@@ -106,7 +106,7 @@ public abstract class AbsClassVisiter {
 	}
 
 	public IType visitField(IClass clazz, IField field) {
-		IVariable variable = visiter.visit(clazz, null, field.element);
+		IVariable variable = visiter.visitElement(clazz, field.element);
 		return variable.getType();
 	}
 

@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.ElementBuilder;
-import com.sum.spirit.core.c.visit.FastDeducer;
+import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.java.api.ElementConverter;
 import com.sum.spirit.java.core.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;

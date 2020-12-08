@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.api.ElementAction;
+import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.core.d.type.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
@@ -16,7 +20,8 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.utils.StmtVisiter;
 
 @Component
-public class InvokeVisiter {
+@Order(-40)
+public class InvokeVisiter implements ElementAction {
 
 	@Autowired
 	public FastDeducer deducer;
@@ -25,7 +30,15 @@ public class InvokeVisiter {
 	@Autowired
 	public TypeFactory factory;
 
-	public void visit(IClass clazz, Statement statement) {
+	@Override
+	public boolean isTrigger(ElementEvent event) {
+		return event.element != null || event.statement != null;
+	}
+
+	@Override
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		Statement statement = event.element != null ? event.element.statement : event.statement;
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			try {
 				// 如果有类型，则直接返回

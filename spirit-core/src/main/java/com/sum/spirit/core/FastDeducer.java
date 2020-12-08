@@ -1,4 +1,4 @@
-package com.sum.spirit.core.c.visit;
+package com.sum.spirit.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
