@@ -32,13 +32,13 @@ public class InvokeVisiter implements ElementAction {
 
 	@Override
 	public boolean isTrigger(ElementEvent event) {
-		return event.element != null || event.statement != null;
+		return event.getStatement() != null;
 	}
 
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.element != null ? event.element.statement : event.statement;
+		Statement statement = event.getStatement();
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			try {
 				// 如果有类型，则直接返回

@@ -33,4 +33,12 @@ public class ElementEvent {
 		this.context = context;
 	}
 
+	public boolean isMethodScope() {
+		return context != null;
+	}
+
+	public Statement getStatement() {
+		return element != null ? element.statement : statement;
+	}
+
 }

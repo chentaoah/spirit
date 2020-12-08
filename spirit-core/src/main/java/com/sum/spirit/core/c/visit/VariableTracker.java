@@ -32,14 +32,14 @@ public class VariableTracker implements ElementAction {
 
 	@Override
 	public boolean isTrigger(ElementEvent event) {
-		return event.element != null || event.statement != null;
+		return event.getStatement() != null;
 	}
 
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		MethodContext context = event.context;
-		Statement statement = event.element != null ? event.element.statement : event.statement;
+		Statement statement = event.getStatement();
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			if (currentToken.attr(AttributeEnum.TYPE) != null) {
 				return null;

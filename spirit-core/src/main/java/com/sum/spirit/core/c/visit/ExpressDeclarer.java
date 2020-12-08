@@ -47,7 +47,7 @@ public class ExpressDeclarer implements ElementAction {
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.getToken(0);
 			// 如果是字段声明，则不用进行上下文推导
-			IType type = context != null ? tracker.findVariableType(clazz, context, varToken.toString()) : null;
+			IType type = event.isMethodScope() ? tracker.findVariableType(clazz, context, varToken.toString()) : null;
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());
@@ -58,27 +58,30 @@ public class ExpressDeclarer implements ElementAction {
 				varToken.setAttr(AttributeEnum.DERIVED, true);
 			}
 			varToken.setAttr(AttributeEnum.TYPE, type);
+		}
 
-		} else if (element.isForIn()) {// for item in list {
-			Statement statement = element.subStmt(3, element.size() - 1);
-			tracker.visit(new ElementEvent(clazz, statement, context));
-			visiter.visit(new ElementEvent(clazz, statement));
-			IType type = deducer.derive(clazz, statement);
-			// 获取数组内部类型和泛型类型
-			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
-			Token varToken = element.getToken(1);
-			varToken.setAttr(AttributeEnum.TYPE, type);
+		if (event.isMethodScope()) {
+			if (element.isForIn()) {// for item in list {
+				Statement statement = element.subStmt(3, element.size() - 1);
+				tracker.visit(new ElementEvent(clazz, statement, context));
+				visiter.visit(new ElementEvent(clazz, statement));
+				IType type = deducer.derive(clazz, statement);
+				// 获取数组内部类型和泛型类型
+				type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
+				Token varToken = element.getToken(1);
+				varToken.setAttr(AttributeEnum.TYPE, type);
 
-		} else if (element.isFor()) {// for (i=0; i<100; i++) {
-			Token secondToken = element.getToken(1);
-			if (secondToken.isSubexpress()) {
-				Statement statement = secondToken.getValue();
-				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
-				Element subElement = builder.rebuild(subStatement);
-				IVariable variable = elementVisiter.visitElement(clazz, subElement, context);
-				if (variable != null) {
-					variable.blockId = context.getBlockId();
-					context.variables.add(variable);
+			} else if (element.isFor()) {// for (i=0; i<100; i++) {
+				Token secondToken = element.getToken(1);
+				if (secondToken.isSubexpress()) {
+					Statement statement = secondToken.getValue();
+					Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
+					Element subElement = builder.rebuild(subStatement);
+					IVariable variable = elementVisiter.visitElement(clazz, subElement, context);
+					if (variable != null) {
+						variable.blockId = context.getBlockId();
+						context.variables.add(variable);
+					}
 				}
 			}
 		}

@@ -29,9 +29,11 @@ public class TypeDeclarer implements ElementAction {
 		Element element = event.element;
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			setTypeByTypeToken(event.clazz, element.getToken(0), element.getToken(1));
-
-		} else if (element.isCatch()) {// }catch Exception e{
-			setTypeByTypeToken(event.clazz, element.getToken(2), element.getToken(3));
+		}
+		if (event.isMethodScope()) {
+			if (element.isCatch()) {// } catch Exception e {
+				setTypeByTypeToken(event.clazz, element.getToken(2), element.getToken(3));
+			}
 		}
 	}
 
