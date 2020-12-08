@@ -59,7 +59,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 			OperandEnum operand = null;
 
 			if (currentToken.isType()) {
-				if (nextToken != null && (nextToken.isVar() || nextToken.isLocalMethod())) {
+				if (nextToken != null && (nextToken.isVariable() || nextToken.isLocalMethod())) {
 					priority = 55;
 					operand = OperandEnum.RIGHT;
 				}
@@ -151,7 +151,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
-					if (lastNode.isDirty() || (lastNode.token.isNumber() || lastNode.token.isVar())) {
+					if (lastNode.isDirty() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
 						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.BINARY);
 					} else {
 						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);

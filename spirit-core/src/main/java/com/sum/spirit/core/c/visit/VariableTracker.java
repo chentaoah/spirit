@@ -33,24 +33,24 @@ public class VariableTracker {
 			if (currentToken.attr(AttributeEnum.TYPE) != null) {
 				return null;
 			}
-			if (currentToken.isVar()) {
-				String name = currentToken.toString();
-				IType type = findType(clazz, context, name);
-				Assert.notNull(type, "Variable must be declared!name:" + name);
+			if (currentToken.isVariable()) {// variable
+				String variableName = currentToken.toString();
+				IType type = findType(clazz, context, variableName);
+				Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (currentToken.isArrayIndex()) {// .strs[0]
 				String name = currentToken.attr(AttributeEnum.MEMBER_NAME);
 				IType type = findType(clazz, context, name);
-				Assert.notNull(type, "Variable must be declared!name:" + name);
+				Assert.notNull(type, "Variable must be declared!variableName:" + name);
 				// 转换数组类型为目标类型
 				type = type.getTargetType();
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (currentToken.isKeyword() && (KeywordEnum.SUPER.value.equals(currentToken.value) || KeywordEnum.THIS.value.equals(currentToken.value))) {
-				String name = currentToken.toString();
-				IType type = findType(clazz, context, name);
-				Assert.notNull(type, "Variable must be declared!name:" + name);
+			} else if (currentToken.isKeyword() && KeywordEnum.isKeywordVariable(currentToken.getValue())) {
+				String variableName = currentToken.toString();
+				IType type = findType(clazz, context, variableName);
+				Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
 				currentToken.setAttr(AttributeEnum.TYPE, type);
 			}
 			return null;

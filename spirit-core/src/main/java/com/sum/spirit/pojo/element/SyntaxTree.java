@@ -100,7 +100,7 @@ public class SyntaxTree {
 		// 通过抽象语法树进行推导
 		if (firstToken.isType()) {
 			Token nextToken = firstNode.next.token;
-			if (nextToken.isVar()) { // String text
+			if (nextToken.isVariable()) { // String text
 				return SyntaxEnum.DECLARE;
 			} else if (nextToken.isLocalMethod()) { // String test()
 				return SyntaxEnum.FUNC_DECLARE;
@@ -109,7 +109,7 @@ public class SyntaxTree {
 			Token prevToken = firstNode.prev.token;
 			if (prevToken.isType()) {// String text = "abc"
 				return SyntaxEnum.DECLARE_ASSIGN;
-			} else if (prevToken.isVar()) {// text = "abc"
+			} else if (prevToken.isVariable()) {// text = "abc"
 				return SyntaxEnum.ASSIGN;
 			} else if (prevToken.isVisitField()) {// var.text = "abc"
 				return SyntaxEnum.FIELD_ASSIGN;

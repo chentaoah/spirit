@@ -69,7 +69,7 @@ public abstract class Semantic extends AttributeMap {
 	}
 
 	public boolean isStr() {
-		return tokenType == TokenTypeEnum.STR;
+		return tokenType == TokenTypeEnum.STRING;
 	}
 
 	public boolean isList() {
@@ -88,8 +88,8 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.CAST;
 	}
 
-	public boolean isVar() {
-		return tokenType == TokenTypeEnum.VAR;
+	public boolean isVariable() {
+		return tokenType == TokenTypeEnum.VARIABLE;
 	}
 
 	public boolean isLocalMethod() {

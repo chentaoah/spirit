@@ -157,7 +157,7 @@ public abstract class AbsSemanticParser {
 			return TokenTypeEnum.DOUBLE;
 		}
 		if (STR_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.STR;
+			return TokenTypeEnum.STRING;
 		}
 		if (LIST_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.LIST;
@@ -179,7 +179,7 @@ public abstract class AbsSemanticParser {
 		return TokenTypeEnum.SUBEXPRESS;
 	}
 
-	public boolean isVar(String word) {
+	public boolean isVariable(String word) {
 		return VAR_PATTERN.matcher(word).matches() || CONST_VAR_PATTERN.matcher(word).matches();
 	}
 

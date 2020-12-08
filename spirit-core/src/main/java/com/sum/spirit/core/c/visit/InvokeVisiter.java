@@ -35,7 +35,8 @@ public class InvokeVisiter {
 				// 获取参数
 				List<IType> parameterTypes = currentToken.isInvoke() ? getParameterTypes(clazz, currentToken) : null;
 
-				if (currentToken.isType() || currentToken.isArrayInit() || currentToken.isTypeInit() || currentToken.isCast() || currentToken.isValue()) {
+				if (currentToken.isType() || currentToken.isArrayInit() || currentToken.isTypeInit() || //
+				currentToken.isCast() || currentToken.isValue()) {
 					currentToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, currentToken));
 
 				} else if (currentToken.isSubexpress()) {

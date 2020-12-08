@@ -73,6 +73,10 @@ public enum KeywordEnum {
 		return isKeyword(value) && getKeyword(value).type == KeywordTypeEnum.MODIFIER;
 	}
 
+	public static boolean isKeywordVariable(String value) {
+		return KeywordEnum.SUPER.value.equals(value) || KeywordEnum.THIS.value.equals(value);
+	}
+
 	public String value;
 
 	public KeywordTypeEnum type;

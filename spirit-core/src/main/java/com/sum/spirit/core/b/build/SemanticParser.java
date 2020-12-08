@@ -57,8 +57,8 @@ public class SemanticParser extends AbsSemanticParser {
 		} else if (isSubexpress(word)) {
 			token.tokenType = getSubexpressTokenType(word);
 
-		} else if (isVar(word)) {
-			token.tokenType = TokenTypeEnum.VAR;
+		} else if (isVariable(word)) {
+			token.tokenType = TokenTypeEnum.VARIABLE;
 
 		} else if (isAccess(word)) {
 			token.tokenType = getAccessTokenType(word);

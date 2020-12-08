@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigUtils implements EnvironmentAware {
 
-	private static Environment environment;
+	public static Environment environment;
 
 	@Override
 	public void setEnvironment(Environment environment) {

@@ -15,12 +15,12 @@ public enum TokenTypeEnum {
 	INT, // 整型
 	LONG, // 长整型
 	DOUBLE, // 双精度浮点数
-	STR, // 字符串
+	STRING, // 字符串
 	LIST, // 数组集合
 	MAP, // 映射集合
 	SUBEXPRESS, // 子表达式
 	CAST, // 类型强制转换
-	VAR, // 变量
+	VARIABLE, // 变量
 	LOCAL_METHOD, // 本地方法
 	VISIT_FIELD, // 访问字段
 	INVOKE_METHOD, // 调用方法

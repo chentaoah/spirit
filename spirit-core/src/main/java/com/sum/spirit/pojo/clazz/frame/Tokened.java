@@ -15,7 +15,7 @@ public abstract class Tokened extends Typed {
 		if (token.isAnnotation()) {
 			return token.attr(AttributeEnum.SIMPLE_NAME);
 
-		} else if (token.isVar()) {
+		} else if (token.isVariable()) {
 			return token.toString();
 		}
 		throw new RuntimeException("Unsupported semantics!semantics:" + token.tokenType);
