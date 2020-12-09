@@ -48,10 +48,10 @@ public class StrLogicAction extends AbsElementAction {
 	}
 
 	public void replacePrevString(IClass clazz, Statement statement, int index, Token token) {
-		int start = TreeUtils.findStartByTreeId(statement, index);
+		int start = TreeUtils.findStart(statement, index);
 		Statement prevStatement = statement.subStmt(start, index);
-		IType type = deducer.derive(clazz, prevStatement);
-		if (TypeUtils.isString(type)) {
+		IType prevType = deducer.derive(clazz, prevStatement);
+		if (TypeUtils.isString(prevType)) {
 			String text = String.format(FORMAT, prevStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
@@ -62,10 +62,10 @@ public class StrLogicAction extends AbsElementAction {
 	}
 
 	public void replaceNextString(IClass clazz, Statement statement, int index, Token token) {
-		int end = TreeUtils.findEndByTreeId(statement, index);
+		int end = TreeUtils.findEnd(statement, index);
 		Statement nextStatement = statement.subStmt(index + 1, end);
-		IType type = deducer.derive(clazz, nextStatement);
-		if (TypeUtils.isString(type)) {
+		IType nextType = deducer.derive(clazz, nextStatement);
+		if (TypeUtils.isString(nextType)) {
 			String text = String.format(FORMAT, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);

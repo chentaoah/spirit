@@ -35,11 +35,11 @@ public class StrEqualsAction extends AbsElementAction {
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			// 如果是==或者是!=
 			if (currentToken.isEquals() || currentToken.isUnequals()) {
-				int start = TreeUtils.findStartByTreeId(stmt, index);
+				int start = TreeUtils.findStart(stmt, index);
 				Statement prevStatement = stmt.subStmt(start, index);
 				IType prevType = deducer.derive(clazz, prevStatement);
 				if (TypeUtils.isString(prevType)) {
-					int end = TreeUtils.findEndByTreeId(stmt, index);
+					int end = TreeUtils.findEnd(stmt, index);
 					Statement nextStatement = stmt.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextStatement);
 					if (TypeUtils.isString(nextType)) {
