@@ -1,4 +1,4 @@
-package com.sum.spirit.java.core.convert;
+package com.sum.spirit.java.core.visit;
 
 import java.util.ArrayList;
 
@@ -10,11 +10,12 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.ElementBuilder;
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.java.api.ElementConverter;
+import com.sum.spirit.core.c.visit.AbsElementAction;
 import com.sum.spirit.java.core.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
@@ -25,16 +26,17 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-40)
-public class StmtConverter implements ElementConverter {
+public class StmtConverter extends AbsElementAction {
 
 	@Autowired
 	public ElementBuilder builder;
-
 	@Autowired
 	public FastDeducer deducer;
 
 	@Override
-	public void convert(IClass clazz, Element element) {
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		Element element = event.element;
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 			element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);

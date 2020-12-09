@@ -1,50 +1,43 @@
-package com.sum.spirit.java.core.convert;
+package com.sum.spirit.java.core.visit;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.sum.spirit.java.api.ElementConverter;
+import com.sum.spirit.core.c.visit.AbsElementAction;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.Maps;
+import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-100)
-public class CommonConverter implements ElementConverter {
+public class CommonConverter extends AbsElementAction {
 
 	@Override
-	public void convert(IClass clazz, Element element) {
-		convertStmt(clazz, element.statement);
-	}
-
-	public void convertStmt(IClass clazz, Statement statement) {
-
-		for (Token token : statement.tokens) {
-
-			if (token.canSplit()) {
-				convertStmt(clazz, token.getValue());
-			}
-
-			if (token.isArrayInit()) {// String[10] => new String[10]
-				Statement subStatement = token.getValue();
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		Statement statement = event.getStatement();
+		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
+			if (currentToken.isArrayInit()) {// String[10] => new String[10]
+				Statement subStatement = currentToken.getValue();
 				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-			} else if (token.isTypeInit()) {// User() => new User()
-				Statement subStatement = token.getValue();
+			} else if (currentToken.isTypeInit()) {// User() => new User()
+				Statement subStatement = currentToken.getValue();
 				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-			} else if (token.isList()) {// ["value"] => Lists.newArrayList("value");
-				Statement subStatement = token.getValue();
+			} else if (currentToken.isList()) {// ["value"] => Lists.newArrayList("value");
+				Statement subStatement = currentToken.getValue();
 				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Lists.class.getName());
 
-			} else if (token.isMap()) {// {"key":"value"} => MapBuilder.of("key","value");
-				Statement subStatement = token.getValue();
+			} else if (currentToken.isMap()) {// {"key":"value"} => Maps.of("key","value");
+				Statement subStatement = currentToken.getValue();
 				for (Token subToken : subStatement.tokens) {
 					if (subToken.isSeparator() && ":".equals(subToken.toString())) {
 						subToken.value = ",";
@@ -54,7 +47,8 @@ public class CommonConverter implements ElementConverter {
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Maps.class.getName());
 			}
-		}
+			return null;
+		});
 	}
 
 }

@@ -6,6 +6,11 @@ import com.sum.spirit.pojo.common.ElementEvent;
 public abstract class AbsElementAction implements ElementAction {
 
 	@Override
+	public boolean isTrigger(ElementEvent event) {
+		return event.element != null;
+	}
+
+	@Override
 	public void visit(ElementEvent event) {
 		if (!event.isMethodScope()) {
 			visitFieldScope(event);
@@ -20,6 +25,6 @@ public abstract class AbsElementAction implements ElementAction {
 
 	public void visitMethodScope(ElementEvent event) {
 		// ignore
-	};
+	}
 
 }

@@ -19,11 +19,6 @@ public class TypeDeclarer extends AbsElementAction {
 	public TypeFactory factory;
 
 	@Override
-	public boolean isTrigger(ElementEvent event) {
-		return event.element != null;
-	}
-
-	@Override
 	public void visit(ElementEvent event) {
 		Element element = event.element;
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text

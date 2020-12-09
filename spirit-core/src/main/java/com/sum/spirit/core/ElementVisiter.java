@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.Element;
@@ -29,7 +30,7 @@ public class ElementVisiter implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(ElementAction.class);
+		actions = SpringUtils.getBeansAndSort(ElementAction.class, Constants.CORE_PACKAGE);
 	}
 
 	public IVariable visitElement(IClass clazz, Element element) {

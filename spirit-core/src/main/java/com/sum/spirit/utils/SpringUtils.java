@@ -41,10 +41,12 @@ public class SpringUtils implements ApplicationContextAware {
 	}
 
 	public static <T> List<T> getBeansAndSort(Class<T> type, Class<?> excludedType) {
-		Map<String, T> beanMap = context.getBeansOfType(type);
-		List<T> beans = new ArrayList<>(beanMap.values());
-		beans = beans.stream().filter((t) -> t.getClass() != excludedType).collect(Collectors.toList());
-		beans.sort(new AnnotationAwareOrderComparator());
-		return beans;
+		List<T> beans = getBeansAndSort(type);
+		return beans.stream().filter((t) -> t.getClass() != excludedType).collect(Collectors.toList());
+	}
+
+	public static <T> List<T> getBeansAndSort(Class<T> type, String scanPackage) {
+		List<T> beans = getBeansAndSort(type);
+		return beans.stream().filter((t) -> t.getClass().getName().startsWith(scanPackage)).collect(Collectors.toList());
 	}
 }

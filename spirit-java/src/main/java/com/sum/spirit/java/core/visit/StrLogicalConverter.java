@@ -1,4 +1,4 @@
-package com.sum.spirit.java.core.convert;
+package com.sum.spirit.java.core.visit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,21 +6,22 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.java.api.ElementConverter;
+import com.sum.spirit.core.c.visit.AbsElementAction;
 import com.sum.spirit.java.utils.TreeUtils;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-60)
-public class StrLogicalConverter implements ElementConverter {
+public class StrLogicalConverter extends AbsElementAction {
 
 	public static final String FORMAT = "StringUtils.isNotEmpty(%s)";
 
@@ -28,29 +29,22 @@ public class StrLogicalConverter implements ElementConverter {
 	public FastDeducer deducer;
 
 	@Override
-	public void convert(IClass clazz, Element element) {
-		convertStmt(clazz, element.statement);
-	}
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		Statement statement = event.getStatement();
+		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
+			// 如果是逻辑判断符&&或||
+			if (currentToken.isLogical()) {
+				if (currentToken.isNegate()) {
+					replaceFollowingStr(clazz, stmt, index, currentToken);
 
-	public void convertStmt(IClass clazz, Statement statement) {
-		// 先处理子节点，下层节点的结果，会间接影响上层
-		for (Token token : statement.tokens) {
-			if (token.canSplit()) {
-				convertStmt(clazz, token.getValue());
-			}
-		}
-		for (int index = 0; index < statement.size(); index++) {
-			Token token = statement.getToken(index);
-			if (token.isLogical()) {
-				if (token.isNegate()) {
-					replaceFollowingStr(clazz, statement, index, token);
-
-				} else if (token.isLogicAnd() || token.isLogicOr()) {
-					replacePreviousStr(clazz, statement, index, token);
-					replaceFollowingStr(clazz, statement, index, token);
+				} else if (currentToken.isLogicAnd() || currentToken.isLogicOr()) {
+					replacePreviousStr(clazz, stmt, index, currentToken);
+					replaceFollowingStr(clazz, stmt, index, currentToken);
 				}
 			}
-		}
+			return null;
+		});
 	}
 
 	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {

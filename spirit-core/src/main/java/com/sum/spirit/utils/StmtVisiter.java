@@ -12,19 +12,14 @@ public class StmtVisiter {
 				Statement subStatement = token.getValue();
 				visit(subStatement, action);
 			}
-			if (action instanceof SimpleAction) {
-				Token returnToken = ((SimpleAction) action).execute(statement, index, token);
-				if (returnToken != null) {
-					statement.setToken(index, returnToken);
-				}
+			Token returnToken = action.execute(statement, index, token);
+			if (returnToken != null) {
+				statement.setToken(index, returnToken);
 			}
 		}
 	}
 
-	public static interface Action {
-	}
-
-	public static interface SimpleAction extends Action {
+	public static interface SimpleAction {
 		Token execute(Statement statement, int index, Token currentToken);
 	}
 

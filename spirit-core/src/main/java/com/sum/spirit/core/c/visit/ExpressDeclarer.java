@@ -33,11 +33,6 @@ public class ExpressDeclarer extends AbsElementAction {
 	public FastDeducer deducer;
 
 	@Override
-	public boolean isTrigger(ElementEvent event) {
-		return event.element != null;
-	}
-
-	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		MethodContext context = event.context;

@@ -7,12 +7,13 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
-import com.sum.spirit.java.api.ElementConverter;
+import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.Import;
+import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.SpringUtils;
@@ -21,15 +22,16 @@ import com.sum.spirit.utils.SpringUtils;
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
 
+	public static final String JAVA_PACKAGE = "com.sum.spirit.java";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String FINAL_KEYWORD = "final";
 
-	public List<ElementConverter> converters;
+	public List<ElementAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		converters = SpringUtils.getBeansAndSort(ElementConverter.class);
+		actions = SpringUtils.getBeansAndSort(ElementAction.class, JAVA_PACKAGE);
 	}
 
 	@Override
@@ -139,8 +141,11 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	}
 
 	public Element convert(IClass clazz, Element element) {
-		for (ElementConverter converter : converters) {
-			converter.convert(clazz, element);
+		for (ElementAction action : actions) {
+			ElementEvent event = new ElementEvent(clazz, element);
+			if (action.isTrigger(event)) {
+				action.visit(event);
+			}
 		}
 		return element;
 	}
