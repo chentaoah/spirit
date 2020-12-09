@@ -21,7 +21,7 @@ import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-60)
-public class StrLogicalAction extends AbsElementAction {
+public class StrLogicAction extends AbsElementAction {
 
 	public static final String FORMAT = "StringUtils.isNotEmpty(%s)";
 
@@ -36,23 +36,23 @@ public class StrLogicalAction extends AbsElementAction {
 			// 如果是逻辑判断符&&或||
 			if (currentToken.isLogical()) {
 				if (currentToken.isNegate()) {
-					replaceFollowingStr(clazz, stmt, index, currentToken);
+					replaceNextString(clazz, stmt, index, currentToken);
 
 				} else if (currentToken.isLogicAnd() || currentToken.isLogicOr()) {
-					replacePreviousStr(clazz, stmt, index, currentToken);
-					replaceFollowingStr(clazz, stmt, index, currentToken);
+					replacePrevString(clazz, stmt, index, currentToken);
+					replaceNextString(clazz, stmt, index, currentToken);
 				}
 			}
 			return null;
 		});
 	}
 
-	public void replacePreviousStr(IClass clazz, Statement statement, int index, Token token) {
+	public void replacePrevString(IClass clazz, Statement statement, int index, Token token) {
 		int start = TreeUtils.findStartByTreeId(statement, index);
-		Statement lastStatement = statement.subStmt(start, index);
-		IType type = deducer.derive(clazz, lastStatement);
-		if (TypeUtils.isStr(type)) {
-			String text = String.format(FORMAT, lastStatement);
+		Statement prevStatement = statement.subStmt(start, index);
+		IType type = deducer.derive(clazz, prevStatement);
+		if (TypeUtils.isString(type)) {
+			String text = String.format(FORMAT, prevStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
 			expressToken.setAttr(AttributeEnum.TREE_ID, token.attr(AttributeEnum.TREE_ID) + "-0");
@@ -61,11 +61,11 @@ public class StrLogicalAction extends AbsElementAction {
 		}
 	}
 
-	public void replaceFollowingStr(IClass clazz, Statement statement, int index, Token token) {
+	public void replaceNextString(IClass clazz, Statement statement, int index, Token token) {
 		int end = TreeUtils.findEndByTreeId(statement, index);
 		Statement nextStatement = statement.subStmt(index + 1, end);
 		IType type = deducer.derive(clazz, nextStatement);
-		if (TypeUtils.isStr(type)) {
+		if (TypeUtils.isString(type)) {
 			String text = String.format(FORMAT, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);

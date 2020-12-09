@@ -16,8 +16,7 @@ public class TypeUtils {
 			return "?";
 		}
 
-		if (type.isTypeVariable())
-		 {
+		if (type.isTypeVariable()) {
 			return type.getGenericName();// T K
 		}
 
@@ -39,11 +38,11 @@ public class TypeUtils {
 		return void.class.getName().equals(type.getClassName());
 	}
 
-	public static boolean isObj(IType type) {
+	public static boolean isObject(IType type) {
 		return Object.class.getName().equals(type.getClassName());
 	}
 
-	public static boolean isStr(IType type) {
+	public static boolean isString(IType type) {
 		return String.class.getName().equals(type.getClassName());
 	}
 

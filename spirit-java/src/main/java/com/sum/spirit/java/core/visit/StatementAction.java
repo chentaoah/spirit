@@ -77,7 +77,7 @@ public class StatementAction extends AbsElementAction {
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);
 			IType type = deducer.derive(clazz, statement);
-			if (TypeUtils.isStr(type)) {
+			if (TypeUtils.isString(type)) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", statement);
 				element.replaceTokens(1, element.size() - 1, new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 			}

@@ -36,14 +36,15 @@ public class StrEqualsAction extends AbsElementAction {
 			// 如果是==或者是!=
 			if (currentToken.isEquals() || currentToken.isUnequals()) {
 				int start = TreeUtils.findStartByTreeId(stmt, index);
-				Statement lastStatement = stmt.subStmt(start, index);
-				IType lastType = deducer.derive(clazz, lastStatement);
-				if (TypeUtils.isStr(lastType)) {
+				Statement prevStatement = stmt.subStmt(start, index);
+				IType prevType = deducer.derive(clazz, prevStatement);
+				if (TypeUtils.isString(prevType)) {
 					int end = TreeUtils.findEndByTreeId(stmt, index);
 					Statement nextStatement = stmt.subStmt(index + 1, end);
 					IType nextType = deducer.derive(clazz, nextStatement);
-					if (TypeUtils.isStr(nextType)) {
-						String text = String.format(currentToken.isEquals() ? FORMAT : "!" + FORMAT, lastStatement, nextStatement);
+					if (TypeUtils.isString(nextType)) {
+						String format = currentToken.isEquals() ? FORMAT : "!" + FORMAT;
+						String text = String.format(format, prevStatement, nextStatement);
 						Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
 						expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
 						expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID));
