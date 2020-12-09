@@ -21,7 +21,7 @@ import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-80)
-public class StrEqualsConverter extends AbsElementAction {
+public class StrEqualsAction extends AbsElementAction {
 
 	public static final String FORMAT = "StringUtils.equals(%s, %s)";
 

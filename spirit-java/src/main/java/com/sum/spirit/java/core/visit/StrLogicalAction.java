@@ -21,7 +21,7 @@ import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-60)
-public class StrLogicalConverter extends AbsElementAction {
+public class StrLogicalAction extends AbsElementAction {
 
 	public static final String FORMAT = "StringUtils.isNotEmpty(%s)";
 

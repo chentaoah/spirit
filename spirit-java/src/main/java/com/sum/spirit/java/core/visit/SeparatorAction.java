@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-20)
-public class SeparatorConverter extends AbsElementAction {
+public class SeparatorAction extends AbsElementAction {
 
 	@Override
 	public void visit(ElementEvent event) {

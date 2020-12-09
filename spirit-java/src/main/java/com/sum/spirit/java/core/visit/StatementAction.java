@@ -26,7 +26,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-40)
-public class StmtConverter extends AbsElementAction {
+public class StatementAction extends AbsElementAction {
 
 	@Autowired
 	public ElementBuilder builder;

@@ -15,7 +15,7 @@ import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-100)
-public class CommonConverter extends AbsElementAction {
+public class CommonAction extends AbsElementAction {
 
 	@Override
 	public void visit(ElementEvent event) {
