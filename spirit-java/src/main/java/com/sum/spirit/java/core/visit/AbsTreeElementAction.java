@@ -32,10 +32,6 @@ public abstract class AbsTreeElementAction extends AbsElementAction {
 		});
 	}
 
-	public boolean isTrigger(Token currentToken) {
-		return false;
-	}
-
 	public void visit(IClass clazz, Statement statement, int index, Token currentToken) {
 		Map<String, Object> context = new HashMap<>();
 		visitPrev(clazz, statement, index, currentToken, context);
@@ -69,5 +65,7 @@ public abstract class AbsTreeElementAction extends AbsElementAction {
 	public void doVisitNext(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
 		// ignore
 	}
+
+	public abstract boolean isTrigger(Token currentToken);
 
 }
