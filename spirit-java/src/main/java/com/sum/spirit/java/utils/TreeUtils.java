@@ -5,14 +5,6 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public class TreeUtils {
 
-	public static int findStart(Statement statement, int index) {
-		return findIndex(statement, index, -1);
-	}
-
-	public static int findEnd(Statement statement, int index) {
-		return findIndex(statement, index, 1) + 1;
-	}
-
 	public static int findIndex(Statement statement, int index, int step) {
 		int finalIndex = -1;
 		String treeId = statement.getToken(index).attr(AttributeEnum.TREE_ID);
@@ -23,6 +15,15 @@ public class TreeUtils {
 			}
 		}
 		return finalIndex;
+	}
+
+	public static int findStart(Statement statement, int index) {
+		return findIndex(statement, index, -1);
+	}
+
+	public static int findEnd(Statement statement, int index) {
+		int finalIndex = findIndex(statement, index, 1);
+		return finalIndex >= 0 ? finalIndex + 1 : finalIndex;
 	}
 
 }

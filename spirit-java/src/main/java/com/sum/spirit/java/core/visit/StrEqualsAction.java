@@ -1,60 +1,55 @@
 package com.sum.spirit.java.core.visit;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.c.visit.AbsElementAction;
-import com.sum.spirit.java.utils.TreeUtils;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
-import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-80)
-public class StrEqualsAction extends AbsElementAction {
+public class StrEqualsAction extends AbsTreeElementAction {
 
 	public static final String FORMAT = "StringUtils.equals(%s, %s)";
 
-	@Autowired
-	public FastDeducer deducer;
+	@Override
+	public boolean isTrigger(Token currentToken) {
+		return currentToken.isEquals() || currentToken.isUnequals();
+	}
 
 	@Override
-	public void visit(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Statement statement = event.getStatement();
-		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
-			// 如果是==或者是!=
-			if (currentToken.isEquals() || currentToken.isUnequals()) {
-				int start = TreeUtils.findStart(stmt, index);
-				Statement prevStatement = stmt.subStmt(start, index);
-				IType prevType = deducer.derive(clazz, prevStatement);
-				if (TypeUtils.isString(prevType)) {
-					int end = TreeUtils.findEnd(stmt, index);
-					Statement nextStatement = stmt.subStmt(index + 1, end);
-					IType nextType = deducer.derive(clazz, nextStatement);
-					if (TypeUtils.isString(nextType)) {
-						String format = currentToken.isEquals() ? FORMAT : "!" + FORMAT;
-						String text = String.format(format, prevStatement, nextStatement);
-						Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-						expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
-						expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID));
-						stmt.replaceTokens(start, end, expressToken);
-						clazz.addImport(StringUtils.class.getName());
-					}
-				}
-			}
-			return null;
-		});
+	public void visit(IClass clazz, Statement statement, int index, Token currentToken) {
+		Map<String, Object> context = new HashMap<>();
+		visitPrev(clazz, statement, index, currentToken, context);
+		int start = (Integer) context.get("start");
+		Statement prevStatement = (Statement) context.get("prevStatement");
+		IType prevType = (IType) context.get("prevType");
+		if (!TypeUtils.isString(prevType)) {
+			return;
+		}
+		visitNext(clazz, statement, index, currentToken, context);
+		int end = (Integer) context.get("end");
+		Statement nextStatement = (Statement) context.get("nextStatement");
+		IType nextType = (IType) context.get("nextType");
+		if (TypeUtils.isString(nextType)) {
+			String format = currentToken.isEquals() ? FORMAT : "!" + FORMAT;
+			String text = String.format(format, prevStatement, nextStatement);
+			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
+			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
+			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID));
+			statement.replaceTokens(start, end, expressToken);
+			clazz.addImport(StringUtils.class.getName());
+		}
 	}
 
 }
