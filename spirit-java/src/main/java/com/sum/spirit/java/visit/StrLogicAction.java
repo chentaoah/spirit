@@ -41,9 +41,9 @@ public class StrLogicAction extends AbsTreeElementAction {
 
 	@Override
 	public void doVisitPrev(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
-		int start = (Integer) context.get("start");
-		Statement prevStatement = (Statement) context.get("prevStatement");
-		IType prevType = (IType) context.get("prevType");
+		int start = (Integer) context.get(START);
+		Statement prevStatement = (Statement) context.get(PREV_STATEMENT);
+		IType prevType = (IType) context.get(PREV_TYPE);
 		if (TypeUtils.isString(prevType)) {
 			String text = String.format(FORMAT, prevStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
@@ -56,9 +56,9 @@ public class StrLogicAction extends AbsTreeElementAction {
 
 	@Override
 	public void doVisitNext(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
-		int end = (Integer) context.get("end");
-		Statement nextStatement = (Statement) context.get("nextStatement");
-		IType nextType = (IType) context.get("nextType");
+		int end = (Integer) context.get(END);
+		Statement nextStatement = (Statement) context.get(NEXT_STATEMENT);
+		IType nextType = (IType) context.get(NEXT_TYPE);
 		if (TypeUtils.isString(nextType)) {
 			String text = String.format(FORMAT, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
