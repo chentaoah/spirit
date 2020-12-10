@@ -17,7 +17,7 @@ import com.sum.spirit.pojo.clazz.IField;
 import com.sum.spirit.pojo.clazz.IMethod;
 import com.sum.spirit.pojo.clazz.IParameter;
 import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.clazz.frame.IMember;
+import com.sum.spirit.pojo.clazz.api.IMember;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 

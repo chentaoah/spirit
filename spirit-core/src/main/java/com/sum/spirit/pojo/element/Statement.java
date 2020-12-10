@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.pojo.element.frame.TokenBox;
+import com.sum.spirit.pojo.element.api.TokenBox;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 

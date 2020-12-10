@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.frame.IMember;
+import com.sum.spirit.pojo.clazz.api.IMember;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Token;

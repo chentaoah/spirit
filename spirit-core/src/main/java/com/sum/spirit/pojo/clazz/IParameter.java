@@ -2,7 +2,7 @@ package com.sum.spirit.pojo.clazz;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.clazz.frame.Annotated;
+import com.sum.spirit.pojo.clazz.api.Annotated;
 import com.sum.spirit.pojo.element.Element;
 
 public class IParameter extends Annotated {
