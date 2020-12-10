@@ -30,7 +30,7 @@ public abstract class AbsTreeElementAction extends AbsElementAction {
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.getStatement();
+		Statement statement = event.element.statement;
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			if (isTrigger(currentToken)) {
 				visit(clazz, stmt, index, currentToken);

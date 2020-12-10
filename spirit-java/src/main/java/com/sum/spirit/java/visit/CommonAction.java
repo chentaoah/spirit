@@ -20,7 +20,7 @@ public class CommonAction extends AbsElementAction {
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.getStatement();
+		Statement statement = event.element.statement;
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			if (currentToken.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = currentToken.getValue();

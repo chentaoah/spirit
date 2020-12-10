@@ -8,12 +8,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.api.ElementAction;
+import com.sum.spirit.api.StatementAction;
 import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
+import com.sum.spirit.pojo.common.StatementEvent;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
@@ -21,7 +22,7 @@ import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-40)
-public class InvokeVisiter implements ElementAction {
+public class InvokeVisiter extends AbsElementAction implements StatementAction {
 
 	@Autowired
 	public FastDeducer deducer;
@@ -31,23 +32,26 @@ public class InvokeVisiter implements ElementAction {
 	public TypeFactory factory;
 
 	@Override
-	public boolean isTrigger(ElementEvent event) {
-		return event.getStatement() != null;
+	public void visit(ElementEvent event) {
+		IClass clazz = event.clazz;
+		Statement statement = event.element.statement;
+		doVisit(clazz, statement);
 	}
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void visit(StatementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.getStatement();
+		Statement statement = event.statement;
+		doVisit(clazz, statement);
+	}
+
+	public void doVisit(IClass clazz, Statement statement) {
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			try {
-				// 如果有类型，则直接返回
 				if (currentToken.attr(AttributeEnum.TYPE) != null) {
 					return null;
 				}
-				// 获取参数
 				List<IType> parameterTypes = currentToken.isInvoke() ? getParameterTypes(clazz, currentToken) : null;
-
 				if (currentToken.isType() || currentToken.isArrayInit() || currentToken.isTypeInit() || //
 				currentToken.isCast() || currentToken.isValue()) {
 					currentToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, currentToken));

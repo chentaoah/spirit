@@ -5,13 +5,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.api.ElementAction;
+import com.sum.spirit.api.StatementAction;
 import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
+import com.sum.spirit.pojo.common.StatementEvent;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
@@ -21,7 +22,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-60)
-public class VariableTracker implements ElementAction {
+public class VariableTracker extends AbsElementAction implements StatementAction {
 
 	@Autowired
 	public ClassVisiter visiter;
@@ -31,15 +32,22 @@ public class VariableTracker implements ElementAction {
 	public TypeFactory factory;
 
 	@Override
-	public boolean isTrigger(ElementEvent event) {
-		return event.getStatement() != null;
-	}
-
-	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		MethodContext context = event.context;
-		Statement statement = event.getStatement();
+		Statement statement = event.element.statement;
+		doVisit(clazz, context, statement);
+	}
+
+	@Override
+	public void visit(StatementEvent event) {
+		IClass clazz = event.clazz;
+		MethodContext context = event.context;
+		Statement statement = event.statement;
+		doVisit(clazz, context, statement);
+	}
+
+	public void doVisit(IClass clazz, MethodContext context, Statement statement) {
 		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
 			if (currentToken.attr(AttributeEnum.TYPE) != null) {
 				return null;
