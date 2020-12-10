@@ -9,7 +9,7 @@ import com.sum.spirit.pojo.clazz.IClass;
 
 @Component
 @Order(-100)
-public class SystemClassLoader extends AbsClassLoader {
+public class CodeClassLoader extends AbsClassLoader {
 
 	// 此次编译的所有的类
 	public Map<String, IClass> classes;

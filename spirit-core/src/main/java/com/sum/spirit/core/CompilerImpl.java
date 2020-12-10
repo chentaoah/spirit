@@ -23,7 +23,7 @@ public class CompilerImpl implements Compiler {
 	@Autowired
 	public ClassVisiter visiter;
 	@Autowired
-	public SystemClassLoader systemClassLoader;
+	public CodeClassLoader classLoader;
 	@Autowired
 	public PostProcessor processor;
 
@@ -41,7 +41,7 @@ public class CompilerImpl implements Compiler {
 		});
 
 		// 3.放入上下文
-		systemClassLoader.classes = allClasses;
+		classLoader.classes = allClasses;
 		processor.whenClassesLoadFinish(allClasses);
 
 		// 4.进行类型成员变量的推导

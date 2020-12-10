@@ -8,14 +8,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.java.core.BootstrapClassLoader;
+import com.sum.spirit.java.core.NativeClassLoader;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 
 public abstract class AbsNativeLinker implements ClassLinker {
 
 	@Autowired
-	public BootstrapClassLoader bootstrapClassLoader;
+	public NativeClassLoader classLoader;
 	@Autowired
 	public NativeFactory factory;
 
@@ -26,7 +26,7 @@ public abstract class AbsNativeLinker implements ClassLinker {
 
 	@Override
 	public <T> T toClass(IType type) {
-		return bootstrapClassLoader.getClass(type.getClassName());// 可能是数组
+		return classLoader.getClass(type.getClassName());// 可能是数组
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import com.sum.spirit.utils.TypeUtils;
 
 @Component
 @Order(-80)
-public class BootstrapClassLoader extends AbsClassLoader {
+public class NativeClassLoader extends AbsClassLoader {
 
 	@Override
 	public void prepare() {
