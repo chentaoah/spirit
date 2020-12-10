@@ -3,7 +3,7 @@ package com.sum.spirit.core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.b.build.TreeBuilder;
+import com.sum.spirit.core.build.TreeBuilder;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.Node;

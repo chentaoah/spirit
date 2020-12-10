@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.core.d.type.TypeFactory;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;

@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.a.lexer.Lexer;
-import com.sum.spirit.core.b.build.LineChecker;
-import com.sum.spirit.core.b.build.SemanticParser;
-import com.sum.spirit.core.b.build.TreeBuilder;
+import com.sum.spirit.core.build.LineChecker;
+import com.sum.spirit.core.build.SemanticParser;
+import com.sum.spirit.core.build.TreeBuilder;
+import com.sum.spirit.core.lexer.Lexer;
 import com.sum.spirit.pojo.element.Element;
 import com.sum.spirit.pojo.element.Line;
 import com.sum.spirit.pojo.element.Modifiers;

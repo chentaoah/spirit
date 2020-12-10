@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sum.spirit.pojo.element.Statement;
 import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
-import com.sum.spirit.core.d.type.TypeFactory;
+import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.IAnnotation;
 import com.sum.spirit.pojo.clazz.IClass;
 import com.sum.spirit.pojo.clazz.IField;
