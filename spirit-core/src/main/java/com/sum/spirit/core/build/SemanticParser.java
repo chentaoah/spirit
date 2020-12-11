@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.Lexer;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 

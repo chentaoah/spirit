@@ -1,9 +1,9 @@
-package com.sum.spirit.pojo.element.api;
+package com.sum.spirit.pojo.element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 import cn.hutool.core.lang.Assert;

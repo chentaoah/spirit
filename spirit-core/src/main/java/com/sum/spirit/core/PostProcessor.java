@@ -10,8 +10,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassEnhancer;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.element.Document;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.element.impl.Document;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component

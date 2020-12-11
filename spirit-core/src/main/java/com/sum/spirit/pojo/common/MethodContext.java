@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.IParameter;
-import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.clazz.impl.IParameter;
+import com.sum.spirit.pojo.clazz.impl.IVariable;
 
 public class MethodContext {
 

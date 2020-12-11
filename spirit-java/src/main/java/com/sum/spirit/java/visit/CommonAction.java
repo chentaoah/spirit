@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
 import com.sum.spirit.core.visit.AbsElementAction;
-import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.Maps;
 import com.sum.spirit.utils.StmtVisiter;

@@ -9,12 +9,12 @@ import com.sum.spirit.core.build.LineChecker;
 import com.sum.spirit.core.build.SemanticParser;
 import com.sum.spirit.core.build.TreeBuilder;
 import com.sum.spirit.core.lexer.Lexer;
-import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.Line;
-import com.sum.spirit.pojo.element.Modifiers;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.SyntaxTree;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.pojo.element.impl.Line;
+import com.sum.spirit.pojo.element.impl.Modifiers;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.SyntaxTree;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 @Component

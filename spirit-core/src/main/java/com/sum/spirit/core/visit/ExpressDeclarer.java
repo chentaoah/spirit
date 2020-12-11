@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.ElementBuilder;
 import com.sum.spirit.core.ElementVisiter;
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IVariable;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.common.StatementEvent;
-import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component

@@ -1,7 +1,7 @@
 package com.sum.spirit.utils;
 
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 
 public class StmtVisiter {
 

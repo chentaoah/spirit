@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.impl;
 
 import java.util.ArrayList;
 import java.util.List;

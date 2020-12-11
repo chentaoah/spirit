@@ -7,18 +7,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.IAnnotation;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IField;
-import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.IParameter;
-import com.sum.spirit.pojo.clazz.IVariable;
-import com.sum.spirit.pojo.clazz.api.IMember;
+import com.sum.spirit.pojo.clazz.IMember;
+import com.sum.spirit.pojo.clazz.impl.IAnnotation;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IField;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.clazz.impl.IParameter;
+import com.sum.spirit.pojo.clazz.impl.IVariable;
 import com.sum.spirit.pojo.common.IType;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.utils.SpringUtils;
 
 import cn.hutool.core.lang.Assert;

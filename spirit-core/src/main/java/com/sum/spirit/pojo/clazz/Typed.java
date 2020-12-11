@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.clazz.api;
+package com.sum.spirit.pojo.clazz;
 
 import com.sum.spirit.pojo.common.IType;
 

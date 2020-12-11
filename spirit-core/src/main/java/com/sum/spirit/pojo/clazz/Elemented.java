@@ -1,6 +1,6 @@
-package com.sum.spirit.pojo.clazz.api;
+package com.sum.spirit.pojo.clazz;
 
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.element.impl.Element;
 
 public abstract class Elemented extends Typed {
 

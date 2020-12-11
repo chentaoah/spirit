@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.sum.spirit.pojo.element.Document;
-import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.Line;
-import com.sum.spirit.pojo.element.Statement;
+import com.sum.spirit.pojo.element.impl.Document;
+import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.pojo.element.impl.Line;
+import com.sum.spirit.pojo.element.impl.Statement;
 
 @Component
 public class DocumentReader {

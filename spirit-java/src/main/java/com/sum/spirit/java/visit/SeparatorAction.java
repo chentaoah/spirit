@@ -4,11 +4,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.visit.AbsElementAction;
-import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.element.Element;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component

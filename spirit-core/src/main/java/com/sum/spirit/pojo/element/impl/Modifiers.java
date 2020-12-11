@@ -1,11 +1,11 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.element.api.TokenBox;
+import com.sum.spirit.pojo.element.TokenBox;
 
 public class Modifiers extends TokenBox {
 

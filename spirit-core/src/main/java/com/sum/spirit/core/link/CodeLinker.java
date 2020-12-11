@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.CodeClassLoader;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IField;
-import com.sum.spirit.pojo.clazz.IMethod;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IField;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 

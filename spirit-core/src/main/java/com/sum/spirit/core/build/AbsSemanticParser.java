@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;

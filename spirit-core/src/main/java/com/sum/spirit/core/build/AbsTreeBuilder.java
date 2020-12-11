@@ -2,10 +2,10 @@ package com.sum.spirit.core.build;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.element.SyntaxTree;
-import com.sum.spirit.pojo.element.Node;
-import com.sum.spirit.pojo.element.Statement;
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Node;
+import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.SyntaxTree;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public abstract class AbsTreeBuilder {

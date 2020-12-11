@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.build.SemanticParser;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.api.Annotated;
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.clazz.Annotated;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.element.impl.Element;
 
 @Component
 public class AutoImporter {

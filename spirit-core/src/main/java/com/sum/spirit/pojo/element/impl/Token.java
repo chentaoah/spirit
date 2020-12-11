@@ -1,9 +1,9 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sum.spirit.pojo.element.api.Semantic;
+import com.sum.spirit.pojo.element.Semantic;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 

@@ -1,9 +1,9 @@
-package com.sum.spirit.pojo.clazz.api;
+package com.sum.spirit.pojo.clazz;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.clazz.IAnnotation;
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.clazz.impl.IAnnotation;
+import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 
 public abstract class IMember extends Annotated {

@@ -3,7 +3,7 @@ package com.sum.spirit.api;
 import java.io.File;
 import java.util.Map;
 
-import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.clazz.impl.IClass;
 
 public interface Compiler {
 

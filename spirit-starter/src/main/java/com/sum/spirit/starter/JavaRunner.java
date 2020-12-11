@@ -11,7 +11,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.PostProcessor;
-import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileUtils;

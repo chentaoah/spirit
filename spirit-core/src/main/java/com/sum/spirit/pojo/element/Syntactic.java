@@ -1,8 +1,8 @@
-package com.sum.spirit.pojo.element.api;
+package com.sum.spirit.pojo.element;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 
 public abstract class Syntactic extends TokenBox {

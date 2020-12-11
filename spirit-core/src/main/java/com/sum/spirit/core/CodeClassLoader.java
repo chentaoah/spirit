@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.clazz.IClass;
+import com.sum.spirit.pojo.clazz.impl.IClass;
 
 @Component
 @Order(-100)

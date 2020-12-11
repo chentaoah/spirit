@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.IVariable;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.clazz.impl.IVariable;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component

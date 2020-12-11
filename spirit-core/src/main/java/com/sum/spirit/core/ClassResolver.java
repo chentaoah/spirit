@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.clazz.IAnnotation;
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.clazz.IField;
-import com.sum.spirit.pojo.clazz.IMethod;
-import com.sum.spirit.pojo.clazz.Import;
-import com.sum.spirit.pojo.element.Document;
-import com.sum.spirit.pojo.element.Element;
+import com.sum.spirit.pojo.clazz.impl.IAnnotation;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.clazz.impl.IField;
+import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.clazz.impl.Import;
+import com.sum.spirit.pojo.element.impl.Document;
+import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.TypeUtils;
 

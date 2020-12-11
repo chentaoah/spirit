@@ -1,9 +1,9 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.pojo.element.api.Syntactic;
+import com.sum.spirit.pojo.element.Syntactic;
 import com.sum.spirit.pojo.enums.SyntaxEnum;
 import com.sum.spirit.utils.LineUtils;
 

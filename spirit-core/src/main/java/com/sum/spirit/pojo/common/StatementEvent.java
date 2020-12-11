@@ -1,7 +1,7 @@
 package com.sum.spirit.pojo.common;
 
-import com.sum.spirit.pojo.clazz.IClass;
-import com.sum.spirit.pojo.element.Statement;
+import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.element.impl.Statement;
 
 public class StatementEvent {
 

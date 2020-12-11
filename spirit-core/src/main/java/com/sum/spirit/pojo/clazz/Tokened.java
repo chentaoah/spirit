@@ -1,6 +1,6 @@
-package com.sum.spirit.pojo.clazz.api;
+package com.sum.spirit.pojo.clazz;
 
-import com.sum.spirit.pojo.element.Token;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
 public abstract class Tokened extends Typed {
