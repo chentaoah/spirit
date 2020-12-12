@@ -81,15 +81,15 @@ public class TypeVisiter {
 	}
 
 	public static interface SimpleAction extends Action {
-		IType execute(IType rawType, int index, IType targetType);
+		IType execute(IType rawType, int index, IType currentType);
 	}
 
 	public static interface ReferAction extends Action {
-		IType execute(IType rawType, int index, IType referenceType, IType targetType);
+		IType execute(IType rawType, int index, IType referenceType, IType currentType);
 	}
 
 	public static interface NameAction extends Action {
-		String execute(IType rawType, int index, IType targetType);
+		String execute(IType rawType, int index, IType currentType);
 	}
 
 }
