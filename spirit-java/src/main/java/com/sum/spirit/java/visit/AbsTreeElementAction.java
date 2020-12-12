@@ -31,45 +31,45 @@ public abstract class AbsTreeElementAction extends AbsElementAction {
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element.statement;
-		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
-			if (isTrigger(currentToken)) {
-				visit(clazz, stmt, index, currentToken);
+		new StmtVisiter().visit(statement, visitEvent -> {
+			Token token = visitEvent.item;
+			if (isTrigger(token)) {
+				visit(clazz, (Statement) visitEvent.listable, visitEvent.index, token);
 			}
-			return null;
 		});
 	}
 
-	public void visit(IClass clazz, Statement statement, int index, Token currentToken) {
+	public void visit(IClass clazz, Statement statement, int index, Token token) {
 		Map<String, Object> context = new HashMap<>();
-		visitPrev(clazz, statement, index, currentToken, context);
-		visitNext(clazz, statement, index, currentToken, context);
+		visitPrev(clazz, statement, index, token, context);
+		visitNext(clazz, statement, index, token, context);
 	}
 
-	public void visitPrev(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
+	public void visitPrev(IClass clazz, Statement statement, int index, Token token, Map<String, Object> context) {
 		int start = TreeUtils.findStart(statement, index);
 		Statement prevStatement = statement.subStmt(start, index);
 		IType prevType = deducer.derive(clazz, prevStatement);
 		context.put(START, start);
 		context.put(PREV_STATEMENT, prevStatement);
 		context.put(PREV_TYPE, prevType);
-		doVisitPrev(clazz, statement, index, currentToken, context);
+		doVisitPrev(clazz, statement, index, token, context);
 	}
 
-	public void visitNext(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
+	public void visitNext(IClass clazz, Statement statement, int index, Token token, Map<String, Object> context) {
 		int end = TreeUtils.findEnd(statement, index);
 		Statement nextStatement = statement.subStmt(index + 1, end);
 		IType nextType = deducer.derive(clazz, nextStatement);
 		context.put(END, end);
 		context.put(NEXT_STATEMENT, nextStatement);
 		context.put(NEXT_TYPE, nextType);
-		doVisitNext(clazz, statement, index, currentToken, context);
+		doVisitNext(clazz, statement, index, token, context);
 	}
 
-	public void doVisitPrev(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
+	public void doVisitPrev(IClass clazz, Statement statement, int index, Token token, Map<String, Object> context) {
 		// ignore
 	}
 
-	public void doVisitNext(IClass clazz, Statement statement, int index, Token currentToken, Map<String, Object> context) {
+	public void doVisitNext(IClass clazz, Statement statement, int index, Token token, Map<String, Object> context) {
 		// ignore
 	}
 

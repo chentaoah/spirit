@@ -21,23 +21,24 @@ public class CommonAction extends AbsElementAction {
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element.statement;
-		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
-			if (currentToken.isArrayInit()) {// String[10] => new String[10]
-				Statement subStatement = currentToken.getValue();
+		new StmtVisiter().visit(statement, visitEvent -> {
+			Token token = visitEvent.item;
+			if (token.isArrayInit()) {// String[10] => new String[10]
+				Statement subStatement = token.getValue();
 				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-			} else if (currentToken.isTypeInit()) {// User() => new User()
-				Statement subStatement = currentToken.getValue();
+			} else if (token.isTypeInit()) {// User() => new User()
+				Statement subStatement = token.getValue();
 				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-			} else if (currentToken.isList()) {// ["value"] => Lists.newArrayList("value");
-				Statement subStatement = currentToken.getValue();
+			} else if (token.isList()) {// ["value"] => Lists.newArrayList("value");
+				Statement subStatement = token.getValue();
 				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Lists.class.getName());
 
-			} else if (currentToken.isMap()) {// {"key":"value"} => Maps.of("key","value");
-				Statement subStatement = currentToken.getValue();
+			} else if (token.isMap()) {// {"key":"value"} => Maps.of("key","value");
+				Statement subStatement = token.getValue();
 				for (Token subToken : subStatement.tokens) {
 					if (subToken.isSeparator() && ":".equals(subToken.toString())) {
 						subToken.value = ",";
@@ -47,7 +48,6 @@ public class CommonAction extends AbsElementAction {
 				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Maps.class.getName());
 			}
-			return null;
 		});
 	}
 

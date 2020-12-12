@@ -14,6 +14,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.common.StatementEvent;
 import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.utils.StmtVisiter;
@@ -48,27 +49,27 @@ public class VariableTracker extends AbsElementAction implements StatementAction
 	}
 
 	public void doVisit(IClass clazz, MethodContext context, Statement statement) {
-		new StmtVisiter().visit(statement, (stmt, index, currentToken) -> {
-			if (currentToken.attr(AttributeEnum.TYPE) != null) {
-				return null;
+		new StmtVisiter().visit(statement, event -> {
+			Token token = event.item;
+			if (token.attr(AttributeEnum.TYPE) != null) {
+				return;
 			}
-			if (currentToken.isVariable()) {// variable
-				String variableName = currentToken.toString();
+			if (token.isVariable()) {// variable
+				String variableName = token.toString();
 				IType type = getVariableType(clazz, context, variableName);
-				currentToken.setAttr(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (currentToken.isArrayIndex()) {// .strs[0]
-				String memberName = currentToken.attr(AttributeEnum.MEMBER_NAME);
+			} else if (token.isArrayIndex()) {// .strs[0]
+				String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 				IType type = getVariableType(clazz, context, memberName);
 				type = type.getTargetType();// 转换数组类型为目标类型
-				currentToken.setAttr(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (currentToken.isKeyword() && KeywordEnum.isKeywordVariable(currentToken.getValue())) {
-				String variableName = currentToken.toString();
+			} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
+				String variableName = token.toString();
 				IType type = findKeywordType(clazz, variableName);
-				currentToken.setAttr(AttributeEnum.TYPE, type);
+				token.setAttr(AttributeEnum.TYPE, type);
 			}
-			return null;
 		});
 	}
 
