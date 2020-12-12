@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.ElementBuilder;
 import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.core.visit.AbsElementAction;
@@ -32,6 +33,8 @@ public class StatementAction extends AbsElementAction {
 	public ElementBuilder builder;
 	@Autowired
 	public FastDeducer deducer;
+	@Autowired
+	public AutoImporter importer;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -54,7 +57,7 @@ public class StatementAction extends AbsElementAction {
 					boolean derived = token.attr(AttributeEnum.DERIVED, false);
 					if (derived) {
 						IType type = token.attr(AttributeEnum.TYPE);
-						statement.addToken(1, new Token(TokenTypeEnum.TYPE, TypeUtils.build(clazz, type)));
+						statement.addToken(1, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 					}
 				}
 			}
@@ -63,7 +66,7 @@ public class StatementAction extends AbsElementAction {
 			Token item = element.getToken(1);
 			IType type = item.attr(AttributeEnum.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
-			String text = String.format("for (%s %s : %s) {", TypeUtils.build(clazz, type), item, statement);
+			String text = String.format("for (%s %s : %s) {", importer.getFinalName(clazz, type), item, statement);
 			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
@@ -71,7 +74,7 @@ public class StatementAction extends AbsElementAction {
 			boolean derived = token.attr(AttributeEnum.DERIVED, false);
 			IType type = token.attr(AttributeEnum.TYPE);
 			if (token.isVariable() && derived) {
-				element.addToken(0, new Token(TokenTypeEnum.TYPE, TypeUtils.build(clazz, type)));
+				element.addToken(0, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 			}
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
@@ -95,7 +98,8 @@ public class StatementAction extends AbsElementAction {
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				Element loggerElement = builder
+						.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				loggerElement.addModifier(JavaBuilder.FINAL_KEYWORD);
 				loggerElement.addModifier(KeywordEnum.STATIC.value);
 				loggerElement.addModifier(KeywordEnum.PUBLIC.value);

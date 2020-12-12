@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.spirit.pojo.common.IType;
 
 public class TypeVisiter {
@@ -55,6 +56,27 @@ public class TypeVisiter {
 		return targetType;
 	}
 
+	public String visitName(IType targetType, NameAction action) {
+		return visitName(null, -1, targetType, action);
+	}
+
+	public String visitName(IType rawType, int index, IType targetType, NameAction action) {
+		String finalName = action.execute(rawType, index, targetType);
+		if (finalName == null) {
+			finalName = targetType.toString();
+		}
+		if (targetType.isGenericType()) {
+			List<String> strs = new ArrayList<>();
+			List<IType> genericTypes = targetType.getGenericTypes();
+			for (int idx = 0; idx < genericTypes.size(); idx++) {
+				IType genericType = genericTypes.get(idx);
+				strs.add(visitName(targetType, idx, genericType, action));
+			}
+			finalName = finalName + "<" + Joiner.on(", ").join(strs) + ">";
+		}
+		return finalName;
+	}
+
 	public static interface Action {
 	}
 
@@ -64,6 +86,10 @@ public class TypeVisiter {
 
 	public static interface ReferAction extends Action {
 		IType execute(IType rawType, int index, IType referenceType, IType targetType);
+	}
+
+	public static interface NameAction extends Action {
+		String execute(IType rawType, int index, IType targetType);
 	}
 
 }

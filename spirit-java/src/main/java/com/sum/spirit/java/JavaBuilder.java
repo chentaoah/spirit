@@ -3,12 +3,13 @@ package com.sum.spirit.java;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.ElementAction;
-import com.sum.spirit.java.utils.TypeUtils;
+import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IField;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
@@ -26,6 +27,9 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String FINAL_KEYWORD = "final";
+
+	@Autowired
+	public AutoImporter importer;
 
 	public List<ElementAction> actions;
 
@@ -117,7 +121,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 					if (method.isInit()) {
 						element.removeKeyword(KeywordEnum.FUNC.value);
 					} else {
-						element.replaceKeyword(KeywordEnum.FUNC.value, TypeUtils.build(clazz, method.getType()));
+						element.replaceKeyword(KeywordEnum.FUNC.value, importer.getFinalName(clazz, method.getType()));
 					}
 					methodsStr.append("\t" + element + "\n");
 				}

@@ -10,7 +10,9 @@ import com.sum.spirit.core.build.SemanticParser;
 import com.sum.spirit.pojo.clazz.Annotated;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
+import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.utils.TypeVisiter;
 
 @Component
 public class AutoImporter {
@@ -46,6 +48,15 @@ public class AutoImporter {
 		if (visitChildren) {
 			element.children.forEach((child) -> visitElement(clazz, child, visitChildren));
 		}
+	}
+
+	public String getFinalName(IClass clazz, IType type) {
+		return new TypeVisiter().visitName(type, (rawType, index, currentType) -> {
+			if (!clazz.addImport(currentType.getClassName())) {
+				return currentType.getTypeName();
+			}
+			return null;
+		});
 	}
 
 }
