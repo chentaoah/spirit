@@ -13,10 +13,11 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.link.TypeFactory;
+import com.sum.spirit.core.visit.ReferTypeVisiter;
+import com.sum.spirit.core.visit.TypeVisiter;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
-import com.sum.spirit.utils.TypeVisiter;
 
 @Component
 public class NativeFactory extends TypeFactory {
@@ -85,23 +86,23 @@ public class NativeFactory extends TypeFactory {
 	}
 
 	public IType populate(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-		// 使用匿名表达式
-		return new TypeVisiter().visit(parameterType, targetType, (rawType, index, referenceType, currentType) -> {
+		return new ReferTypeVisiter().visit(targetType, parameterType, event -> {
+			IType currentType = event.item;
+			IType referType = event.get(ReferTypeVisiter.REFER_KEY);
 			if (currentType.isTypeVariable()) {
 				String genericName = currentType.getGenericName();
-				// 如果已经存在了，则必须统一
-				if (qualifyingTypes.containsKey(genericName)) {
+				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
 					IType existType = qualifyingTypes.get(genericName);
 					if (!existType.equals(parameterType)) {
 						throw new RuntimeException("Parameter qualification types are not uniform!");
 					}
-					referenceType = TypeBuilder.copy(referenceType);
-					return referenceType;
+					referType = TypeBuilder.copy(referType);
+					return referType;
 
 				} else {
-					referenceType = TypeBuilder.copy(referenceType);
-					qualifyingTypes.put(genericName, referenceType);
-					return referenceType;
+					referType = TypeBuilder.copy(referType);
+					qualifyingTypes.put(genericName, referType);
+					return referType;
 				}
 			}
 			return null;
@@ -109,8 +110,8 @@ public class NativeFactory extends TypeFactory {
 	}
 
 	public IType populate(Map<String, IType> qualifyingTypes, IType targetType) {
-		// 使用匿名表达式
-		return new TypeVisiter().visit(targetType, (rawType, index, currentType) -> {
+		return new TypeVisiter().visit(targetType, event -> {
+			IType currentType = event.item;
 			if (currentType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());
 			}

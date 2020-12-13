@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core.deduce;
 
 import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.pojo.common.ElementEvent;

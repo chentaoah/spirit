@@ -3,7 +3,7 @@ package com.sum.spirit.java.visit;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.visit.AbsElementAction;
+import com.sum.spirit.core.deduce.AbsElementAction;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.impl.Element;

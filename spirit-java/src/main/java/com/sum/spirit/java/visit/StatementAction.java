@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.ElementBuilder;
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.visit.AbsElementAction;
+import com.sum.spirit.core.deduce.AbsElementAction;
 import com.sum.spirit.java.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.impl.IClass;

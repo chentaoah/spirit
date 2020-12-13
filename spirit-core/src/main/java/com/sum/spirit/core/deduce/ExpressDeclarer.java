@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core.deduce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visit;
+package com.sum.spirit.core.deduce;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.api.StatementAction;
 import com.sum.spirit.core.FastDeducer;
 import com.sum.spirit.core.link.TypeFactory;
+import com.sum.spirit.core.visit.StmtVisiter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
@@ -18,7 +19,6 @@ import com.sum.spirit.pojo.common.StatementEvent;
 import com.sum.spirit.pojo.element.impl.Statement;
 import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
-import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-40)
@@ -46,7 +46,7 @@ public class InvokeVisiter extends AbsElementAction implements StatementAction {
 	}
 
 	public void doVisit(IClass clazz, Statement statement) {
-		new StmtVisiter().visit(statement, event -> {
+		new StmtVisiter().visitVoid(statement, event -> {
 			try {
 				Statement stmt = (Statement) event.listable;
 				int index = event.index;

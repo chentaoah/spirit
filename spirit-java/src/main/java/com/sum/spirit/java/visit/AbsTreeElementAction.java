@@ -6,14 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.visit.AbsElementAction;
+import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.visit.StmtVisiter;
 import com.sum.spirit.java.utils.TreeUtils;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Statement;
 import com.sum.spirit.pojo.element.impl.Token;
-import com.sum.spirit.utils.StmtVisiter;
 
 public abstract class AbsTreeElementAction extends AbsElementAction {
 
@@ -31,7 +31,7 @@ public abstract class AbsTreeElementAction extends AbsElementAction {
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element.statement;
-		new StmtVisiter().visit(statement, visitEvent -> {
+		new StmtVisiter().visitVoid(statement, visitEvent -> {
 			Token token = visitEvent.item;
 			if (isTrigger(token)) {
 				visit(clazz, (Statement) visitEvent.listable, visitEvent.index, token);

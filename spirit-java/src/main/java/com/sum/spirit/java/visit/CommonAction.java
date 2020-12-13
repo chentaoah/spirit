@@ -4,14 +4,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.sum.spirit.core.visit.AbsElementAction;
+import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.visit.StmtVisiter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.impl.Statement;
 import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.Maps;
-import com.sum.spirit.utils.StmtVisiter;
 
 @Component
 @Order(-100)
@@ -21,7 +21,7 @@ public class CommonAction extends AbsElementAction {
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element.statement;
-		new StmtVisiter().visit(statement, visitEvent -> {
+		new StmtVisiter().visitVoid(statement, visitEvent -> {
 			Token token = visitEvent.item;
 			if (token.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = token.getValue();

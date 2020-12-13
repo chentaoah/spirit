@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.build.SemanticParser;
+import com.sum.spirit.core.visit.TypeVisiter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
-import com.sum.spirit.utils.TypeVisiter;
 
 import cn.hutool.core.lang.Assert;
 
@@ -40,13 +40,13 @@ public abstract class AbsTypeFactory {
 		return type;
 	}
 
-	public IType populate(IType type, IType targetType) {
-		// 使用匿名表达式
-		return new TypeVisiter().visit(targetType, (rawType, index, currentType) -> {
+	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
+		return new TypeVisiter().visit(targetType, event -> {
+			IType currentType = event.item;
 			if (currentType.isTypeVariable()) {
-				int idx = linker.getTypeVariableIndex(type, currentType.getGenericName());
-				if (checkIndex(type, idx)) {
-					return TypeBuilder.copy(type.getGenericTypes().get(idx));
+				int index = linker.getTypeVariableIndex(type, currentType.getGenericName());
+				if (checkIndex(type, index)) {
+					return TypeBuilder.copy(type.getGenericTypes().get(index));
 				}
 			}
 			return null;
