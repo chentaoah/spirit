@@ -34,7 +34,7 @@ public class JavaRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-
+		
 		processor.whenApplicationStart(args.getSourceArgs());
 		// 输入输出
 		String inputPath = args.getOptionValues(INPUT_ARG).get(0);

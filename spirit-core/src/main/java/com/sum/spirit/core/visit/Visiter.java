@@ -1,6 +1,5 @@
 package com.sum.spirit.core.visit;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +25,7 @@ public class Visiter<L, T> {
 		event.listable = listable;
 		listable = prevProcess(listable, consumer, event);
 		List<T> list = getListable(listable, consumer, event);
-		if (list != null && !list.isEmpty()) {
-			for (int index = 0; index < list.size(); index++) {
-				event.index = index;
-				event.item = list.get(index);
-				T item = doProcess(consumer, event);
-				if (item != null) {
-					list.set(index, item);
-				}
-			}
-		}
+		traversalList(list, consumer, event);
 		listable = postProcess(listable, list);
 		return listable;
 	}
@@ -45,7 +35,21 @@ public class Visiter<L, T> {
 	}
 
 	public List<T> getListable(L listable, Consumer<VisitEvent<T>> consumer, VisitEvent<T> event) {
-		return new ArrayList<T>();
+		return null;
+	}
+
+	public void traversalList(List<T> list, Consumer<VisitEvent<T>> consumer, VisitEvent<T> event) {
+		if (list == null || list.isEmpty()) {
+			return;
+		}
+		for (int index = 0; index < list.size(); index++) {
+			event.index = index;
+			event.item = list.get(index);
+			T item = doProcess(consumer, event);
+			if (item != null) {
+				list.set(index, item);
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
