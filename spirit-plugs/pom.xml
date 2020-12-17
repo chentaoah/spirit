@@ -9,6 +9,7 @@
 	</parent>
 	<artifactId>spirit-plugs</artifactId>
 	<dependencies>
+		<!-- spirit-core -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
 			<artifactId>spirit-core</artifactId>

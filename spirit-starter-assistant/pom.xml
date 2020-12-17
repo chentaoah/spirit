@@ -1,26 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.sum.spirit</groupId>
 		<artifactId>spirit-parent</artifactId>
 		<version>1.8.26</version>
 	</parent>
-	<artifactId>spirit-starter</artifactId>
+	<artifactId>spirit-starter-assistant</artifactId>
 
 	<dependencies>
-		<!-- spirit-java -->
+		<!-- spirit-starter -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-java</artifactId>
+			<artifactId>spirit-starter</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- spirit-plugs -->
+		<!-- spring boot web -->
 		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-plugs</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -33,7 +40,7 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../spirit/lib</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../spirit/lib_web</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -47,7 +54,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../spirit/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../spirit/lib_web</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
