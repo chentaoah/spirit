@@ -32,7 +32,7 @@ public abstract class AbsClassVisiter {
 	@Autowired
 	public ElementVisiter visiter;
 
-	public void visit(Map<String, IClass> allClasses) {
+	public void visitClasses(Map<String, IClass> allClasses) {
 		// 解析所有的注解
 		for (IClass clazz : allClasses.values()) {
 			visitAnnotations(clazz, clazz.annotations);

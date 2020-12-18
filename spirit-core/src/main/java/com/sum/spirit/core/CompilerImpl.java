@@ -42,7 +42,7 @@ public class CompilerImpl implements Compiler {
 		classLoader.classes = allClasses;
 		processor.whenClassesLoadFinish(allClasses);
 		// 4.进行类型成员变量的推导
-		visiter.visit(allClasses);
+		visiter.visitClasses(allClasses);
 		return allClasses;
 	}
 
