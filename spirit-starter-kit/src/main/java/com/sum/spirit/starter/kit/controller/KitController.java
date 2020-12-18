@@ -22,7 +22,7 @@ public class KitController {
 		String variableName = params.get("variableName");
 		String incompleteName = params.get("incompleteName");
 		Integer lineNumber = Integer.valueOf(params.get("lineNumber"));
-		// 1.进行不完整编译
+		// 1.进行不完整编译，文档解析只到当前行，且只推导当前类
 		// 2.找到对应的类，并找到对应的方法，从指定行，反向查找变量
 		return Result.success(new ArrayList<MethodInfo>());
 	}
