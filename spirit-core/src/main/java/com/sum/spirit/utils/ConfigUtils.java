@@ -22,6 +22,10 @@ public class ConfigUtils implements EnvironmentAware {
 		return environment.getProperty(key, defaultValue);
 	}
 
+	public static Boolean getProperty(String key, Boolean defaultValue) {
+		return environment.containsProperty(key) ? environment.getProperty(key, Boolean.class) : defaultValue;
+	}
+
 	public static Integer getProperty(String key, Integer defaultValue) {
 		return environment.containsProperty(key) ? environment.getProperty(key, Integer.class) : defaultValue;
 	}

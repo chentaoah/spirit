@@ -34,7 +34,11 @@ public class JavaRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		
+		// 是否自动编译
+		boolean autoRun = ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, false);
+		if (!autoRun) {
+			return;
+		}
 		processor.whenApplicationStart(args.getSourceArgs());
 		// 输入输出
 		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
@@ -56,7 +60,6 @@ public class JavaRunner implements ApplicationRunner {
 				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
 			}
 		});
-
 		processor.whenApplicationEnd(args.getSourceArgs(), files);
 	}
 
