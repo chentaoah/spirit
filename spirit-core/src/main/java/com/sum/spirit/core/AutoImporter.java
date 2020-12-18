@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.build.SemanticParser;
 import com.sum.spirit.core.visit.TypeNameVisiter;
-import com.sum.spirit.pojo.clazz.Annotated;
+import com.sum.spirit.pojo.clazz.api.Annotated;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.common.IType;

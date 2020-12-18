@@ -1,7 +1,7 @@
 package com.sum.spirit.pojo.clazz.impl;
 
 import com.sum.spirit.core.ElementBuilder;
-import com.sum.spirit.pojo.clazz.Elemented;
+import com.sum.spirit.pojo.clazz.api.Elemented;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;

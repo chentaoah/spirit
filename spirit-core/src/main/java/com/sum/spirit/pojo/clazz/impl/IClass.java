@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.Imported;
+import com.sum.spirit.pojo.clazz.api.Imported;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Token;

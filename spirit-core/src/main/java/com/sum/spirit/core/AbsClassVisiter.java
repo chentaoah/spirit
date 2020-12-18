@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.IMember;
+import com.sum.spirit.pojo.clazz.api.IMember;
 import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IField;

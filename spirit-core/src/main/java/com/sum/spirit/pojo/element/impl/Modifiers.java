@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.pojo.element.TokenBox;
+import com.sum.spirit.pojo.element.api.TokenBox;
 
 public class Modifiers extends TokenBox {
 

@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.element;
+package com.sum.spirit.pojo.element.api;
 
 import java.util.Map;
 

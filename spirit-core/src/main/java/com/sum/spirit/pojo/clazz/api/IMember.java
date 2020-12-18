@@ -1,4 +1,4 @@
-package com.sum.spirit.pojo.clazz;
+package com.sum.spirit.pojo.clazz.api;
 
 import java.util.List;
 
