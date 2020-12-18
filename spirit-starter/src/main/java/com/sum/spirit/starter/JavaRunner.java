@@ -44,7 +44,7 @@ public class JavaRunner implements ApplicationRunner {
 		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
 		String outputPath = args.containsOption(OUTPUT_ARG) ? args.getOptionValues(OUTPUT_ARG).get(0) : null;
 		// 文件后缀
-		String suffix = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY);
+		String suffix = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY, "sp");
 		Map<String, File> files = FileUtils.getFiles(inputPath, suffix);
 		Map<String, IClass> allClasses = compiler.compile(files);
 		// 遍历

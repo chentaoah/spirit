@@ -29,7 +29,6 @@ public class CompilerImpl implements Compiler {
 
 	@Override
 	public Map<String, IClass> compile(Map<String, File> files) {
-
 		Map<String, IClass> allClasses = new LinkedHashMap<>();
 		files.forEach((path, file) -> {
 			// 1.读取文件
@@ -37,16 +36,13 @@ public class CompilerImpl implements Compiler {
 			processor.whenDocumentReadFinish(path, document);
 			// 2.解析类型
 			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
-			classes.forEach((clazz) -> allClasses.put(clazz.getClassName(), clazz));
+			classes.forEach(clazz -> allClasses.put(clazz.getClassName(), clazz));
 		});
-
 		// 3.放入上下文
 		classLoader.classes = allClasses;
 		processor.whenClassesLoadFinish(allClasses);
-
 		// 4.进行类型成员变量的推导
 		visiter.visit(allClasses);
-
 		return allClasses;
 	}
 

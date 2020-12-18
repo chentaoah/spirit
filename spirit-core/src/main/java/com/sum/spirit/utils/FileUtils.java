@@ -18,15 +18,14 @@ public class FileUtils {
 		if (!directory.isDirectory()) {
 			return files;
 		}
-		// The directory is CLASSPATH
-		getFilesRecursively(directory, null, files, "." + suffix);
+		getFilesByLoop(directory, null, files, "." + suffix);
 		return files;
 	}
 
-	public static void getFilesRecursively(File directory, String packageStr, Map<String, File> files, String suffix) {
+	public static void getFilesByLoop(File directory, String packageStr, Map<String, File> files, String suffix) {
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory()) {
-				getFilesRecursively(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files, suffix);
+				getFilesByLoop(file, (packageStr == null ? "" : packageStr + ".") + file.getName(), files, suffix);
 
 			} else if (file.isFile()) {
 				if (file.getName().endsWith(suffix)) {
