@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,29 +22,48 @@ public class CompilerImpl implements Compiler {
 	@Autowired
 	public ClassResolver resolver;
 	@Autowired
-	public ClassVisiter visiter;
-	@Autowired
 	public CodeClassLoader classLoader;
 	@Autowired
-	public PostProcessor processor;
+	public AutoImporter importer;
+	@Autowired
+	public ClassVisiter visiter;
 
 	@Override
-	public Map<String, IClass> compile(Map<String, File> files) {
-		Map<String, IClass> allClasses = new LinkedHashMap<>();
+	public List<IClass> compile(Map<String, File> files, String... includePaths) {
+		// 提前将所有类名记录下来
+		files.keySet().forEach(path -> classLoader.classes.put(path, null));
+		// path -> (className -> class)
+		Map<String, Map<String, IClass>> classesMap = new LinkedHashMap<>();
+		// 解析指定类型
 		files.forEach((path, file) -> {
-			// 1.读取文件
-			Document document = reader.readFile(file);
-			processor.whenDocumentReadFinish(path, document);
-			// 2.解析类型
-			List<IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
-			classes.forEach(clazz -> allClasses.put(clazz.getClassName(), clazz));
+			if (TypeUtils.matchPackages(path, includePaths)) {
+				classesMap.put(path, doCompile(files, path));
+			}
 		});
-		// 3.放入上下文
-		classLoader.classes = allClasses;
-		processor.whenClassesLoadFinish(allClasses);
-		// 4.进行类型成员变量的推导
-		visiter.visitClasses(allClasses);
-		return allClasses;
+		// 分析依赖项
+		classesMap.values().forEach(classes -> {
+			classes.forEach((className, clazz) -> {
+				Set<String> dependencies = importer.dependencies(clazz);
+				dependencies.forEach(dependency -> {
+					if (classLoader.contains(dependency) && !classLoader.isloaded(dependency)) {
+						doCompile(files, dependency);// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
+					}
+				});
+				importer.autoImport(clazz, dependencies);
+			});
+		});
+		// 进行推导
+		List<IClass> classes = classLoader.getClasses();
+		classes.forEach(clazz -> visiter.prevVisitClass(clazz));
+		classes.forEach(clazz -> visiter.visitClass(clazz));
+		return classes;
+	}
+
+	public Map<String, IClass> doCompile(Map<String, File> files, String path) {
+		Document document = reader.readFile(files.get(path));
+		Map<String, IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
+		classLoader.classes.putAll(classes);
+		return classes;
 	}
 
 }

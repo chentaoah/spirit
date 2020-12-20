@@ -42,7 +42,7 @@ public class TypeFactory extends AbsTypeFactory {
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);
-		type.setNative(!classLoader.isLoaded(TypeUtils.getTargetName(className)));
+		type.setNative(!classLoader.contains(TypeUtils.getTargetName(className)));
 		type.setModifiers(ModifierEnum.PUBLIC.value);
 		return type;
 	}

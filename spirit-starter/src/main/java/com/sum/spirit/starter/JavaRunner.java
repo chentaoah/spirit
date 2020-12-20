@@ -1,6 +1,7 @@
 package com.sum.spirit.starter;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.PostProcessor;
+import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.utils.ConfigUtils;
@@ -30,7 +31,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public PostProcessor processor;
+	public AliasReplacer replacer;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -39,28 +40,36 @@ public class JavaRunner implements ApplicationRunner {
 		if (!autoRun) {
 			return;
 		}
-		processor.whenApplicationStart(args.getSourceArgs());
-		// 输入输出
+		printArgs(args.getSourceArgs());
+		long timestamp = System.currentTimeMillis();
 		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
 		String outputPath = args.containsOption(OUTPUT_ARG) ? args.getOptionValues(OUTPUT_ARG).get(0) : null;
-		// 文件后缀
 		String suffix = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY, "sp");
+		// 编译
 		Map<String, File> files = FileUtils.getFiles(inputPath, suffix);
-		Map<String, IClass> allClasses = compiler.compile(files);
-		// 遍历
-		allClasses.forEach((className, clazz) -> {
-			// 增强类
-			processor.whenClassCompileFinish(clazz);
-			// 输出目标代码
-			String code = builder.build(clazz);
-			// 替换别名
-			code = processor.processCode(clazz, code);
-			// 生成文件
-			if (StringUtils.isNotEmpty(outputPath)) {
-				FileUtils.generateFile(outputPath, clazz.getClassName(), code);
-			}
-		});
-		processor.whenApplicationEnd(args.getSourceArgs(), files);
+		List<IClass> classes = compiler.compile(files);
+		classes.forEach(clazz -> buildCodeAndGenerateFile(outputPath, clazz));
+		printTotalTime(timestamp);
+	}
+
+	public void printArgs(String[] sourceArgs) {
+		for (String arg : sourceArgs) {
+			System.out.println(arg);
+		}
+		System.out.println("");
+	}
+
+	public void buildCodeAndGenerateFile(String outputPath, IClass clazz) {
+		String code = builder.build(clazz);// 输出目标代码
+		code = replacer.replace(clazz, code);
+		System.out.println(code);
+		if (StringUtils.isNotEmpty(outputPath)) {// 生成文件
+			FileUtils.generateFile(outputPath, clazz.getClassName(), code);
+		}
+	}
+
+	public void printTotalTime(long timestamp) {
+		System.out.println("Total time:" + (System.currentTimeMillis() - timestamp) + "ms");
 	}
 
 }

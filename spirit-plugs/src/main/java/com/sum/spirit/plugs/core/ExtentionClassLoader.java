@@ -10,12 +10,12 @@ import com.sum.spirit.core.AbsClassLoader;
 public class ExtentionClassLoader extends AbsClassLoader {
 
 	@Override
-	public String getClassName(String simpleName) {
+	public String findClassName(String simpleName) {
 		return null;
 	}
 
 	@Override
-	public boolean isLoaded(String className) {
+	public boolean contains(String className) {
 		return false;
 	}
 

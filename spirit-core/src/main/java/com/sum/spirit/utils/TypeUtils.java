@@ -15,6 +15,24 @@ public class TypeUtils {
 		return className.substring(0, className.lastIndexOf("."));
 	}
 
+	public static boolean isSamePackage(String className1, String className2) {
+		String packageStr1 = className1.substring(0, className1.lastIndexOf('.'));
+		String packageStr2 = className2.substring(0, className2.lastIndexOf('.'));
+		return packageStr1.equals(packageStr2);
+	}
+
+	public static boolean matchPackages(String className, String... scanPackages) {
+		if (scanPackages == null || scanPackages.length == 0) {
+			return true;
+		}
+		for (String scanPackage : scanPackages) {
+			if (className.startsWith(scanPackage + ".") || className.equals(scanPackage)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static List<String> splitName(String simpleName) {
 		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(simpleName);
 		return new ArrayList<>(names);
@@ -68,12 +86,6 @@ public class TypeUtils {
 
 	public static String getClassName(boolean isArray, String className) {
 		return !isArray ? className : "[L" + className + ";";
-	}
-
-	public static boolean isSamePackage(String className1, String className2) {
-		String packageStr1 = className1.substring(0, className1.lastIndexOf('.'));
-		String packageStr2 = className2.substring(0, className2.lastIndexOf('.'));
-		return packageStr1.equals(packageStr2);
 	}
 
 }

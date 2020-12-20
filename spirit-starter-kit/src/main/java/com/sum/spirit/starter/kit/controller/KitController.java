@@ -17,10 +17,8 @@ public class KitController {
 	@PostMapping("/method")
 	@SuppressWarnings("unused")
 	public Result<List<MethodInfo>> method(@RequestBody Map<String, Object> params) {
-		String fileName = (String) params.get("fileName");
-		String methodName = (String) params.get("methodName");
-		String variableName = (String) params.get("variableName");
-		String incompleteName = (String) params.get("incompleteName");
+		String text = (String) params.get("text");
+		String currentLine = (String) params.get("currentLine");
 		Integer lineNumber = Integer.valueOf((String) params.get("lineNumber"));
 		// 1.进行不完整编译，文档解析只到当前行，且只推导当前类
 		// 2.找到对应的类，并找到对应的方法，从指定行，反向查找变量

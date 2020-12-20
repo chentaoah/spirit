@@ -14,7 +14,7 @@ import com.sum.spirit.utils.TypeUtils;
 public class NativeClassLoader extends AbsClassLoader {
 
 	@Override
-	public void prepare() {
+	public void prepareEnv() {
 		TypeEnum.Void.value = TypeBuilder.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true);
 		TypeEnum.Boolean.value = TypeBuilder.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true);
 		TypeEnum.Character.value = TypeBuilder.build("java.lang.Character", "Character", "java.lang.Character", false, false, false, false, true);
@@ -39,12 +39,12 @@ public class NativeClassLoader extends AbsClassLoader {
 	}
 
 	@Override
-	public String getClassName(String simpleName) {
+	public String findClassName(String simpleName) {
 		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 
 	@Override
-	public boolean isLoaded(String className) {
+	public boolean contains(String className) {
 		return className.startsWith("java.lang.");
 	}
 

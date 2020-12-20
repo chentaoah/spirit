@@ -1,7 +1,9 @@
 package com.sum.spirit.core;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,9 +24,9 @@ public class ClassResolver {
 	@Autowired
 	public ElementBuilder builder;
 
-	public List<IClass> resolve(String packageStr, Document document) {
+	public Map<String, IClass> resolve(String packageStr, Document document) {
 
-		List<IClass> classes = new ArrayList<>();
+		Map<String, IClass> classes = new LinkedHashMap<>();
 		List<Import> imports = new ArrayList<>();
 		List<IAnnotation> annotations = new ArrayList<>();
 		IClass mainClass = null;
@@ -56,7 +58,7 @@ public class ClassResolver {
 				mainClass.fields = fields;
 				mainClass.methods = methods;
 				readRootElement(mainClass);
-				classes.add(mainClass);
+				classes.put(mainClass.getClassName(), mainClass);
 
 			} else if (element.isClass()) {
 				// 这里可能出现泛型，但是文件名一般是simpleName
@@ -70,7 +72,7 @@ public class ClassResolver {
 					mainClass.fields = fields;
 					mainClass.methods = methods;
 					readRootElement(mainClass);
-					classes.add(mainClass);
+					classes.put(mainClass.getClassName(), mainClass);
 
 				} else {
 					IClass clazz = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
@@ -79,7 +81,7 @@ public class ClassResolver {
 					clazz.fields = new ArrayList<>();
 					clazz.methods = new ArrayList<>();
 					readRootElement(clazz);
-					classes.add(clazz);
+					classes.put(clazz.getClassName(), clazz);
 				}
 			}
 		}
@@ -92,7 +94,7 @@ public class ClassResolver {
 			mainClass.packageStr = packageStr;
 			mainClass.fields = fields;
 			mainClass.methods = methods;
-			classes.add(mainClass);
+			classes.put(mainClass.getClassName(), mainClass);
 		}
 
 		return classes;

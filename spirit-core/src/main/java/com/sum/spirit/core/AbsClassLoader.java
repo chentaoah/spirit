@@ -1,13 +1,20 @@
 package com.sum.spirit.core;
 
+import java.util.List;
+
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.utils.TypeUtils;
 
 public abstract class AbsClassLoader implements ClassLoader {
 
 	@Override
-	public void prepare() {
+	public void prepareEnv() {
 		// ignore
+	}
+
+	@Override
+	public boolean isloaded(String className) {
+		return contains(className);
 	}
 
 	@Override
@@ -23,5 +30,10 @@ public abstract class AbsClassLoader implements ClassLoader {
 
 		return true;
 	}
-	
+
+	@Override
+	public <T> List<T> getClasses() {
+		return null;
+	}
+
 }

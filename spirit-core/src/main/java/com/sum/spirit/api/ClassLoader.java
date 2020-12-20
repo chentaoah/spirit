@@ -1,15 +1,21 @@
 package com.sum.spirit.api;
 
+import java.util.List;
+
 public interface ClassLoader {
 
-	void prepare();
+	void prepareEnv();
 
-	String getClassName(String simpleName);
+	String findClassName(String simpleName);
 
-	boolean isLoaded(String className);
+	boolean contains(String className);
+
+	boolean isloaded(String className);
 
 	boolean shouldImport(String selfClassName, String className);
 
 	<T> T getClass(String className);
+
+	<T> List<T> getClasses();
 
 }

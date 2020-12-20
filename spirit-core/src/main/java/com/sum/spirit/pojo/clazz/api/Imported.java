@@ -93,18 +93,18 @@ public abstract class Imported extends Annotated {
 	}
 
 	public Import findImport(String className) {
-		for (Import imp : imports) {
-			if (imp.matchClassName(className)) {
-				return imp;
+		for (Import import0 : imports) {
+			if (import0.matchClassName(className)) {
+				return import0;
 			}
 		}
 		return null;
 	}
 
 	public Import findImportByLastName(String simpleName) {
-		for (Import imp : imports) {
-			if (imp.matchSimpleName(simpleName)) {
-				return imp;
+		for (Import import0 : imports) {
+			if (import0.matchSimpleName(simpleName)) {
+				return import0;
 			}
 		}
 		return null;
@@ -113,7 +113,7 @@ public abstract class Imported extends Annotated {
 	public String findClassNameByClassLoader(String simpleName) {
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
 		for (ClassLoader classLoader : classLoaders) {
-			String className = classLoader.getClassName(simpleName);
+			String className = classLoader.findClassName(simpleName);
 			if (StringUtils.isNotEmpty(className)) {
 				return className;
 			}
@@ -124,7 +124,7 @@ public abstract class Imported extends Annotated {
 	public boolean shouldImport(String selfClassName, String className) {
 		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
 		for (ClassLoader classLoader : classLoaders) {
-			if (classLoader.isLoaded(className)) {
+			if (classLoader.contains(className)) {
 				return classLoader.shouldImport(selfClassName, className);
 			}
 		}

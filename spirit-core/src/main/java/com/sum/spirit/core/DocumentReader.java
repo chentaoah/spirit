@@ -53,6 +53,8 @@ public class DocumentReader {
 					}
 				}
 			}
+			// debug
+			document.debug();
 			return document;
 
 		} catch (IOException e) {
