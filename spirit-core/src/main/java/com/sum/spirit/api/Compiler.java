@@ -8,6 +8,6 @@ import com.sum.spirit.pojo.clazz.impl.IClass;
 
 public interface Compiler {
 
-	List<IClass> compile(Map<String, File> files, String... scanPackages);
+	List<IClass> compile(Map<String, File> files, String... includePaths);
 
 }
