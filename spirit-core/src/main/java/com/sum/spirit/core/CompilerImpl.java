@@ -54,7 +54,7 @@ public class CompilerImpl implements Compiler {
 		});
 		// 进行推导
 		List<IClass> classes = classLoader.getClasses();
-		classes.forEach(clazz -> visiter.prevVisitClass(clazz));
+		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
 		classes.forEach(clazz -> visiter.visitClass(clazz));
 		return classes;
 	}

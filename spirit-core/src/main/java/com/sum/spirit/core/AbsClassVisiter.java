@@ -31,7 +31,9 @@ public abstract class AbsClassVisiter {
 	@Autowired
 	public ElementVisiter visiter;
 
-	public void prevVisitClass(IClass clazz) {
+	public void prepareForVisit(IClass clazz) {
+		// 访问类型
+		clazz.setType(factory.create(clazz, clazz.getTypeToken()));
 		// 访问方法入参
 		clazz.methods.forEach(method -> visitParameters(clazz, method));
 	}
@@ -41,8 +43,6 @@ public abstract class AbsClassVisiter {
 		visitAnnotations(clazz, clazz.annotations);
 		clazz.fields.forEach(field -> visitAnnotations(clazz, field.annotations));
 		clazz.methods.forEach(method -> visitAnnotations(clazz, method.annotations));
-		// 访问类型
-		clazz.setType(factory.create(clazz, clazz.getTypeToken()));
 		// 访问成员
 		clazz.fields.forEach(field -> visitMember(clazz, field));
 		clazz.methods.forEach(method -> visitMember(clazz, method));
