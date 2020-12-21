@@ -53,8 +53,8 @@ public class AutoImporter {
 		return classNames;
 	}
 
-	public void autoImport(IClass clazz, Set<String> classNames) {
-		classNames.forEach(className -> clazz.addImport(className));
+	public void autoImport(IClass clazz) {
+		dependencies(clazz).forEach(className -> clazz.addImport(className));
 	}
 
 	public String getFinalName(IClass clazz, IType type) {

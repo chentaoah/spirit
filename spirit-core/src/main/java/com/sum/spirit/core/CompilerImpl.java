@@ -18,11 +18,11 @@ import com.sum.spirit.utils.TypeUtils;
 public class CompilerImpl implements Compiler {
 
 	@Autowired
+	public CodeClassLoader classLoader;
+	@Autowired
 	public DocumentReader reader;
 	@Autowired
 	public ClassResolver resolver;
-	@Autowired
-	public CodeClassLoader classLoader;
 	@Autowired
 	public AutoImporter importer;
 	@Autowired
@@ -42,18 +42,11 @@ public class CompilerImpl implements Compiler {
 		});
 		// 分析依赖项
 		classesMap.values().forEach(classes -> {
-			classes.forEach((className, clazz) -> {
-				Set<String> dependencies = importer.dependencies(clazz);
-				dependencies.forEach(dependency -> {
-					if (classLoader.contains(dependency) && !classLoader.isloaded(dependency)) {
-						doCompile(files, dependency);// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
-					}
-				});
-				importer.autoImport(clazz, dependencies);
-			});
+			compileDependencies(files, classes);
 		});
 		// 进行推导
 		List<IClass> classes = classLoader.getClasses();
+		classes.forEach(clazz -> importer.autoImport(clazz));
 		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
 		classes.forEach(clazz -> visiter.visitClass(clazz));
 		return classes;
@@ -64,6 +57,18 @@ public class CompilerImpl implements Compiler {
 		Map<String, IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
 		classLoader.classes.putAll(classes);
 		return classes;
+	}
+
+	public void compileDependencies(Map<String, File> files, Map<String, IClass> classes) {
+		classes.forEach((className, clazz) -> {
+			Set<String> dependencies = importer.dependencies(clazz);
+			dependencies.forEach(dependency -> {
+				if (classLoader.contains(dependency) && !classLoader.isloaded(dependency)) {
+					// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
+					compileDependencies(files, doCompile(files, dependency));
+				}
+			});
+		});
 	}
 
 }
