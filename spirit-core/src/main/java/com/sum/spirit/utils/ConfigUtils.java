@@ -14,6 +14,10 @@ public class ConfigUtils implements EnvironmentAware {
 		ConfigUtils.environment = environment;
 	}
 
+	public static boolean contains(String key) {
+		return environment.containsProperty(key);
+	}
+
 	public static String getProperty(String key) {
 		return environment.getProperty(key);
 	}

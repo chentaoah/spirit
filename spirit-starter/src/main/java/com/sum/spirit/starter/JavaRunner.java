@@ -24,8 +24,8 @@ public class JavaRunner implements ApplicationRunner {
 		if (!autoRun) {
 			return;
 		}
-		String inputPath = args.getOptionValues(Constants.INPUT_ARG_KEY).get(0);
-		String outputPath = args.containsOption(Constants.OUTPUT_ARG_KEY) ? args.getOptionValues(Constants.OUTPUT_ARG_KEY).get(0) : null;
+		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
+		String outputPath = ConfigUtils.getProperty(Constants.OUTPUT_ARG_KEY);
 		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
 		Map<String, Object> params = new HashMap<>();
 		params.put(Constants.INPUT_ARG_KEY, inputPath);

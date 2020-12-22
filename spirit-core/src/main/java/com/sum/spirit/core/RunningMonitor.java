@@ -10,7 +10,7 @@ public class RunningMonitor {
 
 	public void printArgs(Map<String, Object> args) {
 		for (Entry<String, Object> entry : args.entrySet()) {
-			System.out.println(entry.getKey() + ":" + entry.getValue());
+			System.out.println(entry.getKey() + "=" + entry.getValue());
 		}
 		System.out.println("");
 	}
