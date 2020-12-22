@@ -65,7 +65,7 @@ public class ClassResolver {
 				String simpleName = element.getKeywordParam(KeywordEnum.CLASS.value).toString();
 				String targetName = TypeUtils.getTargetName(simpleName);
 
-				if (document.name.equals(targetName)) {
+				if (document.fileName.equals(targetName)) {
 					mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
 					annotations.clear();
 					mainClass.packageStr = packageStr;
@@ -88,7 +88,7 @@ public class ClassResolver {
 
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass == null) {
-			Element element = builder.build("class " + document.name + " {");
+			Element element = builder.build("class " + document.fileName + " {");
 			mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
 			annotations.clear();
 			mainClass.packageStr = packageStr;

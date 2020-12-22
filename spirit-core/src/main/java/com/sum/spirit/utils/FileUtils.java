@@ -1,6 +1,7 @@
 package com.sum.spirit.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,6 +52,14 @@ public class FileUtils {
 
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to generate file!");
+		}
+	}
+
+	public static FileInputStream getFileInputStream(File file) {
+		try {
+			return new FileInputStream(file);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

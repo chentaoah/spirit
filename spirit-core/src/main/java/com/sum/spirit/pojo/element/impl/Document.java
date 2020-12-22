@@ -9,11 +9,15 @@ import com.sum.spirit.utils.ConfigUtils;
 @SuppressWarnings("serial")
 public class Document extends ArrayList<Element> {
 
-	public String name;
+	public String fileName;
 
 	public Document(File file) {
 		String suffix = "." + ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY);
-		this.name = file.getName().replace(suffix, "");
+		this.fileName = file.getName().replace(suffix, "");
+	}
+
+	public Document(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public void debug() {

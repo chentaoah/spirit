@@ -1,6 +1,8 @@
 package com.sum.spirit.starter;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,15 +42,21 @@ public class JavaRunner implements ApplicationRunner {
 		if (!autoRun) {
 			return;
 		}
+
 		printArgs(args.getSourceArgs());
+
 		long timestamp = System.currentTimeMillis();
 		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
 		String outputPath = args.containsOption(OUTPUT_ARG) ? args.getOptionValues(OUTPUT_ARG).get(0) : null;
 		String suffix = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY, "sp");
-		// 编译
+
 		Map<String, File> files = FileUtils.getFiles(inputPath, suffix);
-		List<IClass> classes = compiler.compile(files);
+		Map<String, FileInputStream> fileInputs = new HashMap<>();
+		files.forEach((path, file) -> fileInputs.put(path, FileUtils.getFileInputStream(file)));
+
+		List<IClass> classes = compiler.compile(fileInputs);
 		classes.forEach(clazz -> buildCodeAndGenerateFile(outputPath, clazz));
+
 		printTotalTime(timestamp);
 	}
 
