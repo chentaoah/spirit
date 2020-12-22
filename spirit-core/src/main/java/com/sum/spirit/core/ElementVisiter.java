@@ -30,7 +30,7 @@ public class ElementVisiter implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(ElementAction.class, Constants.CORE_PACKAGE);
+		actions = SpringUtils.getBeansAndSort(ElementAction.class, Constants.SPIRIT_CORE_PACKAGE);
 	}
 
 	public IVariable visitElement(IClass clazz, Element element) {
