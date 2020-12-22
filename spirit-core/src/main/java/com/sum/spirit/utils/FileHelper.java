@@ -20,7 +20,8 @@ public class FileHelper {
 		Map<String, FileInputStream> fileMap = new HashMap<>();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> {
-			String path = file.getAbsolutePath().replace(inputPath + "\\", "").replaceAll("\\\\", ".").replace("." + extension, "");
+			String path = file.getAbsolutePath().replace(inputPath + SEPARATOR, "").replaceAll(SEPARATOR, ".")
+					.replace("." + extension, "");
 			fileMap.put(path, getFileInputStream(file));
 		});
 		return fileMap;
