@@ -3,6 +3,8 @@ package com.sum.spirit.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.sum.spirit.pojo.enums.TypeEnum;
@@ -26,8 +28,10 @@ public class TypeUtils {
 			return true;
 		}
 		for (String scanPackage : scanPackages) {
-			if (className.startsWith(scanPackage + ".") || className.equals(scanPackage)) {
-				return true;
+			if (StringUtils.isNotBlank(scanPackage)) {
+				if (className.startsWith(scanPackage + ".") || className.equals(scanPackage)) {
+					return true;
+				}
 			}
 		}
 		return false;
