@@ -53,8 +53,8 @@ public class CompilerImpl implements Compiler {
 	}
 
 	public Map<String, IClass> doCompile(Map<String, ? extends InputStream> inputs, String path) {
-		Document document = reader.readLines(TypeUtils.getLastName(path), inputs.get(path));
-		Map<String, IClass> classes = resolver.resolve(TypeUtils.getPackage(path), document);
+		Document document = reader.readDocument(TypeUtils.getLastName(path), inputs.get(path));
+		Map<String, IClass> classes = resolver.resolveClasses(TypeUtils.getPackage(path), document);
 		classLoader.classes.putAll(classes);
 		return classes;
 	}

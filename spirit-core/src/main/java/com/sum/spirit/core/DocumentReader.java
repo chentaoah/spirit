@@ -21,7 +21,7 @@ public class DocumentReader {
 	@Autowired
 	public ElementBuilder builder;
 
-	public Document readLines(String fileName, InputStream input) {
+	public Document readDocument(String fileName, InputStream input) {
 		Document document = new Document(fileName);
 		List<String> lines = IoUtil.readLines(input, "UTF-8", new ArrayList<String>());
 		doReadLines(lines, document);

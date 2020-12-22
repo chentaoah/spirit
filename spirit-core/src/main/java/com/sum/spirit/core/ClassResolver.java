@@ -24,7 +24,7 @@ public class ClassResolver {
 	@Autowired
 	public ElementBuilder builder;
 
-	public Map<String, IClass> resolve(String packageStr, Document document) {
+	public Map<String, IClass> resolveClasses(String packageStr, Document document) {
 
 		Map<String, IClass> classes = new LinkedHashMap<>();
 		List<Import> imports = new ArrayList<>();
