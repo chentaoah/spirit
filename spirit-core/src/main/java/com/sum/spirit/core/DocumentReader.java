@@ -25,22 +25,20 @@ public class DocumentReader {
 	public Document readDocument(String fileName, InputStream input) {
 		Document document = new Document(fileName);
 		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
-		doReadLines(lines, document);
+		doReadLines(document, lines);
 		document.debug();// debug
 		return document;
 	}
 
-	public void doReadLines(List<String> lines, Document document) {
+	public void doReadLines(Document document, List<String> lines) {
 		Stack<List<Element>> stack = new Stack<>();
 		stack.push(document);
 		for (int number = 0; number < lines.size(); number++) {
 			String text = lines.get(number);
-			// 创建行对象
 			Line line = new Line(number + 1, text);
 			if (line.isIgnore()) {
 				continue;
 			}
-			// 创建元素对象
 			Element element = builder.build(line);
 			// what like "if xxx : xxx : xxx"
 			List<String> sublines = splitLine(element);

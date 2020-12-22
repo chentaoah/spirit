@@ -29,7 +29,12 @@ public class CompilerImpl implements Compiler {
 	public ClassVisiter visiter;
 
 	@Override
-	public List<IClass> compile(Map<String, ? extends InputStream> inputs, String... includePaths) {
+	public List<IClass> compile(Map<String, InputStream> inputs, String... includePaths) {
+		List<IClass> classes = loadClasses(inputs, includePaths);
+		return visitClasses(classes);
+	}
+
+	public List<IClass> loadClasses(Map<String, InputStream> inputs, String... includePaths) {
 		// 提前将所有类名记录下来
 		inputs.keySet().forEach(path -> classLoader.classes.put(path, null));
 		// path -> (className -> class)
@@ -45,21 +50,17 @@ public class CompilerImpl implements Compiler {
 			compileDependencies(inputs, classes);
 		});
 		// 进行推导
-		List<IClass> classes = classLoader.getClasses();
-		classes.forEach(clazz -> importer.autoImport(clazz));
-		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
-		classes.forEach(clazz -> visiter.visitClass(clazz));
-		return classes;
+		return classLoader.getClasses();
 	}
 
-	public Map<String, IClass> doCompile(Map<String, ? extends InputStream> inputs, String path) {
+	public Map<String, IClass> doCompile(Map<String, InputStream> inputs, String path) {
 		Document document = reader.readDocument(TypeUtils.getLastName(path), inputs.get(path));
 		Map<String, IClass> classes = resolver.resolveClasses(TypeUtils.getPackage(path), document);
 		classLoader.classes.putAll(classes);
 		return classes;
 	}
 
-	public void compileDependencies(Map<String, ? extends InputStream> inputs, Map<String, IClass> classes) {
+	public void compileDependencies(Map<String, InputStream> inputs, Map<String, IClass> classes) {
 		classes.forEach((className, clazz) -> {
 			Set<String> dependencies = importer.dependencies(clazz);
 			dependencies.forEach(dependency -> {
@@ -69,6 +70,13 @@ public class CompilerImpl implements Compiler {
 				}
 			});
 		});
+	}
+
+	public List<IClass> visitClasses(List<IClass> classes) {
+		classes.forEach(clazz -> importer.autoImport(clazz));
+		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
+		classes.forEach(clazz -> visiter.visitClass(clazz));
+		return classes;
 	}
 
 }

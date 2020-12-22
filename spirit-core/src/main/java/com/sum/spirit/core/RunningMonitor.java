@@ -1,16 +1,14 @@
 package com.sum.spirit.core;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RunningMonitor {
 
-	public void printArgs(Map<String, Object> args) {
-		for (Entry<String, Object> entry : args.entrySet()) {
-			System.out.println(entry.getKey() + "=" + entry.getValue());
+	public void printArgs(ApplicationArguments args) {
+		for (String name : args.getOptionNames()) {
+			System.out.println(name + " : " + args.getOptionValues(name));
 		}
 		System.out.println("");
 	}
