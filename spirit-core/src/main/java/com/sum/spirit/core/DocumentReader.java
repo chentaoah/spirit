@@ -8,6 +8,7 @@ import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.impl.Document;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Line;
@@ -23,7 +24,7 @@ public class DocumentReader {
 
 	public Document readDocument(String fileName, InputStream input) {
 		Document document = new Document(fileName);
-		List<String> lines = IoUtil.readLines(input, "UTF-8", new ArrayList<String>());
+		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
 		doReadLines(lines, document);
 		document.debug();// debug
 		return document;
@@ -47,6 +48,7 @@ public class DocumentReader {
 				lines.remove(number);
 				lines.addAll(number, sublines);
 				number--;
+
 			} else {
 				if (line.isEnding()) {
 					stack.pop();

@@ -9,5 +9,6 @@ public class Constants {
 
 	public static final String SPIRIT_CORE_PACKAGE = "com.sum.spirit.core";
 	public static final String DEFAULT_FILENAME_EXTENSION = "sp";
+	public static final String DEFAULT_CHARSET = "UTF-8";
 
 }
