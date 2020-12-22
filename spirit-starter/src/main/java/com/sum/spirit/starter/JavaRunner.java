@@ -1,8 +1,6 @@
 package com.sum.spirit.starter;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +12,12 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AliasReplacer;
+import com.sum.spirit.core.RunningMonitor;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.utils.ConfigUtils;
-import com.sum.spirit.utils.FileUtils;
+import com.sum.spirit.utils.FileHelper;
+
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.Compiler;
 
@@ -25,15 +25,14 @@ import com.sum.spirit.api.Compiler;
 @DependsOn("configUtils")
 public class JavaRunner implements ApplicationRunner {
 
-	public static final String INPUT_ARG = "input";
-	public static final String OUTPUT_ARG = "output";
-
 	@Autowired
 	public Compiler compiler;
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
 	public AliasReplacer replacer;
+	@Autowired
+	public RunningMonitor monitor;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -43,28 +42,18 @@ public class JavaRunner implements ApplicationRunner {
 			return;
 		}
 
-		printArgs(args.getSourceArgs());
+		monitor.printArgs(args.getSourceArgs());
 
 		long timestamp = System.currentTimeMillis();
-		String inputPath = args.getOptionValues(INPUT_ARG).get(0);
-		String outputPath = args.containsOption(OUTPUT_ARG) ? args.getOptionValues(OUTPUT_ARG).get(0) : null;
-		String suffix = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY, "sp");
+		String inputPath = args.getOptionValues(Constants.INPUT_ARG).get(0);
+		String outputPath = args.containsOption(Constants.OUTPUT_ARG) ? args.getOptionValues(Constants.OUTPUT_ARG).get(0) : null;
+		String extension = ConfigUtils.getProperty(Constants.FILE_SUFFIX_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
 
-		Map<String, File> files = FileUtils.getFiles(inputPath, suffix);
-		Map<String, FileInputStream> fileInputs = new HashMap<>();
-		files.forEach((path, file) -> fileInputs.put(path, FileUtils.getFileInputStream(file)));
-
-		List<IClass> classes = compiler.compile(fileInputs);
+		Map<String, FileInputStream> files = FileHelper.getFiles(inputPath, extension);
+		List<IClass> classes = compiler.compile(files);
 		classes.forEach(clazz -> buildCodeAndGenerateFile(outputPath, clazz));
 
-		printTotalTime(timestamp);
-	}
-
-	public void printArgs(String[] sourceArgs) {
-		for (String arg : sourceArgs) {
-			System.out.println(arg);
-		}
-		System.out.println("");
+		monitor.printTotalTime(timestamp);
 	}
 
 	public void buildCodeAndGenerateFile(String outputPath, IClass clazz) {
@@ -72,12 +61,8 @@ public class JavaRunner implements ApplicationRunner {
 		code = replacer.replace(clazz, code);
 		System.out.println(code);
 		if (StringUtils.isNotEmpty(outputPath)) {// 生成文件
-			FileUtils.generateFile(outputPath, clazz.getClassName(), code);
+			FileHelper.generateFile(outputPath, clazz.getClassName(), code);
 		}
-	}
-
-	public void printTotalTime(long timestamp) {
-		System.out.println("Total time:" + (System.currentTimeMillis() - timestamp) + "ms");
 	}
 
 }
