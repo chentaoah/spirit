@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
@@ -15,7 +16,8 @@ import com.sum.spirit.pojo.element.impl.Document;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
-public class CompilerImpl implements Compiler {
+@Primary
+public class CoreCompiler implements Compiler {
 
 	@Autowired
 	public CodeClassLoader classLoader;
@@ -47,7 +49,7 @@ public class CompilerImpl implements Compiler {
 		});
 		// 分析依赖项
 		classesMap.values().forEach(classes -> {
-			compileDependencies(inputs, classes);
+			dependencies(inputs, classes);
 		});
 		// 进行推导
 		return classLoader.getClasses();
@@ -60,13 +62,13 @@ public class CompilerImpl implements Compiler {
 		return classes;
 	}
 
-	public void compileDependencies(Map<String, InputStream> inputs, Map<String, IClass> classes) {
+	public void dependencies(Map<String, InputStream> inputs, Map<String, IClass> classes) {
 		classes.forEach((className, clazz) -> {
 			Set<String> dependencies = importer.dependencies(clazz);
 			dependencies.forEach(dependency -> {
 				if (classLoader.contains(dependency) && !classLoader.isloaded(dependency)) {
 					// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
-					compileDependencies(inputs, doCompile(inputs, dependency));
+					dependencies(inputs, doCompile(inputs, dependency));
 				}
 			});
 		});

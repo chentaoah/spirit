@@ -16,13 +16,13 @@ import com.google.common.io.Files;
 public class FileHelper {
 
 	public static final String SEPARATOR = File.separator;
+	public static final String REGEX = "\\".equals(SEPARATOR) ? SEPARATOR + "\\" : SEPARATOR;
 
 	public static Map<String, InputStream> getFiles(String inputPath, String extension) {
 		Map<String, InputStream> fileMap = new HashMap<>();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> {
-			String path = file.getAbsolutePath().replace(inputPath + SEPARATOR, "").replaceAll(SEPARATOR, ".")
-					.replace("." + extension, "");
+			String path = file.getAbsolutePath().replace(inputPath + SEPARATOR, "").replaceAll(REGEX, ".").replace("." + extension, "");
 			fileMap.put(path, getFileInputStream(file));
 		});
 		return fileMap;

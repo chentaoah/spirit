@@ -1,4 +1,4 @@
-package com.sum.spirit.starter.kit.common;
+package com.sum.spirit.starter.kit.pojo;
 
 import java.io.Serializable;
 
