@@ -40,6 +40,10 @@ public class TokenBox {
 		return tokens.get(index);
 	}
 
+	public Token lastToken() {
+		return tokens.get(tokens.size() - 1);
+	}
+
 	public void addToken(Token token) {
 		tokens.add(token);
 	}
