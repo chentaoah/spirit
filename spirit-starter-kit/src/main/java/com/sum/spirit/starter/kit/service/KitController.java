@@ -21,11 +21,10 @@ public class KitController {
 	public KitService service;
 
 	@PostMapping("/getMethodInfos")
-	public Result<List<MethodInfo>> getMethodInfos(@RequestParam Map<String, Object> params,
-			@RequestBody String content) {
-		String fileName = (String) params.get("fileName");
+	public Result<List<MethodInfo>> getMethodInfos(@RequestParam Map<String, Object> params, @RequestBody String content) {
+		String className = (String) params.get("className");
 		Integer lineNumber = Integer.valueOf((String) params.get("lineNumber"));
-		List<MethodInfo> methodInfos = service.getMethodInfos(fileName, content, lineNumber);
+		List<MethodInfo> methodInfos = service.getMethodInfos(className, content, lineNumber);
 		return Result.success(methodInfos);
 	}
 

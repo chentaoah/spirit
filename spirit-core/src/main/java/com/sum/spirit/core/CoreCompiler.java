@@ -37,6 +37,8 @@ public class CoreCompiler implements Compiler {
 	}
 
 	public List<IClass> loadClasses(Map<String, InputStream> inputs, String... includePaths) {
+		// 因为这个方法可能会反复调用
+		classLoader.classes.clear();
 		// 提前将所有类名记录下来
 		inputs.keySet().forEach(path -> classLoader.classes.put(path, null));
 		// path -> (className -> class)
