@@ -20,16 +20,6 @@ public abstract class AbsAdaptiveLinker implements ClassLinker, InitializingBean
 		linkers = SpringUtils.getBeansAndSort(ClassLinker.class, getClass());// 排除自己
 	}
 
-	@Override
-	public boolean canLink(IType type) {
-		for (ClassLinker linker : linkers) {
-			if (linker.canLink(type)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public ClassLinker getLinker(IType type) {
 		for (ClassLinker linker : linkers) {
 			if (linker.canLink(type)) {
@@ -37,6 +27,11 @@ public abstract class AbsAdaptiveLinker implements ClassLinker, InitializingBean
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean canLink(IType type) {
+		return getLinker(type) != null;
 	}
 
 	@Override
