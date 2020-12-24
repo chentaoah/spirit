@@ -1,6 +1,8 @@
 package com.sum.spirit.starter.kit.service;
 
 import java.io.InputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,14 @@ public class KitService {
 	}
 
 	public String completeCode(String content, Integer lineNumber) {
+		List<String> lines = IoUtil.readLines(new StringReader(content), new ArrayList<String>());
+		String line = lines.get(lineNumber - 1);
+		// import0.test@
+		// import0.get(0).test@
+		// test(import0.test@)
+		if (line.contains("@")) {
+			
+		}
 		return content;
 	}
 

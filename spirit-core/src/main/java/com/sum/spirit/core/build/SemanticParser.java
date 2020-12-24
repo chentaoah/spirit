@@ -29,7 +29,6 @@ public class SemanticParser extends AbsSemanticParser {
 	}
 
 	public void setTokenType(String word, Token token, boolean insideType) {
-
 		if (isPath(word)) {
 			token.tokenType = TokenTypeEnum.PATH;
 
@@ -63,7 +62,6 @@ public class SemanticParser extends AbsSemanticParser {
 		} else if (isAccess(word)) {
 			token.tokenType = getAccessTokenType(word);
 		}
-
 		Assert.notNull(token.tokenType, "Token type cannot be null!");
 	}
 
