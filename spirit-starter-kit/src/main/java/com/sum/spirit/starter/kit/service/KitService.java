@@ -17,6 +17,7 @@ import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.IType;
+import com.sum.spirit.pojo.element.impl.Line;
 import com.sum.spirit.starter.kit.core.CustomCompiler;
 import com.sum.spirit.starter.kit.pojo.MethodInfo;
 import com.sum.spirit.utils.ConfigUtils;
@@ -36,8 +37,7 @@ public class KitService {
 	public List<MethodInfo> getMethodInfos(String className, String content, Integer lineNumber) {
 		// 参数
 		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
-		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY,
-				Constants.DEFAULT_FILENAME_EXTENSION);
+		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
 		// 删除后面的行，将该行进行补全，然后截断，剩下待推导部分
 		Map<String, String> result = completeCode(content, lineNumber);
 		content = result.get("content");
@@ -70,6 +70,7 @@ public class KitService {
 		List<String> lines = IoUtil.readLines(new StringReader(content), new ArrayList<String>());
 		String line = lines.get(lineNumber - 1);
 		if (line.contains("@")) {
+			String indent = new Line(line).getIndent();// 缩进
 			int index = line.indexOf('@');
 			line = line.substring(0, index + 1);
 			for (int idx = index - 1; idx < line.length(); idx--) {
@@ -79,14 +80,20 @@ public class KitService {
 					if (!isMatch) {
 						line = line.substring(idx + 1);
 					}
+				} else if (c == ',') {
+					line = line.substring(idx + 1);
 				}
 			}
 			String incompleteName = line.substring(line.lastIndexOf('.') + 1, line.lastIndexOf('@'));
 			result.put("incompleteName", incompleteName);
-			lines.set(lineNumber - 1, line.substring(0, line.lastIndexOf('.')));
+			line = line.substring(0, line.lastIndexOf('.'));
+			if (!line.trim().startsWith("return")) {
+				line = indent + "return " + line.trim();
+			}
+			lines.set(lineNumber - 1, line);
 
 		} else {
-			throw new RuntimeException("No symbol found ‘@’!");
+			throw new RuntimeException("No symbol '@' found!");
 		}
 		StringBuilder builder = new StringBuilder();
 		lines.forEach(line0 -> builder.append(line0 + "\n"));

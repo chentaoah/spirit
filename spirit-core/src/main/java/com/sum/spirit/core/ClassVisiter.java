@@ -70,7 +70,7 @@ public class ClassVisiter extends AbsClassVisiter {
 						if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
-							throw new RuntimeException("Multiple return types do not match");
+							context.returnType = TypeEnum.Object.value;
 						}
 					}
 				}
