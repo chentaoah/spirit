@@ -38,27 +38,29 @@ public class KitService {
 		// 参数
 		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
 		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
+
 		// 删除后面的行，将该行进行补全，然后截断，剩下待推导部分
 		Map<String, String> result = completeCode(content, lineNumber);
 		content = result.get("content");
 		String incompleteName = result.get("incompleteName");
+
 		// 找到对应class,并找到印记，获取推导出的类型，并返回所有该类型的方法信息
 		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
 		inputs.put(className, IoUtil.toStream(content, Constants.DEFAULT_CHARSET));
 		IType type = compiler.compileAndGetType(inputs, className, lineNumber);
-		System.out.println(type.getClassName());
-		List<MethodInfo> methodInfos = new ArrayList<>();
 		Object clazz = linker.toClass(type);
+
+		List<MethodInfo> methodInfos = new ArrayList<>();
 		if (clazz instanceof IClass) {
 			for (IMethod method : ((IClass) clazz).methods) {
 				if (method.getName().startsWith(incompleteName)) {
-					methodInfos.add(createMethodInfo(method));
+					methodInfos.add(createMethodInfo(method, incompleteName));
 				}
 			}
 		} else if (clazz instanceof Class) {
 			for (Method method : ((Class<?>) clazz).getMethods()) {
 				if (method.getName().startsWith(incompleteName)) {
-					methodInfos.add(createMethodInfo(method));
+					methodInfos.add(createMethodInfo(method, incompleteName));
 				}
 			}
 		}
@@ -107,12 +109,19 @@ public class KitService {
 		return end != -1;
 	}
 
-	public MethodInfo createMethodInfo(IMethod method) {
-		return null;
+	public MethodInfo createMethodInfo(IMethod method, String incompleteName) {
+		String tipText = method.toString();
+		String actualText = method.toSimpleString();
+		if (actualText.startsWith(incompleteName)) {
+			actualText = actualText.replace(incompleteName, "");
+		}
+		return new MethodInfo(tipText, actualText);
 	}
 
-	public MethodInfo createMethodInfo(Method method) {
-		return null;
+	public MethodInfo createMethodInfo(Method method, String incompleteName) {
+		String tipText = method.toString();
+		String actualText = method.toString();
+		return new MethodInfo(tipText, actualText);
 	}
 
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Result<T> implements Serializable {
+
 	private static final long serialVersionUID = 1322531227433710974L;
 	private Integer code;
 	private String msg;
@@ -24,4 +25,5 @@ public class Result<T> implements Serializable {
 	public static <T> Result<T> failed(String message) {
 		return new Result<T>(500, message, null);
 	}
+
 }

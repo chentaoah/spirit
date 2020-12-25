@@ -18,4 +18,9 @@ public class IParameter extends Annotated {
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}
 
+	@Override
+	public String toString() {
+		return element.toString();
+	}
+
 }

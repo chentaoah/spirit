@@ -3,6 +3,7 @@ package com.sum.spirit.pojo.clazz.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.link.TypeFactory;
 import com.sum.spirit.pojo.clazz.api.IMember;
@@ -57,6 +58,17 @@ public class IMethod extends IMember {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + "(" + Joiner.on(", ").join(parameters) + ")";
+	}
+
+	public String toSimpleString() {
+		List<String> names = new ArrayList<>();
+		parameters.forEach(parameter -> names.add(parameter.getName()));
+		return getName() + "(" + Joiner.on(", ").join(names) + ")";
 	}
 
 }
