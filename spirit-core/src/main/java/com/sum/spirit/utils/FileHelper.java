@@ -22,10 +22,14 @@ public class FileHelper {
 		Map<String, InputStream> fileMap = new HashMap<>();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> {
-			String path = file.getAbsolutePath().replace(inputPath + SEPARATOR, "").replaceAll(REGEX, ".").replace("." + extension, "");
+			String path = getPath(inputPath, file.getAbsolutePath(), extension);
 			fileMap.put(path, getFileInputStream(file));
 		});
 		return fileMap;
+	}
+
+	public static String getPath(String inputPath, String filePath, String extension) {
+		return filePath.replace(inputPath + SEPARATOR, "").replaceAll(REGEX, ".").replace("." + extension, "");
 	}
 
 	public static FileInputStream getFileInputStream(File file) {

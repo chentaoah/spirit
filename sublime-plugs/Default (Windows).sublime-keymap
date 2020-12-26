@@ -10,6 +10,5 @@
   	//快速删除一行
   	{ "keys": ["ctrl+d"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Line.sublime-macro"} },
   	//自动提示
-  	//{ "keys": ["ctrl+enter"], "command": "example" }
-
+  	{ "keys": ["ctrl+enter"], "command": "tip" }
 ]

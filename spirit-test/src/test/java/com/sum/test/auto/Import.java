@@ -11,7 +11,7 @@ public class Import {
 	public String xxxxG_Alias = "Clock moved backwards.G_Alias to generate id for %d milliseconds";
 
 	public String testFriend(String text, Integer number) {
-		return f.sayHello();
+		return f.sayHello2();
 	}
 
 	public String testAlias() {

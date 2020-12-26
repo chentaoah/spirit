@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sum.spirit.starter.kit.pojo.MethodInfo;
@@ -21,10 +20,11 @@ public class KitController {
 	public KitService service;
 
 	@PostMapping("/getMethodInfos")
-	public Result<List<MethodInfo>> getMethodInfos(@RequestParam Map<String, Object> params, @RequestBody String content) {
-		String className = (String) params.get("className");
-		Integer lineNumber = Integer.valueOf((String) params.get("lineNumber"));
-		List<MethodInfo> methodInfos = service.getMethodInfos(className, content, lineNumber);
+	public Result<List<MethodInfo>> getMethodInfos(@RequestBody Map<String, Object> params) {
+		String filePath = (String) params.get("filePath");
+		String content = (String) params.get("content");
+		Integer lineNumber = (Integer) params.get("lineNumber");
+		List<MethodInfo> methodInfos = service.getMethodInfos(filePath, content, lineNumber);
 		return Result.success(methodInfos);
 	}
 

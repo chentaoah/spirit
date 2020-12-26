@@ -9,7 +9,7 @@ class Import {
 	xxxxG_Alias="Clock moved backwards.G_Alias to generate id for %d milliseconds"
 
 	func testFriend(String text, Integer number){
-		return f.sayHello()
+		return f.sayHello2()
 	}
 
 	func testAlias(){

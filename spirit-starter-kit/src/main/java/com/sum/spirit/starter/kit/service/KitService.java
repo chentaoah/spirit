@@ -34,10 +34,14 @@ public class KitService {
 	@Autowired
 	public ClassLinker linker;
 
-	public List<MethodInfo> getMethodInfos(String className, String content, Integer lineNumber) {
+	public List<MethodInfo> getMethodInfos(String filePath, String content, Integer lineNumber) {
 		// 参数
 		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
-		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
+		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY,
+				Constants.DEFAULT_FILENAME_EXTENSION);
+
+		// 根据文件名，获取className
+		String className = FileHelper.getPath(inputPath, filePath, extension);
 
 		// 删除后面的行，将该行进行补全，然后截断，剩下待推导部分
 		Map<String, String> result = completeCode(content, lineNumber);
@@ -73,9 +77,10 @@ public class KitService {
 		String line = lines.get(lineNumber - 1);
 		if (line.contains("@")) {
 			String indent = new Line(line).getIndent();// 缩进
+			line = line.trim();
 			int index = line.indexOf('@');
 			line = line.substring(0, index + 1);
-			for (int idx = index - 1; idx < line.length(); idx--) {
+			for (int idx = index - 1; idx >= 0; idx--) {
 				char c = line.charAt(idx);
 				if (c == '(' || c == '[' || c == '{' || c == '<') {
 					boolean isMatch = matches(line, idx, c);
@@ -89,10 +94,10 @@ public class KitService {
 			String incompleteName = line.substring(line.lastIndexOf('.') + 1, line.lastIndexOf('@'));
 			result.put("incompleteName", incompleteName);
 			line = line.substring(0, line.lastIndexOf('.'));
-			if (!line.trim().startsWith("return")) {
-				line = indent + "return " + line.trim();
+			if (!line.startsWith("return")) {
+				line = "return " + line;
 			}
-			lines.set(lineNumber - 1, line);
+			lines.set(lineNumber - 1, indent + line);
 
 		} else {
 			throw new RuntimeException("No symbol '@' found!");

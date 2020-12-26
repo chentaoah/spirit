@@ -6,4 +6,12 @@ public class Friend {
 		return "hello";
 	}
 
+	public String sayHello1() {
+		return "hello";
+	}
+
+	public String sayHello2() {
+		return "hello";
+	}
+
 }
