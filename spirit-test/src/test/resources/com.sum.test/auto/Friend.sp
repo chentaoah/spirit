@@ -13,4 +13,8 @@ class Friend {
 		return "hello"
 	}
 
+	func sayYes(String text, Integer number){
+		return "hello"
+	}
+
 }
