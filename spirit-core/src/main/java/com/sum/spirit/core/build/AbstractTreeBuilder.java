@@ -8,7 +8,7 @@ import com.sum.spirit.pojo.element.impl.SyntaxTree;
 import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
-public abstract class AbsTreeBuilder {
+public abstract class AbstractTreeBuilder {
 
 	public SyntaxTree buildTree(Statement statement) {
 		// 用语句构建节点树

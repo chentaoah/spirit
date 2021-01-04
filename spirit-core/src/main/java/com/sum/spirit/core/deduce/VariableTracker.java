@@ -23,7 +23,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-60)
-public class VariableTracker extends AbsElementAction implements StatementAction {
+public class VariableTracker extends AbstractElementAction implements StatementAction {
 
 	@Autowired
 	public ClassVisiter visiter;

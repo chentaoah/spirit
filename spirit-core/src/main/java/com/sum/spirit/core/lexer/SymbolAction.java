@@ -11,7 +11,7 @@ import com.sum.spirit.pojo.enums.SymbolEnum;
 
 @Component
 @Order(-80)
-public class SymbolAction extends AbsLexerAction {
+public class SymbolAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(LexerEvent event) {

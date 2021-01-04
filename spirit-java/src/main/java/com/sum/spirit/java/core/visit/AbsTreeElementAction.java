@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visit;
+package com.sum.spirit.java.core.visit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.deduce.AbstractElementAction;
 import com.sum.spirit.core.visit.StmtVisiter;
 import com.sum.spirit.java.utils.TreeUtils;
 import com.sum.spirit.pojo.clazz.impl.IClass;
@@ -15,7 +15,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Statement;
 import com.sum.spirit.pojo.element.impl.Token;
 
-public abstract class AbsTreeElementAction extends AbsElementAction {
+public abstract class AbsTreeElementAction extends AbstractElementAction {
 
 	public static final String START = "START";
 	public static final String PREV_STATEMENT = "PREV_STATEMENT";

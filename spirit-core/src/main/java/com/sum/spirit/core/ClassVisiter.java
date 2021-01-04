@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
-public class ClassVisiter extends AbsClassVisiter {
+public class ClassVisiter extends AbstractClassVisiter {
 
 	@Autowired
 	public ClassLinker linker;

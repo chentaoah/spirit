@@ -43,7 +43,7 @@ public class AliasReplacer {
 			AtomicInteger index = event.index;
 			char c = event.c;
 			if (c == '"') {
-				index.set(findEnd(builder, index.get(), '"', '"'));
+				index.set(LineUtils.findEndFromIndex(builder, index.get(), '"', '"'));
 			} else if (c == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(index.get() - 1))) {
 				return true;
 			}

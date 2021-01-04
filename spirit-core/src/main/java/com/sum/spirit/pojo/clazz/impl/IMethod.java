@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.api.IMember;
+import com.sum.spirit.pojo.clazz.api.MemberUnit;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Token;
@@ -14,7 +14,7 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
-public class IMethod extends IMember {
+public class IMethod extends MemberUnit {
 
 	public List<IParameter> parameters = new ArrayList<>();
 

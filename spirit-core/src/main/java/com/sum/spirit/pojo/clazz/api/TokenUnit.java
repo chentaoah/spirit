@@ -3,11 +3,11 @@ package com.sum.spirit.pojo.clazz.api;
 import com.sum.spirit.pojo.element.impl.Token;
 import com.sum.spirit.pojo.enums.AttributeEnum;
 
-public abstract class Tokened extends Typed {
+public abstract class TokenUnit extends TypeUnit {
 
 	public Token token;
 
-	public Tokened(Token token) {
+	public TokenUnit(Token token) {
 		this.token = token;
 	}
 

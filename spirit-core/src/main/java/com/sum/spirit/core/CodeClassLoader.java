@@ -15,7 +15,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-100)
-public class CodeClassLoader extends AbsClassLoader {
+public class CodeClassLoader extends AbstractClassLoader {
 
 	public Map<String, IClass> classes = new LinkedHashMap<>();
 

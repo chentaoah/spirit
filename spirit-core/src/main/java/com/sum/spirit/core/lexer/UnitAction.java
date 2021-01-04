@@ -12,7 +12,7 @@ import com.sum.spirit.utils.LineUtils;
 
 @Component
 @Order(-100)
-public class UnitAction extends AbsLexerAction {
+public class UnitAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(LexerEvent event) {
@@ -27,7 +27,7 @@ public class UnitAction extends AbsLexerAction {
 		// 是否忽略该字符
 		if (ignoreChars.contains(c) && index.get() > end.get()) {
 			start.set(-1);
-			end.set(findEnd(builder, index.get(), c, LineUtils.flipChar(c)));
+			end.set(LineUtils.findEndFromIndex(builder, index.get(), c, LineUtils.flipChar(c)));
 			ignoreChars.remove(new Character(c));
 			return false;
 		}

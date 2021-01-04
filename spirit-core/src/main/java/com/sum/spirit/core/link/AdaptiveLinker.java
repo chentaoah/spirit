@@ -14,7 +14,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
-public class AdaptiveLinker extends AbsAdaptiveLinker {
+public class AdaptiveLinker extends AbstractAdaptiveLinker {
 
 	public static final String ARRAY_LENGTH = "length";
 

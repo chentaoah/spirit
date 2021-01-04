@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visit;
+package com.sum.spirit.java.core.visit;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.ElementBuilder;
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.deduce.AbstractElementAction;
 import com.sum.spirit.java.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
 import com.sum.spirit.pojo.clazz.impl.IClass;
@@ -27,7 +27,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-40)
-public class StatementAction extends AbsElementAction {
+public class StatementAction extends AbstractElementAction {
 
 	@Autowired
 	public ElementBuilder builder;

@@ -9,7 +9,7 @@ import com.sum.spirit.pojo.enums.KeywordEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
-public abstract class AbsSemanticParser {
+public abstract class AbstractSemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");

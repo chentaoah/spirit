@@ -3,7 +3,7 @@ package com.sum.spirit.core.deduce;
 import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.pojo.common.ElementEvent;
 
-public abstract class AbsElementAction implements ElementAction {
+public abstract class AbstractElementAction implements ElementAction {
 
 	@Override
 	public boolean isTrigger(ElementEvent event) {

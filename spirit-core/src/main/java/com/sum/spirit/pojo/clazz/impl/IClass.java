@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.api.Imported;
+import com.sum.spirit.pojo.clazz.api.ImportUnit;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Token;
@@ -15,7 +15,7 @@ import com.sum.spirit.utils.TypeUtils;
 
 import cn.hutool.core.lang.Assert;
 
-public class IClass extends Imported {
+public class IClass extends ImportUnit {
 
 	public String packageStr;
 

@@ -5,7 +5,7 @@ import java.util.List;
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.utils.TypeUtils;
 
-public abstract class AbsClassLoader implements ClassLoader {
+public abstract class AbstractClassLoader implements ClassLoader {
 
 	@Override
 	public void prepareEnv() {

@@ -11,7 +11,7 @@ import com.sum.spirit.pojo.enums.ModifierEnum;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 
-public abstract class AbsAdaptiveLinker implements ClassLinker, InitializingBean {
+public abstract class AbstractAdaptiveLinker implements ClassLinker, InitializingBean {
 
 	public List<ClassLinker> linkers;
 

@@ -23,7 +23,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
-public class TypeFactory extends AbsTypeFactory {
+public class TypeFactory extends AbstractTypeFactory {
 
 	@Autowired
 	public CodeClassLoader classLoader;

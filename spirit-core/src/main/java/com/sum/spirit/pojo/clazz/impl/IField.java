@@ -2,10 +2,10 @@ package com.sum.spirit.pojo.clazz.impl;
 
 import java.util.List;
 
-import com.sum.spirit.pojo.clazz.api.IMember;
+import com.sum.spirit.pojo.clazz.api.MemberUnit;
 import com.sum.spirit.pojo.element.impl.Element;
 
-public class IField extends IMember {
+public class IField extends MemberUnit {
 
 	public IField(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);

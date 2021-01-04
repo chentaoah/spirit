@@ -15,7 +15,7 @@ import com.sum.spirit.pojo.enums.SymbolEnum;
 import com.sum.spirit.pojo.enums.SymbolEnum.OperandEnum;
 
 @Component
-public class TreeBuilder extends AbsTreeBuilder {
+public class TreeBuilder extends AbstractTreeBuilder {
 
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {
@@ -151,7 +151,7 @@ public class TreeBuilder extends AbsTreeBuilder {
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
-					if (lastNode.isDirty() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
+					if (lastNode.isMounted() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
 						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.BINARY);
 					} else {
 						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);

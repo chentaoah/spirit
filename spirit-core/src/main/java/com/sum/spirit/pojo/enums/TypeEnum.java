@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.ClassLoader;
-import com.sum.spirit.core.build.AbsSemanticParser;
+import com.sum.spirit.core.build.AbstractSemanticParser;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeBuilder;
@@ -73,7 +73,7 @@ public enum TypeEnum {
 	}
 
 	public static boolean isPrimitive(String className) {
-		return AbsSemanticParser.isPrimitive(className);
+		return AbstractSemanticParser.isPrimitive(className);
 	}
 
 	public static String getPrimitiveArrayTargetName(String className) {

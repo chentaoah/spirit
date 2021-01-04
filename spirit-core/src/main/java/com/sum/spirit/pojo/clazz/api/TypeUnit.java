@@ -4,7 +4,7 @@ import com.sum.spirit.pojo.common.IType;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class Typed {
+public abstract class TypeUnit {
 
 	private IType type;
 

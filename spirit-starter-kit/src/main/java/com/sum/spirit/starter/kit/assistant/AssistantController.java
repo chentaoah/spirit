@@ -1,4 +1,4 @@
-package com.sum.spirit.starter.kit.service;
+package com.sum.spirit.starter.kit.assistant;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +14,10 @@ import com.sum.spirit.starter.kit.pojo.Result;
 
 @RestController
 @RequestMapping("/spirit/kit")
-public class KitController {
+public class AssistantController {
 
 	@Autowired
-	public KitService service;
+	public MethodService service;
 
 	@PostMapping("/getMethodInfos")
 	public Result<List<MethodInfo>> getMethodInfos(@RequestBody Map<String, Object> params) {

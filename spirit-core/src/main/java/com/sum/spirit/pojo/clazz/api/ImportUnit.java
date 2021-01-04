@@ -16,11 +16,11 @@ import com.sum.spirit.utils.TypeUtils;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class Imported extends Annotated {
+public abstract class ImportUnit extends AnnotationUnit {
 
 	public List<Import> imports;
 
-	public Imported(List<Import> imports, List<IAnnotation> annotations, Element element) {
+	public ImportUnit(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 		this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
 	}

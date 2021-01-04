@@ -1,9 +1,9 @@
-package com.sum.spirit.java.visit;
+package com.sum.spirit.java.core.visit;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.deduce.AbstractElementAction;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
 import com.sum.spirit.pojo.element.impl.Element;
@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-20)
-public class SeparatorAction extends AbsElementAction {
+public class SeparatorAction extends AbstractElementAction {
 
 	@Override
 	public void visit(ElementEvent event) {

@@ -1,10 +1,10 @@
-package com.sum.spirit.java.visit;
+package com.sum.spirit.java.core.visit;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.sum.spirit.core.deduce.AbsElementAction;
+import com.sum.spirit.core.deduce.AbstractElementAction;
 import com.sum.spirit.core.visit.StmtVisiter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.ElementEvent;
@@ -15,7 +15,7 @@ import com.sum.spirit.utils.Maps;
 
 @Component
 @Order(-100)
-public class CommonAction extends AbsElementAction {
+public class CommonAction extends AbstractElementAction {
 
 	@Override
 	public void visit(ElementEvent event) {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.pojo.clazz.api.IMember;
+import com.sum.spirit.pojo.clazz.api.MemberUnit;
 import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IField;
@@ -22,7 +22,7 @@ import com.sum.spirit.utils.SpringUtils;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbsClassVisiter {
+public abstract class AbstractClassVisiter {
 
 	@Autowired
 	public TypeFactory factory;
@@ -81,7 +81,7 @@ public abstract class AbsClassVisiter {
 		return annotations;
 	}
 
-	public IType visitMember(IClass clazz, IMember member) {
+	public IType visitMember(IClass clazz, MemberUnit member) {
 		// 防止循环依赖
 		member.lock();
 		IType type = member.getType();

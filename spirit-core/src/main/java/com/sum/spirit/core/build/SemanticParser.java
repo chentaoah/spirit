@@ -14,7 +14,7 @@ import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class SemanticParser extends AbsSemanticParser {
+public class SemanticParser extends AbstractSemanticParser {
 
 	@Autowired
 	public Lexer lexer;

@@ -1,4 +1,4 @@
-package com.sum.spirit.starter.kit.service;
+package com.sum.spirit.starter.kit.assistant;
 
 import java.io.InputStream;
 import java.io.StringReader;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.lexer.AbsLexerAction;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.common.Constants;
@@ -27,7 +26,7 @@ import com.sum.spirit.utils.LineUtils;
 import cn.hutool.core.io.IoUtil;
 
 @Service
-public class KitService {
+public class MethodService {
 
 	@Autowired
 	public CustomCompiler compiler;
@@ -110,7 +109,7 @@ public class KitService {
 
 	public boolean matches(String line, int index, char leftChar) {
 		char rigthChar = LineUtils.flipChar(leftChar);
-		int end = AbsLexerAction.findEnd(new StringBuilder(line), index, leftChar, rigthChar);
+		int end = LineUtils.findEndFromIndex(line, index, leftChar, rigthChar);
 		return end != -1;
 	}
 

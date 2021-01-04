@@ -6,11 +6,11 @@ import java.util.List;
 import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.element.impl.Element;
 
-public abstract class Annotated extends Elemented {
+public abstract class AnnotationUnit extends ElementUnit {
 
 	public List<IAnnotation> annotations;
 
-	public Annotated(List<IAnnotation> annotations, Element element) {
+	public AnnotationUnit(List<IAnnotation> annotations, Element element) {
 		super(element);
 		this.annotations = annotations != null ? new ArrayList<>(annotations) : new ArrayList<>();
 	}

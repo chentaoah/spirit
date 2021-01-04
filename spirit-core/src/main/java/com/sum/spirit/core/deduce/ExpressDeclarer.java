@@ -20,7 +20,7 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 @Order(-80)
-public class ExpressDeclarer extends AbsElementAction {
+public class ExpressDeclarer extends AbstractElementAction {
 
 	@Autowired
 	public ElementBuilder builder;

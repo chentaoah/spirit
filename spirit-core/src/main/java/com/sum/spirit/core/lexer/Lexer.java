@@ -14,14 +14,14 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.LexerAction;
-import com.sum.spirit.core.build.AbsSemanticParser;
+import com.sum.spirit.core.build.AbstractSemanticParser;
 import com.sum.spirit.pojo.common.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component
 @DependsOn("springUtils")
-public class Lexer extends AbsLexerAction implements InitializingBean {
+public class Lexer extends AbstractLexerAction implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
@@ -85,7 +85,7 @@ public class Lexer extends AbsLexerAction implements InitializingBean {
 	public void splitWords(List<String> words) {
 		for (int i = 0; i < words.size(); i++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !AbsSemanticParser.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !AbstractSemanticParser.isDouble(word)) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(i);
 				words.addAll(i, subWords);

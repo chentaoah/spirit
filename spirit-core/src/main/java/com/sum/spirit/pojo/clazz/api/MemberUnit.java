@@ -6,11 +6,11 @@ import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.KeywordEnum;
 
-public abstract class IMember extends Annotated {
+public abstract class MemberUnit extends AnnotationUnit {
 
 	public volatile boolean isLock = false;
 
-	public IMember(List<IAnnotation> annotations, Element element) {
+	public MemberUnit(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 	}
 

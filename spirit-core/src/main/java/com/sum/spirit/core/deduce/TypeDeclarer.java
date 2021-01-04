@@ -13,7 +13,7 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 @Order(-100)
-public class TypeDeclarer extends AbsElementAction {
+public class TypeDeclarer extends AbstractElementAction {
 
 	@Autowired
 	public TypeFactory factory;

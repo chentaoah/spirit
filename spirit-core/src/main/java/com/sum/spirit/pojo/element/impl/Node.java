@@ -15,7 +15,7 @@ public class Node {
 		this.token = token;
 	}
 
-	public boolean isDirty() {
+	public boolean isMounted() {
 		return prev != null || next != null;
 	}
 

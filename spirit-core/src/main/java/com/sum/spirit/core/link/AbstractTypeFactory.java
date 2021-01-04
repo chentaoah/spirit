@@ -17,7 +17,7 @@ import com.sum.spirit.utils.TypeBuilder;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbsTypeFactory {
+public abstract class AbstractTypeFactory {
 
 	@Autowired
 	public ClassLinker linker;

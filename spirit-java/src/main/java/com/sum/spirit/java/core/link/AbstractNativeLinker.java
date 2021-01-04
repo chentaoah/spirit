@@ -1,4 +1,4 @@
-package com.sum.spirit.java.link;
+package com.sum.spirit.java.core.link;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -12,7 +12,7 @@ import com.sum.spirit.java.NativeClassLoader;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
 
-public abstract class AbsNativeLinker implements ClassLinker {
+public abstract class AbstractNativeLinker implements ClassLinker {
 
 	@Autowired
 	public NativeClassLoader classLoader;

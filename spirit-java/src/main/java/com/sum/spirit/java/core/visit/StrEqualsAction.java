@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visit;
+package com.sum.spirit.java.core.visit;
 
 import java.util.HashMap;
 import java.util.Map;

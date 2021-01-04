@@ -1,4 +1,4 @@
-package com.sum.spirit.java.link;
+package com.sum.spirit.java.core.link;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -17,7 +17,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-80)
-public class NativeLinker extends AbsNativeLinker {
+public class NativeLinker extends AbstractNativeLinker {
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
