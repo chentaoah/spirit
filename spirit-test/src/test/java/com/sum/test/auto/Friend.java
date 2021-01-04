@@ -14,4 +14,8 @@ public class Friend {
 		return "hello";
 	}
 
+	public String sayYes(String text, Integer number) {
+		return "hello";
+	}
+
 }
