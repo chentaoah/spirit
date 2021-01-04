@@ -22,7 +22,7 @@ import com.sum.spirit.pojo.enums.AttributeEnum;
 
 @Component
 @Order(-40)
-public class InvokeVisiter extends AbstractElementAction implements StatementAction {
+public class InvocationVisiter extends AbstractElementAction implements StatementAction {
 
 	@Autowired
 	public FastDeducer deducer;

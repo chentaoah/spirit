@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.impl.Document;
+import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component
@@ -50,9 +52,12 @@ public class CoreCompiler implements Compiler {
 			}
 		});
 		// 分析依赖项
-		classesMap.values().forEach(classes -> {
-			dependencies(inputs, classes);
-		});
+		String compileScope = ConfigUtils.getProperty(Constants.COMPILE_SCOPE_KEY, Constants.DEFAULT_COMPILE_SCOPE);
+		if (!Constants.DEFAULT_COMPILE_SCOPE.equals(compileScope)) {
+			classesMap.values().forEach(classes -> {
+				dependencies(inputs, classes);
+			});
+		}
 		// 进行推导
 		return classLoader.getClasses();
 	}

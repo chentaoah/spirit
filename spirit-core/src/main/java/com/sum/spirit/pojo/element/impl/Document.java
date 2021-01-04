@@ -12,7 +12,8 @@ public class Document extends ArrayList<Element> {
 	public String fileName;
 
 	public Document(File file) {
-		String suffix = "." + ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY);
+		String suffix = "."
+				+ ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
 		this.fileName = file.getName().replace(suffix, "");
 	}
 

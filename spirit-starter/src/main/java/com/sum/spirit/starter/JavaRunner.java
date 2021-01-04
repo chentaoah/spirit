@@ -34,7 +34,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// 是否自动编译
-		boolean autoRun = ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, false);
+		boolean autoRun = ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, Constants.DEFAULT_AUTO_RUN);
 		if (!autoRun) {
 			return;
 		}

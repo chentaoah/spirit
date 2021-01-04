@@ -15,7 +15,7 @@ import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Statement;
 import com.sum.spirit.pojo.element.impl.Token;
 
-public abstract class AbsTreeElementAction extends AbstractElementAction {
+public abstract class AbstractTreeElementAction extends AbstractElementAction {
 
 	public static final String START = "START";
 	public static final String PREV_STATEMENT = "PREV_STATEMENT";

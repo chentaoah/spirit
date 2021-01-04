@@ -29,7 +29,7 @@ public class ExpressDeclarer extends AbstractElementAction {
 	@Autowired
 	public VariableTracker tracker;
 	@Autowired
-	public InvokeVisiter visiter;
+	public InvocationVisiter visiter;
 	@Autowired
 	public FastDeducer deducer;
 

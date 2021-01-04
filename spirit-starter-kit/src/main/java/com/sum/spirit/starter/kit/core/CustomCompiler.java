@@ -51,9 +51,9 @@ public class CustomCompiler extends CoreCompiler {
 		for (int index = 0; index < elements.size(); index++) {
 			Element element = elements.get(index);
 			if (element.line.number == lineNumber) {
-				for (int idx = index + 1; idx < elements.size(); idx++) {
-					elements.remove(idx);
-				}
+//				for (int idx = index + 1; idx < elements.size(); idx++) {
+//					elements.remove(idx);
+//				}
 				return element;
 			}
 			if (element.hasChild()) {

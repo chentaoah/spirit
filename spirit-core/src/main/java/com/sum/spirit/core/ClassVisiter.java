@@ -1,5 +1,7 @@
 package com.sum.spirit.core;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -7,10 +9,12 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.clazz.impl.IVariable;
+import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.utils.ConfigUtils;
 
 @Component
 public class ClassVisiter extends AbstractClassVisiter {
@@ -23,7 +27,7 @@ public class ClassVisiter extends AbstractClassVisiter {
 		// 方法上下文
 		MethodContext context = new MethodContext(method);
 		// 访问方法体内容
-		visitChildElement(clazz, context, method.element);
+		visitChildElements(clazz, context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
 			return context.returnType != null ? context.returnType : TypeEnum.void_t.value;
@@ -45,9 +49,16 @@ public class ClassVisiter extends AbstractClassVisiter {
 		throw new RuntimeException("Unsupported syntax!");
 	}
 
-	public void visitChildElement(IClass clazz, MethodContext context, Element father) {
+	public void visitChildElements(IClass clazz, MethodContext context, Element father) {
+
 		// 遍历所有子元素
-		for (Element element : father.children) {
+		List<Element> elements = father.children;
+		if (elements == null || elements.size() == 0) {
+			return;
+		}
+
+		for (int index = 0; index < elements.size(); index++) {
+			Element element = elements.get(index);
 			// 提前将深度加一，以获得正确的blockId
 			if (element.children.size() > 0) {
 				context.increaseDepth();
@@ -75,13 +86,26 @@ public class ClassVisiter extends AbstractClassVisiter {
 					}
 				}
 			}
+
+			if (element.isReturn()) {
+				// 语法校验
+				if (index != elements.size() - 1) {
+					String syntaxLevel = ConfigUtils.getProperty(Constants.SYNTAX_LEVEL_KEY,
+							Constants.DEFAULT_SYNTAX_LEVEL);
+					if (Constants.DEFAULT_SYNTAX_LEVEL.equals(syntaxLevel)) {
+						throw new RuntimeException("The method body does not end with a return statement!");
+					}
+				}
+				// 提前结束
+				break;
+			}
+
 			// 遍历子节点
 			if (element.children.size() > 0) {
-				visitChildElement(clazz, context, element);
+				visitChildElements(clazz, context, element);
 				context.increaseCount();
 				context.decreaseDepth();
 			}
 		}
 	}
-
 }
