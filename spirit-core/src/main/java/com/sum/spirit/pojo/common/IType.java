@@ -36,8 +36,8 @@ public class IType {
 	private boolean isNative;// 是否本地类型
 	private int modifiers;// 进行位运算后得到的修饰符
 
-	@Builder.Default
 	@NonNull
+	@Builder.Default
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public boolean isTypeVariable() {
