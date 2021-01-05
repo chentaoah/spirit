@@ -39,6 +39,7 @@ public abstract class AbstractClassVisiter {
 	}
 
 	public void visitClass(IClass clazz) {
+		Assert.notNull(clazz.getType(), "Please invoke the method [prepareForVisit] first!");
 		// 访问注解
 		visitAnnotations(clazz, clazz.annotations);
 		clazz.fields.forEach(field -> visitAnnotations(clazz, field.annotations));

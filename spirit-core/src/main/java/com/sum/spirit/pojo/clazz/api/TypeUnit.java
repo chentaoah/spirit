@@ -2,19 +2,13 @@ package com.sum.spirit.pojo.clazz.api;
 
 import com.sum.spirit.pojo.common.IType;
 
-import cn.hutool.core.lang.Assert;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
+@Getter
+@Setter
 public abstract class TypeUnit {
-
+	@NonNull
 	private IType type;
-
-	public IType getType() {
-		return type;
-	}
-
-	public void setType(IType type) {
-		Assert.notNull(type, "Type cannot be null!");
-		this.type = type;
-	}
-
 }
