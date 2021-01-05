@@ -58,15 +58,15 @@ public class TreeBuilder extends AbstractTreeBuilder {
 
 			OperandEnum operand = null;
 
-			if (currentToken.isType()) {
+			if (currentToken.isFluent()) {
+				priority = 55;
+				operand = OperandEnum.LEFT;
+
+			} else if (currentToken.isType()) {
 				if (nextToken != null && (nextToken.isVariable() || nextToken.isLocalMethod())) {
-					priority = 55;
+					priority = 50;
 					operand = OperandEnum.RIGHT;
 				}
-
-			} else if (currentToken.isFluent()) {
-				priority = 50;
-				operand = OperandEnum.LEFT;
 
 			} else if (currentToken.isOperator()) {
 				String value = currentToken.toString();
