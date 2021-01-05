@@ -11,6 +11,18 @@ import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class IType {
 
 	private String className;
@@ -23,6 +35,9 @@ public class IType {
 	private boolean isWildcard;// 是否“?”
 	private boolean isNative;// 是否本地类型
 	private int modifiers;// 进行位运算后得到的修饰符
+
+	@Builder.Default
+	@NonNull
 	private List<IType> genericTypes = new ArrayList<>();// 泛型参数
 
 	public boolean isTypeVariable() {
@@ -89,94 +104,6 @@ public class IType {
 			return getGenericName();
 		}
 		return getSimpleName();
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public String getSimpleName() {
-		return simpleName;
-	}
-
-	public void setSimpleName(String simpleName) {
-		this.simpleName = simpleName;
-	}
-
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-	public String getGenericName() {
-		return genericName;
-	}
-
-	public void setGenericName(String genericName) {
-		this.genericName = genericName;
-	}
-
-	public boolean isPrimitive() {
-		return isPrimitive;
-	}
-
-	public void setPrimitive(boolean isPrimitive) {
-		this.isPrimitive = isPrimitive;
-	}
-
-	public boolean isArray() {
-		return isArray;
-	}
-
-	public void setArray(boolean isArray) {
-		this.isArray = isArray;
-	}
-
-	public boolean isNull() {
-		return isNull;
-	}
-
-	public void setNull(boolean isNull) {
-		this.isNull = isNull;
-	}
-
-	public boolean isWildcard() {
-		return isWildcard;
-	}
-
-	public void setWildcard(boolean isWildcard) {
-		this.isWildcard = isWildcard;
-	}
-
-	public boolean isNative() {
-		return isNative;
-	}
-
-	public void setNative(boolean isNative) {
-		this.isNative = isNative;
-	}
-
-	public int getModifiers() {
-		return modifiers;
-	}
-
-	public void setModifiers(int modifiers) {
-		this.modifiers = modifiers;
-	}
-
-	public List<IType> getGenericTypes() {
-		return genericTypes;
-	}
-
-	public void setGenericTypes(List<IType> genericTypes) {
-		this.genericTypes = genericTypes != null ? genericTypes : new ArrayList<>();
 	}
 
 }
