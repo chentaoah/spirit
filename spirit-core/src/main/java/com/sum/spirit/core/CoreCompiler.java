@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.element.impl.Document;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.TypeUtils;
@@ -45,15 +44,19 @@ public class CoreCompiler implements Compiler {
 		inputs.keySet().forEach(path -> classLoader.classes.put(path, null));
 		// path -> (className -> class)
 		Map<String, Map<String, IClass>> classesMap = new LinkedHashMap<>();
-		// 解析指定类型
-		inputs.forEach((path, file) -> {
-			if (TypeUtils.matchPackages(path, includePaths)) {
-				classesMap.put(path, doCompile(inputs, path));
-			}
-		});
-		// 分析依赖项
-		String compileScope = ConfigUtils.getProperty(Constants.COMPILE_SCOPE_KEY, Constants.DEFAULT_COMPILE_SCOPE);
-		if (!Constants.DEFAULT_COMPILE_SCOPE.equals(compileScope)) {
+
+		if (ConfigUtils.isScopeAll()) {
+			// 解析所有的输入
+			inputs.forEach((path, file) -> classesMap.put(path, doCompile(inputs, path)));
+
+		} else {
+			// 解析指定类型
+			inputs.forEach((path, file) -> {
+				if (TypeUtils.matchPackages(path, includePaths)) {
+					classesMap.put(path, doCompile(inputs, path));
+				}
+			});
+			// 分析依赖项
 			classesMap.values().forEach(classes -> {
 				dependencies(inputs, classes);
 			});

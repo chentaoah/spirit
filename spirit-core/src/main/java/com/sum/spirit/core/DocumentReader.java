@@ -13,6 +13,7 @@ import com.sum.spirit.pojo.element.impl.Document;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Line;
 import com.sum.spirit.pojo.element.impl.Statement;
+import com.sum.spirit.utils.ConfigUtils;
 
 import cn.hutool.core.io.IoUtil;
 
@@ -26,7 +27,9 @@ public class DocumentReader {
 		Document document = new Document(fileName);
 		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
 		doReadLines(document, lines);
-		document.debug();// debug
+		if (ConfigUtils.isDocumentDebug()) {
+			document.debug();// debug
+		}
 		return document;
 	}
 

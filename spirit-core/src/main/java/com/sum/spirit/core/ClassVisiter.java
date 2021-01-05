@@ -9,7 +9,6 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.clazz.impl.IVariable;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.common.MethodContext;
 import com.sum.spirit.pojo.element.impl.Element;
@@ -90,9 +89,7 @@ public class ClassVisiter extends AbstractClassVisiter {
 			if (element.isReturn()) {
 				// 语法校验
 				if (index != elements.size() - 1) {
-					String syntaxLevel = ConfigUtils.getProperty(Constants.SYNTAX_LEVEL_KEY,
-							Constants.DEFAULT_SYNTAX_LEVEL);
-					if (Constants.DEFAULT_SYNTAX_LEVEL.equals(syntaxLevel)) {
+					if (ConfigUtils.isSyntaxCheck()) {
 						throw new RuntimeException("The method body does not end with a return statement!");
 					}
 				}

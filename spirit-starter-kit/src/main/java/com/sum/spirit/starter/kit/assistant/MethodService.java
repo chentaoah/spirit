@@ -35,9 +35,8 @@ public class MethodService {
 
 	public List<MethodInfo> getMethodInfos(String filePath, String content, Integer lineNumber) {
 		// 参数
-		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
-		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY,
-				Constants.DEFAULT_FILENAME_EXTENSION);
+		String inputPath = ConfigUtils.getInputPath();
+		String extension = ConfigUtils.getFileExtension();
 
 		// 根据文件名，获取className
 		String className = FileHelper.getPath(inputPath, filePath, extension);

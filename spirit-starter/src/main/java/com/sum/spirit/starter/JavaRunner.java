@@ -15,7 +15,6 @@ import com.sum.spirit.api.Compiler;
 import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.core.RunningMonitor;
 import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 
@@ -34,17 +33,15 @@ public class JavaRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// 是否自动编译
-		boolean autoRun = ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, Constants.DEFAULT_AUTO_RUN);
-		if (!autoRun) {
+		if (!ConfigUtils.isAutoRun()) {
 			return;
 		}
 		monitor.printArgs(args);
 		// 参数
 		long timestamp = System.currentTimeMillis();
-		String inputPath = ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
-		String outputPath = ConfigUtils.getProperty(Constants.OUTPUT_ARG_KEY);
-		String extension = ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY,
-				Constants.DEFAULT_FILENAME_EXTENSION);
+		String inputPath = ConfigUtils.getInputPath();
+		String outputPath = ConfigUtils.getOutputPath();
+		String extension = ConfigUtils.getFileExtension();
 		// 编译
 		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
 		List<IClass> classes = compiler.compile(inputs);
