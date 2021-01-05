@@ -61,7 +61,7 @@ public class LineUtils {
 		return count % 2 == 0;
 	}
 
-	public static int findEndFromIndex(CharSequence chars, int start, char left, char right) {
+	public static int findEndIndex(CharSequence chars, int start, char left, char right) {
 		boolean flag = false;
 		for (int index = start, count = 0; index < chars.length(); index++) {
 			char c = chars.charAt(index);

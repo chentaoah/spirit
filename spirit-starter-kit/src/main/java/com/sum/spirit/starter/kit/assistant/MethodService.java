@@ -108,7 +108,7 @@ public class MethodService {
 
 	public boolean matches(String line, int index, char leftChar) {
 		char rigthChar = LineUtils.flipChar(leftChar);
-		int end = LineUtils.findEndFromIndex(line, index, leftChar, rigthChar);
+		int end = LineUtils.findEndIndex(line, index, leftChar, rigthChar);
 		return end != -1;
 	}
 

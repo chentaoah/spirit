@@ -27,7 +27,7 @@ public class RegionAction extends AbstractLexerAction {
 		// 是否忽略该字符
 		if (ignoreChars.contains(c) && index.get() > end.get()) {
 			start.set(-1);
-			end.set(LineUtils.findEndFromIndex(builder, index.get(), c, LineUtils.flipChar(c)));
+			end.set(LineUtils.findEndIndex(builder, index.get(), c, LineUtils.flipChar(c)));
 			ignoreChars.remove(new Character(c));
 			return false;
 		}
