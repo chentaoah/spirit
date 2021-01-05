@@ -16,12 +16,6 @@
 			<artifactId>spirit-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- spirit-plugs -->
-		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-plugs</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>
