@@ -13,8 +13,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.element.impl.Document;
-import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.TypeUtils;
+
+import cn.hutool.core.util.ArrayUtil;
 
 @Component
 @Primary
@@ -44,11 +45,9 @@ public class CoreCompiler implements Compiler {
 		inputs.keySet().forEach(path -> classLoader.classes.put(path, null));
 		// path -> (className -> class)
 		Map<String, Map<String, IClass>> classesMap = new LinkedHashMap<>();
-
-		if (ConfigUtils.isScopeAll()) {
-			// 解析所有的输入
+		// 如果没有排除，则进行全量编译
+		if (ArrayUtil.isEmpty(includePaths)) {
 			inputs.forEach((path, file) -> classesMap.put(path, doCompile(inputs, path)));
-
 		} else {
 			// 解析指定类型
 			inputs.forEach((path, file) -> {
