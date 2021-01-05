@@ -18,7 +18,7 @@ import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
 @Order(-80)
-public class StrEqualsAction extends AbstractTreeElementAction {
+public class StringEqualsAction extends AbstractTreeElementAction {
 
 	public static final String FORMAT = "StringUtils.equals(%s, %s)";
 

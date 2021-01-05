@@ -18,7 +18,7 @@ import com.sum.spirit.pojo.enums.TypeEnum;
 
 @Component
 @Order(-60)
-public class StrLogicAction extends AbstractTreeElementAction {
+public class StringLogicAction extends AbstractTreeElementAction {
 
 	public static final String FORMAT = "StringUtils.isNotEmpty(%s)";
 
