@@ -12,7 +12,7 @@ import com.sum.spirit.utils.LineUtils;
 
 @Component
 @Order(-100)
-public class UnitAction extends AbstractLexerAction {
+public class RegionAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(LexerEvent event) {
