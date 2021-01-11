@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.CodeClassLoader;
+import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Statement;
@@ -26,7 +26,7 @@ import cn.hutool.core.lang.Assert;
 public class TypeFactory extends AbstractTypeFactory {
 
 	@Autowired
-	public CodeClassLoader classLoader;
+	public AppClassLoader classLoader;
 	@Autowired
 	public FastDeducer deducer;
 	@Autowired

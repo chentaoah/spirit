@@ -1,8 +1,6 @@
 package com.sum.spirit.starter;
 
-import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import com.sum.spirit.api.Compiler;
 import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.core.RunningMonitor;
 import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 
 @Component
@@ -30,23 +27,36 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public RunningMonitor monitor;
 
+//	public void loadPartialClasses(Map<String, InputStream> inputs, Map<String, Map<String, IClass>> classesMap, String... includePaths) {
+//		// 解析指定类型
+//		inputs.forEach((path, file) -> {
+//			if (TypeUtils.matchPackages(path, includePaths)) {
+//				classesMap.put(path, doCompile(inputs, path));
+//			}
+//		});
+//		// 分析依赖项
+//		classesMap.values().forEach(classes -> {
+//			dependencies(inputs, classes);
+//		});
+//	}
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		// 是否自动编译
-		if (!ConfigUtils.isAutoRun()) {
-			return;
-		}
-		monitor.printArgs(args);
-		// 参数
-		long timestamp = System.currentTimeMillis();
-		String inputPath = ConfigUtils.getInputPath();
-		String outputPath = ConfigUtils.getOutputPath();
-		String extension = ConfigUtils.getFileExtension();
-		// 编译
-		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
-		List<IClass> classes = compiler.compile(inputs);
-		generateFiles(outputPath, classes);
-		monitor.printTotalTime(timestamp);
+//		if (!ConfigUtils.isAutoRun()) {
+//			return;
+//		}
+//		monitor.printArgs(args);
+//		// 参数
+//		long timestamp = System.currentTimeMillis();
+//		String inputPath = ConfigUtils.getInputPath();
+//		String outputPath = ConfigUtils.getOutputPath();
+//		String extension = ConfigUtils.getFileExtension();
+//		// 编译
+//		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
+//		List<IClass> classes = compiler.compile(inputs);
+//		generateFiles(outputPath, classes);
+//		monitor.printTotalTime(timestamp);
 	}
 
 	public void generateFiles(String outputPath, List<IClass> classes) {

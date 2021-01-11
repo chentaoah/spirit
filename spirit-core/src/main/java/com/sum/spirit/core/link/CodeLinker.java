@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.ClassVisiter;
-import com.sum.spirit.core.CodeClassLoader;
+import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.IField;
 import com.sum.spirit.pojo.clazz.impl.IMethod;
@@ -23,7 +23,7 @@ import cn.hutool.core.lang.Assert;
 public class CodeLinker implements ClassLinker {
 
 	@Autowired
-	public CodeClassLoader classLoader;
+	public AppClassLoader classLoader;
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
@@ -38,7 +38,7 @@ public class CodeLinker implements ClassLinker {
 	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
 		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-		return (T) classLoader.getClass(type.getClassName());
+		return (T) classLoader.findClass(type.getClassName());
 	}
 
 	@Override

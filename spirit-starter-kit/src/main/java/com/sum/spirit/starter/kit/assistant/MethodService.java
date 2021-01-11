@@ -49,7 +49,7 @@ public class MethodService {
 		// 找到对应class,并找到印记，获取推导出的类型，并返回所有该类型的方法信息
 		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
 		inputs.put(className, IoUtil.toStream(content, Constants.DEFAULT_CHARSET));
-		IType type = compiler.compileAndGetType(inputs, className, lineNumber);
+		IType type = null/* compiler.compileAndGetType(inputs, className, lineNumber) */;
 		Object clazz = linker.toClass(type);
 
 		List<MethodInfo> methodInfos = new ArrayList<>();

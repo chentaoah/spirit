@@ -1,39 +1,32 @@
 package com.sum.spirit.core;
 
-import java.util.List;
+import java.net.URL;
 
 import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.api.ImportSelector;
 import com.sum.spirit.utils.TypeUtils;
 
-public abstract class AbstractClassLoader implements ClassLoader {
+public abstract class AbstractClassLoader<T> implements ClassLoader<T>, ImportSelector {
 
 	@Override
-	public void prepareEnv() {
-		// ignore
+	public T loadClass(String name) {
+		URL resource = findResource(name);
+		return defineClass(name, resource);
 	}
 
 	@Override
-	public boolean isloaded(String className) {
-		return contains(className);
-	}
-
-	@Override
-	public boolean shouldImport(String selfClassName, String className) {
-		// 类名相同不用添加
-		if (selfClassName.equals(className)) {
+	public boolean shouldImport(String selfName, String className) {
+		if (selfName.equals(className)) {
 			return false;
 		}
-		// 同个包下不用添加
-		if (TypeUtils.isSamePackage(selfClassName, className)) {
+		if (TypeUtils.isSamePackage(selfName, className)) {
 			return false;
 		}
-
 		return true;
 	}
 
-	@Override
-	public <T> List<T> getClasses() {
-		return null;
-	}
+	public abstract URL findResource(String name);
+
+	public abstract T defineClass(String name, URL resource);
 
 }

@@ -1,21 +1,22 @@
 package com.sum.spirit.api;
 
+import java.net.URL;
 import java.util.List;
 
-public interface ClassLoader {
+public interface ClassLoader<T> {
 
-	void prepareEnv();
+	List<URL> getResources();
 
-	String findClassName(String simpleName);
+	List<String> getNames();
 
-	boolean contains(String className);
+	boolean contains(String name);
 
-	boolean isloaded(String className);
+	T loadClass(String name);
 
-	boolean shouldImport(String selfClassName, String className);
+	T findClass(String name);
 
-	<T> T getClass(String className);
+	T findLoadedClass(String name);
 
-	<T> List<T> getClasses();
+	List<T> getAllClasses();
 
 }

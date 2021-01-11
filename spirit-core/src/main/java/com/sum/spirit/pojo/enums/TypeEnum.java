@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.api.TypeEnumCtor;
 import com.sum.spirit.core.build.AbstractSemanticParser;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.utils.SpringUtils;
@@ -64,11 +64,10 @@ public enum TypeEnum {
 		PRIMITIVE_ARRAY_MAPPING.put("float[]", float_a.value);
 		PRIMITIVE_ARRAY_MAPPING.put("double[]", double_a.value);
 
-		// 类加载器
-		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
-		Assert.notNull(classLoaders.size() == 0, "Class loader must be provided!");
-		for (ClassLoader classLoader : classLoaders) {
-			classLoader.prepareEnv();
+		List<TypeEnumCtor> ctors = SpringUtils.getBeansAndSort(TypeEnumCtor.class);
+		Assert.notNull(ctors.size() == 0, "Type enum ctor must be provided!");
+		for (TypeEnumCtor ctor : ctors) {
+			ctor.prepareEnv();
 		}
 	}
 

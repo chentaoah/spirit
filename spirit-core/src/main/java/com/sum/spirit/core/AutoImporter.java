@@ -50,11 +50,8 @@ public class AutoImporter {
 		// TODO 这里注解不能只简单获取名称，注解中也可能会有类型
 		clazz.annotations.forEach((annotation) -> classNames.add(clazz.findClassName(annotation.getName())));
 		classNames.addAll(visitElements(clazz, Arrays.asList(clazz.element)));
+		classNames.remove(clazz.getClassName());
 		return classNames;
-	}
-
-	public void autoImport(IClass clazz) {
-		dependencies(clazz).forEach(className -> clazz.addImport(className));
 	}
 
 	public String getFinalName(IClass clazz, IType type) {

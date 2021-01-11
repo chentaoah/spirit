@@ -1,17 +1,19 @@
 package com.sum.spirit.java;
 
+import java.net.URL;
+import java.util.List;
+
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.TypeEnumCtor;
 import com.sum.spirit.core.AbstractClassLoader;
-import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
-import com.sum.spirit.utils.TypeUtils;
 
 @Component
 @Order(-80)
-public class NativeClassLoader extends AbstractClassLoader {
+public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements TypeEnumCtor {
 
 	@Override
 	public void prepareEnv() {
@@ -39,24 +41,78 @@ public class NativeClassLoader extends AbstractClassLoader {
 	}
 
 	@Override
-	public String findClassName(String simpleName) {
-		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
+	public List<URL> getResources() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean contains(String className) {
-		return className.startsWith("java.lang.");
+	public List<String> getNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean shouldImport(String selfClassName, String className) {
+	public boolean contains(String name) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getClass(String className) {
-		return (T) ReflectUtils.getClass(className);// 可能是数组
+	public Class<?> findClass(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public Class<?> findLoadedClass(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Class<?>> getAllClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public URL findResource(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> defineClass(String name, URL resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String findClassName(String simpleName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public String findClassName(String simpleName) {
+//		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
+//	}
+//
+//	@Override
+//	public boolean contains(String className) {
+//		return className.startsWith("java.lang.");
+//	}
+//
+//	@Override
+//	public boolean shouldImport(String selfClassName, String className) {
+//		return false;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public <T> T getClass(String className) {
+//		return (T) ReflectUtils.getClass(className);// 可能是数组
+//	}
 
 }

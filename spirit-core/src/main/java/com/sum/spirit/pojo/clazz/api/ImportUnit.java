@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.ClassLoader;
+import com.sum.spirit.api.ImportSelector;
 import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.clazz.impl.Import;
 import com.sum.spirit.pojo.element.impl.Element;
@@ -111,9 +112,9 @@ public abstract class ImportUnit extends AnnotationUnit {
 	}
 
 	public String findClassNameByClassLoader(String simpleName) {
-		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
-		for (ClassLoader classLoader : classLoaders) {
-			String className = classLoader.findClassName(simpleName);
+		List<ImportSelector> importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
+		for (ImportSelector importSelector : importSelectors) {
+			String className = importSelector.findClassName(simpleName);
 			if (StringUtils.isNotEmpty(className)) {
 				return className;
 			}
@@ -122,10 +123,14 @@ public abstract class ImportUnit extends AnnotationUnit {
 	}
 
 	public boolean shouldImport(String selfClassName, String className) {
-		List<ClassLoader> classLoaders = SpringUtils.getBeansAndSort(ClassLoader.class);
-		for (ClassLoader classLoader : classLoaders) {
-			if (classLoader.contains(className)) {
-				return classLoader.shouldImport(selfClassName, className);
+		List<ImportSelector> importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
+		for (ImportSelector importSelector : importSelectors) {
+			if (importSelector instanceof ClassLoader) {
+				if (((ClassLoader<?>) importSelector).contains(className)) {
+					return importSelector.shouldImport(selfClassName, className);
+				}
+			} else {
+				return importSelector.shouldImport(selfClassName, className);
 			}
 		}
 		return true;
