@@ -47,21 +47,36 @@ public class CoreCompiler implements Compiler {
 		Map<String, Map<String, IClass>> classesMap = new LinkedHashMap<>();
 		// 如果没有排除，则进行全量编译
 		if (ArrayUtil.isEmpty(includePaths)) {
-			inputs.forEach((path, file) -> classesMap.put(path, doCompile(inputs, path)));
+			loadAllClasses(inputs, classesMap);
 		} else {
-			// 解析指定类型
-			inputs.forEach((path, file) -> {
-				if (TypeUtils.matchPackages(path, includePaths)) {
-					classesMap.put(path, doCompile(inputs, path));
-				}
-			});
-			// 分析依赖项
-			classesMap.values().forEach(classes -> {
-				dependencies(inputs, classes);
-			});
+			loadPartialClasses(inputs, classesMap, includePaths);
 		}
 		// 进行推导
 		return classLoader.getClasses();
+	}
+
+	public List<IClass> visitClasses(List<IClass> classes) {
+		classes.forEach(clazz -> importer.autoImport(clazz));
+		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
+		classes.forEach(clazz -> visiter.visitClass(clazz));
+		return classes;
+	}
+
+	public void loadAllClasses(Map<String, InputStream> inputs, Map<String, Map<String, IClass>> classesMap) {
+		inputs.forEach((path, file) -> classesMap.put(path, doCompile(inputs, path)));
+	}
+
+	public void loadPartialClasses(Map<String, InputStream> inputs, Map<String, Map<String, IClass>> classesMap, String... includePaths) {
+		// 解析指定类型
+		inputs.forEach((path, file) -> {
+			if (TypeUtils.matchPackages(path, includePaths)) {
+				classesMap.put(path, doCompile(inputs, path));
+			}
+		});
+		// 分析依赖项
+		classesMap.values().forEach(classes -> {
+			dependencies(inputs, classes);
+		});
 	}
 
 	public Map<String, IClass> doCompile(Map<String, InputStream> inputs, String path) {
@@ -81,13 +96,6 @@ public class CoreCompiler implements Compiler {
 				}
 			});
 		});
-	}
-
-	public List<IClass> visitClasses(List<IClass> classes) {
-		classes.forEach(clazz -> importer.autoImport(clazz));
-		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
-		classes.forEach(clazz -> visiter.visitClass(clazz));
-		return classes;
 	}
 
 }
