@@ -38,7 +38,7 @@ public class FileHelper {
 		}
 	}
 
-	public static FileInputStream getFileInputStream(File file) {
+	public static FileInputStream getInputStream(File file) {
 		try {
 			return new FileInputStream(file);
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class FileHelper {
 	}
 
 	public static InputStream asStream(URL url) {
-		return getFileInputStream(new File(toURI(url)));
+		return getInputStream(new File(toURI(url)));
 	}
 
 	public static Map<String, InputStream> getFiles(String inputPath, String extension) {
@@ -55,7 +55,7 @@ public class FileHelper {
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> {
 			String path = getPath(inputPath, file.getAbsolutePath(), extension);
-			fileMap.put(path, getFileInputStream(file));
+			fileMap.put(path, getInputStream(file));
 		});
 		return fileMap;
 	}

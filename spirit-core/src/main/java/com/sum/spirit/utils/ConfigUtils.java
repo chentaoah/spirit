@@ -56,8 +56,8 @@ public class ConfigUtils implements EnvironmentAware {
 		return ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, Constants.DEFAULT_AUTO_RUN);
 	}
 
-	public static boolean isDocumentDebug() {
-		return ConfigUtils.getProperty(Constants.DOCUMENT_DEBUG_KEY, Constants.DEFAULT_DOCUMENT_DEBUG);
+	public static boolean isDebug() {
+		return ConfigUtils.getProperty(Constants.DEBUG_KEY, Constants.DEFAULT_DEBUG);
 	}
 
 	public static boolean isSyntaxCheck() {

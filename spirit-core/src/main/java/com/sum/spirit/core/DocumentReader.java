@@ -27,8 +27,8 @@ public class DocumentReader {
 		Document document = new Document(fileName);
 		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
 		doReadLines(document, lines);
-		if (ConfigUtils.isDocumentDebug()) {
-			document.debug();// debug
+		if (ConfigUtils.isDebug()) {
+			document.debug();
 		}
 		return document;
 	}

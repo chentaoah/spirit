@@ -1,10 +1,11 @@
 package com.sum.spirit.core;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -28,13 +29,17 @@ public class AppClassLoader extends AbstractCodeClassLoader {
 	@Override
 	public IClass defineClass(String name, URL resource) {
 		Map<String, IClass> classes = compiler.compile(name, FileHelper.asStream(resource));
-		resolveClass(classes, classes);
-		visitClasses(new ArrayList<>(classes.values()));
-		this.classes.putAll(classes);// 添加到上下文中
+		this.classes.putAll(classes);// 提前将内部类添加到上下文中
+
+		Map<String, IClass> allClasses = new LinkedHashMap<>();
+		resolveClasses(allClasses, classes);
+		this.classes.putAll(allClasses);// 添加到上下文中
+
+		visitClasses(this.classes.values().stream().filter(clazz -> clazz != null).collect(Collectors.toList()));
 		return classes.get(name);
 	}
 
-	public void resolveClass(Map<String, IClass> allClasses, Map<String, IClass> classes) {
+	public void resolveClasses(Map<String, IClass> allClasses, Map<String, IClass> classes) {
 		classes.values().forEach(clazz -> {
 			// 分析依赖项
 			Set<String> classNames = importer.dependencies(clazz);
@@ -46,16 +51,15 @@ public class AppClassLoader extends AbstractCodeClassLoader {
 					// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
 					Map<String, IClass> classes0 = compiler.compile(className, FileHelper.asStream(findResource(className)));
 					allClasses.putAll(classes0);
-					resolveClass(allClasses, classes0);
+					resolveClasses(allClasses, classes0);
 				}
 			});
 		});
 	}
 
-	public List<IClass> visitClasses(List<IClass> classes) {
+	public void visitClasses(List<IClass> classes) {
 		classes.forEach(clazz -> visiter.prepareForVisit(clazz));
 		classes.forEach(clazz -> visiter.visitClass(clazz));
-		return classes;
 	}
 
 }

@@ -122,15 +122,15 @@ public abstract class ImportUnit extends AnnotationUnit {
 		return null;
 	}
 
-	public boolean shouldImport(String selfClassName, String className) {
+	public boolean shouldImport(String selfName, String className) {
 		List<ImportSelector> importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
 		for (ImportSelector importSelector : importSelectors) {
 			if (importSelector instanceof ClassLoader) {
 				if (((ClassLoader<?>) importSelector).contains(className)) {
-					return importSelector.shouldImport(selfClassName, className);
+					return importSelector.shouldImport(selfName, className);
 				}
 			} else {
-				return importSelector.shouldImport(selfClassName, className);
+				return importSelector.shouldImport(selfName, className);
 			}
 		}
 		return true;

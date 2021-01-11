@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.TypeEnumCtor;
 import com.sum.spirit.core.AbstractClassLoader;
+import com.sum.spirit.java.utils.ReflectUtils;
 import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
+import com.sum.spirit.utils.TypeUtils;
 
 @Component
 @Order(-80)
@@ -42,77 +44,52 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Typ
 
 	@Override
 	public List<URL> getResources() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("This method is not supported!");
 	}
 
 	@Override
 	public List<String> getNames() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("This method is not supported!");
 	}
 
 	@Override
 	public boolean contains(String name) {
-		// TODO Auto-generated method stub
-		return false;
+		return name.startsWith("java.lang.");
 	}
 
 	@Override
 	public Class<?> findClass(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return ReflectUtils.getClass(name);
 	}
 
 	@Override
 	public Class<?> findLoadedClass(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return ReflectUtils.getClass(name);
 	}
 
 	@Override
 	public List<Class<?>> getAllClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("This method is not supported!");
 	}
 
 	@Override
 	public URL findResource(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("This method is not supported!");
 	}
 
 	@Override
 	public Class<?> defineClass(String name, URL resource) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("This method is not supported!");
 	}
 
 	@Override
 	public String findClassName(String simpleName) {
-		// TODO Auto-generated method stub
-		return null;
+		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
 	}
 
-//	@Override
-//	public String findClassName(String simpleName) {
-//		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
-//	}
-//
-//	@Override
-//	public boolean contains(String className) {
-//		return className.startsWith("java.lang.");
-//	}
-//
-//	@Override
-//	public boolean shouldImport(String selfClassName, String className) {
-//		return false;
-//	}
-//
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public <T> T getClass(String className) {
-//		return (T) ReflectUtils.getClass(className);// 可能是数组
-//	}
+	@Override
+	public boolean shouldImport(String selfClassName, String className) {
+		return false;
+	}
 
 }
