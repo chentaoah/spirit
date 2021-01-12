@@ -1,5 +1,6 @@
 package com.sum.spirit.starter.kit.core;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ElementSelector extends CoreCompiler {
 
 	public IType findElementAndGetType(IClass clazz, Integer lineNumber) {
 		for (IMethod method : clazz.methods) {
-			Element element = findElement(method.element.children, lineNumber);
+			Element element = findElement(Arrays.asList(method.element), lineNumber);
 			if (element != null) {
 				IVariable variable = visiter.getVariableIfPossible(clazz, element);
 				return variable.getType();
