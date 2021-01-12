@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,6 @@ import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.utils.FileHelper;
 
 @Component
-@Primary
 @Order(-100)
 @DependsOn("configUtils")
 public class AppClassLoader extends AbstractCodeClassLoader {

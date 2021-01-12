@@ -35,14 +35,13 @@ public class MethodService {
 
 	public List<MethodInfo> getMethodInfos(String filePath, String content, Integer lineNumber) {
 
-		// 根据文件名，获取className
-		String className = "";
-
 		// 删除后面的行，将该行进行补全，然后截断，剩下待推导部分
 		Map<String, String> result = completeCode(content, lineNumber);
 		content = result.get("content");
 		String incompleteName = result.get("incompleteName");
 
+		// 根据文件名，获取className
+		String className = loader.getName(filePath);
 		// 找到对应class,并找到印记，获取推导出的类型，并返回所有该类型的方法信息
 		IClass clazz = loader.loadClass(className, IoUtil.toStream(content, Constants.DEFAULT_CHARSET));
 		IType type = selector.findElementAndGetType(clazz, lineNumber);
@@ -50,7 +49,7 @@ public class MethodService {
 
 		List<MethodInfo> methodInfos = new ArrayList<>();
 		if (clazzObj instanceof IClass) {
-			for (IMethod method : ((IClass) clazz).methods) {
+			for (IMethod method : ((IClass) clazzObj).methods) {
 				if (method.getName().startsWith(incompleteName)) {
 					methodInfos.add(createMethodInfo(method, incompleteName));
 				}

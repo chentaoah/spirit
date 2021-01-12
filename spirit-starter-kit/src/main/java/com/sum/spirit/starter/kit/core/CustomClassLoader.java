@@ -1,9 +1,13 @@
 package com.sum.spirit.starter.kit.core;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AppClassLoader;
@@ -11,6 +15,8 @@ import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.utils.FileHelper;
 
 @Component
+@Primary
+@DependsOn("configUtils")
 public class CustomClassLoader extends AppClassLoader {
 
 	public IClass loadClass(String name, InputStream input, String... arguments) {
@@ -35,6 +41,16 @@ public class CustomClassLoader extends AppClassLoader {
 				}
 			});
 		});
+	}
+
+	public String getName(String filePath) {
+		URL fileUrl = FileHelper.toURL(new File(filePath));
+		for (Map.Entry<String, URL> entry : nameUrlMapping.entrySet()) {
+			if (fileUrl.sameFile(entry.getValue())) {
+				return entry.getKey();
+			}
+		}
+		return null;
 	}
 
 }

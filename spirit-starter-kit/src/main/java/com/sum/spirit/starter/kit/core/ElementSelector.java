@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.CoreCompiler;
 import com.sum.spirit.core.ElementVisiter;
 import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.clazz.impl.IVariable;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Element;
@@ -21,12 +20,10 @@ public class ElementSelector extends CoreCompiler {
 	public ElementVisiter visiter;
 
 	public IType findElementAndGetType(IClass clazz, Integer lineNumber) {
-		for (IMethod method : clazz.methods) {
-			Element element = findElement(Arrays.asList(method.element), lineNumber);
-			if (element != null) {
-				IVariable variable = visiter.getVariableIfPossible(clazz, element);
-				return variable.getType();
-			}
+		Element element = findElement(Arrays.asList(clazz.element), lineNumber);
+		if (element != null) {
+			IVariable variable = visiter.getVariableIfPossible(clazz, element);
+			return variable.getType();
 		}
 		return null;
 	}
