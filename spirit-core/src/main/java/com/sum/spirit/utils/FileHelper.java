@@ -8,11 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -20,7 +15,6 @@ import com.google.common.io.Files;
 public class FileHelper {
 
 	public static final String SEPARATOR = File.separator;
-	public static final String REGEX = "\\".equals(SEPARATOR) ? SEPARATOR + "\\" : SEPARATOR;
 
 	public static URL toURL(File file) {
 		try {
@@ -48,20 +42,6 @@ public class FileHelper {
 
 	public static InputStream asStream(URL url) {
 		return getInputStream(new File(toURI(url)));
-	}
-
-	public static Map<String, InputStream> getFiles(String inputPath, String extension) {
-		Map<String, InputStream> fileMap = new HashMap<>();
-		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
-		files.forEach(file -> {
-			String path = getPath(inputPath, file.getAbsolutePath(), extension);
-			fileMap.put(path, getInputStream(file));
-		});
-		return fileMap;
-	}
-
-	public static String getPath(String inputPath, String filePath, String extension) {
-		return filePath.replace(inputPath + SEPARATOR, "").replaceAll(REGEX, ".").replace("." + extension, "");
 	}
 
 	public static void generateFile(String outputPath, String className, String code) {

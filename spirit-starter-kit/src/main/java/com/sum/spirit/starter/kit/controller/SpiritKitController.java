@@ -1,4 +1,4 @@
-package com.sum.spirit.starter.kit.assistant;
+package com.sum.spirit.starter.kit.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sum.spirit.starter.kit.pojo.MethodInfo;
 import com.sum.spirit.starter.kit.pojo.Result;
+import com.sum.spirit.starter.kit.service.MethodService;
 
 @RestController
 @RequestMapping("/spirit/kit")
-public class AssistantController {
+public class SpiritKitController {
 
 	@Autowired
 	public MethodService service;

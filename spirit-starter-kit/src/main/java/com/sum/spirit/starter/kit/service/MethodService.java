@@ -1,6 +1,5 @@
-package com.sum.spirit.starter.kit.assistant;
+package com.sum.spirit.starter.kit.service;
 
-import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,10 +16,9 @@ import com.sum.spirit.pojo.clazz.impl.IMethod;
 import com.sum.spirit.pojo.common.Constants;
 import com.sum.spirit.pojo.common.IType;
 import com.sum.spirit.pojo.element.impl.Line;
-import com.sum.spirit.starter.kit.core.CustomCompiler;
+import com.sum.spirit.starter.kit.core.CustomClassLoader;
+import com.sum.spirit.starter.kit.core.ElementSelector;
 import com.sum.spirit.starter.kit.pojo.MethodInfo;
-import com.sum.spirit.utils.ConfigUtils;
-import com.sum.spirit.utils.FileHelper;
 import com.sum.spirit.utils.LineUtils;
 
 import cn.hutool.core.io.IoUtil;
@@ -29,17 +27,16 @@ import cn.hutool.core.io.IoUtil;
 public class MethodService {
 
 	@Autowired
-	public CustomCompiler compiler;
+	public CustomClassLoader loader;
+	@Autowired
+	public ElementSelector selector;
 	@Autowired
 	public ClassLinker linker;
 
 	public List<MethodInfo> getMethodInfos(String filePath, String content, Integer lineNumber) {
-		// 参数
-		String inputPath = ConfigUtils.getInputPath();
-		String extension = ConfigUtils.getFileExtension();
 
 		// 根据文件名，获取className
-		String className = FileHelper.getPath(inputPath, filePath, extension);
+		String className = "";
 
 		// 删除后面的行，将该行进行补全，然后截断，剩下待推导部分
 		Map<String, String> result = completeCode(content, lineNumber);
@@ -47,20 +44,19 @@ public class MethodService {
 		String incompleteName = result.get("incompleteName");
 
 		// 找到对应class,并找到印记，获取推导出的类型，并返回所有该类型的方法信息
-		Map<String, InputStream> inputs = FileHelper.getFiles(inputPath, extension);
-		inputs.put(className, IoUtil.toStream(content, Constants.DEFAULT_CHARSET));
-		IType type = null/* compiler.compileAndGetType(inputs, className, lineNumber) */;
-		Object clazz = linker.toClass(type);
+		IClass clazz = loader.loadClass(className, IoUtil.toStream(content, Constants.DEFAULT_CHARSET));
+		IType type = selector.findElementAndGetType(clazz, lineNumber);
+		Object clazzObj = linker.toClass(type);
 
 		List<MethodInfo> methodInfos = new ArrayList<>();
-		if (clazz instanceof IClass) {
+		if (clazzObj instanceof IClass) {
 			for (IMethod method : ((IClass) clazz).methods) {
 				if (method.getName().startsWith(incompleteName)) {
 					methodInfos.add(createMethodInfo(method, incompleteName));
 				}
 			}
-		} else if (clazz instanceof Class) {
-			for (Method method : ((Class<?>) clazz).getMethods()) {
+		} else if (clazzObj instanceof Class) {
+			for (Method method : ((Class<?>) clazzObj).getMethods()) {
 				if (method.getName().startsWith(incompleteName)) {
 					methodInfos.add(createMethodInfo(method, incompleteName));
 				}

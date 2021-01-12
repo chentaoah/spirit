@@ -10,14 +10,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 
-@DependsOn("configUtils")
-public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass> {
+public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
 
 	public List<URL> urls = new ArrayList<>();
 
@@ -26,25 +25,13 @@ public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass
 	public Map<String, IClass> classes = new LinkedHashMap<>();
 
 	@Override
-	public List<URL> getResources() {
-		if (!urls.isEmpty()) {
-			return urls;
-		}
+	public void afterPropertiesSet() throws Exception {
+		// 添加到urls
 		String inputPath = ConfigUtils.getInputPath();
 		String extension = ConfigUtils.getFileExtension();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> this.urls.add(FileHelper.toURL(file)));
-		return urls;
-	}
-
-	@Override
-	public List<String> getNames() {
-		if (!classes.isEmpty()) {
-			return new ArrayList<String>(classes.keySet());
-		}
-		List<URL> urls = getResources();
-		String inputPath = ConfigUtils.getInputPath();
-		String extension = ConfigUtils.getFileExtension();
+		// 添加到映射
 		File directory = new File(inputPath);
 		if (!directory.isDirectory()) {
 			throw new RuntimeException("The input path must be a directory!");
@@ -55,6 +42,15 @@ public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass
 			nameUrlMapping.put(name, url);
 			classes.put(name, null);
 		});
+	}
+
+	@Override
+	public List<URL> getResources() {
+		return urls;
+	}
+
+	@Override
+	public List<String> getNames() {
 		return new ArrayList<String>(classes.keySet());
 	}
 
@@ -95,6 +91,11 @@ public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass
 			}
 		}
 		return null;
+	}
+
+	public void clear() {
+		classes.clear();
+		nameUrlMapping.keySet().forEach(name -> classes.put(name, null));
 	}
 
 }

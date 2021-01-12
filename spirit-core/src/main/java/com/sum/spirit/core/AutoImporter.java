@@ -25,6 +25,20 @@ public class AutoImporter {
 	@Autowired
 	public SemanticParser parser;
 
+	public void autoImport(IClass clazz) {
+		Set<String> classNames = dependencies(clazz);
+		classNames.forEach(className -> clazz.addImport(className));
+	}
+
+	public Set<String> dependencies(IClass clazz) {
+		Set<String> classNames = new HashSet<String>();
+		// TODO 这里注解不能只简单获取名称，注解中也可能会有类型
+		clazz.annotations.forEach((annotation) -> classNames.add(clazz.findClassName(annotation.getName())));
+		classNames.addAll(visitElements(clazz, Arrays.asList(clazz.element)));
+		classNames.remove(clazz.getClassName());
+		return classNames;
+	}
+
 	public Set<String> visitElements(IClass clazz, List<Element> elements) {
 		Set<String> classNames = new HashSet<>();
 		for (Element element : elements) {
@@ -42,15 +56,6 @@ public class AutoImporter {
 				classNames.addAll(visitElements(clazz, element.children));
 			}
 		}
-		return classNames;
-	}
-
-	public Set<String> dependencies(IClass clazz) {
-		Set<String> classNames = new HashSet<String>();
-		// TODO 这里注解不能只简单获取名称，注解中也可能会有类型
-		clazz.annotations.forEach((annotation) -> classNames.add(clazz.findClassName(annotation.getName())));
-		classNames.addAll(visitElements(clazz, Arrays.asList(clazz.element)));
-		classNames.remove(clazz.getClassName());
 		return classNames;
 	}
 
