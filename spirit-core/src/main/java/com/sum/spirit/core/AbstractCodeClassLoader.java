@@ -79,10 +79,6 @@ public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass
 
 	@Override
 	public List<IClass> getAllClasses() {
-		if (classes.isEmpty()) {
-			List<String> names = getNames();
-			names.forEach(name -> findClass(name));
-		}
 		return classes.values().stream().filter(clazz -> clazz != null).collect(Collectors.toList());
 	}
 

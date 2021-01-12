@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -27,6 +26,17 @@ public class AppClassLoader extends AbstractCodeClassLoader {
 	public ClassVisiter visiter;
 
 	@Override
+	public List<IClass> getAllClasses() {
+		if (classes.isEmpty()) {
+			List<String> names = getNames();
+			names.forEach(name -> findClass(name));
+		}
+		List<IClass> classes = super.getAllClasses();
+		visitClasses(classes);
+		return classes;
+	}
+
+	@Override
 	public IClass defineClass(String name, URL resource) {
 		Map<String, IClass> classes = compiler.compile(name, FileHelper.asStream(resource));
 		this.classes.putAll(classes);// 提前将内部类添加到上下文中
@@ -35,7 +45,6 @@ public class AppClassLoader extends AbstractCodeClassLoader {
 		resolveClasses(allClasses, classes);
 		this.classes.putAll(allClasses);// 添加到上下文中
 
-		visitClasses(this.classes.values().stream().filter(clazz -> clazz != null).collect(Collectors.toList()));
 		return classes.get(name);
 	}
 
