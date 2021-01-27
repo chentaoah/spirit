@@ -52,10 +52,6 @@ public class ConfigUtils implements EnvironmentAware {
 		return ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
 	}
 
-	public static boolean isAutoRun() {
-		return ConfigUtils.getProperty(Constants.AUTO_RUN_KEY, Constants.DEFAULT_AUTO_RUN);
-	}
-
 	public static boolean isDebug() {
 		return ConfigUtils.getProperty(Constants.DEBUG_KEY, Constants.DEFAULT_DEBUG);
 	}

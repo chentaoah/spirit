@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.CodeBuilder;
@@ -17,6 +18,7 @@ import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 
 @Component
+@Profile("compile")
 public class JavaRunner implements ApplicationRunner {
 
 	@Autowired
@@ -30,18 +32,16 @@ public class JavaRunner implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		if (!ConfigUtils.isAutoRun()) {
-			return;
-		}
 		monitor.printArgs(args);
 		long timestamp = System.currentTimeMillis();
-		generateFiles(loader.getAllClasses());
+		compileAndGenerateFiles();
 		monitor.printTotalTime(timestamp);
 	}
 
-	public void generateFiles(List<IClass> classes) {
+	public void compileAndGenerateFiles() {
 		String outputPath = ConfigUtils.getOutputPath();
 		boolean debug = ConfigUtils.isDebug();
+		List<IClass> classes = loader.getAllClasses();
 		classes.forEach(clazz -> {
 			String code = builder.build(clazz);// 输出目标代码
 			code = replacer.replace(clazz, code);
