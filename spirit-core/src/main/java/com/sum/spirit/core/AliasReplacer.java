@@ -5,9 +5,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.Lexer;
+import com.sum.spirit.core.lexer.pojo.LexerEvent;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.Import;
-import com.sum.spirit.pojo.common.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 
 @Component
@@ -39,8 +39,8 @@ public class AliasReplacer {
 
 		@Override
 		public boolean isTrigger(LexerEvent event) {
-			StringBuilder builder = event.builder;
-			AtomicInteger index = event.index;
+			StringBuilder builder = event.context.builder;
+			AtomicInteger index = event.context.index;
 			char c = event.c;
 			if (c == '"') {
 				index.set(LineUtils.findEndIndex(builder, index.get(), '"', '"'));
@@ -52,8 +52,8 @@ public class AliasReplacer {
 
 		@Override
 		public void pushStack(LexerEvent event) {
-			StringBuilder builder = event.builder;
-			AtomicInteger index = event.index;
+			StringBuilder builder = event.context.builder;
+			AtomicInteger index = event.context.index;
 			int idx = index.get() + alias.length();
 			String text = builder.substring(index.get(), idx);
 			if (alias.equals(text)) {

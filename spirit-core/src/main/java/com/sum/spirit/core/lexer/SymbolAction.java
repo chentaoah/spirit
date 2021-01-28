@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.common.LexerEvent;
+import com.sum.spirit.core.lexer.pojo.LexerEvent;
 import com.sum.spirit.pojo.enums.SymbolEnum;
 
 @Component
@@ -21,10 +21,10 @@ public class SymbolAction extends AbstractLexerAction {
 	@Override
 	public void pushStack(LexerEvent event) {
 
-		StringBuilder builder = event.builder;
-		AtomicInteger index = event.index;
-		AtomicInteger count = event.count;
-		Map<String, String> replacedStrs = event.replacedStrs;
+		StringBuilder builder = event.context.builder;
+		AtomicInteger index = event.context.index;
+		AtomicInteger count = event.context.count;
+		Map<String, String> replacedStrs = event.context.replacedStrs;
 
 		// 尝试获取两个字符，判断是否双字符符号
 		if (index.get() + 1 < builder.length()) {

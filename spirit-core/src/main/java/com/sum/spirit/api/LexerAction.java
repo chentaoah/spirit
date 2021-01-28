@@ -1,6 +1,6 @@
 package com.sum.spirit.api;
 
-import com.sum.spirit.pojo.common.LexerEvent;
+import com.sum.spirit.core.lexer.pojo.LexerEvent;
 
 public interface LexerAction {
 

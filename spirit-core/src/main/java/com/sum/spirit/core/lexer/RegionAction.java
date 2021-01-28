@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.common.LexerEvent;
+import com.sum.spirit.core.lexer.pojo.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 
 @Component
@@ -17,12 +17,12 @@ public class RegionAction extends AbstractLexerAction {
 	@Override
 	public boolean isTrigger(LexerEvent event) {
 
-		StringBuilder builder = event.builder;
-		AtomicInteger index = event.index;
+		StringBuilder builder = event.context.builder;
+		AtomicInteger index = event.context.index;
 		char c = event.c;
-		AtomicInteger start = event.start;
-		AtomicInteger end = event.end;
-		List<Character> ignoreChars = event.ignoreChars;
+		AtomicInteger start = event.context.start;
+		AtomicInteger end = event.context.end;
+		List<Character> ignoreChars = event.context.ignoreChars;
 
 		// 是否忽略该字符
 		if (ignoreChars.contains(c) && index.get() > end.get()) {
@@ -41,7 +41,7 @@ public class RegionAction extends AbstractLexerAction {
 
 		} else if (c == '<') {
 			if (start.get() >= 0) {
-				char d = event.builder.charAt(start.get());
+				char d = event.context.builder.charAt(start.get());
 				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
 					return true;
 				}
@@ -54,14 +54,14 @@ public class RegionAction extends AbstractLexerAction {
 	@Override
 	public void pushStack(LexerEvent event) {
 
-		StringBuilder builder = event.builder;
-		AtomicInteger index = event.index;
+		StringBuilder builder = event.context.builder;
+		AtomicInteger index = event.context.index;
 		char c = event.c;
-		AtomicInteger count = event.count;
-		AtomicInteger start = event.start;
-		AtomicInteger end = event.end;
-		Map<String, String> replacedStrs = event.replacedStrs;
-		List<Character> ignoreChars = event.ignoreChars;
+		AtomicInteger count = event.context.count;
+		AtomicInteger start = event.context.start;
+		AtomicInteger end = event.context.end;
+		Map<String, String> replacedStrs = event.context.replacedStrs;
+		List<Character> ignoreChars = event.context.ignoreChars;
 
 		if (c == '"') {
 			pushStack(builder, index.get(), '"', '"', "@str" + count.getAndIncrement(), replacedStrs);

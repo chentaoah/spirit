@@ -2,10 +2,8 @@ package com.sum.spirit.core.lexer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.LexerAction;
 import com.sum.spirit.core.build.AbstractSemanticParser;
-import com.sum.spirit.pojo.common.LexerEvent;
+import com.sum.spirit.core.lexer.pojo.LexerContext;
+import com.sum.spirit.core.lexer.pojo.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 import com.sum.spirit.utils.SpringUtils;
 
@@ -53,33 +52,23 @@ public class Lexer extends AbstractLexerAction implements InitializingBean {
 	}
 
 	public Map<String, String> replace(StringBuilder builder, Character... ignoreOnceChars) {
-
-		List<Character> ignoreChars = new ArrayList<>(Arrays.asList(ignoreOnceChars));
-		Map<String, String> replacedStrs = new HashMap<>();
-		AtomicInteger index = new AtomicInteger(0);
-		AtomicInteger count = new AtomicInteger(0);
-		AtomicInteger start = new AtomicInteger(-1);
-		AtomicInteger end = new AtomicInteger(-1);
-
-		for (; index.get() < builder.length(); index.incrementAndGet()) {
-			char c = builder.charAt(index.get());
-
-			if ((start.get() < 0 && isContinuous(c)) || isRefreshed(c)) {
-				start.set(index.get());
+		LexerContext context = new LexerContext(builder, new ArrayList<>(Arrays.asList(ignoreOnceChars)));
+		for (; context.index.get() < builder.length(); context.index.incrementAndGet()) {
+			char c = builder.charAt(context.index.get());
+			// 是否连续字符
+			if ((context.start.get() < 0 && isContinuous(c)) || isRefreshed(c)) {
+				context.start.set(context.index.get());
 			}
-
 			// 这里使用统一的逻辑处理
-			LexerEvent event = new LexerEvent(builder, index, c, count, start, end, replacedStrs, ignoreChars);
+			LexerEvent event = new LexerEvent(context, c);
 			if (isTrigger(event)) {
 				pushStack(event);
 			}
-
 			if (!isContinuous(c)) {
-				start.set(-1);
+				context.start.set(-1);
 			}
 		}
-
-		return replacedStrs;
+		return context.replacedStrs;
 	}
 
 	public void splitWords(List<String> words) {
