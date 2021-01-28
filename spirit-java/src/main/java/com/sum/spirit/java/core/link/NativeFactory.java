@@ -12,11 +12,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.link.TypeFactory;
-import com.sum.spirit.core.visit.ReferTypeVisiter;
-import com.sum.spirit.core.visit.TypeVisiter;
-import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.core.common.enums.TypeEnum;
+import com.sum.spirit.core.visiter.action.linker.TypeFactory;
+import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;
+import com.sum.spirit.core.visiter.utils.TypeVisiter;
 import com.sum.spirit.utils.TypeBuilder;
 
 @Component

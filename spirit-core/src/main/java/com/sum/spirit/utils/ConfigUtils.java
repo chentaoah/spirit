@@ -4,7 +4,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.pojo.common.Constants;
+import com.sum.spirit.core.common.Constants;
 
 @Component
 public class ConfigUtils implements EnvironmentAware {

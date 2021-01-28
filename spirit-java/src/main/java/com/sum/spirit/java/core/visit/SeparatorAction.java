@@ -3,13 +3,13 @@ package com.sum.spirit.java.core.visit;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.deduce.AbstractElementAction;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.element.impl.Element;
-import com.sum.spirit.pojo.element.impl.Statement;
-import com.sum.spirit.pojo.element.impl.Token;
-import com.sum.spirit.pojo.enums.TokenTypeEnum;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.element.pojo.Statement;
+import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.visiter.action.AbstractElementAction;
+import com.sum.spirit.core.visiter.pojo.ElementEvent;
 
 @Component
 @Order(-20)

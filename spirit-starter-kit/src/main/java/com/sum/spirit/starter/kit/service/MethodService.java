@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.clazz.impl.IMethod;
-import com.sum.spirit.pojo.common.Constants;
-import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.pojo.element.impl.Line;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.pojo.IMethod;
+import com.sum.spirit.core.common.Constants;
+import com.sum.spirit.core.element.pojo.Line;
+import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.starter.kit.core.CustomClassLoader;
 import com.sum.spirit.starter.kit.core.ElementSelector;
 import com.sum.spirit.starter.kit.pojo.MethodInfo;

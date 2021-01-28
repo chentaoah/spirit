@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.element.impl.Document;
+import com.sum.spirit.core.clazz.ClassResolver;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.element.DocumentReader;
+import com.sum.spirit.core.element.pojo.Document;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component

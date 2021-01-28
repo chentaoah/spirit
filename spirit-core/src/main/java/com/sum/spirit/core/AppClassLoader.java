@@ -10,7 +10,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
-import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.visiter.ClassVisiter;
 import com.sum.spirit.utils.FileHelper;
 
 @Component

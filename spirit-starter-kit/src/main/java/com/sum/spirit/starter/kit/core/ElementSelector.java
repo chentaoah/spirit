@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.CoreCompiler;
-import com.sum.spirit.core.ElementVisiter;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.clazz.impl.IVariable;
-import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.pojo.element.impl.Element;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.pojo.IVariable;
+import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.visiter.ElementVisiter;
+import com.sum.spirit.core.visiter.pojo.IType;
 
 @Component
 public class ElementSelector extends CoreCompiler {

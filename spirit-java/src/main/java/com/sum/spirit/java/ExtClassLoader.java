@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.TypeEnumCtor;
 import com.sum.spirit.core.AbstractClassLoader;
+import com.sum.spirit.core.common.enums.TypeEnum;
 import com.sum.spirit.java.utils.ReflectUtils;
-import com.sum.spirit.pojo.enums.TypeEnum;
 import com.sum.spirit.utils.TypeBuilder;
 import com.sum.spirit.utils.TypeUtils;
 

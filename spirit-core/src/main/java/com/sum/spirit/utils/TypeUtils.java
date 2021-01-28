@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.spirit.pojo.enums.TypeEnum;
+import com.sum.spirit.core.common.enums.TypeEnum;
 
 import cn.hutool.core.lang.Assert;
 

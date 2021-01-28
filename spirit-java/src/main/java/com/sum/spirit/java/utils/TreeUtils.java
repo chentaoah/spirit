@@ -1,7 +1,7 @@
 package com.sum.spirit.java.utils;
 
-import com.sum.spirit.pojo.element.impl.Statement;
-import com.sum.spirit.pojo.enums.AttributeEnum;
+import com.sum.spirit.core.common.enums.AttributeEnum;
+import com.sum.spirit.core.element.pojo.Statement;
 
 public class TreeUtils {
 

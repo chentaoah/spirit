@@ -4,13 +4,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.sum.spirit.core.deduce.AbstractElementAction;
-import com.sum.spirit.core.visit.StmtVisiter;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.element.impl.Statement;
-import com.sum.spirit.pojo.element.impl.Token;
-import com.sum.spirit.pojo.enums.TokenTypeEnum;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.core.element.pojo.Statement;
+import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.visiter.action.AbstractElementAction;
+import com.sum.spirit.core.visiter.pojo.ElementEvent;
+import com.sum.spirit.core.visiter.utils.StmtVisiter;
 import com.sum.spirit.utils.Maps;
 
 @Component

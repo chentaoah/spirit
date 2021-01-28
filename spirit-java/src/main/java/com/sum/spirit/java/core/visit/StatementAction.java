@@ -9,21 +9,21 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AutoImporter;
-import com.sum.spirit.core.ElementBuilder;
-import com.sum.spirit.core.FastDeducer;
-import com.sum.spirit.core.deduce.AbstractElementAction;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.pojo.IField;
+import com.sum.spirit.core.common.enums.AttributeEnum;
+import com.sum.spirit.core.common.enums.KeywordEnum;
+import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.core.element.ElementBuilder;
+import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.element.pojo.Statement;
+import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.visiter.action.AbstractElementAction;
+import com.sum.spirit.core.visiter.action.FastDeducer;
+import com.sum.spirit.core.visiter.pojo.ElementEvent;
+import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.java.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.clazz.impl.IField;
-import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.common.IType;
-import com.sum.spirit.pojo.element.impl.Element;
-import com.sum.spirit.pojo.element.impl.Statement;
-import com.sum.spirit.pojo.element.impl.Token;
-import com.sum.spirit.pojo.enums.AttributeEnum;
-import com.sum.spirit.pojo.enums.KeywordEnum;
-import com.sum.spirit.pojo.enums.TokenTypeEnum;
 
 @Component
 @Order(-40)

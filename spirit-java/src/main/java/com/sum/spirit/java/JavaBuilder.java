@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.core.AutoImporter;
-import com.sum.spirit.pojo.clazz.impl.IClass;
-import com.sum.spirit.pojo.clazz.impl.IField;
-import com.sum.spirit.pojo.clazz.impl.IMethod;
-import com.sum.spirit.pojo.clazz.impl.Import;
-import com.sum.spirit.pojo.common.ElementEvent;
-import com.sum.spirit.pojo.element.impl.Element;
-import com.sum.spirit.pojo.enums.KeywordEnum;
+import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.pojo.IField;
+import com.sum.spirit.core.clazz.pojo.IMethod;
+import com.sum.spirit.core.clazz.pojo.Import;
+import com.sum.spirit.core.common.enums.KeywordEnum;
+import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.visiter.pojo.ElementEvent;
 import com.sum.spirit.utils.SpringUtils;
 
 @Component

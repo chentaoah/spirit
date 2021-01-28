@@ -13,7 +13,7 @@ import com.sum.spirit.api.CodeBuilder;
 import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.RunningMonitor;
-import com.sum.spirit.pojo.clazz.impl.IClass;
+import com.sum.spirit.core.clazz.pojo.IClass;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 
