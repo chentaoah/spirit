@@ -1,13 +1,12 @@
 package com.sum.spirit.core;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.pojo.enums.TokenTypeEnum;
 import com.sum.spirit.core.link.TypeFactory;
+import com.sum.spirit.core.visit.HeadVisiter;
 import com.sum.spirit.pojo.clazz.api.MemberUnit;
 import com.sum.spirit.pojo.clazz.impl.IAnnotation;
 import com.sum.spirit.pojo.clazz.impl.IClass;
@@ -60,26 +59,11 @@ public abstract class AbstractClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = getAnnotations(paramStmt);
+			List<IAnnotation> annotations = new HeadVisiter<Token>().visit(paramStmt.tokens, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
 			parameter.setType(factory.create(clazz, paramStmt.getToken(0)));
 			method.parameters.add(parameter);
 		}
-	}
-
-	public List<IAnnotation> getAnnotations(Statement paramStmt) {
-		List<IAnnotation> annotations = new ArrayList<>();
-		Iterator<Token> iterable = paramStmt.tokens.iterator();
-		while (iterable.hasNext()) {
-			Token token = iterable.next();
-			if (token.isAnnotation()) {
-				annotations.add(new IAnnotation(token));
-				iterable.remove();
-				continue;
-			}
-			break;
-		}
-		return annotations;
 	}
 
 	public IType visitMember(IClass clazz, MemberUnit member) {

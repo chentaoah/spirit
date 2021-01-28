@@ -1,26 +1,15 @@
 package com.sum.spirit.pojo.element.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.sum.spirit.core.visit.HeadVisiter;
 import com.sum.spirit.pojo.element.api.TokenBox;
 
 public class Modifiers extends TokenBox {
 
 	public Modifiers(List<Token> tokens) {
-		super(new ArrayList<>());
-		Iterator<Token> iterable = tokens.iterator();
-		while (iterable.hasNext()) {
-			Token token = iterable.next();
-			if (token.isModifier()) {
-				this.tokens.add(token);
-				iterable.remove();
-				continue;
-			}
-			break;
-		}
+		super(new HeadVisiter<Token>().visit(tokens, token -> token.isModifier()));
 	}
 
 	@Override
