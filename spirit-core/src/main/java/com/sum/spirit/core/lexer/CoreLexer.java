@@ -20,7 +20,7 @@ import com.sum.spirit.utils.SpringUtils;
 
 @Component
 @DependsOn("springUtils")
-public class Lexer extends AbstractLexerAction implements InitializingBean {
+public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
@@ -28,7 +28,7 @@ public class Lexer extends AbstractLexerAction implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(LexerAction.class, Lexer.class);// 排除自己
+		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class);// 排除自己
 	}
 
 	public List<String> getWords(String text, Character... ignoreOnceChars) {

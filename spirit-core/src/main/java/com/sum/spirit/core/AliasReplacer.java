@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.lexer.Lexer;
+import com.sum.spirit.core.lexer.CoreLexer;
 import com.sum.spirit.core.lexer.pojo.LexerEvent;
 import com.sum.spirit.pojo.clazz.impl.IClass;
 import com.sum.spirit.pojo.clazz.impl.Import;
@@ -27,7 +27,7 @@ public class AliasReplacer {
 		return builder.toString();
 	}
 
-	public static class AliasLexer extends Lexer {
+	public static class AliasLexer extends CoreLexer {
 
 		public String alias;
 		public String className;

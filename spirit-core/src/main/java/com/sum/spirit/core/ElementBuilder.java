@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.build.LineChecker;
 import com.sum.spirit.core.build.SemanticParser;
 import com.sum.spirit.core.build.TreeBuilder;
-import com.sum.spirit.core.lexer.Lexer;
+import com.sum.spirit.core.lexer.CoreLexer;
 import com.sum.spirit.pojo.element.impl.Element;
 import com.sum.spirit.pojo.element.impl.Line;
 import com.sum.spirit.pojo.element.impl.Modifiers;
@@ -23,7 +23,7 @@ public class ElementBuilder {
 	@Autowired
 	public LineChecker checker;
 	@Autowired
-	public Lexer lexer;
+	public CoreLexer lexer;
 	@Autowired
 	public SemanticParser parser;
 	@Autowired
