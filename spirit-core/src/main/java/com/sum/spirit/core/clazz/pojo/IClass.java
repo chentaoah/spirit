@@ -3,12 +3,12 @@ package com.sum.spirit.core.clazz.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.core.clazz.pojo.api.ImportUnit;
+import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.common.enums.KeywordEnum;
 import com.sum.spirit.core.common.enums.TypeEnum;
 import com.sum.spirit.core.element.pojo.Element;
 import com.sum.spirit.core.element.pojo.Token;
-import com.sum.spirit.core.visiter.action.linker.TypeFactory;
+import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;

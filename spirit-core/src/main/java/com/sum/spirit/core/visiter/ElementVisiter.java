@@ -15,7 +15,7 @@ import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.element.pojo.Element;
 import com.sum.spirit.core.element.pojo.Statement;
 import com.sum.spirit.core.element.pojo.Token;
-import com.sum.spirit.core.visiter.action.FastDeducer;
+import com.sum.spirit.core.visiter.handler.FastDeducer;
 import com.sum.spirit.core.visiter.pojo.ElementEvent;
 import com.sum.spirit.core.visiter.pojo.MethodContext;
 import com.sum.spirit.utils.SpringUtils;

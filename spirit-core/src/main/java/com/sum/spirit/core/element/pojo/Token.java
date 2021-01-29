@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.element.pojo.api.Semantic;
+import com.sum.spirit.core.element.frame.Semantic;
 
 public class Token extends Semantic {
 

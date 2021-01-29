@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.core.common.enums.ModifierEnum;
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.visiter.action.linker.TypeFactory;
+import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 

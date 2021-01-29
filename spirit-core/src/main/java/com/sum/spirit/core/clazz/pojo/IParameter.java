@@ -2,7 +2,7 @@ package com.sum.spirit.core.clazz.pojo;
 
 import java.util.List;
 
-import com.sum.spirit.core.clazz.pojo.api.AnnotationUnit;
+import com.sum.spirit.core.clazz.frame.AnnotationUnit;
 import com.sum.spirit.core.element.pojo.Element;
 
 public class IParameter extends AnnotationUnit {

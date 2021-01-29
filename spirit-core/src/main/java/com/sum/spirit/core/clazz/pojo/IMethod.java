@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.clazz.pojo.api.MemberUnit;
+import com.sum.spirit.core.clazz.frame.MemberUnit;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.pojo.Element;
 import com.sum.spirit.core.element.pojo.Token;
-import com.sum.spirit.core.visiter.action.linker.TypeFactory;
+import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.utils.SpringUtils;
 

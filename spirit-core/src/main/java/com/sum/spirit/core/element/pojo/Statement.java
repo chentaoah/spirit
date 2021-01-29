@@ -7,7 +7,7 @@ import com.google.common.base.Joiner;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.common.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.core.element.pojo.api.TokenBox;
+import com.sum.spirit.core.element.frame.TokenBox;
 
 public class Statement extends TokenBox {
 

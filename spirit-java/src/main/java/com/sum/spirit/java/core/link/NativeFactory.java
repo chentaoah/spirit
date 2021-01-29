@@ -13,7 +13,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.visiter.action.linker.TypeFactory;
+import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;
 import com.sum.spirit.core.visiter.utils.TypeVisiter;
