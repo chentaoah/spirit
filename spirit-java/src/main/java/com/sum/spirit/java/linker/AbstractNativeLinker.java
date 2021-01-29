@@ -1,4 +1,4 @@
-package com.sum.spirit.java.core.link;
+package com.sum.spirit.java.linker;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;

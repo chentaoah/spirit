@@ -1,4 +1,4 @@
-package com.sum.spirit.java.core.visit;
+package com.sum.spirit.java.visiter;
 
 import java.util.ArrayList;
 
