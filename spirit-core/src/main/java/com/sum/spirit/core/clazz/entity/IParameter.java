@@ -1,9 +1,9 @@
-package com.sum.spirit.core.clazz.pojo;
+package com.sum.spirit.core.clazz.entity;
 
 import java.util.List;
 
 import com.sum.spirit.core.clazz.frame.AnnotationUnit;
-import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.element.entity.Element;
 
 public class IParameter extends AnnotationUnit {
 

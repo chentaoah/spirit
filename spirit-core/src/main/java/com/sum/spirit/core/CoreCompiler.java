@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Compiler;
 import com.sum.spirit.core.clazz.ClassResolver;
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.element.DocumentReader;
-import com.sum.spirit.core.element.pojo.Document;
+import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.utils.TypeUtils;
 
 @Component

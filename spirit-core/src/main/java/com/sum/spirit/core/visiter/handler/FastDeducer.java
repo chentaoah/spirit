@@ -3,14 +3,14 @@ package com.sum.spirit.core.visiter.handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.TypeEnum;
+import com.sum.spirit.core.element.entity.Node;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.handler.TreeBuilder;
-import com.sum.spirit.core.element.pojo.Node;
-import com.sum.spirit.core.element.pojo.Statement;
-import com.sum.spirit.core.element.pojo.Token;
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 
 @Component
 public class FastDeducer {

@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.handler.SemanticParser;
-import com.sum.spirit.core.element.pojo.Element;
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.utils.TypeNameVisiter;
 
 @Component

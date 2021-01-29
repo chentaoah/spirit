@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.utils.ConfigUtils;
 import com.sum.spirit.utils.FileHelper;
 

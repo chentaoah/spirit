@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.common.Constants;
-import com.sum.spirit.core.element.pojo.Document;
-import com.sum.spirit.core.element.pojo.Element;
-import com.sum.spirit.core.element.pojo.Line;
-import com.sum.spirit.core.element.pojo.Statement;
+import com.sum.spirit.core.element.entity.Document;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Line;
+import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.utils.ConfigUtils;
 
 import cn.hutool.core.io.IoUtil;

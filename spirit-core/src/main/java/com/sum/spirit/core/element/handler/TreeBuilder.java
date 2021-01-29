@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.SymbolEnum;
 import com.sum.spirit.core.common.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.core.element.pojo.Node;
-import com.sum.spirit.core.element.pojo.SyntaxTree;
-import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.element.entity.Node;
+import com.sum.spirit.core.element.entity.SyntaxTree;
+import com.sum.spirit.core.element.entity.Token;
 
 @Component
 public class TreeBuilder extends AbstractTreeBuilder {

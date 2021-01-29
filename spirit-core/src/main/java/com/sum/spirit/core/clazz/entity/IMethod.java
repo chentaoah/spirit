@@ -1,4 +1,4 @@
-package com.sum.spirit.core.clazz.pojo;
+package com.sum.spirit.core.clazz.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.element.pojo.Element;
-import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.utils.SpringUtils;
 
 public class IMethod extends MemberUnit {

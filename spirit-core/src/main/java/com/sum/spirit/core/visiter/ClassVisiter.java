@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.clazz.pojo.IClass;
-import com.sum.spirit.core.clazz.pojo.IMethod;
-import com.sum.spirit.core.clazz.pojo.IVariable;
+import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.clazz.entity.IMethod;
+import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.element.pojo.Element;
-import com.sum.spirit.core.visiter.pojo.IType;
-import com.sum.spirit.core.visiter.pojo.MethodContext;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.visiter.entity.MethodContext;
 import com.sum.spirit.utils.ConfigUtils;
 
 @Component

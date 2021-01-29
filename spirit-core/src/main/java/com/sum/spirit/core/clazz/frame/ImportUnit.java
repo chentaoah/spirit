@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.ClassLoader;
 import com.sum.spirit.api.ImportSelector;
-import com.sum.spirit.core.clazz.pojo.IAnnotation;
-import com.sum.spirit.core.clazz.pojo.Import;
+import com.sum.spirit.core.clazz.entity.IAnnotation;
+import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeUtils;
 

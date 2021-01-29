@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
-import com.sum.spirit.core.element.pojo.Statement;
-import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.visiter.entity.ElementEvent;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.handler.AbstractElementAction;
 import com.sum.spirit.core.visiter.handler.FastDeducer;
-import com.sum.spirit.core.visiter.pojo.ElementEvent;
-import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;
 import com.sum.spirit.java.utils.TreeUtils;
 

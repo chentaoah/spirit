@@ -8,16 +8,16 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
-import com.sum.spirit.core.clazz.pojo.IClass;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.ModifierEnum;
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.element.pojo.Statement;
-import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.handler.FastDeducer;
-import com.sum.spirit.core.visiter.pojo.IType;
 import com.sum.spirit.utils.TypeUtils;
 import com.sum.spirit.core.AppClassLoader;
+import com.sum.spirit.core.clazz.entity.IClass;
 
 import cn.hutool.core.lang.Assert;
 

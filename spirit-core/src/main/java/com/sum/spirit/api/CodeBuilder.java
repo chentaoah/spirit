@@ -1,6 +1,6 @@
 package com.sum.spirit.api;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
 
 public interface CodeBuilder {
 

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visiter.pojo;
+package com.sum.spirit.core.visiter.entity;
 
 import java.util.ArrayList;
 import java.util.List;

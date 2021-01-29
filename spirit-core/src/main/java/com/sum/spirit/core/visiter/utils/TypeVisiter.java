@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.utils.TypeBuilder;
 
 public class TypeVisiter extends Visiter<IType, IType> {

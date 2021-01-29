@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.api.StatementAction;
-import com.sum.spirit.core.clazz.pojo.IClass;
+import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.common.enums.AttributeEnum;
 import com.sum.spirit.core.common.enums.KeywordEnum;
-import com.sum.spirit.core.element.pojo.Statement;
-import com.sum.spirit.core.element.pojo.Token;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.ClassVisiter;
+import com.sum.spirit.core.visiter.entity.ElementEvent;
+import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.visiter.entity.MethodContext;
+import com.sum.spirit.core.visiter.entity.StatementEvent;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.core.visiter.pojo.ElementEvent;
-import com.sum.spirit.core.visiter.pojo.IType;
-import com.sum.spirit.core.visiter.pojo.MethodContext;
-import com.sum.spirit.core.visiter.pojo.StatementEvent;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;
 
 import cn.hutool.core.lang.Assert;

@@ -3,7 +3,7 @@ package com.sum.spirit.java.utils;
 import java.util.List;
 import java.util.Map;
 
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 
 public class TypeUtils {
 

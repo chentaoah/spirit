@@ -1,7 +1,7 @@
-package com.sum.spirit.core.visiter.pojo;
+package com.sum.spirit.core.visiter.entity;
 
-import com.sum.spirit.core.clazz.pojo.IClass;
-import com.sum.spirit.core.element.pojo.Element;
+import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Element;
 
 public class ElementEvent {
 

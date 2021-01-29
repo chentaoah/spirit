@@ -1,7 +1,7 @@
 package com.sum.spirit.core.visiter.handler;
 
 import com.sum.spirit.api.ElementAction;
-import com.sum.spirit.core.visiter.pojo.ElementEvent;
+import com.sum.spirit.core.visiter.entity.ElementEvent;
 
 public abstract class AbstractElementAction implements ElementAction {
 

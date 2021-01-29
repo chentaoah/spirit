@@ -1,6 +1,6 @@
 package com.sum.spirit.api;
 
-import com.sum.spirit.core.visiter.pojo.ElementEvent;
+import com.sum.spirit.core.visiter.entity.ElementEvent;
 
 public interface ElementAction {
 

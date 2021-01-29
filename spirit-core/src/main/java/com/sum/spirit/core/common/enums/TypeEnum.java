@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.TypeEnumCtor;
 import com.sum.spirit.core.element.handler.AbstractSemanticParser;
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeBuilder;
 

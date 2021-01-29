@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.common.enums.KeywordEnum;
 import com.sum.spirit.core.common.enums.TypeEnum;
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 
 import cn.hutool.core.lang.Assert;
 

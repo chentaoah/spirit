@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.visiter.pojo.IType;
+import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;

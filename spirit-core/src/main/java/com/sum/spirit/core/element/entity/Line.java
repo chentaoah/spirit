@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.pojo;
+package com.sum.spirit.core.element.entity;
 
 import com.sum.spirit.utils.LineUtils;
 
