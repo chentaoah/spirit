@@ -18,26 +18,26 @@ public class RegionAction extends AbstractLexerAction {
 		LexerContext context = event.context;
 		StringBuilder builder = context.builder;
 		List<Character> ignoreChars = context.ignoreChars;
-		char currChar = event.currChar;
+		char char0 = event.char0;
 
 		// 是否忽略该字符
-		if (ignoreChars.contains(currChar) && context.currIndex > context.endIndex) {
+		if (ignoreChars.contains(char0) && context.index > context.endIndex) {
 			context.startIndex = -1;
-			context.endIndex = LineUtils.findEndIndex(builder, context.currIndex, currChar, LineUtils.flipChar(currChar));
-			ignoreChars.remove(new Character(currChar));
+			context.endIndex = LineUtils.findEndIndex(builder, context.index, char0, LineUtils.flipChar(char0));
+			ignoreChars.remove(new Character(char0));
 			return false;
 		}
 
 		// 是否已经到达结尾
-		if (context.currIndex == builder.length() - 1) {
+		if (context.index == builder.length() - 1) {
 			return false;
 		}
 
 		// 如果是以下字符，则进行弹栈
-		if (currChar == '"' || currChar == '\'' || currChar == '{' || currChar == '(' || currChar == '[') {
+		if (char0 == '"' || char0 == '\'' || char0 == '{' || char0 == '(' || char0 == '[') {
 			return true;
 
-		} else if (currChar == '<') {// 一般泛型声明都是以大写字母开头的
+		} else if (char0 == '<') {// 一般泛型声明都是以大写字母开头的
 			if (context.startIndex >= 0) {
 				char d = builder.charAt(context.startIndex);
 				if (d >= 'A' && d <= 'Z') {
@@ -56,42 +56,42 @@ public class RegionAction extends AbstractLexerAction {
 		StringBuilder builder = context.builder;
 		List<Character> ignoreChars = context.ignoreChars;
 		Map<String, String> replacedStrs = context.replacedStrs;
-		char currChar = event.currChar;
+		char char0 = event.char0;
 
-		if (currChar == '"') {
-			pushStack(builder, context.currIndex, '"', '"', "@str" + context.nameCount++, replacedStrs);
+		if (char0 == '"') {
+			pushStack(builder, context.index, '"', '"', "@str" + context.nameCount++, replacedStrs);
 
-		} else if (currChar == '\'') {
-			pushStack(builder, context.currIndex, '\'', '\'', "@char" + context.nameCount++, replacedStrs);
+		} else if (char0 == '\'') {
+			pushStack(builder, context.index, '\'', '\'', "@char" + context.nameCount++, replacedStrs);
 
-		} else if (currChar == '{') {
-			pushStack(builder, context.currIndex, '{', '}', "@map" + context.nameCount++, replacedStrs);
+		} else if (char0 == '{') {
+			pushStack(builder, context.index, '{', '}', "@map" + context.nameCount++, replacedStrs);
 
-		} else if (currChar == '(') {
-			int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+		} else if (char0 == '(') {
+			int idx = context.startIndex >= 0 ? context.startIndex : context.index;
 			pushStack(builder, idx, '(', ')', "@invoke_like" + context.nameCount++, replacedStrs);
-			context.currIndex = idx;
+			context.index = idx;
 
-		} else if (currChar == '[') {
-			if (ignoreChars.contains('{') && context.currIndex > context.endIndex) {// 一般来说，Java中没有泛型数组的声明方式
-				int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+		} else if (char0 == '[') {
+			if (ignoreChars.contains('{') && context.index > context.endIndex) {// 一般来说，Java中没有泛型数组的声明方式
+				int idx = context.startIndex >= 0 ? context.startIndex : context.index;
 				pushStack(builder, idx, '[', ']', "@array_like" + context.nameCount++, replacedStrs);
-				context.currIndex = idx;
+				context.index = idx;
 
 			} else {
-				int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+				int idx = context.startIndex >= 0 ? context.startIndex : context.index;
 				pushStack(builder, idx, '[', ']', '{', '}', "@array_like" + context.nameCount++, replacedStrs);
-				context.currIndex = idx;
+				context.index = idx;
 			}
 
-		} else if (currChar == '<') {
-			if (ignoreChars.contains('(') && context.currIndex > context.endIndex) {
+		} else if (char0 == '<') {
+			if (ignoreChars.contains('(') && context.index > context.endIndex) {
 				pushStack(builder, context.startIndex, '<', '>', "@generic" + context.nameCount++, replacedStrs);
-				context.currIndex = context.startIndex;
+				context.index = context.startIndex;
 
 			} else {
 				pushStack(builder, context.startIndex, '<', '>', '(', ')', "@generic" + context.nameCount++, replacedStrs);
-				context.currIndex = context.startIndex;
+				context.index = context.startIndex;
 			}
 		}
 	}

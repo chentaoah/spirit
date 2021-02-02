@@ -54,11 +54,11 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 	public Map<String, String> replace(StringBuilder builder, Character... ignoreOnceChars) {
 		// 生成上下文
 		LexerContext context = new LexerContext(builder, new ArrayList<>(Arrays.asList(ignoreOnceChars)));
-		for (; context.currIndex < builder.length(); context.currIndex++) {
-			char currChar = builder.charAt(context.currIndex);
+		for (; context.index < builder.length(); context.index++) {
+			char currChar = builder.charAt(context.index);
 			// 是否连续字符
 			if ((context.startIndex < 0 && isContinuous(currChar)) || isRefreshed(currChar)) {
-				context.startIndex = context.currIndex;
+				context.startIndex = context.index;
 			}
 			// 这里使用统一的逻辑处理
 			LexerEvent event = new LexerEvent(context, currChar);

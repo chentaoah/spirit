@@ -40,10 +40,10 @@ public class AliasReplacer {
 		public boolean isTrigger(LexerEvent event) {
 			LexerContext context = event.context;
 			StringBuilder builder = context.builder;
-			char currChar = event.currChar;
-			if (currChar == '"') {
-				context.currIndex = LineUtils.findEndIndex(builder, context.currIndex, '"', '"');
-			} else if (currChar == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(context.currIndex - 1))) {
+			char char0 = event.char0;
+			if (char0 == '"') {
+				context.index = LineUtils.findEndIndex(builder, context.index, '"', '"');
+			} else if (char0 == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(context.index - 1))) {
 				return true;
 			}
 			return false;
@@ -54,12 +54,12 @@ public class AliasReplacer {
 			LexerContext context = event.context;
 			StringBuilder builder = context.builder;
 			// 获取结尾的索引
-			int idx = context.currIndex + alias.length();
+			int idx = context.index + alias.length();
 			if (idx <= builder.length()) {
-				String text = builder.substring(context.currIndex, idx);
+				String text = builder.substring(context.index, idx);
 				if (alias.equals(text)) {
 					if (!LineUtils.isLetter(builder.charAt(idx))) {
-						builder.replace(context.currIndex, idx, className);
+						builder.replace(context.index, idx, className);
 					}
 				}
 			}

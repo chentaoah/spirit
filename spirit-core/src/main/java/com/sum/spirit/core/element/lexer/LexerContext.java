@@ -21,7 +21,7 @@ public class LexerContext {
 	@NonNull
 	public Map<String, String> replacedStrs = new HashMap<>();
 
-	public int currIndex;
+	public int index;
 	public int startIndex = -1;
 	public int endIndex = -1;
 
