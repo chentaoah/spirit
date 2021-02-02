@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.handler;
+package com.sum.spirit.core.element.action;
 
 import org.springframework.stereotype.Component;
 

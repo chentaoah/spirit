@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.action.SemanticParser;
 import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.core.element.handler.SemanticParser;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.utils.TypeNameVisiter;
 

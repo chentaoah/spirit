@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visiter.handler;
+package com.sum.spirit.core.visiter.action;
 
 import com.sum.spirit.api.ElementAction;
 import com.sum.spirit.core.visiter.entity.ElementEvent;

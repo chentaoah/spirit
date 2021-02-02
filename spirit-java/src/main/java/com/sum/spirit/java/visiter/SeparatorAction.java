@@ -8,8 +8,8 @@ import com.sum.spirit.core.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.visiter.action.AbstractElementAction;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.core.visiter.handler.AbstractElementAction;
 
 @Component
 @Order(-20)
