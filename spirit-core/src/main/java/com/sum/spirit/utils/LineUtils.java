@@ -22,14 +22,6 @@ public class LineUtils {
 		return sb.toString();
 	}
 
-	public static String getIndent(int number) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < number; i++) {
-			sb.append("\t");
-		}
-		return sb.toString();
-	}
-
 	public static char flipChar(char c) {
 		if (c == '(') {
 			return ')';

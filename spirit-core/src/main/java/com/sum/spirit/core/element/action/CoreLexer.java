@@ -52,20 +52,22 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 	}
 
 	public Map<String, String> replace(StringBuilder builder, Character... ignoreOnceChars) {
+		// 生成上下文
 		LexerContext context = new LexerContext(builder, new ArrayList<>(Arrays.asList(ignoreOnceChars)));
-		for (; context.index.get() < builder.length(); context.index.incrementAndGet()) {
-			char c = builder.charAt(context.index.get());
+		for (; context.currIndex < builder.length(); context.currIndex++) {
+			char currChar = builder.charAt(context.currIndex);
 			// 是否连续字符
-			if ((context.start.get() < 0 && isContinuous(c)) || isRefreshed(c)) {
-				context.start.set(context.index.get());
+			if ((context.startIndex < 0 && isContinuous(currChar)) || isRefreshed(currChar)) {
+				context.startIndex = context.currIndex;
 			}
 			// 这里使用统一的逻辑处理
-			LexerEvent event = new LexerEvent(context, c);
+			LexerEvent event = new LexerEvent(context, currChar);
 			if (isTrigger(event)) {
 				pushStack(event);
 			}
-			if (!isContinuous(c)) {
-				context.start.set(-1);
+			// 如果不是连续字符，则重置游标
+			if (!isContinuous(currChar)) {
+				context.startIndex = -1;
 			}
 		}
 		return context.replacedStrs;

@@ -34,24 +34,31 @@ public class AutoImporter {
 		classNames.forEach(className -> clazz.addImport(className));
 	}
 
+	/**
+	 * -这里不使用document对象的原因是，它包含多个类型，扫描之后，无法区分一个引用类型是归属哪个类的
+	 * 
+	 * @param clazz
+	 * @return
+	 */
 	public Set<String> dependencies(IClass clazz) {
 		Set<String> classNames = new HashSet<String>();
 		// 将注解转成字符串，并重新构建Element对象
 		List<Element> elements = new ArrayList<>();
 		clazz.annotations.forEach((annotation) -> elements.add(builder.build(annotation.toString())));
-		classNames.addAll(visitElements(clazz, elements));
+		visitElements(clazz, classNames, elements);
 		// 遍历class内容
-		classNames.addAll(visitElements(clazz, Arrays.asList(clazz.element)));
+		visitElements(clazz, classNames, Arrays.asList(clazz.element));
 		// 排除了自身
 		classNames.remove(clazz.getClassName());
 		return classNames;
 	}
 
-	public Set<String> visitElements(IClass clazz, List<Element> elements) {
-		Set<String> classNames = new HashSet<>();
+	public void visitElements(IClass clazz, Set<String> classNames, List<Element> elements) {
 		for (Element element : elements) {
 			String line = element.line.text;
+			// 剔除掉字符串
 			line = line.replaceAll(STRING_REGEX, "").trim();
+			// 进行正则匹配
 			Matcher matcher = TYPE_PATTERN.matcher(line);
 			while (matcher.find() && matcher.groupCount() > 0) {
 				String targetName = matcher.group(matcher.groupCount() - 1);
@@ -60,11 +67,11 @@ public class AutoImporter {
 					classNames.add(className);
 				}
 			}
+			// 处理子节点
 			if (element.hasChild()) {
-				classNames.addAll(visitElements(clazz, element.children));
+				visitElements(clazz, classNames, element.children);
 			}
 		}
-		return classNames;
 	}
 
 	public String getFinalName(IClass clazz, IType type) {

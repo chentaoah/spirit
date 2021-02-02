@@ -1,7 +1,6 @@
 package com.sum.spirit.core.element.lexer;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,30 +13,29 @@ public class SymbolAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(LexerEvent event) {
-		return SymbolEnum.isSymbolChar(event.c);
+		return SymbolEnum.isSymbolChar(event.currChar);
 	}
 
 	@Override
 	public void pushStack(LexerEvent event) {
 
-		StringBuilder builder = event.context.builder;
-		AtomicInteger index = event.context.index;
-		AtomicInteger count = event.context.count;
-		Map<String, String> replacedStrs = event.context.replacedStrs;
+		LexerContext context = event.context;
+		StringBuilder builder = context.builder;
+		Map<String, String> replacedStrs = context.replacedStrs;
 
 		// 尝试获取两个字符，判断是否双字符符号
-		if (index.get() + 1 < builder.length()) {
-			String str = builder.substring(index.get(), index.get() + 2);
+		if (context.currIndex + 1 < builder.length()) {
+			String str = builder.substring(context.currIndex, context.currIndex + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
-				replaceStr(builder, index.get(), index.get() + 2, "@symbol" + count.getAndIncrement(), replacedStrs);
+				replaceStr(builder, context.currIndex, context.currIndex + 2, "@symbol" + context.nameCount++, replacedStrs);
 				return;
 			}
 		}
 
 		// 尝试获取一个字符，判断是否双字符符号
-		String str = builder.substring(index.get(), index.get() + 1);
+		String str = builder.substring(context.currIndex, context.currIndex + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
-			replaceStr(builder, index.get(), index.get() + 1, "@symbol" + count.getAndIncrement(), replacedStrs);
+			replaceStr(builder, context.currIndex, context.currIndex + 1, "@symbol" + context.nameCount++, replacedStrs);
 			return;
 		}
 

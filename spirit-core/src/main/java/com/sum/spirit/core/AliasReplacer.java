@@ -1,12 +1,11 @@
 package com.sum.spirit.core;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.element.action.CoreLexer;
+import com.sum.spirit.core.element.lexer.LexerContext;
 import com.sum.spirit.core.element.lexer.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
 
@@ -39,12 +38,12 @@ public class AliasReplacer {
 
 		@Override
 		public boolean isTrigger(LexerEvent event) {
-			StringBuilder builder = event.context.builder;
-			AtomicInteger index = event.context.index;
-			char c = event.c;
-			if (c == '"') {
-				index.set(LineUtils.findEndIndex(builder, index.get(), '"', '"'));
-			} else if (c == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(index.get() - 1))) {
+			LexerContext context = event.context;
+			StringBuilder builder = context.builder;
+			char currChar = event.currChar;
+			if (currChar == '"') {
+				context.currIndex = LineUtils.findEndIndex(builder, context.currIndex, '"', '"');
+			} else if (currChar == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(context.currIndex - 1))) {
 				return true;
 			}
 			return false;
@@ -52,13 +51,16 @@ public class AliasReplacer {
 
 		@Override
 		public void pushStack(LexerEvent event) {
-			StringBuilder builder = event.context.builder;
-			AtomicInteger index = event.context.index;
-			int idx = index.get() + alias.length();
-			String text = builder.substring(index.get(), idx);
-			if (alias.equals(text)) {
-				if (idx < builder.length() && !LineUtils.isLetter(builder.charAt(idx))) {
-					builder.replace(index.get(), idx, className);
+			LexerContext context = event.context;
+			StringBuilder builder = context.builder;
+			// 获取结尾的索引
+			int idx = context.currIndex + alias.length();
+			if (idx <= builder.length()) {
+				String text = builder.substring(context.currIndex, idx);
+				if (alias.equals(text)) {
+					if (!LineUtils.isLetter(builder.charAt(idx))) {
+						builder.replace(context.currIndex, idx, className);
+					}
 				}
 			}
 		}

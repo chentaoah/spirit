@@ -2,7 +2,6 @@ package com.sum.spirit.core.element.lexer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -16,32 +15,32 @@ public class RegionAction extends AbstractLexerAction {
 	@Override
 	public boolean isTrigger(LexerEvent event) {
 
-		StringBuilder builder = event.context.builder;
-		AtomicInteger index = event.context.index;
-		char c = event.c;
-		AtomicInteger start = event.context.start;
-		AtomicInteger end = event.context.end;
-		List<Character> ignoreChars = event.context.ignoreChars;
+		LexerContext context = event.context;
+		StringBuilder builder = context.builder;
+		List<Character> ignoreChars = context.ignoreChars;
+		char currChar = event.currChar;
 
 		// 是否忽略该字符
-		if (ignoreChars.contains(c) && index.get() > end.get()) {
-			start.set(-1);
-			end.set(LineUtils.findEndIndex(builder, index.get(), c, LineUtils.flipChar(c)));
-			ignoreChars.remove(new Character(c));
+		if (ignoreChars.contains(currChar) && context.currIndex > context.endIndex) {
+			context.startIndex = -1;
+			context.endIndex = LineUtils.findEndIndex(builder, context.currIndex, currChar, LineUtils.flipChar(currChar));
+			ignoreChars.remove(new Character(currChar));
 			return false;
 		}
 
-		if (index.get() == builder.length() - 1) {
+		// 是否已经到达结尾
+		if (context.currIndex == builder.length() - 1) {
 			return false;
 		}
 
-		if (c == '"' || c == '\'' || c == '{' || c == '(' || c == '[') {
+		// 如果是以下字符，则进行弹栈
+		if (currChar == '"' || currChar == '\'' || currChar == '{' || currChar == '(' || currChar == '[') {
 			return true;
 
-		} else if (c == '<') {
-			if (start.get() >= 0) {
-				char d = event.context.builder.charAt(start.get());
-				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
+		} else if (currChar == '<') {// 一般泛型声明都是以大写字母开头的
+			if (context.startIndex >= 0) {
+				char d = builder.charAt(context.startIndex);
+				if (d >= 'A' && d <= 'Z') {
 					return true;
 				}
 			}
@@ -53,52 +52,47 @@ public class RegionAction extends AbstractLexerAction {
 	@Override
 	public void pushStack(LexerEvent event) {
 
-		StringBuilder builder = event.context.builder;
-		AtomicInteger index = event.context.index;
-		char c = event.c;
-		AtomicInteger count = event.context.count;
-		AtomicInteger start = event.context.start;
-		AtomicInteger end = event.context.end;
-		Map<String, String> replacedStrs = event.context.replacedStrs;
-		List<Character> ignoreChars = event.context.ignoreChars;
+		LexerContext context = event.context;
+		StringBuilder builder = context.builder;
+		List<Character> ignoreChars = context.ignoreChars;
+		Map<String, String> replacedStrs = context.replacedStrs;
+		char currChar = event.currChar;
 
-		if (c == '"') {
-			pushStack(builder, index.get(), '"', '"', "@str" + count.getAndIncrement(), replacedStrs);
+		if (currChar == '"') {
+			pushStack(builder, context.currIndex, '"', '"', "@str" + context.nameCount++, replacedStrs);
 
-		} else if (c == '\'') {
-			pushStack(builder, index.get(), '\'', '\'', "@char" + count.getAndIncrement(), replacedStrs);
+		} else if (currChar == '\'') {
+			pushStack(builder, context.currIndex, '\'', '\'', "@char" + context.nameCount++, replacedStrs);
 
-		} else if (c == '{') {
-			pushStack(builder, index.get(), '{', '}', "@map" + count.getAndIncrement(), replacedStrs);
+		} else if (currChar == '{') {
+			pushStack(builder, context.currIndex, '{', '}', "@map" + context.nameCount++, replacedStrs);
 
-		} else if (c == '(') {
-			int idx = start.get() >= 0 ? start.get() : index.get();
-			pushStack(builder, idx, '(', ')', "@invoke_like" + count.getAndIncrement(), replacedStrs);
-			index.set(idx);
+		} else if (currChar == '(') {
+			int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+			pushStack(builder, idx, '(', ')', "@invoke_like" + context.nameCount++, replacedStrs);
+			context.currIndex = idx;
 
-		} else if (c == '[') {
-			if (ignoreChars.contains('{') && index.get() > end.get()) {// 一般来说，Java中没有泛型数组的声明方式
-				int idx = start.get() >= 0 ? start.get() : index.get();
-				pushStack(builder, idx, '[', ']', "@array_like" + count.getAndIncrement(), replacedStrs);
-				index.set(idx);
+		} else if (currChar == '[') {
+			if (ignoreChars.contains('{') && context.currIndex > context.endIndex) {// 一般来说，Java中没有泛型数组的声明方式
+				int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+				pushStack(builder, idx, '[', ']', "@array_like" + context.nameCount++, replacedStrs);
+				context.currIndex = idx;
 
 			} else {
-				int idx = start.get() >= 0 ? start.get() : index.get();
-				pushStack(builder, idx, '[', ']', '{', '}', "@array_like" + count.getAndIncrement(), replacedStrs);
-				index.set(idx);
+				int idx = context.startIndex >= 0 ? context.startIndex : context.currIndex;
+				pushStack(builder, idx, '[', ']', '{', '}', "@array_like" + context.nameCount++, replacedStrs);
+				context.currIndex = idx;
 			}
 
-		} else if (c == '<') {
-			if (ignoreChars.contains('(') && index.get() > end.get()) {
-				pushStack(builder, start.get(), '<', '>', "@generic" + count.getAndIncrement(), replacedStrs);
-				index.set(start.get());
+		} else if (currChar == '<') {
+			if (ignoreChars.contains('(') && context.currIndex > context.endIndex) {
+				pushStack(builder, context.startIndex, '<', '>', "@generic" + context.nameCount++, replacedStrs);
+				context.currIndex = context.startIndex;
 
 			} else {
-				pushStack(builder, start.get(), '<', '>', '(', ')', "@generic" + count.getAndIncrement(), replacedStrs);
-				index.set(start.get());
+				pushStack(builder, context.startIndex, '<', '>', '(', ')', "@generic" + context.nameCount++, replacedStrs);
+				context.currIndex = context.startIndex;
 			}
 		}
-
 	}
-
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LexerEvent {
 	public LexerContext context;
-	public char c;
+	public char currChar;
 }
