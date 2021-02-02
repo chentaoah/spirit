@@ -1,5 +1,6 @@
 package com.sum.spirit.core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.ElementBuilder;
 import com.sum.spirit.core.element.action.SemanticParser;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.visiter.entity.IType;
@@ -23,6 +25,8 @@ public class AutoImporter {
 	public static final Pattern TYPE_PATTERN = Pattern.compile("(\\b[A-Z]+\\w+\\b)");// 间接排除了泛型类型T
 
 	@Autowired
+	public ElementBuilder builder;
+	@Autowired
 	public SemanticParser parser;
 
 	public void autoImport(IClass clazz) {
@@ -32,8 +36,11 @@ public class AutoImporter {
 
 	public Set<String> dependencies(IClass clazz) {
 		Set<String> classNames = new HashSet<String>();
-		// TODO 这里注解不能只简单获取名称，注解中也可能会有类型
-		clazz.annotations.forEach((annotation) -> classNames.add(clazz.findClassName(annotation.getName())));
+		// 将注解转成字符串，并重新构建Element对象
+		List<Element> elements = new ArrayList<>();
+		clazz.annotations.forEach((annotation) -> elements.add(builder.build(annotation.toString())));
+		classNames.addAll(visitElements(clazz, elements));
+		// 遍历class内容
 		classNames.addAll(visitElements(clazz, Arrays.asList(clazz.element)));
 		// 排除了自身
 		classNames.remove(clazz.getClassName());
