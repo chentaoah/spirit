@@ -22,7 +22,7 @@ public class AliasReplacer {
 	public String replace(String code, String alias, String className) {
 		StringBuilder builder = new StringBuilder(code);
 		AliasLexer lexer = new AliasLexer(alias, className);
-		lexer.replace(builder);
+		lexer.process(new LexerContext(builder), lexer);
 		return builder.toString();
 	}
 
@@ -40,10 +40,10 @@ public class AliasReplacer {
 		public boolean isTrigger(LexerEvent event) {
 			LexerContext context = event.context;
 			StringBuilder builder = context.builder;
-			char char0 = event.char0;
-			if (char0 == '"') {
+			char ch = event.ch;
+			if (ch == '"') {
 				context.index = LineUtils.findEndIndex(builder, context.index, '"', '"');
-			} else if (char0 == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(context.index - 1))) {
+			} else if (ch == alias.charAt(0) && !LineUtils.isLetter(builder.charAt(context.index - 1))) {
 				return true;
 			}
 			return false;

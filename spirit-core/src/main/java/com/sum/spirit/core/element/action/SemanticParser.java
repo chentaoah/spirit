@@ -61,7 +61,11 @@ public class SemanticParser extends AbstractSemanticParser {
 		} else if (isAccess(word)) {
 			token.tokenType = getAccessTokenType(word);
 		}
-		Assert.notNull(token.tokenType, "Token type cannot be null!");
+		try {
+			Assert.notNull(token.tokenType, "Token type cannot be null!");
+		} catch (Exception e) {
+			System.out.println("");
+		}
 	}
 
 	public void setTokenValue(String word, Token token) {
@@ -83,7 +87,7 @@ public class SemanticParser extends AbstractSemanticParser {
 			return word;
 		}
 		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
-		List<String> words = insideType ? lexer.getWords(word, '<') : lexer.getWords(word, '(', '[', '{');
+		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		String first = words.get(0);
 		List<Token> tokens = null;
 		// 如果第一个单词是一个前缀的话，则添加前缀

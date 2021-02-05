@@ -13,7 +13,7 @@ public class SymbolAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(LexerEvent event) {
-		return SymbolEnum.isSymbolChar(event.char0);
+		return SymbolEnum.isSymbolChar(event.ch);
 	}
 
 	@Override
@@ -27,7 +27,8 @@ public class SymbolAction extends AbstractLexerAction {
 		if (context.index + 1 < builder.length()) {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
-				replaceStr(builder, context.index, context.index + 2, "@symbol" + context.nameCount++, replacedStrs);
+				Region region = new Region(context.index, context.index + 2);
+				replaceStr(builder, region, "@symbol" + context.nameCount++, replacedStrs);
 				return;
 			}
 		}
@@ -35,7 +36,8 @@ public class SymbolAction extends AbstractLexerAction {
 		// 尝试获取一个字符，判断是否双字符符号
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
-			replaceStr(builder, context.index, context.index + 1, "@symbol" + context.nameCount++, replacedStrs);
+			Region region = new Region(context.index, context.index + 1);
+			replaceStr(builder, region, "@symbol" + context.nameCount++, replacedStrs);
 			return;
 		}
 
