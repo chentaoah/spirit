@@ -26,10 +26,10 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
-	public List<LexerAction> actions;
-
 	@Autowired
 	public BorderAction borderAction;
+
+	public List<LexerAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -57,18 +57,27 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 		return words;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<String> getSubWords(String text, Character... splitChars) {
 		// 上下文
 		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
 		// 触发事件
 		process(context, borderAction);
 
-		return null;
+		List<String> finalWords = new ArrayList<>();
+		List<String> subWords = (List<String>) context.attachments.get(BorderAction.SUB_WORDS);
+		if (subWords == null || subWords.isEmpty()) {
+			throw new RuntimeException("Word split failed!");
+		}
+		for (String subWord : subWords) {
+			finalWords.addAll(getWords(subWord));
+		}
+		return finalWords;
 	}
 
 	public void process(LexerContext context, LexerAction action) {
-		StringBuilder builder = context.builder;
-		for (; context.index < builder.length(); context.index++) {
+		// 开始遍历
+		for (StringBuilder builder = context.builder; context.index < builder.length(); context.index++) {
 			char ch = builder.charAt(context.index);
 			// 是否连续字符
 			if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {

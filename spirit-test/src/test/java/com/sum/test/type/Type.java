@@ -62,7 +62,7 @@ public class Type {
 		logger.info("test class {}", clz);
 		Type self = this;
 		logger.info("test this {}", self);
-		HashMap<String, String> hmap = new HashMap<String, String >();
+		HashMap<String, String> hmap = new HashMap<String, String>();
 		hmap.put("key", "value");
 		long long1 = 100L;
 		logger.info("long1 is ", long1);
@@ -81,7 +81,7 @@ public class Type {
 		logger.info("" + ssss);
 		String xxss = testParam(null, null);
 		logger.info(xxss);
-		ServiceImpl<String, Object> service = new ServiceImpl<String, Object >();
+		ServiceImpl<String, Object> service = new ServiceImpl<String, Object>();
 		String type = service.testReturnGenericType("text");
 		logger.info(type.toString());
 		String key = service.key;
@@ -90,7 +90,7 @@ public class Type {
 		logger.info("" + serNum);
 		String serStr = service.test1("hello");
 		logger.info("" + serStr);
-		GenericType<String, String> generic = new GenericType<String, String >();
+		GenericType<String, String> generic = new GenericType<String, String>();
 		Integer gKey = generic.get("test");
 		logger.info(gKey + "");
 		List<Integer> intsss = Lists.newArrayList(1, 123, 8987879);

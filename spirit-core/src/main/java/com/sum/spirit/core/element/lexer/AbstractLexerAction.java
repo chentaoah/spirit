@@ -5,6 +5,8 @@ import java.util.Map;
 import com.sum.spirit.api.LexerAction;
 import com.sum.spirit.utils.LineUtils;
 
+import cn.hutool.core.lang.Assert;
+
 public abstract class AbstractLexerAction implements LexerAction {
 
 	public Region findRegion(StringBuilder builder, int fromIndex, char leftChar, char rightChar) {
@@ -25,6 +27,7 @@ public abstract class AbstractLexerAction implements LexerAction {
 				finalRegion.endIndex = region.endIndex;
 			}
 		}
+		Assert.isTrue(finalRegion.startIndex != -1 && finalRegion.endIndex != -1, "An exception occurred in the merge regions!");
 		return finalRegion;
 	}
 

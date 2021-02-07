@@ -61,11 +61,8 @@ public class SemanticParser extends AbstractSemanticParser {
 		} else if (isAccess(word)) {
 			token.tokenType = getAccessTokenType(word);
 		}
-		try {
-			Assert.notNull(token.tokenType, "Token type cannot be null!");
-		} catch (Exception e) {
-			System.out.println("");
-		}
+
+		Assert.notNull(token.tokenType, "Token type cannot be null!");
 	}
 
 	public void setTokenValue(String word, Token token) {

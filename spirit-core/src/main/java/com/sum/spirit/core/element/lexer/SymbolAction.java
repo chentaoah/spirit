@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.common.enums.SymbolEnum;
 
 @Component
-@Order(-80)
+@Order(-60)
 public class SymbolAction extends AbstractLexerAction {
 
 	@Override
