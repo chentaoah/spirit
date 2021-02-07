@@ -1,6 +1,7 @@
 package com.sum.spirit.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,9 +41,10 @@ public class SpringUtils implements ApplicationContextAware {
 		return beans;
 	}
 
-	public static <T> List<T> getBeansAndSort(Class<T> type, Class<?> excludedType) {
+	public static <T> List<T> getBeansAndSort(Class<T> type, Class<?>... excludedTypes) {
 		List<T> beans = getBeansAndSort(type);
-		return beans.stream().filter((t) -> t.getClass() != excludedType).collect(Collectors.toList());
+		List<Class<?>> list = Arrays.asList(excludedTypes);
+		return beans.stream().filter((t) -> !list.contains(t.getClass())).collect(Collectors.toList());
 	}
 
 	public static <T> List<T> getBeansAndSort(Class<T> type, String scanPackage) {

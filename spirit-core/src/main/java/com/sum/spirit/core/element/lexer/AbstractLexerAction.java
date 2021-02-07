@@ -5,46 +5,43 @@ import java.util.Map;
 import com.sum.spirit.api.LexerAction;
 import com.sum.spirit.utils.LineUtils;
 
+import cn.hutool.core.lang.Assert;
+
 public abstract class AbstractLexerAction implements LexerAction {
 
-	public void pushStack(StringBuilder builder, int start, char left, char right, String markName, Map<String, String> replacedStrs) {
-		int end = LineUtils.findEndIndex(builder, start, left, right);
-		replaceStr(builder, start, end + 1, markName, replacedStrs);
+	public Region findRegion(StringBuilder builder, int fromIndex, char leftChar, char rightChar) {
+		int endIndex = LineUtils.findEndIndex(builder, fromIndex, leftChar, rightChar);
+		return endIndex != -1 ? new Region(fromIndex, endIndex + 1) : null;
 	}
 
-	public void pushStack(StringBuilder builder, int start, char left, char right, char left1, char right1, String markName, Map<String, String> replacedStrs) {
-		int finalEnd = LineUtils.findEndIndex(builder, start, left, right);
-		if (finalEnd != -1 && finalEnd + 1 < builder.length()) {
-			char c = builder.charAt(finalEnd + 1);
-			if (c == ' ' && finalEnd + 2 < builder.length()) {// 允许中间有个空格
-				char d = builder.charAt(finalEnd + 2);
-				if (d == left1) {
-					int secondEnd = LineUtils.findEndIndex(builder, finalEnd + 2, left1, right1);
-					if (secondEnd != -1) {
-						finalEnd = secondEnd;
-					}
-				}
-			} else {
-				if (c == left1) {
-					int secondEnd = LineUtils.findEndIndex(builder, finalEnd + 1, left1, right1);
-					if (secondEnd != -1) {
-						finalEnd = secondEnd;
-					}
-				}
+	public Region mergeRegions(Region... regions) {
+		Region finalRegion = new Region(-1, -1);
+		for (Region region : regions) {
+			if (region == null) {
+				continue;
+			}
+			if (finalRegion.startIndex == -1 || region.startIndex < finalRegion.startIndex) {
+				finalRegion.startIndex = region.startIndex;
+			}
+			if (finalRegion.endIndex == -1 || region.endIndex > finalRegion.endIndex) {
+				finalRegion.endIndex = region.endIndex;
 			}
 		}
-		replaceStr(builder, start, finalEnd + 1, markName, replacedStrs);
+		Assert.isTrue(finalRegion.startIndex != -1 && finalRegion.endIndex != -1, "An exception occurred in the merge regions!");
+		return finalRegion;
 	}
 
-	public void replaceStr(StringBuilder builder, int start, int end, String markName, Map<String, String> replacedStrs) {
-		if (end == -1) {
-			return;
+	public int replaceStr(StringBuilder builder, Region region, String markName, Map<String, String> replacedStrs) {
+		if (region == null) {
+			return 0;
 		}
-		String content = builder.substring(start, end);
+		String content = builder.substring(region.startIndex, region.endIndex);
 		if (replacedStrs != null) {
 			replacedStrs.put(markName, content);
 		}
-		builder.replace(start, end, " " + markName + " ");
+		markName = " " + markName + " ";
+		builder.replace(region.startIndex, region.endIndex, markName);
+		return markName.length() - region.size();
 	}
 
 }

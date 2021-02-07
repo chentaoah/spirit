@@ -1,15 +1,13 @@
 package com.sum.spirit.core.element.lexer;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.utils.LineUtils;
-
 @Component
-@Order(-100)
+@Order(-80)
 public class RegionAction extends AbstractLexerAction {
 
 	@Override
@@ -17,16 +15,7 @@ public class RegionAction extends AbstractLexerAction {
 
 		LexerContext context = event.context;
 		StringBuilder builder = context.builder;
-		List<Character> ignoreChars = context.ignoreChars;
-		char char0 = event.char0;
-
-		// 是否忽略该字符
-		if (ignoreChars.contains(char0) && context.index > context.endIndex) {
-			context.startIndex = -1;
-			context.endIndex = LineUtils.findEndIndex(builder, context.index, char0, LineUtils.flipChar(char0));
-			ignoreChars.remove(new Character(char0));
-			return false;
-		}
+		char ch = event.ch;
 
 		// 是否已经到达结尾
 		if (context.index == builder.length() - 1) {
@@ -34,10 +23,10 @@ public class RegionAction extends AbstractLexerAction {
 		}
 
 		// 如果是以下字符，则进行弹栈
-		if (char0 == '"' || char0 == '\'' || char0 == '{' || char0 == '(' || char0 == '[') {
+		if (ch == '"' || ch == '\'' || ch == '{' || ch == '(' || ch == '[') {
 			return true;
 
-		} else if (char0 == '<') {// 一般泛型声明都是以大写字母开头的
+		} else if (ch == '<') {// 一般泛型声明都是以大写字母开头的
 			if (context.startIndex >= 0) {
 				char d = builder.charAt(context.startIndex);
 				if (d >= 'A' && d <= 'Z') {
@@ -54,45 +43,59 @@ public class RegionAction extends AbstractLexerAction {
 
 		LexerContext context = event.context;
 		StringBuilder builder = context.builder;
-		List<Character> ignoreChars = context.ignoreChars;
-		Map<String, String> replacedStrs = context.replacedStrs;
-		char char0 = event.char0;
+		char ch = event.ch;
 
-		if (char0 == '"') {
-			pushStack(builder, context.index, '"', '"', "@str" + context.nameCount++, replacedStrs);
+		if (ch == '"') {
+			Region region = findRegion(builder, context.index, '"', '"');
+			doPushStack(event, Arrays.asList(region), "@str");
 
-		} else if (char0 == '\'') {
-			pushStack(builder, context.index, '\'', '\'', "@char" + context.nameCount++, replacedStrs);
+		} else if (ch == '\'') {
+			Region region = findRegion(builder, context.index, '\'', '\'');
+			doPushStack(event, Arrays.asList(region), "@char");
 
-		} else if (char0 == '{') {
-			pushStack(builder, context.index, '{', '}', "@map" + context.nameCount++, replacedStrs);
+		} else if (ch == '{') {
+			Region region = findRegion(builder, context.index, '{', '}');
+			doPushStack(event, Arrays.asList(region), "@map");
 
-		} else if (char0 == '(') {
-			int idx = context.startIndex >= 0 ? context.startIndex : context.index;
-			pushStack(builder, idx, '(', ')', "@invoke_like" + context.nameCount++, replacedStrs);
-			context.index = idx;
+		} else if (ch == '(') {
+			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
+			Region region1 = findRegion(builder, context.index, '(', ')');
+			doPushStack(event, Arrays.asList(region0, region1), "@invoke_like");
+			resetIndex(event);
 
-		} else if (char0 == '[') {
-			if (ignoreChars.contains('{') && context.index > context.endIndex) {// 一般来说，Java中没有泛型数组的声明方式
-				int idx = context.startIndex >= 0 ? context.startIndex : context.index;
-				pushStack(builder, idx, '[', ']', "@array_like" + context.nameCount++, replacedStrs);
-				context.index = idx;
+		} else if (ch == '[') {
+			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
+			Region region1 = findRegion(builder, context.index, '[', ']');
+			Region region2 = null;
+			if (region1.endIndex < builder.length() && builder.charAt(region1.endIndex) == '{') {
+				region2 = findRegion(builder, region1.endIndex, '{', '}');
 
-			} else {
-				int idx = context.startIndex >= 0 ? context.startIndex : context.index;
-				pushStack(builder, idx, '[', ']', '{', '}', "@array_like" + context.nameCount++, replacedStrs);
-				context.index = idx;
+			} else if (region1.endIndex + 1 < builder.length() && builder.charAt(region1.endIndex) == ' ' && builder.charAt(region1.endIndex + 1) == '{') {
+				region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 			}
+			doPushStack(event, Arrays.asList(region0, region1, region2), "@array_like");
+			resetIndex(event);
 
-		} else if (char0 == '<') {
-			if (ignoreChars.contains('(') && context.index > context.endIndex) {
-				pushStack(builder, context.startIndex, '<', '>', "@generic" + context.nameCount++, replacedStrs);
-				context.index = context.startIndex;
-
-			} else {
-				pushStack(builder, context.startIndex, '<', '>', '(', ')', "@generic" + context.nameCount++, replacedStrs);
-				context.index = context.startIndex;
+		} else if (ch == '<') {
+			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
+			Region region1 = findRegion(builder, context.index, '<', '>');
+			Region region2 = null;
+			if (region1.endIndex < builder.length() && builder.charAt(region1.endIndex) == '(') {
+				region2 = findRegion(builder, region1.endIndex, '(', ')');
 			}
+			doPushStack(event, Arrays.asList(region0, region1, region2), "@generic");
+			resetIndex(event);
 		}
 	}
+
+	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
+		LexerContext context = event.context;
+		replaceStr(context.builder, mergeRegions((Region[]) regions.toArray()), markName + context.nameCount++, context.replacedStrs);
+	}
+
+	public void resetIndex(LexerEvent event) {
+		LexerContext context = event.context;
+		context.index = context.startIndex >= 0 ? context.startIndex : context.index;
+	}
+
 }

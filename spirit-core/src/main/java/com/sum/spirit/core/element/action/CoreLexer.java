@@ -8,11 +8,13 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.LexerAction;
 import com.sum.spirit.core.element.lexer.AbstractLexerAction;
+import com.sum.spirit.core.element.lexer.BorderAction;
 import com.sum.spirit.core.element.lexer.LexerContext;
 import com.sum.spirit.core.element.lexer.LexerEvent;
 import com.sum.spirit.utils.LineUtils;
@@ -24,53 +26,73 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
+	@Autowired
+	public BorderAction borderAction;
+
 	public List<LexerAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class);// 排除自己
+		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class, BorderAction.class);// 排除自己
 	}
 
-	public List<String> getWords(String text, Character... ignoreOnceChars) {
+	public List<String> getWords(String text) {
 		// 拆分方法体时，会传入空的text
 		if (StringUtils.isEmpty(text)) {
 			return new ArrayList<>();
 		}
-		StringBuilder builder = new StringBuilder(text.trim());
+		// 上下文
+		LexerContext context = new LexerContext(new StringBuilder(text.trim()));
 		// 触发事件
-		Map<String, String> replacedStrs = replace(builder, ignoreOnceChars);
+		process(context, this);
 		// 去掉多余的空格
-		text = LineUtils.mergeSpaces(builder.toString());
+		text = LineUtils.mergeSpaces(context.builder.toString());
 		// 利用空格，进行拆分
 		List<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
 		// 继续拆分单词
 		splitWords(words);
 		// 还原被替换的单词
-		restoreWords(words, replacedStrs);
+		restoreWords(words, context.replacedStrs);
 
 		return words;
 	}
 
-	public Map<String, String> replace(StringBuilder builder, Character... ignoreOnceChars) {
-		// 生成上下文
-		LexerContext context = new LexerContext(builder, new ArrayList<>(Arrays.asList(ignoreOnceChars)));
-		for (; context.index < builder.length(); context.index++) {
-			char currChar = builder.charAt(context.index);
+	@SuppressWarnings("unchecked")
+	public List<String> getSubWords(String text, Character... splitChars) {
+		// 上下文
+		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
+		// 触发事件
+		process(context, borderAction);
+
+		List<String> finalWords = new ArrayList<>();
+		List<String> subWords = (List<String>) context.attachments.get(BorderAction.SUB_WORDS);
+		if (subWords == null || subWords.isEmpty()) {
+			throw new RuntimeException("Word split failed!");
+		}
+		for (String subWord : subWords) {
+			finalWords.addAll(getWords(subWord));
+		}
+		return finalWords;
+	}
+
+	public void process(LexerContext context, LexerAction action) {
+		// 开始遍历
+		for (StringBuilder builder = context.builder; context.index < builder.length(); context.index++) {
+			char ch = builder.charAt(context.index);
 			// 是否连续字符
-			if ((context.startIndex < 0 && isContinuous(currChar)) || isRefreshed(currChar)) {
+			if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {
 				context.startIndex = context.index;
 			}
 			// 这里使用统一的逻辑处理
-			LexerEvent event = new LexerEvent(context, currChar);
-			if (isTrigger(event)) {
-				pushStack(event);
+			LexerEvent event = new LexerEvent(context, ch);
+			if (action.isTrigger(event)) {
+				action.pushStack(event);
 			}
 			// 如果不是连续字符，则重置游标
-			if (!isContinuous(currChar)) {
+			if (!isContinuous(ch)) {
 				context.startIndex = -1;
 			}
 		}
-		return context.replacedStrs;
 	}
 
 	public void splitWords(List<String> words) {

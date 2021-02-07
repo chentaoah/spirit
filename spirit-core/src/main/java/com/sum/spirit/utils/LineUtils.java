@@ -53,33 +53,33 @@ public class LineUtils {
 		return count % 2 == 0;
 	}
 
-	public static int findEndIndex(CharSequence chars, int start, char left, char right) {
+	public static int findEndIndex(CharSequence chars, int fromIndex, char leftChar, char rightChar) {
 		boolean flag = false;
-		for (int index = start, count = 0; index < chars.length(); index++) {
-			char c = chars.charAt(index);
-			if (c == '"' && isNotEscaped(chars, index)) {// 如果是“"”符号，并且没有被转义
+		for (int index = fromIndex, count = 0; index < chars.length(); index++) {
+			char ch = chars.charAt(index);
+			if (ch == '"' && isNotEscaped(chars, index)) {// 如果是“"”符号，并且没有被转义
 				flag = !flag;
-				if (!flag && right == '"') {
+				if (!flag && rightChar == '"') {
 					return index;
 				}
 			}
 			if (!flag) {
 				if (count % 2 == 0) {// 防止完全一样的分隔符|xxx|
-					if (c == left) {
+					if (ch == leftChar) {
 						count++;
-					} else if (c == right) {
+					} else if (ch == rightChar) {
 						count--;
 						if (count == 0) {
 							return index;
 						}
 					}
 				} else {
-					if (c == right) {
+					if (ch == rightChar) {
 						count--;
 						if (count == 0) {
 							return index;
 						}
-					} else if (c == left) {
+					} else if (ch == leftChar) {
 						count++;
 					}
 				}

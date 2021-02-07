@@ -9,7 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LexerEvent {
-	public LexerContext context;
-	public char ch;
+public class Region {
+
+	public int startIndex;
+	public int endIndex;
+
+	public int size() {
+		return endIndex - startIndex;
+	}
+
 }
