@@ -53,10 +53,6 @@ public abstract class AbstractSemanticParser {
 		return PRIMITIVE_PATTERN.matcher(word).matches();
 	}
 
-	public boolean isDouble(String word) {
-		return DOUBLE_PATTERN.matcher(word).matches();
-	}
-
 	public List<Token> getTokens(List<String> words) {
 		return getTokens(words, false);
 	}
