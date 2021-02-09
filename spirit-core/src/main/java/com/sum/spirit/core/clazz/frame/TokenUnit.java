@@ -1,7 +1,7 @@
 package com.sum.spirit.core.clazz.frame;
 
 import com.sum.spirit.common.enums.AttributeEnum;
-import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.element.entity.Token;
 
 public abstract class TokenUnit extends TypeUnit {
 

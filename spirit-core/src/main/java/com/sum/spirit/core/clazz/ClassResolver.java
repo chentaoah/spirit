@@ -14,10 +14,10 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.Import;
-import com.sum.spirit.core.element.ElementBuilder;
-import com.sum.spirit.core.element.entity.Document;
-import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.utils.TypeUtils;
+import com.sum.spirit.element.ElementBuilder;
+import com.sum.spirit.element.entity.Document;
+import com.sum.spirit.element.entity.Element;
 
 @Component
 public class ClassResolver {

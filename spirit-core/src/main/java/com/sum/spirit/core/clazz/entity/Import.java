@@ -2,9 +2,9 @@ package com.sum.spirit.core.clazz.entity;
 
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.clazz.frame.ElementUnit;
-import com.sum.spirit.core.element.ElementBuilder;
-import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.utils.TypeUtils;
+import com.sum.spirit.element.ElementBuilder;
+import com.sum.spirit.element.entity.Element;
 
 public class Import extends ElementUnit {
 

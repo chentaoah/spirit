@@ -6,12 +6,12 @@ import java.util.List;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.clazz.frame.ImportUnit;
-import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
+import com.sum.spirit.element.entity.Element;
+import com.sum.spirit.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 

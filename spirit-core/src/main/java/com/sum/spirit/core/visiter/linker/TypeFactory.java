@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
-import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.element.entity.Statement;
+import com.sum.spirit.element.entity.Token;
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;

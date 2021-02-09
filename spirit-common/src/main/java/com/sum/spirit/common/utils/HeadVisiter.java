@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visiter.utils;
+package com.sum.spirit.common.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

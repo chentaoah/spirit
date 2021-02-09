@@ -1,7 +1,7 @@
 package com.sum.spirit.java.utils;
 
 import com.sum.spirit.common.enums.AttributeEnum;
-import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.element.entity.Statement;
 
 public class TreeUtils {
 

@@ -1,6 +1,6 @@
 package com.sum.spirit.core.clazz.frame;
 
-import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.element.entity.Element;
 
 public abstract class ElementUnit extends TypeUnit {
 
