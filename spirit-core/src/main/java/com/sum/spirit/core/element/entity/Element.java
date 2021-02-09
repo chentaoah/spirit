@@ -3,9 +3,9 @@ package com.sum.spirit.core.element.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.core.common.enums.SyntaxEnum;
+import com.sum.spirit.common.enums.SyntaxEnum;
+import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.element.frame.Syntactic;
-import com.sum.spirit.utils.LineUtils;
 
 public class Element extends Syntactic {
 

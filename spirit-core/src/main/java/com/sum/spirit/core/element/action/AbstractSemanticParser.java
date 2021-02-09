@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.spirit.core.common.enums.KeywordEnum;
-import com.sum.spirit.core.common.enums.SymbolEnum;
-import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser {
@@ -53,7 +53,7 @@ public abstract class AbstractSemanticParser {
 		return PRIMITIVE_PATTERN.matcher(word).matches();
 	}
 
-	public static boolean isDouble(String word) {
+	public boolean isDouble(String word) {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
 

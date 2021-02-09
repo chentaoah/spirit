@@ -1,6 +1,6 @@
 package com.sum.spirit.core.element.entity;
 
-import com.sum.spirit.utils.LineUtils;
+import com.sum.spirit.common.utils.LineUtils;
 
 public class Line {
 

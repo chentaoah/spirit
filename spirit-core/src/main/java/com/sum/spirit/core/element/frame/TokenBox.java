@@ -3,7 +3,7 @@ package com.sum.spirit.core.element.frame;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;

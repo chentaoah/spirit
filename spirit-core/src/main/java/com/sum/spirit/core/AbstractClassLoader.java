@@ -2,9 +2,9 @@ package com.sum.spirit.core;
 
 import java.net.URL;
 
-import com.sum.spirit.api.ClassLoader;
-import com.sum.spirit.api.ImportSelector;
-import com.sum.spirit.utils.TypeUtils;
+import com.sum.spirit.core.api.ClassLoader;
+import com.sum.spirit.core.api.ImportSelector;
+import com.sum.spirit.core.utils.TypeUtils;
 
 public abstract class AbstractClassLoader<T> implements ClassLoader<T>, ImportSelector {
 

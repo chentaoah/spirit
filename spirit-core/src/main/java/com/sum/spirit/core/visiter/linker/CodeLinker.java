@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.AppClassLoader;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.visiter.ClassVisiter;
 import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.utils.SpringUtils;
 
 import cn.hutool.core.lang.Assert;
 

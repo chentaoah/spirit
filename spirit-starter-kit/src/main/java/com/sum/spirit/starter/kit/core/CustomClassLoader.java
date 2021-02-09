@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.utils.FileHelper;
+import com.sum.spirit.core.utils.FileHelper;
 
 @Component
 @Primary

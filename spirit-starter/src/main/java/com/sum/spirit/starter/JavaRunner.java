@@ -9,13 +9,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.CodeBuilder;
+import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.RunningMonitor;
+import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.utils.ConfigUtils;
-import com.sum.spirit.utils.FileHelper;
+import com.sum.spirit.core.utils.FileHelper;
 
 @Component
 @Profile("compile")
