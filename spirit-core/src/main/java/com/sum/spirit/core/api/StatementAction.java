@@ -1,4 +1,4 @@
-package com.sum.spirit.api;
+package com.sum.spirit.core.api;
 
 import com.sum.spirit.core.visiter.entity.StatementEvent;
 

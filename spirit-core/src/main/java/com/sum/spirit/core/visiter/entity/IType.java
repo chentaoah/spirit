@@ -7,9 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.utils.TypeUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

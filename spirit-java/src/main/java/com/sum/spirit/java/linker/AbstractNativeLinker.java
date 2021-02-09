@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.java.ExtClassLoader;
 

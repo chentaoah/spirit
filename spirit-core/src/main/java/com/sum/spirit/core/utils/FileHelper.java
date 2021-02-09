@@ -1,4 +1,4 @@
-package com.sum.spirit.utils;
+package com.sum.spirit.core.utils;
 
 import java.io.File;
 import java.io.FileInputStream;

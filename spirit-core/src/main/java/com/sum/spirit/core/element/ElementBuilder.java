@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.SyntaxEnum;
-import com.sum.spirit.core.element.action.CoreLexer;
 import com.sum.spirit.core.element.action.LineChecker;
 import com.sum.spirit.core.element.action.SemanticParser;
 import com.sum.spirit.core.element.action.TreeBuilder;
@@ -16,6 +15,7 @@ import com.sum.spirit.core.element.entity.Modifiers;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.lexer.CoreLexer;
 
 @Component
 public class ElementBuilder {

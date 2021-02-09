@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.ClassLinker;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;

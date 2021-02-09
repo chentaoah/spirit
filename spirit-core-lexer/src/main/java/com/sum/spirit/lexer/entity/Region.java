@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.lexer;
+package com.sum.spirit.lexer.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

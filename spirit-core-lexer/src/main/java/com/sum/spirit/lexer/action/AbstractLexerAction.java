@@ -1,8 +1,10 @@
-package com.sum.spirit.core.element.lexer;
+package com.sum.spirit.lexer.action;
 
 import java.util.Map;
 
 import com.sum.spirit.common.utils.LineUtils;
+import com.sum.spirit.lexer.api.LexerAction;
+import com.sum.spirit.lexer.entity.Region;
 
 import cn.hutool.core.lang.Assert;
 

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.action;
+package com.sum.spirit.lexer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,32 +10,38 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.Lexer;
+import com.sum.spirit.api.SemanticDefiner;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.element.lexer.AbstractLexerAction;
-import com.sum.spirit.core.element.lexer.BorderAction;
-import com.sum.spirit.core.element.lexer.LexerAction;
-import com.sum.spirit.core.element.lexer.LexerContext;
-import com.sum.spirit.core.element.lexer.LexerEvent;
+import com.sum.spirit.lexer.action.AbstractLexerAction;
+import com.sum.spirit.lexer.action.BorderAction;
+import com.sum.spirit.lexer.api.LexerAction;
+import com.sum.spirit.lexer.entity.LexerContext;
+import com.sum.spirit.lexer.entity.LexerEvent;
 
 @Component
+@Primary
 @DependsOn("springUtils")
-public class CoreLexer extends AbstractLexerAction implements InitializingBean {
+public class CoreLexer extends AbstractLexerAction implements Lexer, InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 
+	public List<LexerAction> actions;
 	@Autowired
 	public BorderAction borderAction;
-
-	public List<LexerAction> actions;
+	@Autowired
+	public SemanticDefiner definer;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class, BorderAction.class);// 排除自己
 	}
 
+	@Override
 	public List<String> getWords(String text) {
 		// 拆分方法体时，会传入空的text
 		if (StringUtils.isEmpty(text)) {
@@ -57,6 +63,7 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 		return words;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getSubWords(String text, Character... splitChars) {
 		// 上下文
@@ -98,7 +105,7 @@ public class CoreLexer extends AbstractLexerAction implements InitializingBean {
 	public void splitWords(List<String> words) {
 		for (int i = 0; i < words.size(); i++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
 			String word = words.get(i);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !AbstractSemanticParser.isDouble(word)) {
+			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !definer.isDouble(word)) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(i);
 				words.addAll(i, subWords);

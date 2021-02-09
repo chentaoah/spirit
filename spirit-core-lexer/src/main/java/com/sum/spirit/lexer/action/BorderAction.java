@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.lexer;
+package com.sum.spirit.lexer.action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.sum.spirit.lexer.entity.LexerContext;
+import com.sum.spirit.lexer.entity.LexerEvent;
+import com.sum.spirit.lexer.entity.Region;
 
 @Component
 @Order(-100)

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.Lexer;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Statement;
@@ -16,7 +17,7 @@ import cn.hutool.core.lang.Assert;
 public class SemanticParser extends AbstractSemanticParser {
 
 	@Autowired
-	public CoreLexer lexer;
+	public Lexer lexer;
 
 	@Override
 	public Token getToken(String word, boolean insideType) {

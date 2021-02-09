@@ -17,7 +17,7 @@ import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.element.ElementBuilder;
 import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.utils.TypeUtils;
+import com.sum.spirit.core.utils.TypeUtils;
 
 @Component
 public class ClassResolver {

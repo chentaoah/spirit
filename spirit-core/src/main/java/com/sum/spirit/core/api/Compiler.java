@@ -1,4 +1,4 @@
-package com.sum.spirit.api;
+package com.sum.spirit.core.api;
 
 import java.io.InputStream;
 import java.util.Map;
