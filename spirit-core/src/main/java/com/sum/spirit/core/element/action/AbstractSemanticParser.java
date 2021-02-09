@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sum.spirit.api.SemanticDefiner;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Token;
 
-public abstract class AbstractSemanticParser implements SemanticDefiner {
+public abstract class AbstractSemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
@@ -54,7 +53,6 @@ public abstract class AbstractSemanticParser implements SemanticDefiner {
 		return PRIMITIVE_PATTERN.matcher(word).matches();
 	}
 
-	@Override
 	public boolean isDouble(String word) {
 		return DOUBLE_PATTERN.matcher(word).matches();
 	}
