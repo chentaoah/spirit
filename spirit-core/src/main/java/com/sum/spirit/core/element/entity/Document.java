@@ -3,7 +3,7 @@ package com.sum.spirit.core.element.entity;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.sum.spirit.utils.ConfigUtils;
+import com.sum.spirit.common.utils.ConfigUtils;
 
 @SuppressWarnings("serial")
 public class Document extends ArrayList<Element> {

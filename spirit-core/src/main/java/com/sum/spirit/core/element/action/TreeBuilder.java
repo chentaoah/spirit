@@ -7,9 +7,9 @@ import java.util.ListIterator;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.common.enums.AttributeEnum;
-import com.sum.spirit.core.common.enums.SymbolEnum;
-import com.sum.spirit.core.common.enums.SymbolEnum.OperandEnum;
+import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;

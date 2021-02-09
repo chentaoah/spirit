@@ -2,7 +2,7 @@ package com.sum.spirit.core.element.frame;
 
 import java.util.Map;
 
-import com.sum.spirit.core.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.AttributeEnum;
 
 public abstract class AttributeMap {
 

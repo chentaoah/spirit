@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sum.spirit.core.common.enums.AttributeEnum;
-import com.sum.spirit.core.common.enums.KeywordEnum;
-import com.sum.spirit.core.common.enums.SymbolEnum;
-import com.sum.spirit.core.common.enums.SyntaxEnum;
-import com.sum.spirit.utils.LineUtils;
+import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.common.enums.SyntaxEnum;
+import com.sum.spirit.common.utils.LineUtils;
 
 public class SyntaxTree {
 

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
-import com.sum.spirit.core.common.enums.AttributeEnum;
-import com.sum.spirit.core.common.enums.KeywordEnum;
-import com.sum.spirit.core.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.ElementBuilder;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;

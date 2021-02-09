@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common.enums;
+package com.sum.spirit.common.enums;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

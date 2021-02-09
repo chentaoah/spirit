@@ -3,7 +3,7 @@ package com.sum.test.block;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.utils.Maps;
+import com.sum.spirit.common.utils.Maps;
 import java.util.Map;
 import java.util.Map.Entry;
 import com.google.common.collect.Lists;

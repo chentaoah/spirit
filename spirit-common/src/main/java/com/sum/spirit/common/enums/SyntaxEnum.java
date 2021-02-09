@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common.enums;
+package com.sum.spirit.common.enums;
 
 public enum SyntaxEnum {
 	IMPORT, // import

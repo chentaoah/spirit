@@ -9,41 +9,11 @@
 	</parent>
 	<artifactId>spirit-core</artifactId>
 	<dependencies>
-		<!-- spring boot -->
+		<!-- spirit-core-lexer -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<version>${spring.boot.version}</version>
-		</dependency>
-		<!-- lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-		</dependency>
-		<!-- hutool -->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-all</artifactId>
-			<version>${hutool.version}</version>
-		</dependency>
-		<!-- guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-		<!-- commons lang -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${lang3.version}</version>
-		</dependency>
-		<!-- commons io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
+			<groupId>com.sum.spirit</groupId>
+			<artifactId>spirit-core-lexer</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

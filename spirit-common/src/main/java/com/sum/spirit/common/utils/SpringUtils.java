@@ -1,4 +1,4 @@
-package com.sum.spirit.utils;
+package com.sum.spirit.common.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.common.enums.SymbolEnum;
+import com.sum.spirit.common.enums.SymbolEnum;
 
 @Component
 @Order(-60)

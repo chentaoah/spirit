@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common.enums;
+package com.sum.spirit.core.visiter.enums;
 
 import java.util.List;
 import java.util.Map;
@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.api.TypeEnumCtor;
+import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.element.action.AbstractSemanticParser;
 import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.utils.SpringUtils;
 import com.sum.spirit.utils.TypeBuilder;
 
 import cn.hutool.core.lang.Assert;

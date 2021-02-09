@@ -5,14 +5,14 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.sum.spirit.api.ClassLinker;
+import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
-import com.sum.spirit.core.common.enums.AttributeEnum;
-import com.sum.spirit.core.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.utils.SpringUtils;
 
 public class IMethod extends MemberUnit {
 

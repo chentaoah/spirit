@@ -2,8 +2,7 @@ package com.sum.spirit.core.element.lexer;
 
 import java.util.Map;
 
-import com.sum.spirit.api.LexerAction;
-import com.sum.spirit.utils.LineUtils;
+import com.sum.spirit.common.utils.LineUtils;
 
 import cn.hutool.core.lang.Assert;
 

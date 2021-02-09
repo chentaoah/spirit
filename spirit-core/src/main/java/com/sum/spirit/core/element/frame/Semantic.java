@@ -2,10 +2,10 @@ package com.sum.spirit.core.element.frame;
 
 import java.util.Map;
 
-import com.sum.spirit.core.common.enums.AttributeEnum;
-import com.sum.spirit.core.common.enums.KeywordEnum;
-import com.sum.spirit.core.common.enums.SymbolEnum;
-import com.sum.spirit.core.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
 
 public abstract class Semantic extends AttributeMap {
 

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import java.util.List;
-import com.sum.spirit.utils.Maps;
+import com.sum.spirit.common.utils.Maps;
 import java.util.Map;
 
 @Deprecated

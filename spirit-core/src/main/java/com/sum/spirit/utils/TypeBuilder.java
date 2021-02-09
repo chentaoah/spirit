@@ -3,7 +3,7 @@ package com.sum.spirit.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.sum.spirit.core.common.enums.ModifierEnum;
+import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.core.visiter.entity.IType;
 
 public class TypeBuilder {

@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.LexerAction;
+import com.sum.spirit.common.utils.LineUtils;
+import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.element.lexer.AbstractLexerAction;
 import com.sum.spirit.core.element.lexer.BorderAction;
+import com.sum.spirit.core.element.lexer.LexerAction;
 import com.sum.spirit.core.element.lexer.LexerContext;
 import com.sum.spirit.core.element.lexer.LexerEvent;
-import com.sum.spirit.utils.LineUtils;
-import com.sum.spirit.utils.SpringUtils;
 
 @Component
 @DependsOn("springUtils")

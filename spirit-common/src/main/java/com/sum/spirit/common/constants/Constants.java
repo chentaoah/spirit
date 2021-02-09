@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common;
+package com.sum.spirit.common.constants;
 
 public class Constants {
 

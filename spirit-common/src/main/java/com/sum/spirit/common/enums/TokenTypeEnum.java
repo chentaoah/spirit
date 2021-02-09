@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common.enums;
+package com.sum.spirit.common.enums;
 
 public enum TokenTypeEnum {
 	PATH, // 类访问全路径

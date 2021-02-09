@@ -1,4 +1,4 @@
-package com.sum.spirit.core.common.enums;
+package com.sum.spirit.common.enums;
 
 public enum AttributeEnum {
 	SIMPLE_NAME, // 类名

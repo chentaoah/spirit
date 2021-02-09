@@ -2,12 +2,12 @@ package com.sum.spirit.core;
 
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.element.action.CoreLexer;
 import com.sum.spirit.core.element.lexer.LexerContext;
 import com.sum.spirit.core.element.lexer.LexerEvent;
-import com.sum.spirit.utils.LineUtils;
 
 @Component
 public class AliasReplacer {
