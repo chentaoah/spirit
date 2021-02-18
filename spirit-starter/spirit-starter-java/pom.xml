@@ -27,7 +27,7 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../spirit/lib</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../../spirit/lib</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -41,7 +41,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../spirit/lib</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../../spirit/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
