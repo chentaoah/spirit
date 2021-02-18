@@ -51,22 +51,27 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
 	@Override
-	public boolean isPrimitive(String word) {
-		return PRIMITIVE_PATTERN.matcher(word).matches();
-	}
-
-	@Override
-	public List<Token> getTokens(List<String> words) {
-		return getTokens(words, false);
-	}
-
-	@Override
 	public List<Token> getTokens(List<String> words, boolean insideType) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words) {
 			tokens.add(getToken(word, insideType));
 		}
 		return tokens;
+	}
+
+	@Override
+	public boolean isPrimitive(String word) {
+		return PRIMITIVE_PATTERN.matcher(word).matches();
+	}
+
+	@Override
+	public boolean isType(String word) {
+		return !CONST_VAR_PATTERN.matcher(word).matches() && //
+				(PRIMITIVE_PATTERN.matcher(word).matches() || //
+						PRIMITIVE_ARRAY_PATTERN.matcher(word).matches() || //
+						TYPE_PATTERN.matcher(word).matches() || //
+						TYPE_ARRAY_PATTERN.matcher(word).matches() || //
+						GENERIC_TYPE_PATTERN.matcher(word).matches());
 	}
 
 	public boolean isPath(String word) {
@@ -87,16 +92,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	public boolean isSeparator(String word) {
 		return SymbolEnum.getSeparator(word) != null;
-	}
-
-	@Override
-	public boolean isType(String word) {
-		return !CONST_VAR_PATTERN.matcher(word).matches() && //
-				(PRIMITIVE_PATTERN.matcher(word).matches() || //
-						PRIMITIVE_ARRAY_PATTERN.matcher(word).matches() || //
-						TYPE_PATTERN.matcher(word).matches() || //
-						TYPE_ARRAY_PATTERN.matcher(word).matches() || //
-						GENERIC_TYPE_PATTERN.matcher(word).matches());
 	}
 
 	public boolean isInit(String word) {

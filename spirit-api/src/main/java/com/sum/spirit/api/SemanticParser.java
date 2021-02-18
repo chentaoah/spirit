@@ -18,8 +18,8 @@ public interface SemanticParser {
 		return getTokens(words, false);
 	}
 
-	boolean isType(String word);
-
 	boolean isPrimitive(String word);
+
+	boolean isType(String word);
 
 }
