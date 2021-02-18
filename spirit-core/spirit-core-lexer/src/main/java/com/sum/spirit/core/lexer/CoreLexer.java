@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Lexer;
@@ -23,16 +22,15 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerEvent;
 
 @Component
-@Primary
 @DependsOn("springUtils")
 public class CoreLexer extends AbstractLexerAction implements Lexer, InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 
-	public List<LexerAction> actions;
 	@Autowired
 	public BorderAction borderAction;
+	public List<LexerAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {

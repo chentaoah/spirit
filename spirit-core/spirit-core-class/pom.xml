@@ -9,17 +9,24 @@
 	</parent>
 	<artifactId>spirit-core-class</artifactId>
 	<dependencies>
-		<!-- spirit-core-lexer -->
+		<!-- spirit-api -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-core-lexer</artifactId>
+			<artifactId>spirit-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- spirit-core-element -->
+		<!-- spring boot test -->
 		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-core-element</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

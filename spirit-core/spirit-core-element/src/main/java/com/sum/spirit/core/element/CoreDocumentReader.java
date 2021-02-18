@@ -8,6 +8,7 @@ import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.DocumentReader;
 import com.sum.spirit.common.constants.Constants;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.core.element.entity.Document;
@@ -18,12 +19,13 @@ import com.sum.spirit.core.element.entity.Statement;
 import cn.hutool.core.io.IoUtil;
 
 @Component
-public class DocumentReader {
+public class CoreDocumentReader implements DocumentReader {
 
 	@Autowired
-	public ElementBuilder builder;
+	public CoreElementBuilder builder;
 
-	public Document readDocument(String fileName, InputStream input) {
+	@Override
+	public Document read(String fileName, InputStream input) {
 		Document document = new Document(fileName);
 		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
 		doReadLines(document, lines);

@@ -2,14 +2,16 @@ package com.sum.spirit.core.element.action;
 
 import java.util.List;
 
+import com.sum.spirit.api.TreeBuilder;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
-public abstract class AbstractTreeBuilder {
+public abstract class AbstractTreeBuilder implements TreeBuilder {
 
+	@Override
 	public SyntaxTree buildTree(Statement statement) {
 		// 用语句构建节点树
 		List<Node> nodes = buildNodes(statement.tokens);
@@ -56,7 +58,5 @@ public abstract class AbstractTreeBuilder {
 			position += length;
 		}
 	}
-
-	protected abstract List<Node> buildNodes(List<Token> tokens);
 
 }

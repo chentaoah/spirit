@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.sum.spirit.api.SemanticParser;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.element.entity.Token;
 
-public abstract class AbstractSemanticParser {
+public abstract class AbstractSemanticParser implements SemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
@@ -49,14 +50,17 @@ public abstract class AbstractSemanticParser {
 
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
-	public static boolean isPrimitive(String word) {
+	@Override
+	public boolean isPrimitive(String word) {
 		return PRIMITIVE_PATTERN.matcher(word).matches();
 	}
 
+	@Override
 	public List<Token> getTokens(List<String> words) {
 		return getTokens(words, false);
 	}
 
+	@Override
 	public List<Token> getTokens(List<String> words, boolean insideType) {
 		List<Token> tokens = new ArrayList<>();
 		for (String word : words) {
@@ -85,6 +89,7 @@ public abstract class AbstractSemanticParser {
 		return SymbolEnum.getSeparator(word) != null;
 	}
 
+	@Override
 	public boolean isType(String word) {
 		return !CONST_VAR_PATTERN.matcher(word).matches() && //
 				(PRIMITIVE_PATTERN.matcher(word).matches() || //
@@ -210,6 +215,7 @@ public abstract class AbstractSemanticParser {
 		return word.substring(1, word.length() - 1);
 	}
 
+	@Override
 	public abstract Token getToken(String word, boolean insideType);
 
 }

@@ -1,4 +1,4 @@
-package com.sum.spirit.core;
+package com.sum.spirit.starter;
 
 import org.springframework.stereotype.Component;
 

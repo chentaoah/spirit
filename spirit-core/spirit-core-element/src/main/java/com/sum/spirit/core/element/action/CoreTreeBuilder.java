@@ -15,7 +15,7 @@ import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
 @Component
-public class TreeBuilder extends AbstractTreeBuilder {
+public class CoreTreeBuilder extends AbstractTreeBuilder {
 
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {

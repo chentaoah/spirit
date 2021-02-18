@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.api.ElementBuilder;
 import com.sum.spirit.api.Lexer;
+import com.sum.spirit.api.SemanticParser;
+import com.sum.spirit.api.TreeBuilder;
 import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.core.element.action.LineChecker;
-import com.sum.spirit.core.element.action.SemanticParser;
-import com.sum.spirit.core.element.action.TreeBuilder;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;
 import com.sum.spirit.core.element.entity.Modifiers;
@@ -18,7 +19,7 @@ import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
 @Component
-public class ElementBuilder {
+public class CoreElementBuilder implements ElementBuilder {
 
 	@Autowired
 	public LineChecker checker;
@@ -29,10 +30,12 @@ public class ElementBuilder {
 	@Autowired
 	public TreeBuilder builder;
 
+	@Override
 	public Element build(String text) {
 		return build(new Line(text));
 	}
 
+	@Override
 	public Element build(Line line) {
 		try {
 			// 语法校验
@@ -64,6 +67,7 @@ public class ElementBuilder {
 		}
 	}
 
+	@Override
 	public Element rebuild(Statement statement) {
 		Element element = build(statement.toString());
 		// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
