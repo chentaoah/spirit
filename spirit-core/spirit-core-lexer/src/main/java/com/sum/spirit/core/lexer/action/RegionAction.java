@@ -71,10 +71,10 @@ public class RegionAction extends AbstractLexerAction {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '[', ']');
 			Region region2 = null;
-			if (equalsChar(builder, region1.endIndex, '{')) {
+			if (isCharAt(builder, region1.endIndex, '{')) {
 				region2 = findRegion(builder, region1.endIndex, '{', '}');
 
-			} else if (equalsChar(builder, region1.endIndex, ' ') && equalsChar(builder, region1.endIndex + 1, '{')) {
+			} else if (isCharAt(builder, region1.endIndex, ' ') && isCharAt(builder, region1.endIndex + 1, '{')) {
 				region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 			}
 			doPushStack(event, Lists.toList(region0, region1, region2), "@array_like");
@@ -83,16 +83,13 @@ public class RegionAction extends AbstractLexerAction {
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '<', '>');
-			Region region2 = null;
-			if (equalsChar(builder, region1.endIndex, '(')) {
-				region2 = findRegion(builder, region1.endIndex, '(', ')');
-			}
+			Region region2 = isCharAt(builder, region1.endIndex, '(') ? findRegion(builder, region1.endIndex, '(', ')') : null;
 			doPushStack(event, Lists.toList(region0, region1, region2), "@generic");
 			resetIndex(event);
 		}
 	}
 
-	public boolean equalsChar(StringBuilder builder, int index, char ch) {
+	public boolean isCharAt(StringBuilder builder, int index, char ch) {
 		return index < builder.length() && builder.charAt(index) == ch;
 	}
 

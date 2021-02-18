@@ -33,7 +33,7 @@ public class SymbolAction extends AbstractLexerAction {
 			}
 		}
 
-		// 尝试获取一个字符，判断是否双字符符号
+		// 尝试获取一个字符，判断是否单字符符号
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
@@ -41,7 +41,7 @@ public class SymbolAction extends AbstractLexerAction {
 			return;
 		}
 
-		throw new RuntimeException("Symbol that cannot be processed!");
+		throw new RuntimeException("Unable to process symbol!");
 	}
 
 }

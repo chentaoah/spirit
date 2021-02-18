@@ -46,7 +46,7 @@ public class BorderAction extends RegionAction {
 		}
 
 		// 添加到上下文参数中
-		context.subWords = words;
+		context.words = words;
 		// 重置索引到结束位置
 		context.index = builder.length();
 	}

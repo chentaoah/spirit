@@ -67,11 +67,11 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
 		// 触发事件
 		process(context, borderAction);
-		Assert.notNull(context.subWords, "SubWords can not be null!");
+		Assert.notNull(context.words, "SubWords can not be null!");
 		// 继续拆分
 		List<String> words = new ArrayList<>();
-		for (String subWord : context.subWords) {
-			words.addAll(getWords(subWord));
+		for (String word : context.words) {
+			words.addAll(getWords(word));
 		}
 		return words;
 	}

@@ -25,7 +25,7 @@ public class LexerContext {
 	public int startIndex = -1;
 	public int index;
 
-	public List<String> subWords;
+	public List<String> words;
 
 	public LexerContext(StringBuilder builder, Character... splitChars) {
 		this.builder = builder;
