@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
-import com.sum.spirit.element.entity.Statement;
-import com.sum.spirit.element.entity.Token;
 import com.sum.spirit.java.utils.TypeUtils;
 
 @Component

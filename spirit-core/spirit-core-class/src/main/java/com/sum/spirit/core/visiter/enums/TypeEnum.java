@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.TypeEnumCtor;
+import com.sum.spirit.core.element.action.AbstractSemanticParser;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.element.action.AbstractSemanticParser;
 
 import cn.hutool.core.lang.Assert;
 

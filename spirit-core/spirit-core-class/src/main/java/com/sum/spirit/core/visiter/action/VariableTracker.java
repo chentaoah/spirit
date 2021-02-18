@@ -9,6 +9,8 @@ import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.StatementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.ClassVisiter;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.IType;
@@ -16,8 +18,6 @@ import com.sum.spirit.core.visiter.entity.MethodContext;
 import com.sum.spirit.core.visiter.entity.StatementEvent;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;
-import com.sum.spirit.element.entity.Statement;
-import com.sum.spirit.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 

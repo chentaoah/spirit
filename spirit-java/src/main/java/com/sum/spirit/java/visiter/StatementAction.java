@@ -14,14 +14,14 @@ import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
+import com.sum.spirit.core.element.ElementBuilder;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.action.AbstractElementAction;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.element.ElementBuilder;
-import com.sum.spirit.element.entity.Element;
-import com.sum.spirit.element.entity.Statement;
-import com.sum.spirit.element.entity.Token;
 import com.sum.spirit.java.JavaBuilder;
 import com.sum.spirit.java.utils.TypeUtils;
 

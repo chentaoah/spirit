@@ -3,7 +3,7 @@ package com.sum.spirit.core.clazz.entity;
 import java.util.List;
 
 import com.sum.spirit.core.clazz.frame.MemberUnit;
-import com.sum.spirit.element.entity.Element;
+import com.sum.spirit.core.element.entity.Element;
 
 public class IField extends MemberUnit {
 

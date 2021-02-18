@@ -13,12 +13,12 @@ import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IVariable;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.MethodContext;
-import com.sum.spirit.element.entity.Element;
-import com.sum.spirit.element.entity.Statement;
-import com.sum.spirit.element.entity.Token;
 
 @Component
 @DependsOn("springUtils")

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.Import;
-import com.sum.spirit.lexer.CoreLexer;
-import com.sum.spirit.lexer.entity.LexerContext;
-import com.sum.spirit.lexer.entity.LexerEvent;
+import com.sum.spirit.core.lexer.CoreLexer;
+import com.sum.spirit.core.lexer.entity.LexerContext;
+import com.sum.spirit.core.lexer.entity.LexerEvent;
 
 @Component
 public class AliasReplacer {

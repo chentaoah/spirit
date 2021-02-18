@@ -11,9 +11,9 @@ import com.sum.spirit.core.api.ClassLoader;
 import com.sum.spirit.core.api.ImportSelector;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
+import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
-import com.sum.spirit.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 

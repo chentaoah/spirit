@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.action.TreeBuilder;
+import com.sum.spirit.core.element.entity.Node;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
-import com.sum.spirit.element.action.TreeBuilder;
-import com.sum.spirit.element.entity.Node;
-import com.sum.spirit.element.entity.Statement;
-import com.sum.spirit.element.entity.Token;
 
 @Component
 public class FastDeducer {

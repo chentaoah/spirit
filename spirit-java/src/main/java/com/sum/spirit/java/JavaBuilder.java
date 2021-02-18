@@ -16,8 +16,8 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.Import;
+import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.element.entity.Element;
 
 @Component
 @DependsOn("springUtils")
