@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ElementBuilder;
+import com.sum.spirit.common.entity.Document;
+import com.sum.spirit.common.entity.Element;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.Import;
-import com.sum.spirit.core.element.entity.Document;
-import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.utils.TypeUtils;
 
 @Component

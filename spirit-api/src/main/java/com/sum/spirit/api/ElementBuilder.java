@@ -1,8 +1,8 @@
 package com.sum.spirit.api;
 
-import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.core.element.entity.Line;
-import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.common.entity.Element;
+import com.sum.spirit.common.entity.Line;
+import com.sum.spirit.common.entity.Statement;
 
 public interface ElementBuilder {
 

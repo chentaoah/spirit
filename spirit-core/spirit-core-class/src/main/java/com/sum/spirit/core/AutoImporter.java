@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.ElementBuilder;
 import com.sum.spirit.api.SemanticParser;
+import com.sum.spirit.common.entity.Element;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.utils.TypeNameVisiter;
 

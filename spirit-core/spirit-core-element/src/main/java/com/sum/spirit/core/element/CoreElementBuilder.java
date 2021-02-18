@@ -9,14 +9,14 @@ import com.sum.spirit.api.ElementBuilder;
 import com.sum.spirit.api.Lexer;
 import com.sum.spirit.api.SemanticParser;
 import com.sum.spirit.api.TreeBuilder;
+import com.sum.spirit.common.entity.Element;
+import com.sum.spirit.common.entity.Line;
+import com.sum.spirit.common.entity.Modifiers;
+import com.sum.spirit.common.entity.Statement;
+import com.sum.spirit.common.entity.SyntaxTree;
+import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.core.element.action.LineChecker;
-import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.core.element.entity.Line;
-import com.sum.spirit.core.element.entity.Modifiers;
-import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.SyntaxTree;
-import com.sum.spirit.core.element.entity.Token;
 
 @Component
 public class CoreElementBuilder implements ElementBuilder {

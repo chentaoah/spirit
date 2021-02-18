@@ -1,10 +1,10 @@
-package com.sum.spirit.core.element.entity;
+package com.sum.spirit.common.entity;
 
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.sum.spirit.common.frame.TokenBox;
 import com.sum.spirit.common.utils.HeadVisiter;
-import com.sum.spirit.core.element.frame.TokenBox;
 
 public class Modifiers extends TokenBox {
 

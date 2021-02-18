@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.api.SemanticParser;
+import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
 

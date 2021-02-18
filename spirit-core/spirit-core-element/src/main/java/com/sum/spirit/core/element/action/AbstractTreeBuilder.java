@@ -3,11 +3,11 @@ package com.sum.spirit.core.element.action;
 import java.util.List;
 
 import com.sum.spirit.api.TreeBuilder;
+import com.sum.spirit.common.entity.Node;
+import com.sum.spirit.common.entity.Statement;
+import com.sum.spirit.common.entity.SyntaxTree;
+import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.AttributeEnum;
-import com.sum.spirit.core.element.entity.Node;
-import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.SyntaxTree;
-import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractTreeBuilder implements TreeBuilder {
 

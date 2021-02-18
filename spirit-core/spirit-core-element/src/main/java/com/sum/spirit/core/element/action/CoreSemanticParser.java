@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.api.Lexer;
+import com.sum.spirit.common.entity.Statement;
+import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 

@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sum.spirit.common.entity.Statement;
+import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.action.AbstractElementAction;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
