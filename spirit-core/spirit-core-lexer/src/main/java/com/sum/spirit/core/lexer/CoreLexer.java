@@ -21,6 +21,8 @@ import com.sum.spirit.core.lexer.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerEvent;
 
+import cn.hutool.core.lang.Assert;
+
 @Component
 @DependsOn("springUtils")
 public class CoreLexer extends AbstractLexerAction implements Lexer, InitializingBean {
@@ -60,22 +62,18 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<String> getSubWords(String text, Character... splitChars) {
 		// 上下文
 		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
 		// 触发事件
 		process(context, borderAction);
-
-		List<String> finalWords = new ArrayList<>();
-		List<String> subWords = (List<String>) context.attachments.get(BorderAction.SUB_WORDS);
-		if (subWords == null || subWords.isEmpty()) {
-			throw new RuntimeException("Word split failed!");
+		Assert.notNull(context.subWords, "SubWords can not be null!");
+		// 继续拆分
+		List<String> words = new ArrayList<>();
+		for (String subWord : context.subWords) {
+			words.addAll(getWords(subWord));
 		}
-		for (String subWord : subWords) {
-			finalWords.addAll(getWords(subWord));
-		}
-		return finalWords;
+		return words;
 	}
 
 	public void process(LexerContext context, LexerAction action) {
@@ -99,31 +97,31 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 	}
 
 	public void splitWords(List<String> words) {
-		for (int i = 0; i < words.size(); i++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
-			String word = words.get(i);
+		for (int index = 0; index < words.size(); index++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
+			String word = words.get(index);
 			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !DOUBLE_PATTERN.matcher(word).matches()) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
-				words.remove(i);
-				words.addAll(i, subWords);
+				words.remove(index);
+				words.addAll(index, subWords);
 			}
 		}
 	}
 
 	public void restoreWords(List<String> words, Map<String, String> replacedStrs) {
-		for (int i = 0; i < words.size(); i++) {// 替换回去
-			String str = replacedStrs.get(words.get(i));
+		for (int index = 0; index < words.size(); index++) {// 替换回去
+			String str = replacedStrs.get(words.get(index));
 			if (str != null) {
-				words.set(i, str);
+				words.set(index, str);
 			}
 		}
 	}
 
-	public boolean isContinuous(char c) {// 是否连续
-		return c == '@' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.';
+	public boolean isContinuous(char ch) {// 是否连续
+		return ch == '@' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_' || ch == '.';
 	}
 
-	public boolean isRefreshed(char c) {// 是否需要刷新
-		return c == '.';
+	public boolean isRefreshed(char ch) {// 是否需要刷新
+		return ch == '.';
 	}
 
 	@Override

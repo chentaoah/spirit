@@ -25,7 +25,7 @@ public class LexerContext {
 	public int startIndex = -1;
 	public int index;
 
-	public Map<String, Object> attachments = new HashMap<>();
+	public List<String> subWords;
 
 	public LexerContext(StringBuilder builder, Character... splitChars) {
 		this.builder = builder;

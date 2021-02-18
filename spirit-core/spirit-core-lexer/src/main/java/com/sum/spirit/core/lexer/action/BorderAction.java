@@ -2,7 +2,6 @@ package com.sum.spirit.core.lexer.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -16,14 +15,11 @@ import com.sum.spirit.core.lexer.entity.Region;
 @Order(-100)
 public class BorderAction extends RegionAction {
 
-	public static final String SUB_WORDS = "SUB_WORDS";
-
 	@Override
 	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
 		LexerContext context = event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
-		Map<String, Object> attachments = context.attachments;
 		List<String> subWords = new ArrayList<>();
 		Region prefixRegion = null;
 		for (Region region : regions) {
@@ -50,7 +46,7 @@ public class BorderAction extends RegionAction {
 			subWords.add(0, builder.substring(prefixRegion.startIndex, prefixRegion.endIndex));
 		}
 		// 添加到上下文参数中
-		attachments.put(SUB_WORDS, subWords);
+		context.subWords = subWords;
 		// 重置索引到结束位置
 		context.index = builder.length();
 	}

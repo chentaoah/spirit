@@ -2,8 +2,8 @@ package com.sum.spirit.common.utils;
 
 public class LineUtils {
 
-	public static boolean isLetter(char c) {
-		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
+	public static boolean isLetter(char ch) {
+		return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_';
 	}
 
 	public static String mergeSpaces(String line) {
@@ -22,23 +22,23 @@ public class LineUtils {
 		return sb.toString();
 	}
 
-	public static char flipChar(char c) {
-		if (c == '(') {
+	public static char flipChar(char ch) {
+		if (ch == '(') {
 			return ')';
-		} else if (c == '{') {
+		} else if (ch == '{') {
 			return '}';
-		} else if (c == '[') {
+		} else if (ch == '[') {
 			return ']';
-		} else if (c == '<') {
+		} else if (ch == '<') {
 			return '>';
-		} else if (c == '"') {
+		} else if (ch == '"') {
 			return '"';
-		} else if (c == '\'') {
+		} else if (ch == '\'') {
 			return '\'';
-		} else if (c == '|') {
+		} else if (ch == '|') {
 			return '|';
 		}
-		return c;
+		return ch;
 	}
 
 	public static boolean isNotEscaped(CharSequence chars, int index) {
