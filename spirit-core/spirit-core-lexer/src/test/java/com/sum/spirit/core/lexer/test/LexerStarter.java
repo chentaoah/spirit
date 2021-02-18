@@ -1,4 +1,4 @@
-package com.sum.spirit.lexer.test;
+package com.sum.spirit.core.lexer.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

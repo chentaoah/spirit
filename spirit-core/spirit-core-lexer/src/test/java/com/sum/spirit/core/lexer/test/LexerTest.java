@@ -1,4 +1,4 @@
-package com.sum.spirit.lexer.test;
+package com.sum.spirit.core.lexer.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
