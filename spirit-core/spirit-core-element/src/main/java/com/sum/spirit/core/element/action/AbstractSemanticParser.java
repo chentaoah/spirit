@@ -210,7 +210,4 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 		return word.substring(1, word.length() - 1);
 	}
 
-	@Override
-	public abstract Token getToken(String word, boolean insideType);
-
 }
