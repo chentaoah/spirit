@@ -30,9 +30,9 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 
+	public List<LexerAction> actions;
 	@Autowired
 	public BorderAction borderAction;
-	public List<LexerAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -67,6 +67,7 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
 		// 触发事件
 		process(context, borderAction);
+		// 校验
 		Assert.notNull(context.words, "SubWords can not be null!");
 		// 继续拆分
 		List<String> words = new ArrayList<>();
