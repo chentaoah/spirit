@@ -9,9 +9,10 @@
 	</parent>
 	<artifactId>spirit-test</artifactId>
 	<dependencies>
+		<!-- spirit-starter-java -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-starter</artifactId>
+			<artifactId>spirit-starter-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

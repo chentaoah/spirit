@@ -8,18 +8,10 @@
 		<version>1.9.06</version>
 	</parent>
 	<artifactId>spirit-core</artifactId>
-	<dependencies>
-		<!-- spirit-core-lexer -->
-		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-core-lexer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- spirit-core-element -->
-		<dependency>
-			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-core-element</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+	<packaging>pom</packaging>
+	<modules>
+		<module>spirit-core-lexer</module>
+		<module>spirit-core-element</module>
+		<module>spirit-core-class</module>
+	</modules>
 </project>

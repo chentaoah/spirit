@@ -9,10 +9,10 @@
 	</parent>
 	<artifactId>spirit-java</artifactId>
 	<dependencies>
-		<!-- spirit-core -->
+		<!-- spirit-core-class -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-core</artifactId>
+			<artifactId>spirit-core-class</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

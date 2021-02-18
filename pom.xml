@@ -23,15 +23,12 @@
 	</repositories>
 
 	<modules>
-		<module>spirit-api</module>
 		<module>spirit-common</module>
+		<module>spirit-api</module>
 		<module>spirit-core</module>
-		<module>spirit-core-lexer</module>
 		<module>spirit-java</module>
 		<module>spirit-starter</module>
-		<module>spirit-starter-kit</module>
 		<module>spirit-test</module>
-		<module>spirit-core-element</module>
 	</modules>
 
 	<properties>
