@@ -1,11 +1,11 @@
-package com.sum.spirit.common.entity;
+package com.sum.spirit.core.element.entity;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.frame.Semantic;
+import com.sum.spirit.core.element.frame.Semantic;
 
 public class Token extends Semantic {
 

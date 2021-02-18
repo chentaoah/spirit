@@ -1,8 +1,8 @@
-package com.sum.spirit.api;
+package com.sum.spirit.core.element.api;
 
 import java.io.InputStream;
 
-import com.sum.spirit.common.entity.Document;
+import com.sum.spirit.core.element.entity.Document;
 
 public interface DocumentReader {
 

@@ -1,11 +1,11 @@
-package com.sum.spirit.common.entity;
+package com.sum.spirit.core.element.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.common.enums.SyntaxEnum;
-import com.sum.spirit.common.frame.Syntactic;
 import com.sum.spirit.common.utils.LineUtils;
+import com.sum.spirit.core.element.frame.Syntactic;
 
 public class Element extends Syntactic {
 

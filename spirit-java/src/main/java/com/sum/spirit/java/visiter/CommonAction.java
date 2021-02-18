@@ -4,11 +4,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
-import com.sum.spirit.common.entity.Statement;
-import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Maps;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.action.AbstractElementAction;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;

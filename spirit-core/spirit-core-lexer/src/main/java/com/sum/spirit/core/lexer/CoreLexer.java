@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.Lexer;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.lexer.action.AbstractLexerAction;
 import com.sum.spirit.core.lexer.action.BorderAction;
+import com.sum.spirit.core.lexer.api.Lexer;
 import com.sum.spirit.core.lexer.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerEvent;

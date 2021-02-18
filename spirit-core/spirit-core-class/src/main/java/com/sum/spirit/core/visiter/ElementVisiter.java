@@ -8,14 +8,14 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Constants;
-import com.sum.spirit.common.entity.Element;
-import com.sum.spirit.common.entity.Statement;
-import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IVariable;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.MethodContext;

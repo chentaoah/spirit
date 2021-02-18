@@ -1,4 +1,4 @@
-package com.sum.spirit.common.frame;
+package com.sum.spirit.core.element.frame;
 
 import java.util.Map;
 

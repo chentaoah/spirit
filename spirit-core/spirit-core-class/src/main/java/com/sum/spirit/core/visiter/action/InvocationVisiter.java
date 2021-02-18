@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.entity.Statement;
-import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.StatementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.entity.StatementEvent;

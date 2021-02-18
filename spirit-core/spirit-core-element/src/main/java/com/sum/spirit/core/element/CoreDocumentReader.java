@@ -8,13 +8,13 @@ import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.api.DocumentReader;
 import com.sum.spirit.common.constants.Constants;
-import com.sum.spirit.common.entity.Document;
-import com.sum.spirit.common.entity.Element;
-import com.sum.spirit.common.entity.Line;
-import com.sum.spirit.common.entity.Statement;
 import com.sum.spirit.common.utils.ConfigUtils;
+import com.sum.spirit.core.element.api.DocumentReader;
+import com.sum.spirit.core.element.entity.Document;
+import com.sum.spirit.core.element.entity.Element;
+import com.sum.spirit.core.element.entity.Line;
+import com.sum.spirit.core.element.entity.Statement;
 
 import cn.hutool.core.io.IoUtil;
 

@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.api.SemanticParser;
-import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.element.api.SemanticParser;
+import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;

@@ -2,7 +2,7 @@ package com.sum.spirit.core.element.action;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.entity.Line;
+import com.sum.spirit.core.element.entity.Line;
 
 @Component
 public class LineChecker {

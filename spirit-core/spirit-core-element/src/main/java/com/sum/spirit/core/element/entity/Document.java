@@ -1,4 +1,4 @@
-package com.sum.spirit.common.entity;
+package com.sum.spirit.core.element.entity;
 
 import java.util.ArrayList;
 

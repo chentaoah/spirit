@@ -2,8 +2,8 @@ package com.sum.spirit.core.visiter.utils;
 
 import java.util.List;
 
-import com.sum.spirit.common.entity.Statement;
-import com.sum.spirit.common.entity.Token;
+import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.Token;
 
 public class StmtVisiter extends Visiter<Statement, Token> {
 

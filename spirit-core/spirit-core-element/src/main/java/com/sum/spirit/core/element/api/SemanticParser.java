@@ -1,8 +1,8 @@
-package com.sum.spirit.api;
+package com.sum.spirit.core.element.api;
 
 import java.util.List;
 
-import com.sum.spirit.common.entity.Token;
+import com.sum.spirit.core.element.entity.Token;
 
 public interface SemanticParser {
 

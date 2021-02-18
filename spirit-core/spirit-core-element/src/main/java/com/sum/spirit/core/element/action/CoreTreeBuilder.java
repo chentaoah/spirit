@@ -7,12 +7,12 @@ import java.util.ListIterator;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.entity.Node;
-import com.sum.spirit.common.entity.SyntaxTree;
-import com.sum.spirit.common.entity.Token;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
+import com.sum.spirit.core.element.entity.Node;
+import com.sum.spirit.core.element.entity.SyntaxTree;
+import com.sum.spirit.core.element.entity.Token;
 
 @Component
 public class CoreTreeBuilder extends AbstractTreeBuilder {
