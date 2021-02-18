@@ -3,10 +3,10 @@ package com.sum.spirit.core.lexer.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerEvent;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -17,36 +17,36 @@ public class BorderAction extends RegionAction {
 
 	@Override
 	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
+
 		LexerContext context = event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
-		List<String> subWords = new ArrayList<>();
-		Region prefixRegion = null;
+
+		List<String> words = new ArrayList<>();
+		Region mergedRegion = null;
+
 		for (Region region : regions) {
-			if (region == null) {
-				continue;
-			}
 			char startChar = builder.charAt(region.startIndex);
 			char endChar = builder.charAt(region.endIndex - 1);
+			// 如果开始字符和结束字符在指定的字符中，则对区域进行拆分
 			if (splitChars.contains(startChar) && splitChars.contains(endChar)) {
-				subWords.add(builder.substring(region.startIndex, region.startIndex + 1));
-				if (region.endIndex - 1 > region.startIndex + 1) {
-					String content = builder.substring(region.startIndex + 1, region.endIndex - 1);
-					if (StringUtils.isNotBlank(content)) {
-						subWords.add(content);
-					}
+				if (mergedRegion != null) {
+					words.add(subRegion(builder, mergedRegion));
+					mergedRegion = null;
 				}
-				subWords.add(builder.substring(region.endIndex - 1, region.endIndex));
+				words.addAll(splitRegion(builder, region));
+
 			} else {
-				prefixRegion = mergeRegions(prefixRegion, region);
+				mergedRegion = mergeRegions(Lists.toList(mergedRegion, region));
 			}
 		}
-		// 在头部插入前缀
-		if (prefixRegion != null) {
-			subWords.add(0, builder.substring(prefixRegion.startIndex, prefixRegion.endIndex));
+
+		if (mergedRegion != null) {
+			words.add(subRegion(builder, mergedRegion));
 		}
+
 		// 添加到上下文参数中
-		context.subWords = subWords;
+		context.subWords = words;
 		// 重置索引到结束位置
 		context.index = builder.length();
 	}

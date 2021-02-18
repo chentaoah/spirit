@@ -1,11 +1,11 @@
 package com.sum.spirit.core.lexer.action;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerEvent;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -51,50 +51,54 @@ public class RegionAction extends AbstractLexerAction {
 
 		if (ch == '"') {
 			Region region = findRegion(builder, context.index, '"', '"');
-			doPushStack(event, Arrays.asList(region), "@str");
+			doPushStack(event, Lists.toList(region), "@str");
 
 		} else if (ch == '\'') {
 			Region region = findRegion(builder, context.index, '\'', '\'');
-			doPushStack(event, Arrays.asList(region), "@char");
+			doPushStack(event, Lists.toList(region), "@char");
 
 		} else if (ch == '{') {
 			Region region = findRegion(builder, context.index, '{', '}');
-			doPushStack(event, Arrays.asList(region), "@map");
+			doPushStack(event, Lists.toList(region), "@map");
 
 		} else if (ch == '(') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '(', ')');
-			doPushStack(event, Arrays.asList(region0, region1), "@invoke_like");
+			doPushStack(event, Lists.toList(region0, region1), "@invoke_like");
 			resetIndex(event);
 
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '[', ']');
 			Region region2 = null;
-			if (region1.endIndex < builder.length() && builder.charAt(region1.endIndex) == '{') {
+			if (equalsChar(builder, region1.endIndex, '{')) {
 				region2 = findRegion(builder, region1.endIndex, '{', '}');
 
-			} else if (region1.endIndex + 1 < builder.length() && builder.charAt(region1.endIndex) == ' ' && builder.charAt(region1.endIndex + 1) == '{') {
+			} else if (equalsChar(builder, region1.endIndex, ' ') && equalsChar(builder, region1.endIndex + 1, '{')) {
 				region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 			}
-			doPushStack(event, Arrays.asList(region0, region1, region2), "@array_like");
+			doPushStack(event, Lists.toList(region0, region1, region2), "@array_like");
 			resetIndex(event);
 
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '<', '>');
 			Region region2 = null;
-			if (region1.endIndex < builder.length() && builder.charAt(region1.endIndex) == '(') {
+			if (equalsChar(builder, region1.endIndex, '(')) {
 				region2 = findRegion(builder, region1.endIndex, '(', ')');
 			}
-			doPushStack(event, Arrays.asList(region0, region1, region2), "@generic");
+			doPushStack(event, Lists.toList(region0, region1, region2), "@generic");
 			resetIndex(event);
 		}
 	}
 
+	public boolean equalsChar(StringBuilder builder, int index, char ch) {
+		return index < builder.length() && builder.charAt(index) == ch;
+	}
+
 	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
 		LexerContext context = event.context;
-		replaceStr(context.builder, mergeRegions((Region[]) regions.toArray()), markName + context.nameCount++, context.replacedStrs);
+		replaceStr(context.builder, mergeRegions(regions), markName + context.nameCount++, context.replacedStrs);
 	}
 
 	public void resetIndex(LexerEvent event) {
