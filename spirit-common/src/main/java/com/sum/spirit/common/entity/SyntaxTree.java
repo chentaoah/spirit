@@ -14,7 +14,6 @@ import com.sum.spirit.common.utils.LineUtils;
 public class SyntaxTree {
 
 	public static final int START_INDEX = 0;
-
 	public List<Node> nodes;
 
 	public SyntaxTree(List<Node> nodes) {

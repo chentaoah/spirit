@@ -10,13 +10,9 @@ import com.sum.spirit.common.utils.LineUtils;
 public class Element extends Syntactic {
 
 	public Line line;
-
 	public Modifiers modifiers;
-
 	public Statement statement;
-
 	public SyntaxTree syntaxTree;
-
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
@@ -68,8 +64,7 @@ public class Element extends Syntactic {
 	}
 
 	public void debug() {
-		System.out.println(
-				line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + statement.debug());
+		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + statement.debug());
 		for (Element element : children) {
 			element.debug();
 		}

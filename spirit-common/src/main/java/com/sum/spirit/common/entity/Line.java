@@ -2,18 +2,19 @@ package com.sum.spirit.common.entity;
 
 import com.sum.spirit.common.utils.LineUtils;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Line {
 
 	public int number;
-
 	public String text;
 
 	public Line(String text) {
-		this.text = text;
-	}
-
-	public Line(int number, String text) {
-		this.number = number;
 		this.text = text;
 	}
 
@@ -36,11 +37,6 @@ public class Line {
 
 	public void debug() {
 		System.out.println(number + ":" + LineUtils.getSpaces(6 - (number + ":").length()) + text);
-	}
-
-	@Override
-	public String toString() {
-		return text;
 	}
 
 }

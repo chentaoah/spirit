@@ -3,11 +3,8 @@ package com.sum.spirit.common.entity;
 public class Node {
 
 	public int index;
-
 	public Token token;
-
 	public Node prev;
-
 	public Node next;
 
 	public Node(int index, Token token) {
