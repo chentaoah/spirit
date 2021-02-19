@@ -19,7 +19,7 @@ import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
 @Component
-public class CoreElementBuilder implements ElementBuilder {
+public class ElementBuilderImpl implements ElementBuilder {
 
 	@Autowired
 	public LineChecker checker;

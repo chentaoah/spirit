@@ -14,7 +14,7 @@ import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.AutoImporter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
-import com.sum.spirit.core.element.CoreElementBuilder;
+import com.sum.spirit.core.element.ElementBuilderImpl;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -30,7 +30,7 @@ import com.sum.spirit.java.utils.TypeUtils;
 public class StatementAction extends AbstractElementAction {
 
 	@Autowired
-	public CoreElementBuilder builder;
+	public ElementBuilderImpl builder;
 	@Autowired
 	public FastDeducer deducer;
 	@Autowired

@@ -14,7 +14,7 @@ import com.sum.spirit.core.element.entity.Token;
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class CoreSemanticParser extends AbstractSemanticParser {
+public class SemanticParserImpl extends AbstractSemanticParser {
 
 	@Autowired
 	public Lexer lexer;

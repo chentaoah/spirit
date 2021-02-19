@@ -19,10 +19,10 @@ import com.sum.spirit.core.element.entity.Statement;
 import cn.hutool.core.io.IoUtil;
 
 @Component
-public class CoreDocumentReader implements DocumentReader {
+public class DocumentReaderImpl implements DocumentReader {
 
 	@Autowired
-	public CoreElementBuilder builder;
+	public ElementBuilderImpl builder;
 
 	@Override
 	public Document read(String fileName, InputStream input) {
