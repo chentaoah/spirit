@@ -9,10 +9,10 @@
 	</parent>
 	<artifactId>spirit-core-lexer</artifactId>
 	<dependencies>
-		<!-- spirit-api -->
+		<!-- spirit-common -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-api</artifactId>
+			<artifactId>spirit-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- spring boot test -->

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.element.api;
+package com.sum.spirit.core.api;
 
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;

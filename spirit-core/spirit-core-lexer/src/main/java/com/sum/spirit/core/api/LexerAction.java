@@ -1,4 +1,4 @@
-package com.sum.spirit.core.lexer.api;
+package com.sum.spirit.core.api;
 
 import com.sum.spirit.core.lexer.entity.LexerEvent;
 

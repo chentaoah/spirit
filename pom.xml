@@ -24,7 +24,6 @@
 
 	<modules>
 		<module>spirit-common</module>
-		<module>spirit-api</module>
 		<module>spirit-core</module>
 		<module>spirit-java</module>
 		<module>spirit-starter</module>

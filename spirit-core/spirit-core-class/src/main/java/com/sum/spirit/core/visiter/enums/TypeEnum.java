@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.api.TypeEnumCtor;
-import com.sum.spirit.core.element.api.SemanticParser;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.visiter.entity.IType;
 

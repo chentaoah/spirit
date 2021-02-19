@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Constants;
 import com.sum.spirit.common.utils.ConfigUtils;
-import com.sum.spirit.core.element.api.DocumentReader;
+import com.sum.spirit.core.api.DocumentReader;
 import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;

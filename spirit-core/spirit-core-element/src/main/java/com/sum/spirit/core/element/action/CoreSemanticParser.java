@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.lexer.api.Lexer;
 
 import cn.hutool.core.lang.Assert;
 

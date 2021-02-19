@@ -3,7 +3,7 @@ package com.sum.spirit.core.element.action;
 import java.util.List;
 
 import com.sum.spirit.common.enums.AttributeEnum;
-import com.sum.spirit.core.element.api.TreeBuilder;
+import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxTree;

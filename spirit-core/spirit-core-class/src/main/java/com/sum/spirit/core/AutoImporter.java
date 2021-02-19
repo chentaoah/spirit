@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.api.ElementBuilder;
+import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.element.api.ElementBuilder;
-import com.sum.spirit.core.element.api.SemanticParser;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.utils.TypeNameVisiter;

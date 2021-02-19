@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.element.api.SemanticParser;
+import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
