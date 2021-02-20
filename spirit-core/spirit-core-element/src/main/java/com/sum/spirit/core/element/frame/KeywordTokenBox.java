@@ -54,7 +54,7 @@ public class KeywordTokenBox extends TokenBox {
 		if (endIndex == -1) {
 			return size();
 		}
-		return endIndex;
+		return endIndex + 1;
 	}
 
 	public Token getKeywordParam(String... keywords) {

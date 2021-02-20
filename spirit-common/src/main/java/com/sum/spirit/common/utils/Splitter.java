@@ -38,9 +38,6 @@ public class Splitter {
 	public static <T> List<List<T>> splitByMatcherTrim(List<T> list, Matcher<T> matcher) {
 		int[] indexs = CollUtil.indexOfAll(list, item -> matcher.accept(item));
 		List<List<T>> list0 = new ArrayList<>();
-		if (indexs == null || indexs.length == 0) {
-			return list0;
-		}
 		int lastIndex = 0;
 		for (Integer index : indexs) {
 			if (index > lastIndex) {
