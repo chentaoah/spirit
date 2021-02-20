@@ -28,7 +28,7 @@ public class SymbolAction extends AbstractLexerAction {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
-				replaceStr(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
+				replaceRegion(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
 				return;
 			}
 		}
@@ -37,7 +37,7 @@ public class SymbolAction extends AbstractLexerAction {
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			replaceStr(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
+			replaceRegion(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
 			return;
 		}
 

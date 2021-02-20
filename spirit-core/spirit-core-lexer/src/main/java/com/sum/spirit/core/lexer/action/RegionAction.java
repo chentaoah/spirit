@@ -95,7 +95,7 @@ public class RegionAction extends AbstractLexerAction {
 
 	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
 		LexerContext context = event.context;
-		replaceStr(context.builder, mergeRegions(regions), markName + context.nameCount++, context.replacedStrs);
+		replaceRegion(context.builder, mergeRegions(regions), markName + context.nameCount++, context.replacedStrs);
 	}
 
 	public void resetIndex(LexerEvent event) {

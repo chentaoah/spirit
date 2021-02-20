@@ -51,17 +51,20 @@ public abstract class AbstractLexerAction implements LexerAction {
 		return builder.substring(region.startIndex, region.endIndex);
 	}
 
-	public int replaceStr(StringBuilder builder, Region region, String markName, Map<String, String> replacedStrs) {
+	public String replaceRegion(StringBuilder builder, Region region, String markName) {
 		if (region == null) {
-			return 0;
+			return null;
 		}
 		String content = builder.substring(region.startIndex, region.endIndex);
-		if (replacedStrs != null) {
+		builder.replace(region.startIndex, region.endIndex, " " + markName + " ");
+		return content;
+	}
+
+	public void replaceRegion(StringBuilder builder, Region region, String markName, Map<String, String> replacedStrs) {
+		String content = replaceRegion(builder, region, markName);
+		if (StringUtils.isNotBlank(content) && replacedStrs != null) {
 			replacedStrs.put(markName, content);
 		}
-		markName = " " + markName + " ";
-		builder.replace(region.startIndex, region.endIndex, markName);
-		return markName.length() - region.size();
 	}
 
 }
