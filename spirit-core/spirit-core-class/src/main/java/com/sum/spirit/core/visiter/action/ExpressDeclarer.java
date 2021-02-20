@@ -38,7 +38,7 @@ public class ExpressDeclarer extends AbstractElementAction {
 		MethodContext context = event.context;
 		Element element = event.element;
 		if (element.isAssign()) {// text = "abc"
-			Token varToken = element.getToken(0);
+			Token varToken = element.get(0);
 			// 如果是字段声明，则不用进行上下文推导
 			IType type = event.isMethodScope() ? tracker.findVariableType(clazz, context, varToken.toString()) : null;
 			// 如果找不到，则必须通过推导获取类型
@@ -67,11 +67,11 @@ public class ExpressDeclarer extends AbstractElementAction {
 			IType type = deducer.derive(clazz, statement);
 			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
-			Token varToken = element.getToken(1);
+			Token varToken = element.get(1);
 			varToken.setAttr(AttributeEnum.TYPE, type);
 
 		} else if (element.isFor()) {// for (i=0; i<100; i++) {
-			Token secondToken = element.getToken(1);
+			Token secondToken = element.get(1);
 			if (secondToken.isSubexpress()) {
 				Statement statement = secondToken.getValue();
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));

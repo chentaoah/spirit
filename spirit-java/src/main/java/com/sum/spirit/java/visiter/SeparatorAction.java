@@ -35,18 +35,18 @@ public class SeparatorAction extends AbstractElementAction {
 		// if text {
 		// }catch Exception e{
 		int index = findLastKeyword(statement);
-		statement.tokens.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
+		statement.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
 		if ("{".equals(statement.last())) {
-			statement.tokens.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
+			statement.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
 		} else {
-			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
+			statement.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
 		}
 	}
 
 	public int findLastKeyword(Statement statement) {
 		int index = -1;
 		for (int i = 0; i < statement.size(); i++) {
-			Token token = statement.getToken(i);
+			Token token = statement.get(i);
 			if (token.isKeyword()) {
 				index = i;
 			} else {
@@ -62,7 +62,7 @@ public class SeparatorAction extends AbstractElementAction {
 
 	public void addLineEnd(IClass clazz, Statement statement) {
 		if (!"{".equals(statement.last())) {
-			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
+			statement.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
 		}
 	}
 

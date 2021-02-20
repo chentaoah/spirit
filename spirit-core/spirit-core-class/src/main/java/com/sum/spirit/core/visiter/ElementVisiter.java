@@ -56,13 +56,13 @@ public class ElementVisiter implements InitializingBean {
 
 	public IVariable getVariableIfPossible(IClass clazz, Element element) {
 		if (element.isAssign()) {
-			return createVariable(element.getToken(0));
+			return createVariable(element.get(0));
 
 		} else if (element.isDeclare() || element.isDeclareAssign() || element.isForIn()) {
-			return createVariable(element.getToken(1));
+			return createVariable(element.get(1));
 
 		} else if (element.isCatch()) {
-			return createVariable(element.getToken(3));
+			return createVariable(element.get(3));
 
 		} else if (element.isReturn()) {
 			Statement statement = element.subStmt(1, element.size());

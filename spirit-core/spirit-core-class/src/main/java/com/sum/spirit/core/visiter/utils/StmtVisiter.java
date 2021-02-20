@@ -9,7 +9,7 @@ public class StmtVisiter extends Visiter<Statement, Token> {
 
 	@Override
 	public List<Token> getListable(Statement listable, Consumer<VisitEvent<Token>> consumer, VisitEvent<Token> event) {
-		return listable.tokens;
+		return listable;
 	}
 
 	@Override

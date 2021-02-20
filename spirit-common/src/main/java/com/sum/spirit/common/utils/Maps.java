@@ -5,32 +5,20 @@ import java.util.Map;
 
 public class Maps {
 
-	/**
-	 * Creates an instance of {@code HashMap}
-	 */
 	public static <K, V> HashMap<K, V> newHashMap() {
 		return new HashMap<>();
 	}
 
-	/**
-	 * Returns the empty map.
-	 */
 	public static <K, V> Map<K, V> of() {
 		return newHashMap();
 	}
 
-	/**
-	 * Returns map containing a single entry.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -38,9 +26,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -49,9 +34,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -61,9 +43,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -74,9 +53,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -88,9 +64,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Map<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
 		Map<K, V> map = of();
 		map.put(k1, v1);
@@ -103,9 +76,6 @@ public class Maps {
 		return map;
 	}
 
-	/**
-	 * Returns map containing the given entries.
-	 */
 	public static <K, V> Builder<K, V> builder() {
 		return new Builder<>();
 	}

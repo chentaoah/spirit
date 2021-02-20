@@ -72,7 +72,8 @@ public class ElementBuilderImpl implements ElementBuilder {
 		Element element = build(statement.toString());
 		// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
 		element.statement = statement;
-		element.tokens = statement.tokens;
+		element.clear();
+		element.addAll(statement);
 		return element;
 	}
 

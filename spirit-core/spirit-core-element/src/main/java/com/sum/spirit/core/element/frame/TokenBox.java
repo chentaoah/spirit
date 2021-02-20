@@ -4,125 +4,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.entity.Token;
 
-import cn.hutool.core.lang.Assert;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 
-public class TokenBox {
-
-	public List<Token> tokens;
+@SuppressWarnings("serial")
+public class TokenBox extends ArrayList<Token> {
 
 	public TokenBox(List<Token> tokens) {
-		this.tokens = tokens;
-	}
-
-	public boolean matches(Token token) {
-		return token.isOperator() || token.isSeparator();
-	}
-
-	public int size() {
-		return tokens.size();
+		super(tokens);
 	}
 
 	public boolean contains(int index) {
-		return index < tokens.size();
+		return index >= 0 && index < size();
 	}
 
-	public int indexOf(Token token) {
-		return tokens.indexOf(token);
-	}
-
-	public boolean contains(Token token) {
-		return tokens.contains(token);
-	}
-
-	public Token getToken(int index) {
-		return tokens.get(index);
+	public Token firstToken() {
+		return get(0);
 	}
 
 	public Token lastToken() {
-		return tokens.get(tokens.size() - 1);
-	}
-
-	public void addToken(Token token) {
-		tokens.add(token);
-	}
-
-	public void addToken(int index, Token token) {
-		tokens.add(index, token);
-	}
-
-	public void setToken(int index, Token token) {
-		tokens.set(index, token);
-	}
-
-	public void removeToken(int index) {
-		tokens.remove(index);
-	}
-
-	public void removeToken(Token token) {
-		tokens.remove(token);
+		return get(size() - 1);
 	}
 
 	public List<Token> copyTokens() {
-		return new ArrayList<>(tokens);
+		return new ArrayList<>(this);
 	}
 
-	public List<Token> subTokens(int start, int end) {
-		return new ArrayList<>(tokens.subList(start, end));
+	public List<Token> subTokens(int fromIndex, int toIndex) {
+		return new ArrayList<>(subList(fromIndex, toIndex));
 	}
 
-	public void replaceTokens(int start, int end, Token token) {
-		for (int i = end - 1; i >= start; i--) {
-			tokens.remove(i);
-		}
-		tokens.add(start, token);
+	public void replaceTokens(int fromIndex, int toIndex, Token token) {
+		removeRange(fromIndex, toIndex);
+		add(fromIndex, token);
 	}
 
 	public Token findOneTokenOf(TokenTypeEnum... tokenTypes) {
-		for (Token token : tokens) {
-			for (TokenTypeEnum type : tokenTypes) {
-				if (token.tokenType == type) {
-					return token;
-				}
-			}
-		}
-		return null;
+		return CollUtil.findOne(this, token -> ArrayUtil.contains(tokenTypes, token.tokenType));
+	}
+
+	public boolean isSymbol(Token token) {
+		return token.isOperator() || token.isSeparator();
 	}
 
 	public List<TokenBox> splitTokens(String separator) {
-		List<TokenBox> tokenBoxs = new ArrayList<>();
-		for (int i = 0, last = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if (matches(token) && separator.equals(token.toString())) {
-				tokenBoxs.add(new TokenBox(subTokens(last, i)));
-				last = i + 1;
-			} else if (i == size() - 1) {
-				tokenBoxs.add(new TokenBox(subTokens(last, i + 1)));
-			}
-		}
-		return tokenBoxs;
+		return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), list -> new TokenBox(list));
 	}
 
 	public int indexOf(String str) {
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if (matches(token) && str.equals(token.toString())) {
-				return i;
-			}
-		}
-		return -1;
+		return Lists.indexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
 	}
 
 	public int lastIndexOf(String str) {
-		int index = -1;
-		for (int i = 0; i < size(); i++) {
-			Token token = tokens.get(i);
-			if (matches(token) && str.equals(token.toString())) {
-				index = i > index ? i : index;
-			}
-		}
-		return index;
+		return Lists.lastIndexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
 	}
 
 	public boolean contains(String str) {
@@ -130,7 +68,7 @@ public class TokenBox {
 	}
 
 	public String getStr(int index) {
-		return getToken(index).toString();
+		return get(index).toString();
 	}
 
 	public String first() {
@@ -139,81 +77,6 @@ public class TokenBox {
 
 	public String last() {
 		return getStr(size() - 1);
-	}
-
-	public int indexOfKeyword(String keyword) {
-		for (int i = 0; i < size(); i++) {
-			Token token = getToken(i);
-			if (token.isKeyword() && keyword.equals(token.toString())) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public boolean containsKeyword(String keyword) {
-		return indexOfKeyword(keyword) != -1;
-	}
-
-	public void removeKeyword(String keyword) {
-		int index = indexOfKeyword(keyword);
-		if (index != -1) {
-			removeToken(index);
-		}
-	}
-
-	public void replaceKeyword(String keyword, String newKeyword) {
-		int index = indexOfKeyword(keyword);
-		if (index != -1) {
-			setToken(index, new Token(TokenTypeEnum.KEYWORD, newKeyword));
-		}
-	}
-
-	public void addKeywordAtFirst(String keyword) {
-		addToken(0, new Token(TokenTypeEnum.KEYWORD, keyword));
-	}
-
-	public void insertKeywordAfter(String keyword, String newKeyword) {
-		int index = indexOfKeyword(keyword);
-		if (index != -1) {
-			addToken(index + 1, new Token(TokenTypeEnum.KEYWORD, newKeyword));
-		}
-	}
-
-	public int findKeywordEnd(int index) {
-		for (int i = index + 1; i < size(); i++) {
-			Token token = getToken(i);
-			if (token.isKeyword() || (token.isSeparator() && !",".equals(token.toString()))) {
-				return i;
-			} else if (i == size() - 1) {
-				return i + 1;
-			}
-		}
-		return -1;
-	}
-
-	public Token getKeywordParam(String... keywords) {
-		for (String keyword : keywords) {
-			int index = indexOfKeyword(keyword);
-			if (index != -1 && contains(index + 1)) {
-				return getToken(index + 1);
-			}
-		}
-		return null;
-	}
-
-	public List<Token> getKeywordParams(String keyword) {
-		List<Token> params = new ArrayList<>();
-		int index = indexOfKeyword(keyword);
-		if (index != -1) {
-			int end = findKeywordEnd(index);
-			List<TokenBox> tokenBoxs = new TokenBox(subTokens(index + 1, end)).splitTokens(",");
-			for (TokenBox tokenBox : tokenBoxs) {
-				Assert.isTrue(tokenBox.size() == 1, "The size must be 1!");
-				params.add(tokenBox.getToken(0));
-			}
-		}
-		return params;
 	}
 
 }

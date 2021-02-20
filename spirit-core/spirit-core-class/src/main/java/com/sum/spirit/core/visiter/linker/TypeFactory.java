@@ -85,7 +85,7 @@ public class TypeFactory extends AbstractTypeFactory {
 	public List<IType> getGenericTypes(IClass clazz, Statement statement) {
 		List<IType> genericTypes = new ArrayList<>();
 		for (int i = 1; i < statement.size(); i++) {
-			Token token = statement.getToken(i);
+			Token token = statement.get(i);
 			if (token.isType()) {
 				genericTypes.add(create(clazz, token));
 			}

@@ -5,7 +5,8 @@ import java.util.List;
 import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.core.element.entity.Token;
 
-public abstract class Syntactic extends TokenBox {
+@SuppressWarnings("serial")
+public abstract class Syntactic extends KeywordTokenBox {
 
 	public SyntaxEnum syntax;
 

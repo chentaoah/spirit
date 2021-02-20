@@ -69,9 +69,9 @@ public class ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = new HeadVisiter<Token>().visit(paramStmt.tokens, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = new HeadVisiter<Token>().visit(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
-			parameter.setType(factory.create(clazz, paramStmt.getToken(0)));
+			parameter.setType(factory.create(clazz, paramStmt.get(0)));
 			method.parameters.add(parameter);
 		}
 	}
@@ -110,7 +110,7 @@ public class ClassVisiter {
 
 		} else if (method.element.isFuncDeclare()) {
 			// 获取声明的类型
-			IType declaredType = factory.create(clazz, method.element.getToken(0));
+			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : TypeEnum.void_t.value;

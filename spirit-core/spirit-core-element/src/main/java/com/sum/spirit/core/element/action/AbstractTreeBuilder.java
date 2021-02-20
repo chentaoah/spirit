@@ -8,13 +8,14 @@ import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.element.utils.StmtFormat;
 
 public abstract class AbstractTreeBuilder implements TreeBuilder {
 
 	@Override
 	public SyntaxTree buildTree(Statement statement) {
 		// 用语句构建节点树
-		List<Node> nodes = buildNodes(statement.tokens);
+		List<Node> nodes = buildNodes(statement);
 		// 标记树节点id
 		markTreeId(nodes);
 		// 标记所有的位置
@@ -46,7 +47,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
 	public void markPositionAndLength(int position, Statement statement) {
 		// 获取到插入空格后
-		List<Token> tokens = statement.format();
+		List<Token> tokens = StmtFormat.format(statement);
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setAttr(AttributeEnum.POSITION, position);

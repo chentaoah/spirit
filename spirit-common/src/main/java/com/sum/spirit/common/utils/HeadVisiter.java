@@ -6,9 +6,9 @@ import java.util.List;
 
 public class HeadVisiter<T> {
 
-	public List<T> visit(List<T> listable, Filter<T> filter) {
+	public List<T> visit(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
-		Iterator<T> iterable = listable.iterator();
+		Iterator<T> iterable = list.iterator();
 		while (iterable.hasNext()) {
 			T item = iterable.next();
 			boolean accepted = filter.accept(item);
@@ -23,11 +23,11 @@ public class HeadVisiter<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <V> List<V> visit(List<T> listable, Filter<T> filter, Factory<T> factory) {
-		List<T> items = visit(listable, filter);
-		List<V> list = new ArrayList<>();
-		items.forEach(item -> list.add((V) factory.accept(item)));
-		return list;
+	public <V> List<V> visit(List<T> list, Filter<T> filter, Factory<T> factory) {
+		List<T> items = visit(list, filter);
+		List<V> list0 = new ArrayList<>();
+		items.forEach(item -> list0.add((V) factory.accept(item)));
+		return list0;
 	}
 
 	public static interface Filter<T> {

@@ -39,7 +39,7 @@ public class ClassResolver {
 				imports.add(new Import(element));
 
 			} else if (element.isAnnotation()) {
-				annotations.add(new IAnnotation(element.getToken(0)));
+				annotations.add(new IAnnotation(element.get(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
@@ -107,7 +107,7 @@ public class ClassResolver {
 
 		for (Element element : clazz.element.children) {
 			if (element.isAnnotation()) {
-				annotations.add(new IAnnotation(element.getToken(0)));
+				annotations.add(new IAnnotation(element.get(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 				clazz.fields.add(new IField(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));

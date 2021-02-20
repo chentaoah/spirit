@@ -7,6 +7,7 @@ import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.element.frame.Syntactic;
 
+@SuppressWarnings("serial")
 public class Element extends Syntactic {
 
 	public Line line;
@@ -16,7 +17,7 @@ public class Element extends Syntactic {
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
-		super(syntax, statement.tokens);
+		super(syntax, statement);
 		this.line = line;
 		this.modifiers = modifiers;
 		this.statement = statement;

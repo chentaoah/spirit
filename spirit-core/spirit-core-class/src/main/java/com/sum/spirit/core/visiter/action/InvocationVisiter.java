@@ -68,19 +68,19 @@ public class InvocationVisiter extends AbstractElementAction implements Statemen
 					token.setAttr(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitField()) {
-					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
 					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitField(type, memberName);
 					token.setAttr(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isInvokeMethod()) {
-					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
 					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitMethod(type, memberName, parameterTypes);
 					token.setAttr(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
-					IType type = stmt.getToken(index - 1).attr(AttributeEnum.TYPE);
+					IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
 					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 					IType returnType = linker.visitField(type, memberName);
 					returnType = factory.create(returnType.getTargetName());

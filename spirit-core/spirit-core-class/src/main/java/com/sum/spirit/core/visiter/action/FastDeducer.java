@@ -20,7 +20,7 @@ public class FastDeducer {
 
 	public IType derive(IClass clazz, Statement statement) {
 		// 构建树形结构
-		for (Node node : builder.buildNodes(statement.tokens)) {
+		for (Node node : builder.buildNodes(statement)) {
 			IType type = getTypeByNode(clazz, node);
 			if (type != null) {
 				return type;

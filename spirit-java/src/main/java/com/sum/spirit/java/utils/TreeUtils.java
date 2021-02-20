@@ -7,9 +7,9 @@ public class TreeUtils {
 
 	public static int findIndex(Statement statement, int index, int step) {
 		int finalIndex = -1;
-		String treeId = statement.getToken(index).attr(AttributeEnum.TREE_ID);
+		String treeId = statement.get(index).attr(AttributeEnum.TREE_ID);
 		for (int idx = index + step; idx >= 0 && idx < statement.size(); idx += step) {
-			String nextTreeId = statement.getToken(idx).attr(AttributeEnum.TREE_ID);
+			String nextTreeId = statement.get(idx).attr(AttributeEnum.TREE_ID);
 			if (nextTreeId != null && nextTreeId.startsWith(treeId)) {
 				finalIndex = idx;
 			}

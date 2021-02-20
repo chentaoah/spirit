@@ -22,7 +22,7 @@ public class TypeDeclarer extends AbstractElementAction {
 	public void visit(ElementEvent event) {
 		Element element = event.element;
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
-			setTypeByTypeToken(event.clazz, element.getToken(0), element.getToken(1));
+			setTypeByTypeToken(event.clazz, element.get(0), element.get(1));
 		}
 		super.visit(event);
 	}
@@ -31,7 +31,7 @@ public class TypeDeclarer extends AbstractElementAction {
 	public void visitMethodScope(ElementEvent event) {
 		Element element = event.element;
 		if (element.isCatch()) {// } catch Exception e {
-			setTypeByTypeToken(event.clazz, element.getToken(2), element.getToken(3));
+			setTypeByTypeToken(event.clazz, element.get(2), element.get(3));
 		}
 	}
 

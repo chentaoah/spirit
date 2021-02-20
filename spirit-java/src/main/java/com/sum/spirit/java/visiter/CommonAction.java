@@ -25,27 +25,27 @@ public class CommonAction extends AbstractElementAction {
 			Token token = visitEvent.item;
 			if (token.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = token.getValue();
-				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
+				subStatement.add(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
 			} else if (token.isTypeInit()) {// User() => new User()
 				Statement subStatement = token.getValue();
-				subStatement.addToken(0, new Token(TokenTypeEnum.KEYWORD, "new"));
+				subStatement.add(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
 			} else if (token.isList()) {// ["value"] => Lists.newArrayList("value");
 				Statement subStatement = token.getValue();
-				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
-				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
+				subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
+				subStatement.set(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Lists.class.getName());
 
 			} else if (token.isMap()) {// {"key":"value"} => Maps.of("key","value");
 				Statement subStatement = token.getValue();
-				for (Token subToken : subStatement.tokens) {
+				for (Token subToken : subStatement) {
 					if (subToken.isSeparator() && ":".equals(subToken.toString())) {
 						subToken.value = ",";
 					}
 				}
-				subStatement.setToken(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Maps.of("));
-				subStatement.setToken(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
+				subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Maps.of("));
+				subStatement.set(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 				clazz.addImport(Maps.class.getName());
 			}
 		});
