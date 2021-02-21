@@ -35,7 +35,7 @@ public abstract class AbstractTypeFactory {
 	}
 
 	public IType createTypeVariable(String genericName) {// T or K
-		IType type = create(TypeEnum.Object.value.getClassName());
+		IType type = create(TypeEnum.OBJECT.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

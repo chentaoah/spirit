@@ -27,7 +27,7 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 		// xxx.class class是关键字
 		if (KeywordEnum.CLASS.value.equals(fieldName)) {
-			return factory.create(TypeEnum.Class.value.getClassName(), type.getWrappedType());
+			return factory.create(TypeEnum.CLASS.getClassName(), type.getWrappedType());
 		}
 		// 原始类型没有属性和方法
 		if (type.isPrimitive()) {
@@ -35,7 +35,7 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 		}
 		// 访问数组length直接返回int类型
 		if (type.isArray() && ARRAY_LENGTH.equals(fieldName)) {
-			return TypeEnum.int_t.value;
+			return TypeEnum.INT;
 		}
 		// 向上遍历推导
 		IType returnType = getLinker(type).visitField(type, fieldName);

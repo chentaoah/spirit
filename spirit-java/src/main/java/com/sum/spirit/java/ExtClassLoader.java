@@ -1,16 +1,18 @@
 package com.sum.spirit.java;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AbstractClassLoader;
 import com.sum.spirit.core.api.TypeEnumCtor;
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
 import com.sum.spirit.java.utils.ReflectUtils;
 
 @Component
@@ -18,28 +20,28 @@ import com.sum.spirit.java.utils.ReflectUtils;
 public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements TypeEnumCtor {
 
 	@Override
-	public void prepareEnv() {
-		TypeEnum.Void.value = TypeBuilder.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true);
-		TypeEnum.Boolean.value = TypeBuilder.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true);
-		TypeEnum.Character.value = TypeBuilder.build("java.lang.Character", "Character", "java.lang.Character", false, false, false, false, true);
-		TypeEnum.Byte.value = TypeBuilder.build("java.lang.Byte", "Byte", "java.lang.Byte", false, false, false, false, true);
-		TypeEnum.Short.value = TypeBuilder.build("java.lang.Short", "Short", "java.lang.Short", false, false, false, false, true);
-		TypeEnum.Integer.value = TypeBuilder.build("java.lang.Integer", "Integer", "java.lang.Integer", false, false, false, false, true);
-		TypeEnum.Long.value = TypeBuilder.build("java.lang.Long", "Long", "java.lang.Long", false, false, false, false, true);
-		TypeEnum.Float.value = TypeBuilder.build("java.lang.Float", "Float", "java.lang.Float", false, false, false, false, true);
-		TypeEnum.Double.value = TypeBuilder.build("java.lang.Double", "Double", "java.lang.Double", false, false, false, false, true);
+	public Map<String, IType> prepareEnv() {
+		Map<String, IType> typeMap = new HashMap<>();
+		typeMap.put("VOID_BOX", TypeBuilder.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true));
+		typeMap.put("BOOLEAN_BOX", TypeBuilder.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true));
+		typeMap.put("CHAR_BOX", TypeBuilder.build("java.lang.Character", "Character", "java.lang.Character", false, false, false, false, true));
+		typeMap.put("BYTE_BOX", TypeBuilder.build("java.lang.Byte", "Byte", "java.lang.Byte", false, false, false, false, true));
+		typeMap.put("SHORT_BOX", TypeBuilder.build("java.lang.Short", "Short", "java.lang.Short", false, false, false, false, true));
+		typeMap.put("INT_BOX", TypeBuilder.build("java.lang.Integer", "Integer", "java.lang.Integer", false, false, false, false, true));
+		typeMap.put("LONG_BOX", TypeBuilder.build("java.lang.Long", "Long", "java.lang.Long", false, false, false, false, true));
+		typeMap.put("FLOAT_BOX", TypeBuilder.build("java.lang.Float", "Float", "java.lang.Float", false, false, false, false, true));
+		typeMap.put("DOUBLE_BOX", TypeBuilder.build("java.lang.Double", "Double", "java.lang.Double", false, false, false, false, true));
 
-		TypeEnum.Object.value = TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, false, false, true);
-		TypeEnum.String.value = TypeBuilder.build("java.lang.String", "String", "java.lang.String", false, false, false, false, true);
-		TypeEnum.Object_Array.value = TypeBuilder.build("[Ljava.lang.Object;", "Object[]", "java.lang.Object[]", false, true/* array */, false, false, true);
-		TypeEnum.String_Array.value = TypeBuilder.build("[Ljava.lang.String;", "String[]", "java.lang.String[]", false, true/* array */, false, false, true);
-
-		TypeEnum.Class.value = TypeBuilder.build("java.lang.Class", "Class", "java.lang.Class", false, false, false, false, true);
-		TypeEnum.List.value = TypeBuilder.build("java.util.List", "List", "java.util.List", false, false, false, false, true);
-		TypeEnum.Map.value = TypeBuilder.build("java.util.Map", "Map", "java.util.Map", false, false, false, false, true);
-
-		TypeEnum.Null.value = TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, true/* null */, false, true);
-		TypeEnum.Wildcard.value = TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, false, true/* wildcard */, true);
+		typeMap.put("OBJECT", TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, false, false, true));
+		typeMap.put("STRING", TypeBuilder.build("java.lang.String", "String", "java.lang.String", false, false, false, false, true));
+		typeMap.put("OBJECT_ARRAY", TypeBuilder.build("[Ljava.lang.Object;", "Object[]", "java.lang.Object[]", false, true/* array */, false, false, true));
+		typeMap.put("STRING_ARRAY", TypeBuilder.build("[Ljava.lang.String;", "String[]", "java.lang.String[]", false, true/* array */, false, false, true));
+		typeMap.put("CLASS", TypeBuilder.build("java.lang.Class", "Class", "java.lang.Class", false, false, false, false, true));
+		typeMap.put("LIST", TypeBuilder.build("java.util.List", "List", "java.util.List", false, false, false, false, true));
+		typeMap.put("MAP", TypeBuilder.build("java.util.Map", "Map", "java.util.Map", false, false, false, false, true));
+		typeMap.put("NULL", TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, true/* null */, false, true));
+		typeMap.put("WILDCARD", TypeBuilder.build("java.lang.Object", "Object", "java.lang.Object", false, false, false, true/* wildcard */, true));
+		return typeMap;
 	}
 
 	@Override

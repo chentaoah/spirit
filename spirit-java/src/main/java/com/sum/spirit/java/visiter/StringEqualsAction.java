@@ -45,7 +45,7 @@ public class StringEqualsAction extends AbstractTreeElementAction {
 			String format = currentToken.isEquals() ? FORMAT : "!" + FORMAT;
 			String text = String.format(format, prevStatement, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.boolean_t.value);
+			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.BOOLEAN);
 			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID));
 			statement.replaceTokens(start, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());

@@ -79,7 +79,7 @@ public class IClass extends ImportUnit {
 		if (token != null) {
 			return factory.create(this, token);
 		}
-		return TypeEnum.Object.value;// 如果不存在继承，则默认是继承Object
+		return TypeEnum.OBJECT;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {

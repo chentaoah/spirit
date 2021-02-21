@@ -50,7 +50,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 			return null;
 		}
 		if (type.isArray()) {
-			return TypeEnum.Object.value;
+			return TypeEnum.OBJECT;
 		}
 		IType superType = getLinker(type).getSuperType(type);
 		if (superType == null) {

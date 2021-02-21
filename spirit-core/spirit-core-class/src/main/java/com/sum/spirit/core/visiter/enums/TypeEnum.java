@@ -1,6 +1,6 @@
 package com.sum.spirit.core.visiter.enums;
 
-import java.util.List;
+import java.util.Map;
 
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.TypeEnumCtor;
@@ -9,79 +9,121 @@ import com.sum.spirit.core.utils.TypeBuilder;
 
 import cn.hutool.core.lang.Assert;
 
-public enum TypeEnum {
+public class TypeEnum {
 
-	void_t, boolean_t, char_t, byte_t, short_t, int_t, long_t, float_t, double_t, //
-	boolean_a, char_a, byte_a, short_a, int_a, long_a, float_a, double_a, //
+	public static final IType VOID;
+	public static final IType BOOLEAN;
+	public static final IType CHAR;
+	public static final IType BYTE;
+	public static final IType SHORT;
+	public static final IType INT;
+	public static final IType LONG;
+	public static final IType FLOAT;
+	public static final IType DOUBLE;
 
-	Void, Boolean, Character, Byte, Short, Integer, Long, Float, Double, //
-	Object, String, Object_Array, String_Array, Class, List, Map, Null, Wildcard;
+	public static final IType BOOLEAN_ARRAY;
+	public static final IType CHAR_ARRAY;
+	public static final IType BYTE_ARRAY;
+	public static final IType SHORT_ARRAY;
+	public static final IType INT_ARRAY;
+	public static final IType LONG_ARRAY;
+	public static final IType FLOAT_ARRAY;
+	public static final IType DOUBLE_ARRAY;
+
+	public static final IType VOID_BOX;
+	public static final IType BOOLEAN_BOX;
+	public static final IType CHAR_BOX;
+	public static final IType BYTE_BOX;
+	public static final IType SHORT_BOX;
+	public static final IType INT_BOX;
+	public static final IType LONG_BOX;
+	public static final IType FLOAT_BOX;
+	public static final IType DOUBLE_BOX;
+
+	public static final IType OBJECT;
+	public static final IType STRING;
+	public static final IType OBJECT_ARRAY;
+	public static final IType STRING_ARRAY;
+	public static final IType CLASS;
+	public static final IType LIST;
+	public static final IType MAP;
+	public static final IType NULL;
+	public static final IType WILDCARD;
 
 	static {
-		void_t.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
-		boolean_t.value = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
-		char_t.value = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
-		byte_t.value = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
-		short_t.value = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
-		int_t.value = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
-		long_t.value = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
-		float_t.value = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
-		double_t.value = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
+		VOID = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
+		BOOLEAN = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
+		CHAR = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
+		BYTE = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
+		SHORT = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
+		INT = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
+		LONG = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
+		FLOAT = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
+		DOUBLE = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
 
-		boolean_a.value = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
-		char_a.value = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
-		byte_a.value = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
-		short_a.value = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
-		int_a.value = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
-		long_a.value = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
-		float_a.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
-		double_a.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
+		BOOLEAN_ARRAY = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
+		CHAR_ARRAY = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
+		BYTE_ARRAY = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
+		SHORT_ARRAY = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
+		INT_ARRAY = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
+		LONG_ARRAY = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
+		FLOAT_ARRAY = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
+		DOUBLE_ARRAY = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
-		List<TypeEnumCtor> ctors = SpringUtils.getBeansAndSort(TypeEnumCtor.class);
-		Assert.notNull(ctors.size() == 0, "Type enum ctor must be provided!");
-		for (TypeEnumCtor ctor : ctors) {
-			ctor.prepareEnv();
-		}
+		TypeEnumCtor ctor = SpringUtils.getBean(TypeEnumCtor.class);
+		Assert.notNull(ctor, "Type enum ctor must be provided!");
+		Map<String, IType> typeMap = ctor.prepareEnv();
+
+		VOID_BOX = typeMap.get("VOID_BOX");
+		BOOLEAN_BOX = typeMap.get("BOOLEAN_BOX");
+		CHAR_BOX = typeMap.get("CHAR_BOX");
+		BYTE_BOX = typeMap.get("BYTE_BOX");
+		SHORT_BOX = typeMap.get("SHORT_BOX");
+		INT_BOX = typeMap.get("INT_BOX");
+		LONG_BOX = typeMap.get("LONG_BOX");
+		FLOAT_BOX = typeMap.get("FLOAT_BOX");
+		DOUBLE_BOX = typeMap.get("DOUBLE_BOX");
+
+		OBJECT = typeMap.get("OBJECT");
+		STRING = typeMap.get("STRING");
+		OBJECT_ARRAY = typeMap.get("OBJECT_ARRAY");
+		STRING_ARRAY = typeMap.get("STRING_ARRAY");
+		CLASS = typeMap.get("CLASS");
+		LIST = typeMap.get("LIST");
+		MAP = typeMap.get("MAP");
+		NULL = typeMap.get("NULL");
+		WILDCARD = typeMap.get("WILDCARD");
 	}
 
 	public static IType getWrappedType(String className) {
-		if (void_t.value.getClassName().equals(className)) {
-			return Void.value;
+		if (VOID.getClassName().equals(className)) {
+			return VOID_BOX;
 
-		} else if (boolean_t.value.getClassName().equals(className)) {
-			return Boolean.value;
+		} else if (BOOLEAN.getClassName().equals(className)) {
+			return BOOLEAN_BOX;
 
-		} else if (char_t.value.getClassName().equals(className)) {
-			return Character.value;
+		} else if (CHAR.getClassName().equals(className)) {
+			return CHAR_BOX;
 
-		} else if (byte_t.value.getClassName().equals(className)) {
-			return Byte.value;
+		} else if (BYTE.getClassName().equals(className)) {
+			return BYTE_BOX;
 
-		} else if (short_t.value.getClassName().equals(className)) {
-			return Short.value;
+		} else if (SHORT.getClassName().equals(className)) {
+			return SHORT_BOX;
 
-		} else if (int_t.value.getClassName().equals(className)) {
-			return Integer.value;
+		} else if (INT.getClassName().equals(className)) {
+			return INT_BOX;
 
-		} else if (long_t.value.getClassName().equals(className)) {
-			return Long.value;
+		} else if (LONG.getClassName().equals(className)) {
+			return LONG_BOX;
 
-		} else if (float_t.value.getClassName().equals(className)) {
-			return Float.value;
+		} else if (FLOAT.getClassName().equals(className)) {
+			return FLOAT_BOX;
 
-		} else if (double_t.value.getClassName().equals(className)) {
-			return Double.value;
+		} else if (DOUBLE.getClassName().equals(className)) {
+			return DOUBLE_BOX;
 		}
 		return null;
-	}
-
-	public IType value;
-
-	private TypeEnum() {
-	}
-
-	private TypeEnum(IType value) {
-		this.value = value;
 	}
 
 }

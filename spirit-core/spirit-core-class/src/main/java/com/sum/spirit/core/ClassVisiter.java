@@ -106,14 +106,14 @@ public class ClassVisiter {
 		visitChildElements(clazz, context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : TypeEnum.void_t.value;
+			return context.returnType != null ? context.returnType : TypeEnum.VOID;
 
 		} else if (method.element.isFuncDeclare()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : TypeEnum.void_t.value;
+				IType returnType = context.returnType != null ? context.returnType : TypeEnum.VOID;
 				// 进行类型校验
 				if (!linker.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
@@ -157,7 +157,7 @@ public class ClassVisiter {
 						if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
-							context.returnType = TypeEnum.Object.value;
+							context.returnType = TypeEnum.OBJECT;
 						}
 					}
 				}
