@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visiter;
+package com.sum.spirit.core;
 
 import java.util.List;
 

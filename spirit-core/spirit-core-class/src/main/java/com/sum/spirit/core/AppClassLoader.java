@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.api.Compiler;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.utils.FileHelper;
-import com.sum.spirit.core.visiter.ClassVisiter;
 
 @Component
 @Order(-100)

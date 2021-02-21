@@ -1,4 +1,4 @@
-package com.sum.spirit.core.clazz;
+package com.sum.spirit.core;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
