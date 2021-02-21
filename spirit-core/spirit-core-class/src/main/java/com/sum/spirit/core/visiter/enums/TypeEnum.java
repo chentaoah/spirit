@@ -1,8 +1,6 @@
 package com.sum.spirit.core.visiter.enums;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.TypeEnumCtor;
@@ -18,8 +16,6 @@ public enum TypeEnum {
 
 	Void, Boolean, Character, Byte, Short, Integer, Long, Float, Double, //
 	Object, String, Object_Array, String_Array, Class, List, Map, Null, Wildcard;
-
-	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
 
 	static {
 		void_t.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
