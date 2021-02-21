@@ -9,9 +9,9 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.api.Compiler;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.utils.FileHelper;
 
 @Component
 @Order(-100)
@@ -39,7 +39,7 @@ public class AppClassLoader extends AbstractCodeClassLoader {
 
 	@Override
 	public IClass defineClass(String name, URL resource) {
-		Map<String, IClass> classes = compiler.compile(name, FileHelper.asStream(resource));
+		Map<String, IClass> classes = compiler.compile(name, FileUrlUtils.asStream(resource));
 		this.classes.putAll(classes);
 		return classes.get(name);
 	}

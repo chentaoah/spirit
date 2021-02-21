@@ -14,8 +14,8 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.common.utils.ConfigUtils;
+import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.utils.FileHelper;
 
 public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
 
@@ -31,13 +31,13 @@ public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass
 		String inputPath = ConfigUtils.getInputPath();
 		String extension = ConfigUtils.getFileExtension();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
-		files.forEach(file -> this.urls.add(FileHelper.toURL(file)));
+		files.forEach(file -> this.urls.add(FileUrlUtils.toURL(file)));
 		// 添加到映射
 		File directory = new File(inputPath);
 		if (!directory.isDirectory()) {
 			throw new RuntimeException("The input path must be a directory!");
 		}
-		URL inputUrl = FileHelper.toURL(directory);
+		URL inputUrl = FileUrlUtils.toURL(directory);
 		urls.forEach(url -> {
 			String name = url.toString().replace(inputUrl.toString(), "").replaceAll("/", ".").replace("." + extension, "");
 			nameUrlMapping.put(name, url);

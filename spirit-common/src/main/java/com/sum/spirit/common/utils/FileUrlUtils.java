@@ -1,4 +1,4 @@
-package com.sum.spirit.core.utils;
+package com.sum.spirit.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,9 +12,7 @@ import java.net.URL;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-public class FileHelper {
-
-	public static final String SEPARATOR = File.separator;
+public class FileUrlUtils {
 
 	public static URL toURL(File file) {
 		try {
@@ -44,19 +42,18 @@ public class FileHelper {
 		return getInputStream(new File(toURI(url)));
 	}
 
-	public static void generateFile(String outputPath, String className, String code) {
-		String filePath = outputPath + SEPARATOR + className.replaceAll("\\.", "\\" + SEPARATOR) + ".java";
-		File directory = new File(filePath.substring(0, filePath.lastIndexOf(SEPARATOR)));
-		File file = new File(filePath);
+	public static void generateFile(String outputPath, String relativePath, String text) {
 		try {
+			URL outputUrl = toURL(new File(outputPath));
+			File file = new File(toURI(new URL(outputUrl.toString() + relativePath)));
+			File directory = file.getParentFile();
 			if (!directory.exists()) {
 				directory.mkdirs();
 			}
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			// Code changed due to guava upgrade
-			Files.asCharSink(file, Charsets.UTF_8).write(code);
+			Files.asCharSink(file, Charsets.UTF_8).write(text);
 
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to generate file!");

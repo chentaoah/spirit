@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.ConfigUtils;
+import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.AliasReplacer;
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.RunningMonitor;
 import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.utils.FileHelper;
 
 @Component
 @Profile("compile")
@@ -49,7 +49,7 @@ public class JavaRunner implements ApplicationRunner {
 				System.out.println(code);
 			}
 			if (StringUtils.isNotEmpty(outputPath)) {// 生成文件
-				FileHelper.generateFile(outputPath, clazz.getClassName(), code);
+				FileUrlUtils.generateFile(outputPath, clazz.getClassName().replaceAll("\\.", "/") + ".java", code);
 			}
 		});
 	}
