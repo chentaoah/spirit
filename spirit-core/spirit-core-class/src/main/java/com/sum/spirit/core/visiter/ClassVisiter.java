@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.ConfigUtils;
-import com.sum.spirit.common.utils.HeadVisiter;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.ElementBuilder;
@@ -69,7 +69,7 @@ public class ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = new HeadVisiter<Token>().visit(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = Lists.visitHead(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
 			parameter.setType(factory.create(clazz, paramStmt.get(0)));
 			method.parameters.add(parameter);

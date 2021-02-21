@@ -1,6 +1,7 @@
 package com.sum.spirit.common.utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Lists {
@@ -50,8 +51,39 @@ public class Lists {
 		}
 	}
 
+	public static <T> List<T> visitHead(List<T> list, Filter<T> filter) {
+		List<T> items = new ArrayList<>();
+		Iterator<T> iterable = list.iterator();
+		while (iterable.hasNext()) {
+			T item = iterable.next();
+			if (filter.accept(item)) {
+				items.add(item);
+				iterable.remove();
+			} else {
+				break;
+			}
+		}
+		return items;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <V, T> List<V> visitHead(List<T> list, Filter<T> filter, Factory<T> factory) {
+		List<T> items = visitHead(list, filter);
+		List<V> list0 = new ArrayList<>();
+		items.forEach(item -> list0.add((V) factory.accept(item)));
+		return list0;
+	}
+
 	public static interface Matcher<T> {
 		boolean accept(T t);
+	}
+
+	public static interface Filter<T> {
+		boolean accept(T t);
+	}
+
+	public static interface Factory<T> {
+		Object accept(T t);
 	}
 
 }
