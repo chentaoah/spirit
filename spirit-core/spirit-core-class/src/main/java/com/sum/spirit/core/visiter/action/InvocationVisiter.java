@@ -32,16 +32,12 @@ public class InvocationVisiter extends AbstractElementAction implements Statemen
 
 	@Override
 	public void visit(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Statement statement = event.element;
-		doVisit(clazz, statement);
+		doVisit(event.clazz, event.element);
 	}
 
 	@Override
 	public void visit(StatementEvent event) {
-		IClass clazz = event.clazz;
-		Statement statement = event.statement;
-		doVisit(clazz, statement);
+		doVisit(event.clazz, event.statement);
 	}
 
 	public void doVisit(IClass clazz, Statement statement) {

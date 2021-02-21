@@ -34,18 +34,12 @@ public class VariableTracker extends AbstractElementAction implements StatementA
 
 	@Override
 	public void visit(ElementEvent event) {
-		IClass clazz = event.clazz;
-		MethodContext context = event.context;
-		Statement statement = event.element;
-		doVisit(clazz, context, statement);
+		doVisit(event.clazz, event.context, event.element);
 	}
 
 	@Override
 	public void visit(StatementEvent event) {
-		IClass clazz = event.clazz;
-		MethodContext context = event.context;
-		Statement statement = event.statement;
-		doVisit(clazz, context, statement);
+		doVisit(event.clazz, event.context, event.statement);
 	}
 
 	public void doVisit(IClass clazz, MethodContext context, Statement statement) {
