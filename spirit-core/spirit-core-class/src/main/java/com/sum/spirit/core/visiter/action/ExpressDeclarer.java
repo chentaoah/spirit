@@ -15,7 +15,6 @@ import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.MethodContext;
-import com.sum.spirit.core.visiter.entity.StatementEvent;
 
 @Component
 @Order(-80)
@@ -44,8 +43,8 @@ public class ExpressDeclarer extends AbstractElementAction {
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());
-				tracker.visit(new StatementEvent(clazz, statement, context));
-				visiter.visit(new StatementEvent(clazz, statement));
+				tracker.doVisit(clazz, context, statement);
+				visiter.doVisit(clazz, statement);
 				type = deducer.derive(clazz, statement);
 				// 标记类型是否经过推导而来
 				varToken.setAttr(AttributeEnum.DERIVED, true);
@@ -62,8 +61,8 @@ public class ExpressDeclarer extends AbstractElementAction {
 		Element element = event.element;
 		if (element.isForIn()) {// for item in list {
 			Statement statement = element.subStmt(3, element.size() - 1);
-			tracker.visit(new StatementEvent(clazz, statement, context));
-			visiter.visit(new StatementEvent(clazz, statement));
+			tracker.doVisit(clazz, context, statement);
+			visiter.doVisit(clazz, statement);
 			IType type = deducer.derive(clazz, statement);
 			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);

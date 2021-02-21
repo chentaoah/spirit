@@ -8,14 +8,12 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.ClassVisiter;
 import com.sum.spirit.core.api.ClassLinker;
-import com.sum.spirit.core.api.StatementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
 import com.sum.spirit.core.visiter.entity.MethodContext;
-import com.sum.spirit.core.visiter.entity.StatementEvent;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;
 
@@ -23,7 +21,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-60)
-public class VariableTracker extends AbstractElementAction implements StatementAction {
+public class VariableTracker extends AbstractElementAction {
 
 	@Autowired
 	public ClassVisiter visiter;
@@ -35,11 +33,6 @@ public class VariableTracker extends AbstractElementAction implements StatementA
 	@Override
 	public void visit(ElementEvent event) {
 		doVisit(event.clazz, event.context, event.element);
-	}
-
-	@Override
-	public void visit(StatementEvent event) {
-		doVisit(event.clazz, event.context, event.statement);
 	}
 
 	public void doVisit(IClass clazz, MethodContext context, Statement statement) {

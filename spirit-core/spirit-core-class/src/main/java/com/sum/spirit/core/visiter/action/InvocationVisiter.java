@@ -9,19 +9,17 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
-import com.sum.spirit.core.api.StatementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.core.visiter.entity.StatementEvent;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.utils.StmtVisiter;
 
 @Component
 @Order(-40)
-public class InvocationVisiter extends AbstractElementAction implements StatementAction {
+public class InvocationVisiter extends AbstractElementAction {
 
 	@Autowired
 	public FastDeducer deducer;
@@ -33,11 +31,6 @@ public class InvocationVisiter extends AbstractElementAction implements Statemen
 	@Override
 	public void visit(ElementEvent event) {
 		doVisit(event.clazz, event.element);
-	}
-
-	@Override
-	public void visit(StatementEvent event) {
-		doVisit(event.clazz, event.statement);
 	}
 
 	public void doVisit(IClass clazz, Statement statement) {
