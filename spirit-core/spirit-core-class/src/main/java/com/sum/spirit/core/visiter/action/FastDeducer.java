@@ -10,7 +10,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 
 @Component
 public class FastDeducer {
@@ -40,7 +40,7 @@ public class FastDeducer {
 
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return TypeEnum.BOOLEAN;
+			return StaticTypes.BOOLEAN;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的

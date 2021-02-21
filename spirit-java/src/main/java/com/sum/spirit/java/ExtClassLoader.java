@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.AbstractClassLoader;
-import com.sum.spirit.core.api.TypeEnumCtor;
+import com.sum.spirit.core.api.StaticTypesCtor;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.utils.TypeUtils;
@@ -17,10 +17,10 @@ import com.sum.spirit.java.utils.ReflectUtils;
 
 @Component
 @Order(-80)
-public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements TypeEnumCtor {
+public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements StaticTypesCtor {
 
 	@Override
-	public Map<String, IType> prepareEnv() {
+	public Map<String, IType> prepareStaticTypes() {
 		Map<String, IType> typeMap = new HashMap<>();
 		typeMap.put("VOID_BOX", TypeBuilder.build("java.lang.Void", "Void", "java.lang.Void", false, false, false, false, true));
 		typeMap.put("BOOLEAN_BOX", TypeBuilder.build("java.lang.Boolean", "Boolean", "java.lang.Boolean", false, false, false, false, true));

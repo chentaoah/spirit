@@ -23,7 +23,7 @@ import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.MethodContext;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 
 import cn.hutool.core.lang.Assert;
@@ -106,14 +106,14 @@ public class ClassVisiter {
 		visitChildElements(clazz, context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : TypeEnum.VOID;
+			return context.returnType != null ? context.returnType : StaticTypes.VOID;
 
 		} else if (method.element.isFuncDeclare()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : TypeEnum.VOID;
+				IType returnType = context.returnType != null ? context.returnType : StaticTypes.VOID;
 				// 进行类型校验
 				if (!linker.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
@@ -157,7 +157,7 @@ public class ClassVisiter {
 						if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
-							context.returnType = TypeEnum.OBJECT;
+							context.returnType = StaticTypes.OBJECT;
 						}
 					}
 				}

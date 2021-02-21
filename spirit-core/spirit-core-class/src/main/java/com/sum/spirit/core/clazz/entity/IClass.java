@@ -9,7 +9,7 @@ import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 
 import cn.hutool.core.lang.Assert;
@@ -79,7 +79,7 @@ public class IClass extends ImportUnit {
 		if (token != null) {
 			return factory.create(this, token);
 		}
-		return TypeEnum.OBJECT;// 如果不存在继承，则默认是继承Object
+		return StaticTypes.OBJECT;// 如果不存在继承，则默认是继承Object
 	}
 
 	public List<IType> getInterfaceTypes() {

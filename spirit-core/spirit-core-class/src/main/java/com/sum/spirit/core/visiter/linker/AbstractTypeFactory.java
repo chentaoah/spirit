@@ -12,7 +12,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.visiter.utils.TypeVisiter;
 
 import cn.hutool.core.lang.Assert;
@@ -35,7 +35,7 @@ public abstract class AbstractTypeFactory {
 	}
 
 	public IType createTypeVariable(String genericName) {// T or K
-		IType type = create(TypeEnum.OBJECT.getClassName());
+		IType type = create(StaticTypes.OBJECT.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

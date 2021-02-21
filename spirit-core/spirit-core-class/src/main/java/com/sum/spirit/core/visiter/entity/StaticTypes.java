@@ -1,15 +1,16 @@
-package com.sum.spirit.core.visiter.enums;
+package com.sum.spirit.core.visiter.entity;
 
 import java.util.Map;
 
+import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.api.TypeEnumCtor;
+import com.sum.spirit.core.api.StaticTypesCtor;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.utils.TypeBuilder;
 
 import cn.hutool.core.lang.Assert;
 
-public class TypeEnum {
+public class StaticTypes {
 
 	public static final IType VOID;
 	public static final IType BOOLEAN;
@@ -51,28 +52,28 @@ public class TypeEnum {
 	public static final IType WILDCARD;
 
 	static {
-		VOID = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
-		BOOLEAN = TypeBuilder.build("boolean", "boolean", "boolean", true/* primitive */, false, false, false, false);
-		CHAR = TypeBuilder.build("char", "char", "char", true/* primitive */, false, false, false, false);
-		BYTE = TypeBuilder.build("byte", "byte", "byte", true/* primitive */, false, false, false, false);
-		SHORT = TypeBuilder.build("short", "short", "short", true/* primitive */, false, false, false, false);
-		INT = TypeBuilder.build("int", "int", "int", true/* primitive */, false, false, false, false);
-		LONG = TypeBuilder.build("long", "long", "long", true/* primitive */, false, false, false, false);
-		FLOAT = TypeBuilder.build("float", "float", "float", true/* primitive */, false, false, false, false);
-		DOUBLE = TypeBuilder.build("double", "double", "double", true/* primitive */, false, false, false, false);
+		VOID = createTypeByPrimitiveEnum(PrimitiveEnum.VOID);
+		BOOLEAN = createTypeByPrimitiveEnum(PrimitiveEnum.BOOLEAN);
+		CHAR = createTypeByPrimitiveEnum(PrimitiveEnum.CHAR);
+		BYTE = createTypeByPrimitiveEnum(PrimitiveEnum.BYTE);
+		SHORT = createTypeByPrimitiveEnum(PrimitiveEnum.SHORT);
+		INT = createTypeByPrimitiveEnum(PrimitiveEnum.INT);
+		LONG = createTypeByPrimitiveEnum(PrimitiveEnum.LONG);
+		FLOAT = createTypeByPrimitiveEnum(PrimitiveEnum.FLOAT);
+		DOUBLE = createTypeByPrimitiveEnum(PrimitiveEnum.DOUBLE);
 
-		BOOLEAN_ARRAY = TypeBuilder.build("[Z", "boolean[]", "boolean[]", false, true/* array */, false, false, false);
-		CHAR_ARRAY = TypeBuilder.build("[C", "char[]", "char[]", false, true/* array */, false, false, false);
-		BYTE_ARRAY = TypeBuilder.build("[B", "byte[]", "byte[]", false, true/* array */, false, false, false);
-		SHORT_ARRAY = TypeBuilder.build("[S", "short[]", "short[]", false, true/* array */, false, false, false);
-		INT_ARRAY = TypeBuilder.build("[I", "int[]", "int[]", false, true/* array */, false, false, false);
-		LONG_ARRAY = TypeBuilder.build("[J", "long[]", "long[]", false, true/* array */, false, false, false);
-		FLOAT_ARRAY = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
-		DOUBLE_ARRAY = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
+		BOOLEAN_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.BOOLEAN_ARRAY);
+		CHAR_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.CHAR_ARRAY);
+		BYTE_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.BYTE_ARRAY);
+		SHORT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.SHORT_ARRAY);
+		INT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.INT_ARRAY);
+		LONG_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.INT_ARRAY);
+		FLOAT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.FLOAT_ARRAY);
+		DOUBLE_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.DOUBLE_ARRAY);
 
-		TypeEnumCtor ctor = SpringUtils.getBean(TypeEnumCtor.class);
-		Assert.notNull(ctor, "Type enum ctor must be provided!");
-		Map<String, IType> typeMap = ctor.prepareEnv();
+		StaticTypesCtor ctor = SpringUtils.getBean(StaticTypesCtor.class);
+		Assert.notNull(ctor, "Static types ctor must be provided!");
+		Map<String, IType> typeMap = ctor.prepareStaticTypes();
 
 		VOID_BOX = typeMap.get("VOID_BOX");
 		BOOLEAN_BOX = typeMap.get("BOOLEAN_BOX");
@@ -93,6 +94,11 @@ public class TypeEnum {
 		MAP = typeMap.get("MAP");
 		NULL = typeMap.get("NULL");
 		WILDCARD = typeMap.get("WILDCARD");
+	}
+
+	public static IType createTypeByPrimitiveEnum(PrimitiveEnum primitiveEnum) {
+		return IType.builder().className(primitiveEnum.className).simpleName(primitiveEnum.simpleName).typeName(primitiveEnum.typeName)
+				.isPrimitive(primitiveEnum.isPrimitive).isArray(primitiveEnum.isArray).modifiers(ModifierEnum.PUBLIC.value).build();
 	}
 
 	public static IType getWrappedType(String className) {

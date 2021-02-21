@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.sum.spirit.core.clazz.entity.IType;
 
-public interface TypeEnumCtor {
+public interface StaticTypesCtor {
 
-	public Map<String, IType> prepareEnv();
+	public Map<String, IType> prepareStaticTypes();
 
 }

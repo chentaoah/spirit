@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 
 import lombok.AllArgsConstructor;
@@ -49,7 +49,7 @@ public class IType {
 	}
 
 	public IType getWrappedType() {
-		IType wrappedType = TypeEnum.getWrappedType(getClassName());
+		IType wrappedType = StaticTypes.getWrappedType(getClassName());
 		return wrappedType != null ? wrappedType : this;
 	}
 

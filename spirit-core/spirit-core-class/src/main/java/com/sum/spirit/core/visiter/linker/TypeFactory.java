@@ -12,7 +12,7 @@ import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.action.FastDeducer;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -66,7 +66,7 @@ public class TypeFactory extends AbstractTypeFactory {
 		if (token.value instanceof String) {// String // String[] //? //T,K
 			String simpleName = token.getValue();
 			if ("?".equals(simpleName)) {
-				return TypeEnum.WILDCARD;// ?
+				return StaticTypes.WILDCARD;// ?
 			}
 			if (clazz.getTypeVariableIndex(simpleName) >= 0) {
 				return createTypeVariable(simpleName);// T or K
@@ -96,19 +96,19 @@ public class TypeFactory extends AbstractTypeFactory {
 
 	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBool()) {
-			return TypeEnum.BOOLEAN;
+			return StaticTypes.BOOLEAN;
 		} else if (token.isChar()) {
-			return TypeEnum.CHAR;
+			return StaticTypes.CHAR;
 		} else if (token.isInt()) {
-			return TypeEnum.INT;
+			return StaticTypes.INT;
 		} else if (token.isLong()) {
-			return TypeEnum.LONG;
+			return StaticTypes.LONG;
 		} else if (token.isDouble()) {
-			return TypeEnum.DOUBLE;
+			return StaticTypes.DOUBLE;
 		} else if (token.isNull()) {
-			return TypeEnum.NULL;
+			return StaticTypes.NULL;
 		} else if (token.isStr()) {
-			return TypeEnum.STRING;
+			return StaticTypes.STRING;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -120,7 +120,7 @@ public class TypeFactory extends AbstractTypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).splitStmt(",");
-		return create(TypeEnum.LIST.getClassName(), getGenericType(clazz, statements));
+		return create(StaticTypes.LIST.getClassName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -132,13 +132,13 @@ public class TypeFactory extends AbstractTypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(TypeEnum.MAP.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(StaticTypes.MAP.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
 		// 如果没有元素，则返回Object类型
 		if (statements.size() == 0) {
-			return TypeEnum.OBJECT;
+			return StaticTypes.OBJECT;
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
@@ -151,7 +151,7 @@ public class TypeFactory extends AbstractTypeFactory {
 				genericType = wrappedType;
 
 			} else if (!linker.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
-				genericType = TypeEnum.OBJECT;
+				genericType = StaticTypes.OBJECT;
 				break;
 			}
 		}

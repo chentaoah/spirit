@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;
 import com.sum.spirit.core.visiter.utils.TypeVisiter;
@@ -41,7 +41,7 @@ public class NativeFactory extends TypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeEnum.WILDCARD;
+			return StaticTypes.WILDCARD;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

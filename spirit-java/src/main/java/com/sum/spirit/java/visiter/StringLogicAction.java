@@ -13,7 +13,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 import com.sum.spirit.java.utils.TypeUtils;
 
 @Component
@@ -47,7 +47,7 @@ public class StringLogicAction extends AbstractTreeElementAction {
 		if (TypeUtils.isString(prevType)) {
 			String text = String.format(FORMAT, prevStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.BOOLEAN);
+			expressToken.setAttr(AttributeEnum.TYPE, StaticTypes.BOOLEAN);
 			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID) + "-0");
 			statement.replaceTokens(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
@@ -62,7 +62,7 @@ public class StringLogicAction extends AbstractTreeElementAction {
 		if (TypeUtils.isString(nextType)) {
 			String text = String.format(FORMAT, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(AttributeEnum.TYPE, TypeEnum.BOOLEAN);
+			expressToken.setAttr(AttributeEnum.TYPE, StaticTypes.BOOLEAN);
 			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID) + "-1");
 			statement.replaceTokens(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());

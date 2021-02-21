@@ -9,7 +9,7 @@ import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.core.visiter.entity.StaticTypes;
 
 public abstract class AbstractAdaptiveLinker implements ClassLinker, InitializingBean {
 
@@ -50,7 +50,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 			return null;
 		}
 		if (type.isArray()) {
-			return TypeEnum.OBJECT;
+			return StaticTypes.OBJECT;
 		}
 		IType superType = getLinker(type).getSuperType(type);
 		if (superType == null) {
