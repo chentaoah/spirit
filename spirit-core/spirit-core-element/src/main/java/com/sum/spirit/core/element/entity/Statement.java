@@ -7,19 +7,18 @@ import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.frame.KeywordTokenBox;
 import com.sum.spirit.core.element.utils.StmtFormat;
 
-@SuppressWarnings("serial")
 public class Statement extends KeywordTokenBox {
 
 	public Statement(List<Token> tokens) {
 		super(tokens);
 	}
 
-	public Statement subStmt(int start, int end) {
-		return new Statement(subTokens(start, end));
+	public Statement subStmt(int fromIndex, int toIndex) {
+		return new Statement(subTokens(fromIndex, toIndex));
 	}
 
-	public Statement subStmt(String left, String right) {
-		return subStmt(indexOf(left) + 1, lastIndexOf(right));
+	public Statement subStmt(String fromStr, String toStr) {
+		return subStmt(indexOf(fromStr) + 1, lastIndexOf(toStr));
 	}
 
 	public List<Statement> splitStmt(String separator) {
@@ -31,7 +30,7 @@ public class Statement extends KeywordTokenBox {
 		return Joiner.on("").join(StmtFormat.format(this));
 	}
 
-	public String debug() {
+	public String debugTokens() {
 		StringBuilder builder = new StringBuilder();
 		for (Token token : this) {
 			builder.append(token.debug() + " ");

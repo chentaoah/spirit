@@ -9,7 +9,6 @@ import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
-@SuppressWarnings("serial")
 public class KeywordTokenBox extends TokenBox {
 
 	public KeywordTokenBox(List<Token> tokens) {

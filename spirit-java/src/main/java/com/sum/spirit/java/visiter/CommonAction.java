@@ -20,7 +20,7 @@ public class CommonAction extends AbstractElementAction {
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.element.statement;
+		Statement statement = event.element;
 		new StmtVisiter().visitVoid(statement, visitEvent -> {
 			Token token = visitEvent.item;
 			if (token.isArrayInit()) {// String[10] => new String[10]

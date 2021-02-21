@@ -21,13 +21,13 @@ public class SeparatorAction extends AbstractElementAction {
 		Element element = event.element;
 
 		if (element.isIf() || element.isElseIf() || element.isWhile() || element.isCatch() || element.isSync()) {
-			insertBrackets(clazz, element.statement);
+			insertBrackets(clazz, element);
 		}
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign() || //
 				element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis() || //
 				element.isThrow() || element.isContinue() || element.isBreak()) {
-			addLineEnd(clazz, element.statement);
+			addLineEnd(clazz, element);
 		}
 	}
 

@@ -44,6 +44,12 @@ public class Lists {
 		return lastIndex;
 	}
 
+	public static <T> void remove(List<T> list, int fromIndex, int toIndex) {
+		for (int index = toIndex - 1; index >= fromIndex; index--) {
+			list.remove(index);
+		}
+	}
+
 	public static interface Matcher<T> {
 		boolean accept(T t);
 	}

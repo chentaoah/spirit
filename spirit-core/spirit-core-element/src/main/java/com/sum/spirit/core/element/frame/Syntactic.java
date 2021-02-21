@@ -3,14 +3,14 @@ package com.sum.spirit.core.element.frame;
 import java.util.List;
 
 import com.sum.spirit.common.enums.SyntaxEnum;
+import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
-@SuppressWarnings("serial")
-public abstract class Syntactic extends KeywordTokenBox {
+public abstract class Syntactic extends Statement {
 
 	public SyntaxEnum syntax;
 
-	public Syntactic(SyntaxEnum syntax, List<Token> tokens) {
+	public Syntactic(List<Token> tokens, SyntaxEnum syntax) {
 		super(tokens);
 		this.syntax = syntax;
 	}

@@ -6,7 +6,6 @@ import com.google.common.base.Joiner;
 import com.sum.spirit.common.utils.HeadVisiter;
 import com.sum.spirit.core.element.frame.KeywordTokenBox;
 
-@SuppressWarnings("serial")
 public class Modifiers extends KeywordTokenBox {
 
 	public Modifiers(List<Token> tokens) {

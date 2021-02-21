@@ -7,20 +7,17 @@ import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.element.frame.Syntactic;
 
-@SuppressWarnings("serial")
 public class Element extends Syntactic {
 
 	public Line line;
 	public Modifiers modifiers;
-	public Statement statement;
 	public SyntaxTree syntaxTree;
 	public List<Element> children = new ArrayList<>();
 
 	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
-		super(syntax, statement);
+		super(statement, syntax);
 		this.line = line;
 		this.modifiers = modifiers;
-		this.statement = statement;
 		this.syntaxTree = syntaxTree;
 	}
 
@@ -51,21 +48,13 @@ public class Element extends Syntactic {
 		return this;
 	}
 
-	public Statement subStmt(int start, int end) {
-		return statement.subStmt(start, end);
-	}
-
-	public List<Statement> splitStmt(String separator) {
-		return statement.splitStmt(separator);
-	}
-
 	@Override
 	public String toString() {
-		return modifiers == null || modifiers.size() == 0 ? statement.toString() : modifiers + " " + statement;
+		return modifiers == null || modifiers.size() == 0 ? super.toString() : modifiers + " " + super.toString();
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + statement.debug());
+		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + super.debugTokens());
 		for (Element element : children) {
 			element.debug();
 		}

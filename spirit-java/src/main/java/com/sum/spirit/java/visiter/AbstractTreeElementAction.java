@@ -30,7 +30,7 @@ public abstract class AbstractTreeElementAction extends AbstractElementAction {
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.element.statement;
+		Statement statement = event.element;
 		new StmtVisiter().visitVoid(statement, visitEvent -> {
 			Token token = visitEvent.item;
 			if (isTrigger(token)) {

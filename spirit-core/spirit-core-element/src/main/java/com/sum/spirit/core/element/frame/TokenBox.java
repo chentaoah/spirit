@@ -5,14 +5,14 @@ import java.util.List;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.MappableList;
 import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 
-@SuppressWarnings("serial")
-public class TokenBox extends ArrayList<Token> {
+public class TokenBox extends MappableList<Token> {
 
 	public TokenBox(List<Token> tokens) {
 		super(tokens);
@@ -39,7 +39,7 @@ public class TokenBox extends ArrayList<Token> {
 	}
 
 	public void replaceTokens(int fromIndex, int toIndex, Token token) {
-		removeRange(fromIndex, toIndex);
+		Lists.remove(this, fromIndex, toIndex);
 		add(fromIndex, token);
 	}
 
