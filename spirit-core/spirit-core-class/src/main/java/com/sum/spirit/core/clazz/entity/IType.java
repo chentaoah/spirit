@@ -1,4 +1,4 @@
-package com.sum.spirit.core.visiter.entity;
+package com.sum.spirit.core.clazz.entity;
 
 import java.util.ArrayList;
 import java.util.List;

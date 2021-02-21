@@ -11,7 +11,6 @@ import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 
 public class IMethod extends MemberUnit {

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.entity.IType;
 
 public class TypeVisiter extends Visiter<IType, IType> {
 

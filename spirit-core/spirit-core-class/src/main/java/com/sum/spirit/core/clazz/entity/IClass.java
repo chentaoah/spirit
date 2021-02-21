@@ -9,7 +9,6 @@ import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 

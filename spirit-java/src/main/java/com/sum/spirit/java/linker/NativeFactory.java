@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
 import com.sum.spirit.core.visiter.linker.TypeFactory;
 import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;

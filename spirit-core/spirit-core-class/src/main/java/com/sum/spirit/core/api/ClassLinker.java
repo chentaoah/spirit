@@ -2,7 +2,7 @@ package com.sum.spirit.core.api;
 
 import java.util.List;
 
-import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.clazz.entity.IType;
 
 public interface ClassLinker {
 

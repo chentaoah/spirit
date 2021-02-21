@@ -1,6 +1,6 @@
 package com.sum.spirit.core.visiter.utils;
 
-import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.clazz.entity.IType;
 
 public class ReferTypeVisiter extends TypeVisiter {
 

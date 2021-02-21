@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.visiter.enums.TypeEnum;
 
 import cn.hutool.core.lang.Assert;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.TypeEnumCtor;
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.entity.IType;
 
 import cn.hutool.core.lang.Assert;
 

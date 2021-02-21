@@ -8,12 +8,12 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.ElementVisiter;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.core.visiter.entity.IType;
 import com.sum.spirit.core.visiter.entity.MethodContext;
 import com.sum.spirit.core.visiter.entity.StatementEvent;
 

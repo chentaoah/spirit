@@ -14,7 +14,7 @@ import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
-import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.clazz.entity.IType;
 
 import cn.hutool.core.lang.Assert;
 

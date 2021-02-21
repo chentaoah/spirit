@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
+import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 
 public class MethodContext {
