@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
+import com.sum.spirit.common.enums.PrimitiveEnum;
 
 import cn.hutool.core.lang.Assert;
 
@@ -67,7 +67,7 @@ public class TypeUtils {
 
 		} else if (name.startsWith("[")) {
 			// [Z 转换成 boolean
-			String targetName = TypeEnum.getPrimitiveArrayTargetName(name);
+			String targetName = PrimitiveEnum.getPrimitiveArrayTargetName(name);
 			Assert.notEmpty(targetName, "Target name cannot be empty!");
 			return targetName;
 		}

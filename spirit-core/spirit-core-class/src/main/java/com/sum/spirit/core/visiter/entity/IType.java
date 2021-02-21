@@ -48,10 +48,6 @@ public class IType {
 		return genericTypes != null && genericTypes.size() > 0;
 	}
 
-	public boolean isCommonType() {
-		return !(isTypeVariable() || isGenericType());
-	}
-
 	public IType getWrappedType() {
 		IType wrappedType = TypeEnum.getWrappedType(getClassName());
 		return wrappedType != null ? wrappedType : this;

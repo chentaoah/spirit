@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.api.SemanticParser;
@@ -15,16 +16,12 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
 
-	public static final String PRIMITIVE_ENUM = "void|boolean|char|short|int|long|float|double|byte";
-
-	public static final Pattern PRIMITIVE_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")$");
-	public static final Pattern PRIMITIVE_ARRAY_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]$");
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");
 
-	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\d+\\]$");
-	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");
+	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\d+\\]$");
+	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
 	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
@@ -87,8 +84,8 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	@Override
 	public boolean isType(String word) {
 		return !CONST_VAR_PATTERN.matcher(word).matches() && //
-				(PRIMITIVE_PATTERN.matcher(word).matches() || //
-						PRIMITIVE_ARRAY_PATTERN.matcher(word).matches() || //
+				(PrimitiveEnum.isPrimitiveBySimple(word) || //
+						PrimitiveEnum.isPrimitiveArrayBySimple(word) || //
 						TYPE_PATTERN.matcher(word).matches() || //
 						TYPE_ARRAY_PATTERN.matcher(word).matches() || //
 						GENERIC_TYPE_PATTERN.matcher(word).matches());
@@ -133,11 +130,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 				INVOKE_METHOD_PATTERN.matcher(word).matches() || //
 				VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches() || //
 				ARRAY_INDEX_PATTERN.matcher(word).matches();
-	}
-
-	@Override
-	public boolean isPrimitive(String word) {
-		return PRIMITIVE_PATTERN.matcher(word).matches();
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {

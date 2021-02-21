@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLoader;
 import com.sum.spirit.core.api.ImportSelector;
@@ -13,7 +14,6 @@ import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
 
 import cn.hutool.core.lang.Assert;
 
@@ -43,7 +43,7 @@ public abstract class ImportUnit extends AnnotationUnit {
 		boolean isArray = TypeUtils.isArray(simpleName);
 
 		// 1.如果是基本类型，基本类型数组
-		String className = TypeEnum.getClassName(simpleName);
+		String className = PrimitiveEnum.tryGetClassName(simpleName);
 
 		// 2.首先先去引入里面找
 		if (className == null) {
@@ -68,7 +68,7 @@ public abstract class ImportUnit extends AnnotationUnit {
 		String lastName = TypeUtils.getLastName(className);
 
 		// 1. 原始类型不添加
-		if (TypeEnum.isPrimitive(targetName)) {
+		if (PrimitiveEnum.isPrimitive(targetName)) {
 			return true;
 		}
 

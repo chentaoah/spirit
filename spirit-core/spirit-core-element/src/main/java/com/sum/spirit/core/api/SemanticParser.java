@@ -40,6 +40,4 @@ public interface SemanticParser {
 
 	boolean isAccess(String word);
 
-	boolean isPrimitive(String word);
-
 }

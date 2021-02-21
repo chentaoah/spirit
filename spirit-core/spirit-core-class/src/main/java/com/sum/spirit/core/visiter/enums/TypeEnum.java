@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.api.TypeEnumCtor;
 import com.sum.spirit.core.utils.TypeBuilder;
 import com.sum.spirit.core.visiter.entity.IType;
@@ -23,8 +20,6 @@ public enum TypeEnum {
 	Object, String, Object_Array, String_Array, Class, List, Map, Null, Wildcard;
 
 	public static final Map<String, IType> PRIMITIVE_ARRAY_TARGET_MAPPING = new ConcurrentHashMap<>();
-
-	public static final Map<String, IType> PRIMITIVE_ARRAY_MAPPING = new ConcurrentHashMap<>();
 
 	static {
 		void_t.value = TypeBuilder.build("void", "void", "void", true/* primitive */, false, false, false, false);
@@ -46,56 +41,11 @@ public enum TypeEnum {
 		float_a.value = TypeBuilder.build("[F", "float[]", "float[]", false, true/* array */, false, false, false);
 		double_a.value = TypeBuilder.build("[D", "double[]", "double[]", false, true/* array */, false, false, false);
 
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[Z", boolean_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[C", char_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[B", byte_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[S", short_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[I", int_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[J", long_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[F", float_t.value);
-		PRIMITIVE_ARRAY_TARGET_MAPPING.put("[D", double_t.value);
-
-		PRIMITIVE_ARRAY_MAPPING.put("boolean[]", boolean_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("char[]", char_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("byte[]", byte_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("short[]", short_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("int[]", int_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("long[]", long_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("float[]", float_a.value);
-		PRIMITIVE_ARRAY_MAPPING.put("double[]", double_a.value);
-
 		List<TypeEnumCtor> ctors = SpringUtils.getBeansAndSort(TypeEnumCtor.class);
 		Assert.notNull(ctors.size() == 0, "Type enum ctor must be provided!");
 		for (TypeEnumCtor ctor : ctors) {
 			ctor.prepareEnv();
 		}
-	}
-
-	public static boolean isPrimitive(String className) {
-		SemanticParser parser = SpringUtils.getBean(SemanticParser.class);
-		return parser.isPrimitive(className);
-	}
-
-	public static String getPrimitiveArrayTargetName(String className) {
-		IType type = PRIMITIVE_ARRAY_TARGET_MAPPING.get(className);
-		if (type != null) {
-			return type.getClassName();
-		}
-		return null;
-	}
-
-	public static String getClassName(String simpleName) {
-		String className = isPrimitive(simpleName) ? simpleName : null;
-		if (StringUtils.isNotEmpty(className)) {
-			return className;
-		}
-
-		IType type = PRIMITIVE_ARRAY_MAPPING.get(simpleName);
-		if (type != null) {
-			return type.getClassName();
-		}
-
-		return null;
 	}
 
 	public static IType getWrappedType(String className) {

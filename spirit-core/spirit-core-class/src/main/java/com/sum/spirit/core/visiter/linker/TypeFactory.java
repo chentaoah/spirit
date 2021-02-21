@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.utils.TypeUtils;
 import com.sum.spirit.core.visiter.action.FastDeducer;
 import com.sum.spirit.core.visiter.entity.IType;
@@ -38,7 +39,7 @@ public class TypeFactory extends AbstractTypeFactory {
 		type.setClassName(className);
 		type.setSimpleName(TypeUtils.getSimpleName(className));
 		type.setTypeName(TypeUtils.getTypeName(className));
-		type.setPrimitive(TypeEnum.isPrimitive(className));
+		type.setPrimitive(PrimitiveEnum.isPrimitive(className));
 		type.setArray(TypeUtils.isArray(className));
 		type.setNull(false);
 		type.setWildcard(false);
