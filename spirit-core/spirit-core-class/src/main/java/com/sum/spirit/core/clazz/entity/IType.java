@@ -7,9 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.utils.TypeUtils;
-import com.sum.spirit.core.visiter.entity.StaticTypes;
-import com.sum.spirit.core.visiter.linker.TypeFactory;
+import com.sum.spirit.core.clazz.constants.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,7 +47,7 @@ public class IType {
 		return genericTypes != null && genericTypes.size() > 0;
 	}
 
-	public IType getWrappedType() {
+	public IType getBoxType() {
 		IType wrappedType = StaticTypes.getWrappedType(getClassName());
 		return wrappedType != null ? wrappedType : this;
 	}

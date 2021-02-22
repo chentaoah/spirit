@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.FileUrlUtils;
-import com.sum.spirit.core.AppClassLoader;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.compile.AppClassLoader;
 
 @Component
 @Primary

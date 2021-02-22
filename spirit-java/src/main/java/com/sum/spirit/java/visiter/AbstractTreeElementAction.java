@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.action.AbstractElementAction;
+import com.sum.spirit.core.compile.action.FastDeducer;
+import com.sum.spirit.core.compile.entity.ElementEvent;
+import com.sum.spirit.core.compile.utils.StmtVisiter;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.action.AbstractElementAction;
-import com.sum.spirit.core.visiter.action.FastDeducer;
-import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.core.visiter.utils.StmtVisiter;
 import com.sum.spirit.java.utils.TreeUtils;
 
 public abstract class AbstractTreeElementAction extends AbstractElementAction {

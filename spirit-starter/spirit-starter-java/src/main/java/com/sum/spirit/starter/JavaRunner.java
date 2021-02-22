@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.FileUrlUtils;
-import com.sum.spirit.core.AliasReplacer;
-import com.sum.spirit.core.AppClassLoader;
-import com.sum.spirit.core.RunningMonitor;
 import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.compile.AliasReplacer;
+import com.sum.spirit.core.compile.AppClassLoader;
+import com.sum.spirit.core.compile.RunningMonitor;
 
 @Component
 @Profile("compile")

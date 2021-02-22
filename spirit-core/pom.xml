@@ -13,5 +13,6 @@
 		<module>spirit-core-lexer</module>
 		<module>spirit-core-element</module>
 		<module>spirit-core-class</module>
+		<module>spirit-core-compile</module>
 	</modules>
 </project>

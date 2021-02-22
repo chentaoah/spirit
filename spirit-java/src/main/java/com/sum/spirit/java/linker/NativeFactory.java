@@ -12,12 +12,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.entity.StaticTypes;
-import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;
-import com.sum.spirit.core.visiter.utils.TypeVisiter;
+import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.compile.linker.TypeFactory;
+import com.sum.spirit.core.compile.utils.ReferTypeVisiter;
+import com.sum.spirit.core.compile.utils.TypeVisiter;
 
 @Component
 public class NativeFactory extends TypeFactory {

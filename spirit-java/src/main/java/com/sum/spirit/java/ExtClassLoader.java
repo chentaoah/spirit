@@ -8,11 +8,11 @@ import java.util.Map;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.AbstractClassLoader;
 import com.sum.spirit.core.api.StaticTypesCtor;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.utils.TypeUtils;
+import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.clazz.utils.TypeUtils;
+import com.sum.spirit.core.compile.AbstractClassLoader;
 import com.sum.spirit.java.utils.ReflectUtils;
 
 @Component
