@@ -1,5 +1,6 @@
 package com.sum.spirit.java.visiter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Maps;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
+import com.sum.spirit.core.compile.deduce.ImportManager;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.utils.StmtVisiter;
 import com.sum.spirit.core.element.entity.Statement;
@@ -16,6 +18,9 @@ import com.sum.spirit.core.element.entity.Token;
 @Component
 @Order(-100)
 public class CommonAction extends AbstractElementAction {
+
+	@Autowired
+	public ImportManager manager;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -35,7 +40,7 @@ public class CommonAction extends AbstractElementAction {
 				Statement subStatement = token.getValue();
 				subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
 				subStatement.set(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
-				clazz.addImport(Lists.class.getName());
+				manager.addImport(clazz, Lists.class.getName());
 
 			} else if (token.isMap()) {// {"key":"value"} => Maps.of("key","value");
 				Statement subStatement = token.getValue();
@@ -46,7 +51,7 @@ public class CommonAction extends AbstractElementAction {
 				}
 				subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Maps.of("));
 				subStatement.set(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
-				clazz.addImport(Maps.class.getName());
+				manager.addImport(clazz, Maps.class.getName());
 			}
 		});
 	}

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.api.ClassResolver;
 import com.sum.spirit.core.api.Compiler;
 import com.sum.spirit.core.api.DocumentReader;
-import com.sum.spirit.core.clazz.ClassResolver;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Document;

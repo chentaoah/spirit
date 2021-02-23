@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.core.api.ClassResolver;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -20,11 +21,12 @@ import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
-public class ClassResolver {
+public class ClassResolverImpl implements ClassResolver {
 
 	@Autowired
 	public ElementBuilder builder;
 
+	@Override
 	public Map<String, IClass> resolveClasses(String packageStr, Document document) {
 
 		Map<String, IClass> classes = new LinkedHashMap<>();

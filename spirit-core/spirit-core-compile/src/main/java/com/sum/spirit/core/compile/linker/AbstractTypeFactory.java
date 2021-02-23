@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.SemanticParser;
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.compile.utils.TypeVisiter;
 import com.sum.spirit.core.element.entity.Token;
 

@@ -17,6 +17,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AutoImporter;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
 import com.sum.spirit.core.compile.action.FastDeducer;
+import com.sum.spirit.core.compile.deduce.ImportManager;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.ElementBuilderImpl;
 import com.sum.spirit.core.element.entity.Element;
@@ -35,6 +36,8 @@ public class StatementAction extends AbstractElementAction {
 	public FastDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
+	@Autowired
+	public ImportManager manager;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -96,8 +99,8 @@ public class StatementAction extends AbstractElementAction {
 			element.add(new Token(TokenTypeEnum.CUSTOM_SUFFIX, ");"));
 
 			if (clazz.getField("logger") == null) {
-				clazz.addImport(Logger.class.getName());
-				clazz.addImport(LoggerFactory.class.getName());
+				manager.addImport(clazz, Logger.class.getName());
+				manager.addImport(clazz, LoggerFactory.class.getName());
 				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
 				loggerElement.addModifier(JavaBuilder.FINAL_KEYWORD);
 				loggerElement.addModifier(KeywordEnum.STATIC.value);

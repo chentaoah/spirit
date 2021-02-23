@@ -11,12 +11,14 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.api.ClassLinker;
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.action.FastDeducer;
+import com.sum.spirit.core.compile.deduce.ImportManager;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -32,6 +34,10 @@ public class TypeFactory extends AbstractTypeFactory {
 	public FastDeducer deducer;
 	@Autowired
 	public ClassLinker linker;
+	@Autowired
+	public ImportManager manager;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性
@@ -71,12 +77,12 @@ public class TypeFactory extends AbstractTypeFactory {
 			if (clazz.getTypeVariableIndex(simpleName) >= 0) {
 				return createTypeVariable(simpleName);// T or K
 			}
-			return create(clazz.findClassName(simpleName));
+			return create(manager.findClassName(clazz, simpleName));
 
 		} else if (token.value instanceof Statement) {
 			Statement statement = token.getValue(); // List<String> // Class<?>
 			String simpleName = statement.getStr(0);
-			IType type = create(clazz.findClassName(simpleName));
+			IType type = create(manager.findClassName(clazz, simpleName));
 			type.setGenericTypes(getGenericTypes(clazz, statement));
 			return type;
 		}
@@ -142,7 +148,7 @@ public class TypeFactory extends AbstractTypeFactory {
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
-			IType wrappedType = deducer.derive(clazz, statement).getBoxType();
+			IType wrappedType = derivator.getBoxType(deducer.derive(clazz, statement));
 			if (genericType == null) {
 				genericType = wrappedType;
 				continue;

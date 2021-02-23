@@ -11,6 +11,7 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.compile.utils.StmtVisiter;
@@ -27,6 +28,8 @@ public class InvocationVisiter extends AbstractElementAction {
 	public ClassLinker linker;
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -53,7 +56,7 @@ public class InvocationVisiter extends AbstractElementAction {
 
 				} else if (token.isLocalMethod()) {
 					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-					IType returnType = linker.visitMethod(clazz.getType().toThis(), memberName, parameterTypes);
+					IType returnType = linker.visitMethod(derivator.toThis(clazz.getType()), memberName, parameterTypes);
 					token.setAttr(AttributeEnum.TYPE, returnType);
 
 				} else if (token.isVisitField()) {

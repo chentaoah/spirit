@@ -10,6 +10,7 @@ import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.compile.linker.TypeFactory;
@@ -29,6 +30,8 @@ public class VariableTracker extends AbstractElementAction {
 	public ClassLinker linker;
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -49,7 +52,7 @@ public class VariableTracker extends AbstractElementAction {
 			} else if (token.isArrayIndex()) {// .strs[0]
 				String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 				IType type = getVariableType(clazz, context, memberName);
-				type = type.getTargetType();// 转换数组类型为目标类型
+				type = derivator.getTargetType(type);// 转换数组类型为目标类型
 				token.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
@@ -62,10 +65,10 @@ public class VariableTracker extends AbstractElementAction {
 
 	public IType findKeywordType(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
-			return clazz.getSuperType().toSuper();
+			return derivator.toSuper(derivator.getSuperType(clazz));
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
-			return clazz.getType().toThis();
+			return derivator.toThis(clazz.getType());
 		}
 		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
 	}
@@ -80,7 +83,7 @@ public class VariableTracker extends AbstractElementAction {
 	public IType findTypeByInherit(IClass clazz, String variableName) {
 		try {
 			// 从本身和父类里面寻找，父类可能是native的
-			return linker.visitField(clazz.getType().toThis(), variableName);
+			return linker.visitField(derivator.toThis(clazz.getType()), variableName);
 
 		} catch (NoSuchFieldException e) {
 			return null;

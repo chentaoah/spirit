@@ -1,11 +1,8 @@
 package com.sum.spirit.core.clazz.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -16,9 +13,7 @@ import cn.hutool.core.lang.Assert;
 public class IClass extends ImportUnit {
 
 	public String packageStr;
-
 	public List<IField> fields;
-
 	public List<IMethod> methods;
 
 	public IClass(List<Import> imports, List<IAnnotation> annotations, Element element) {
@@ -67,42 +62,14 @@ public class IClass extends ImportUnit {
 		return TypeUtils.getTargetName(getTypeToken().toString());
 	}
 
-	@Override
 	public String getClassName() {
 		return packageStr + "." + getSimpleName();
-	}
-
-	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
-		if (token != null) {
-			return factory.create(this, token);
-		}
-		return StaticTypes.OBJECT;// 如果不存在继承，则默认是继承Object
-	}
-
-	public List<IType> getInterfaceTypes() {
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		List<IType> interfaces = new ArrayList<>();
-		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
-			interfaces.add(factory.create(this, token));
-		}
-		return interfaces;
 	}
 
 	public IField getField(String fieldName) {
 		for (IField field : fields) {
 			if (field.getName().equals(fieldName)) {
 				return field;
-			}
-		}
-		return null;
-	}
-
-	public IMethod getMethod(IType type, String methodName, List<IType> parameterTypes) {
-		for (IMethod method : methods) {
-			if (method.matches(type, methodName, parameterTypes)) {
-				return method;
 			}
 		}
 		return null;

@@ -10,6 +10,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ElementVisiter;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
@@ -30,6 +31,8 @@ public class ExpressDeclarer extends AbstractElementAction {
 	public InvocationVisiter visiter;
 	@Autowired
 	public FastDeducer deducer;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public void visit(ElementEvent event) {
@@ -65,7 +68,7 @@ public class ExpressDeclarer extends AbstractElementAction {
 			visiter.doVisit(clazz, statement);
 			IType type = deducer.derive(clazz, statement);
 			// 获取数组内部类型和泛型类型
-			type = type.isArray() ? type.getTargetType() : type.getGenericTypes().get(0);
+			type = type.isArray() ? derivator.getTargetType(type) : type.getGenericTypes().get(0);
 			Token varToken = element.get(1);
 			varToken.setAttr(AttributeEnum.TYPE, type);
 

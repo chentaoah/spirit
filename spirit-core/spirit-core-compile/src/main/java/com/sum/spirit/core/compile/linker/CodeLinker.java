@@ -15,6 +15,8 @@ import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.deduce.MethodMatcher;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
@@ -28,6 +30,10 @@ public class CodeLinker implements ClassLinker {
 	public TypeFactory factory;
 	@Autowired
 	public ClassVisiter visiter;
+	@Autowired
+	public TypeDerivator derivator;
+	@Autowired
+	public MethodMatcher matcher;
 
 	@Override
 	public boolean canLink(IType type) {
@@ -50,14 +56,14 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		IClass clazz = toClass(type);
-		return factory.populate(type, clazz.getSuperType());
+		return factory.populate(type, derivator.getSuperType(clazz));
 	}
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
 		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (IType interfaceType : clazz.getInterfaceTypes()) {
+		for (IType interfaceType : derivator.getInterfaceTypes(clazz)) {
 			interfaceTypes.add(factory.populate(type, interfaceType));
 		}
 		return interfaceTypes;
@@ -82,7 +88,7 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
-		IMethod method = clazz.getMethod(type, methodName, parameterTypes);
+		IMethod method = matcher.getMethod(clazz, type, methodName, parameterTypes);
 		if (method != null) {
 			return factory.populate(type, visiter.visitMember(clazz, method));
 		}

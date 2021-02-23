@@ -12,9 +12,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.compile.utils.ReferTypeVisiter;
 import com.sum.spirit.core.compile.utils.TypeVisiter;

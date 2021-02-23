@@ -6,12 +6,9 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.linker.TypeFactory;
 
 public class IMethod extends MemberUnit {
 
@@ -41,22 +38,6 @@ public class IMethod extends MemberUnit {
 			return false;
 		}
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
-	}
-
-	public boolean matches(IType type, String methodName, List<IType> parameterTypes) {
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		if (getName().equals(methodName) && parameters.size() == parameterTypes.size()) {
-			int count = 0;
-			for (IParameter parameter : parameters) {
-				IType parameterType = factory.populate(type, parameter.getType());
-				if (!linker.isMoreAbstract(parameterType, parameterTypes.get(count++))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
 	}
 
 	@Override

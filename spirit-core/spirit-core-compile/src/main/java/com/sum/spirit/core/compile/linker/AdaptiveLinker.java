@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.entity.StaticTypes;
 
 import cn.hutool.core.lang.Assert;
 
@@ -27,7 +27,7 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 		// xxx.class class是关键字
 		if (KeywordEnum.CLASS.value.equals(fieldName)) {
-			return factory.create(StaticTypes.CLASS.getClassName(), type.getBoxType());
+			return factory.create(StaticTypes.CLASS.getClassName(), derivator.getBoxType(type));
 		}
 		// 原始类型没有属性和方法
 		if (type.isPrimitive()) {

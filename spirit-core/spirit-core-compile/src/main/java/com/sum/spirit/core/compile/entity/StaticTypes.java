@@ -1,4 +1,4 @@
-package com.sum.spirit.core.clazz.constants;
+package com.sum.spirit.core.compile.entity;
 
 import java.util.Map;
 
@@ -101,7 +101,7 @@ public class StaticTypes {
 				.isPrimitive(primitiveEnum.isPrimitive).isArray(primitiveEnum.isArray).modifiers(ModifierEnum.PUBLIC.value).build();
 	}
 
-	public static IType getWrappedType(String className) {
+	public static IType getBoxType(String className) {
 		if (VOID.getClassName().equals(className)) {
 			return VOID_BOX;
 

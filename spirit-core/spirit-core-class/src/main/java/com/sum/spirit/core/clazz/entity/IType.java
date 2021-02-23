@@ -5,17 +5,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sum.spirit.common.enums.ModifierEnum;
-import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.clazz.constants.StaticTypes;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Getter
 @Setter
@@ -47,28 +44,8 @@ public class IType {
 		return genericTypes != null && genericTypes.size() > 0;
 	}
 
-	public IType getBoxType() {
-		IType wrappedType = StaticTypes.getWrappedType(getClassName());
-		return wrappedType != null ? wrappedType : this;
-	}
-
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
-	}
-
-	public IType getTargetType() {
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
-		return factory.create(getTargetName());
-	}
-
-	public IType toSuper() {
-		this.setModifiers(ModifierEnum.SUPER.value);
-		return this;
-	}
-
-	public IType toThis() {
-		this.setModifiers(ModifierEnum.THIS.value);
-		return this;
 	}
 
 	@Override
