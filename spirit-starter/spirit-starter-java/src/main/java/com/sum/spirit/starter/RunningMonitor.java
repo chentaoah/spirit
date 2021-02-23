@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile;
+package com.sum.spirit.starter;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;

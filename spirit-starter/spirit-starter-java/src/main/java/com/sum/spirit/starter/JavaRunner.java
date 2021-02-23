@@ -15,7 +15,6 @@ import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.AliasReplacer;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.RunningMonitor;
 
 @Component
 @Profile("compile")
