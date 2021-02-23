@@ -7,6 +7,6 @@ import com.sum.spirit.core.element.entity.Document;
 
 public interface ClassResolver {
 
-	Map<String, IClass> resolveClasses(String packageStr, Document document);
+	Map<String, IClass> resolve(String packageStr, Document document);
 
 }

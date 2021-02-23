@@ -26,7 +26,7 @@ public class CoreCompiler implements Compiler {
 	@Override
 	public Map<String, IClass> compile(String name, InputStream input, String... arguments) {
 		Document document = reader.read(TypeUtils.getLastName(name), input);
-		Map<String, IClass> classes = resolver.resolveClasses(TypeUtils.getPackage(name), document);
+		Map<String, IClass> classes = resolver.resolve(TypeUtils.getPackage(name), document);
 		return classes;
 	}
 
