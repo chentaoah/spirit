@@ -148,7 +148,7 @@ public class TypeFactory extends AbstractTypeFactory {
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
-			IType wrappedType = derivator.getBoxType(deducer.derive(clazz, statement));
+			IType wrappedType = derivator.toBox(deducer.derive(clazz, statement));
 			if (genericType == null) {
 				genericType = wrappedType;
 				continue;

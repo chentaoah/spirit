@@ -73,7 +73,7 @@ public class NativeLinker extends AbstractNativeLinker {
 				IType nativeParameterType = factory.create(parameter.getParameterizedType());
 				// 如果最后一个参数，而且是不定项参数，则取数组里的类型
 				if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
-					nativeParameterType = derivator.getTargetType(nativeParameterType);
+					nativeParameterType = derivator.toTarget(nativeParameterType);
 				}
 				// 填充类型里的泛型参数
 				nativeParameterType = factory.populate(type, parameterType, nativeParameterType);

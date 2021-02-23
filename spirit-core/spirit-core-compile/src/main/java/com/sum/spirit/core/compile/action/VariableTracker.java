@@ -52,7 +52,7 @@ public class VariableTracker extends AbstractElementAction {
 			} else if (token.isArrayIndex()) {// .strs[0]
 				String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 				IType type = getVariableType(clazz, context, memberName);
-				type = derivator.getTargetType(type);// 转换数组类型为目标类型
+				type = derivator.toTarget(type);// 转换数组类型为目标类型
 				token.setAttr(AttributeEnum.TYPE, type);
 
 			} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
@@ -65,10 +65,10 @@ public class VariableTracker extends AbstractElementAction {
 
 	public IType findKeywordType(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
-			return derivator.toSuper(derivator.getSuperType(clazz));
+			return derivator.superModifiers(derivator.getSuperType(clazz));
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
-			return derivator.toThis(clazz.getType());
+			return derivator.thisModifiers(clazz.getType());
 		}
 		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
 	}
@@ -83,7 +83,7 @@ public class VariableTracker extends AbstractElementAction {
 	public IType findTypeByInherit(IClass clazz, String variableName) {
 		try {
 			// 从本身和父类里面寻找，父类可能是native的
-			return linker.visitField(derivator.toThis(clazz.getType()), variableName);
+			return linker.visitField(derivator.thisModifiers(clazz.getType()), variableName);
 
 		} catch (NoSuchFieldException e) {
 			return null;

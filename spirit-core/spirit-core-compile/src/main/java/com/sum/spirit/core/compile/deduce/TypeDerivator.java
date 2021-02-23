@@ -20,21 +20,21 @@ public class TypeDerivator {
 	@Autowired
 	public TypeFactory factory;
 
-	public IType getTargetType(IType type) {
-		return factory.create(type.getTargetName());
-	}
-
-	public IType getBoxType(IType type) {
+	public IType toBox(IType type) {
 		IType boxType = StaticTypes.getBoxType(type.getClassName());
 		return boxType != null ? boxType : type;
 	}
 
-	public IType toSuper(IType type) {
+	public IType toTarget(IType type) {
+		return factory.create(type.getTargetName());
+	}
+
+	public IType superModifiers(IType type) {
 		type.setModifiers(ModifierEnum.SUPER.value);
 		return type;
 	}
 
-	public IType toThis(IType type) {
+	public IType thisModifiers(IType type) {
 		type.setModifiers(ModifierEnum.THIS.value);
 		return type;
 	}

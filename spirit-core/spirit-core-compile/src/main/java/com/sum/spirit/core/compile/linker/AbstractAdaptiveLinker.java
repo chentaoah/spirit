@@ -100,7 +100,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 			return true;
 		}
 		// 这个方法中，还要考虑到自动拆组包
-		if (isMoreAbstract(abstractType, getSuperType(derivator.getBoxType(type)))) {
+		if (isMoreAbstract(abstractType, getSuperType(derivator.toBox(type)))) {
 			return true;
 		}
 		// 接口
