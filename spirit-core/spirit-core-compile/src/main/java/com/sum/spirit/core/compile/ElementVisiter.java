@@ -13,7 +13,7 @@ import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.action.FastDeducer;
+import com.sum.spirit.core.compile.deduce.FastDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;

@@ -10,6 +10,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ElementVisiter;
+import com.sum.spirit.core.compile.deduce.FastDeducer;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;

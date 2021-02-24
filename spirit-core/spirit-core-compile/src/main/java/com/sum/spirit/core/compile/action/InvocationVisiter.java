@@ -11,6 +11,7 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.FastDeducer;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.linker.TypeFactory;

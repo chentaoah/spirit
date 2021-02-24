@@ -15,7 +15,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.action.FastDeducer;
+import com.sum.spirit.core.compile.deduce.FastDeducer;
 import com.sum.spirit.core.compile.deduce.ImportManager;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.StaticTypes;

@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.action;
+package com.sum.spirit.core.compile.deduce;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
