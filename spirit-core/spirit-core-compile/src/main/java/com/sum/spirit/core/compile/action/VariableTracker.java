@@ -14,9 +14,8 @@ import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.compile.linker.TypeFactory;
-import com.sum.spirit.core.compile.utils.StmtVisiter;
 import com.sum.spirit.core.element.entity.Statement;
-import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.element.utils.StmtVisiter;
 
 import cn.hutool.core.lang.Assert;
 
@@ -39,27 +38,28 @@ public class VariableTracker extends AbstractElementAction {
 	}
 
 	public void doVisit(IClass clazz, MethodContext context, Statement statement) {
-		new StmtVisiter().visitVoid(statement, event -> {
-			Token token = event.item;
-			if (token.attr(AttributeEnum.TYPE) != null) {
-				return;
-			}
-			if (token.isVariable()) {// variable
-				String variableName = token.toString();
-				IType type = getVariableType(clazz, context, variableName);
-				token.setAttr(AttributeEnum.TYPE, type);
+		StmtVisiter.visit(statement, stmt -> {
+			stmt.forEach(token -> {
+				if (token.attr(AttributeEnum.TYPE) != null) {
+					return;
+				}
+				if (token.isVariable()) {// variable
+					String variableName = token.toString();
+					IType type = getVariableType(clazz, context, variableName);
+					token.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (token.isArrayIndex()) {// .strs[0]
-				String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-				IType type = getVariableType(clazz, context, memberName);
-				type = derivator.toTarget(type);// 转换数组类型为目标类型
-				token.setAttr(AttributeEnum.TYPE, type);
+				} else if (token.isArrayIndex()) {// .strs[0]
+					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+					IType type = getVariableType(clazz, context, memberName);
+					type = derivator.toTarget(type);// 转换数组类型为目标类型
+					token.setAttr(AttributeEnum.TYPE, type);
 
-			} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
-				String variableName = token.toString();
-				IType type = findKeywordType(clazz, variableName);
-				token.setAttr(AttributeEnum.TYPE, type);
-			}
+				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
+					String variableName = token.toString();
+					IType type = findKeywordType(clazz, variableName);
+					token.setAttr(AttributeEnum.TYPE, type);
+				}
+			});
 		});
 	}
 
