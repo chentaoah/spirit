@@ -13,8 +13,9 @@ import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.compile.AliasReplacer;
+import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.compile.AppClassLoader;
+import com.sum.spirit.core.lexer.AliasLexer;
 
 @Component
 @Profile("compile")
@@ -25,7 +26,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public AliasReplacer replacer;
+	public AliasLexer lexer;
 	@Autowired
 	public RunningMonitor monitor;
 
@@ -43,7 +44,7 @@ public class JavaRunner implements ApplicationRunner {
 		List<IClass> classes = loader.getAllClasses();
 		classes.forEach(clazz -> {
 			String code = builder.build(clazz);// 输出目标代码
-			code = replacer.replace(clazz, code);
+			code = replaceAlias(clazz, code);
 			if (debug) {
 				System.out.println(code);
 			}
@@ -51,6 +52,13 @@ public class JavaRunner implements ApplicationRunner {
 				FileUrlUtils.generateFile(outputPath, clazz.getClassName().replaceAll("\\.", "/") + ".java", code);
 			}
 		});
+	}
+
+	public String replaceAlias(IClass clazz, String code) {
+		for (Import imp : clazz.getAliasImports()) {
+			code = lexer.replace(code, imp.getAlias(), imp.getClassName());
+		}
+		return code;
 	}
 
 }
