@@ -13,7 +13,7 @@ import com.sum.spirit.core.element.entity.Token;
 
 @Component
 @Order(-100)
-public class TypeDeclarer extends AbstractElementAction {
+public class ElementTypeDeclarer extends AbstractElementAction {
 
 	@Autowired
 	public TypeFactory factory;
