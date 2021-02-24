@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
@@ -24,6 +25,7 @@ import com.sum.spirit.core.lexer.entity.LexerEvent;
 import cn.hutool.core.lang.Assert;
 
 @Component
+@Primary
 @DependsOn("springUtils")
 public class CoreLexer extends AbstractLexerAction implements Lexer, InitializingBean {
 
@@ -36,7 +38,7 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class, BorderAction.class);// 排除自己
+		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class, AliasLexer.class, BorderAction.class);
 	}
 
 	@Override
