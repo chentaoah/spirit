@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.compile.utils.ReferTypeVisiter;
-import com.sum.spirit.core.compile.utils.TypeVisiter;
 
 @Component
 public class NativeFactory extends TypeFactory {
@@ -110,12 +110,11 @@ public class NativeFactory extends TypeFactory {
 	}
 
 	public IType populate(Map<String, IType> qualifyingTypes, IType targetType) {
-		return new TypeVisiter().visit(targetType, event -> {
-			IType currentType = event.item;
-			if (currentType.isTypeVariable()) {
+		return TypeVisiter.visit(targetType, eachType -> {
+			if (eachType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());
 			}
-			return null;
+			return eachType;
 		});
 	}
 

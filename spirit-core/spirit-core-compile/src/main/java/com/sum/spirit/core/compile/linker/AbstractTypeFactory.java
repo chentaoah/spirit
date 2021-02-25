@@ -11,8 +11,8 @@ import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
-import com.sum.spirit.core.compile.utils.TypeVisiter;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
@@ -41,15 +41,14 @@ public abstract class AbstractTypeFactory {
 	}
 
 	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
-		return new TypeVisiter().visit(targetType, event -> {
-			IType currentType = event.item;
-			if (currentType.isTypeVariable()) {
-				int index = linker.getTypeVariableIndex(type, currentType.getGenericName());
+		return TypeVisiter.visit(targetType, eachType -> {
+			if (eachType.isTypeVariable()) {
+				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
 				if (checkIndex(type, index)) {
 					return TypeBuilder.copy(type.getGenericTypes().get(index));
 				}
 			}
-			return null;
+			return eachType;
 		});
 	}
 
