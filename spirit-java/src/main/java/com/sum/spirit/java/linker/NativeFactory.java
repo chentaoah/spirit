@@ -17,7 +17,6 @@ import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.compile.linker.TypeFactory;
-import com.sum.spirit.core.compile.utils.ReferTypeVisiter;
 
 @Component
 public class NativeFactory extends TypeFactory {
@@ -86,11 +85,9 @@ public class NativeFactory extends TypeFactory {
 	}
 
 	public IType populate(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-		return new ReferTypeVisiter().visit(targetType, parameterType, event -> {
-			IType currentType = event.item;
-			IType referType = event.get(ReferTypeVisiter.REFER_KEY);
-			if (currentType.isTypeVariable()) {
-				String genericName = currentType.getGenericName();
+		return TypeVisiter.visit(targetType, parameterType, (eachType, referType) -> {
+			if (eachType.isTypeVariable()) {
+				String genericName = eachType.getGenericName();
 				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
 					IType existType = qualifyingTypes.get(genericName);
 					if (!existType.equals(parameterType)) {
@@ -105,7 +102,7 @@ public class NativeFactory extends TypeFactory {
 					return referType;
 				}
 			}
-			return null;
+			return eachType;
 		});
 	}
 
