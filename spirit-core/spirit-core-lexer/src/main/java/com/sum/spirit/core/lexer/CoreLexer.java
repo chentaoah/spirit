@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.action.AbstractLexerAction;
@@ -32,13 +33,13 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 
-	public List<LexerAction> actions;
+	public List<CharAction> actions;
 	@Autowired
 	public BorderAction borderAction;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(LexerAction.class, CoreLexer.class, AliasLexer.class, BorderAction.class);
+		actions = SpringUtils.getBeansAndSort(CharAction.class, CoreLexer.class, AliasLexer.class, BorderAction.class);
 	}
 
 	@Override

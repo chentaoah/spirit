@@ -6,12 +6,11 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.utils.LineUtils;
-import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.Region;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbstractLexerAction implements LexerAction {
+public abstract class AbstractLexerAction {
 
 	public Region findRegion(StringBuilder builder, int fromIndex, char leftChar, char rightChar) {
 		int endIndex = LineUtils.findEndIndex(builder, fromIndex, leftChar, rightChar);

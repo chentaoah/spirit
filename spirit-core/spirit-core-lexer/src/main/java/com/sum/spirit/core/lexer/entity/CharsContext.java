@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LexerEvent {
-	public LexerContext context;
-	public char ch;
+public class CharsContext {
+	public StringBuilder builder;
+	public int index;
 }
