@@ -1,27 +1,22 @@
-package com.sum.spirit.core.compile.action;
+package com.sum.spirit.core.compile.deduce;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.FastDeducer;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
 
 @Component
-@Order(-40)
-public class InvocationVisiter extends AbstractElementAction {
+public class InvocationVisiter {
 
 	@Autowired
 	public FastDeducer deducer;
@@ -32,12 +27,7 @@ public class InvocationVisiter extends AbstractElementAction {
 	@Autowired
 	public TypeDerivator derivator;
 
-	@Override
-	public void visit(ElementEvent event) {
-		doVisit(event.clazz, event.element);
-	}
-
-	public void doVisit(IClass clazz, Statement statement) {
+	public void visit(IClass clazz, Statement statement) {
 		StmtVisiter.visit(statement, stmt -> {
 			for (int index = 0; index < stmt.size(); index++) {
 				try {

@@ -1,7 +1,6 @@
-package com.sum.spirit.core.compile.action;
+package com.sum.spirit.core.compile.deduce;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
@@ -10,8 +9,6 @@ import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.ClassVisiter;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Statement;
@@ -20,8 +17,7 @@ import com.sum.spirit.core.element.utils.StmtVisiter;
 import cn.hutool.core.lang.Assert;
 
 @Component
-@Order(-60)
-public class VariableTracker extends AbstractElementAction {
+public class VariableTracker {
 
 	@Autowired
 	public ClassVisiter visiter;
@@ -32,12 +28,7 @@ public class VariableTracker extends AbstractElementAction {
 	@Autowired
 	public TypeDerivator derivator;
 
-	@Override
-	public void visit(ElementEvent event) {
-		doVisit(event.clazz, event.context, event.element);
-	}
-
-	public void doVisit(IClass clazz, MethodContext context, Statement statement) {
+	public void visit(IClass clazz, MethodContext context, Statement statement) {
 		StmtVisiter.visit(statement, stmt -> {
 			stmt.forEach(token -> {
 				if (token.attr(AttributeEnum.TYPE) != null) {

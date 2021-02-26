@@ -11,7 +11,9 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ElementVisiter;
 import com.sum.spirit.core.compile.deduce.FastDeducer;
+import com.sum.spirit.core.compile.deduce.InvocationVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.deduce.VariableTracker;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
@@ -47,8 +49,8 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());
-				tracker.doVisit(clazz, context, statement);
-				visiter.doVisit(clazz, statement);
+				tracker.visit(clazz, context, statement);
+				visiter.visit(clazz, statement);
 				type = deducer.derive(clazz, statement);
 				// 标记类型是否经过推导而来
 				varToken.setAttr(AttributeEnum.DERIVED, true);
@@ -65,8 +67,8 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 		Element element = event.element;
 		if (element.isForIn()) {// for item in list {
 			Statement statement = element.subStmt(3, element.size() - 1);
-			tracker.doVisit(clazz, context, statement);
-			visiter.doVisit(clazz, statement);
+			tracker.visit(clazz, context, statement);
+			visiter.visit(clazz, statement);
 			IType type = deducer.derive(clazz, statement);
 			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? derivator.toTarget(type) : type.getGenericTypes().get(0);
