@@ -15,8 +15,8 @@ import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.deduce.ImportManager;
-import com.sum.spirit.core.compile.utils.TypeNameVisiter;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
@@ -78,12 +78,11 @@ public class AutoImporter {
 	}
 
 	public String getFinalName(IClass clazz, IType type) {
-		return new TypeNameVisiter().visitName(type, event -> {
-			IType currentType = event.item;
-			if (!manager.addImport(clazz, currentType.getClassName())) {
-				return currentType.getTypeName();
+		return TypeVisiter.visitName(type, eachType -> {
+			if (!manager.addImport(clazz, eachType.getClassName())) {
+				return eachType.getTypeName();
 			}
-			return null;
+			return eachType.toString();
 		});
 	}
 

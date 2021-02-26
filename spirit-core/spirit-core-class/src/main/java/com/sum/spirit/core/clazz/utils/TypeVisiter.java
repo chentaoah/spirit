@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.sum.spirit.core.clazz.entity.IType;
 
 public class TypeVisiter {
@@ -50,6 +51,21 @@ public class TypeVisiter {
 		// 重置
 		targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
 		return targetType;
+	}
+
+	public static String visitName(IType targetType, Consumer<IType> consumer) {
+		if (targetType == null) {
+			return null;
+		}
+		String finalName = (String) consumer.accept(targetType);
+		if (targetType.isGenericType()) {
+			List<String> strs = new ArrayList<>();
+			for (IType genericType : targetType.getGenericTypes()) {
+				strs.add(visitName(genericType, consumer));
+			}
+			finalName = finalName + "<" + Joiner.on(", ").join(strs) + ">";
+		}
+		return finalName;
 	}
 
 	public static interface Consumer<T> {
