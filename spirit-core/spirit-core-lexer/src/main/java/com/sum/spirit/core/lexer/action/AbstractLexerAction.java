@@ -11,7 +11,7 @@ import com.sum.spirit.core.lexer.entity.Region;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbstractCharAction implements CharAction {
+public abstract class AbstractLexerAction implements CharAction {
 
 	public Region findRegion(StringBuilder builder, int fromIndex, char leftChar, char rightChar) {
 		int endIndex = LineUtils.findEndIndex(builder, fromIndex, leftChar, rightChar);

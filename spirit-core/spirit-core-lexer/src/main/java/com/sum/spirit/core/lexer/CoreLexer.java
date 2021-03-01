@@ -17,6 +17,7 @@ import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.Lexer;
+import com.sum.spirit.core.lexer.action.AbstractLexerAction;
 import com.sum.spirit.core.lexer.action.BorderAction;
 import com.sum.spirit.core.lexer.action.CursorAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
@@ -32,13 +33,13 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 
-	public List<CharAction> actions;
+	public List<AbstractLexerAction> actions;
 	@Autowired
 	public BorderAction borderAction;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(CharAction.class, CoreLexer.class, AliasCharsHandler.class, CursorAction.class, BorderAction.class);
+		actions = SpringUtils.getBeansAndSort(AbstractLexerAction.class, BorderAction.class);
 	}
 
 	@Override

@@ -9,8 +9,8 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
 
 @Component
-@Order(-60)
-public class SymbolAction extends AbstractCharAction {
+@Order(-80)
+public class SymbolAction extends AbstractLexerAction {
 
 	@Override
 	public boolean isTrigger(CharEvent event) {

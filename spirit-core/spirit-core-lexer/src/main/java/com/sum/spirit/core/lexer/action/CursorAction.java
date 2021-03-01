@@ -4,7 +4,7 @@ import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 
-public class CursorAction extends AbstractCharAction {
+public class CursorAction implements CharAction {
 
 	public CharAction action;
 

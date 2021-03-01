@@ -3,7 +3,6 @@ package com.sum.spirit.core.lexer.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.Splitter;
@@ -12,7 +11,6 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
 
 @Component
-@Order(-100)
 public class BorderAction extends RegionAction {
 
 	@Override

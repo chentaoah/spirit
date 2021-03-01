@@ -2,11 +2,10 @@ package com.sum.spirit.core.lexer;
 
 import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.CharsHandler;
-import com.sum.spirit.core.lexer.action.AbstractCharAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
 
-public abstract class AbstractCharsHandler extends AbstractCharAction implements CharsHandler, CharAction {
+public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 
 	@Override
 	public void handle(CharsContext context, StringBuilder builder, CharAction action) {
