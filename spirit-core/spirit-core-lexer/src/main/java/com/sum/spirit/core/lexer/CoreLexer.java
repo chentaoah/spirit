@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
@@ -26,7 +25,6 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 import cn.hutool.core.lang.Assert;
 
 @Component
-@Primary
 @DependsOn("springUtils")
 public class CoreLexer extends AbstractCharsHandler implements Lexer, InitializingBean {
 
