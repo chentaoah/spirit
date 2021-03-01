@@ -6,6 +6,4 @@ public interface CharsHandler {
 
 	void handle(CharsContext context, StringBuilder builder, CharAction action);
 
-	void handle(CharsContext context, StringBuilder builder);
-
 }

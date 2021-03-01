@@ -18,7 +18,6 @@ public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 		}
 	}
 
-	@Override
 	public void handle(CharsContext context, StringBuilder builder) {
 		handle(context, builder, this);
 	}
