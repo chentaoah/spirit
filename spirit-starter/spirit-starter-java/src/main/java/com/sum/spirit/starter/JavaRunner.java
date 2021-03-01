@@ -26,7 +26,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public AliasCharsHandler lexer;
+	public AliasCharsHandler handler;
 	@Autowired
 	public RunningMonitor monitor;
 
@@ -56,7 +56,7 @@ public class JavaRunner implements ApplicationRunner {
 
 	public String replaceAlias(IClass clazz, String code) {
 		for (Import imp : clazz.getAliasImports()) {
-			code = lexer.replace(code, imp.getAlias(), imp.getClassName());
+			code = handler.replace(code, imp.getAlias(), imp.getClassName());
 		}
 		return code;
 	}
