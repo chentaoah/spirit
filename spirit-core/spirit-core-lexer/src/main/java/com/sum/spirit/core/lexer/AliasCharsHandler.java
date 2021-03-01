@@ -4,25 +4,25 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
-import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerEvent;
+import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CharsContext;
 
 @Component
 @DependsOn("springUtils")
-public class AliasLexer extends CoreLexer {
+public class AliasCharsHandler extends AbstractCharsHandler {
 
 	public String replace(String code, String alias, String className) {
-		AliasLexerContext context = new AliasLexerContext();
+		AliasCharsContext context = new AliasCharsContext();
 		context.builder = new StringBuilder(code);
 		context.alias = alias;
 		context.className = className;
-		process(context, this);
+		handle(context, context.builder);
 		return context.builder.toString();
 	}
 
 	@Override
-	public boolean isTrigger(LexerEvent event) {
-		AliasLexerContext context = (AliasLexerContext) event.context;
+	public boolean isTrigger(CharEvent event) {
+		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;
 		char ch = event.ch;
@@ -35,8 +35,8 @@ public class AliasLexer extends CoreLexer {
 	}
 
 	@Override
-	public void pushStack(LexerEvent event) {
-		AliasLexerContext context = (AliasLexerContext) event.context;
+	public void handle(CharEvent event) {
+		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;
 		String className = context.className;
@@ -52,7 +52,7 @@ public class AliasLexer extends CoreLexer {
 		}
 	}
 
-	public static class AliasLexerContext extends LexerContext {
+	public static class AliasCharsContext extends CharsContext {
 		public String alias;
 		public String className;
 	}

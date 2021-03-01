@@ -4,6 +4,8 @@ import com.sum.spirit.core.lexer.entity.CharsContext;
 
 public interface CharsHandler {
 
+	void handle(CharsContext context, StringBuilder builder, CharAction action);
+
 	void handle(CharsContext context, StringBuilder builder);
 
 }

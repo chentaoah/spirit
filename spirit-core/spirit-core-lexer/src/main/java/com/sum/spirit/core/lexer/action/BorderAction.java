@@ -7,8 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.Splitter;
+import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerEvent;
 import com.sum.spirit.core.lexer.entity.Region;
 
 @Component
@@ -16,9 +16,9 @@ import com.sum.spirit.core.lexer.entity.Region;
 public class BorderAction extends RegionAction {
 
 	@Override
-	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
+	public void doPushStack(CharEvent event, List<Region> regions, String markName) {
 
-		LexerContext context = event.context;
+		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
 		List<Integer> indexs = new ArrayList<>();
@@ -39,7 +39,7 @@ public class BorderAction extends RegionAction {
 	}
 
 	@Override
-	public void resetIndex(LexerEvent event) {
+	public void resetIndex(CharEvent event) {
 		// ignore
 	}
 

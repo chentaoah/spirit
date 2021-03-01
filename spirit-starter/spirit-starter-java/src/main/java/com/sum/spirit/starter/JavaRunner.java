@@ -15,7 +15,7 @@ import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.lexer.AliasLexer;
+import com.sum.spirit.core.lexer.AliasCharsHandler;
 
 @Component
 @Profile("compile")
@@ -26,7 +26,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public AliasLexer lexer;
+	public AliasCharsHandler lexer;
 	@Autowired
 	public RunningMonitor monitor;
 

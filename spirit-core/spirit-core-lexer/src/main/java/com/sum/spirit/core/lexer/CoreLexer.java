@@ -17,18 +17,17 @@ import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.Lexer;
-import com.sum.spirit.core.api.LexerAction;
-import com.sum.spirit.core.lexer.action.AbstractLexerAction;
 import com.sum.spirit.core.lexer.action.BorderAction;
+import com.sum.spirit.core.lexer.action.CursorAction;
+import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerEvent;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
 @DependsOn("springUtils")
-public class CoreLexer extends AbstractLexerAction implements Lexer, InitializingBean {
+public class CoreLexer extends AbstractCharsHandler implements Lexer, InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
@@ -39,7 +38,7 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(CharAction.class, CoreLexer.class, AliasLexer.class, BorderAction.class);
+		actions = SpringUtils.getBeansAndSort(CharAction.class, CoreLexer.class, AliasCharsHandler.class, CursorAction.class, BorderAction.class);
 	}
 
 	@Override
@@ -48,10 +47,12 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 		if (StringUtils.isEmpty(text)) {
 			return new ArrayList<>();
 		}
-		// 上下文
-		LexerContext context = new LexerContext(new StringBuilder(text.trim()));
-		// 触发事件
-		process(context, this);
+
+		// 处理字符串
+		StringBuilder builder = new StringBuilder(text.trim());
+		LexerContext context = new LexerContext(builder);
+		handle(context, builder, new CursorAction(this));
+
 		// 去掉多余的空格
 		text = LineUtils.mergeSpaces(context.builder.toString());
 		// 利用空格，进行拆分
@@ -66,38 +67,20 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 
 	@Override
 	public List<String> getSubWords(String text, Character... splitChars) {
-		// 上下文
-		LexerContext context = new LexerContext(new StringBuilder(text.trim()), splitChars);
-		// 触发事件
-		process(context, borderAction);
+		// 处理字符串
+		StringBuilder builder = new StringBuilder(text.trim());
+		LexerContext context = new LexerContext(builder, splitChars);
+		handle(context, builder, new CursorAction(borderAction));
+
 		// 校验
-		Assert.notNull(context.words, "SubWords can not be null!");
+		Assert.notNull(context.words, "words of context can not be null!");
 		// 继续拆分
 		List<String> words = new ArrayList<>();
 		for (String word : context.words) {
 			words.addAll(getWords(word));
 		}
-		return words;
-	}
 
-	public void process(LexerContext context, LexerAction action) {
-		// 开始遍历
-		for (StringBuilder builder = context.builder; context.index < builder.length(); context.index++) {
-			char ch = builder.charAt(context.index);
-			// 是否连续字符
-			if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {
-				context.startIndex = context.index;
-			}
-			// 这里使用统一的逻辑处理
-			LexerEvent event = new LexerEvent(context, ch);
-			if (action.isTrigger(event)) {
-				action.pushStack(event);
-			}
-			// 如果不是连续字符，则重置游标
-			if (!isContinuous(ch)) {
-				context.startIndex = -1;
-			}
-		}
+		return words;
 	}
 
 	public void splitWords(List<String> words) {
@@ -120,24 +103,16 @@ public class CoreLexer extends AbstractLexerAction implements Lexer, Initializin
 		}
 	}
 
-	public boolean isContinuous(char ch) {// 是否连续
-		return ch == '@' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_' || ch == '.';
-	}
-
-	public boolean isRefreshed(char ch) {// 是否需要刷新
-		return ch == '.';
-	}
-
 	@Override
-	public boolean isTrigger(LexerEvent event) {
+	public boolean isTrigger(CharEvent event) {
 		return true;
 	}
 
 	@Override
-	public void pushStack(LexerEvent event) {
-		for (LexerAction action : actions) {
+	public void handle(CharEvent event) {
+		for (CharAction action : actions) {
 			if (action.isTrigger(event)) {
-				action.pushStack(event);
+				action.handle(event);
 				return;
 			}
 		}

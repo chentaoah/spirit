@@ -4,23 +4,23 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerEvent;
 import com.sum.spirit.core.lexer.entity.Region;
 
 @Component
 @Order(-60)
-public class SymbolAction extends AbstractLexerAction {
+public class SymbolAction extends AbstractCharAction {
 
 	@Override
-	public boolean isTrigger(LexerEvent event) {
+	public boolean isTrigger(CharEvent event) {
 		return SymbolEnum.isSymbolChar(event.ch);
 	}
 
 	@Override
-	public void pushStack(LexerEvent event) {
+	public void handle(CharEvent event) {
 
-		LexerContext context = event.context;
+		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 
 		// 尝试获取两个字符，判断是否双字符符号
