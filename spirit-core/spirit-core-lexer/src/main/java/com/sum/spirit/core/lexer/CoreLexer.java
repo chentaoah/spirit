@@ -48,12 +48,10 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		if (StringUtils.isEmpty(text)) {
 			return new ArrayList<>();
 		}
-
 		// 处理字符串
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder);
 		handle(context, builder, new CursorAction(this));
-
 		// 去掉多余的空格
 		text = LineUtils.mergeSpaces(context.builder.toString());
 		// 利用空格，进行拆分
@@ -72,7 +70,6 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder, splitChars);
 		handle(context, builder, new CursorAction(borderAction));
-
 		// 校验
 		Assert.notNull(context.words, "words of context can not be null!");
 		// 继续拆分
@@ -80,7 +77,6 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		for (String word : context.words) {
 			words.addAll(getWords(word));
 		}
-
 		return words;
 	}
 
