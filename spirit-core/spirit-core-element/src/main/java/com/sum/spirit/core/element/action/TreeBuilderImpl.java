@@ -1,12 +1,14 @@
 package com.sum.spirit.core.element.action;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.entity.PriorityNode;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
@@ -36,26 +38,23 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 			}
 		}
 		// 构建图谱
-		List<Integer>[] graph = getGraphByTokens(tokens);
+		Queue<PriorityNode<Integer>> queue = getQueueByTokens(tokens);
 		// 通过图谱快速建立二叉树
-		gatherNodesByGraph(graph, nodes);
+		gatherNodesByQueue(queue, nodes);
 
 		return nodes;
 	}
 
-	public List<Integer>[] getGraphByTokens(List<Token> tokens) {
-		// 图谱
-		@SuppressWarnings("unchecked")
-		List<Integer>[] graph = (List<Integer>[]) new List<?>[12];
+	public Queue<PriorityNode<Integer>> getQueueByTokens(List<Token> tokens) {
+
+		Queue<PriorityNode<Integer>> queue = new PriorityQueue<>(16, new PriorityNode.PriorityComparator<Integer>());
 		// 将节点按照优先级添加到图谱中
-		for (int i = 0; i < tokens.size(); i++) {
+		for (int index = 0; index < tokens.size(); index++) {
 			// 获取当前节点的内容
-			Token currentToken = tokens.get(i);
-			// 获取下一个节点
-			Token nextToken = i + 1 < tokens.size() ? tokens.get(i + 1) : null;
+			Token currentToken = tokens.get(index);
+			Token nextToken = index + 1 < tokens.size() ? tokens.get(index + 1) : null;
 			// 优先级和操作数
 			int priority = -1;
-
 			OperandEnum operand = null;
 
 			if (currentToken.isFluent()) {
@@ -83,63 +82,57 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 				operand = OperandEnum.BINARY;
 			}
 
-			// 如果优先级大于0，则添加到图谱中
-			if (priority > 0) {
-				int index = 12 - priority / 5;
-				if (graph[index] == null) {
-					graph[index] = new ArrayList<Integer>();
-				}
-				graph[index].add(i);
-				// 记录操作数
-				currentToken.setAttr(AttributeEnum.OPERAND, operand);
+			if (priority > 0) {// 如果优先级大于0，则添加到图谱中
+				queue.add(new PriorityNode<Integer>(priority, index));
+				currentToken.setAttr(AttributeEnum.OPERAND, operand); // 记录操作数
 			}
 		}
-		return graph;
+
+		return queue;
 	}
 
-	public void gatherNodesByGraph(List<Integer>[] graph, List<Node> nodes) {
-		for (List<Integer> indexs : graph) {
-			if (indexs == null) {
-				continue;
-			}
-			for (int index : indexs) {
-				ListIterator<Node> iterator = nodes.listIterator();
-				while (iterator.hasNext()) {
-					// 这里注意，next已经将索向后推进了
-					Node node = iterator.next();
-					if (node.index != index) {
-						continue;
-					}
-					// 获取当前节点的token
-					Token currentToken = node.token;
-					// 如果是多义的操作符，则进行判断后，确定真正的操作数
-					resetOperandIfMultiple(iterator, currentToken);
+	public void gatherNodesByQueue(Queue<PriorityNode<Integer>> queue, List<Node> nodes) {
 
-					OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
-					if (operandEnum == OperandEnum.LEFT) {
-						// 使用迭代器，必须非常小心nextIndex
-						iterator.previous();
-						node.prev = iterator.previous();
-						iterator.remove();
+		while (!queue.isEmpty()) {
+			PriorityNode<Integer> priorityNode = queue.poll();
+			int index = priorityNode.item;
 
-					} else if (operandEnum == OperandEnum.RIGHT) {
-						node.next = iterator.next();
-						iterator.remove();
-
-					} else if (operandEnum == OperandEnum.BINARY) {
-						iterator.previous();
-						node.prev = iterator.previous();
-						iterator.remove();
-
-						iterator.next();
-						node.next = iterator.next();
-						iterator.remove();
-
-					} else {
-						throw new RuntimeException("Unable to know the operand of the symbol!");
-					}
-					break;
+			ListIterator<Node> iterator = nodes.listIterator();
+			while (iterator.hasNext()) {
+				// 这里注意，next已经将索向后推进了
+				Node node = iterator.next();
+				if (node.index != index) {
+					continue;
 				}
+				// 获取当前节点的token
+				Token currentToken = node.token;
+				// 如果是多义的操作符，则进行判断后，确定真正的操作数
+				resetOperandIfMultiple(iterator, currentToken);
+
+				OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
+				if (operandEnum == OperandEnum.LEFT) {
+					// 使用迭代器，必须非常小心nextIndex
+					iterator.previous();
+					node.prev = iterator.previous();
+					iterator.remove();
+
+				} else if (operandEnum == OperandEnum.RIGHT) {
+					node.next = iterator.next();
+					iterator.remove();
+
+				} else if (operandEnum == OperandEnum.BINARY) {
+					iterator.previous();
+					node.prev = iterator.previous();
+					iterator.remove();
+
+					iterator.next();
+					node.next = iterator.next();
+					iterator.remove();
+
+				} else {
+					throw new RuntimeException("Unable to know the operand of the symbol!");
+				}
+				break;
 			}
 		}
 	}

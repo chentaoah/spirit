@@ -3,9 +3,9 @@ package com.sum.spirit.core.element.frame;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.common.entity.MappableList;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.common.utils.MappableList;
 import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.entity.Token;
 

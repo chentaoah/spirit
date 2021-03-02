@@ -1,4 +1,4 @@
-package com.sum.spirit.common.utils;
+package com.sum.spirit.common.entity;
 
 import java.util.Collection;
 import java.util.Iterator;
