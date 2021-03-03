@@ -17,6 +17,7 @@ import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.PriorityNode;
+import com.sum.spirit.core.element.utils.PriorityNode.PriorityComparator;
 
 @Component
 public class TreeBuilderImpl extends AbstractTreeBuilder {
@@ -37,13 +38,10 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 	}
 
 	public Queue<PriorityNode<Integer>> getPriorityQueue(List<Token> tokens) {
-
-		Queue<PriorityNode<Integer>> queue = new PriorityQueue<>(16, new PriorityNode.PriorityComparator<Integer>());
+		Queue<PriorityNode<Integer>> queue = new PriorityQueue<>(16, new PriorityComparator<Integer>());
 		for (int index = 0; index < tokens.size(); index++) {
-			// 获取当前节点的内容
 			Token currentToken = tokens.get(index);
 			Token nextToken = index + 1 < tokens.size() ? tokens.get(index + 1) : null;
-			// 优先级和操作数
 			int priority = -1;
 			OperandEnum operand = null;
 
@@ -72,17 +70,15 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 				operand = OperandEnum.BINARY;
 			}
 
-			if (priority > 0) {// 如果优先级大于0，则添加到图谱中
+			if (priority > 0) {
 				queue.add(new PriorityNode<Integer>(priority, index));
-				currentToken.setAttr(AttributeEnum.OPERAND, operand); // 记录操作数
+				currentToken.setAttr(AttributeEnum.OPERAND, operand);
 			}
 		}
-
 		return queue;
 	}
 
 	public List<Node> gatherNodesByQueue(Queue<PriorityNode<Integer>> queue, List<Node> nodes) {
-
 		while (!queue.isEmpty()) {
 			PriorityNode<Integer> priorityNode = queue.poll();
 			int index = priorityNode.item;
@@ -115,8 +111,7 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 				throw new RuntimeException("Unable to know the operand of the symbol!");
 			}
 		}
-		// 过滤掉所有null
-		return nodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return nodes.stream().filter(Objects::nonNull).collect(Collectors.toList());// 过滤掉所有null
 	}
 
 	public void resetOperandIfMultiple(List<Node> nodes, int index, Token currentToken) {
