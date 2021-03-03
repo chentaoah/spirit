@@ -25,15 +25,11 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 	public List<Node> buildNodes(List<Token> tokens) {
 		final List<Node> nodes = new ArrayList<>();
 		Lists.visit(tokens, (index, token) -> {
-			if (token.canSplit()) {
-				// 嵌套语法树
+			if (token.canSplit()) {// 嵌套语法树
 				SyntaxTree syntaxTree = buildTree(token.getValue());
-				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);// 拷贝一个新的token
-				nodes.add(new Node(index, newToken));
-
-			} else {
-				nodes.add(new Node(index, token));
+				token = new Token(token.tokenType, syntaxTree, token.attributes);
 			}
+			nodes.add(new Node(index, token));
 		});
 		Queue<PriorityNode<Integer>> queue = getPriorityQueue(tokens);
 		List<Node> newNodes = gatherNodesByQueue(queue, nodes);
