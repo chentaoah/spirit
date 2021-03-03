@@ -3,6 +3,7 @@ package com.sum.spirit.core.clazz.entity;
 import java.util.List;
 
 import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -67,12 +68,7 @@ public class IClass extends ImportUnit {
 	}
 
 	public IField getField(String fieldName) {
-		for (IField field : fields) {
-			if (field.getName().equals(fieldName)) {
-				return field;
-			}
-		}
-		return null;
+		return Lists.findOne(fields, field -> field.getName().equals(fieldName));
 	}
 
 }

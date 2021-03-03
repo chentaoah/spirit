@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.hutool.core.collection.CollUtil;
+
 public class Lists {
 
 	@SafeVarargs
@@ -51,6 +53,18 @@ public class Lists {
 		}
 	}
 
+	public static <T> T remove(List<T> list, Matcher<T> matcher) {
+		Iterator<T> iterable = list.iterator();
+		while (iterable.hasNext()) {
+			T item = iterable.next();
+			if (matcher.accept(item)) {
+				iterable.remove();
+				return item;
+			}
+		}
+		return null;
+	}
+
 	public static <T> T findOne(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
 		int step = toIndex >= fromIndex ? 1 : -1;
 		for (int index = fromIndex; index != toIndex; index += step) {
@@ -60,6 +74,10 @@ public class Lists {
 			}
 		}
 		return null;
+	}
+
+	public static <T> T findOne(List<T> list, Matcher<T> matcher) {
+		return CollUtil.findOne(list, item -> matcher.accept(item));
 	}
 
 	public static <T> List<T> filterUntilConditionNotMet(List<T> list, Filter<T> filter) {

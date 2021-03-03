@@ -3,6 +3,7 @@ package com.sum.spirit.core.clazz.frame;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.element.entity.Element;
 
@@ -16,21 +17,11 @@ public abstract class AnnotationUnit extends ElementUnit {
 	}
 
 	public IAnnotation getAnnotation(String className) {
-		for (IAnnotation annotation : annotations) {
-			if (annotation.getType().getClassName().equals(className)) {
-				return annotation;
-			}
-		}
-		return null;
+		return Lists.findOne(annotations, annotation -> annotation.getType().getClassName().equals(className));
 	}
 
 	public IAnnotation removeAnnotation(String className) {
-		IAnnotation annotation = getAnnotation(className);
-		if (annotation != null) {
-			annotations.remove(annotation);
-			return annotation;
-		}
-		return null;
+		return Lists.remove(annotations, annotation -> annotation.getType().getClassName().equals(className));
 	}
 
 }

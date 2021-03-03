@@ -9,7 +9,6 @@ import com.sum.spirit.common.utils.MappableList;
 import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.entity.Token;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 
 public class TokenBox extends MappableList<Token> {
@@ -44,7 +43,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public Token findOneTokenOf(TokenTypeEnum... tokenTypes) {
-		return CollUtil.findOne(this, token -> ArrayUtil.contains(tokenTypes, token.tokenType));
+		return Lists.findOne(this, token -> ArrayUtil.contains(tokenTypes, token.tokenType));
 	}
 
 	public boolean isSymbol(Token token) {
