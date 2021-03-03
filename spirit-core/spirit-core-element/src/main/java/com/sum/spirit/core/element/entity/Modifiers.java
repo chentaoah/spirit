@@ -9,7 +9,7 @@ import com.sum.spirit.core.element.frame.KeywordTokenBox;
 public class Modifiers extends KeywordTokenBox {
 
 	public Modifiers(List<Token> tokens) {
-		super(Lists.visitHead(tokens, token -> token.isModifier()));
+		super(Lists.filterUntilConditionNotMet(tokens, token -> token.isModifier()));
 	}
 
 	@Override

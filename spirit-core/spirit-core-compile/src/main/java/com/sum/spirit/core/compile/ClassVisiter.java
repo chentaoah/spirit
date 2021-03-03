@@ -69,7 +69,7 @@ public class ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = Lists.visitHead(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = Lists.filterUntilConditionNotMet(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
 			parameter.setType(factory.create(clazz, paramStmt.get(0)));
 			method.parameters.add(parameter);

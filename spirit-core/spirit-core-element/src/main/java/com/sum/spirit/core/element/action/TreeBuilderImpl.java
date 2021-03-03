@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.entity.PriorityNode;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
@@ -17,37 +16,33 @@ import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
+import com.sum.spirit.core.element.utils.PriorityNode;
 
 @Component
 public class TreeBuilderImpl extends AbstractTreeBuilder {
 
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {
-
-		List<Node> nodes = new ArrayList<>();
-		for (int index = 0; index < tokens.size(); index++) {
-			Token token = tokens.get(index);
+		final List<Node> nodes = new ArrayList<>();
+		Lists.visit(tokens, (index, token) -> {
 			if (token.canSplit()) {
-				// 1.设置语法树
+				// 嵌套语法树
 				SyntaxTree syntaxTree = buildTree(token.getValue());
 				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);// 拷贝一个新的token
 				nodes.add(new Node(index, newToken));
 
 			} else {
-				// 2.设置为token
 				nodes.add(new Node(index, token));
 			}
-		}
-
-		Queue<PriorityNode<Integer>> queue = getQueueByTokens(tokens);
-		nodes = gatherNodesByQueue(queue, nodes);
-		return nodes;
+		});
+		Queue<PriorityNode<Integer>> queue = getPriorityQueue(tokens);
+		List<Node> newNodes = gatherNodesByQueue(queue, nodes);
+		return newNodes;
 	}
 
-	public Queue<PriorityNode<Integer>> getQueueByTokens(List<Token> tokens) {
+	public Queue<PriorityNode<Integer>> getPriorityQueue(List<Token> tokens) {
 
 		Queue<PriorityNode<Integer>> queue = new PriorityQueue<>(16, new PriorityNode.PriorityComparator<Integer>());
-		// 将节点按照优先级添加到图谱中
 		for (int index = 0; index < tokens.size(); index++) {
 			// 获取当前节点的内容
 			Token currentToken = tokens.get(index);

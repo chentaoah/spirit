@@ -51,7 +51,18 @@ public class Lists {
 		}
 	}
 
-	public static <T> List<T> visitHead(List<T> list, Filter<T> filter) {
+	public static <T> T findOne(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
+		int step = toIndex >= fromIndex ? 1 : -1;
+		for (int index = fromIndex; index != toIndex; index += step) {
+			T item = list.get(index);
+			if (matcher.accept(item)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	public static <T> List<T> filterUntilConditionNotMet(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();
 		while (iterable.hasNext()) {
@@ -67,22 +78,17 @@ public class Lists {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <V, T> List<V> visitHead(List<T> list, Filter<T> filter, Factory<T> factory) {
-		List<T> items = visitHead(list, filter);
+	public static <V, T> List<V> filterUntilConditionNotMet(List<T> list, Filter<T> filter, Factory<T> factory) {
+		List<T> items = filterUntilConditionNotMet(list, filter);
 		List<V> list0 = new ArrayList<>();
 		items.forEach(item -> list0.add((V) factory.accept(item)));
 		return list0;
 	}
 
-	public static <T> T findOne(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
-		int step = toIndex >= fromIndex ? 1 : -1;
-		for (int index = fromIndex; index != toIndex; index += step) {
-			T item = list.get(index);
-			if (matcher.accept(item)) {
-				return item;
-			}
+	public static <T> void visit(List<T> list, Visiter<T> visiter) {
+		for (int index = 0; index < list.size(); index++) {
+			visiter.accept(index, list.get(index));
 		}
-		return null;
 	}
 
 	public static interface Matcher<T> {
@@ -91,6 +97,10 @@ public class Lists {
 
 	public static interface Filter<T> {
 		boolean accept(T t);
+	}
+
+	public static interface Visiter<T> {
+		void accept(int index, T t);
 	}
 
 	public static interface Factory<T> {
