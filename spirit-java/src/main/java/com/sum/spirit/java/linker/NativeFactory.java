@@ -12,12 +12,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.utils.TypeBuilder;
-import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.core.visiter.enums.TypeEnum;
-import com.sum.spirit.core.visiter.linker.TypeFactory;
-import com.sum.spirit.core.visiter.utils.ReferTypeVisiter;
-import com.sum.spirit.core.visiter.utils.TypeVisiter;
+import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.clazz.utils.TypeVisiter;
+import com.sum.spirit.core.compile.entity.StaticTypes;
+import com.sum.spirit.core.compile.linker.TypeFactory;
 
 @Component
 public class NativeFactory extends TypeFactory {
@@ -41,7 +40,7 @@ public class NativeFactory extends TypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeEnum.Wildcard.value;
+			return StaticTypes.WILDCARD;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());
@@ -86,11 +85,9 @@ public class NativeFactory extends TypeFactory {
 	}
 
 	public IType populate(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-		return new ReferTypeVisiter().visit(targetType, parameterType, event -> {
-			IType currentType = event.item;
-			IType referType = event.get(ReferTypeVisiter.REFER_KEY);
-			if (currentType.isTypeVariable()) {
-				String genericName = currentType.getGenericName();
+		return TypeVisiter.visit(targetType, parameterType, (eachType, referType) -> {
+			if (eachType.isTypeVariable()) {
+				String genericName = eachType.getGenericName();
 				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
 					IType existType = qualifyingTypes.get(genericName);
 					if (!existType.equals(parameterType)) {
@@ -105,17 +102,16 @@ public class NativeFactory extends TypeFactory {
 					return referType;
 				}
 			}
-			return null;
+			return eachType;
 		});
 	}
 
 	public IType populate(Map<String, IType> qualifyingTypes, IType targetType) {
-		return new TypeVisiter().visit(targetType, event -> {
-			IType currentType = event.item;
-			if (currentType.isTypeVariable()) {
+		return TypeVisiter.visit(targetType, eachType -> {
+			if (eachType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());
 			}
-			return null;
+			return eachType;
 		});
 	}
 

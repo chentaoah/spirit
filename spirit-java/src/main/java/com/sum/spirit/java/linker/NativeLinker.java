@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.visiter.entity.IType;
+import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
@@ -18,6 +20,9 @@ import cn.hutool.core.lang.Assert;
 @Component
 @Order(-80)
 public class NativeLinker extends AbstractNativeLinker {
+
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
@@ -68,7 +73,7 @@ public class NativeLinker extends AbstractNativeLinker {
 				IType nativeParameterType = factory.create(parameter.getParameterizedType());
 				// 如果最后一个参数，而且是不定项参数，则取数组里的类型
 				if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
-					nativeParameterType = nativeParameterType.getTargetType();
+					nativeParameterType = derivator.toTarget(nativeParameterType);
 				}
 				// 填充类型里的泛型参数
 				nativeParameterType = factory.populate(type, parameterType, nativeParameterType);

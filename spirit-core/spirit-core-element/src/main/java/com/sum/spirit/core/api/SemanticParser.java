@@ -18,8 +18,26 @@ public interface SemanticParser {
 		return getToken(word, false);
 	}
 
-	boolean isPrimitive(String word);
+	boolean isPath(String word);
+
+	boolean isAnnotation(String word);
+
+	boolean isKeyword(String word);
+
+	boolean isOperator(String word);
+
+	boolean isSeparator(String word);
 
 	boolean isType(String word);
+
+	boolean isInit(String word);
+
+	boolean isValue(String word);
+
+	boolean isSubexpress(String word);
+
+	boolean isVariable(String word);
+
+	boolean isAccess(String word);
 
 }

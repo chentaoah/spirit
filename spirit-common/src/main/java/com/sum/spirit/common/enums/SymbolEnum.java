@@ -1,7 +1,7 @@
 package com.sum.spirit.common.enums;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public enum SymbolEnum {
 
@@ -46,13 +46,13 @@ public enum SymbolEnum {
 	public static final char[] SYMBOL_CHARS = new char[] { '+', '-', '!', '*', '/', '%', '<', '>', '~', '&', '|', '^', '=', '?', //
 			'(', ')', '[', ']', '{', '}', ':', ',', ';' };
 
-	public static final Map<String, SymbolEnum> SINGLE_SYMBOL = new LinkedHashMap<>();
+	public static final Map<String, SymbolEnum> SINGLE_SYMBOL = new ConcurrentHashMap<>();
 
-	public static final Map<String, SymbolEnum> DOUBLE_SYMBOL = new LinkedHashMap<>();
+	public static final Map<String, SymbolEnum> DOUBLE_SYMBOL = new ConcurrentHashMap<>();
 
-	public static final Map<String, SymbolEnum> OPERATOR_MAP = new LinkedHashMap<>();
+	public static final Map<String, SymbolEnum> OPERATOR_MAP = new ConcurrentHashMap<>();
 
-	public static final Map<String, SymbolEnum> SEPARATOR_MAP = new LinkedHashMap<>();
+	public static final Map<String, SymbolEnum> SEPARATOR_MAP = new ConcurrentHashMap<>();
 
 	static {
 		for (SymbolEnum symbolEnum : values()) {

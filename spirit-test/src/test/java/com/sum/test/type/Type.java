@@ -29,7 +29,7 @@ public class Type {
 	public Map<Object, Object> emptyMap = Maps.of();
 	public List<String> list = Lists.newArrayList("first", "second", "third");
 	public List<Object> list1 = Lists.newArrayList("string", 100);
-	public Map<String, Integer> map = Maps.of("key1", 123, "key2", 456);
+	public List<Map<String, Object>> map = Lists.newArrayList(Maps.of("key1", 123, "key2", "123"), Maps.of("key1", 123, "key2", "123"));
 	public Map<String, Object> map1 = Maps.of("key1", "string", "key2", 100);
 	public boolean[] bArray = new boolean[10];
 	public char[] cArray = new char[10];

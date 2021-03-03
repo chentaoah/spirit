@@ -3,8 +3,8 @@ package com.sum.spirit.core.clazz.entity;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.frame.ElementUnit;
+import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
-import com.sum.spirit.core.utils.TypeUtils;
 
 public class Import extends ElementUnit {
 

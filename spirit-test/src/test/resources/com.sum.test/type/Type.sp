@@ -19,7 +19,7 @@ class Type {
 	emptyMap={}
 	list=["first","second","third"]
 	list1=["string",100]
-	map={"key1":123,"key2":456}
+	map=[{"key1":123,"key2":"123"},{"key1":123,"key2":"123"}]
 	map1={"key1":"string","key2":100}
 	bArray=boolean[10]
 	cArray=char[10]

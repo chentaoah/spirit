@@ -35,7 +35,7 @@ public class SpringUtils implements ApplicationContextAware {
 	}
 
 	public static <T> List<T> getBeansAndSort(Class<T> type) {
-		Map<String, T> beanMap = context.getBeansOfType(type);
+		Map<String, T> beanMap = getBeansOfType(type);
 		List<T> beans = new ArrayList<>(beanMap.values());
 		beans.sort(new AnnotationAwareOrderComparator());
 		return beans;

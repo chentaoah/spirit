@@ -6,13 +6,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.action.AbstractElementAction;
+import com.sum.spirit.core.compile.deduce.FastDeducer;
+import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.action.AbstractElementAction;
-import com.sum.spirit.core.visiter.action.FastDeducer;
-import com.sum.spirit.core.visiter.entity.ElementEvent;
-import com.sum.spirit.core.visiter.entity.IType;
-import com.sum.spirit.core.visiter.utils.StmtVisiter;
+import com.sum.spirit.core.element.utils.StmtVisiter;
 import com.sum.spirit.java.utils.TreeUtils;
 
 public abstract class AbstractTreeElementAction extends AbstractElementAction {
@@ -30,11 +30,13 @@ public abstract class AbstractTreeElementAction extends AbstractElementAction {
 	@Override
 	public void visit(ElementEvent event) {
 		IClass clazz = event.clazz;
-		Statement statement = event.element.statement;
-		new StmtVisiter().visitVoid(statement, visitEvent -> {
-			Token token = visitEvent.item;
-			if (isTrigger(token)) {
-				visit(clazz, (Statement) visitEvent.listable, visitEvent.index, token);
+		Statement statement = event.element;
+		StmtVisiter.visit(statement, stmt -> {
+			for (int index = 0; index < stmt.size(); index++) {
+				Token token = stmt.get(index);
+				if (isTrigger(token)) {
+					visit(clazz, stmt, index, token);
+				}
 			}
 		});
 	}

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.compile.action.AbstractElementAction;
+import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.core.visiter.action.AbstractElementAction;
-import com.sum.spirit.core.visiter.entity.ElementEvent;
 
 @Component
 @Order(-20)
@@ -21,13 +21,13 @@ public class SeparatorAction extends AbstractElementAction {
 		Element element = event.element;
 
 		if (element.isIf() || element.isElseIf() || element.isWhile() || element.isCatch() || element.isSync()) {
-			insertBrackets(clazz, element.statement);
+			insertBrackets(clazz, element);
 		}
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign() || //
 				element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis() || //
 				element.isThrow() || element.isContinue() || element.isBreak()) {
-			addLineEnd(clazz, element.statement);
+			addLineEnd(clazz, element);
 		}
 	}
 
@@ -35,18 +35,18 @@ public class SeparatorAction extends AbstractElementAction {
 		// if text {
 		// }catch Exception e{
 		int index = findLastKeyword(statement);
-		statement.tokens.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
+		statement.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
 		if ("{".equals(statement.last())) {
-			statement.tokens.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
+			statement.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
 		} else {
-			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
+			statement.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
 		}
 	}
 
 	public int findLastKeyword(Statement statement) {
 		int index = -1;
 		for (int i = 0; i < statement.size(); i++) {
-			Token token = statement.getToken(i);
+			Token token = statement.get(i);
 			if (token.isKeyword()) {
 				index = i;
 			} else {
@@ -62,7 +62,7 @@ public class SeparatorAction extends AbstractElementAction {
 
 	public void addLineEnd(IClass clazz, Statement statement) {
 		if (!"{".equals(statement.last())) {
-			statement.tokens.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
+			statement.add(new Token(TokenTypeEnum.SEPARATOR, ";"));
 		}
 	}
 

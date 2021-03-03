@@ -6,18 +6,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerEvent;
 import com.sum.spirit.core.lexer.entity.Region;
 
 @Component
-@Order(-80)
+@Order(-100)
 public class RegionAction extends AbstractLexerAction {
 
 	@Override
-	public boolean isTrigger(LexerEvent event) {
+	public boolean isTrigger(CharEvent event) {
 
-		LexerContext context = event.context;
+		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		char ch = event.ch;
 
@@ -43,9 +43,9 @@ public class RegionAction extends AbstractLexerAction {
 	}
 
 	@Override
-	public void pushStack(LexerEvent event) {
+	public void handle(CharEvent event) {
 
-		LexerContext context = event.context;
+		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		char ch = event.ch;
 
@@ -93,13 +93,13 @@ public class RegionAction extends AbstractLexerAction {
 		return index < builder.length() && builder.charAt(index) == ch;
 	}
 
-	public void doPushStack(LexerEvent event, List<Region> regions, String markName) {
-		LexerContext context = event.context;
+	public void doPushStack(CharEvent event, List<Region> regions, String markName) {
+		LexerContext context = (LexerContext) event.context;
 		replaceRegion(context.builder, mergeRegions(regions), markName + context.nameCount++, context.replacedStrs);
 	}
 
-	public void resetIndex(LexerEvent event) {
-		LexerContext context = event.context;
+	public void resetIndex(CharEvent event) {
+		LexerContext context = (LexerContext) event.context;
 		context.index = context.startIndex >= 0 ? context.startIndex : context.index;
 	}
 

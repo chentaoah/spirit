@@ -10,11 +10,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.ConfigUtils;
-import com.sum.spirit.core.AppClassLoader;
-import com.sum.spirit.core.RunningMonitor;
+import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.api.CodeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.utils.FileHelper;
+import com.sum.spirit.core.clazz.entity.Import;
+import com.sum.spirit.core.compile.AppClassLoader;
+import com.sum.spirit.core.lexer.AliasCharsHandler;
 
 @Component
 @Profile("compile")
@@ -25,7 +26,7 @@ public class JavaRunner implements ApplicationRunner {
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public AliasReplacer replacer;
+	public AliasCharsHandler handler;
 	@Autowired
 	public RunningMonitor monitor;
 
@@ -43,14 +44,21 @@ public class JavaRunner implements ApplicationRunner {
 		List<IClass> classes = loader.getAllClasses();
 		classes.forEach(clazz -> {
 			String code = builder.build(clazz);// 输出目标代码
-			code = replacer.replace(clazz, code);
+			code = replaceAlias(clazz, code);
 			if (debug) {
 				System.out.println(code);
 			}
 			if (StringUtils.isNotEmpty(outputPath)) {// 生成文件
-				FileHelper.generateFile(outputPath, clazz.getClassName(), code);
+				FileUrlUtils.generateFile(outputPath, clazz.getClassName().replaceAll("\\.", "/") + ".java", code);
 			}
 		});
+	}
+
+	public String replaceAlias(IClass clazz, String code) {
+		for (Import imp : clazz.getAliasImports()) {
+			code = handler.replace(code, imp.getAlias(), imp.getClassName());
+		}
+		return code;
 	}
 
 }

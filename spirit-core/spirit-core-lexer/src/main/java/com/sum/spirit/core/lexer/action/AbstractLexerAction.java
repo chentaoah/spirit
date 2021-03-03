@@ -1,18 +1,17 @@
 package com.sum.spirit.core.lexer.action;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.utils.LineUtils;
-import com.sum.spirit.core.api.LexerAction;
+import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.lexer.entity.Region;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbstractLexerAction implements LexerAction {
+public abstract class AbstractLexerAction implements CharAction {
 
 	public Region findRegion(StringBuilder builder, int fromIndex, char leftChar, char rightChar) {
 		int endIndex = LineUtils.findEndIndex(builder, fromIndex, leftChar, rightChar);
@@ -32,23 +31,6 @@ public abstract class AbstractLexerAction implements LexerAction {
 		}
 		Assert.isTrue(finalRegion.startIndex != -1 && finalRegion.endIndex != -1, "The index of region can not be -1!");
 		return finalRegion;
-	}
-
-	public List<String> splitRegion(StringBuilder builder, Region region) {
-		List<String> words = new ArrayList<>();
-		words.add(builder.substring(region.startIndex, region.startIndex + 1));
-		if (region.endIndex - 1 > region.startIndex + 1) {
-			String content = builder.substring(region.startIndex + 1, region.endIndex - 1);
-			if (StringUtils.isNotBlank(content)) {
-				words.add(content);
-			}
-		}
-		words.add(builder.substring(region.endIndex - 1, region.endIndex));
-		return words;
-	}
-
-	public String subRegion(StringBuilder builder, Region region) {
-		return builder.substring(region.startIndex, region.endIndex);
 	}
 
 	public String replaceRegion(StringBuilder builder, Region region, String markName) {
