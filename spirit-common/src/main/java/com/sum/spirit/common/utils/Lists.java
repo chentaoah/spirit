@@ -74,6 +74,17 @@ public class Lists {
 		return list0;
 	}
 
+	public static <T> T findOne(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
+		int step = toIndex >= fromIndex ? 1 : -1;
+		for (int index = fromIndex; index != toIndex; index += step) {
+			T item = list.get(index);
+			if (matcher.accept(item)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
 	public static interface Matcher<T> {
 		boolean accept(T t);
 	}

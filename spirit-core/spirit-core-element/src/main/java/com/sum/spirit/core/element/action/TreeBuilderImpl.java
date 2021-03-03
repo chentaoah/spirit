@@ -1,10 +1,11 @@
 package com.sum.spirit.core.element.action;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import com.sum.spirit.common.entity.PriorityNode;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
@@ -21,15 +23,14 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {
-		List<Node> nodes = new LinkedList<>();
-		// index是为了让node记住自己的索引位置
+
+		List<Node> nodes = new ArrayList<>();
 		for (int index = 0; index < tokens.size(); index++) {
 			Token token = tokens.get(index);
 			if (token.canSplit()) {
 				// 1.设置语法树
 				SyntaxTree syntaxTree = buildTree(token.getValue());
-				// 拷贝一个新的token
-				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);
+				Token newToken = new Token(token.tokenType, syntaxTree, token.attributes);// 拷贝一个新的token
 				nodes.add(new Node(index, newToken));
 
 			} else {
@@ -37,11 +38,9 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 				nodes.add(new Node(index, token));
 			}
 		}
-		// 构建图谱
-		Queue<PriorityNode<Integer>> queue = getQueueByTokens(tokens);
-		// 通过图谱快速建立二叉树
-		gatherNodesByQueue(queue, nodes);
 
+		Queue<PriorityNode<Integer>> queue = getQueueByTokens(tokens);
+		nodes = gatherNodesByQueue(queue, nodes);
 		return nodes;
 	}
 
@@ -91,56 +90,48 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 		return queue;
 	}
 
-	public void gatherNodesByQueue(Queue<PriorityNode<Integer>> queue, List<Node> nodes) {
+	public List<Node> gatherNodesByQueue(Queue<PriorityNode<Integer>> queue, List<Node> nodes) {
 
 		while (!queue.isEmpty()) {
 			PriorityNode<Integer> priorityNode = queue.poll();
 			int index = priorityNode.item;
 
-			ListIterator<Node> iterator = nodes.listIterator();
-			while (iterator.hasNext()) {
-				// 这里注意，next已经将索向后推进了
-				Node node = iterator.next();
-				if (node.index != index) {
-					continue;
-				}
-				// 获取当前节点的token
-				Token currentToken = node.token;
-				// 如果是多义的操作符，则进行判断后，确定真正的操作数
-				resetOperandIfMultiple(iterator, currentToken);
+			Node node = nodes.get(index);
+			Token currentToken = node.token;
+			resetOperandIfMultiple(nodes, index, currentToken);// 如果是多义的操作符，则进行判断后，确定真正的操作数
 
-				OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
-				if (operandEnum == OperandEnum.LEFT) {
-					// 使用迭代器，必须非常小心nextIndex
-					iterator.previous();
-					node.prev = iterator.previous();
-					iterator.remove();
+			OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
+			if (operandEnum == OperandEnum.LEFT) {
+				Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
+				node.prev = lastNode;
+				nodes.set(lastNode.index, null);
 
-				} else if (operandEnum == OperandEnum.RIGHT) {
-					node.next = iterator.next();
-					iterator.remove();
+			} else if (operandEnum == OperandEnum.RIGHT) {
+				Node nextNode = Lists.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				node.next = nextNode;
+				nodes.set(nextNode.index, null);
 
-				} else if (operandEnum == OperandEnum.BINARY) {
-					iterator.previous();
-					node.prev = iterator.previous();
-					iterator.remove();
+			} else if (operandEnum == OperandEnum.BINARY) {
+				Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
+				node.prev = lastNode;
+				nodes.set(lastNode.index, null);
 
-					iterator.next();
-					node.next = iterator.next();
-					iterator.remove();
+				Node nextNode = Lists.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				node.next = nextNode;
+				nodes.set(nextNode.index, null);
 
-				} else {
-					throw new RuntimeException("Unable to know the operand of the symbol!");
-				}
-				break;
+			} else {
+				throw new RuntimeException("Unable to know the operand of the symbol!");
 			}
 		}
+		// 过滤掉所有null
+		return nodes.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
-	public void resetOperandIfMultiple(ListIterator<Node> iterator, Token currentToken) {
+	public void resetOperandIfMultiple(List<Node> nodes, int index, Token currentToken) {
 		OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
-			Node lastNode = getLastNode(iterator);
+			Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
@@ -154,28 +145,6 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 				}
 			}
 		}
-	}
-
-	public Node getLastNode(ListIterator<Node> iterator) {
-		Node node = null;
-		if (iterator.hasPrevious()) {
-			iterator.previous();
-			if (iterator.hasPrevious()) {
-				node = iterator.previous();
-				iterator.next();
-			}
-			iterator.next();
-		}
-		return node;
-	}
-
-	public Node getNextNode(ListIterator<Node> iterator) {
-		Node node = null;
-		if (iterator.hasNext()) {
-			node = iterator.next();
-			iterator.previous();
-		}
-		return node;
 	}
 
 }
