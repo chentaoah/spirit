@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IMethod;
@@ -21,12 +22,7 @@ public class MethodMatcher {
 	public ClassLinker linker;
 
 	public IMethod getMethod(IClass clazz, IType type, String methodName, List<IType> parameterTypes) {
-		for (IMethod method : clazz.methods) {
-			if (matches(method, type, methodName, parameterTypes)) {
-				return method;
-			}
-		}
-		return null;
+		return Lists.findOne(clazz.methods, method -> matches(method, type, methodName, parameterTypes));
 	}
 
 	public boolean matches(IMethod method, IType type, String methodName, List<IType> parameterTypes) {
