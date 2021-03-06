@@ -15,6 +15,11 @@ public abstract class AbstractClassLoader<T> implements ClassLoader<T>, ImportSe
 	}
 
 	@Override
+	public boolean isHandle(String className) {
+		return contains(className);
+	}
+
+	@Override
 	public boolean shouldImport(String selfName, String className) {
 		if (selfName.equals(className)) {
 			return false;

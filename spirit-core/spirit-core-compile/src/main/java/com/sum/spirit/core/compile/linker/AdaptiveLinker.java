@@ -3,6 +3,7 @@ package com.sum.spirit.core.compile.linker;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
+@DependsOn("springUtils")
 public class AdaptiveLinker extends AbstractAdaptiveLinker {
 
 	public static final String ARRAY_LENGTH = "length";

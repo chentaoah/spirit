@@ -27,7 +27,7 @@ public class TypeFactory extends AbstractTypeFactory {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public FastDeducer deducer;
+	public SimpleDeducer deducer;
 	@Autowired
 	public ImportManager manager;
 	@Autowired

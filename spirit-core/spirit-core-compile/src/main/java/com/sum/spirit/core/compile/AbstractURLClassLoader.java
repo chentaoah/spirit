@@ -17,7 +17,7 @@ import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.FileUrlUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 
-public abstract class AbstractCodeClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
+public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
 
 	public List<URL> urls = new ArrayList<>();
 

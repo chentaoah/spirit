@@ -10,7 +10,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ElementVisiter;
-import com.sum.spirit.core.compile.deduce.FastDeducer;
+import com.sum.spirit.core.compile.deduce.SimpleDeducer;
 import com.sum.spirit.core.compile.deduce.InvocationVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.deduce.VariableTracker;
@@ -33,7 +33,7 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 	@Autowired
 	public InvocationVisiter visiter;
 	@Autowired
-	public FastDeducer deducer;
+	public SimpleDeducer deducer;
 	@Autowired
 	public TypeDerivator derivator;
 

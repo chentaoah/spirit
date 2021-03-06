@@ -16,7 +16,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 @Component
 @Order(-100)
 @DependsOn("configUtils")
-public class AppClassLoader extends AbstractCodeClassLoader {
+public class AppClassLoader extends AbstractURLClassLoader {
 
 	@Autowired
 	public Compiler compiler;
