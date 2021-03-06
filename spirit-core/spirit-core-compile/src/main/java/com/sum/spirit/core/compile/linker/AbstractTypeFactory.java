@@ -6,12 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.clazz.utils.TypeBuilder;
-import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -19,8 +16,6 @@ import cn.hutool.core.lang.Assert;
 
 public abstract class AbstractTypeFactory {
 
-	@Autowired
-	public ClassLinker linker;
 	@Autowired
 	public SemanticParser parser;
 
@@ -38,24 +33,6 @@ public abstract class AbstractTypeFactory {
 		IType type = create(StaticTypes.OBJECT.getClassName());
 		type.setGenericName(genericName);
 		return type;
-	}
-
-	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
-		return TypeVisiter.visit(targetType, eachType -> {
-			if (eachType.isTypeVariable()) {
-				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
-				if (checkIndex(type, index)) {
-					return TypeBuilder.copy(type.getGenericTypes().get(index));
-				}
-			}
-			return eachType;
-		});
-	}
-
-	public boolean checkIndex(IType type, int index) {
-		Assert.isTrue(index >= 0, "Index of type variable less than 0!");
-		Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
-		return true;
 	}
 
 	public IType create(IClass clazz, String text) {

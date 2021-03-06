@@ -57,9 +57,16 @@ public class NativeFactory extends TypeFactory {
 		throw new RuntimeException("Unknown type!");
 	}
 
-	@Override
-	public boolean checkIndex(IType type, int index) {// 父类校验，这里不校验
-		return index >= 0;
+	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
+		return TypeVisiter.visit(targetType, eachType -> {
+			if (eachType.isTypeVariable()) {
+				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
+				if (index >= 0) {
+					return TypeBuilder.copy(type.getGenericTypes().get(index));
+				}
+			}
+			return eachType;
+		});
 	}
 
 	public IType populate(IType type, IType parameterType, IType targetType) {

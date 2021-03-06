@@ -8,17 +8,24 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.utils.TypeBuilder;
+import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Token;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 public class TypeDerivator {
 
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public ClassLinker linker;
 
 	public IType toBox(IType type) {
 		IType boxType = StaticTypes.getBoxType(type.getClassName());
@@ -37,6 +44,18 @@ public class TypeDerivator {
 	public IType thisModifiers(IType type) {
 		type.setModifiers(ModifierEnum.THIS.value);
 		return type;
+	}
+
+	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
+		return TypeVisiter.visit(targetType, eachType -> {
+			if (eachType.isTypeVariable()) {
+				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
+				Assert.isTrue(index >= 0, "Index of type variable less than 0!");
+				Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
+				return TypeBuilder.copy(type.getGenericTypes().get(index));
+			}
+			return eachType;
+		});
 	}
 
 	public IType getSuperType(IClass clazz) {// 注意:这里返回的是Super<T,K>
