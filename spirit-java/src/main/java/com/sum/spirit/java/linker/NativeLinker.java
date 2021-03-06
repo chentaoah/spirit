@@ -30,7 +30,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Class<?> clazz = toClass(type);
 		Field field = ReflectUtils.getDeclaredField(clazz, fieldName);
 		if (field != null && ReflectUtils.isAccessible(field, type.getModifiers())) {
-			return derivator.populate(type, factory.create(field.getGenericType()));
+			return derivator.populateByInstanceType(type, factory.create(field.getGenericType()));
 		}
 		return null;
 	}

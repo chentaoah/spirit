@@ -55,10 +55,10 @@ public class VariableTracker {
 
 	public IType findKeywordType(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
-			return derivator.superModifiers(derivator.getSuperType(clazz));
+			return derivator.withSuperModifiers(derivator.getSuperType(clazz));
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
-			return derivator.thisModifiers(clazz.getType());
+			return derivator.withThisModifiers(clazz.getType());
 		}
 		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
 	}
@@ -73,7 +73,7 @@ public class VariableTracker {
 	public IType findTypeByInherit(IClass clazz, String variableName) {
 		try {
 			// 从本身和父类里面寻找，父类可能是native的
-			return linker.visitField(derivator.thisModifiers(clazz.getType()), variableName);
+			return linker.visitField(derivator.withThisModifiers(clazz.getType()), variableName);
 
 		} catch (NoSuchFieldException e) {
 			return null;

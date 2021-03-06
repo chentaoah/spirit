@@ -57,7 +57,7 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		IClass clazz = toClass(type);
-		return derivator.populate(type, derivator.getSuperType(clazz));
+		return derivator.populateByInstanceType(type, derivator.getSuperType(clazz));
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class CodeLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (IType interfaceType : derivator.getInterfaceTypes(clazz)) {
-			interfaceTypes.add(derivator.populate(type, interfaceType));
+			interfaceTypes.add(derivator.populateByInstanceType(type, interfaceType));
 		}
 		return interfaceTypes;
 	}
@@ -81,7 +81,7 @@ public class CodeLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
 		if (field != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, field));
+			return derivator.populateByInstanceType(type, visiter.visitMember(clazz, field));
 		}
 		return null;
 	}
@@ -91,7 +91,7 @@ public class CodeLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		IMethod method = matcher.getMethod(clazz, type, methodName, parameterTypes);
 		if (method != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, method));
+			return derivator.populateByInstanceType(type, visiter.visitMember(clazz, method));
 		}
 		return null;
 	}

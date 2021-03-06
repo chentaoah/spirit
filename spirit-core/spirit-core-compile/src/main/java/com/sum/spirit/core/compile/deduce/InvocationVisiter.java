@@ -45,7 +45,7 @@ public class InvocationVisiter {
 
 					} else if (token.isLocalMethod()) {
 						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-						IType returnType = linker.visitMethod(derivator.thisModifiers(clazz.getType()), memberName, parameterTypes);
+						IType returnType = linker.visitMethod(derivator.withThisModifiers(clazz.getType()), memberName, parameterTypes);
 						token.setAttr(AttributeEnum.TYPE, returnType);
 
 					} else if (token.isVisitField()) {

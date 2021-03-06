@@ -35,17 +35,17 @@ public class TypeDerivator {
 		return factory.create(type.getTargetName());
 	}
 
-	public IType superModifiers(IType type) {
+	public IType withSuperModifiers(IType type) {
 		type.setModifiers(ModifierEnum.SUPER.value);
 		return type;
 	}
 
-	public IType thisModifiers(IType type) {
+	public IType withThisModifiers(IType type) {
 		type.setModifiers(ModifierEnum.THIS.value);
 		return type;
 	}
 
-	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
+	public IType populateByInstanceType(IType type, IType targetType) {// 根据全局类型，进行填充
 		return TypeVisiter.visit(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
