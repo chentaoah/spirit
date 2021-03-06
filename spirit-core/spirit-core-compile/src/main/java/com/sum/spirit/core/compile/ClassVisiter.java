@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ObjectUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.ElementBuilder;
@@ -77,8 +78,7 @@ public class ClassVisiter {
 	}
 
 	public IType visitMember(IClass clazz, MemberUnit member) {
-		// 防止循环依赖
-		member.lock();
+		ObjectUtils.lock(member); // 防止循环依赖
 		IType type = member.getType();
 		if (type == null) {
 			if (member instanceof IField) {
@@ -90,7 +90,7 @@ public class ClassVisiter {
 			Assert.notNull(type, "Failed to derive member type!");
 			member.setType(type);
 		}
-		member.unLock();
+		ObjectUtils.unlock(member);
 		return type;
 	}
 
