@@ -80,6 +80,10 @@ public class Lists {
 		return CollUtil.findOne(list, item -> matcher.accept(item));
 	}
 
+	public static <T> T findOne(Iterable<T> collection, Matcher<T> matcher) {
+		return CollUtil.findOne(collection, item -> matcher.accept(item));
+	}
+
 	public static <T> List<T> filterByCondition(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();

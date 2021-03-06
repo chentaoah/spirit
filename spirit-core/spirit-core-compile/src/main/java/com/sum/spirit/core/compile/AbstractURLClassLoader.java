@@ -15,6 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.FileUrlUtils;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.entity.IClass;
 
 public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
@@ -86,12 +87,7 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 
 	@Override
 	public String findClassName(String simpleName) {
-		for (String className : classes.keySet()) {
-			if (className.endsWith("." + simpleName)) {
-				return className;
-			}
-		}
-		return null;
+		return Lists.findOne(classes.keySet(), className -> className.endsWith("." + simpleName));
 	}
 
 	public void clear() {
