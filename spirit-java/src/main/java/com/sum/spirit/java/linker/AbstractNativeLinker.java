@@ -20,7 +20,7 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 	public NativeFactory factory;
 
 	@Override
-	public boolean canLink(IType type) {
+	public boolean isHandle(IType type) {
 		return type.isNative();
 	}
 

@@ -27,7 +27,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 
 	public ClassLinker getLinker(IType type) {
 		for (ClassLinker linker : linkers) {
-			if (linker.canLink(type)) {
+			if (linker.isHandle(type)) {
 				return linker;
 			}
 		}
@@ -35,7 +35,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 	}
 
 	@Override
-	public boolean canLink(IType type) {
+	public boolean isHandle(IType type) {
 		return getLinker(type) != null;
 	}
 

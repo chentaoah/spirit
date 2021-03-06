@@ -6,7 +6,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 
 public interface ClassLinker {
 
-	boolean canLink(IType type);
+	boolean isHandle(IType type);
 
 	<T> T toClass(IType type);
 

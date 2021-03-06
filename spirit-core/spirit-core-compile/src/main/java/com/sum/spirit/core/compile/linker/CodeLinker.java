@@ -36,7 +36,7 @@ public class CodeLinker implements ClassLinker {
 	public MethodMatcher matcher;
 
 	@Override
-	public boolean canLink(IType type) {
+	public boolean isHandle(IType type) {
 		return !type.isNative();
 	}
 
