@@ -17,6 +17,7 @@ import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.ClassVisiter;
 import com.sum.spirit.core.compile.deduce.MethodMatcher;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.deduce.TypeFactory;
 
 import cn.hutool.core.lang.Assert;
 

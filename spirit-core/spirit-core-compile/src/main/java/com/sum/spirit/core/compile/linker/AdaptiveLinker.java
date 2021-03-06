@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeFactory;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 import cn.hutool.core.lang.Assert;

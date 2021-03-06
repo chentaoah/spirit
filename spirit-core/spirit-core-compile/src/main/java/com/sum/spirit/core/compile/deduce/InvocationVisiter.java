@@ -10,7 +10,6 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;

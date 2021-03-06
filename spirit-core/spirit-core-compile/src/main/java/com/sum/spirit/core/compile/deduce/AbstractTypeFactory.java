@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.linker;
+package com.sum.spirit.core.compile.deduce;
 
 import java.util.Arrays;
 import java.util.Collections;

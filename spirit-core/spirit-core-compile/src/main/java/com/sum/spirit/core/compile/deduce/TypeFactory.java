@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.linker;
+package com.sum.spirit.core.compile.deduce;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,6 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.deduce.FastDeducer;
-import com.sum.spirit.core.compile.deduce.ImportManager;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;

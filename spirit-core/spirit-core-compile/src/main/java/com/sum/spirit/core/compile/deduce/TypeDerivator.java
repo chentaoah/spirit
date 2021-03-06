@@ -14,7 +14,6 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.entity.StaticTypes;
-import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;

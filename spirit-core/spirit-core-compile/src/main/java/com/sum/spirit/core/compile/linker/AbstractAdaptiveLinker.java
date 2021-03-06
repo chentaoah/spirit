@@ -7,6 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -26,12 +27,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 	}
 
 	public ClassLinker getLinker(IType type) {
-		for (ClassLinker linker : linkers) {
-			if (linker.isHandle(type)) {
-				return linker;
-			}
-		}
-		return null;
+		return Lists.findOne(linkers, linker -> linker.isHandle(type));
 	}
 
 	@Override
