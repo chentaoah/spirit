@@ -7,7 +7,9 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
+import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ClassVisiter;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Statement;
@@ -65,7 +67,16 @@ public class VariableTracker {
 
 	public IType findTypeByContext(MethodContext context, String variableName) {
 		if (context != null) {
-			return context.findVariableType(variableName);
+			for (IVariable variable : context.variables) {// 变量
+				if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
+					return variable.getType();
+				}
+			}
+			for (IParameter parameter : context.method.parameters) {// 方法入参
+				if (parameter.getName().equals(variableName)) {
+					return parameter.getType();
+				}
+			}
 		}
 		return null;
 	}
