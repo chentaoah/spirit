@@ -45,13 +45,13 @@ public class TypeDerivator {
 		return type;
 	}
 
-	public IType populateByInstanceType(IType type, IType targetType) {// 根据全局类型，进行填充
+	public IType populate(IType instanceType, IType targetType) {// 根据全局类型，进行填充
 		return TypeVisiter.visit(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
-				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
+				int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
 				Assert.isTrue(index >= 0, "Index of type variable less than 0!");
-				Assert.isTrue(type.isGenericType(), "Type must be a generic type!");
-				return TypeBuilder.copy(type.getGenericTypes().get(index));
+				Assert.isTrue(instanceType.isGenericType(), "Type must be a generic type!");
+				return TypeBuilder.copy(instanceType.getGenericTypes().get(index));
 			}
 			return eachType;
 		});

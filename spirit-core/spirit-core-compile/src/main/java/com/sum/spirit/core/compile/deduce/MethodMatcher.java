@@ -25,7 +25,7 @@ public class MethodMatcher {
 		if (method.getName().equals(methodName) && method.parameters.size() == parameterTypes.size()) {
 			int count = 0;
 			for (IParameter parameter : method.parameters) {
-				IType parameterType = derivator.populateByInstanceType(type, parameter.getType());
+				IType parameterType = derivator.populate(type, parameter.getType());
 				if (!derivator.isMoreAbstract(parameterType, parameterTypes.get(count++))) {
 					return false;
 				}
