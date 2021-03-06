@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.deduce.TypeFactory;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
@@ -21,6 +22,8 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {

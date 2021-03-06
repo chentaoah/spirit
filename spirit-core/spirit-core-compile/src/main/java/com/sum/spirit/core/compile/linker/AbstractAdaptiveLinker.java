@@ -4,22 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 public abstract class AbstractAdaptiveLinker implements ClassLinker, InitializingBean {
 
 	public List<ClassLinker> linkers;
-
-	@Autowired
-	public TypeDerivator derivator;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -77,7 +72,5 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 		}
 		return getLinker(type).getInterfaceTypes(type);
 	}
-
-	
 
 }
