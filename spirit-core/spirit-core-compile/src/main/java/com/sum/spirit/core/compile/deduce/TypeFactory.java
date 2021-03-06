@@ -142,15 +142,15 @@ public class TypeFactory extends AbstractTypeFactory {
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
-			IType wrappedType = derivator.toBox(deducer.derive(clazz, statement));
+			IType boxType = derivator.toBox(deducer.derive(clazz, statement));
 			if (genericType == null) {
-				genericType = wrappedType;
+				genericType = boxType;
 				continue;
 			}
-			if (derivator.isMoreAbstract(wrappedType, genericType)) {// 更抽象则替换
-				genericType = wrappedType;
+			if (derivator.isMoreAbstract(boxType, genericType)) {// 更抽象则替换
+				genericType = boxType;
 
-			} else if (!derivator.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
+			} else if (!derivator.isMoreAbstract(genericType, boxType)) {// 不同则使用Object
 				genericType = StaticTypes.OBJECT;
 				break;
 			}
