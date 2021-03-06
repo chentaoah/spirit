@@ -48,14 +48,14 @@ public class VariableTracker {
 
 				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
 					String variableName = token.toString();
-					IType type = findKeywordType(clazz, variableName);
+					IType type = findTypeByKeyword(clazz, variableName);
 					token.setAttr(AttributeEnum.TYPE, type);
 				}
 			});
 		});
 	}
 
-	public IType findKeywordType(IClass clazz, String variableName) {
+	public IType findTypeByKeyword(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
 			return derivator.withSuperModifiers(derivator.getSuperType(clazz));
 
