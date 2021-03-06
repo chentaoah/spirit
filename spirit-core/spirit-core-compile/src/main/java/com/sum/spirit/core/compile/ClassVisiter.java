@@ -167,14 +167,12 @@ public class ClassVisiter {
 			}
 
 			if (element.isReturn()) {
-				// 语法校验
-				if (index != elements.size() - 1) {
+				if (index != elements.size() - 1) { // 语法校验
 					if (ConfigUtils.isSyntaxCheck()) {
 						throw new RuntimeException("The method body does not end with a return statement!");
 					}
 				}
-				// 提前结束
-				break;
+				break;// 提前结束
 			}
 
 			// 遍历子节点
