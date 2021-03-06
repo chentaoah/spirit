@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
@@ -17,8 +16,6 @@ public class MethodMatcher {
 
 	@Autowired
 	public TypeDerivator derivator;
-	@Autowired
-	public ClassLinker linker;
 
 	public IMethod getMethod(IClass clazz, IType type, String methodName, List<IType> parameterTypes) {
 		return Lists.findOne(clazz.methods, method -> matches(method, type, methodName, parameterTypes));
@@ -29,7 +26,7 @@ public class MethodMatcher {
 			int count = 0;
 			for (IParameter parameter : method.parameters) {
 				IType parameterType = derivator.populateByInstanceType(type, parameter.getType());
-				if (!linker.isMoreAbstract(parameterType, parameterTypes.get(count++))) {
+				if (!derivator.isMoreAbstract(parameterType, parameterTypes.get(count++))) {
 					return false;
 				}
 			}

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
-import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
@@ -29,8 +28,6 @@ public class TypeFactory extends AbstractTypeFactory {
 	public AppClassLoader classLoader;
 	@Autowired
 	public FastDeducer deducer;
-	@Autowired
-	public ClassLinker linker;
 	@Autowired
 	public ImportManager manager;
 	@Autowired
@@ -150,10 +147,10 @@ public class TypeFactory extends AbstractTypeFactory {
 				genericType = wrappedType;
 				continue;
 			}
-			if (linker.isMoreAbstract(wrappedType, genericType)) {// 更抽象则替换
+			if (derivator.isMoreAbstract(wrappedType, genericType)) {// 更抽象则替换
 				genericType = wrappedType;
 
-			} else if (!linker.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
+			} else if (!derivator.isMoreAbstract(genericType, wrappedType)) {// 不同则使用Object
 				genericType = StaticTypes.OBJECT;
 				break;
 			}

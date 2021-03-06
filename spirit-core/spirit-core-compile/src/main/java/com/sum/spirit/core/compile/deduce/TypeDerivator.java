@@ -57,6 +57,30 @@ public class TypeDerivator {
 		});
 	}
 
+	public boolean isMoreAbstract(IType abstractType, IType type) {
+		if (type == null) {
+			return false;
+		}
+		if (abstractType.isNull()) {// null类型不能比任何类型抽象
+			return false;
+		}
+		if (type.isNull()) {// 任何类型都能比null抽象
+			return true;
+		}
+		if (type.equals(abstractType)) {// 这个方法还要判断泛型
+			return true;
+		}
+		if (isMoreAbstract(abstractType, linker.getSuperType(toBox(type)))) {// 这个方法中，还要考虑到自动拆组包
+			return true;
+		}
+		for (IType inter : linker.getInterfaceTypes(type)) {// 接口
+			if (isMoreAbstract(abstractType, inter)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public IType getSuperType(IClass clazz) {// 注意:这里返回的是Super<T,K>
 		Token token = clazz.element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null) {

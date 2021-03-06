@@ -78,34 +78,6 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 		return getLinker(type).getInterfaceTypes(type);
 	}
 
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType type) {
-		if (type == null) {
-			return false;
-		}
-		// null类型不能比任何类型抽象
-		if (abstractType.isNull()) {
-			return false;
-		}
-		// 任何类型都能比null抽象
-		if (type.isNull()) {
-			return true;
-		}
-		// 这个方法还要判断泛型
-		if (type.equals(abstractType)) {
-			return true;
-		}
-		// 这个方法中，还要考虑到自动拆组包
-		if (isMoreAbstract(abstractType, getSuperType(derivator.toBox(type)))) {
-			return true;
-		}
-		// 接口
-		for (IType inter : getInterfaceTypes(type)) {
-			if (isMoreAbstract(abstractType, inter)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	
 
 }

@@ -77,7 +77,7 @@ public class NativeLinker extends AbstractNativeLinker {
 				}
 				// 填充类型里的泛型参数
 				nativeParameterType = factory.populate(type, parameterType, nativeParameterType);
-				if (!isMoreAbstract(nativeParameterType, parameterType)) {
+				if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
 					flag = false;
 					break;
 				}

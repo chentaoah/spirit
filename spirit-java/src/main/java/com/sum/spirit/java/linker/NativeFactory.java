@@ -10,8 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
@@ -20,6 +22,9 @@ import com.sum.spirit.core.compile.entity.StaticTypes;
 
 @Component
 public class NativeFactory extends TypeFactory {
+
+	@Autowired
+	public ClassLinker linker;
 
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
@@ -68,12 +67,6 @@ public class CodeLinker implements ClassLinker {
 			interfaceTypes.add(derivator.populateByInstanceType(type, interfaceType));
 		}
 		return interfaceTypes;
-	}
-
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType type) {
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		return linker.isMoreAbstract(abstractType, type);
 	}
 
 	@Override

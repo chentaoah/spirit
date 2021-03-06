@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.java.ExtClassLoader;
@@ -59,12 +58,6 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 			interfaceTypes.add(factory.populate(type, factory.create(interfaceType)));
 		}
 		return interfaceTypes;
-	}
-
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType type) {
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		return linker.isMoreAbstract(abstractType, type);
 	}
 
 }

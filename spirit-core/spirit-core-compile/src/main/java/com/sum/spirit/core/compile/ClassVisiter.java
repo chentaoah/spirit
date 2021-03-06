@@ -20,6 +20,7 @@ import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.deduce.TypeFactory;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.compile.entity.StaticTypes;
@@ -40,6 +41,8 @@ public class ClassVisiter {
 	public ElementVisiter visiter;
 	@Autowired
 	public ClassLinker linker;
+	@Autowired
+	public TypeDerivator derivator;
 
 	public void prepareForVisit(IClass clazz) {
 		// 访问类型
@@ -115,7 +118,7 @@ public class ClassVisiter {
 			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : StaticTypes.VOID;
 				// 进行类型校验
-				if (!linker.isMoreAbstract(declaredType, returnType)) {
+				if (!derivator.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
 				}
 			}
@@ -154,7 +157,7 @@ public class ClassVisiter {
 					// 如果有多个返回类型，则使用最抽象的那个
 					if (!variable.getType().isNull()) {
 						// 注意：任何类型都是null的抽象，null不能是任何类型的抽象
-						if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
+						if (derivator.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
 							context.returnType = StaticTypes.OBJECT;
