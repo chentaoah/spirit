@@ -1,4 +1,4 @@
-package com.sum.spirit.java.linker;
+package com.sum.spirit.output.java.linker;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.java.ExtClassLoader;
+import com.sum.spirit.output.java.ExtClassLoader;
 
 public abstract class AbstractNativeLinker implements ClassLinker {
 

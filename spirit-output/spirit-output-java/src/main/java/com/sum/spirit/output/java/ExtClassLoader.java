@@ -1,4 +1,4 @@
-package com.sum.spirit.java;
+package com.sum.spirit.output.java;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.compile.AbstractClassLoader;
-import com.sum.spirit.java.utils.ReflectUtils;
+import com.sum.spirit.output.java.utils.ReflectUtils;
 
 @Component
 @Order(-80)

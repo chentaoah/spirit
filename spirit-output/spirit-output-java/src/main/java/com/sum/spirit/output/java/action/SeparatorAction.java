@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visiter;
+package com.sum.spirit.output.java.action;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

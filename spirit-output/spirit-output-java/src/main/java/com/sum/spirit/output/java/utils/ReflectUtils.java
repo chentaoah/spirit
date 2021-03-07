@@ -1,4 +1,4 @@
-package com.sum.spirit.java.utils;
+package com.sum.spirit.output.java.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;

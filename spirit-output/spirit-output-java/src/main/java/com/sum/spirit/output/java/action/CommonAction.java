@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visiter;
+package com.sum.spirit.output.java.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;

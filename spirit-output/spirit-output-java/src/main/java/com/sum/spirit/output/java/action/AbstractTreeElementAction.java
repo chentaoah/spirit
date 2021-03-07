@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visiter;
+package com.sum.spirit.output.java.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
-import com.sum.spirit.java.utils.TreeUtils;
+import com.sum.spirit.output.java.utils.TreeUtils;
 
 public abstract class AbstractTreeElementAction extends AbstractElementAction {
 

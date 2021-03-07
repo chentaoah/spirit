@@ -1,4 +1,4 @@
-package com.sum.spirit.java.utils;
+package com.sum.spirit.output.java.utils;
 
 import java.util.List;
 import java.util.Map;

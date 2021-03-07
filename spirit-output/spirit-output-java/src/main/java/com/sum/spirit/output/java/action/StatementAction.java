@@ -1,4 +1,4 @@
-package com.sum.spirit.java.visiter;
+package com.sum.spirit.output.java.action;
 
 import java.util.ArrayList;
 
@@ -23,8 +23,8 @@ import com.sum.spirit.core.element.ElementBuilderImpl;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
-import com.sum.spirit.java.JavaBuilder;
-import com.sum.spirit.java.utils.TypeUtils;
+import com.sum.spirit.output.java.JavaBuilder;
+import com.sum.spirit.output.java.utils.TypeUtils;
 
 @Component
 @Order(-40)

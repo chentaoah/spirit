@@ -1,4 +1,4 @@
-package com.sum.spirit.java.linker;
+package com.sum.spirit.output.java.linker;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

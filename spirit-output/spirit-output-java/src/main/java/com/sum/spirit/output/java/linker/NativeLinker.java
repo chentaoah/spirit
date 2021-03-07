@@ -1,4 +1,4 @@
-package com.sum.spirit.java.linker;
+package com.sum.spirit.output.java.linker;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.java.utils.ReflectUtils;
+import com.sum.spirit.output.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
 
