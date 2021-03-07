@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.output.java.ExtClassLoader;
+import com.sum.spirit.output.java.deduce.NativeDerivator;
 import com.sum.spirit.output.java.deduce.NativeFactory;
 
 public abstract class AbstractNativeLinker implements ClassLinker {
@@ -20,7 +20,7 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 	@Autowired
 	public NativeFactory factory;
 	@Autowired
-	public TypeDerivator derivator;
+	public NativeDerivator derivator;
 
 	@Override
 	public boolean isHandle(IType type) {

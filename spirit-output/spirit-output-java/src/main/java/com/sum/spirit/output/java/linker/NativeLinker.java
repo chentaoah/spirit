@@ -7,12 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.output.java.deduce.NativeDerivator;
 import com.sum.spirit.output.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
@@ -20,9 +18,6 @@ import cn.hutool.core.lang.Assert;
 @Component
 @Order(-80)
 public class NativeLinker extends AbstractNativeLinker {
-
-	@Autowired
-	public NativeDerivator derivator;
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
@@ -41,7 +36,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Method method = findMethod(type, methodName, parameterTypes);
 		if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
 			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);
-			return derivator.populate(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
+			return derivator.populateByQualifying(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
 		}
 		return null;
 	}
@@ -76,7 +71,7 @@ public class NativeLinker extends AbstractNativeLinker {
 					nativeParameterType = derivator.toTarget(nativeParameterType);
 				}
 				// 填充类型里的泛型参数
-				nativeParameterType = derivator.populate(type, parameterType, nativeParameterType);
+				nativeParameterType = derivator.populateByParameter(type, parameterType, nativeParameterType);
 				if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
 					flag = false;
 					break;
@@ -95,7 +90,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Parameter[] parameters = method.getParameters();
 		for (int i = 0; i < size; i++) {
 			// 根据本地类型创建统一的类型
-			derivator.populate(type, parameterTypes.get(i), factory.create(parameters[i].getParameterizedType()), qualifyingTypes);
+			derivator.populateQualifying(type, parameterTypes.get(i), factory.create(parameters[i].getParameterizedType()), qualifyingTypes);
 		}
 		return qualifyingTypes;
 	}
