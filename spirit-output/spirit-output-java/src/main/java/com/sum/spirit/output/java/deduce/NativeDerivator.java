@@ -50,11 +50,10 @@ public class NativeDerivator extends TypeDerivator {
 				String genericName = eachType.getGenericName();
 				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
 					IType existType = qualifyingTypes.get(genericName);
-					if (!existType.equals(parameterType)) {
+					if (!existType.equals(referType)) {
 						throw new RuntimeException("Parameter qualification types are not uniform!");
 					}
-					referType = TypeBuilder.copy(referType);
-					return referType;
+					return TypeBuilder.copy(referType);
 
 				} else {
 					referType = TypeBuilder.copy(referType);
