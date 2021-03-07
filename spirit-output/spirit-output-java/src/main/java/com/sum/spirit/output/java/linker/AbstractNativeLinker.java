@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.output.java.ExtClassLoader;
+import com.sum.spirit.output.java.deduce.NativeFactory;
 
 public abstract class AbstractNativeLinker implements ClassLinker {
 
@@ -17,6 +19,8 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 	public ExtClassLoader classLoader;
 	@Autowired
 	public NativeFactory factory;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public boolean isHandle(IType type) {
@@ -47,7 +51,7 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		Type nativeSuperType = clazz.getGenericSuperclass();
 		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
-		return factory.populate(type, superType);
+		return derivator.populate(type, superType);
 	}
 
 	@Override
@@ -55,7 +59,7 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (Type interfaceType : clazz.getGenericInterfaces()) {
-			interfaceTypes.add(factory.populate(type, factory.create(interfaceType)));
+			interfaceTypes.add(derivator.populate(type, factory.create(interfaceType)));
 		}
 		return interfaceTypes;
 	}

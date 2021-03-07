@@ -12,7 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.output.java.deduce.NativeDerivator;
 import com.sum.spirit.output.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
@@ -22,7 +22,7 @@ import cn.hutool.core.lang.Assert;
 public class NativeLinker extends AbstractNativeLinker {
 
 	@Autowired
-	public TypeDerivator derivator;
+	public NativeDerivator derivator;
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
@@ -41,7 +41,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Method method = findMethod(type, methodName, parameterTypes);
 		if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
 			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);
-			return factory.populate(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
+			return derivator.populate(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
 		}
 		return null;
 	}
@@ -76,7 +76,7 @@ public class NativeLinker extends AbstractNativeLinker {
 					nativeParameterType = derivator.toTarget(nativeParameterType);
 				}
 				// 填充类型里的泛型参数
-				nativeParameterType = factory.populate(type, parameterType, nativeParameterType);
+				nativeParameterType = derivator.populate(type, parameterType, nativeParameterType);
 				if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
 					flag = false;
 					break;
@@ -95,7 +95,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Parameter[] parameters = method.getParameters();
 		for (int i = 0; i < size; i++) {
 			// 根据本地类型创建统一的类型
-			factory.populate(type, parameterTypes.get(i), factory.create(parameters[i].getParameterizedType()), qualifyingTypes);
+			derivator.populate(type, parameterTypes.get(i), factory.create(parameters[i].getParameterizedType()), qualifyingTypes);
 		}
 		return qualifyingTypes;
 	}

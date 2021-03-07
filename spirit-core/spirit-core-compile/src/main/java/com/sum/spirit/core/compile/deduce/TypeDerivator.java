@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
@@ -19,6 +20,7 @@ import com.sum.spirit.core.element.entity.Token;
 import cn.hutool.core.lang.Assert;
 
 @Component
+@Primary
 public class TypeDerivator {
 
 	@Autowired
