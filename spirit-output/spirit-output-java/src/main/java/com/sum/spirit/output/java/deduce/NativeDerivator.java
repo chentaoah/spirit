@@ -31,7 +31,7 @@ public class NativeDerivator extends TypeDerivator {
 		});
 	}
 
-	public IType populateByParameter(IType type, IType parameterType, IType targetType) {
+	public IType populateParameter(IType type, IType parameterType, IType targetType) {
 		return populateQualifying(type, parameterType, targetType, new HashMap<>());
 	}
 
@@ -66,16 +66,16 @@ public class NativeDerivator extends TypeDerivator {
 		});
 	}
 
-	public IType populateByQualifying(IType type, Map<String, IType> qualifyingTypes, IType targetType) {
+	public IType populateReturnType(IType type, Map<String, IType> qualifyingTypes, IType targetType) {
 		// 先使用类型填充
 		targetType = populate(type, targetType);
 		// 再用限定类型填充
-		targetType = populateByQualifying(qualifyingTypes, targetType);
+		targetType = populateReturnType(qualifyingTypes, targetType);
 		// 返回类型
 		return targetType;
 	}
 
-	public IType populateByQualifying(Map<String, IType> qualifyingTypes, IType targetType) {
+	public IType populateReturnType(Map<String, IType> qualifyingTypes, IType targetType) {
 		return TypeVisiter.visit(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());

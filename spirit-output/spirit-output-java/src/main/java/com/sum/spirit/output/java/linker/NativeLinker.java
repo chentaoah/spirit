@@ -36,7 +36,7 @@ public class NativeLinker extends AbstractNativeLinker {
 		Method method = findMethod(type, methodName, parameterTypes);
 		if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
 			Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);
-			return derivator.populateByQualifying(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
+			return derivator.populateReturnType(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
 		}
 		return null;
 	}
@@ -71,7 +71,7 @@ public class NativeLinker extends AbstractNativeLinker {
 					nativeParameterType = derivator.toTarget(nativeParameterType);
 				}
 				// 填充类型里的泛型参数
-				nativeParameterType = derivator.populateByParameter(type, parameterType, nativeParameterType);
+				nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);
 				if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
 					flag = false;
 					break;
