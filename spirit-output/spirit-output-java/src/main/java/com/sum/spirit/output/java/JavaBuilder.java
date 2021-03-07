@@ -23,7 +23,7 @@ import com.sum.spirit.core.element.entity.Element;
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
 
-	public static final String JAVA_PACKAGE = "com.sum.spirit.java";
+	public static final String JAVA_PACKAGE = "com.sum.spirit.output.java";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String FINAL_KEYWORD = "final";
