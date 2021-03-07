@@ -12,7 +12,7 @@ import java.net.URL;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-public class FileUrlUtils {
+public class FileURLUtils {
 
 	public static URL toURL(File file) {
 		try {
