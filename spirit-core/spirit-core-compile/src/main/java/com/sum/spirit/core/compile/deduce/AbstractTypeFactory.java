@@ -37,7 +37,7 @@ public abstract class AbstractTypeFactory {
 
 	public IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
-		return create(clazz, parser.getToken(text, false));
+		return create(clazz, parser.getToken(text));
 	}
 
 	public abstract IType create(String className);
