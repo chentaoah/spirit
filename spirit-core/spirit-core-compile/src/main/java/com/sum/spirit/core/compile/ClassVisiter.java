@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ObjectUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.ElementBuilder;
@@ -19,9 +20,10 @@ import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.deduce.TypeFactory;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.compile.entity.StaticTypes;
-import com.sum.spirit.core.compile.linker.TypeFactory;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -39,6 +41,8 @@ public class ClassVisiter {
 	public ElementVisiter visiter;
 	@Autowired
 	public ClassLinker linker;
+	@Autowired
+	public TypeDerivator derivator;
 
 	public void prepareForVisit(IClass clazz) {
 		// 访问类型
@@ -69,7 +73,7 @@ public class ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = Lists.filterUntilConditionNotMet(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = Lists.filterByCondition(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
 			parameter.setType(factory.create(clazz, paramStmt.get(0)));
 			method.parameters.add(parameter);
@@ -77,8 +81,7 @@ public class ClassVisiter {
 	}
 
 	public IType visitMember(IClass clazz, MemberUnit member) {
-		// 防止循环依赖
-		member.lock();
+		ObjectUtils.lock(member); // 防止循环依赖
 		IType type = member.getType();
 		if (type == null) {
 			if (member instanceof IField) {
@@ -90,7 +93,7 @@ public class ClassVisiter {
 			Assert.notNull(type, "Failed to derive member type!");
 			member.setType(type);
 		}
-		member.unLock();
+		ObjectUtils.unlock(member);
 		return type;
 	}
 
@@ -115,7 +118,7 @@ public class ClassVisiter {
 			if (method.element.hasChild()) {
 				IType returnType = context.returnType != null ? context.returnType : StaticTypes.VOID;
 				// 进行类型校验
-				if (!linker.isMoreAbstract(declaredType, returnType)) {
+				if (!derivator.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
 				}
 			}
@@ -154,7 +157,7 @@ public class ClassVisiter {
 					// 如果有多个返回类型，则使用最抽象的那个
 					if (!variable.getType().isNull()) {
 						// 注意：任何类型都是null的抽象，null不能是任何类型的抽象
-						if (linker.isMoreAbstract(variable.getType(), context.returnType)) {
+						if (derivator.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
 							context.returnType = StaticTypes.OBJECT;
@@ -164,14 +167,12 @@ public class ClassVisiter {
 			}
 
 			if (element.isReturn()) {
-				// 语法校验
-				if (index != elements.size() - 1) {
+				if (index != elements.size() - 1) { // 语法校验
 					if (ConfigUtils.isSyntaxCheck()) {
 						throw new RuntimeException("The method body does not end with a return statement!");
 					}
 				}
-				// 提前结束
-				break;
+				break;// 提前结束
 			}
 
 			// 遍历子节点

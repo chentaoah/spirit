@@ -6,7 +6,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 
 public interface ClassLinker {
 
-	boolean canLink(IType type);
+	boolean isHandle(IType type);
 
 	<T> T toClass(IType type);
 
@@ -15,8 +15,6 @@ public interface ClassLinker {
 	IType getSuperType(IType type);
 
 	List<IType> getInterfaceTypes(IType type);
-
-	boolean isMoreAbstract(IType abstractType, IType type);
 
 	IType visitField(IType type, String fieldName) throws NoSuchFieldException;
 

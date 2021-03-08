@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sum.spirit</groupId>
 	<artifactId>spirit-parent</artifactId>
-	<version>1.9.06</version>
+	<version>1.9.98</version>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -25,7 +25,7 @@
 	<modules>
 		<module>spirit-common</module>
 		<module>spirit-core</module>
-		<module>spirit-java</module>
+		<module>spirit-output</module>
 		<module>spirit-starter</module>
 		<module>spirit-test</module>
 	</modules>

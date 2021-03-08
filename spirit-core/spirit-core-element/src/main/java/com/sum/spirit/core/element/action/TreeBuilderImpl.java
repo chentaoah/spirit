@@ -82,7 +82,6 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 		while (!queue.isEmpty()) {
 			PriorityNode<Integer> priorityNode = queue.poll();
 			int index = priorityNode.item;
-
 			Node node = nodes.get(index);
 			Token currentToken = node.token;
 			resetOperandIfMultiple(nodes, index, currentToken);// 如果是多义的操作符，则进行判断后，确定真正的操作数

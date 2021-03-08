@@ -3,23 +3,29 @@ package com.sum.spirit.core.compile.linker;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.deduce.TypeFactory;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
+@DependsOn("springUtils")
 public class AdaptiveLinker extends AbstractAdaptiveLinker {
 
 	public static final String ARRAY_LENGTH = "length";
 
 	@Autowired
 	public TypeFactory factory;
+	@Autowired
+	public TypeDerivator derivator;
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {

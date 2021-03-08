@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.sum.spirit</groupId>
 		<artifactId>spirit-parent</artifactId>
-		<version>1.9.06</version>
+		<version>1.9.98</version>
 	</parent>
 	<artifactId>spirit-starter</artifactId>
 	<packaging>pom</packaging>

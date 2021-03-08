@@ -5,15 +5,15 @@
 	<parent>
 		<groupId>com.sum.spirit</groupId>
 		<artifactId>spirit-starter</artifactId>
-		<version>1.9.06</version>
+		<version>1.9.98</version>
 	</parent>
 	<artifactId>spirit-starter-java</artifactId>
 
 	<dependencies>
-		<!-- spirit-java -->
+		<!-- spirit-output-java -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
-			<artifactId>spirit-java</artifactId>
+			<artifactId>spirit-output-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

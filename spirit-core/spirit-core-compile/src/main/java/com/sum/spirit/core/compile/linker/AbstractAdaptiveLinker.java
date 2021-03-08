@@ -4,21 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 public abstract class AbstractAdaptiveLinker implements ClassLinker, InitializingBean {
 
 	public List<ClassLinker> linkers;
-
-	@Autowired
-	public TypeDerivator derivator;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -26,16 +22,11 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 	}
 
 	public ClassLinker getLinker(IType type) {
-		for (ClassLinker linker : linkers) {
-			if (linker.canLink(type)) {
-				return linker;
-			}
-		}
-		return null;
+		return Lists.findOne(linkers, linker -> linker.isHandle(type));
 	}
 
 	@Override
-	public boolean canLink(IType type) {
+	public boolean isHandle(IType type) {
 		return getLinker(type) != null;
 	}
 
@@ -80,36 +71,6 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 			return new ArrayList<>();
 		}
 		return getLinker(type).getInterfaceTypes(type);
-	}
-
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType type) {
-		if (type == null) {
-			return false;
-		}
-		// null类型不能比任何类型抽象
-		if (abstractType.isNull()) {
-			return false;
-		}
-		// 任何类型都能比null抽象
-		if (type.isNull()) {
-			return true;
-		}
-		// 这个方法还要判断泛型
-		if (type.equals(abstractType)) {
-			return true;
-		}
-		// 这个方法中，还要考虑到自动拆组包
-		if (isMoreAbstract(abstractType, getSuperType(derivator.toBox(type)))) {
-			return true;
-		}
-		// 接口
-		for (IType inter : getInterfaceTypes(type)) {
-			if (isMoreAbstract(abstractType, inter)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }

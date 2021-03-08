@@ -1,6 +1,7 @@
 package com.sum.spirit.core.clazz.entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.Lists;
@@ -69,6 +70,10 @@ public class IClass extends ImportUnit {
 
 	public IField getField(String fieldName) {
 		return Lists.findOne(fields, field -> field.getName().equals(fieldName));
+	}
+
+	public List<IMethod> getMethods(String methodName) {
+		return methods.stream().filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
 	}
 
 }

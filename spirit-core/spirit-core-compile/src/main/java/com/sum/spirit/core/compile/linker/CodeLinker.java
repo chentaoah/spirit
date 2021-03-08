@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
+import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.ClassVisiter;
-import com.sum.spirit.core.compile.deduce.MethodMatcher;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
+import com.sum.spirit.core.compile.deduce.TypeFactory;
 
 import cn.hutool.core.lang.Assert;
 
@@ -32,11 +33,9 @@ public class CodeLinker implements ClassLinker {
 	public ClassVisiter visiter;
 	@Autowired
 	public TypeDerivator derivator;
-	@Autowired
-	public MethodMatcher matcher;
 
 	@Override
-	public boolean canLink(IType type) {
+	public boolean isHandle(IType type) {
 		return !type.isNative();
 	}
 
@@ -56,7 +55,7 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		IClass clazz = toClass(type);
-		return factory.populate(type, derivator.getSuperType(clazz));
+		return derivator.populate(type, derivator.getSuperType(clazz));
 	}
 
 	@Override
@@ -64,15 +63,9 @@ public class CodeLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
 		for (IType interfaceType : derivator.getInterfaceTypes(clazz)) {
-			interfaceTypes.add(factory.populate(type, interfaceType));
+			interfaceTypes.add(derivator.populate(type, interfaceType));
 		}
 		return interfaceTypes;
-	}
-
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType type) {
-		ClassLinker linker = SpringUtils.getBean(ClassLinker.class);
-		return linker.isMoreAbstract(abstractType, type);
 	}
 
 	@Override
@@ -80,7 +73,7 @@ public class CodeLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
 		if (field != null) {
-			return factory.populate(type, visiter.visitMember(clazz, field));
+			return derivator.populate(type, visiter.visitMember(clazz, field));
 		}
 		return null;
 	}
@@ -88,11 +81,26 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
-		IMethod method = matcher.getMethod(clazz, type, methodName, parameterTypes);
+		List<IMethod> methods = clazz.getMethods(methodName);
+		IMethod method = Lists.findOne(methods, eachMethod -> matches(type, eachMethod, parameterTypes));
 		if (method != null) {
-			return factory.populate(type, visiter.visitMember(clazz, method));
+			return derivator.populate(type, visiter.visitMember(clazz, method));
 		}
 		return null;
+	}
+
+	public boolean matches(IType type, IMethod method, List<IType> parameterTypes) {
+		if (method.parameters.size() == parameterTypes.size()) {
+			for (int index = 0; index < method.parameters.size(); index++) {
+				IParameter parameter = method.parameters.get(index);
+				IType parameterType = derivator.populate(type, parameter.getType());
+				if (!derivator.isMoreAbstract(parameterType, parameterTypes.get(index))) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 }

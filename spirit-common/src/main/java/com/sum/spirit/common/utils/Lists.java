@@ -80,7 +80,11 @@ public class Lists {
 		return CollUtil.findOne(list, item -> matcher.accept(item));
 	}
 
-	public static <T> List<T> filterUntilConditionNotMet(List<T> list, Filter<T> filter) {
+	public static <T> T findOne(Iterable<T> collection, Matcher<T> matcher) {
+		return CollUtil.findOne(collection, item -> matcher.accept(item));
+	}
+
+	public static <T> List<T> filterByCondition(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();
 		while (iterable.hasNext()) {
@@ -96,8 +100,8 @@ public class Lists {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <V, T> List<V> filterUntilConditionNotMet(List<T> list, Filter<T> filter, Factory<T> factory) {
-		List<T> items = filterUntilConditionNotMet(list, filter);
+	public static <V, T> List<V> filterByCondition(List<T> list, Filter<T> filter, Factory<T> factory) {
+		List<T> items = filterByCondition(list, filter);
 		List<V> list0 = new ArrayList<>();
 		items.forEach(item -> list0.add((V) factory.accept(item)));
 		return list0;
@@ -109,6 +113,27 @@ public class Lists {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <V, T> V collectOne(List<T> list, Factory<T> factory) {
+		for (T item : list) {
+			Object object = factory.accept(item);
+			if (object != null) {
+				return (V) object;
+			}
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <V, T> V collectOne(List<T> list, Matcher<T> matcher, Factory<T> factory) {
+		for (T item : list) {
+			if (matcher.accept(item)) {
+				return (V) factory.accept(item);
+			}
+		}
+		return null;
+	}
+
 	public static interface Matcher<T> {
 		boolean accept(T t);
 	}
@@ -117,12 +142,12 @@ public class Lists {
 		boolean accept(T t);
 	}
 
-	public static interface Visiter<T> {
-		void accept(int index, T t);
-	}
-
 	public static interface Factory<T> {
 		Object accept(T t);
+	}
+
+	public static interface Visiter<T> {
+		void accept(int index, T t);
 	}
 
 }

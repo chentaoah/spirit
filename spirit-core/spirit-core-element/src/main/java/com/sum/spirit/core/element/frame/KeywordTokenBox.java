@@ -9,7 +9,7 @@ import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
-public class KeywordTokenBox extends TokenBox {
+public abstract class KeywordTokenBox extends TokenBox {
 
 	public KeywordTokenBox(List<Token> tokens) {
 		super(tokens);

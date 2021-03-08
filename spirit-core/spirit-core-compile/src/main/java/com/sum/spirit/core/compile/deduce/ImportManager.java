@@ -2,21 +2,30 @@ package com.sum.spirit.core.compile.deduce;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ImportSelector;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
-import com.sum.spirit.core.api.ClassLoader;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class ImportManager {
+@DependsOn("springUtils")
+public class ImportManager implements InitializingBean {
+
+	public List<ImportSelector> importSelectors;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
+	}
 
 	public String findClassName(IClass clazz, String simpleName) {
 		// 校验
@@ -38,7 +47,7 @@ public class ImportManager {
 
 		// 3.使用类加载器，进行查询
 		if (className == null) {
-			className = findClassNameByClassLoader(targetName);
+			className = findClassName(targetName);
 			className = className != null ? TypeUtils.getClassName(isArray, className) : null;
 		}
 
@@ -77,28 +86,14 @@ public class ImportManager {
 		return true;
 	}
 
-	public String findClassNameByClassLoader(String simpleName) {
-		List<ImportSelector> importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
-		for (ImportSelector importSelector : importSelectors) {
-			String className = importSelector.findClassName(simpleName);
-			if (StringUtils.isNotEmpty(className)) {
-				return className;
-			}
-		}
-		return null;
+	public String findClassName(String simpleName) {
+		return Lists.collectOne(importSelectors, importSelector -> importSelector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfName, String className) {
-		List<ImportSelector> importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
-		for (ImportSelector importSelector : importSelectors) {
-			if (importSelector instanceof ClassLoader) {
-				if (((ClassLoader<?>) importSelector).contains(className)) {
-					return importSelector.shouldImport(selfName, className);
-				}
-			} else {
-				return importSelector.shouldImport(selfName, className);
-			}
-		}
-		return true;
+		Boolean flag = Lists.collectOne(importSelectors, importSelector -> importSelector.isHandle(className),
+				importSelector -> importSelector.shouldImport(selfName, className));
+		return flag == null ? true : flag;
 	}
+
 }
