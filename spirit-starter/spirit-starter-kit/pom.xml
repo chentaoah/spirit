@@ -55,6 +55,8 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}/../../../spirit/lib_web</outputDirectory>
+							<includeScope>compile</includeScope>
+							<includeScope>runtime</includeScope>
 						</configuration>
 					</execution>
 				</executions>
