@@ -10,7 +10,6 @@
 	<artifactId>spirit-output</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-
-	<module>spirit-output-java</module>
+		<module>spirit-output-java</module>
 	</modules>
 </project>
