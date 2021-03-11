@@ -41,12 +41,6 @@ public class Main {
 生成的代码可以直接拷贝到maven项目中，但项目中必须包含以下依赖。
 
 ```
-<!-- spirit-core -->
-<dependency>
-	<groupId>com.sum.spirit</groupId>
-	<artifactId>spirit-core</artifactId>
-	<version>${project.version}</version>
-</dependency>
 <!-- guava -->
 <dependency>
 	<groupId>com.google.guava</groupId>
