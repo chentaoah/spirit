@@ -18,6 +18,10 @@ public abstract class AbstractLexerAction implements CharAction {
 		return endIndex != -1 ? new Region(fromIndex, endIndex + 1) : null;
 	}
 
+	public String subRegion(StringBuilder builder, Region region) {
+		return builder.substring(region.startIndex, region.endIndex);
+	}
+
 	public Region mergeRegions(List<Region> regions) {
 		Region finalRegion = new Region(-1, -1);
 		for (Region region : regions) {

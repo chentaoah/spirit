@@ -237,7 +237,7 @@ public class LexerTest {
 	}
 
 	@Test
-	@DisplayName("字段访问")
+	@DisplayName("访问字段")
 	public void test0014() {
 		String text = "fatherName = people.father.name";
 		List<String> words = lexer.getWords(text);
@@ -252,7 +252,7 @@ public class LexerTest {
 	}
 
 	@Test
-	@DisplayName("方法访问")
+	@DisplayName("访问方法")
 	public void test0015() {
 		String text = "fatherName = people.father().name()";
 		List<String> words = lexer.getWords(text);
@@ -267,23 +267,40 @@ public class LexerTest {
 	}
 
 	@Test
-	@DisplayName("数组字段访问")
+	@DisplayName("访问字段数组索引")
 	public void test0016() {
 		String text = "fatherName = people.father().name[0]";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
-		assertTrue(words.size() == 5);
+		assertTrue(words.size() == 6);
 		int count = 0;
 		assertEquals(words.get(count++), "fatherName");
 		assertEquals(words.get(count++), "=");
 		assertEquals(words.get(count++), "people");
 		assertEquals(words.get(count++), ".father()");
-		assertEquals(words.get(count++), ".name[0]");
+		assertEquals(words.get(count++), ".name");
+		assertEquals(words.get(count++), "[0]");
 	}
 
 	@Test
-	@DisplayName("操作符逻辑")
+	@DisplayName("访问方法数组索引")
 	public void test0017() {
+		String text = "fatherName = people.father().name()[0]";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 6);
+		int count = 0;
+		assertEquals(words.get(count++), "fatherName");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "people");
+		assertEquals(words.get(count++), ".father()");
+		assertEquals(words.get(count++), ".name()");
+		assertEquals(words.get(count++), "[0]");
+	}
+
+	@Test
+	@DisplayName("逻辑操作符")
+	public void test0018() {
 		String text = "flag = !(x+1>0 && y<100) && s==\"test\" || s instanceof Object";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
@@ -304,8 +321,8 @@ public class LexerTest {
 	}
 
 	@Test
-	@DisplayName("操作符计算")
-	public void test0018() {
+	@DisplayName("计算操作符")
+	public void test0019() {
 		String text = "number = x%2*100/2 + y - z";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());

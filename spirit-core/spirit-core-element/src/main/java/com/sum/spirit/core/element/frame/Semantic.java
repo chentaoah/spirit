@@ -100,16 +100,12 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.VISIT_FIELD;
 	}
 
-	public boolean isInvokeMethod() {
-		return tokenType == TokenTypeEnum.INVOKE_METHOD;
+	public boolean isVisitMethod() {
+		return tokenType == TokenTypeEnum.VISIT_METHOD;
 	}
 
-	public boolean isVisitArrayIndex() {
-		return tokenType == TokenTypeEnum.VISIT_ARRAY_INDEX;
-	}
-
-	public boolean isArrayIndex() {
-		return tokenType == TokenTypeEnum.ARRAY_INDEX;
+	public boolean isVisitIndex() {
+		return tokenType == TokenTypeEnum.VISIT_INDEX;
 	}
 
 	public boolean isPrefix() {
@@ -141,15 +137,15 @@ public abstract class Semantic extends AttributeMap {
 	}
 
 	public boolean isAccess() {
-		return isLocalMethod() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
+		return isLocalMethod() || isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isLocalMethod() || isInvokeMethod();
+		return isTypeInit() || isLocalMethod() || isVisitMethod();
 	}
 
 	public boolean isFluent() {
-		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
+		return isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 
 	public boolean canSplit() {

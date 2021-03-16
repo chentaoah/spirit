@@ -37,13 +37,12 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
 	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
-	public static final Pattern INVOKE_LOCAL_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
+	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
+	public static final Pattern LOCAL_METHOD_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*$");
-	public static final Pattern INVOKE_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_ARRAY_INDEX_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\[\\d+\\]$");
-	public static final Pattern ARRAY_INDEX_PATTERN = Pattern.compile("^[a-z]+\\w*\\[\\d+\\]$");
+	public static final Pattern VISIT_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
+	public static final Pattern VISIT_INDEX_PATTERN = Pattern.compile("^\\[\\d+\\]$");
 
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
@@ -109,7 +108,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 				LONG_PATTERN.matcher(word).matches() || //
 				DOUBLE_PATTERN.matcher(word).matches() || //
 				STR_PATTERN.matcher(word).matches() || //
-				LIST_PATTERN.matcher(word).matches() || //
+				(!VISIT_INDEX_PATTERN.matcher(word).matches() && LIST_PATTERN.matcher(word).matches()) || // not be "[0]"
 				MAP_PATTERN.matcher(word).matches();
 	}
 
@@ -125,11 +124,10 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isAccess(String word) {
-		return INVOKE_LOCAL_PATTERN.matcher(word).matches() || //
+		return LOCAL_METHOD_PATTERN.matcher(word).matches() || //
 				VISIT_FIELD_PATTERN.matcher(word).matches() || //
-				INVOKE_METHOD_PATTERN.matcher(word).matches() || //
-				VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches() || //
-				ARRAY_INDEX_PATTERN.matcher(word).matches();
+				VISIT_METHOD_PATTERN.matcher(word).matches() || //
+				VISIT_INDEX_PATTERN.matcher(word).matches();
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {
@@ -190,20 +188,17 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getAccessTokenType(String word) {
-		if (INVOKE_LOCAL_PATTERN.matcher(word).matches()) {
+		if (LOCAL_METHOD_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.LOCAL_METHOD;
 		}
 		if (VISIT_FIELD_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.VISIT_FIELD;
 		}
-		if (INVOKE_METHOD_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.INVOKE_METHOD;
+		if (VISIT_METHOD_PATTERN.matcher(word).matches()) {
+			return TokenTypeEnum.VISIT_METHOD;
 		}
-		if (VISIT_ARRAY_INDEX_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.VISIT_ARRAY_INDEX;
-		}
-		if (ARRAY_INDEX_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.ARRAY_INDEX;
+		if (VISIT_INDEX_PATTERN.matcher(word).matches()) {
+			return TokenTypeEnum.VISIT_INDEX;
 		}
 		return null;
 	}

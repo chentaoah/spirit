@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.enums.TypeEnum;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
@@ -69,13 +70,20 @@ public class RegionAction extends AbstractLexerAction {
 
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
+			// 前缀必须是类型才合并
+			if (region0 != null && !TypeEnum.isPureType(subRegion(builder, region0))) {
+				region0 = null;
+			}
 			Region region1 = findRegion(builder, context.index, '[', ']');
+			// 必须有前缀才解析
 			Region region2 = null;
-			if (isCharAt(builder, region1.endIndex, '{')) {
-				region2 = findRegion(builder, region1.endIndex, '{', '}');
+			if (region0 != null) {
+				if (isCharAt(builder, region1.endIndex, '{')) {
+					region2 = findRegion(builder, region1.endIndex, '{', '}');
 
-			} else if (isCharAt(builder, region1.endIndex, ' ') && isCharAt(builder, region1.endIndex + 1, '{')) {
-				region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
+				} else if (isCharAt(builder, region1.endIndex, ' ') && isCharAt(builder, region1.endIndex + 1, '{')) {
+					region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
+				}
 			}
 			pushStack(event, Lists.toList(region0, region1, region2), "@array_like");
 			resetIndex(event);

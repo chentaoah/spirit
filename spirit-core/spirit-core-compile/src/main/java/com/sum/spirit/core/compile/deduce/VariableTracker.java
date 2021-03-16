@@ -40,12 +40,6 @@ public class VariableTracker {
 					IType type = getVariableType(clazz, context, variableName);
 					token.setAttr(AttributeEnum.TYPE, type);
 
-				} else if (token.isArrayIndex()) {// .strs[0]
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-					IType type = getVariableType(clazz, context, memberName);
-					type = derivator.toTarget(type);// 转换数组类型为目标类型
-					token.setAttr(AttributeEnum.TYPE, type);
-
 				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
 					String variableName = token.toString();
 					IType type = findTypeByKeyword(clazz, variableName);

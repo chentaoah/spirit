@@ -35,8 +35,7 @@ public class InvocationVisiter {
 						continue;
 					}
 					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
-					if (token.isType() || token.isArrayInit() || token.isTypeInit() || //
-					token.isCast() || token.isValue()) {
+					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
 						token.setAttr(AttributeEnum.TYPE, factory.create(clazz, token));
 
 					} else if (token.isSubexpress()) {
@@ -54,18 +53,16 @@ public class InvocationVisiter {
 						IType returnType = linker.visitField(type, memberName);
 						token.setAttr(AttributeEnum.TYPE, returnType);
 
-					} else if (token.isInvokeMethod()) {
+					} else if (token.isVisitMethod()) {
 						IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
 						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
 						IType returnType = linker.visitMethod(type, memberName, parameterTypes);
 						token.setAttr(AttributeEnum.TYPE, returnType);
 
-					} else if (token.isVisitArrayIndex()) {// what like ".str[0]"
+					} else if (token.isVisitIndex()) {// what like "[0]"
 						IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
-						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-						IType returnType = linker.visitField(type, memberName);
-						returnType = factory.create(returnType.getTargetName());
-						token.setAttr(AttributeEnum.TYPE, returnType);
+						type = derivator.toTarget(type);// 转换数组类型为目标类型
+						token.setAttr(AttributeEnum.TYPE, type);
 					}
 
 				} catch (NoSuchFieldException | NoSuchMethodException e) {

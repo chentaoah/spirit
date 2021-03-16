@@ -23,9 +23,8 @@ public enum TokenTypeEnum {
 	VARIABLE, // 变量
 	LOCAL_METHOD, // 本地方法
 	VISIT_FIELD, // 访问字段
-	INVOKE_METHOD, // 调用方法
-	VISIT_ARRAY_INDEX, // 访问字段,并通过索引访问数组中的元素
-	ARRAY_INDEX, // 访问字段,并通过索引访问数组中的元素
+	VISIT_METHOD, // 调用方法
+	VISIT_INDEX, // 访问数组
 	PREFIX, // 前缀
 	CUSTOM_PREFIX, // 自定义前缀
 	CUSTOM_SUFFIX, // 自定义后缀

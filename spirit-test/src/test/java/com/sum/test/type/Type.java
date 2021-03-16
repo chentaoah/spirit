@@ -102,6 +102,8 @@ public class Type {
 		final String strxxxx;
 		strxxxx = "hello";
 		logger.info(strxxxx);
+		boolean bbxxx = getArray()[0];
+		logger.info("" + bbxxx);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {
@@ -111,6 +113,10 @@ public class Type {
 	public String testReturnType() {
 		int anumx = 1111;
 		return "I am a Str!" + anumx;
+	}
+
+	public boolean[] getArray() {
+		return bArray;
 	}
 
 }

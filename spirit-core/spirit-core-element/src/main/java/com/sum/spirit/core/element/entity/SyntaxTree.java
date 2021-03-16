@@ -109,7 +109,7 @@ public class SyntaxTree {
 			} else if (prevToken.isVisitField()) {// var.text = "abc"
 				return SyntaxEnum.FIELD_ASSIGN;
 			}
-		} else if (firstToken.isInvokeMethod()) {// list.get(0)
+		} else if (firstToken.isVisitMethod()) {// list.get(0)
 			return SyntaxEnum.INVOKE;
 		}
 
