@@ -14,7 +14,7 @@ import com.sum.spirit.core.lexer.entity.Region;
 public class BorderAction extends RegionAction {
 
 	@Override
-	public void doPushStack(CharEvent event, List<Region> regions, String markName) {
+	public void pushStack(CharEvent event, List<Region> regions, String markName) {
 
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;

@@ -51,20 +51,20 @@ public class RegionAction extends AbstractLexerAction {
 
 		if (ch == '"') {
 			Region region = findRegion(builder, context.index, '"', '"');
-			doPushStack(event, Lists.toList(region), "@str");
+			pushStack(event, Lists.toList(region), "@str");
 
 		} else if (ch == '\'') {
 			Region region = findRegion(builder, context.index, '\'', '\'');
-			doPushStack(event, Lists.toList(region), "@char");
+			pushStack(event, Lists.toList(region), "@char");
 
 		} else if (ch == '{') {
 			Region region = findRegion(builder, context.index, '{', '}');
-			doPushStack(event, Lists.toList(region), "@map");
+			pushStack(event, Lists.toList(region), "@map");
 
 		} else if (ch == '(') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '(', ')');
-			doPushStack(event, Lists.toList(region0, region1), "@invoke_like");
+			pushStack(event, Lists.toList(region0, region1), "@invoke_like");
 			resetIndex(event);
 
 		} else if (ch == '[') {
@@ -77,14 +77,14 @@ public class RegionAction extends AbstractLexerAction {
 			} else if (isCharAt(builder, region1.endIndex, ' ') && isCharAt(builder, region1.endIndex + 1, '{')) {
 				region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 			}
-			doPushStack(event, Lists.toList(region0, region1, region2), "@array_like");
+			pushStack(event, Lists.toList(region0, region1, region2), "@array_like");
 			resetIndex(event);
 
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '<', '>');
 			Region region2 = isCharAt(builder, region1.endIndex, '(') ? findRegion(builder, region1.endIndex, '(', ')') : null;
-			doPushStack(event, Lists.toList(region0, region1, region2), "@generic");
+			pushStack(event, Lists.toList(region0, region1, region2), "@generic");
 			resetIndex(event);
 		}
 	}
@@ -93,7 +93,7 @@ public class RegionAction extends AbstractLexerAction {
 		return index < builder.length() && builder.charAt(index) == ch;
 	}
 
-	public void doPushStack(CharEvent event, List<Region> regions, String markName) {
+	public void pushStack(CharEvent event, List<Region> regions, String markName) {
 		LexerContext context = (LexerContext) event.context;
 		replaceRegion(context.builder, mergeRegions(regions), markName + context.nameCount++, context.replacedStrs);
 	}
