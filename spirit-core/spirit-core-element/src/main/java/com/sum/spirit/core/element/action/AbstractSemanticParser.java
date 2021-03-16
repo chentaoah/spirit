@@ -33,7 +33,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern LONG_PATTERN = Pattern.compile("^\\d+L$");
 	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
-	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
+	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");// list can`t be "[0]"
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
