@@ -45,7 +45,7 @@ public class TreeBuilderImpl extends AbstractTreeBuilder {
 			int priority = -1;
 			OperandEnum operand = null;
 
-			if (currentToken.isFluent()) {
+			if (currentToken.isVisit()) {
 				priority = 55;
 				operand = OperandEnum.LEFT;
 

@@ -144,7 +144,7 @@ public abstract class Semantic extends AttributeMap {
 		return isTypeInit() || isLocalMethod() || isVisitMethod();
 	}
 
-	public boolean isFluent() {
+	public boolean isVisit() {
 		return isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 

@@ -77,7 +77,7 @@ public class StmtFormat {
 						}
 					}
 
-				} else if (nextToken.isFluent()) {
+				} else if (nextToken.isVisit()) {
 					tokens.remove(i);
 					continue;
 
