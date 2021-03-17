@@ -71,7 +71,7 @@ public class RegionAction extends AbstractLexerAction {
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			// 前缀必须是类型才合并
-			if (region0 != null && !TypeEnum.isPureType(subRegion(builder, region0))) {
+			if (region0 != null && !TypeEnum.isTypePrefix(subRegion(builder, region0))) {
 				region0 = null;
 			}
 			Region region1 = findRegion(builder, context.index, '[', ']');

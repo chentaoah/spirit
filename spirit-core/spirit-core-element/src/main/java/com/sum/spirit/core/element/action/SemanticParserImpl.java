@@ -50,8 +50,8 @@ public class SemanticParserImpl extends AbstractSemanticParser {
 		} else if (isInit(word)) {
 			token.tokenType = getInitTokenType(word);
 
-		} else if (isValue(word)) {
-			token.tokenType = getValueTokenType(word);
+		} else if (isLiteral(word)) {
+			token.tokenType = getLiteralTokenType(word);
 
 		} else if (isSubexpress(word)) {
 			token.tokenType = getSubexpressTokenType(word);

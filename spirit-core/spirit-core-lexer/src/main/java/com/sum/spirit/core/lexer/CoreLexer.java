@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.enums.LiteralEnum;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.CharAction;
@@ -29,7 +30,6 @@ import cn.hutool.core.lang.Assert;
 public class CoreLexer extends AbstractCharsHandler implements Lexer, InitializingBean {
 
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
-	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
 
 	public List<AbstractLexerAction> actions;
 	@Autowired
@@ -81,7 +81,7 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 	public void splitWords(List<String> words) {
 		for (int index = 0; index < words.size(); index++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
 			String word = words.get(index);
-			if (word.indexOf(".") > 0 && !TYPE_END_PATTERN.matcher(word).matches() && !DOUBLE_PATTERN.matcher(word).matches()) {
+			if (word.indexOf(".") > 0 && !LiteralEnum.isDouble(word) && !TYPE_END_PATTERN.matcher(word).matches()) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
 				words.remove(index);
 				words.addAll(index, subWords);

@@ -32,7 +32,7 @@ public interface SemanticParser {
 
 	boolean isInit(String word);
 
-	boolean isValue(String word);
+	boolean isLiteral(String word);
 
 	boolean isSubexpress(String word);
 

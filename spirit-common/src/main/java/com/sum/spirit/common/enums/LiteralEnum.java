@@ -13,4 +13,43 @@ public enum LiteralEnum {
 	public static final Pattern STRING_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
+
+	public static final Pattern VISIT_INDEX_PATTERN = Pattern.compile("^\\[\\d+\\]$");
+
+	public static boolean isNull(String word) {
+		return NULL_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isBoolean(String word) {
+		return BOOLEAN_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isChar(String word) {
+		return CHAR_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isInt(String word) {
+		return INT_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isLong(String word) {
+		return LONG_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isDouble(String word) {
+		return DOUBLE_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isString(String word) {
+		return STRING_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isList(String word) {
+		return !VISIT_INDEX_PATTERN.matcher(word).matches() && LiteralEnum.LIST_PATTERN.matcher(word).matches();
+	}
+
+	public static boolean isMap(String word) {
+		return MAP_PATTERN.matcher(word).matches();
+	}
+
 }

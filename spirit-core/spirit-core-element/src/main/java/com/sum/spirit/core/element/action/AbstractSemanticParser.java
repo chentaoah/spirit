@@ -9,6 +9,7 @@ import com.sum.spirit.common.enums.LiteralEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.enums.TypeEnum;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -16,10 +17,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-
-	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
-	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");
-	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");
 
 	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\d+\\]$");
 	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");
@@ -48,7 +45,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isPath(String word) {
-		return !LiteralEnum.DOUBLE_PATTERN.matcher(word).matches() && PATH_PATTERN.matcher(word).matches();
+		return !LiteralEnum.isDouble(word) && PATH_PATTERN.matcher(word).matches();
 	}
 
 	@Override
@@ -73,12 +70,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isType(String word) {
-		return !CONST_VAR_PATTERN.matcher(word).matches() && //
-				(PrimitiveEnum.isPrimitiveBySimple(word) || //
-						PrimitiveEnum.isPrimitiveArrayBySimple(word) || //
-						TYPE_PATTERN.matcher(word).matches() || //
-						TYPE_ARRAY_PATTERN.matcher(word).matches() || //
-						GENERIC_TYPE_PATTERN.matcher(word).matches());
+		return TypeEnum.isType(word);
 	}
 
 	@Override
@@ -91,16 +83,10 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	@Override
-	public boolean isValue(String word) {
-		return LiteralEnum.NULL_PATTERN.matcher(word).matches() || //
-				LiteralEnum.BOOLEAN_PATTERN.matcher(word).matches() || //
-				LiteralEnum.CHAR_PATTERN.matcher(word).matches() || //
-				LiteralEnum.INT_PATTERN.matcher(word).matches() || //
-				LiteralEnum.LONG_PATTERN.matcher(word).matches() || //
-				LiteralEnum.DOUBLE_PATTERN.matcher(word).matches() || //
-				LiteralEnum.STRING_PATTERN.matcher(word).matches() || //
-				(!VISIT_INDEX_PATTERN.matcher(word).matches() && LiteralEnum.LIST_PATTERN.matcher(word).matches()) || // not be "[0]"
-				LiteralEnum.MAP_PATTERN.matcher(word).matches();
+	public boolean isLiteral(String word) {
+		return LiteralEnum.isNull(word) || LiteralEnum.isBoolean(word) || LiteralEnum.isChar(word) || //
+				LiteralEnum.isInt(word) || LiteralEnum.isLong(word) || LiteralEnum.isDouble(word) || //
+				LiteralEnum.isString(word) || LiteralEnum.isList(word) || LiteralEnum.isMap(word);
 	}
 
 	@Override
@@ -110,7 +96,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isVariable(String word) {
-		return VAR_PATTERN.matcher(word).matches() || CONST_VAR_PATTERN.matcher(word).matches();
+		return CONST_VAR_PATTERN.matcher(word).matches() || VAR_PATTERN.matcher(word).matches();
 	}
 
 	@Override
@@ -124,48 +110,48 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public TokenTypeEnum getInitTokenType(String word) {
 		if (PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.ARRAY_INIT;
-		}
-		if (PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
+
+		} else if (PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.ARRAY_INIT;
-		}
-		if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()) {
+
+		} else if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.ARRAY_INIT;
-		}
-		if (TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
+
+		} else if (TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.ARRAY_INIT;
-		}
-		if (TYPE_INIT_PATTERN.matcher(word).matches()) {
+
+		} else if (TYPE_INIT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.TYPE_INIT;
 		}
 		return null;
 	}
 
-	public TokenTypeEnum getValueTokenType(String word) {
-		if (LiteralEnum.NULL_PATTERN.matcher(word).matches()) {
+	public TokenTypeEnum getLiteralTokenType(String word) {
+		if (LiteralEnum.isNull(word)) {
 			return TokenTypeEnum.NULL;
-		}
-		if (LiteralEnum.BOOLEAN_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isBoolean(word)) {
 			return TokenTypeEnum.BOOL;
-		}
-		if (LiteralEnum.CHAR_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isChar(word)) {
 			return TokenTypeEnum.CHAR;
-		}
-		if (LiteralEnum.INT_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isInt(word)) {
 			return TokenTypeEnum.INT;
-		}
-		if (LiteralEnum.LONG_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isLong(word)) {
 			return TokenTypeEnum.LONG;
-		}
-		if (LiteralEnum.DOUBLE_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isDouble(word)) {
 			return TokenTypeEnum.DOUBLE;
-		}
-		if (LiteralEnum.STRING_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isString(word)) {
 			return TokenTypeEnum.STRING;
-		}
-		if (LiteralEnum.LIST_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isList(word)) {
 			return TokenTypeEnum.LIST;
-		}
-		if (LiteralEnum.MAP_PATTERN.matcher(word).matches()) {
+
+		} else if (LiteralEnum.isMap(word)) {
 			return TokenTypeEnum.MAP;
 		}
 		return null;
@@ -174,21 +160,22 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public TokenTypeEnum getSubexpressTokenType(String word) {
 		if (isType(getCastType(word))) {
 			return TokenTypeEnum.CAST;
+		} else {
+			return TokenTypeEnum.SUBEXPRESS;
 		}
-		return TokenTypeEnum.SUBEXPRESS;
 	}
 
 	public TokenTypeEnum getAccessTokenType(String word) {
 		if (LOCAL_METHOD_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.LOCAL_METHOD;
-		}
-		if (VISIT_FIELD_PATTERN.matcher(word).matches()) {
+
+		} else if (VISIT_FIELD_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.VISIT_FIELD;
-		}
-		if (VISIT_METHOD_PATTERN.matcher(word).matches()) {
+
+		} else if (VISIT_METHOD_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.VISIT_METHOD;
-		}
-		if (VISIT_INDEX_PATTERN.matcher(word).matches()) {
+
+		} else if (VISIT_INDEX_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.VISIT_INDEX;
 		}
 		return null;
