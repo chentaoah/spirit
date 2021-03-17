@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.LiteralEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
@@ -25,16 +26,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
 	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
 	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
-
-	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
-	public static final Pattern BOOL_PATTERN = Pattern.compile("^(true|false)$");
-	public static final Pattern CHAR_PATTERN = Pattern.compile("^'[\\s\\S]*'$");
-	public static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
-	public static final Pattern LONG_PATTERN = Pattern.compile("^\\d+L$");
-	public static final Pattern DOUBLE_PATTERN = Pattern.compile("^\\d+\\.\\d+$");
-	public static final Pattern STR_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
-	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");// list can`t be "[0]"
-	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
@@ -57,7 +48,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isPath(String word) {
-		return !DOUBLE_PATTERN.matcher(word).matches() && PATH_PATTERN.matcher(word).matches();
+		return !LiteralEnum.DOUBLE_PATTERN.matcher(word).matches() && PATH_PATTERN.matcher(word).matches();
 	}
 
 	@Override
@@ -101,15 +92,15 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isValue(String word) {
-		return NULL_PATTERN.matcher(word).matches() || //
-				BOOL_PATTERN.matcher(word).matches() || //
-				CHAR_PATTERN.matcher(word).matches() || //
-				INT_PATTERN.matcher(word).matches() || //
-				LONG_PATTERN.matcher(word).matches() || //
-				DOUBLE_PATTERN.matcher(word).matches() || //
-				STR_PATTERN.matcher(word).matches() || //
-				(!VISIT_INDEX_PATTERN.matcher(word).matches() && LIST_PATTERN.matcher(word).matches()) || // not be "[0]"
-				MAP_PATTERN.matcher(word).matches();
+		return LiteralEnum.NULL_PATTERN.matcher(word).matches() || //
+				LiteralEnum.BOOLEAN_PATTERN.matcher(word).matches() || //
+				LiteralEnum.CHAR_PATTERN.matcher(word).matches() || //
+				LiteralEnum.INT_PATTERN.matcher(word).matches() || //
+				LiteralEnum.LONG_PATTERN.matcher(word).matches() || //
+				LiteralEnum.DOUBLE_PATTERN.matcher(word).matches() || //
+				LiteralEnum.STRING_PATTERN.matcher(word).matches() || //
+				(!VISIT_INDEX_PATTERN.matcher(word).matches() && LiteralEnum.LIST_PATTERN.matcher(word).matches()) || // not be "[0]"
+				LiteralEnum.MAP_PATTERN.matcher(word).matches();
 	}
 
 	@Override
@@ -150,31 +141,31 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getValueTokenType(String word) {
-		if (NULL_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.NULL_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.NULL;
 		}
-		if (BOOL_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.BOOLEAN_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.BOOL;
 		}
-		if (CHAR_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.CHAR_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.CHAR;
 		}
-		if (INT_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.INT_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.INT;
 		}
-		if (LONG_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.LONG_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.LONG;
 		}
-		if (DOUBLE_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.DOUBLE_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.DOUBLE;
 		}
-		if (STR_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.STRING_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.STRING;
 		}
-		if (LIST_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.LIST_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.LIST;
 		}
-		if (MAP_PATTERN.matcher(word).matches()) {
+		if (LiteralEnum.MAP_PATTERN.matcher(word).matches()) {
 			return TokenTypeEnum.MAP;
 		}
 		return null;
