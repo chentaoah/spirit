@@ -24,18 +24,18 @@ public enum SyntaxEnum {
 	FIELD_ASSIGN, // horse.name = "Jessie"
 	INVOKE, // horse.call()
 	RETURN, // return "I am Jessie!"
-	IF, // if i > 0 {
-	ELSE_IF, // else if i < 0 {
-	ELSE, // else {
+	IF, // if name == "Jessie" {
+	ELSE_IF, // } else if name == "Jessie" {
+	ELSE, // } else {
 	END, // }
 	FOR, // for (i=0; i<100; i++) {
 	FOR_IN, // for item in list {
-	WHILE, // while i > 0 {
+	WHILE, // while name == "Jessie" {
 	CONTINUE, // continue
 	BREAK, // break
 	TRY, // try {
-	CATCH, // catch Exception e {
-	FINALLY, // finally {
+	CATCH, // } catch Exception e {
+	FINALLY, // } finally {
 	THROW, // throw RuntimeException(e)
 	SYNC, // sync horse {
 	PRINT, // print "Jessie"
