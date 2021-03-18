@@ -19,12 +19,12 @@ public class ElementTypeDeclarer extends AbstractElementAction {
 	public TypeFactory factory;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		Element element = event.element;
 		if (element.isDeclare() || element.isDeclareAssign()) {// String text
 			setTypeByTypeToken(event.clazz, element.get(0), element.get(1));
 		}
-		super.visit(event);
+		super.handle(event);
 	}
 
 	@Override

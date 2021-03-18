@@ -148,7 +148,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		for (ElementAction action : actions) {
 			ElementEvent event = new ElementEvent(clazz, element);
 			if (action.isTrigger(event)) {
-				action.visit(event);
+				action.handle(event);
 			}
 		}
 		return element;

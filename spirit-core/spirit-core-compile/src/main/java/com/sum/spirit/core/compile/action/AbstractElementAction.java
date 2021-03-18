@@ -11,7 +11,7 @@ public abstract class AbstractElementAction implements ElementAction {
 	}
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		if (!event.isMethodScope()) {
 			visitFieldScope(event);
 		} else {

@@ -43,7 +43,7 @@ public class ElementVisiter implements InitializingBean {
 			for (ElementAction action : actions) {
 				ElementEvent event = new ElementEvent(clazz, element, context);
 				if (action.isTrigger(event)) {
-					action.visit(event);
+					action.handle(event);
 				}
 			}
 			return getVariableIfPossible(clazz, element);

@@ -28,7 +28,7 @@ public abstract class AbstractTreeElementAction extends AbstractElementAction {
 	public SimpleDeducer deducer;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element;
 		StmtVisiter.visit(statement, stmt -> {

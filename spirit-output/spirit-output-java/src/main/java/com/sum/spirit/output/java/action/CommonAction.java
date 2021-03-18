@@ -23,7 +23,7 @@ public class CommonAction extends AbstractElementAction {
 	public ImportManager manager;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Statement statement = event.element;
 		StmtVisiter.visit(statement, stmt -> {

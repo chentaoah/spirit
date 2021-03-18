@@ -40,7 +40,7 @@ public class StatementAction extends AbstractElementAction {
 	public ImportManager manager;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Element element = event.element;
 

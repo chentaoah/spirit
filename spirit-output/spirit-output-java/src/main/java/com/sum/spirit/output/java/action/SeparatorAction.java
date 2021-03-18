@@ -16,7 +16,7 @@ import com.sum.spirit.core.element.entity.Token;
 public class SeparatorAction extends AbstractElementAction {
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Element element = event.element;
 

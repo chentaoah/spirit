@@ -15,7 +15,7 @@ public class ElementVariableTracker extends AbstractElementAction {
 	public VariableTracker tracker;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		tracker.visit(event.clazz, event.context, event.element);
 	}
 

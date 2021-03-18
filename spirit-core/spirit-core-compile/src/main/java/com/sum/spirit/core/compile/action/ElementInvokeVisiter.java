@@ -15,7 +15,7 @@ public class ElementInvokeVisiter extends AbstractElementAction {
 	public InvocationVisiter visiter;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		visiter.visit(event.clazz, event.element);
 	}
 

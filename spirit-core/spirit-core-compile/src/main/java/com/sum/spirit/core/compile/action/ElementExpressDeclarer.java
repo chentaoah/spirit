@@ -38,7 +38,7 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 	public TypeDerivator derivator;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		MethodContext context = event.context;
 		Element element = event.element;
@@ -57,7 +57,7 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 			}
 			varToken.setAttr(AttributeEnum.TYPE, type);
 		}
-		super.visit(event);
+		super.handle(event);
 	}
 
 	@Override
