@@ -48,7 +48,7 @@ public class ClassResolverImpl implements ClassResolver {
 				fields.add(new IField(annotations, element));
 				annotations.clear();
 
-			} else if (element.isFuncDeclare() || element.isFunc()) {
+			} else if (element.isDeclareFunc() || element.isFunc()) {
 				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
 				methods.add(new IMethod(annotations, element));
 				annotations.clear();
@@ -115,7 +115,7 @@ public class ClassResolverImpl implements ClassResolver {
 				clazz.fields.add(new IField(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
 				annotations.clear();
 
-			} else if (element.isFuncDeclare() || element.isFunc()) {
+			} else if (element.isDeclareFunc() || element.isFunc()) {
 				clazz.methods.add(new IMethod(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
 				annotations.clear();
 			}

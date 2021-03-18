@@ -67,7 +67,6 @@ public class SemanticParserImpl extends AbstractSemanticParser {
 	}
 
 	public void setTokenValue(String word, Token token) {
-
 		if (token.isType()) {
 			token.value = getStatement(word, true);
 

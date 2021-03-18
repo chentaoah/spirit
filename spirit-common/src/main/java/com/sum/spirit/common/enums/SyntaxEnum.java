@@ -6,14 +6,14 @@ public enum SyntaxEnum {
 	INTERFACE, // interface
 	ABSTRACT, // abstract
 	CLASS, // class
-	FIELD_ASSIGN, // name = "chen"
-	FUNC_DECLARE, // String hello() {
-	FUNC, // func hello(){
 	SUPER, // super()
 	THIS, // this()
 	DECLARE, // String text
 	DECLARE_ASSIGN, // String text = "hello"
 	ASSIGN, // text= "hello"
+	DECLARE_FUNC, // String hello() {
+	FUNC, // func hello(){
+	FIELD_ASSIGN, // var.text = "abc"
 	INVOKE, // var1.invoke()
 	RETURN, // return var1
 	IF, // if i > 100 {

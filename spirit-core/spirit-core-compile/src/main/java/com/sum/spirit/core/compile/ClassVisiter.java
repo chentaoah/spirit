@@ -111,7 +111,7 @@ public class ClassVisiter {
 		if (method.element.isFunc()) {
 			return context.returnType != null ? context.returnType : StaticTypes.VOID;
 
-		} else if (method.element.isFuncDeclare()) {
+		} else if (method.element.isDeclareFunc()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体

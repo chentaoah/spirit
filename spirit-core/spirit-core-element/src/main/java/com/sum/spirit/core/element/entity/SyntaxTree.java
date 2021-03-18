@@ -34,45 +34,36 @@ public class SyntaxTree {
 	}
 
 	public SyntaxEnum getSyntax() {
-
 		SyntaxEnum syntax = getLineSyntax();
 		if (syntax != null) {
 			return syntax;
 		}
-
 		syntax = getSyntaxByOneNode();
 		if (syntax != null) {
 			return syntax;
 		}
-
 		syntax = getSyntaxByTwoNodes();
 		if (syntax != null) {
 			return syntax;
 		}
-
 		syntax = getSyntaxByThreeNodes();
 		if (syntax != null) {
 			return syntax;
 		}
-
 		throw new RuntimeException("Unknown syntax!");
 	}
 
 	public SyntaxEnum getLineSyntax() {
-
 		Node firstNode = nodes.get(0);
 		Token firstToken = firstNode.token;
-
 		// 如果是行级别关键字，则直接返回语法枚举
 		if (!firstNode.canSplit() && KeywordEnum.isLine(firstToken.toString())) {
 			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
 		}
-
 		return null;
 	}
 
 	public SyntaxEnum getSyntaxByOneNode() {
-
 		if (nodes.size() != 1) {
 			return null;
 		}
@@ -97,7 +88,7 @@ public class SyntaxTree {
 			if (nextToken.isVariable()) { // String text
 				return SyntaxEnum.DECLARE;
 			} else if (nextToken.isLocalMethod()) { // String test()
-				return SyntaxEnum.FUNC_DECLARE;
+				return SyntaxEnum.DECLARE_FUNC;
 			}
 		} else if (firstToken.isAssign()) {
 			Token prevToken = firstNode.prev.token;
@@ -116,7 +107,6 @@ public class SyntaxTree {
 	}
 
 	public SyntaxEnum getSyntaxByTwoNodes() {
-
 		if (nodes.size() != 2) {
 			return null;
 		}
@@ -126,7 +116,7 @@ public class SyntaxTree {
 		if (firstToken.isType()) {
 			Token nextToken = firstNode.next.token;
 			if (nextToken.isLocalMethod()) {
-				return SyntaxEnum.FUNC_DECLARE;
+				return SyntaxEnum.DECLARE_FUNC;
 			}
 		}
 
@@ -134,7 +124,6 @@ public class SyntaxTree {
 	}
 
 	public SyntaxEnum getSyntaxByThreeNodes() {
-
 		Token firstToken = nodes.get(0).token;
 		Token secondToken = nodes.get(1).token;
 		Token thirdToken = nodes.get(2).token;

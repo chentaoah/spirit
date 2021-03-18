@@ -39,8 +39,8 @@ public abstract class Syntactic extends Statement {
 		return syntax == SyntaxEnum.FIELD_ASSIGN;
 	}
 
-	public boolean isFuncDeclare() {
-		return syntax == SyntaxEnum.FUNC_DECLARE;
+	public boolean isDeclareFunc() {
+		return syntax == SyntaxEnum.DECLARE_FUNC;
 	}
 
 	public boolean isFunc() {

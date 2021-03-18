@@ -105,7 +105,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			} else {// public User() // public static synchronized String methodName()
 				// 替换关键字
 				element.replaceModifier(KeywordEnum.SYNCH.value, JavaBuilder.SYNCHRONIZED_KEYWORD);
-				if (element.isFuncDeclare()) {
+				if (element.isDeclareFunc()) {
 					// 抽象类型的没有方法体的方法，需要加上abstract关键字
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild()) {
 						element.insertModifier(KeywordEnum.PUBLIC.value, KeywordEnum.ABSTRACT.value);
