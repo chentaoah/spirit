@@ -9,14 +9,13 @@ import com.sum.spirit.common.enums.SyntaxEnum;
 
 public class SyntaxTree {
 
-	public static final int START_INDEX = 0;
 	public List<Node> nodes;
 
 	public SyntaxTree(List<Node> nodes) {
 		this.nodes = nodes;
 	}
 
-	public static SyntaxEnum getSyntax(List<Token> tokens) {
+	public static SyntaxEnum getSimpleSyntax(List<Token> tokens) {
 		Token first = tokens.get(0);
 		// keyword
 		if (KeywordEnum.isStruct(first.toString())) {
@@ -61,7 +60,7 @@ public class SyntaxTree {
 
 	public SyntaxEnum getLineSyntax() {
 
-		Node firstNode = nodes.get(START_INDEX);
+		Node firstNode = nodes.get(0);
 		Token firstToken = firstNode.token;
 
 		// 如果是行级别关键字，则直接返回语法枚举
@@ -78,7 +77,7 @@ public class SyntaxTree {
 			return null;
 		}
 
-		Node firstNode = nodes.get(START_INDEX);
+		Node firstNode = nodes.get(0);
 		Token firstToken = firstNode.token;
 
 		// 如果只有一个节点，可能是方法调用
@@ -122,7 +121,7 @@ public class SyntaxTree {
 			return null;
 		}
 
-		Node firstNode = nodes.get(START_INDEX);
+		Node firstNode = nodes.get(0);
 		Token firstToken = firstNode.token;
 		if (firstToken.isType()) {
 			Token nextToken = firstNode.next.token;
@@ -136,9 +135,9 @@ public class SyntaxTree {
 
 	public SyntaxEnum getSyntaxByThreeNodes() {
 
-		Token firstToken = nodes.get(START_INDEX).token;
-		Token secondToken = nodes.get(START_INDEX + 1).token;
-		Token thirdToken = nodes.get(START_INDEX + 2).token;
+		Token firstToken = nodes.get(0).token;
+		Token secondToken = nodes.get(1).token;
+		Token thirdToken = nodes.get(2).token;
 
 		if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
 			if (secondToken.isSubexpress()) {

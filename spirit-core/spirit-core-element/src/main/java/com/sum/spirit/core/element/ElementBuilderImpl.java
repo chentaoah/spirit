@@ -49,7 +49,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 4.语句
 			Statement statement = new Statement(tokens);
 			// 5.语法枚举
-			SyntaxEnum syntax = SyntaxTree.getSyntax(tokens);
+			SyntaxEnum syntax = SyntaxTree.getSimpleSyntax(tokens);
 			// 6.构建语法树
 			SyntaxTree syntaxTree = null;
 			if (syntax == null) {
