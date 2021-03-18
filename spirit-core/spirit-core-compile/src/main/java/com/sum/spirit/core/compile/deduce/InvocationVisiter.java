@@ -35,7 +35,7 @@ public class InvocationVisiter {
 						continue;
 					}
 					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
-					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isValue()) {
+					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isLiteral()) {
 						token.setAttr(AttributeEnum.TYPE, factory.create(clazz, token));
 
 					} else if (token.isSubexpress()) {

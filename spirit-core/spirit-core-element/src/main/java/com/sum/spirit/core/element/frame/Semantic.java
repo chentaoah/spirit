@@ -48,8 +48,8 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.NULL;
 	}
 
-	public boolean isBool() {
-		return tokenType == TokenTypeEnum.BOOL;
+	public boolean isBoolean() {
+		return tokenType == TokenTypeEnum.BOOLEAN;
 	}
 
 	public boolean isChar() {
@@ -68,7 +68,7 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.DOUBLE;
 	}
 
-	public boolean isStr() {
+	public boolean isString() {
 		return tokenType == TokenTypeEnum.STRING;
 	}
 
@@ -128,8 +128,8 @@ public abstract class Semantic extends AttributeMap {
 		return isArrayInit() || isTypeInit();
 	}
 
-	public boolean isValue() {
-		return isNull() || isBool() || isChar() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
+	public boolean isLiteral() {
+		return isNull() || isBoolean() || isChar() || isInt() || isLong() || isDouble() || isString() || isList() || isMap();
 	}
 
 	public boolean isNumber() {

@@ -10,7 +10,7 @@ public enum TokenTypeEnum {
 	ARRAY_INIT, // 数组初始化
 	TYPE_INIT, // 类型初始化
 	NULL, // 空
-	BOOL, // 布尔
+	BOOLEAN, // 布尔
 	CHAR, // 字符
 	INT, // 整型
 	LONG, // 长整型

@@ -56,7 +56,7 @@ public class TypeFactory extends AbstractTypeFactory {
 		} else if (token.isAnnotation() || token.isArrayInit() || token.isTypeInit() || token.isCast()) {
 			return create(clazz, (String) token.attr(AttributeEnum.SIMPLE_NAME));
 
-		} else if (token.isValue()) {// 1, 1.1, "xxxx"
+		} else if (token.isLiteral()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);
 		}
 		return null;
@@ -95,7 +95,7 @@ public class TypeFactory extends AbstractTypeFactory {
 	}
 
 	public IType getValueType(IClass clazz, Token token) {
-		if (token.isBool()) {
+		if (token.isBoolean()) {
 			return StaticTypes.BOOLEAN;
 		} else if (token.isChar()) {
 			return StaticTypes.CHAR;
@@ -107,7 +107,7 @@ public class TypeFactory extends AbstractTypeFactory {
 			return StaticTypes.DOUBLE;
 		} else if (token.isNull()) {
 			return StaticTypes.NULL;
-		} else if (token.isStr()) {
+		} else if (token.isString()) {
 			return StaticTypes.STRING;
 		} else if (token.isList()) {
 			return getListType(clazz, token);

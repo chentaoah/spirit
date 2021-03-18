@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.LiteralEnum;
-import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.enums.TypeEnum;
@@ -17,12 +16,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-
-	public static final Pattern PRIMITIVE_ARRAY_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\d+\\]$");
-	public static final Pattern PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^(" + PrimitiveEnum.PRIMITIVE_ENUM + ")\\[\\]\\{[\\s\\S]*\\}$");
-	public static final Pattern TYPE_ARRAY_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
-	public static final Pattern TYPE_ARRAY_CERTAIN_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
-	public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
 
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
 	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
@@ -70,16 +63,12 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isType(String word) {
-		return TypeEnum.isType(word);
+		return TypeEnum.isAnyType(word);
 	}
 
 	@Override
 	public boolean isInit(String word) {
-		return PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches() || //
-				PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || //
-				TYPE_ARRAY_INIT_PATTERN.matcher(word).matches() || //
-				TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches() || //
-				TYPE_INIT_PATTERN.matcher(word).matches();
+		return TypeEnum.isAnyInit(word);
 	}
 
 	@Override
@@ -108,19 +97,13 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {
-		if (PRIMITIVE_ARRAY_INIT_PATTERN.matcher(word).matches()) {
+		if (TypeEnum.isPrimitiveArraySizeInit(word) || TypeEnum.isPrimitiveArrayLiteralInit(word)) {
 			return TokenTypeEnum.ARRAY_INIT;
 
-		} else if (PRIMITIVE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
+		} else if (TypeEnum.isTypeArraySizeInit(word) || TypeEnum.isTypeArrayLiteralInit(word)) {
 			return TokenTypeEnum.ARRAY_INIT;
 
-		} else if (TYPE_ARRAY_INIT_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.ARRAY_INIT;
-
-		} else if (TYPE_ARRAY_CERTAIN_INIT_PATTERN.matcher(word).matches()) {
-			return TokenTypeEnum.ARRAY_INIT;
-
-		} else if (TYPE_INIT_PATTERN.matcher(word).matches()) {
+		} else if (TypeEnum.isTypeInit(word)) {
 			return TokenTypeEnum.TYPE_INIT;
 		}
 		return null;
@@ -131,7 +114,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 			return TokenTypeEnum.NULL;
 
 		} else if (LiteralEnum.isBoolean(word)) {
-			return TokenTypeEnum.BOOL;
+			return TokenTypeEnum.BOOLEAN;
 
 		} else if (LiteralEnum.isChar(word)) {
 			return TokenTypeEnum.CHAR;
