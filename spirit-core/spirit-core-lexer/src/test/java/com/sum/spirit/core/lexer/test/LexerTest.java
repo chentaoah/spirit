@@ -23,324 +23,225 @@ public class LexerTest {
 	public Lexer lexer;
 
 	@Test
-	@DisplayName("集合List")
+	@DisplayName("STRING")
 	public void test0000() {
-		String text = "list = [\"name0\",\"name1\",\"name2\"]";
+		String text = "name = \"Jessie\"";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
 		assertTrue(words.size() == 3);
 		int count = 0;
-		assertEquals(words.get(count++), "list");
+		assertEquals(words.get(count++), "name");
 		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "[\"name0\",\"name1\",\"name2\"]");
+		assertEquals(words.get(count++), "\"Jessie\"");
 	}
 
 	@Test
-	@DisplayName("集合List内部拆分")
+	@DisplayName("CHAR")
 	public void test0001() {
-		String text = "[\"name0\",\"name1\",\"name2\"]";
-		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
+		String text = "ch = 'c'";
+		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
-		assertTrue(words.size() == 7);
+		assertTrue(words.size() == 3);
 		int count = 0;
-		assertEquals(words.get(count++), "[");
-		assertEquals(words.get(count++), "\"name0\"");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "\"name1\"");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "\"name2\"");
-		assertEquals(words.get(count++), "]");
+		assertEquals(words.get(count++), "ch");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "'c'");
 	}
 
 	@Test
-	@DisplayName("集合Map")
+	@DisplayName("MAP")
 	public void test0002() {
-		String text = "map = {\"name\":\"tao.chen\",\"age\":29}";
+		String text = "map = {\"name\" : \"Jessie\"}";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
 		assertTrue(words.size() == 3);
 		int count = 0;
 		assertEquals(words.get(count++), "map");
 		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "{\"name\":\"tao.chen\",\"age\":29}");
+		assertEquals(words.get(count++), "{\"name\" : \"Jessie\"}");
 	}
 
 	@Test
-	@DisplayName("集合Map内部拆分")
+	@DisplayName("METHOD")
 	public void test0003() {
-		String text = "{\"name\":\"tao.chen\",\"age\":29}";
-		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
-		log.info(words.toString());
-		assertTrue(words.size() == 9);
-		int count = 0;
-		assertEquals(words.get(count++), "{");
-		assertEquals(words.get(count++), "\"name\"");
-		assertEquals(words.get(count++), ":");
-		assertEquals(words.get(count++), "\"tao.chen\"");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "\"age\"");
-		assertEquals(words.get(count++), ":");
-		assertEquals(words.get(count++), "29");
-		assertEquals(words.get(count++), "}");
-	}
-
-	@Test
-	@DisplayName("泛型")
-	public void test0004() {
-		String text = "map = HashMap<String,Object>()";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 3);
-		int count = 0;
-		assertEquals(words.get(count++), "map");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "HashMap<String,Object>()");
-	}
-
-	@Test
-	@DisplayName("泛型初始化内部拆分")
-	public void test0005() {
-		String text = "HashMap<String,Object>()";
-		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
-		log.info(words.toString());
-		assertTrue(words.size() == 3);
-		int count = 0;
-		assertEquals(words.get(count++), "HashMap<String,Object>");
-		assertEquals(words.get(count++), "(");
-		assertEquals(words.get(count++), ")");
-	}
-
-	@Test
-	@DisplayName("泛型类型内部拆分")
-	public void test0006() {
-		String text = "HashMap<String,Object>";
-		List<String> words = lexer.getSubWords(text, '<', '>');
-		log.info(words.toString());
-		assertTrue(words.size() == 6);
-		int count = 0;
-		assertEquals(words.get(count++), "HashMap");
-		assertEquals(words.get(count++), "<");
-		assertEquals(words.get(count++), "String");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "Object");
-		assertEquals(words.get(count++), ">");
-	}
-
-	@Test
-	@DisplayName("数组")
-	public void test0007() {
-		String text = "array = String[]{\"name0\",\"name1\",\"name2\"}";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 3);
-		int count = 0;
-		assertEquals(words.get(count++), "array");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "String[]{\"name0\",\"name1\",\"name2\"}");
-	}
-
-	@Test
-	@DisplayName("数组内部拆分")
-	public void test0008() {
-		String text = "String[]{\"name0\",\"name1\",\"name2\"}";
-		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
-		log.info(words.toString());
-		assertTrue(words.size() == 10);
-		int count = 0;
-		assertEquals(words.get(count++), "String");
-		assertEquals(words.get(count++), "[");
-		assertEquals(words.get(count++), "]");
-		assertEquals(words.get(count++), "{");
-		assertEquals(words.get(count++), "\"name0\"");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "\"name1\"");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "\"name2\"");
-		assertEquals(words.get(count++), "}");
-	}
-
-	@Test
-	@DisplayName("关键字")
-	public void test0009() {
-		String text = "class ServiceImpl<T,K> extends AbsService impls Service{";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 7);
-		int count = 0;
-		assertEquals(words.get(count++), "class");
-		assertEquals(words.get(count++), "ServiceImpl<T,K>");
-		assertEquals(words.get(count++), "extends");
-		assertEquals(words.get(count++), "AbsService");
-		assertEquals(words.get(count++), "impls");
-		assertEquals(words.get(count++), "Service");
-		assertEquals(words.get(count++), "{");
-	}
-
-	@Test
-	@DisplayName("方法")
-	public void test0010() {
-		String text = "func getAlias(@Deprecated String name,int age){";
+		String text = "func call() {";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
 		assertTrue(words.size() == 3);
 		int count = 0;
 		assertEquals(words.get(count++), "func");
-		assertEquals(words.get(count++), "getAlias(@Deprecated String name,int age)");
+		assertEquals(words.get(count++), "call()");
 		assertEquals(words.get(count++), "{");
 	}
 
 	@Test
-	@DisplayName("方法内部拆分")
-	public void test0011() {
-		String text = "getAlias(@Deprecated String name,int age)";
+	@DisplayName("ARRAY_SIZE_INIT")
+	public void test0004() {
+		String text = "horses = Horse[1]";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 3);
+		int count = 0;
+		assertEquals(words.get(count++), "horses");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "Horse[1]");
+	}
+
+	@Test
+	@DisplayName("ARRAY_LITERAL_INIT")
+	public void test0005() {
+		String text = "horses = Horse[]{horse}";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 3);
+		int count = 0;
+		assertEquals(words.get(count++), "horses");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "Horse[]{horse}");
+	}
+
+	@Test
+	@DisplayName("ARRAY_VISIT_INDEX")
+	public void test0006() {
+		String text = "horse = horses[0]";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 4);
+		int count = 0;
+		assertEquals(words.get(count++), "horse");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "horses");
+		assertEquals(words.get(count++), "[0]");
+	}
+
+	@Test
+	@DisplayName("GENERIC_TYPE")
+	public void test0007() {
+		String text = "class Horse<T, K> {";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 3);
+		int count = 0;
+		assertEquals(words.get(count++), "class");
+		assertEquals(words.get(count++), "Horse<T, K>");
+		assertEquals(words.get(count++), "{");
+	}
+
+	@Test
+	@DisplayName("GENERIC_TYPE_INIT")
+	public void test0008() {
+		String text = "horse = Horse<String, Object>()";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 3);
+		int count = 0;
+		assertEquals(words.get(count++), "horse");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "Horse<String, Object>()");
+	}
+
+	@Test
+	@DisplayName("MAP_SUBWORDS")
+	public void test0009() {
+		String text = "{\"name\" : \"Jessie\"}";
 		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
 		log.info(words.toString());
-		assertTrue(words.size() == 9);
+		assertTrue(words.size() == 5);
 		int count = 0;
-		assertEquals(words.get(count++), "getAlias");
+		assertEquals(words.get(count++), "{");
+		assertEquals(words.get(count++), "\"name\"");
+		assertEquals(words.get(count++), ":");
+		assertEquals(words.get(count++), "\"Jessie\"");
+		assertEquals(words.get(count++), "}");
+	}
+
+	@Test
+	@DisplayName("METHOD_SUBWORDS")
+	public void test0010() {
+		String text = "call(name, age)";
+		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
+		log.info(words.toString());
+		assertTrue(words.size() == 6);
+		int count = 0;
+		assertEquals(words.get(count++), "call");
 		assertEquals(words.get(count++), "(");
-		assertEquals(words.get(count++), "@Deprecated");
-		assertEquals(words.get(count++), "String");
 		assertEquals(words.get(count++), "name");
 		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "int");
 		assertEquals(words.get(count++), "age");
 		assertEquals(words.get(count++), ")");
 	}
 
 	@Test
-	@DisplayName("复杂嵌套")
-	public void test0012() {
-		String text = "list = [{},{}]";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 3);
-		int count = 0;
-		assertEquals(words.get(count++), "list");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "[{},{}]");
-	}
-
-	@Test
-	@DisplayName("复杂嵌套内部拆分")
-	public void test0013() {
-		String text = "[{},{}]";
+	@DisplayName("ARRAY_SIZE_INIT_SUBWORDS")
+	public void test0011() {
+		String text = "Horse[1]";
 		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
 		log.info(words.toString());
-		assertTrue(words.size() == 5);
+		assertTrue(words.size() == 4);
 		int count = 0;
+		assertEquals(words.get(count++), "Horse");
 		assertEquals(words.get(count++), "[");
-		assertEquals(words.get(count++), "{}");
-		assertEquals(words.get(count++), ",");
-		assertEquals(words.get(count++), "{}");
+		assertEquals(words.get(count++), "1");
 		assertEquals(words.get(count++), "]");
 	}
 
 	@Test
-	@DisplayName("访问字段")
+	@DisplayName("ARRAY_LITERAL_INIT_SUBWORDS")
+	public void test0012() {
+		String text = "Horse[]{horse}";
+		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
+		log.info(words.toString());
+		assertTrue(words.size() == 6);
+		int count = 0;
+		assertEquals(words.get(count++), "Horse");
+		assertEquals(words.get(count++), "[");
+		assertEquals(words.get(count++), "]");
+		assertEquals(words.get(count++), "{");
+		assertEquals(words.get(count++), "horse");
+		assertEquals(words.get(count++), "}");
+	}
+
+	@Test
+	@DisplayName("ARRAY_VISIT_INDEX_SUBWORDS")
+	public void test0013() {
+		String text = "horses[0]";
+		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
+		log.info(words.toString());
+		assertTrue(words.size() == 4);
+		int count = 0;
+		assertEquals(words.get(count++), "horses");
+		assertEquals(words.get(count++), "[");
+		assertEquals(words.get(count++), "0");
+		assertEquals(words.get(count++), "]");
+	}
+
+	@Test
+	@DisplayName("GENERIC_TYPE_SUBWORDS")
 	public void test0014() {
-		String text = "fatherName = people.father.name";
-		List<String> words = lexer.getWords(text);
+		String text = "Horse<T, K>";
+		List<String> words = lexer.getSubWords(text, '<', '>');
 		log.info(words.toString());
-		assertTrue(words.size() == 5);
+		assertTrue(words.size() == 6);
 		int count = 0;
-		assertEquals(words.get(count++), "fatherName");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "people");
-		assertEquals(words.get(count++), ".father");
-		assertEquals(words.get(count++), ".name");
+		assertEquals(words.get(count++), "Horse");
+		assertEquals(words.get(count++), "<");
+		assertEquals(words.get(count++), "T");
+		assertEquals(words.get(count++), ",");
+		assertEquals(words.get(count++), "K");
+		assertEquals(words.get(count++), ">");
 	}
 
 	@Test
-	@DisplayName("访问方法")
+	@DisplayName("GENERIC_TYPE_INIT_SUBWORDS")
 	public void test0015() {
-		String text = "fatherName = people.father().name()";
-		List<String> words = lexer.getWords(text);
+		String text = "Horse<String, Object>()";
+		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
 		log.info(words.toString());
-		assertTrue(words.size() == 5);
+		assertTrue(words.size() == 3);
 		int count = 0;
-		assertEquals(words.get(count++), "fatherName");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "people");
-		assertEquals(words.get(count++), ".father()");
-		assertEquals(words.get(count++), ".name()");
-	}
-
-	@Test
-	@DisplayName("访问字段数组索引")
-	public void test0016() {
-		String text = "fatherName = people.father().name[0]";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 6);
-		int count = 0;
-		assertEquals(words.get(count++), "fatherName");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "people");
-		assertEquals(words.get(count++), ".father()");
-		assertEquals(words.get(count++), ".name");
-		assertEquals(words.get(count++), "[0]");
-	}
-
-	@Test
-	@DisplayName("访问方法数组索引")
-	public void test0017() {
-		String text = "fatherName = people.father().name()[0]";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 6);
-		int count = 0;
-		assertEquals(words.get(count++), "fatherName");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "people");
-		assertEquals(words.get(count++), ".father()");
-		assertEquals(words.get(count++), ".name()");
-		assertEquals(words.get(count++), "[0]");
-	}
-
-	@Test
-	@DisplayName("逻辑操作符")
-	public void test0018() {
-		String text = "flag = !(x+1>0 && y<100) && s==\"test\" || s instanceof Object";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 12);
-		int count = 0;
-		assertEquals(words.get(count++), "flag");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "!");
-		assertEquals(words.get(count++), "(x+1>0 && y<100)");
-		assertEquals(words.get(count++), "&&");
-		assertEquals(words.get(count++), "s");
-		assertEquals(words.get(count++), "==");
-		assertEquals(words.get(count++), "\"test\"");
-		assertEquals(words.get(count++), "||");
-		assertEquals(words.get(count++), "s");
-		assertEquals(words.get(count++), "instanceof");
-		assertEquals(words.get(count++), "Object");
-	}
-
-	@Test
-	@DisplayName("计算操作符")
-	public void test0019() {
-		String text = "number = x%2*100/2 + y - z";
-		List<String> words = lexer.getWords(text);
-		log.info(words.toString());
-		assertTrue(words.size() == 13);
-		int count = 0;
-		assertEquals(words.get(count++), "number");
-		assertEquals(words.get(count++), "=");
-		assertEquals(words.get(count++), "x");
-		assertEquals(words.get(count++), "%");
-		assertEquals(words.get(count++), "2");
-		assertEquals(words.get(count++), "*");
-		assertEquals(words.get(count++), "100");
-		assertEquals(words.get(count++), "/");
-		assertEquals(words.get(count++), "2");
-		assertEquals(words.get(count++), "+");
-		assertEquals(words.get(count++), "y");
-		assertEquals(words.get(count++), "-");
-		assertEquals(words.get(count++), "z");
+		assertEquals(words.get(count++), "Horse<String, Object>");
+		assertEquals(words.get(count++), "(");
+		assertEquals(words.get(count++), ")");
 	}
 
 }
