@@ -16,6 +16,10 @@ public abstract class Semantic extends AttributeMap {
 		this.tokenType = tokenType;
 	}
 
+	public boolean isPath() {
+		return tokenType == TokenTypeEnum.PATH;
+	}
+
 	public boolean isAnnotation() {
 		return tokenType == TokenTypeEnum.ANNOTATION;
 	}

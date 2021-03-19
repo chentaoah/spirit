@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
-@DisplayName("词法分析器测试")
+@DisplayName("词法测试")
 public class LexerTest {
 
 	@Autowired

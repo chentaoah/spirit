@@ -15,7 +15,7 @@ public enum TokenTypeEnum {
 	OPERATOR, // =
 	SEPARATOR, // {
 	TYPE, // Horse
-	ARRAY_INIT, // Horse[]
+	ARRAY_INIT, // Horse[1]
 	TYPE_INIT, // Horse()
 	NULL, // null
 	BOOLEAN, // true

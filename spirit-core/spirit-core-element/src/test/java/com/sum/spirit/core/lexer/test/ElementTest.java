@@ -14,7 +14,7 @@ import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 
 @SpringBootTest
-@DisplayName("语法分析器测试")
+@DisplayName("语法测试")
 public class ElementTest {
 
 	@Autowired
