@@ -80,11 +80,13 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 			if (secondToken.isSubexpress()) {
 				Statement statement = secondToken.getValue();
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
-				Element subElement = builder.rebuild(subStatement);
-				IVariable variable = elementVisiter.visitElement(clazz, subElement, context);
-				if (variable != null) {
-					variable.blockId = context.getBlockId();
-					context.variables.add(variable);
+				if (subStatement.size() > 0) {
+					Element subElement = builder.rebuild(subStatement);
+					IVariable variable = elementVisiter.visitElement(clazz, subElement, context);
+					if (variable != null) {
+						variable.blockId = context.getBlockId();
+						context.variables.add(variable);
+					}
 				}
 			}
 		}

@@ -51,12 +51,12 @@ public class LexerTest {
 	@Test
 	@DisplayName("MAP")
 	public void test0002() {
-		String text = "map = {\"name\" : \"Jessie\"}";
+		String text = "horse = {\"name\" : \"Jessie\"}";
 		List<String> words = lexer.getWords(text);
 		log.info(words.toString());
 		assertTrue(words.size() == 3);
 		int count = 0;
-		assertEquals(words.get(count++), "map");
+		assertEquals(words.get(count++), "horse");
 		assertEquals(words.get(count++), "=");
 		assertEquals(words.get(count++), "{\"name\" : \"Jessie\"}");
 	}

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -40,10 +39,7 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 
 	@Override
 	public List<String> getWords(String text) {
-		// 拆分方法体时，会传入空的text
-		if (StringUtils.isEmpty(text)) {
-			return new ArrayList<>();
-		}
+		Assert.notBlank(text, "text cannot be blank!");
 		// 处理字符串
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder);
@@ -62,12 +58,13 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 
 	@Override
 	public List<String> getSubWords(String text, Character... splitChars) {
+		Assert.notBlank(text, "text cannot be blank!");
 		// 处理字符串
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder, splitChars);
 		handle(context, builder, new CursorAction(borderAction));
 		// 校验
-		Assert.notNull(context.words, "words of context can not be null!");
+		Assert.notNull(context.words, "words of context cannot be null!");
 		// 继续拆分
 		List<String> words = new ArrayList<>();
 		for (String word : context.words) {
