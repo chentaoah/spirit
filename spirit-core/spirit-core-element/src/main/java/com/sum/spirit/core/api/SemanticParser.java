@@ -6,17 +6,13 @@ import com.sum.spirit.core.element.entity.Token;
 
 public interface SemanticParser {
 
-	List<Token> getTokens(List<String> words, boolean insideType);
+	List<Token> getTokens(List<String> words);
 
-	default List<Token> getTokens(List<String> words) {
-		return getTokens(words, false);
-	}
+	List<Token> getTokensInsideType(List<String> words);
 
-	Token getToken(String word, boolean insideType);
+	Token getToken(String word);
 
-	default Token getToken(String word) {
-		return getToken(word, false);
-	}
+	Token getTokenInsideType(String word);
 
 	boolean isPath(String word);
 

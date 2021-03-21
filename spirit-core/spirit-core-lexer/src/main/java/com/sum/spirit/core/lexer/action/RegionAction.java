@@ -52,20 +52,20 @@ public class RegionAction extends AbstractLexerAction {
 
 		if (ch == '"') {
 			Region region = findRegion(builder, context.index, '"', '"');
-			pushStack(event, Lists.toList(region), "@str");
+			pushStack(event, Lists.toListNonNull(region), "@str");
 
 		} else if (ch == '\'') {
 			Region region = findRegion(builder, context.index, '\'', '\'');
-			pushStack(event, Lists.toList(region), "@char");
+			pushStack(event, Lists.toListNonNull(region), "@char");
 
 		} else if (ch == '{') {
 			Region region = findRegion(builder, context.index, '{', '}');
-			pushStack(event, Lists.toList(region), "@map");
+			pushStack(event, Lists.toListNonNull(region), "@map");
 
 		} else if (ch == '(') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '(', ')');
-			pushStack(event, Lists.toList(region0, region1), "@invoke_like");
+			pushStack(event, Lists.toListNonNull(region0, region1), "@invoke_like");
 			resetIndex(event);
 
 		} else if (ch == '[') {
@@ -85,14 +85,14 @@ public class RegionAction extends AbstractLexerAction {
 					region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 				}
 			}
-			pushStack(event, Lists.toList(region0, region1, region2), "@array_like");
+			pushStack(event, Lists.toListNonNull(region0, region1, region2), "@array_like");
 			resetIndex(event);
 
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '<', '>');
 			Region region2 = isCharAt(builder, region1.endIndex, '(') ? findRegion(builder, region1.endIndex, '(', ')') : null;
-			pushStack(event, Lists.toList(region0, region1, region2), "@generic");
+			pushStack(event, Lists.toListNonNull(region0, region1, region2), "@generic");
 			resetIndex(event);
 		}
 	}

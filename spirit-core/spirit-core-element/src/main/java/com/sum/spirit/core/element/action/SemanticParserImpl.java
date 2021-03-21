@@ -89,10 +89,11 @@ public class SemanticParserImpl extends AbstractSemanticParser {
 		List<Token> tokens = null;
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
-			tokens = getTokens(words.subList(1, words.size()), insideType);
+			List<String> subWords = words.subList(1, words.size());
+			tokens = insideType ? getTokensInsideType(subWords) : getTokens(subWords);
 			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
 		} else {
-			tokens = getTokens(words, insideType);
+			tokens = insideType ? getTokensInsideType(words) : getTokens(words);
 		}
 		Assert.notNull(tokens, "Tokens can not be null!");
 		return new Statement(tokens);

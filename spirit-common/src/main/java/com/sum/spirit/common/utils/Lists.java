@@ -9,7 +9,7 @@ import cn.hutool.core.collection.CollUtil;
 public class Lists {
 
 	@SafeVarargs
-	public static <T> List<T> toList(T... items) {
+	public static <T> List<T> toListNonNull(T... items) {
 		if (items == null || items.length == 0) {
 			return new ArrayList<T>();
 		}
@@ -84,7 +84,7 @@ public class Lists {
 		return CollUtil.findOne(collection, item -> matcher.accept(item));
 	}
 
-	public static <T> List<T> filterByCondition(List<T> list, Filter<T> filter) {
+	public static <T> List<T> filterStoppable(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();
 		while (iterable.hasNext()) {
@@ -100,8 +100,8 @@ public class Lists {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <V, T> List<V> filterByCondition(List<T> list, Filter<T> filter, Factory<T> factory) {
-		List<T> items = filterByCondition(list, filter);
+	public static <V, T> List<V> filterStoppable(List<T> list, Filter<T> filter, Factory<T> factory) {
+		List<T> items = filterStoppable(list, filter);
 		List<V> list0 = new ArrayList<>();
 		items.forEach(item -> list0.add((V) factory.accept(item)));
 		return list0;
@@ -132,6 +132,17 @@ public class Lists {
 			}
 		}
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <V, T> List<V> collectAll(List<T> list, Matcher<T> matcher, Factory<T> factory) {
+		List<V> list0 = new ArrayList<>();
+		for (T item : list) {
+			if (matcher.accept(item)) {
+				list0.add((V) factory.accept(item));
+			}
+		}
+		return list0;
 	}
 
 	public static interface Matcher<T> {
