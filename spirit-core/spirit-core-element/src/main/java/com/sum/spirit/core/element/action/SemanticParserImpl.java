@@ -71,8 +71,7 @@ public class SemanticParserImpl extends AbstractSemanticParser {
 			token.value = getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			// 拆分数组是为了更好的添加new这个关键字
-			token.value = getStatement(word, false);
+			token.value = getStatement(word, false);// 拆分数组是为了更好的添加new这个关键字
 
 		} else {
 			token.value = word;
@@ -83,19 +82,22 @@ public class SemanticParserImpl extends AbstractSemanticParser {
 		if (insideType && (!word.contains("<") && !word.contains(">"))) {
 			return word;
 		}
+
 		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
 		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
-		String first = words.get(0);
 		List<Token> tokens = null;
+		String first = words.get(0);
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			List<String> subWords = words.subList(1, words.size());
 			tokens = insideType ? getTokensInsideType(subWords) : getTokens(subWords);
 			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
+
 		} else {
 			tokens = insideType ? getTokensInsideType(words) : getTokens(words);
 		}
-		Assert.notNull(tokens, "Tokens can not be null!");
+
+		Assert.notNull(tokens, "Tokens cannot be null!");
 		return new Statement(tokens);
 	}
 

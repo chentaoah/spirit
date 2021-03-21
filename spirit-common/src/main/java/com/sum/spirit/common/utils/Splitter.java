@@ -11,7 +11,7 @@ import cn.hutool.core.lang.Assert;
 public class Splitter {
 
 	public static List<String> splitByIndexsTrimRemain(String str, List<Integer> indexs) {
-		Assert.isTrue(indexs != null && indexs.size() > 0, "indexs can not be empty!");
+		Assert.isTrue(indexs != null && indexs.size() > 0, "indexs cannot be empty!");
 		List<String> strs = new ArrayList<>();
 		int lastIndex = 0;
 		for (Integer index : indexs) {

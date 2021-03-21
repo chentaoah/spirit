@@ -25,7 +25,7 @@ public abstract class AbstractLexerAction implements CharAction {
 	public Region mergeRegions(List<Region> regions) {
 		Region finalRegion = new Region(-1, -1);
 		for (Region region : regions) {
-			Assert.notNull(region, "Region can not be null!");
+			Assert.notNull(region, "Region cannot be null!");
 			if (finalRegion.startIndex == -1 || region.startIndex < finalRegion.startIndex) {
 				finalRegion.startIndex = region.startIndex;
 			}
@@ -33,7 +33,7 @@ public abstract class AbstractLexerAction implements CharAction {
 				finalRegion.endIndex = region.endIndex;
 			}
 		}
-		Assert.isTrue(finalRegion.startIndex != -1 && finalRegion.endIndex != -1, "The index of region can not be -1!");
+		Assert.isTrue(finalRegion.startIndex != -1 && finalRegion.endIndex != -1, "The index of region cannot be -1!");
 		return finalRegion;
 	}
 
