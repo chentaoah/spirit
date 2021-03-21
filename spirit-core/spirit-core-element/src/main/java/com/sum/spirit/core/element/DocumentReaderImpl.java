@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.constants.Constants;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.core.api.DocumentReader;
+import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;
@@ -22,7 +23,7 @@ import cn.hutool.core.io.IoUtil;
 public class DocumentReaderImpl implements DocumentReader {
 
 	@Autowired
-	public ElementBuilderImpl builder;
+	public ElementBuilder builder;
 
 	@Override
 	public Document read(String fileName, InputStream input) {
