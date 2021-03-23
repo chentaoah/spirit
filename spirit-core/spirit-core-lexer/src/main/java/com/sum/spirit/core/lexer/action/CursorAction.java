@@ -1,5 +1,6 @@
 package com.sum.spirit.core.lexer.action;
 
+import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
@@ -17,29 +18,42 @@ public class CursorAction implements CharAction {
 		return true;
 	}
 
+	/**
+	 * -接续字符和刷新字符，是游标敏感的，用以标记区域的起始位置
+	 * -先进行弹栈，再刷新startIndex为-1，例如“[”这种情况
+	 */
 	@Override
 	public void handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		char ch = event.ch;
-		// 是否连续字符
 		if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {
 			context.startIndex = context.index;
 		}
-		// 真正处理的逻辑
 		if (action.isTrigger(event)) {
 			action.handle(event);
 		}
-		// 如果不是连续字符，则重置游标
 		if (!isContinuous(ch)) {
 			context.startIndex = -1;
 		}
 	}
 
-	public boolean isContinuous(char ch) {// 是否连续
-		return ch == '@' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_' || ch == '.';
+	/**
+	 * -是否接续字符
+	 * 
+	 * @param ch
+	 * @return
+	 */
+	public boolean isContinuous(char ch) {
+		return LineUtils.isLetter(ch) || ch == '@' || ch == '.';
 	}
 
-	public boolean isRefreshed(char ch) {// 是否需要刷新
+	/**
+	 * -是否刷新字符
+	 * 
+	 * @param ch
+	 * @return
+	 */
+	public boolean isRefreshed(char ch) {
 		return ch == '.';
 	}
 
