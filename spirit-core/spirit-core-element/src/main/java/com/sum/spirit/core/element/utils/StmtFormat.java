@@ -75,15 +75,10 @@ public class StmtFormat {
 			}
 
 		} else if (nextToken.isSeparator()) {
-			if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())) {
-				tokens.remove(index);
-				return;
-
-			} else if ("]".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())) {
-				tokens.remove(index);
-				return;
-
-			} else if (",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
+			if ("[".equals(nextToken.toString()) || "]".equals(nextToken.toString()) || //
+					"(".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || //
+					"<".equals(nextToken.toString()) || ">".equals(nextToken.toString()) || //
+					",".equals(nextToken.toString()) || ";".equals(nextToken.toString())) {
 				tokens.remove(index);
 				return;
 			}
