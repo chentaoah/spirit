@@ -31,10 +31,10 @@ public class RegionAction extends AbstractLexerAction {
 		if (ch == '"' || ch == '\'' || ch == '{' || ch == '(' || ch == '[') {
 			return true;
 
-		} else if (ch == '<') {// 一般泛型声明都是以大写字母开头的
+		} else if (ch == '<') {
 			if (context.startIndex >= 0) {
 				char d = builder.charAt(context.startIndex);
-				if (d >= 'A' && d <= 'Z') {
+				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
 					return true;
 				}
 			}

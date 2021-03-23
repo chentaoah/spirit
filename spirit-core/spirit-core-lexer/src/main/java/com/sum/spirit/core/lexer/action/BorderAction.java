@@ -13,14 +13,17 @@ import com.sum.spirit.core.lexer.entity.Region;
 @Component
 public class BorderAction extends RegionAction {
 
+	/**
+	 * -该类对弹栈行为进行了一定改造，主要对分隔符进行拆分，并将索引直接置为结束
+	 */
 	@Override
 	public void pushStack(CharEvent event, List<Region> regions, String markName) {
 
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
-		List<Integer> indexs = new ArrayList<>();
 
+		List<Integer> indexs = new ArrayList<>();
 		for (Region region : regions) {
 			char startChar = builder.charAt(region.startIndex);
 			char endChar = builder.charAt(region.endIndex - 1);
@@ -30,9 +33,7 @@ public class BorderAction extends RegionAction {
 			}
 		}
 
-		// 添加到上下文参数中
 		context.words = Splitter.splitByIndexsTrimRemain(builder.toString(), indexs);
-		// 重置索引到结束位置
 		context.index = builder.length();
 	}
 
