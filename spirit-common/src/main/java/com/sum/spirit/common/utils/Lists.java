@@ -84,6 +84,19 @@ public class Lists {
 		return CollUtil.findOne(collection, item -> matcher.accept(item));
 	}
 
+	public static <T> T findOneByScore(List<T> list, Selector<T> selector) {
+		Integer finalScore = null;
+		T finalItem = null;
+		for (T item : list) {
+			int score = selector.accept(item);
+			if (finalScore == null || score > finalScore) {
+				finalScore = score;
+				finalItem = item;
+			}
+		}
+		return finalItem;
+	}
+
 	public static <T> List<T> filterStoppable(List<T> list, Filter<T> filter) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();
@@ -159,6 +172,10 @@ public class Lists {
 
 	public static interface Visiter<T> {
 		void accept(int index, T t);
+	}
+
+	public static interface Selector<T> {
+		int accept(T t);
 	}
 
 }
