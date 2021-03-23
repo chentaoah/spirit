@@ -1,6 +1,5 @@
 package com.sum.spirit.core.lexer;
 
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
@@ -8,7 +7,6 @@ import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
 
 @Component
-@DependsOn("springUtils")
 public class AliasCharsHandler extends AbstractCharsHandler {
 
 	public String replace(String code, String alias, String className) {
