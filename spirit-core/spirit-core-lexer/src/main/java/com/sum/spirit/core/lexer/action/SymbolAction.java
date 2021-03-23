@@ -17,13 +17,15 @@ public class SymbolAction extends AbstractLexerAction {
 		return SymbolEnum.isSymbolChar(event.ch);
 	}
 
+	/**
+	 * -尝试拆分双字符和单字符符号
+	 */
 	@Override
 	public void handle(CharEvent event) {
 
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 
-		// 尝试获取两个字符，判断是否双字符符号
 		if (context.index + 1 < builder.length()) {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
@@ -33,7 +35,6 @@ public class SymbolAction extends AbstractLexerAction {
 			}
 		}
 
-		// 尝试获取一个字符，判断是否单字符符号
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);

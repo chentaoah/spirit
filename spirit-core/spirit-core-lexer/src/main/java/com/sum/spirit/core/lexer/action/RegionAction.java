@@ -15,26 +15,26 @@ import com.sum.spirit.core.lexer.entity.Region;
 @Order(-100)
 public class RegionAction extends AbstractLexerAction {
 
+	/**
+	 * -到达结尾，则直接返回false
+	 * -泛型前缀一般都以大写字母开始
+	 */
 	@Override
 	public boolean isTrigger(CharEvent event) {
-
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		char ch = event.ch;
 
-		// 是否已经到达结尾
 		if (context.index == builder.length() - 1) {
 			return false;
-		}
 
-		// 如果是以下字符，则进行弹栈
-		if (ch == '"' || ch == '\'' || ch == '{' || ch == '(' || ch == '[') {
+		} else if (ch == '"' || ch == '\'' || ch == '{' || ch == '(' || ch == '[') {
 			return true;
 
 		} else if (ch == '<') {
 			if (context.startIndex >= 0) {
 				char d = builder.charAt(context.startIndex);
-				if (d >= 'A' && d <= 'Z') {// 一般泛型声明都是以大写字母开头的
+				if (d >= 'A' && d <= 'Z') {
 					return true;
 				}
 			}
@@ -43,6 +43,9 @@ public class RegionAction extends AbstractLexerAction {
 		return false;
 	}
 
+	/**
+	 * str[0] => str [0], String[0] => String[0], String[]{"str", "str"} => String[]{"str", "str"}
+	 */
 	@Override
 	public void handle(CharEvent event) {
 
@@ -70,12 +73,10 @@ public class RegionAction extends AbstractLexerAction {
 
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
-			// 前缀必须是类型才合并
 			if (region0 != null && !TypeEnum.isTypePrefix(subRegion(builder, region0))) {
 				region0 = null;
 			}
 			Region region1 = findRegion(builder, context.index, '[', ']');
-			// 必须有前缀才解析
 			Region region2 = null;
 			if (region0 != null) {
 				if (isCharAt(builder, region1.endIndex, '{')) {
