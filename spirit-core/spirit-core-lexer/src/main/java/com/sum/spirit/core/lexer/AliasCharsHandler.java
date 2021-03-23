@@ -9,6 +9,14 @@ import com.sum.spirit.core.lexer.entity.CharsContext;
 @Component
 public class AliasCharsHandler extends AbstractCharsHandler {
 
+	/**
+	 * -将别名替换为完整的类名
+	 * 
+	 * @param code
+	 * @param alias
+	 * @param className
+	 * @return
+	 */
 	public String replace(String code, String alias, String className) {
 		AliasCharsContext context = new AliasCharsContext();
 		context.builder = new StringBuilder(code);
@@ -18,6 +26,9 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 		return context.builder.toString();
 	}
 
+	/**
+	 * -遇到字符串，则跳过，如果当前字符和别名的别名的首字母相同，则触发处理逻辑
+	 */
 	@Override
 	public boolean isTrigger(CharEvent event) {
 		AliasCharsContext context = (AliasCharsContext) event.context;
@@ -32,19 +43,22 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 		return false;
 	}
 
+	/**
+	 * -根据alias的宽度，截取一段字符串，如果相等，则进行替换
+	 * -注意：这段字符串的前后，不能是连续的字符
+	 */
 	@Override
 	public void handle(CharEvent event) {
 		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;
 		String className = context.className;
-		// 获取结尾的索引
-		int idx = context.index + alias.length();
-		if (idx <= builder.length()) {
-			String text = builder.substring(context.index, idx);
+		int endIndex = context.index + alias.length();
+		if (endIndex <= builder.length()) {
+			String text = builder.substring(context.index, endIndex);
 			if (alias.equals(text)) {
-				if (!LineUtils.isLetter(builder.charAt(idx))) {
-					builder.replace(context.index, idx, className);
+				if (endIndex == builder.length() || !LineUtils.isLetter(builder.charAt(endIndex))) {
+					builder.replace(context.index, endIndex, className);
 				}
 			}
 		}
