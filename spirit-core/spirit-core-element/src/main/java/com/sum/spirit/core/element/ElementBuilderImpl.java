@@ -11,6 +11,7 @@ import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.action.LineChecker;
+import com.sum.spirit.core.element.action.SyntaxRecognizer;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;
 import com.sum.spirit.core.element.entity.Modifiers;
@@ -29,6 +30,8 @@ public class ElementBuilderImpl implements ElementBuilder {
 	public Lexer lexer;
 	@Autowired
 	public SemanticParser parser;
+	@Autowired
+	public SyntaxRecognizer recognizer;
 	@Autowired
 	public TreeBuilder builder;
 
@@ -50,17 +53,13 @@ public class ElementBuilderImpl implements ElementBuilder {
 			Modifiers modifiers = new Modifiers(tokens);
 			// 4.语句
 			Statement statement = new Statement(tokens);
-			// 5.语法枚举
-			SyntaxEnum syntax = SyntaxTree.getSimpleSyntax(tokens);
-			// 6.构建语法树
-			SyntaxTree syntaxTree = null;
-			if (syntax == null) {
-				syntaxTree = builder.buildTree(statement);
-				syntax = syntaxTree.getSyntax();
-			}
-			// 7.创建元素
+			// 5.分析语法
+			SyntaxEnum syntax = recognizer.getSimpleSyntax(tokens);
+			SyntaxTree syntaxTree = recognizer.needBuildTree(syntax) ? builder.buildTree(statement) : null;
+			syntax = syntax == null ? recognizer.getSyntax(syntaxTree) : syntax;
+			// 6.创建元素
 			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
-			// 8.返回元素
+			// 7.返回元素
 			return element;
 
 		} catch (Exception e) {
