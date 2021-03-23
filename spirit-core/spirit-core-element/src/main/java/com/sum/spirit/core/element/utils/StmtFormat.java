@@ -76,13 +76,8 @@ public class StmtFormat {
 
 		} else if (nextToken.isSeparator()) {
 			if ("[".equals(nextToken.toString()) || "(".equals(nextToken.toString()) || "<".equals(nextToken.toString())) {
-				if (lastToken.isKeyword() && "(".equals(nextToken.toString())) {// if (express) {
-					return;
-
-				} else {
-					tokens.remove(index);
-					return;
-				}
+				tokens.remove(index);
+				return;
 
 			} else if ("]".equals(nextToken.toString()) || ")".equals(nextToken.toString()) || ">".equals(nextToken.toString())) {
 				tokens.remove(index);

@@ -24,22 +24,24 @@ public class SeparatorAction extends AbstractElementAction {
 			insertBrackets(clazz, element);
 		}
 
-		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || element.isFieldAssign() || //
-				element.isInvoke() || element.isReturn() || element.isSuper() || element.isThis() || //
-				element.isThrow() || element.isContinue() || element.isBreak()) {
+		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || //
+				element.isFieldAssign() || element.isInvoke() || element.isReturn() || //
+				element.isSuper() || element.isThis() || element.isThrow() || //
+				element.isContinue() || element.isBreak()) {
 			addLineEnd(clazz, element);
 		}
 	}
 
 	public void insertBrackets(IClass clazz, Statement statement) {
-		// if text {
-		// }catch Exception e{
-		int index = findLastKeyword(statement);
-		statement.add(index + 1, new Token(TokenTypeEnum.SEPARATOR, "("));
-		if ("{".equals(statement.last())) {
-			statement.add(statement.size() - 1, new Token(TokenTypeEnum.SEPARATOR, ")"));
-		} else {
-			statement.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
+		int keywordIndex = findLastKeyword(statement);
+		int startIndex = keywordIndex >= 0 ? keywordIndex + 1 : -1;
+		int endIndex = "{".equals(statement.last()) ? statement.size() - 1 : statement.size();
+		if (endIndex != -1) {
+			Statement subStatement = statement.subStmt(startIndex, endIndex);
+			subStatement.add(0, new Token(TokenTypeEnum.SEPARATOR, "("));
+			subStatement.add(new Token(TokenTypeEnum.SEPARATOR, ")"));
+			Token subexpress = new Token(TokenTypeEnum.SUBEXPRESS, subStatement);
+			statement.replaceTokens(startIndex, endIndex, subexpress);
 		}
 	}
 
