@@ -37,35 +37,36 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		actions = SpringUtils.getBeansAndSort(AbstractLexerAction.class, BorderAction.class);
 	}
 
+	/**
+	 * -1.整体替换语句中的某些区域
+	 * -2.去掉多余的空格
+	 * -3.利用空格，进行拆分
+	 * -4.继续拆分带有“.”的单词
+	 * -5.还原被替换的单词
+	 */
 	@Override
 	public List<String> getWords(String text) {
 		Assert.notBlank(text, "text cannot be blank!");
-		// 处理字符串
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder);
 		handle(context, builder, new CursorAction(this));
-		// 去掉多余的空格
 		text = LineUtils.mergeSpaces(context.builder.toString());
-		// 利用空格，进行拆分
 		List<String> words = new ArrayList<>(Arrays.asList(text.split(" ")));
-		// 继续拆分单词
 		splitWords(words);
-		// 还原被替换的单词
 		restoreWords(words, context.replacedStrs);
-
 		return words;
 	}
 
+	/**
+	 * -根据弹栈规则，拆分分隔符和单词
+	 */
 	@Override
 	public List<String> getSubWords(String text, Character... splitChars) {
 		Assert.notBlank(text, "text cannot be blank!");
-		// 处理字符串
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder, splitChars);
 		handle(context, builder, new CursorAction(borderAction));
-		// 校验
 		Assert.notNull(context.words, "words of context cannot be null!");
-		// 继续拆分
 		List<String> words = new ArrayList<>();
 		for (String word : context.words) {
 			words.addAll(getWords(word));
@@ -73,8 +74,13 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		return words;
 	}
 
+	/**
+	 * -继续拆分带有“.”的单词
+	 * 
+	 * @param words
+	 */
 	public void splitWords(List<String> words) {
-		for (int index = 0; index < words.size(); index++) {// 如果一个片段中，包含“.”，那么进行更细致的拆分
+		for (int index = 0; index < words.size(); index++) {
 			String word = words.get(index);
 			if (word.indexOf(".") > 0 && !LiteralEnum.isDouble(word) && !TypeEnum.isTypeEnd(word)) {
 				List<String> subWords = Arrays.asList(word.replaceAll("\\.", " .").split(" "));
@@ -84,8 +90,14 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		}
 	}
 
+	/**
+	 * -替换之前被替换的单词
+	 * 
+	 * @param words
+	 * @param replacedStrs
+	 */
 	public void restoreWords(List<String> words, Map<String, String> replacedStrs) {
-		for (int index = 0; index < words.size(); index++) {// 替换回去
+		for (int index = 0; index < words.size(); index++) {
 			String str = replacedStrs.get(words.get(index));
 			if (str != null) {
 				words.set(index, str);
