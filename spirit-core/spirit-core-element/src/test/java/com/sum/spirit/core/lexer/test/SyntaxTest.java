@@ -151,13 +151,15 @@ public class SyntaxTest {
 	@Test
 	@DisplayName("DECLARE_FUNC")
 	public void test0010() {
-		String text = "String call() {";
+		String text = "String call() throws Exception {";
 		Element element = builder.build(text);
 		assertTrue(element.isDeclareFunc());
-		assertTrue(element.size() == 3);
+		assertTrue(element.size() == 5);
 		int count = 0;
 		assertTypeAndValue(element.get(count++), TokenTypeEnum.TYPE, "String");
 		assertTypeAndValue(element.get(count++), TokenTypeEnum.LOCAL_METHOD, "call()");
+		assertTypeAndValue(element.get(count++), TokenTypeEnum.KEYWORD, "throws");
+		assertTypeAndValue(element.get(count++), TokenTypeEnum.TYPE, "Exception");
 		assertTypeAndValue(element.get(count++), TokenTypeEnum.SEPARATOR, "{");
 	}
 

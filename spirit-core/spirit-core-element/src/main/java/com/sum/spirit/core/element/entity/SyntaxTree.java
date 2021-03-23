@@ -10,9 +10,4 @@ public class SyntaxTree {
 		this.nodes = nodes;
 	}
 
-	@Override
-	public String toString() {
-		throw new RuntimeException("The method toString() should not be called");
-	}
-
 }

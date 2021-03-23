@@ -78,9 +78,8 @@ public class SyntaxRecognizer {
 		SyntaxEnum syntax = null;
 		if (syntaxTree.nodes.size() == 1) {
 			syntax = getSyntaxByOneNode(syntaxTree);
-
-		} else if (syntaxTree.nodes.size() == 2) {
-			syntax = getSyntaxByOneNode(syntaxTree);
+		} else {
+			syntax = getSyntaxByNodes(syntaxTree);
 		}
 		Assert.notNull(syntax, "The syntax cannot be null!");
 		return syntax;
@@ -132,7 +131,7 @@ public class SyntaxRecognizer {
 		return null;
 	}
 
-	public SyntaxEnum getSyntaxByTwoNodes(SyntaxTree syntaxTree) {
+	public SyntaxEnum getSyntaxByNodes(SyntaxTree syntaxTree) {
 		Node firstNode = syntaxTree.nodes.get(0);
 		Token firstToken = firstNode.token;
 		if (firstToken.isType()) {
