@@ -52,6 +52,7 @@ public class SyntaxRecognizer {
 	public SyntaxEnum getSyntaxWithoutTree(List<Token> tokens) {
 		Token firstToken = tokens.get(0);
 		Token secondToken = tokens.size() >= 2 ? tokens.get(1) : null;
+		Token thirdToken = tokens.size() >= 3 ? tokens.get(2) : null;
 		// END
 		if (tokens.size() == 1 && "}".equals(firstToken.toString())) {
 			return SyntaxEnum.END;
@@ -70,15 +71,18 @@ public class SyntaxRecognizer {
 				return SyntaxEnum.DECLARE_FUNC;
 			}
 		}
-		// CATCH / FINALLY
+		// ELSE / CATCH / FINALLY
 		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
-			if (secondToken != null) {
-				if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
-					return SyntaxEnum.CATCH;
-
-				} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
-					return SyntaxEnum.FINALLY;
+			if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {// } else {
+				if (SymbolEnum.LEFT_CURLY_BRACKET.value.equals(thirdToken.toString())) {
+					return SyntaxEnum.ELSE;
 				}
+
+			} else if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
+				return SyntaxEnum.CATCH;
+
+			} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
+				return SyntaxEnum.FINALLY;
 			}
 		}
 		return null;
@@ -112,13 +116,11 @@ public class SyntaxRecognizer {
 			}
 			throw new RuntimeException("Unknown syntax!");
 		}
-		// ELSE / ELSE_IF
+		// ELSE_IF
 		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
 			if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {
-				if (thirdToken != null && KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
+				if (KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
 					return SyntaxEnum.ELSE_IF;
-				} else {// } else {
-					return SyntaxEnum.ELSE;
 				}
 			}
 			throw new RuntimeException("Unknown syntax!");
