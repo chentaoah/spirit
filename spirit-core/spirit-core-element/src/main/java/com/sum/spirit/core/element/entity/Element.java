@@ -14,7 +14,7 @@ public class Element extends Syntactic {
 	public SyntaxTree syntaxTree;
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxEnum syntax, SyntaxTree syntaxTree) {
 		super(syntax, statement);
 		this.line = line;
 		this.modifiers = modifiers;

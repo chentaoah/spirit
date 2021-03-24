@@ -55,7 +55,7 @@ public class ElementBuilderImpl implements ElementBuilder {
 			SyntaxEnum syntax = (SyntaxEnum) result[0];
 			SyntaxTree syntaxTree = (SyntaxTree) result[1];
 			// 6.创建元素
-			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
+			Element element = new Element(line, modifiers, statement, syntax, syntaxTree);
 			// 7.返回元素
 			return element;
 
