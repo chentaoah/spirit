@@ -2,13 +2,16 @@ package com.sum.spirit.core.element.action;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SyntaxEnum;
+import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.entity.Node;
+import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -17,29 +20,78 @@ import cn.hutool.core.lang.Assert;
 @Component
 public class SyntaxRecognizer {
 
-	public SyntaxEnum getSimpleSyntax(List<Token> tokens) {
+	@Autowired
+	public TreeBuilder builder;
 
+	/**
+	 * 1.能够不通过语法树获取语法，且后续功能不需要语法树
+	 * 2.能够不通过语法树获取语法，但后续功能需要语法树
+	 * 3.必须通过语法树获取语法
+	 * 
+	 * @param tokens
+	 * @param statement
+	 * @return
+	 */
+	public Object[] parseSyntax(List<Token> tokens, Statement statement) {
 		Assert.notEmpty(tokens, "The tokens cannot be empty!");
+		SyntaxEnum syntax = getSyntaxWithoutTree(tokens);
+		SyntaxTree syntaxTree = null;
+		if (syntax == null) {
+			syntax = getSyntaxWithTree(tokens);
+			if (syntax != null) {
+				syntaxTree = builder.buildTree(statement);
+			} else {
+				syntaxTree = builder.buildTree(statement);
+				syntax = getSyntaxByTree(syntaxTree);
+			}
+		}
+		Assert.notNull(syntax, "The syntax cannot be null!");
+		return new Object[] { syntax, syntaxTree };
+	}
 
+	public SyntaxEnum getSyntaxWithoutTree(List<Token> tokens) {
 		Token firstToken = tokens.get(0);
 		Token secondToken = tokens.size() >= 2 ? tokens.get(1) : null;
-		Token thirdToken = tokens.size() >= 3 ? tokens.get(2) : null;
-
 		// END
 		if (tokens.size() == 1 && "}".equals(firstToken.toString())) {
 			return SyntaxEnum.END;
 		}
-
 		// ANNOTATION
 		if (tokens.size() == 1 && firstToken.isAnnotation()) {
 			return SyntaxEnum.ANNOTATION;
 		}
-
-		// KEYWORDS
-		if (KeywordEnum.isStruct(firstToken.toString()) || KeywordEnum.isLine(firstToken.toString())) {
+		// STRUCT
+		if (KeywordEnum.isStruct(firstToken.toString())) {
 			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
 		}
+		// DECLARE_FUNC
+		if (firstToken.isType()) {
+			if (secondToken != null && secondToken.isLocalMethod()) {
+				return SyntaxEnum.DECLARE_FUNC;
+			}
+		}
+		// CATCH / FINALLY
+		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
+			if (secondToken != null) {
+				if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
+					return SyntaxEnum.CATCH;
 
+				} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
+					return SyntaxEnum.FINALLY;
+				}
+			}
+		}
+		return null;
+	}
+
+	public SyntaxEnum getSyntaxWithTree(List<Token> tokens) {
+		Token firstToken = tokens.get(0);
+		Token secondToken = tokens.size() >= 2 ? tokens.get(1) : null;
+		Token thirdToken = tokens.size() >= 3 ? tokens.get(2) : null;
+		// LINE
+		if (KeywordEnum.isLine(firstToken.toString())) {
+			return SyntaxEnum.valueOf(firstToken.toString().toUpperCase());
+		}
 		// SUPER / THIS
 		if (firstToken.isLocalMethod()) {
 			String memberName = firstToken.attr(AttributeEnum.MEMBER_NAME);
@@ -50,14 +102,6 @@ public class SyntaxRecognizer {
 				return SyntaxEnum.THIS;
 			}
 		}
-
-		// DECLARE_FUNC
-		if (firstToken.isType()) {
-			if (secondToken != null && secondToken.isLocalMethod()) {
-				return SyntaxEnum.DECLARE_FUNC;
-			}
-		}
-
 		// FOR / FOR_IN
 		if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
 			if (secondToken.isSubexpress()) {// for (i=0; i<10; i++) {
@@ -68,8 +112,7 @@ public class SyntaxRecognizer {
 			}
 			throw new RuntimeException("Unknown syntax!");
 		}
-
-		// ELSE / ELSE_IF / CATCH / FINALLY
+		// ELSE / ELSE_IF
 		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
 			if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {
 				if (thirdToken != null && KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
@@ -77,39 +120,14 @@ public class SyntaxRecognizer {
 				} else {// } else {
 					return SyntaxEnum.ELSE;
 				}
-
-			} else if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
-				return SyntaxEnum.CATCH;
-
-			} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
-				return SyntaxEnum.FINALLY;
 			}
 			throw new RuntimeException("Unknown syntax!");
 		}
-
 		return null;
 	}
 
-	public boolean needBuildTree(SyntaxEnum syntax) {
-		if (syntax == null) {
-			return true;
-		} else {
-			if (KeywordEnum.isStruct(syntax.toString().toLowerCase())) {
-				return false;
-			} else if (syntax == SyntaxEnum.DECLARE_FUNC) {
-				return false;
-			}
-			return true;
-		}
-	}
-
-	public SyntaxEnum getSyntax(SyntaxTree syntaxTree) {
-		SyntaxEnum syntax = null;
-		if (syntaxTree.nodes.size() == 1) {
-			syntax = getSyntaxByOneNode(syntaxTree);
-		}
-		Assert.notNull(syntax, "The syntax cannot be null!");
-		return syntax;
+	public SyntaxEnum getSyntaxByTree(SyntaxTree syntaxTree) {
+		return syntaxTree.nodes.size() == 1 ? getSyntaxByOneNode(syntaxTree) : null;
 	}
 
 	public SyntaxEnum getSyntaxByOneNode(SyntaxTree syntaxTree) {

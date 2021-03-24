@@ -9,7 +9,6 @@ import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.SemanticParser;
-import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.action.LineChecker;
 import com.sum.spirit.core.element.action.SyntaxRecognizer;
 import com.sum.spirit.core.element.entity.Element;
@@ -32,8 +31,6 @@ public class ElementBuilderImpl implements ElementBuilder {
 	public SemanticParser parser;
 	@Autowired
 	public SyntaxRecognizer recognizer;
-	@Autowired
-	public TreeBuilder builder;
 
 	@Override
 	public Element build(String text) {
@@ -54,9 +51,9 @@ public class ElementBuilderImpl implements ElementBuilder {
 			// 4.语句
 			Statement statement = new Statement(tokens);
 			// 5.分析语法
-			SyntaxEnum syntax = recognizer.getSimpleSyntax(tokens);
-			SyntaxTree syntaxTree = recognizer.needBuildTree(syntax) ? builder.buildTree(statement) : null;
-			syntax = syntax == null ? recognizer.getSyntax(syntaxTree) : syntax;
+			Object[] result = recognizer.parseSyntax(tokens, statement);
+			SyntaxEnum syntax = (SyntaxEnum) result[0];
+			SyntaxTree syntaxTree = (SyntaxTree) result[1];
 			// 6.创建元素
 			Element element = new Element(line, modifiers, statement, syntaxTree, syntax);
 			// 7.返回元素
