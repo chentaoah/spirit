@@ -11,11 +11,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.deduce.TypeFactory;
+import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 @Component
-public class NativeFactory extends TypeFactory {
+public class NativeFactory extends TypeFactoryImpl {
 
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());

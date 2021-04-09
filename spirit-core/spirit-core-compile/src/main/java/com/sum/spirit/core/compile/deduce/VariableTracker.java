@@ -25,7 +25,7 @@ public class VariableTracker {
 	@Autowired
 	public ClassLinker linker;
 	@Autowired
-	public TypeFactory factory;
+	public TypeFactoryImpl factory;
 	@Autowired
 	public TypeDerivator derivator;
 
@@ -51,7 +51,7 @@ public class VariableTracker {
 
 	public IType findTypeByKeyword(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
-			return derivator.withSuperModifiers(derivator.getSuperType(clazz));
+			return derivator.withSuperModifiers(clazz.getSuperType());
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
 			return derivator.withThisModifiers(clazz.getType());

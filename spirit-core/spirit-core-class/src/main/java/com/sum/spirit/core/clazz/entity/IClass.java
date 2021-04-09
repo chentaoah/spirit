@@ -1,10 +1,13 @@
 package com.sum.spirit.core.clazz.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.SpringUtils;
+import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -45,6 +48,14 @@ public class IClass extends ImportUnit {
 		return token;
 	}
 
+	public String getSimpleName() {
+		return TypeUtils.getTargetName(getTypeToken().toString());
+	}
+
+	public String getClassName() {
+		return packageStr + "." + getSimpleName();
+	}
+
 	public int getTypeVariableIndex(String genericName) {
 		String simpleName = getTypeToken().toString();
 		// 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
@@ -60,12 +71,22 @@ public class IClass extends ImportUnit {
 		return -1;
 	}
 
-	public String getSimpleName() {
-		return TypeUtils.getTargetName(getTypeToken().toString());
+	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
+		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
+		if (token != null) {
+			TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
+			return factory.create(this, token);
+		}
+		return null;
 	}
 
-	public String getClassName() {
-		return packageStr + "." + getSimpleName();
+	public List<IType> getInterfaceTypes() {
+		List<IType> interfaces = new ArrayList<>();
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
+		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
+			interfaces.add(factory.create(this, token));
+		}
+		return interfaces;
 	}
 
 	public IField getField(String fieldName) {

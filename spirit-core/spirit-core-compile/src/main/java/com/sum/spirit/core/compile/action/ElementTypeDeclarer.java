@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
-import com.sum.spirit.core.compile.deduce.TypeFactory;
+import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
@@ -16,7 +16,7 @@ import com.sum.spirit.core.element.entity.Token;
 public class ElementTypeDeclarer extends AbstractElementAction {
 
 	@Autowired
-	public TypeFactory factory;
+	public TypeFactoryImpl factory;
 
 	@Override
 	public void handle(ElementEvent event) {

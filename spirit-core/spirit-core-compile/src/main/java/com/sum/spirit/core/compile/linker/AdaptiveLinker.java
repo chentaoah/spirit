@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.deduce.TypeFactory;
+import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 import com.sum.spirit.core.compile.entity.StaticTypes;
 
 import cn.hutool.core.lang.Assert;
@@ -23,7 +23,7 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 	public static final String ARRAY_LENGTH = "length";
 
 	@Autowired
-	public TypeFactory factory;
+	public TypeFactoryImpl factory;
 	@Autowired
 	public TypeDerivator derivator;
 

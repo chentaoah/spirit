@@ -7,14 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sum.spirit.core.api.SemanticParser;
+import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.entity.StaticTypes;
-import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class AbstractTypeFactory {
+public abstract class AbstractTypeFactory implements TypeFactory {
 
 	@Autowired
 	public SemanticParser parser;
@@ -39,9 +39,5 @@ public abstract class AbstractTypeFactory {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
 		return create(clazz, parser.getToken(text));
 	}
-
-	public abstract IType create(String className);
-
-	public abstract IType create(IClass clazz, Token token);
 
 }

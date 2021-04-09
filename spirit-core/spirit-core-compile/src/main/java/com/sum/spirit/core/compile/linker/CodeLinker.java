@@ -17,7 +17,7 @@ import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.ClassVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.deduce.TypeFactory;
+import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 
 import cn.hutool.core.lang.Assert;
 
@@ -28,7 +28,7 @@ public class CodeLinker implements ClassLinker {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public TypeFactory factory;
+	public TypeFactoryImpl factory;
 	@Autowired
 	public ClassVisiter visiter;
 	@Autowired
@@ -55,14 +55,14 @@ public class CodeLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		IClass clazz = toClass(type);
-		return derivator.populate(type, derivator.getSuperType(clazz));
+		return derivator.populate(type, clazz.getSuperType());
 	}
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
 		IClass clazz = toClass(type);
 		List<IType> interfaceTypes = new ArrayList<>();
-		for (IType interfaceType : derivator.getInterfaceTypes(clazz)) {
+		for (IType interfaceType : clazz.getInterfaceTypes()) {
 			interfaceTypes.add(derivator.populate(type, interfaceType));
 		}
 		return interfaceTypes;

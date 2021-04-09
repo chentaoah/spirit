@@ -22,7 +22,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
-public class TypeFactory extends AbstractTypeFactory {
+public class TypeFactoryImpl extends AbstractTypeFactory {
 
 	@Autowired
 	public AppClassLoader classLoader;

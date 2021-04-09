@@ -22,7 +22,7 @@ public class InvocationVisiter {
 	@Autowired
 	public ClassLinker linker;
 	@Autowired
-	public TypeFactory factory;
+	public TypeFactoryImpl factory;
 	@Autowired
 	public TypeDerivator derivator;
 
