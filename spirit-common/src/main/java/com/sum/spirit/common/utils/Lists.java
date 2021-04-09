@@ -13,7 +13,7 @@ public class Lists {
 		if (items == null || items.length == 0) {
 			return new ArrayList<T>();
 		}
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<T>(items.length);
 		for (T item : items) {
 			if (item != null) {
 				list.add(item);

@@ -1,4 +1,4 @@
-package com.sum.spirit.common.utils;
+package com.sum.spirit.lib;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,37 +74,6 @@ public class Maps {
 		map.put(k6, v6);
 		map.put(k7, v7);
 		return map;
-	}
-
-	public static <K, V> Builder<K, V> builder() {
-		return new Builder<>();
-	}
-
-	public static final class Builder<K, V> {
-
-		private Map<K, V> map;
-		private boolean underConstruction;
-
-		private Builder() {
-			map = newHashMap();
-			underConstruction = true;
-		}
-
-		public Builder<K, V> put(K k, V v) {
-			if (!underConstruction) {
-				throw new IllegalStateException("Underlying map has already been built");
-			}
-			map.put(k, v);
-			return this;
-		}
-
-		public Map<K, V> build() {
-			if (!underConstruction) {
-				throw new IllegalStateException("Underlying map has already been built");
-			}
-			underConstruction = false;
-			return map;
-		}
 	}
 
 }

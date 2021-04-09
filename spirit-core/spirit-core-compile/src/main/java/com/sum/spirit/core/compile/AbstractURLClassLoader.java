@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.common.utils.ConfigUtils;
-import com.sum.spirit.common.utils.FileURLUtils;
+import com.sum.spirit.common.utils.URLFileUtils;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.entity.IClass;
 
@@ -32,15 +32,20 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 		String inputPath = ConfigUtils.getInputPath();
 		String extension = ConfigUtils.getFileExtension();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
-		files.forEach(file -> this.urls.add(FileURLUtils.toURL(file)));
+		files.forEach(file -> this.urls.add(URLFileUtils.toURL(file)));
 		// 添加到映射
 		File directory = new File(inputPath);
 		if (!directory.isDirectory()) {
 			throw new RuntimeException("The input path must be a directory!");
 		}
-		URL inputUrl = FileURLUtils.toURL(directory);
+		URL inputUrl = URLFileUtils.toURL(directory);
 		urls.forEach(url -> {
-			String name = url.toString().replace(inputUrl.toString(), "").replaceAll("/", ".").replace("." + extension, "");
+			// 去掉前缀
+			String name = url.toString().replace(inputUrl.toString(), "").replaceAll("/", ".");
+			// 去掉后缀
+			if (name.endsWith("." + extension)) {
+				name = name.substring(0, name.lastIndexOf('.'));
+			}
 			nameUrlMapping.put(name, url);
 			classes.put(name, null);
 		});
