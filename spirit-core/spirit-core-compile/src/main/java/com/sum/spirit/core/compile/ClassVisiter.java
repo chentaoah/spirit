@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.ObjectUtils;
 import com.sum.spirit.common.utils.SpringUtils;
@@ -166,13 +165,9 @@ public class ClassVisiter {
 				}
 			}
 
-			if (element.isReturn()) {
-				if (index != elements.size() - 1) { // 语法校验
-					if (ConfigUtils.isSyntaxCheck()) {
-						throw new RuntimeException("The method body does not end with a return statement!");
-					}
-				}
-				break;// 提前结束
+			// 如果return语句后面还有语句，则抛出异常
+			if (element.isReturn() && index != elements.size() - 1) {
+				throw new RuntimeException("The method body does not end with a return statement!");
 			}
 
 			// 遍历子节点
