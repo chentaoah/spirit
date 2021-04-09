@@ -22,6 +22,7 @@ public enum SyntaxEnum {
 	DECLARE_FUNC, // String call() {
 	FUNC, // func call() {
 	FIELD_ASSIGN, // horse.name = "Jessie"
+	OBJECT_ASSIGN, // horse = {
 	INVOKE, // horse.call()
 	RETURN, // return "I am Jessie!"
 	IF, // if name == "Jessie" {

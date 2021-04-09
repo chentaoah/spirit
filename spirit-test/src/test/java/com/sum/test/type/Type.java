@@ -104,6 +104,9 @@ public class Type {
 		logger.info(strxxxx);
 		boolean bbxxx = getArray()[0];
 		logger.info("" + bbxxx);
+		Map<String, Object> objvar = Maps.of("name", "chen", "age", 18, "from", "China", "brother", Lists.newArrayList("wanhao", "chenzhe"));
+		String str0 = objvar.toString();
+		logger.info(str0);
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {

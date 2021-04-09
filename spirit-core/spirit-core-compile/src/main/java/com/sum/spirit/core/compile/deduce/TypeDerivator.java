@@ -88,7 +88,7 @@ public class TypeDerivator {
 		if (token != null) {
 			return factory.create(clazz, token);
 		}
-		return StaticTypes.OBJECT;// 如果不存在继承，则默认是继承Object
+		return null;
 	}
 
 	public List<IType> getInterfaceTypes(IClass clazz) {

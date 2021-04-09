@@ -129,6 +129,15 @@ class Type {
 
 		bbxxx=getArray()[0]
 		print "" + bbxxx
+
+		objvar = {
+			"name" : "chen",
+			"age" : 18,
+			"from" : "China",
+			"brother" : ["wanhao", "chenzhe"]
+		}
+		str0 = objvar.toString()
+		print str0
 	}
 
 	func testParam(@Deprecated String str, Object obj){

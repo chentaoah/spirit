@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Constants;
 import com.sum.spirit.common.utils.ConfigUtils;
+import com.sum.spirit.common.utils.LineUtils;
+import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.api.DocumentReader;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.element.entity.Document;
@@ -18,6 +20,7 @@ import com.sum.spirit.core.element.entity.Line;
 import com.sum.spirit.core.element.entity.Statement;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 
 @Component
 public class DocumentReaderImpl implements DocumentReader {
@@ -39,19 +42,24 @@ public class DocumentReaderImpl implements DocumentReader {
 	public void doReadLines(Document document, List<String> lines) {
 		Stack<List<Element>> stack = new Stack<>();
 		stack.push(document);
-		for (int number = 0; number < lines.size(); number++) {
-			String text = lines.get(number);
-			Line line = new Line(number + 1, text);
+		for (int index = 0; index < lines.size(); index++) {
+			String text = lines.get(index);
+			Line line = new Line(index + 1, text);
 			if (line.isIgnore()) {
 				continue;
 			}
 			Element element = builder.build(line);
+			// what like "var = {"
+			if (mergeLinesIfPossible(document, lines, index, element)) {
+				index--;
+				continue;
+			}
 			// what like "if xxx : xxx : xxx"
 			List<String> sublines = splitLine(element);
 			if (sublines != null && !sublines.isEmpty()) {
-				lines.remove(number);
-				lines.addAll(number, sublines);
-				number--;
+				lines.remove(index);
+				lines.addAll(index, sublines);
+				index--;
 
 			} else {
 				if (line.isEnding()) {
@@ -63,6 +71,22 @@ public class DocumentReaderImpl implements DocumentReader {
 				}
 			}
 		}
+	}
+
+	public boolean mergeLinesIfPossible(Document document, List<String> lines, int startIndex, Element element) {
+		if (element.isObjectAssign()) {
+			StringBuilder builder = new StringBuilder(lines.get(startIndex));
+			for (int index = startIndex + 1; index < lines.size(); index++) {
+				builder.append(StrUtil.removeAny(lines.get(index), "\t").trim());
+				int end = LineUtils.findEndIndex(builder, 0, '{', '}');
+				if (end != -1) {
+					Lists.remove(lines, startIndex, index + 1);
+					lines.add(startIndex, builder.toString());
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public List<String> splitLine(Element element) {
