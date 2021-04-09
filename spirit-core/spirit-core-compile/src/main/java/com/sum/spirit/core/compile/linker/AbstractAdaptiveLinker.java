@@ -48,14 +48,13 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 		if (type.isArray()) {
 			return StaticTypes.OBJECT;
 		}
+		if (StaticTypes.OBJECT.equals(type)) {
+			return null;
+		}
 		// 如果不存在父类，则返回Object
 		IType superType = getLinker(type).getSuperType(type);
 		if (superType == null) {
-			if (!StaticTypes.OBJECT.equals(type)) {
-				return StaticTypes.OBJECT;
-			} else {
-				return null;
-			}
+			return StaticTypes.OBJECT;
 		}
 		int modifiers = type.getModifiers();
 		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
