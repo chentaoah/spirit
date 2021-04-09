@@ -69,7 +69,11 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 		Assert.notNull(context.words, "words of context cannot be null!");
 		List<String> words = new ArrayList<>();
 		for (String word : context.words) {
-			words.addAll(getWords(word));
+			if (word.length() == 1) {
+				words.add(word);
+			} else {
+				words.addAll(getWords(word));
+			}
 		}
 		return words;
 	}
