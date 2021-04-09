@@ -11,8 +11,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
-import com.sum.spirit.core.compile.entity.StaticTypes;
 
 @Component
 public class NativeFactory extends TypeFactoryImpl {

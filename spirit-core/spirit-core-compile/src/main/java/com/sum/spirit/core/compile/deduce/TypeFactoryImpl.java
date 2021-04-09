@@ -12,9 +12,9 @@ import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.entity.StaticTypes;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -28,8 +28,6 @@ public class TypeFactoryImpl extends AbstractTypeFactory {
 	public AppClassLoader classLoader;
 	@Autowired
 	public SimpleDeducer deducer;
-	@Autowired
-	public ImportManager manager;
 	@Autowired
 	public TypeDerivator derivator;
 
@@ -71,12 +69,12 @@ public class TypeFactoryImpl extends AbstractTypeFactory {
 			if (clazz.getTypeVariableIndex(simpleName) >= 0) {
 				return createTypeVariable(simpleName);// T or K
 			}
-			return create(manager.findClassName(clazz, simpleName));
+			return create(clazz.findClassName(simpleName));
 
 		} else if (token.value instanceof Statement) {
 			Statement statement = token.getValue(); // List<String> // Class<?>
 			String simpleName = statement.getStr(0);
-			IType type = create(manager.findClassName(clazz, simpleName));
+			IType type = create(clazz.findClassName(simpleName));
 			type.setGenericTypes(getGenericTypes(clazz, statement));
 			return type;
 		}

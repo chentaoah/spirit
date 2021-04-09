@@ -10,7 +10,7 @@ import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.entity.StaticTypes;
+import com.sum.spirit.core.clazz.utils.StaticTypes;
 
 import cn.hutool.core.lang.Assert;
 

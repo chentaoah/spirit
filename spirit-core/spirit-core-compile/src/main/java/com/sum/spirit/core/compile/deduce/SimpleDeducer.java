@@ -7,7 +7,7 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.entity.StaticTypes;
+import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;

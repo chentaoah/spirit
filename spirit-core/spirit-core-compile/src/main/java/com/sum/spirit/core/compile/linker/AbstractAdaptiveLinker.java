@@ -10,7 +10,7 @@ import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.entity.StaticTypes;
+import com.sum.spirit.core.clazz.utils.StaticTypes;
 
 public abstract class AbstractAdaptiveLinker implements ClassLinker, InitializingBean {
 

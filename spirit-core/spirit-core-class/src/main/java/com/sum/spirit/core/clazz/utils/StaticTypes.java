@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.entity;
+package com.sum.spirit.core.clazz.utils;
 
 import java.util.Map;
 
