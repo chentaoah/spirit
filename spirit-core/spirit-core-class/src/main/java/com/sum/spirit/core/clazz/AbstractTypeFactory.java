@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.deduce;
+package com.sum.spirit.core.clazz;
 
 import java.util.Arrays;
 import java.util.Collections;

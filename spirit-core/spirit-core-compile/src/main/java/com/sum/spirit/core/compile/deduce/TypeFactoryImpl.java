@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
+import com.sum.spirit.core.clazz.AbstractTypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
