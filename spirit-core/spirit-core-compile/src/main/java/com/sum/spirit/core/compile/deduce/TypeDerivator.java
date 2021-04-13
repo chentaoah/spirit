@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.core.api.ClassLinker;
+import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
-import com.sum.spirit.core.compile.AppTypeFactory;
 
 import cn.hutool.core.lang.Assert;
 
@@ -19,7 +19,7 @@ import cn.hutool.core.lang.Assert;
 public class TypeDerivator {
 
 	@Autowired
-	public AppTypeFactory factory;
+	public TypeFactory factory;
 	@Autowired
 	public ClassLinker linker;
 

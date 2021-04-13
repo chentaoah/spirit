@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.ObjectUtils;
-import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.ElementBuilder;
+import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
@@ -32,7 +32,7 @@ import cn.hutool.core.lang.Assert;
 public class ClassVisiter {
 
 	@Autowired
-	public AppTypeFactory factory;
+	public TypeFactory factory;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
@@ -61,7 +61,6 @@ public class ClassVisiter {
 	}
 
 	public void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
-		AppTypeFactory factory = SpringUtils.getBean(AppTypeFactory.class);
 		annotations.forEach(annotation -> annotation.setType(factory.create(clazz, annotation.token)));
 	}
 

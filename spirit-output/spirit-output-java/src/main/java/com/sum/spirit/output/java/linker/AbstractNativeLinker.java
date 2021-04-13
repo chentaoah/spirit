@@ -11,14 +11,14 @@ import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.output.java.ExtClassLoader;
 import com.sum.spirit.output.java.deduce.NativeDerivator;
-import com.sum.spirit.output.java.deduce.NativeFactory;
+import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 
 public abstract class AbstractNativeLinker implements ClassLinker {
 
 	@Autowired
 	public ExtClassLoader classLoader;
 	@Autowired
-	public NativeFactory factory;
+	public NativeTypeFactory factory;
 	@Autowired
 	public NativeDerivator derivator;
 

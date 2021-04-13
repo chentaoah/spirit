@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
+import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.compile.AppTypeFactory;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
@@ -23,7 +23,7 @@ public class InvocationVisiter {
 	@Autowired
 	public ClassLinker linker;
 	@Autowired
-	public AppTypeFactory factory;
+	public TypeFactory factory;
 	@Autowired
 	public TypeDerivator derivator;
 

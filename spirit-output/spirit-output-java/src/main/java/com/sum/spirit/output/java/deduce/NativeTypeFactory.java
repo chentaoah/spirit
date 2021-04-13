@@ -15,7 +15,7 @@ import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.compile.AppTypeFactory;
 
 @Component
-public class NativeFactory extends AppTypeFactory {
+public class NativeTypeFactory extends AppTypeFactory {
 
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());
