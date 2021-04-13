@@ -41,6 +41,10 @@ public abstract class KeywordTokenBox extends TokenBox {
 		add(0, new Token(TokenTypeEnum.KEYWORD, keyword));
 	}
 
+	public void addKeyword(String keyword) {
+		add(new Token(TokenTypeEnum.KEYWORD, keyword));
+	}
+
 	public void insertKeywordAfter(String keyword, String newKeyword) {
 		int index = indexOfKeyword(keyword);
 		if (index != -1) {

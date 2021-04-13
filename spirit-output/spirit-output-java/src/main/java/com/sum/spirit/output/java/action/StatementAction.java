@@ -94,14 +94,11 @@ public class StatementAction extends AbstractElementAction {
 				element.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "logger.error("));
 			}
 			element.add(new Token(TokenTypeEnum.CUSTOM_SUFFIX, ");"));
-
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
 				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				loggerElement.addModifier(JavaBuilder.FINAL_KEYWORD);
-				loggerElement.addModifier(KeywordEnum.STATIC.value);
-				loggerElement.addModifier(KeywordEnum.PUBLIC.value);
+				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value, JavaBuilder.FINAL_KEYWORD);
 				IField field = new IField(new ArrayList<>(), loggerElement);
 				clazz.fields.add(0, field);
 			}

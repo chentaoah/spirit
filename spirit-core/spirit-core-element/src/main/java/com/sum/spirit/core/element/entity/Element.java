@@ -33,8 +33,10 @@ public class Element extends Syntactic {
 		return modifiers.containsKeyword(keyword);
 	}
 
-	public Element addModifier(String keyword) {
-		modifiers.addKeywordAtFirst(keyword);
+	public Element addModifiers(String... keywords) {
+		for (int i = keywords.length - 1; i >= 0; i--) {
+			modifiers.addKeywordAtFirst(keywords[i]);
+		}
 		return this;
 	}
 

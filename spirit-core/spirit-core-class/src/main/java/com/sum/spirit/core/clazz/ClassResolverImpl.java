@@ -50,21 +50,18 @@ public class ClassResolverImpl implements ClassResolver {
 				annotations.add(new IAnnotation(element.get(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
-				fields.add(new IField(annotations, element));
-				annotations.clear();
+				element.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value);
+				fields.add(new IField(copyAnnotations(annotations), element));
 
 			} else if (element.isDeclareFunc() || element.isFunc()) {
-				element.addModifier(KeywordEnum.STATIC.value).addModifier(KeywordEnum.PUBLIC.value);
-				methods.add(new IMethod(annotations, element));
-				annotations.clear();
+				element.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value);
+				methods.add(new IMethod(copyAnnotations(annotations), element));
 
 			} else if (element.isInterface() || element.isAbstract()) {
 				// 接口和抽象类，只允许出现一个主类
-				mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+				mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
 				mainClass.factory = factory;
 				mainClass.importSelectors = importSelectors;
-				annotations.clear();
 				mainClass.packageStr = packageStr;
 				mainClass.fields = fields;
 				mainClass.methods = methods;
@@ -75,12 +72,10 @@ public class ClassResolverImpl implements ClassResolver {
 				// 这里可能出现泛型，但是文件名一般是simpleName
 				String simpleName = element.getKeywordParam(KeywordEnum.CLASS.value).toString();
 				String targetName = TypeUtils.getTargetName(simpleName);
-
 				if (document.fileName.equals(targetName)) {
-					mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+					mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
 					mainClass.factory = factory;
 					mainClass.importSelectors = importSelectors;
-					annotations.clear();
 					mainClass.packageStr = packageStr;
 					mainClass.fields = fields;
 					mainClass.methods = methods;
@@ -88,10 +83,9 @@ public class ClassResolverImpl implements ClassResolver {
 					classes.put(mainClass.getClassName(), mainClass);
 
 				} else {
-					IClass clazz = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+					IClass clazz = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
 					clazz.factory = factory;
 					clazz.importSelectors = importSelectors;
-					annotations.clear();
 					clazz.packageStr = packageStr;
 					clazz.fields = new ArrayList<>();
 					clazz.methods = new ArrayList<>();
@@ -104,10 +98,9 @@ public class ClassResolverImpl implements ClassResolver {
 		// 如果不存在主类的声明，则虚拟一个Element
 		if (mainClass == null) {
 			Element element = builder.build("class " + document.fileName + " {");
-			mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
+			mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
 			mainClass.factory = factory;
 			mainClass.importSelectors = importSelectors;
-			annotations.clear();
 			mainClass.packageStr = packageStr;
 			mainClass.fields = fields;
 			mainClass.methods = methods;
@@ -117,21 +110,23 @@ public class ClassResolverImpl implements ClassResolver {
 		return classes;
 	}
 
+	public List<IAnnotation> copyAnnotations(List<IAnnotation> annotations) {
+		List<IAnnotation> newAnnotations = new ArrayList<>(annotations);
+		annotations.clear();
+		return newAnnotations;
+	}
+
 	public void readRootElement(IClass clazz) {
-
 		List<IAnnotation> annotations = new ArrayList<>();
-
 		for (Element element : clazz.element.children) {
 			if (element.isAnnotation()) {
 				annotations.add(new IAnnotation(element.get(0)));
 
 			} else if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
-				clazz.fields.add(new IField(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
-				annotations.clear();
+				clazz.fields.add(new IField(copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value)));
 
 			} else if (element.isDeclareFunc() || element.isFunc()) {
-				clazz.methods.add(new IMethod(annotations, element.addModifier(KeywordEnum.PUBLIC.value)));
-				annotations.clear();
+				clazz.methods.add(new IMethod(copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value)));
 			}
 		}
 	}
