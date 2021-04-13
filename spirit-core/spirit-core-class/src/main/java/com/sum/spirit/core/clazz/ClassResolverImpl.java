@@ -60,11 +60,7 @@ public class ClassResolverImpl implements ClassResolver {
 			} else if (element.isInterface() || element.isAbstract()) {
 				// 接口和抽象类，只允许出现一个主类
 				mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
-				mainClass.factory = factory;
-				mainClass.importSelectors = importSelectors;
-				mainClass.packageStr = packageStr;
-				mainClass.fields = fields;
-				mainClass.methods = methods;
+				initClass(mainClass, packageStr, fields, methods);
 				readRootElement(mainClass);
 				classes.put(mainClass.getClassName(), mainClass);
 
@@ -74,21 +70,13 @@ public class ClassResolverImpl implements ClassResolver {
 				String targetName = TypeUtils.getTargetName(simpleName);
 				if (document.fileName.equals(targetName)) {
 					mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
-					mainClass.factory = factory;
-					mainClass.importSelectors = importSelectors;
-					mainClass.packageStr = packageStr;
-					mainClass.fields = fields;
-					mainClass.methods = methods;
+					initClass(mainClass, packageStr, fields, methods);
 					readRootElement(mainClass);
 					classes.put(mainClass.getClassName(), mainClass);
 
 				} else {
 					IClass clazz = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
-					clazz.factory = factory;
-					clazz.importSelectors = importSelectors;
-					clazz.packageStr = packageStr;
-					clazz.fields = new ArrayList<>();
-					clazz.methods = new ArrayList<>();
+					initClass(clazz, packageStr, new ArrayList<>(), new ArrayList<>());
 					readRootElement(clazz);
 					classes.put(clazz.getClassName(), clazz);
 				}
@@ -99,11 +87,7 @@ public class ClassResolverImpl implements ClassResolver {
 		if (mainClass == null) {
 			Element element = builder.build("class " + document.fileName + " {");
 			mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
-			mainClass.factory = factory;
-			mainClass.importSelectors = importSelectors;
-			mainClass.packageStr = packageStr;
-			mainClass.fields = fields;
-			mainClass.methods = methods;
+			initClass(mainClass, packageStr, fields, methods);
 			classes.put(mainClass.getClassName(), mainClass);
 		}
 
@@ -114,6 +98,14 @@ public class ClassResolverImpl implements ClassResolver {
 		List<IAnnotation> newAnnotations = new ArrayList<>(annotations);
 		annotations.clear();
 		return newAnnotations;
+	}
+
+	public void initClass(IClass clazz, String packageStr, List<IField> fields, List<IMethod> methods) {
+		clazz.packageStr = packageStr;
+		clazz.fields = fields;
+		clazz.methods = methods;
+		clazz.factory = factory;
+		clazz.importSelectors = importSelectors;
 	}
 
 	public void readRootElement(IClass clazz) {
