@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.URLFileUtils;
 import com.sum.spirit.core.api.Compiler;
+import com.sum.spirit.core.clazz.AbstractURLClassLoader;
 import com.sum.spirit.core.clazz.entity.IClass;
 
 @Component

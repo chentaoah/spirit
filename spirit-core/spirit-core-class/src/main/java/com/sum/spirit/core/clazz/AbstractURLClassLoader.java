@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile;
+package com.sum.spirit.core.clazz;
 
 import java.io.File;
 
