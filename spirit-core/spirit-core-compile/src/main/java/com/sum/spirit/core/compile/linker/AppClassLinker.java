@@ -16,19 +16,19 @@ import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
 import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.AppTypeFactory;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-100)
-public class CodeLinker implements ClassLinker {
+public class AppClassLinker implements ClassLinker {
 
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public TypeFactoryImpl factory;
+	public AppTypeFactory factory;
 	@Autowired
 	public ClassVisiter visiter;
 	@Autowired

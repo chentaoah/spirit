@@ -10,6 +10,7 @@ import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.AppTypeFactory;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
@@ -22,7 +23,7 @@ public class InvocationVisiter {
 	@Autowired
 	public ClassLinker linker;
 	@Autowired
-	public TypeFactoryImpl factory;
+	public AppTypeFactory factory;
 	@Autowired
 	public TypeDerivator derivator;
 

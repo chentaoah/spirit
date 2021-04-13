@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.deduce;
+package com.sum.spirit.core.compile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,8 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
-import com.sum.spirit.core.compile.AppClassLoader;
+import com.sum.spirit.core.compile.deduce.SimpleDeducer;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -23,7 +24,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Primary
-public class TypeFactoryImpl extends AbstractTypeFactory {
+public class AppTypeFactory extends AbstractTypeFactory {
 
 	@Autowired
 	public AppClassLoader classLoader;

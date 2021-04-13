@@ -21,7 +21,6 @@ import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.clazz.frame.MemberUnit;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
-import com.sum.spirit.core.compile.deduce.TypeFactoryImpl;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
@@ -33,7 +32,7 @@ import cn.hutool.core.lang.Assert;
 public class ClassVisiter {
 
 	@Autowired
-	public TypeFactoryImpl factory;
+	public AppTypeFactory factory;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
@@ -62,7 +61,7 @@ public class ClassVisiter {
 	}
 
 	public void visitAnnotations(IClass clazz, List<IAnnotation> annotations) {
-		TypeFactoryImpl factory = SpringUtils.getBean(TypeFactoryImpl.class);
+		AppTypeFactory factory = SpringUtils.getBean(AppTypeFactory.class);
 		annotations.forEach(annotation -> annotation.setType(factory.create(clazz, annotation.token)));
 	}
 

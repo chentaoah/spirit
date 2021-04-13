@@ -11,6 +11,7 @@ import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.AppTypeFactory;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.utils.StmtVisiter;
@@ -25,7 +26,7 @@ public class VariableTracker {
 	@Autowired
 	public ClassLinker linker;
 	@Autowired
-	public TypeFactoryImpl factory;
+	public AppTypeFactory factory;
 	@Autowired
 	public TypeDerivator derivator;
 
