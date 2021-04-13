@@ -26,11 +26,11 @@ import com.sum.spirit.core.element.entity.Element;
 public class ClassResolverImpl implements ClassResolver {
 
 	@Autowired
-	public ElementBuilder builder;
-	@Autowired
 	public TypeFactory factory;
 	@Autowired
 	public List<ImportSelector> importSelectors;
+	@Autowired
+	public ElementBuilder builder;
 
 	@Override
 	public Map<String, IClass> resolve(String packageStr, Document document) {
@@ -62,8 +62,8 @@ public class ClassResolverImpl implements ClassResolver {
 			} else if (element.isInterface() || element.isAbstract()) {
 				// 接口和抽象类，只允许出现一个主类
 				mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
-				mainClass.setFactory(factory);
-				mainClass.setImportSelectors(importSelectors);
+				mainClass.factory = factory;
+				mainClass.importSelectors = importSelectors;
 				annotations.clear();
 				mainClass.packageStr = packageStr;
 				mainClass.fields = fields;
@@ -78,8 +78,8 @@ public class ClassResolverImpl implements ClassResolver {
 
 				if (document.fileName.equals(targetName)) {
 					mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
-					mainClass.setFactory(factory);
-					mainClass.setImportSelectors(importSelectors);
+					mainClass.factory = factory;
+					mainClass.importSelectors = importSelectors;
 					annotations.clear();
 					mainClass.packageStr = packageStr;
 					mainClass.fields = fields;
@@ -89,8 +89,8 @@ public class ClassResolverImpl implements ClassResolver {
 
 				} else {
 					IClass clazz = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
-					clazz.setFactory(factory);
-					clazz.setImportSelectors(importSelectors);
+					clazz.factory = factory;
+					clazz.importSelectors = importSelectors;
 					annotations.clear();
 					clazz.packageStr = packageStr;
 					clazz.fields = new ArrayList<>();
@@ -105,8 +105,8 @@ public class ClassResolverImpl implements ClassResolver {
 		if (mainClass == null) {
 			Element element = builder.build("class " + document.fileName + " {");
 			mainClass = new IClass(imports, annotations, element.addModifier(KeywordEnum.PUBLIC.value));
-			mainClass.setFactory(factory);
-			mainClass.setImportSelectors(importSelectors);
+			mainClass.factory = factory;
+			mainClass.importSelectors = importSelectors;
 			annotations.clear();
 			mainClass.packageStr = packageStr;
 			mainClass.fields = fields;

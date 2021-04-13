@@ -7,11 +7,11 @@ import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.element.entity.Element;
 
-public abstract class AnnotationUnit extends ElementUnit {
+public abstract class AnnotationEntity extends ElementEntity {
 
 	public List<IAnnotation> annotations;
 
-	public AnnotationUnit(List<IAnnotation> annotations, Element element) {
+	public AnnotationEntity(List<IAnnotation> annotations, Element element) {
 		super(element);
 		this.annotations = annotations != null ? new ArrayList<>(annotations) : new ArrayList<>();
 	}

@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.api.TypeFactory;
-import com.sum.spirit.core.clazz.frame.ImportUnit;
+import com.sum.spirit.core.clazz.frame.ImportEntity;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
-public class IClass extends ImportUnit {
+public class IClass extends ImportEntity {
 
 	public String packageStr;
 	public List<IField> fields;
@@ -23,10 +23,6 @@ public class IClass extends ImportUnit {
 
 	public IClass(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(imports, annotations, element);
-	}
-
-	public void setFactory(TypeFactory factory) {
-		this.factory = factory;
 	}
 
 	public boolean isInterface() {

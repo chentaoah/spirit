@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.clazz.frame.MemberEntity;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 
-public class IMethod extends MemberUnit {
+public class IMethod extends MemberEntity {
 
 	public List<IParameter> parameters = new ArrayList<>();
 

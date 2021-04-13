@@ -18,7 +18,7 @@ import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.clazz.frame.MemberEntity;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.MethodContext;
@@ -77,7 +77,7 @@ public class ClassVisiter {
 		}
 	}
 
-	public IType visitMember(IClass clazz, MemberUnit member) {
+	public IType visitMember(IClass clazz, MemberEntity member) {
 		ObjectUtils.lock(member); // 防止循环依赖
 		IType type = member.getType();
 		if (type == null) {

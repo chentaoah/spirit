@@ -14,18 +14,14 @@ import com.sum.spirit.core.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class ImportUnit extends AnnotationUnit {
+public abstract class ImportEntity extends AnnotationEntity {
 
 	public List<Import> imports;
 	public List<ImportSelector> importSelectors;
 
-	public ImportUnit(List<Import> imports, List<IAnnotation> annotations, Element element) {
+	public ImportEntity(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 		this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
-	}
-
-	public void setImportSelectors(List<ImportSelector> importSelectors) {
-		this.importSelectors = importSelectors;
 	}
 
 	public List<Import> getImports() {

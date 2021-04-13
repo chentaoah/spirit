@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class TypeUnit {
+public abstract class TypeEntity {
 	@NonNull
 	private IType type;
 }

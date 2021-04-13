@@ -3,11 +3,11 @@ package com.sum.spirit.core.clazz.frame;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.element.entity.Token;
 
-public abstract class TokenUnit extends TypeUnit {
+public abstract class TokenEntity extends TypeEntity {
 
 	public Token token;
 
-	public TokenUnit(Token token) {
+	public TokenEntity(Token token) {
 		this.token = token;
 	}
 

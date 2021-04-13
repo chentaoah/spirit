@@ -6,9 +6,9 @@ import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.element.entity.Element;
 
-public abstract class MemberUnit extends AnnotationUnit {
+public abstract class MemberEntity extends AnnotationEntity {
 
-	public MemberUnit(List<IAnnotation> annotations, Element element) {
+	public MemberEntity(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 	}
 
