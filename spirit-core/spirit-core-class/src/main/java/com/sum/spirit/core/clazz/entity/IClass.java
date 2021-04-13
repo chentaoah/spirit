@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.frame.ImportUnit;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
@@ -20,9 +19,14 @@ public class IClass extends ImportUnit {
 	public String packageStr;
 	public List<IField> fields;
 	public List<IMethod> methods;
+	public TypeFactory factory;
 
 	public IClass(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(imports, annotations, element);
+	}
+
+	public void setFactory(TypeFactory factory) {
+		this.factory = factory;
 	}
 
 	public boolean isInterface() {
@@ -74,7 +78,6 @@ public class IClass extends ImportUnit {
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null) {
-			TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 			return factory.create(this, token);
 		}
 		return null;
@@ -82,7 +85,6 @@ public class IClass extends ImportUnit {
 
 	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
-		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
 		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
 			interfaces.add(factory.create(this, token));
 		}

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ImportSelector;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
@@ -17,22 +16,16 @@ import cn.hutool.core.lang.Assert;
 
 public abstract class ImportUnit extends AnnotationUnit {
 
-	public static List<ImportSelector> importSelectors;
-
 	public List<Import> imports;
-
-	public static List<ImportSelector> getImportSelectors() {
-		synchronized (ImportUnit.class) {
-			if (importSelectors == null) {
-				importSelectors = SpringUtils.getBeansAndSort(ImportSelector.class);
-			}
-			return importSelectors;
-		}
-	}
+	public List<ImportSelector> importSelectors;
 
 	public ImportUnit(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 		this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
+	}
+
+	public void setImportSelectors(List<ImportSelector> importSelectors) {
+		this.importSelectors = importSelectors;
 	}
 
 	public List<Import> getImports() {
@@ -111,11 +104,11 @@ public abstract class ImportUnit extends AnnotationUnit {
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		return Lists.collectOne(getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
+		return Lists.collectOne(importSelectors, importSelector -> importSelector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfName, String className) {
-		Boolean flag = Lists.collectOne(getImportSelectors(), importSelector -> importSelector.isHandle(className),
+		Boolean flag = Lists.collectOne(importSelectors, importSelector -> importSelector.isHandle(className),
 				importSelector -> importSelector.shouldImport(selfName, className));
 		return flag == null ? true : flag;
 	}
