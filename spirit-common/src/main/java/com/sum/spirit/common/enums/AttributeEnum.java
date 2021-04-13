@@ -8,5 +8,6 @@ public enum AttributeEnum {
 	TYPE, // 类型
 	DERIVED, // 是否声明
 	POSITION, // 在语句中的位置
-	LENGTH; // 字符串的宽度
+	LENGTH, // 字符串的宽度
+	USER_DEFINED;// 用户自定义
 }
