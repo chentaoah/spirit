@@ -38,9 +38,9 @@ public class ClassResolverImpl implements ClassResolver {
 		Map<String, IClass> classes = new LinkedHashMap<>();
 		List<Import> imports = new ArrayList<>();
 		List<IAnnotation> annotations = new ArrayList<>();
-		IClass mainClass = null;
 		List<IField> fields = new ArrayList<>();
 		List<IMethod> methods = new ArrayList<>();
+		IClass mainClass = null;
 
 		for (Element element : document) {
 			if (element.isImport()) {
