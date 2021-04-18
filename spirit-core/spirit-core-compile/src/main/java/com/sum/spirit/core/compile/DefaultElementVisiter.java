@@ -36,11 +36,11 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 
 	@Override
 	public IVariable visitElement(IClass clazz, Element element) {
-		return visitElement(clazz, element, null);
+		return visitElement(clazz, null, element);
 	}
 
 	@Override
-	public IVariable visitElement(IClass clazz, Element element, MethodContext context) {
+	public IVariable visitElement(IClass clazz, MethodContext context, Element element) {
 		try {
 			for (ElementAction action : actions) {
 				ElementEvent event = new ElementEvent(clazz, element, context);

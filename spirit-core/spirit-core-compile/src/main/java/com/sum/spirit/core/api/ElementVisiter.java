@@ -9,6 +9,6 @@ public interface ElementVisiter {
 
 	IVariable visitElement(IClass clazz, Element element);
 
-	IVariable visitElement(IClass clazz, Element element, MethodContext context);
+	IVariable visitElement(IClass clazz, MethodContext context, Element element);
 
 }
