@@ -21,7 +21,7 @@ import com.sum.spirit.core.element.entity.Token;
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class ElementBuilderImpl implements ElementBuilder {
+public class DefaultElementBuilder implements ElementBuilder {
 
 	@Autowired
 	public LineChecker checker;

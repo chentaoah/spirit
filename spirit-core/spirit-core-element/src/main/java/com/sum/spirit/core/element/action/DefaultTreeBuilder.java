@@ -20,7 +20,7 @@ import com.sum.spirit.core.element.utils.PriorityNode;
 import com.sum.spirit.core.element.utils.PriorityNode.PriorityComparator;
 
 @Component
-public class TreeBuilderImpl extends AbstractTreeBuilder {
+public class DefaultTreeBuilder extends AbstractTreeBuilder {
 
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {

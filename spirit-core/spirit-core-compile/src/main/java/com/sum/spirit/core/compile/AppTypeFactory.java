@@ -15,7 +15,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
-import com.sum.spirit.core.compile.deduce.SimpleDeducer;
+import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -29,7 +29,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public SimpleDeducer deducer;
+	public SimpleSectionDeducer deducer;
 	@Autowired
 	public TypeDerivator derivator;
 

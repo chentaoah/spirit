@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -18,31 +19,25 @@ import com.sum.spirit.common.utils.URLFileUtils;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.clazz.entity.IClass;
 
+import cn.hutool.core.lang.Assert;
+
 public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass> implements InitializingBean {
 
 	public List<URL> urls = new ArrayList<>();
-
 	public Map<String, URL> nameUrlMapping = new LinkedHashMap<>();
-
 	public Map<String, IClass> classes = new LinkedHashMap<>();
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		// 添加到urls
 		String inputPath = ConfigUtils.getInputPath();
 		String extension = ConfigUtils.getFileExtension();
 		Collection<File> files = FileUtils.listFiles(new File(inputPath), new String[] { extension }, true);
 		files.forEach(file -> this.urls.add(URLFileUtils.toURL(file)));
-		// 添加到映射
 		File directory = new File(inputPath);
-		if (!directory.isDirectory()) {
-			throw new RuntimeException("The input path must be a directory!");
-		}
+		Assert.isTrue(directory.isDirectory(), "The input path must be a directory!");
 		URL inputUrl = URLFileUtils.toURL(directory);
 		urls.forEach(url -> {
-			// 去掉前缀
 			String name = url.toString().replace(inputUrl.toString(), "").replaceAll("/", ".");
-			// 去掉后缀
 			if (name.endsWith("." + extension)) {
 				name = name.substring(0, name.lastIndexOf('.'));
 			}
@@ -82,7 +77,7 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 
 	@Override
 	public List<IClass> getAllClasses() {
-		return classes.values().stream().filter(clazz -> clazz != null).collect(Collectors.toList());
+		return classes.values().stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	@Override

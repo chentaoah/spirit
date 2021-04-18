@@ -11,9 +11,10 @@ import com.sum.spirit.common.constants.Constants;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
+import com.sum.spirit.core.api.ElementVisiter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.deduce.SimpleDeducer;
+import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
@@ -22,11 +23,10 @@ import com.sum.spirit.core.element.entity.Token;
 
 @Component
 @DependsOn("springUtils")
-public class ElementVisiter implements InitializingBean {
+public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 
 	@Autowired
-	public SimpleDeducer deducer;
-
+	public SimpleSectionDeducer deducer;
 	public List<ElementAction> actions;
 
 	@Override
@@ -34,10 +34,12 @@ public class ElementVisiter implements InitializingBean {
 		actions = SpringUtils.getBeansAndSort(ElementAction.class, Constants.SPIRIT_CORE_PACKAGE);
 	}
 
+	@Override
 	public IVariable visitElement(IClass clazz, Element element) {
 		return visitElement(clazz, element, null);
 	}
 
+	@Override
 	public IVariable visitElement(IClass clazz, Element element, MethodContext context) {
 		try {
 			for (ElementAction action : actions) {

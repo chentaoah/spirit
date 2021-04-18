@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.common.utils.ObjectUtils;
-import com.sum.spirit.core.api.ClassLinker;
+import com.sum.spirit.core.api.ClassVisiter;
 import com.sum.spirit.core.api.ElementBuilder;
+import com.sum.spirit.core.api.ElementVisiter;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -29,7 +30,7 @@ import com.sum.spirit.core.element.entity.Token;
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class ClassVisiter {
+public class DefaultClassVisiter implements ClassVisiter {
 
 	@Autowired
 	public TypeFactory factory;
@@ -38,10 +39,9 @@ public class ClassVisiter {
 	@Autowired
 	public ElementVisiter visiter;
 	@Autowired
-	public ClassLinker linker;
-	@Autowired
 	public TypeDerivator derivator;
 
+	@Override
 	public void prepareForVisit(IClass clazz) {
 		// 访问类型
 		clazz.setType(factory.create(clazz, clazz.getTypeToken()));
@@ -49,6 +49,7 @@ public class ClassVisiter {
 		clazz.methods.forEach(method -> visitParameters(clazz, method));
 	}
 
+	@Override
 	public void visitClass(IClass clazz) {
 		Assert.notNull(clazz.getType(), "Please invoke the method [prepareForVisit] first!");
 		// 访问注解

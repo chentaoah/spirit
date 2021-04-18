@@ -23,24 +23,25 @@ import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
-public class ClassResolverImpl implements ClassResolver {
+public class DefaultClassResolver implements ClassResolver {
 
+	@Autowired
+	public ElementBuilder builder;
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
 	public List<ImportSelector> importSelectors;
-	@Autowired
-	public ElementBuilder builder;
 
 	@Override
 	public Map<String, IClass> resolve(String packageStr, Document document) {
 
 		Map<String, IClass> classes = new LinkedHashMap<>();
+
 		List<Import> imports = new ArrayList<>();
 		List<IAnnotation> annotations = new ArrayList<>();
+		IClass mainClass = null;
 		List<IField> fields = new ArrayList<>();
 		List<IMethod> methods = new ArrayList<>();
-		IClass mainClass = null;
 
 		for (Element element : document) {
 			if (element.isImport()) {
@@ -67,6 +68,7 @@ public class ClassResolverImpl implements ClassResolver {
 			} else if (element.isClass()) {
 				// 这里可能出现泛型，但是文件名一般是simpleName
 				String simpleName = element.getKeywordParam(KeywordEnum.CLASS.value).toString();
+				// 声明一个类型时，泛型参数不能多层嵌套
 				String targetName = TypeUtils.getTargetName(simpleName);
 				if (document.fileName.equals(targetName)) {
 					mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));

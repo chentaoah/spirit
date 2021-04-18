@@ -19,7 +19,7 @@ import com.sum.spirit.core.element.utils.StmtVisiter;
 public class InvocationVisiter {
 
 	@Autowired
-	public SimpleDeducer deducer;
+	public SimpleSectionDeducer deducer;
 	@Autowired
 	public ClassLinker linker;
 	@Autowired

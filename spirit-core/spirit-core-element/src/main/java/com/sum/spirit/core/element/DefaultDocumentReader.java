@@ -23,7 +23,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 
 @Component
-public class DocumentReaderImpl implements DocumentReader {
+public class DefaultDocumentReader implements DocumentReader {
 
 	@Autowired
 	public ElementBuilder builder;
@@ -55,7 +55,7 @@ public class DocumentReaderImpl implements DocumentReader {
 				continue;
 			}
 			// what like "if xxx : xxx : xxx"
-			List<String> sublines = splitLine(element);
+			List<String> sublines = splitLineIfPossible(element);
 			if (sublines != null && !sublines.isEmpty()) {
 				lines.remove(index);
 				lines.addAll(index, sublines);
@@ -89,20 +89,19 @@ public class DocumentReaderImpl implements DocumentReader {
 		return false;
 	}
 
-	public List<String> splitLine(Element element) {
+	public List<String> splitLineIfPossible(Element element) {
 		if (element.isIf() || element.isFor() || element.isForIn() || element.isWhile()) {
-			if (!element.contains(":")) {
-				return null;
+			if (element.contains(":")) {
+				String indent = element.getIndent();
+				List<String> subLines = new ArrayList<>();
+				List<Statement> statements = element.splitStmt(":");
+				subLines.add(indent + statements.get(0).toString() + " {");
+				for (int index = 1; index < statements.size(); index++) {
+					subLines.add(indent + "\t" + statements.get(index).toString());
+				}
+				subLines.add(indent + "}");
+				return subLines;
 			}
-			List<String> subLines = new ArrayList<>();
-			List<Statement> statements = element.splitStmt(":");
-			String indent = element.getIndent();
-			subLines.add(indent + statements.get(0).toString() + " {");
-			for (int i = 1; i < statements.size(); i++) {
-				subLines.add(indent + "\t" + statements.get(i).toString());
-			}
-			subLines.add(indent + "}");
-			return subLines;
 		}
 		return null;
 	}

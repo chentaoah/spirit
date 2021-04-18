@@ -16,7 +16,7 @@ import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.DefaultClassVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;
@@ -30,7 +30,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
-	public ClassVisiter visiter;
+	public DefaultClassVisiter visiter;
 	@Autowired
 	public TypeDerivator derivator;
 

@@ -22,20 +22,20 @@ import com.sum.spirit.core.lexer.AliasCharsHandler;
 public class JavaRunner implements ApplicationRunner {
 
 	@Autowired
+	public RunningMonitor monitor;
+	@Autowired
 	public AppClassLoader loader;
 	@Autowired
 	public CodeBuilder builder;
 	@Autowired
-	public AliasCharsHandler handler;
-	@Autowired
-	public RunningMonitor monitor;
+	public AliasCharsHandler aliasHandler;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		monitor.printArgs(args);
-		long timestamp = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
 		compileAndGenerateFiles();
-		monitor.printTotalTime(timestamp);
+		monitor.printTotalTime(startTime);
 	}
 
 	public void compileAndGenerateFiles() {
@@ -43,20 +43,20 @@ public class JavaRunner implements ApplicationRunner {
 		boolean debug = ConfigUtils.isDebug();
 		List<IClass> classes = loader.getAllClasses();
 		classes.forEach(clazz -> {
-			String code = builder.build(clazz);// 输出目标代码
-			code = replaceAlias(clazz, code);
+			String targetCode = builder.build(clazz);
+			targetCode = replaceAlias(clazz, targetCode);
 			if (debug) {
-				System.out.println(code);
+				System.out.println(targetCode);
 			}
-			if (StringUtils.isNotEmpty(outputPath)) {// 生成文件
-				URLFileUtils.generateFile(outputPath, clazz.getClassName().replaceAll("\\.", "/") + ".java", code);
+			if (StringUtils.isNotEmpty(outputPath)) {
+				URLFileUtils.generateFile(outputPath, clazz.getClassName().replaceAll("\\.", "/") + ".java", targetCode);
 			}
 		});
 	}
 
 	public String replaceAlias(IClass clazz, String code) {
 		for (Import imp : clazz.getAliasImports()) {
-			code = handler.replace(code, imp.getAlias(), imp.getClassName());
+			code = aliasHandler.replace(code, imp.getAlias(), imp.getClassName());
 		}
 		return code;
 	}

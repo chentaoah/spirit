@@ -16,9 +16,9 @@ import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AutoImporter;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
-import com.sum.spirit.core.compile.deduce.SimpleDeducer;
+import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
-import com.sum.spirit.core.element.ElementBuilderImpl;
+import com.sum.spirit.core.element.DefaultElementBuilder;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -30,9 +30,9 @@ import com.sum.spirit.output.java.utils.TypeUtils;
 public class StatementAction extends AbstractElementAction {
 
 	@Autowired
-	public ElementBuilderImpl builder;
+	public DefaultElementBuilder builder;
 	@Autowired
-	public SimpleDeducer deducer;
+	public SimpleSectionDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
 

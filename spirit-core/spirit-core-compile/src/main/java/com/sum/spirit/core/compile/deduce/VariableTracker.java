@@ -11,7 +11,7 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.ClassVisiter;
+import com.sum.spirit.core.compile.DefaultClassVisiter;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.utils.StmtVisiter;
@@ -22,7 +22,7 @@ import cn.hutool.core.lang.Assert;
 public class VariableTracker {
 
 	@Autowired
-	public ClassVisiter visiter;
+	public DefaultClassVisiter visiter;
 	@Autowired
 	public ClassLinker linker;
 	@Autowired

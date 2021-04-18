@@ -10,14 +10,14 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.compile.CoreCompiler;
-import com.sum.spirit.core.compile.ElementVisiter;
+import com.sum.spirit.core.compile.DefaultElementVisiter;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
 public class ElementSelector extends CoreCompiler {
 
 	@Autowired
-	public ElementVisiter visiter;
+	public DefaultElementVisiter visiter;
 
 	public IType findElementAndGetType(IClass clazz, Integer lineNumber) {
 		Element element = findElement(Arrays.asList(clazz.element), lineNumber);
