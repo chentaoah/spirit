@@ -70,10 +70,10 @@ public class DefaultClassVisiter implements ClassVisiter {
 		Token methodToken = method.element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
-		for (Statement paramStmt : statements) {
-			List<IAnnotation> annotations = Lists.filterStoppable(paramStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
-			IParameter parameter = new IParameter(annotations, builder.rebuild(paramStmt));
-			parameter.setType(factory.create(clazz, paramStmt.get(0)));
+		for (Statement parameterStmt : statements) {
+			List<IAnnotation> annotations = Lists.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			IParameter parameter = new IParameter(annotations, builder.rebuild(parameterStmt));
+			parameter.setType(factory.create(clazz, parameterStmt.get(0)));
 			method.parameters.add(parameter);
 		}
 	}
