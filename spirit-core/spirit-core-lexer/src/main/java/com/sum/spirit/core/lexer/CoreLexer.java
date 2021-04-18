@@ -34,7 +34,7 @@ public class CoreLexer extends AbstractCharsHandler implements Lexer, Initializi
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(AbstractLexerAction.class, BorderAction.class);
+		actions = SpringUtils.getBeansByExcludedTypes(AbstractLexerAction.class, BorderAction.class);
 	}
 
 	/**

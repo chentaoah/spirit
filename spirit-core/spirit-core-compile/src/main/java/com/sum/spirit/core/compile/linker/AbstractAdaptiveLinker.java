@@ -18,7 +18,7 @@ public abstract class AbstractAdaptiveLinker implements ClassLinker, Initializin
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		linkers = SpringUtils.getBeansAndSort(ClassLinker.class, getClass());// 排除自己
+		linkers = SpringUtils.getBeansByExcludedTypes(ClassLinker.class, getClass());// 排除自己
 	}
 
 	public ClassLinker getLinker(IType type) {

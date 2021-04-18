@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.CodeBuilder;
@@ -23,19 +24,17 @@ import com.sum.spirit.core.element.entity.Element;
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
 
-	public static final String JAVA_PACKAGE = "com.sum.spirit.output.java";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String FINAL_KEYWORD = "final";
 
 	@Autowired
 	public AutoImporter importer;
-
 	public List<ElementAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(ElementAction.class, JAVA_PACKAGE);
+		actions = SpringUtils.getBeansByAnnotation(ElementAction.class, Native.class);
 	}
 
 	@Override

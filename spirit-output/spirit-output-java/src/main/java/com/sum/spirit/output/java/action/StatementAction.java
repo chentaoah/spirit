@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
@@ -25,6 +26,7 @@ import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.output.java.JavaBuilder;
 import com.sum.spirit.output.java.utils.TypeUtils;
 
+@Native
 @Component
 @Order(-40)
 public class StatementAction extends AbstractElementAction {

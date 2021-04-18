@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -16,6 +17,7 @@ import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.output.java.utils.TypeUtils;
 
+@Native
 @Component
 @Order(-80)
 public class StringEqualsAction extends AbstractTreeElementAction {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.annotation.App;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -20,6 +21,7 @@ import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
+@App
 @Component
 @Order(-80)
 public class ElementExpressDeclarer extends AbstractElementAction {

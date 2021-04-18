@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.constants.Constants;
+import com.sum.spirit.common.annotation.App;
 import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
@@ -31,7 +31,7 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(ElementAction.class, Constants.SPIRIT_CORE_PACKAGE);
+		actions = SpringUtils.getBeansByAnnotation(ElementAction.class, App.class);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 	public IVariable visitElement(IClass clazz, MethodContext context, Element element) {
 		try {
 			for (ElementAction action : actions) {
-				ElementEvent event = new ElementEvent(clazz, element, context);
+				ElementEvent event = new ElementEvent(clazz, context, element);
 				if (action.isTrigger(event)) {
 					action.handle(event);
 				}

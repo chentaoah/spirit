@@ -4,6 +4,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
@@ -13,6 +14,7 @@ import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
 import com.sum.spirit.lib.Maps;
 
+@Native
 @Component
 @Order(-100)
 public class CommonAction extends AbstractElementAction {
