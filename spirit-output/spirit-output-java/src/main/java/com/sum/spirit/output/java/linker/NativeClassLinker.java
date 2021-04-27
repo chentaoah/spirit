@@ -17,7 +17,7 @@ import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-80)
-public class NativeLinker extends AbstractNativeLinker {
+public class NativeClassLinker extends AbstractNativeClassLinker {
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {

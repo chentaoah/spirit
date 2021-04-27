@@ -13,7 +13,7 @@ import com.sum.spirit.output.java.ExtClassLoader;
 import com.sum.spirit.output.java.deduce.NativeDerivator;
 import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 
-public abstract class AbstractNativeLinker implements ClassLinker {
+public abstract class AbstractNativeClassLinker implements ClassLinker {
 
 	@Autowired
 	public ExtClassLoader classLoader;
@@ -21,11 +21,6 @@ public abstract class AbstractNativeLinker implements ClassLinker {
 	public NativeTypeFactory factory;
 	@Autowired
 	public NativeDerivator derivator;
-
-	@Override
-	public boolean isHandle(IType type) {
-		return type.isNative();
-	}
 
 	@Override
 	@SuppressWarnings("unchecked")

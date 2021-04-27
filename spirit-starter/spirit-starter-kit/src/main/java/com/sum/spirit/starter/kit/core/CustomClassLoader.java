@@ -14,8 +14,8 @@ import com.sum.spirit.common.utils.URLFileUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.AppClassLoader;
 
-@Component
 @Primary
+@Component
 @DependsOn("configUtils")
 public class CustomClassLoader extends AppClassLoader {
 

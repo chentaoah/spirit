@@ -35,11 +35,6 @@ public class AppClassLinker implements ClassLinker {
 	public TypeDerivator derivator;
 
 	@Override
-	public boolean isHandle(IType type) {
-		return !type.isNative();
-	}
-
-	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
 		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有

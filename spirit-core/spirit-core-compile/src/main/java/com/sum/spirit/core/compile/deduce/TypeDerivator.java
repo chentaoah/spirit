@@ -14,8 +14,8 @@ import com.sum.spirit.core.clazz.utils.TypeVisiter;
 
 import cn.hutool.core.lang.Assert;
 
-@Component
 @Primary
+@Component
 public class TypeDerivator {
 
 	@Autowired

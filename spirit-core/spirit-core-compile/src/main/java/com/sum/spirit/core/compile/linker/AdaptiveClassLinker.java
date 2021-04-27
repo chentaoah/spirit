@@ -1,6 +1,8 @@
 package com.sum.spirit.core.compile.linker;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -8,6 +10,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
+import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
@@ -15,10 +19,10 @@ import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
-@Component
 @Primary
+@Component
 @DependsOn("springUtils")
-public class AdaptiveLinker extends AbstractAdaptiveLinker {
+public class AdaptiveClassLinker implements ClassLinker {
 
 	public static final String ARRAY_LENGTH = "length";
 
@@ -26,6 +30,63 @@ public class AdaptiveLinker extends AbstractAdaptiveLinker {
 	public TypeFactory factory;
 	@Autowired
 	public TypeDerivator derivator;
+	@Autowired
+	public Map<String, ClassLinker> linkers;
+
+	public ClassLinker getLinker(IType type) {
+		if (!type.isNative()) {
+			return linkers.get("appClassLinker");
+		} else {
+			return linkers.get("nativeClassLinker");
+		}
+	}
+
+	@Override
+	public <T> T toClass(IType type) {
+		return getLinker(type).toClass(type);
+	}
+
+	@Override
+	public int getTypeVariableIndex(IType type, String genericName) {
+		return getLinker(type).getTypeVariableIndex(type, genericName);
+	}
+
+	@Override
+	public IType getSuperType(IType type) {
+		if (type.isPrimitive()) {
+			return null;
+		}
+		if (type.isArray()) {
+			return StaticTypes.OBJECT;
+		}
+		if (StaticTypes.OBJECT.equals(type)) {
+			return null;
+		}
+		// 如果不存在父类，则返回Object
+		IType superType = getLinker(type).getSuperType(type);
+		if (superType == null) {
+			return StaticTypes.OBJECT;
+		}
+		int modifiers = type.getModifiers();
+		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
+			superType.setModifiers(ModifierEnum.SUPER.value);
+
+		} else if (modifiers == ModifierEnum.PUBLIC.value) {
+			superType.setModifiers(ModifierEnum.PUBLIC.value);
+		}
+		return superType;
+	}
+
+	@Override
+	public List<IType> getInterfaceTypes(IType type) {
+		if (type.isPrimitive()) {
+			return new ArrayList<>();
+		}
+		if (type.isArray()) {
+			return new ArrayList<>();
+		}
+		return getLinker(type).getInterfaceTypes(type);
+	}
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {

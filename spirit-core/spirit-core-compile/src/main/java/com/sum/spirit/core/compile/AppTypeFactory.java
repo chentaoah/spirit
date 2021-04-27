@@ -22,8 +22,8 @@ import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
-@Component
 @Primary
+@Component
 public class AppTypeFactory extends AbstractTypeFactory {
 
 	@Autowired
