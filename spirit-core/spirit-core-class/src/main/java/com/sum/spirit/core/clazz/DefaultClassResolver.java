@@ -106,8 +106,7 @@ public class DefaultClassResolver implements ClassResolver {
 		clazz.packageStr = packageStr;
 		clazz.fields = fields;
 		clazz.methods = methods;
-		clazz.factory = factory;
-		clazz.importSelectors = importSelectors;
+		clazz.classResolver = this;
 	}
 
 	public void readRootElement(IClass clazz) {
@@ -123,6 +122,16 @@ public class DefaultClassResolver implements ClassResolver {
 				clazz.methods.add(new IMethod(copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value)));
 			}
 		}
+	}
+
+	@Override
+	public TypeFactory getTypeFactory() {
+		return factory;
+	}
+
+	@Override
+	public List<ImportSelector> getImportSelectors() {
+		return importSelectors;
 	}
 
 }

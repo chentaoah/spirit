@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.frame.ImportEntity;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -19,7 +18,6 @@ public class IClass extends ImportEntity {
 	public String packageStr;
 	public List<IField> fields;
 	public List<IMethod> methods;
-	public TypeFactory factory;
 
 	public IClass(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(imports, annotations, element);
@@ -74,7 +72,7 @@ public class IClass extends ImportEntity {
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null) {
-			return factory.create(this, token);
+			return classResolver.getTypeFactory().create(this, token);
 		}
 		return null;
 	}
@@ -82,7 +80,7 @@ public class IClass extends ImportEntity {
 	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
 		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
-			interfaces.add(factory.create(this, token));
+			interfaces.add(classResolver.getTypeFactory().create(this, token));
 		}
 		return interfaces;
 	}

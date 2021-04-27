@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.Lists;
-import com.sum.spirit.core.api.ImportSelector;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
@@ -14,10 +13,9 @@ import com.sum.spirit.core.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class ImportEntity extends AnnotationEntity {
+public abstract class ImportEntity extends ClassResolverEntity {
 
 	public List<Import> imports;
-	public List<ImportSelector> importSelectors;
 
 	public ImportEntity(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
@@ -100,11 +98,11 @@ public abstract class ImportEntity extends AnnotationEntity {
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		return Lists.collectOne(importSelectors, importSelector -> importSelector.findClassName(simpleName));
+		return Lists.collectOne(classResolver.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfName, String className) {
-		Boolean flag = Lists.collectOne(importSelectors, importSelector -> importSelector.isHandle(className),
+		Boolean flag = Lists.collectOne(classResolver.getImportSelectors(), importSelector -> importSelector.isHandle(className),
 				importSelector -> importSelector.shouldImport(selfName, className));
 		return flag == null ? true : flag;
 	}
