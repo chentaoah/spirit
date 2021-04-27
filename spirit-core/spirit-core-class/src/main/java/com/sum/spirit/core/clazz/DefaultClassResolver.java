@@ -31,7 +31,7 @@ public class DefaultClassResolver implements ClassResolver, ResolverContext {
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
-	public List<ImportSelector> importSelectors;
+	public List<ImportSelector> selectors;
 
 	@Override
 	public Map<String, IClass> resolve(String packageStr, Document document) {
@@ -132,7 +132,7 @@ public class DefaultClassResolver implements ClassResolver, ResolverContext {
 
 	@Override
 	public List<ImportSelector> getImportSelectors() {
-		return importSelectors;
+		return selectors;
 	}
 
 }
