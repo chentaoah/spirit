@@ -2,7 +2,6 @@ package com.sum.spirit.core.clazz.utils;
 
 import java.util.Map;
 
-import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.StaticTypesCtor;
@@ -52,24 +51,24 @@ public class StaticTypes {
 	public static final IType WILDCARD;
 
 	static {
-		VOID = createTypeByPrimitiveEnum(PrimitiveEnum.VOID);
-		BOOLEAN = createTypeByPrimitiveEnum(PrimitiveEnum.BOOLEAN);
-		CHAR = createTypeByPrimitiveEnum(PrimitiveEnum.CHAR);
-		BYTE = createTypeByPrimitiveEnum(PrimitiveEnum.BYTE);
-		SHORT = createTypeByPrimitiveEnum(PrimitiveEnum.SHORT);
-		INT = createTypeByPrimitiveEnum(PrimitiveEnum.INT);
-		LONG = createTypeByPrimitiveEnum(PrimitiveEnum.LONG);
-		FLOAT = createTypeByPrimitiveEnum(PrimitiveEnum.FLOAT);
-		DOUBLE = createTypeByPrimitiveEnum(PrimitiveEnum.DOUBLE);
+		VOID = TypeBuilder.build(PrimitiveEnum.VOID);
+		BOOLEAN = TypeBuilder.build(PrimitiveEnum.BOOLEAN);
+		CHAR = TypeBuilder.build(PrimitiveEnum.CHAR);
+		BYTE = TypeBuilder.build(PrimitiveEnum.BYTE);
+		SHORT = TypeBuilder.build(PrimitiveEnum.SHORT);
+		INT = TypeBuilder.build(PrimitiveEnum.INT);
+		LONG = TypeBuilder.build(PrimitiveEnum.LONG);
+		FLOAT = TypeBuilder.build(PrimitiveEnum.FLOAT);
+		DOUBLE = TypeBuilder.build(PrimitiveEnum.DOUBLE);
 
-		BOOLEAN_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.BOOLEAN_ARRAY);
-		CHAR_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.CHAR_ARRAY);
-		BYTE_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.BYTE_ARRAY);
-		SHORT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.SHORT_ARRAY);
-		INT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.INT_ARRAY);
-		LONG_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.INT_ARRAY);
-		FLOAT_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.FLOAT_ARRAY);
-		DOUBLE_ARRAY = createTypeByPrimitiveEnum(PrimitiveEnum.DOUBLE_ARRAY);
+		BOOLEAN_ARRAY = TypeBuilder.build(PrimitiveEnum.BOOLEAN_ARRAY);
+		CHAR_ARRAY = TypeBuilder.build(PrimitiveEnum.CHAR_ARRAY);
+		BYTE_ARRAY = TypeBuilder.build(PrimitiveEnum.BYTE_ARRAY);
+		SHORT_ARRAY = TypeBuilder.build(PrimitiveEnum.SHORT_ARRAY);
+		INT_ARRAY = TypeBuilder.build(PrimitiveEnum.INT_ARRAY);
+		LONG_ARRAY = TypeBuilder.build(PrimitiveEnum.INT_ARRAY);
+		FLOAT_ARRAY = TypeBuilder.build(PrimitiveEnum.FLOAT_ARRAY);
+		DOUBLE_ARRAY = TypeBuilder.build(PrimitiveEnum.DOUBLE_ARRAY);
 
 		StaticTypesCtor ctor = SpringUtils.getBean(StaticTypesCtor.class);
 		Assert.notNull(ctor, "Static types ctor must be provided!");
@@ -94,11 +93,6 @@ public class StaticTypes {
 		MAP = typeMap.get("MAP");
 		NULL = typeMap.get("NULL");
 		WILDCARD = typeMap.get("WILDCARD");
-	}
-
-	public static IType createTypeByPrimitiveEnum(PrimitiveEnum primitiveEnum) {
-		return IType.builder().className(primitiveEnum.className).simpleName(primitiveEnum.simpleName).typeName(primitiveEnum.typeName)
-				.isPrimitive(primitiveEnum.isPrimitive).isArray(primitiveEnum.isArray).modifiers(ModifierEnum.PUBLIC.value).build();
 	}
 
 	public static IType getBoxType(String className) {

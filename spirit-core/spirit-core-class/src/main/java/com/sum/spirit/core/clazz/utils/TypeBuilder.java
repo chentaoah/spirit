@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.sum.spirit.common.enums.ModifierEnum;
+import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.clazz.entity.IType;
 
 public class TypeBuilder {
@@ -20,6 +21,22 @@ public class TypeBuilder {
 		type.setNull(isNull);
 		type.setWildcard(isWildcard);
 		type.setNative(isNative);
+		type.setModifiers(ModifierEnum.PUBLIC.value);
+		type.setGenericTypes(new ArrayList<>());
+		return type;
+	}
+
+	public static IType build(PrimitiveEnum primitiveEnum) {
+		IType type = new IType();
+		type.setClassName(primitiveEnum.className);
+		type.setSimpleName(primitiveEnum.simpleName);
+		type.setTypeName(primitiveEnum.typeName);
+		type.setGenericName(null);
+		type.setPrimitive(primitiveEnum.isPrimitive);
+		type.setArray(primitiveEnum.isArray);
+		type.setNull(false);
+		type.setWildcard(false);
+		type.setNative(false);
 		type.setModifiers(ModifierEnum.PUBLIC.value);
 		type.setGenericTypes(new ArrayList<>());
 		return type;
