@@ -14,7 +14,7 @@ import com.sum.spirit.core.api.ElementAction;
 import com.sum.spirit.core.api.ElementVisiter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
+import com.sum.spirit.core.compile.deduce.FragmentDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
@@ -26,7 +26,7 @@ import com.sum.spirit.core.element.entity.Token;
 public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 
 	@Autowired
-	public SimpleSectionDeducer deducer;
+	public FragmentDeducer deducer;
 	public List<ElementAction> actions;
 
 	@Override

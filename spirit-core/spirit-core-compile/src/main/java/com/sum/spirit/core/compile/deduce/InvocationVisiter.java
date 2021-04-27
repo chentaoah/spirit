@@ -19,11 +19,11 @@ import com.sum.spirit.core.element.utils.StmtVisiter;
 public class InvocationVisiter {
 
 	@Autowired
-	public SimpleSectionDeducer deducer;
+	public TypeFactory factory;
+	@Autowired
+	public FragmentDeducer deducer;
 	@Autowired
 	public ClassLinker linker;
-	@Autowired
-	public TypeFactory factory;
 	@Autowired
 	public TypeDerivator derivator;
 

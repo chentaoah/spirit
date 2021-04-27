@@ -13,7 +13,7 @@ import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
 @Component
-public class SimpleSectionDeducer {
+public class FragmentDeducer {
 
 	@Autowired
 	public TreeBuilder builder;

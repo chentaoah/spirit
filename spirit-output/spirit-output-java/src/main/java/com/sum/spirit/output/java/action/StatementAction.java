@@ -17,7 +17,7 @@ import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AutoImporter;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
-import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
+import com.sum.spirit.core.compile.deduce.FragmentDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.DefaultElementBuilder;
 import com.sum.spirit.core.element.entity.Element;
@@ -34,7 +34,7 @@ public class StatementAction extends AbstractElementAction {
 	@Autowired
 	public DefaultElementBuilder builder;
 	@Autowired
-	public SimpleSectionDeducer deducer;
+	public FragmentDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
 

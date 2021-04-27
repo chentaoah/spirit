@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
-import com.sum.spirit.core.compile.deduce.SimpleSectionDeducer;
+import com.sum.spirit.core.compile.deduce.FragmentDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -25,7 +25,7 @@ public abstract class AbstractTreeElementAction extends AbstractElementAction {
 	public static final String NEXT_TYPE = "NEXT_TYPE";
 
 	@Autowired
-	public SimpleSectionDeducer deducer;
+	public FragmentDeducer deducer;
 
 	@Override
 	public void handle(ElementEvent event) {
