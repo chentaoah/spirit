@@ -78,6 +78,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 		}
 	}
 
+	@Override
 	public IType visitMember(IClass clazz, MemberEntity member) {
 		ObjectUtils.lock(member); // 防止循环依赖
 		IType type = member.getType();

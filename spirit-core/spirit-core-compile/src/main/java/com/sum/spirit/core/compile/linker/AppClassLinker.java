@@ -9,14 +9,13 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.Lists;
 import com.sum.spirit.core.api.ClassLinker;
-import com.sum.spirit.core.api.TypeFactory;
+import com.sum.spirit.core.api.ClassVisiter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.DefaultClassVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;
@@ -28,9 +27,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public TypeFactory factory;
-	@Autowired
-	public DefaultClassVisiter visiter;
+	public ClassVisiter visiter;
 	@Autowired
 	public TypeDerivator derivator;
 
