@@ -72,7 +72,7 @@ public class IClass extends ImportEntity {
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null) {
-			return classResolver.getTypeFactory().create(this, token);
+			return context.getTypeFactory().create(this, token);
 		}
 		return null;
 	}
@@ -80,7 +80,7 @@ public class IClass extends ImportEntity {
 	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
 		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
-			interfaces.add(classResolver.getTypeFactory().create(this, token));
+			interfaces.add(context.getTypeFactory().create(this, token));
 		}
 		return interfaces;
 	}

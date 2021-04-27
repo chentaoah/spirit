@@ -13,7 +13,7 @@ import com.sum.spirit.core.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class ImportEntity extends ClassResolverEntity {
+public abstract class ImportEntity extends ContextEntity {
 
 	public List<Import> imports;
 
@@ -98,11 +98,11 @@ public abstract class ImportEntity extends ClassResolverEntity {
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		return Lists.collectOne(classResolver.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
+		return Lists.collectOne(context.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfName, String className) {
-		Boolean flag = Lists.collectOne(classResolver.getImportSelectors(), importSelector -> importSelector.isHandle(className),
+		Boolean flag = Lists.collectOne(context.getImportSelectors(), importSelector -> importSelector.isHandle(className),
 				importSelector -> importSelector.shouldImport(selfName, className));
 		return flag == null ? true : flag;
 	}

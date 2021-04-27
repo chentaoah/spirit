@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.api.ClassResolver;
+import com.sum.spirit.core.api.ResolverContext;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.api.ImportSelector;
 import com.sum.spirit.core.api.TypeFactory;
@@ -23,7 +24,7 @@ import com.sum.spirit.core.element.entity.Document;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
-public class DefaultClassResolver implements ClassResolver {
+public class DefaultClassResolver implements ClassResolver, ResolverContext {
 
 	@Autowired
 	public ElementBuilder builder;
@@ -106,7 +107,7 @@ public class DefaultClassResolver implements ClassResolver {
 		clazz.packageStr = packageStr;
 		clazz.fields = fields;
 		clazz.methods = methods;
-		clazz.classResolver = this;
+		clazz.context = this;
 	}
 
 	public void readRootElement(IClass clazz) {
