@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,6 @@ import cn.hutool.core.lang.Assert;
 
 @Primary
 @Component
-@DependsOn("springUtils")
 public class AdaptiveClassLinker implements ClassLinker {
 
 	public static final String ARRAY_LENGTH = "length";
