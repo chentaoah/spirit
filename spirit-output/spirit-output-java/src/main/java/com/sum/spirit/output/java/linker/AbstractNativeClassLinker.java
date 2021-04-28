@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.output.java.ExtClassLoader;
-import com.sum.spirit.output.java.deduce.NativeDerivator;
+import com.sum.spirit.output.java.deduce.NativeTypeDerivator;
 import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 
 public abstract class AbstractNativeClassLinker implements ClassLinker {
@@ -20,7 +20,7 @@ public abstract class AbstractNativeClassLinker implements ClassLinker {
 	@Autowired
 	public NativeTypeFactory factory;
 	@Autowired
-	public NativeDerivator derivator;
+	public NativeTypeDerivator derivator;
 
 	@Override
 	@SuppressWarnings("unchecked")

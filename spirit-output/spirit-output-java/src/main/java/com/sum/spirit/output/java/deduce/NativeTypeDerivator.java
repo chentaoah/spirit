@@ -13,7 +13,7 @@ import com.sum.spirit.core.clazz.utils.TypeVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 @Component
-public class NativeDerivator extends TypeDerivator {
+public class NativeTypeDerivator extends TypeDerivator {
 
 	@Autowired
 	public ClassLinker linker;
