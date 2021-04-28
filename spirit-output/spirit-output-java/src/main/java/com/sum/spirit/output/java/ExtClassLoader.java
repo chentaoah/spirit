@@ -90,7 +90,7 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Sta
 	}
 
 	@Override
-	public boolean shouldImport(String selfClassName, String className) {
+	public boolean shouldImport(String selfName, String className) {
 		return false;
 	}
 
