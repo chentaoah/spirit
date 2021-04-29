@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.clazz.frame.ImportEntity;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -86,7 +86,7 @@ public class IClass extends ImportEntity {
 	}
 
 	public IField getField(String fieldName) {
-		return Lists.findOne(fields, field -> field.getName().equals(fieldName));
+		return ListUtils.findOne(fields, field -> field.getName().equals(fieldName));
 	}
 
 	public List<IMethod> getMethods(String methodName) {

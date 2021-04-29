@@ -6,7 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TypeEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -55,20 +55,20 @@ public class RegionAction extends AbstractLexerAction {
 
 		if (ch == '"') {
 			Region region = findRegion(builder, context.index, '"', '"');
-			pushStack(event, Lists.toListNonNull(region), "@str");
+			pushStack(event, ListUtils.toListNonNull(region), "@str");
 
 		} else if (ch == '\'') {
 			Region region = findRegion(builder, context.index, '\'', '\'');
-			pushStack(event, Lists.toListNonNull(region), "@char");
+			pushStack(event, ListUtils.toListNonNull(region), "@char");
 
 		} else if (ch == '{') {
 			Region region = findRegion(builder, context.index, '{', '}');
-			pushStack(event, Lists.toListNonNull(region), "@map");
+			pushStack(event, ListUtils.toListNonNull(region), "@map");
 
 		} else if (ch == '(') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '(', ')');
-			pushStack(event, Lists.toListNonNull(region0, region1), "@invoke_like");
+			pushStack(event, ListUtils.toListNonNull(region0, region1), "@invoke_like");
 			resetIndex(event);
 
 		} else if (ch == '[') {
@@ -86,14 +86,14 @@ public class RegionAction extends AbstractLexerAction {
 					region2 = findRegion(builder, region1.endIndex + 1, '{', '}');
 				}
 			}
-			pushStack(event, Lists.toListNonNull(region0, region1, region2), "@array_like");
+			pushStack(event, ListUtils.toListNonNull(region0, region1, region2), "@array_like");
 			resetIndex(event);
 
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = findRegion(builder, context.index, '<', '>');
 			Region region2 = isCharAt(builder, region1.endIndex, '(') ? findRegion(builder, region1.endIndex, '(', ')') : null;
-			pushStack(event, Lists.toListNonNull(region0, region1, region2), "@generic");
+			pushStack(event, ListUtils.toListNonNull(region0, region1, region2), "@generic");
 			resetIndex(event);
 		}
 	}

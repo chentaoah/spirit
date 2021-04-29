@@ -41,23 +41,17 @@ public class Main {
 生成的代码可以直接拷贝到maven项目中，但项目中必须包含以下依赖。
 
 ```
-<!-- guava -->
+<!-- slf4j -->
 <dependency>
-	<groupId>com.google.guava</groupId>
-	<artifactId>guava</artifactId>
-	<version>${guava.version}</version>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>${slf4j.version}</version>
 </dependency>
 <!-- lang -->
 <dependency>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-lang3</artifactId>
 	<version>${lang3.version}</version>
-</dependency>
-<!-- slf4j -->
-<dependency>
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-api</artifactId>
-	<version>${slf4j.version}</version>
 </dependency>
 ```
 

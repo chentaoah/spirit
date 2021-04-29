@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.constants.AppConfig;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.LineUtils;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.DocumentReader;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.element.entity.Document;
@@ -80,7 +80,7 @@ public class DefaultDocumentReader implements DocumentReader {
 				builder.append(StrUtil.removeAny(lines.get(index), "\t").trim());
 				int end = LineUtils.findEndIndex(builder, 0, '{', '}');
 				if (end != -1) {
-					Lists.remove(lines, startIndex, index + 1);
+					ListUtils.remove(lines, startIndex, index + 1);
 					lines.add(startIndex, builder.toString());
 					return true;
 				}

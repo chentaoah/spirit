@@ -6,7 +6,7 @@ import java.util.List;
 
 import cn.hutool.core.collection.CollUtil;
 
-public class Lists {
+public class ListUtils {
 
 	@SafeVarargs
 	public static <T> List<T> toListNonNull(T... items) {

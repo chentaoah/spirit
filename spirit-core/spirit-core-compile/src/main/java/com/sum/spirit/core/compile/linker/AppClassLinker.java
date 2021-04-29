@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.ClassVisiter;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -74,7 +74,7 @@ public class AppClassLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
 		List<IMethod> methods = clazz.getMethods(methodName);
-		IMethod method = Lists.findOne(methods, eachMethod -> matches(type, eachMethod, parameterTypes));
+		IMethod method = ListUtils.findOne(methods, eachMethod -> matches(type, eachMethod, parameterTypes));
 		if (method != null) {
 			return derivator.populate(type, visiter.visitMember(clazz, method));
 		}

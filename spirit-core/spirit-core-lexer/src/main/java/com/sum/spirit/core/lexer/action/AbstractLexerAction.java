@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sum.spirit.common.utils.LineUtils;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.lexer.entity.Region;
 
@@ -25,8 +25,8 @@ public abstract class AbstractLexerAction implements CharAction {
 
 	public Region mergeRegions(List<Region> regions) {
 		Assert.notEmpty(regions, "The regions cannot be empty!");
-		Region startRegion = Lists.findOneByScore(regions, region -> 0 - region.startIndex);
-		Region endRegion = Lists.findOneByScore(regions, region -> region.endIndex);
+		Region startRegion = ListUtils.findOneByScore(regions, region -> 0 - region.startIndex);
+		Region endRegion = ListUtils.findOneByScore(regions, region -> region.endIndex);
 		return new Region(startRegion.startIndex, endRegion.endIndex);
 	}
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
@@ -31,11 +31,11 @@ public abstract class ImportEntity extends ContextEntity {
 	}
 
 	public Import findImport(String className) {
-		return Lists.findOne(imports, import0 -> import0.matchClassName(className));
+		return ListUtils.findOne(imports, import0 -> import0.matchClassName(className));
 	}
 
 	public Import findImportByLastName(String simpleName) {
-		return Lists.findOne(imports, import0 -> import0.matchSimpleName(simpleName));
+		return ListUtils.findOne(imports, import0 -> import0.matchSimpleName(simpleName));
 	}
 
 	public String findClassName(String simpleName) {
@@ -98,11 +98,11 @@ public abstract class ImportEntity extends ContextEntity {
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		return Lists.collectOne(context.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
+		return ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfName, String className) {
-		Boolean flag = Lists.collectOne(context.getImportSelectors(), importSelector -> importSelector.isHandle(className),
+		Boolean flag = ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.isHandle(className),
 				importSelector -> importSelector.shouldImport(selfName, className));
 		return flag == null ? true : flag;
 	}

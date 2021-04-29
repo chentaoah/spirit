@@ -16,7 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.URLFileUtils;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 
 import cn.hutool.core.lang.Assert;
@@ -87,7 +87,7 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 
 	@Override
 	public String findClassName(String simpleName) {
-		return Lists.findOne(classes.keySet(), className -> className.endsWith("." + simpleName));
+		return ListUtils.findOne(classes.keySet(), className -> className.endsWith("." + simpleName));
 	}
 
 	public void clear() {

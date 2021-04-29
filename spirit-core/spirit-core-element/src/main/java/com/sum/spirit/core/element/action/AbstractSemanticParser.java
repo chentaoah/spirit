@@ -8,7 +8,7 @@ import com.sum.spirit.common.enums.LiteralEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.enums.TypeEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -29,12 +29,12 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public List<Token> getTokens(List<String> words) {
-		return Lists.collectAll(words, word -> true, word -> getToken(word));
+		return ListUtils.collectAll(words, word -> true, word -> getToken(word));
 	}
 
 	@Override
 	public List<Token> getTokensInsideType(List<String> words) {
-		return Lists.collectAll(words, word -> true, word -> getTokenInsideType(word));
+		return ListUtils.collectAll(words, word -> true, word -> getTokenInsideType(word));
 	}
 
 	@Override

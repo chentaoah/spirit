@@ -8,7 +8,7 @@ import com.sum.test.clazz.ServiceImpl;
 import com.sum.test.process.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.Lists;
+import com.sum.spirit.lib.Lists;
 import java.util.List;
 import com.sum.spirit.lib.Maps;
 import java.util.Map;
@@ -25,11 +25,11 @@ public class Type {
 	public int i = 100;
 	public double d = 100.0;
 	public String s = "string";
-	public List<Object> emptyList = Lists.newArrayList();
+	public List<Object> emptyList = Lists.of();
 	public Map<Object, Object> emptyMap = Maps.of();
-	public List<String> list = Lists.newArrayList("first", "second", "third");
-	public List<Object> list1 = Lists.newArrayList("string", 100);
-	public List<Map<String, Object>> map = Lists.newArrayList(Maps.of("key1", 123, "key2", "123"), Maps.of("key1", 123, "key2", "123"));
+	public List<String> list = Lists.of("first", "second", "third");
+	public List<Object> list1 = Lists.of("string", 100);
+	public List<Map<String, Object>> map = Lists.of(Maps.of("key1", 123, "key2", "123"), Maps.of("key1", 123, "key2", "123"));
 	public Map<String, Object> map1 = Maps.of("key1", "string", "key2", 100);
 	public boolean[] bArray = new boolean[10];
 	public char[] cArray = new char[10];
@@ -93,7 +93,7 @@ public class Type {
 		GenericType<String, String> generic = new GenericType<String, String>();
 		Integer gKey = generic.get("test");
 		logger.info(gKey + "");
-		List<Integer> intsss = Lists.newArrayList(1, 123, 8987879);
+		List<Integer> intsss = Lists.of(1, 123, 8987879);
 		Integer integer = intsss.get(0);
 		int numberxxx = integer.intValue();
 		logger.info("" + numberxxx);
@@ -104,7 +104,7 @@ public class Type {
 		logger.info(strxxxx);
 		boolean bbxxx = getArray()[0];
 		logger.info("" + bbxxx);
-		Map<String, Object> objvar = Maps.of("name", "chen", "age", 18, "from", "China", "brother", Lists.newArrayList("wanhao", "chenzhe"));
+		Map<String, Object> objvar = Maps.of("name", "chen", "age", 18, "from", "China", "brother", Lists.of("wanhao", "chenzhe"));
 		String str0 = objvar.toString();
 		logger.info(str0);
 	}

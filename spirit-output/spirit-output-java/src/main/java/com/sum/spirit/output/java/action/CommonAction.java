@@ -3,7 +3,6 @@ package com.sum.spirit.output.java.action;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.Lists;
 import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -12,6 +11,7 @@ import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.StmtVisiter;
+import com.sum.spirit.lib.Lists;
 import com.sum.spirit.lib.Maps;
 
 @Native
@@ -33,9 +33,9 @@ public class CommonAction extends AbstractElementAction {
 					Statement subStatement = token.getValue();
 					subStatement.add(0, new Token(TokenTypeEnum.KEYWORD, "new"));
 
-				} else if (token.isList()) {// ["value"] => Lists.newArrayList("value");
+				} else if (token.isList()) {// ["value"] => Lists.of("value");
 					Statement subStatement = token.getValue();
-					subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.newArrayList("));
+					subStatement.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "Lists.of("));
 					subStatement.set(subStatement.size() - 1, new Token(TokenTypeEnum.CUSTOM_SUFFIX, ")"));
 					clazz.addImport(Lists.class.getName());
 

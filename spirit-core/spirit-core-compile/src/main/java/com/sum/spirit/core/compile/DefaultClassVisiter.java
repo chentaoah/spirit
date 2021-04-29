@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.common.utils.ObjectUtils;
 import com.sum.spirit.core.api.ClassVisiter;
 import com.sum.spirit.core.api.ElementBuilder;
@@ -71,7 +71,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement parameterStmt : statements) {
-			List<IAnnotation> annotations = Lists.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(parameterStmt));
 			parameter.setType(factory.create(clazz, parameterStmt.get(0)));
 			method.parameters.add(parameter);

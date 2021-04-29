@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
@@ -25,7 +25,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 	@Override
 	public List<Node> buildNodes(List<Token> tokens) {
 		final List<Node> nodes = new ArrayList<>();
-		Lists.visit(tokens, (index, token) -> {
+		ListUtils.visit(tokens, (index, token) -> {
 			if (token.canSplit()) {// 嵌套语法树
 				SyntaxTree syntaxTree = buildTree(token.getValue());
 				token = new Token(token.tokenType, syntaxTree, token.attributes);
@@ -88,21 +88,21 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 
 			OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 			if (operandEnum == OperandEnum.LEFT) {
-				Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
+				Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
 				node.prev = lastNode;
 				nodes.set(lastNode.index, null);
 
 			} else if (operandEnum == OperandEnum.RIGHT) {
-				Node nextNode = Lists.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				Node nextNode = ListUtils.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
 				node.next = nextNode;
 				nodes.set(nextNode.index, null);
 
 			} else if (operandEnum == OperandEnum.BINARY) {
-				Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
+				Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
 				node.prev = lastNode;
 				nodes.set(lastNode.index, null);
 
-				Node nextNode = Lists.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				Node nextNode = ListUtils.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
 				node.next = nextNode;
 				nodes.set(nextNode.index, null);
 
@@ -116,7 +116,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 	public void resetOperandIfMultiple(List<Node> nodes, int index, Token currentToken) {
 		OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
-			Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
+			Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
