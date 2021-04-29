@@ -1,13 +1,5 @@
 package com.sum.spirit.common.enums;
 
-//import com.sum.spirit.example.Animal
-//@Animal
-//class Horse {
-//	name = "Jessie"
-//	func call() {
-//		return "I am Jessie!"
-//	}
-//}
 public enum SyntaxEnum {
 	IMPORT, // import com.sum.spirit.example.Animal
 	ANNOTATION, // @Animal
