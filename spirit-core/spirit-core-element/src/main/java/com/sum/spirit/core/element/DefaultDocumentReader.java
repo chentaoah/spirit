@@ -8,7 +8,7 @@ import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.constants.Constants;
+import com.sum.spirit.common.constants.AppConfig;
 import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.common.utils.Lists;
@@ -31,7 +31,7 @@ public class DefaultDocumentReader implements DocumentReader {
 	@Override
 	public Document read(String fileName, InputStream input) {
 		Document document = new Document(fileName);
-		List<String> lines = IoUtil.readLines(input, Constants.DEFAULT_CHARSET, new ArrayList<String>());
+		List<String> lines = IoUtil.readLines(input, AppConfig.DEFAULT_CHARSET, new ArrayList<String>());
 		doReadLines(document, lines);
 		if (ConfigUtils.isDebug()) {
 			document.debug();

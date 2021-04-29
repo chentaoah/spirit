@@ -1,6 +1,6 @@
 package com.sum.spirit.common.constants;
 
-public class Constants {
+public class AppConfig {
 
 	public static final String DEFAULT_CHARSET = "UTF-8";
 
