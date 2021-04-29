@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.element.entity.Statement;
@@ -104,19 +104,19 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 
 	public void setTokenAttributes(String word, Token token) {
 		if (token.isAnnotation()) {
-			token.setAttr(AttributeEnum.SIMPLE_NAME, getAnnotationName(word));
+			token.setAttr(Attribute.SIMPLE_NAME, getAnnotationName(word));
 
 		} else if (token.isArrayInit()) {
-			token.setAttr(AttributeEnum.SIMPLE_NAME, getPrefix(word) + "[]");
+			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
-			token.setAttr(AttributeEnum.SIMPLE_NAME, getPrefix(word));
+			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setAttr(AttributeEnum.SIMPLE_NAME, getCastType(word));
+			token.setAttr(Attribute.SIMPLE_NAME, getCastType(word));
 
 		} else if (token.isAccess()) {
-			token.setAttr(AttributeEnum.MEMBER_NAME, getPrefix(word));
+			token.setAttr(Attribute.MEMBER_NAME, getPrefix(word));
 		}
 	}
 

@@ -3,7 +3,7 @@ package com.sum.spirit.core.compile.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -27,18 +27,18 @@ public class VariableTracker {
 	public void visit(IClass clazz, MethodContext context, Statement statement) {
 		StmtVisiter.visit(statement, stmt -> {
 			stmt.forEach(token -> {
-				if (token.attr(AttributeEnum.TYPE) != null) {
+				if (token.attr(Attribute.TYPE) != null) {
 					return;
 				}
 				if (token.isVariable()) {// variable
 					String variableName = token.toString();
 					IType type = getVariableType(clazz, context, variableName);
-					token.setAttr(AttributeEnum.TYPE, type);
+					token.setAttr(Attribute.TYPE, type);
 
 				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
 					String variableName = token.toString();
 					IType type = findTypeByKeyword(clazz, variableName);
-					token.setAttr(AttributeEnum.TYPE, type);
+					token.setAttr(Attribute.TYPE, type);
 				}
 			});
 		});

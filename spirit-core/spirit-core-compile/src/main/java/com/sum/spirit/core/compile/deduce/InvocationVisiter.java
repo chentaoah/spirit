@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -32,38 +32,38 @@ public class InvocationVisiter {
 			for (int index = 0; index < stmt.size(); index++) {
 				try {
 					Token token = stmt.get(index);
-					if (token.attr(AttributeEnum.TYPE) != null) {
+					if (token.attr(Attribute.TYPE) != null) {
 						continue;
 					}
 					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
 					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isLiteral()) {
-						token.setAttr(AttributeEnum.TYPE, factory.create(clazz, token));
+						token.setAttr(Attribute.TYPE, factory.create(clazz, token));
 
 					} else if (token.isSubexpress()) {
 						Statement subStatement = token.getValue();
-						token.setAttr(AttributeEnum.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
+						token.setAttr(Attribute.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
 
 					} else if (token.isLocalMethod()) {
-						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+						String memberName = token.attr(Attribute.MEMBER_NAME);
 						IType returnType = linker.visitMethod(derivator.withThisModifiers(clazz.getType()), memberName, parameterTypes);
-						token.setAttr(AttributeEnum.TYPE, returnType);
+						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitField()) {
-						IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
-						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
+						String memberName = token.attr(Attribute.MEMBER_NAME);
 						IType returnType = linker.visitField(type, memberName);
-						token.setAttr(AttributeEnum.TYPE, returnType);
+						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitMethod()) {
-						IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
-						String memberName = token.attr(AttributeEnum.MEMBER_NAME);
+						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
+						String memberName = token.attr(Attribute.MEMBER_NAME);
 						IType returnType = linker.visitMethod(type, memberName, parameterTypes);
-						token.setAttr(AttributeEnum.TYPE, returnType);
+						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitIndex()) {// what like "[0]"
-						IType type = stmt.get(index - 1).attr(AttributeEnum.TYPE);
+						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
 						type = derivator.toTarget(type);// 转换数组类型为目标类型
-						token.setAttr(AttributeEnum.TYPE, type);
+						token.setAttr(Attribute.TYPE, type);
 					}
 
 				} catch (NoSuchFieldException | NoSuchMethodException e) {

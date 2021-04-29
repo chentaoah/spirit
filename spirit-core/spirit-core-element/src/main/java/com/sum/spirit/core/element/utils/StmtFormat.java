@@ -2,7 +2,7 @@ package com.sum.spirit.core.element.utils;
 
 import java.util.List;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.core.element.entity.Statement;
@@ -43,7 +43,7 @@ public class StmtFormat {
 				return true;
 
 			} else if ("-".equals(lastToken.toString())) {
-				OperandEnum operandEnum = lastToken.attr(AttributeEnum.OPERAND);
+				OperandEnum operandEnum = lastToken.attr(Attribute.OPERAND);
 				if (operandEnum == OperandEnum.RIGHT) {
 					tokens.remove(index);
 					return true;
@@ -67,7 +67,7 @@ public class StmtFormat {
 	public static void dealNextToken(List<Token> tokens, int index, Token lastToken, Token nextToken) {
 		if (nextToken.isOperator()) {
 			if ("++".equals(nextToken.toString()) || "--".equals(nextToken.toString())) {
-				OperandEnum operandEnum = nextToken.attr(AttributeEnum.OPERAND);
+				OperandEnum operandEnum = nextToken.attr(Attribute.OPERAND);
 				if (operandEnum == OperandEnum.LEFT) {
 					tokens.remove(index);
 					return;

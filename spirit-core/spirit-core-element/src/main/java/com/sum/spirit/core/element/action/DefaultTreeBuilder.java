@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SymbolEnum.OperandEnum;
 import com.sum.spirit.common.utils.Lists;
@@ -72,7 +72,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 
 			if (priority > 0) {
 				queue.add(new PriorityNode<Integer>(priority, index));
-				currentToken.setAttr(AttributeEnum.OPERAND, operand);
+				currentToken.setAttr(Attribute.OPERAND, operand);
 			}
 		}
 		return queue;
@@ -86,7 +86,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 			Token currentToken = node.token;
 			resetOperandIfMultiple(nodes, index, currentToken);// 如果是多义的操作符，则进行判断后，确定真正的操作数
 
-			OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
+			OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 			if (operandEnum == OperandEnum.LEFT) {
 				Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
 				node.prev = lastNode;
@@ -114,19 +114,19 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 	}
 
 	public void resetOperandIfMultiple(List<Node> nodes, int index, Token currentToken) {
-		OperandEnum operandEnum = currentToken.attr(AttributeEnum.OPERAND);
+		OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
 			Node lastNode = Lists.findOne(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
 					if (lastNode.isMounted() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
-						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.BINARY);
+						currentToken.setAttr(Attribute.OPERAND, OperandEnum.BINARY);
 					} else {
-						currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
+						currentToken.setAttr(Attribute.OPERAND, OperandEnum.RIGHT);
 					}
 				} else {
-					currentToken.setAttr(AttributeEnum.OPERAND, OperandEnum.RIGHT);
+					currentToken.setAttr(Attribute.OPERAND, OperandEnum.RIGHT);
 				}
 			}
 		}

@@ -8,7 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.annotation.Native;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -49,8 +49,8 @@ public class StringLogicAction extends AbstractTreeElementAction {
 		if (TypeUtils.isString(prevType)) {
 			String text = String.format(FORMAT, prevStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(AttributeEnum.TYPE, StaticTypes.BOOLEAN);
-			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID) + "-0");
+			expressToken.setAttr(Attribute.TYPE, StaticTypes.BOOLEAN);
+			expressToken.setAttr(Attribute.TREE_ID, currentToken.attr(Attribute.TREE_ID) + "-0");
 			statement.replaceTokens(start, index, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}
@@ -64,8 +64,8 @@ public class StringLogicAction extends AbstractTreeElementAction {
 		if (TypeUtils.isString(nextType)) {
 			String text = String.format(FORMAT, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(AttributeEnum.TYPE, StaticTypes.BOOLEAN);
-			expressToken.setAttr(AttributeEnum.TREE_ID, currentToken.attr(AttributeEnum.TREE_ID) + "-1");
+			expressToken.setAttr(Attribute.TYPE, StaticTypes.BOOLEAN);
+			expressToken.setAttr(Attribute.TREE_ID, currentToken.attr(Attribute.TREE_ID) + "-1");
 			statement.replaceTokens(index + 1, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());
 		}

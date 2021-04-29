@@ -2,16 +2,15 @@ package com.sum.spirit.core.element.frame;
 
 import java.util.Map;
 
-import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 
-public abstract class Semantic extends AttributeMap {
+public abstract class Semantic extends Attributes {
 
 	public TokenTypeEnum tokenType;
 
-	public Semantic(TokenTypeEnum tokenType, Map<AttributeEnum, Object> attributes) {
+	public Semantic(TokenTypeEnum tokenType, Map<String, Object> attributes) {
 		super(attributes);
 		this.tokenType = tokenType;
 	}

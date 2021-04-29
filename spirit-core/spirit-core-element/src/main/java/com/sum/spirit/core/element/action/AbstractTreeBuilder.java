@@ -2,7 +2,7 @@ package com.sum.spirit.core.element.action;
 
 import java.util.List;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
@@ -32,7 +32,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 	}
 
 	public void markTreeId(String treeId, Node node) {
-		node.token.setAttr(AttributeEnum.TREE_ID, treeId);
+		node.token.setAttr(Attribute.TREE_ID, treeId);
 		if (node.prev != null) {
 			markTreeId(treeId + "-" + "0", node.prev);
 		}
@@ -50,12 +50,12 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 		List<Token> tokens = StmtFormat.format(statement);
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			token.setAttr(AttributeEnum.POSITION, position);
+			token.setAttr(Attribute.POSITION, position);
 			if (token.canSplit()) {
 				markPositionAndLength(position, token.getValue());
 			}
 			int length = token.toString().length();
-			token.setAttr(AttributeEnum.LENGTH, length);
+			token.setAttr(Attribute.LENGTH, length);
 			position += length;
 		}
 	}

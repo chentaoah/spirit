@@ -3,7 +3,7 @@ package com.sum.spirit.core.compile.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -34,8 +34,8 @@ public class FragmentDeducer {
 		Token token = node.token;
 
 		// 如果有类型直接返回
-		if (token.attr(AttributeEnum.TYPE) != null) {
-			return token.attr(AttributeEnum.TYPE);
+		if (token.attr(Attribute.TYPE) != null) {
+			return token.attr(Attribute.TYPE);
 		}
 
 		// 如果是逻辑判断，或者类型判断关键字

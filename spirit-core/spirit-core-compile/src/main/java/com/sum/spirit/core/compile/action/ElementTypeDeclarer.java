@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.annotation.App;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.entity.ElementEvent;
@@ -38,7 +38,7 @@ public class ElementTypeDeclarer extends AbstractElementAction {
 	}
 
 	public void setTypeByTypeToken(IClass clazz, Token typeToken, Token varToken) {
-		varToken.setAttr(AttributeEnum.TYPE, factory.create(clazz, typeToken));
+		varToken.setAttr(Attribute.TYPE, factory.create(clazz, typeToken));
 	}
 
 }

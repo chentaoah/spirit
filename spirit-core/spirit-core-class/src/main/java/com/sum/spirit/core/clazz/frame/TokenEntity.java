@@ -1,6 +1,6 @@
 package com.sum.spirit.core.clazz.frame;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.element.entity.Token;
 
 public abstract class TokenEntity extends TypeEntity {
@@ -13,7 +13,7 @@ public abstract class TokenEntity extends TypeEntity {
 
 	public String getName() {
 		if (token.isAnnotation()) {
-			return token.attr(AttributeEnum.SIMPLE_NAME);
+			return token.attr(Attribute.SIMPLE_NAME);
 
 		} else if (token.isVariable()) {
 			return token.toString();

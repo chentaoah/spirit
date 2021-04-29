@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.core.clazz.AbstractTypeFactory;
@@ -54,7 +54,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 			return doCreate(clazz, token);
 
 		} else if (token.isAnnotation() || token.isArrayInit() || token.isTypeInit() || token.isCast()) {
-			return create(clazz, (String) token.attr(AttributeEnum.SIMPLE_NAME));
+			return create(clazz, (String) token.attr(Attribute.SIMPLE_NAME));
 
 		} else if (token.isLiteral()) {// 1, 1.1, "xxxx"
 			return getValueType(clazz, token);

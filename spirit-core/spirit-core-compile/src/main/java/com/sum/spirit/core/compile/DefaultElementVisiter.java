@@ -8,7 +8,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.annotation.App;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.ElementAction;
 import com.sum.spirit.core.api.ElementVisiter;
@@ -77,7 +77,7 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 
 	public IVariable createVariable(Token varToken) {
 		IVariable variable = new IVariable(varToken);
-		variable.setType(varToken.attr(AttributeEnum.TYPE));
+		variable.setType(varToken.attr(Attribute.TYPE));
 		return variable;
 	}
 

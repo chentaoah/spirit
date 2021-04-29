@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.annotation.App;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -55,9 +55,9 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 				visiter.visit(clazz, statement);
 				type = deducer.derive(clazz, statement);
 				// 标记类型是否经过推导而来
-				varToken.setAttr(AttributeEnum.DERIVED, true);
+				varToken.setAttr(Attribute.DERIVED, true);
 			}
-			varToken.setAttr(AttributeEnum.TYPE, type);
+			varToken.setAttr(Attribute.TYPE, type);
 		}
 		super.handle(event);
 	}
@@ -75,7 +75,7 @@ public class ElementExpressDeclarer extends AbstractElementAction {
 			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? derivator.toTarget(type) : type.getGenericTypes().get(0);
 			Token varToken = element.get(1);
-			varToken.setAttr(AttributeEnum.TYPE, type);
+			varToken.setAttr(Attribute.TYPE, type);
 
 		} else if (element.isFor()) {// for (i=0; i<100; i++) {
 			Token secondToken = element.get(1);

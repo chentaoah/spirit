@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SyntaxEnum;
@@ -98,7 +98,7 @@ public class SyntaxRecognizer {
 		}
 		// SUPER / THIS
 		if (firstToken.isLocalMethod()) {
-			String memberName = firstToken.attr(AttributeEnum.MEMBER_NAME);
+			String memberName = firstToken.attr(Attribute.MEMBER_NAME);
 			if (KeywordEnum.SUPER.value.equals(memberName)) {
 				return SyntaxEnum.SUPER;
 

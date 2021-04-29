@@ -9,7 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.annotation.Native;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -56,9 +56,9 @@ public class StatementAction extends AbstractElementAction {
 				Statement statement = secondToken.getValue();
 				Token token = statement.get(1);
 				if (!token.isType() && token.isVariable()) {
-					boolean derived = token.attr(AttributeEnum.DERIVED, false);
+					boolean derived = token.attr(Attribute.DERIVED, false);
 					if (derived) {
-						IType type = token.attr(AttributeEnum.TYPE);
+						IType type = token.attr(Attribute.TYPE);
 						statement.add(1, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 					}
 				}
@@ -66,15 +66,15 @@ public class StatementAction extends AbstractElementAction {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.get(1);
-			IType type = item.attr(AttributeEnum.TYPE);
+			IType type = item.attr(Attribute.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
 			String text = String.format("for (%s %s : %s) {", importer.getFinalName(clazz, type), item, statement);
 			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.get(0);
-			boolean derived = token.attr(AttributeEnum.DERIVED, false);
-			IType type = token.attr(AttributeEnum.TYPE);
+			boolean derived = token.attr(Attribute.DERIVED, false);
+			IType type = token.attr(Attribute.TYPE);
 			if (token.isVariable() && derived) {
 				element.add(0, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 			}
