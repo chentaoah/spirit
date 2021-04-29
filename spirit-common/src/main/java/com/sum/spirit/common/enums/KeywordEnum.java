@@ -36,6 +36,7 @@ public enum KeywordEnum {
 	CATCH("catch", KeywordTypeEnum.TOKEN), //
 	FINALLY("finally", KeywordTypeEnum.TOKEN), //
 	INSTANCEOF("instanceof", KeywordTypeEnum.TOKEN), //
+	EMPTY("empty", KeywordTypeEnum.TOKEN), //
 
 	PUBLIC("public", KeywordTypeEnum.MODIFIER), //
 	PROTECTED("protected", KeywordTypeEnum.MODIFIER), //

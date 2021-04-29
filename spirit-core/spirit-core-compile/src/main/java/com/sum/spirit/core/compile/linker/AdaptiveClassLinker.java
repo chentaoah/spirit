@@ -132,6 +132,10 @@ public class AdaptiveClassLinker implements ClassLinker {
 		if (type.isArray()) {
 			throw new RuntimeException("Array has no method!");
 		}
+		// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
+		if (StaticTypes.OBJECT.equals(type) && KeywordEnum.EMPTY.value.equals(methodName)) {
+			return StaticTypes.BOOLEAN;
+		}
 		// 向上遍历推导
 		IType returnType = getLinker(type).visitMethod(type, methodName, parameterTypes);
 		if (returnType == null) {

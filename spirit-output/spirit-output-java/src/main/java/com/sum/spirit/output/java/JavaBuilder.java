@@ -51,7 +51,10 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		// import
 		List<Import> imports = clazz.getImports();
 		imports.forEach((imp) -> builder.append(imp.element + ";\n"));
-		if (imports.size() > 0) {
+		// static import
+		List<Import> staticImports = clazz.getStaticImports();
+		staticImports.forEach((imp) -> builder.append(imp.element + ";\n"));
+		if (imports.size() > 0 || staticImports.size() > 0) {
 			builder.append("\n");
 		}
 		// annotation

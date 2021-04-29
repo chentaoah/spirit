@@ -126,6 +126,11 @@ public class DefaultClassResolver implements ClassResolver, ResolverContext {
 	}
 
 	@Override
+	public ElementBuilder getElementBuilder() {
+		return builder;
+	}
+
+	@Override
 	public TypeFactory getTypeFactory() {
 		return factory;
 	}

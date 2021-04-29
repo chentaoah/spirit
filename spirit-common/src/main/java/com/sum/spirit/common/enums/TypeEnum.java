@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public enum TypeEnum {
 	;
 	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
-	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+$");
+	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+(\\.[a-z]+\\w*)?$");
 
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");

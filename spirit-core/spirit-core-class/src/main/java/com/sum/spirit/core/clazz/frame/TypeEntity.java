@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class TypeEntity {
+public abstract class TypeEntity extends ContextEntity {
 	@NonNull
 	private IType type;
 }

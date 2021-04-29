@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
 import com.sum.spirit.common.utils.ListUtils;
+import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.entity.IAnnotation;
 import com.sum.spirit.core.clazz.entity.Import;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
@@ -13,21 +14,27 @@ import com.sum.spirit.core.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class ImportEntity extends ContextEntity {
+public abstract class ImportEntity extends AnnotationEntity {
 
 	public List<Import> imports;
+	public List<Import> staticImports;
 
 	public ImportEntity(List<Import> imports, List<IAnnotation> annotations, Element element) {
 		super(annotations, element);
 		this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
+		this.staticImports = new ArrayList<>();
 	}
 
 	public List<Import> getImports() {
-		return imports.stream().filter(imp -> !imp.hasAlias()).collect(Collectors.toList());
+		return imports.stream().filter(import0 -> !import0.hasAlias()).collect(Collectors.toList());
 	}
 
 	public List<Import> getAliasImports() {
-		return imports.stream().filter(imp -> imp.hasAlias()).collect(Collectors.toList());
+		return imports.stream().filter(import0 -> import0.hasAlias()).collect(Collectors.toList());
+	}
+
+	public List<Import> getStaticImports() {
+		return staticImports;
 	}
 
 	public Import findImport(String className) {
@@ -36,6 +43,10 @@ public abstract class ImportEntity extends ContextEntity {
 
 	public Import findImportByLastName(String simpleName) {
 		return ListUtils.findOne(imports, import0 -> import0.matchSimpleName(simpleName));
+	}
+
+	public Import findStaticImport(String staticSourceName) {
+		return ListUtils.findOne(staticImports, import0 -> import0.matchStaticSourceName(staticSourceName));
 	}
 
 	public String findClassName(String simpleName) {
@@ -93,7 +104,21 @@ public abstract class ImportEntity extends ContextEntity {
 			return true;
 		}
 
-		imports.add(new Import(targetName));
+		// 构建一个行元素
+		ElementBuilder builder = context.getElementBuilder();
+		imports.add(new Import(builder.build("import " + targetName)));
+		return true;
+	}
+
+	public boolean addStaticImport(String staticSourceName) {
+		// 如果已经有了，直接返回true
+		Import import0 = findStaticImport(staticSourceName);
+		if (import0 != null) {
+			return true;
+		}
+		// 构建一个行元素
+		ElementBuilder builder = context.getElementBuilder();
+		staticImports.add(new Import(builder.build("import static " + staticSourceName)));
 		return true;
 	}
 

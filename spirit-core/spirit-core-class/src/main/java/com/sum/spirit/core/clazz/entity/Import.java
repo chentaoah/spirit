@@ -1,7 +1,5 @@
 package com.sum.spirit.core.clazz.entity;
 
-import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.api.ElementBuilder;
 import com.sum.spirit.core.clazz.frame.ElementEntity;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Element;
@@ -10,10 +8,6 @@ public class Import extends ElementEntity {
 
 	public Import(Element element) {
 		super(element);
-	}
-
-	public Import(String className) {
-		super(SpringUtils.getBean(ElementBuilder.class).build("import " + className));
 	}
 
 	public String getClassName() {
@@ -38,6 +32,10 @@ public class Import extends ElementEntity {
 
 	public boolean matchClassName(String className) {
 		return getClassName().equals(className);
+	}
+
+	public boolean matchStaticSourceName(String staticSourceName) {
+		return element.getStr(2).equals(staticSourceName);
 	}
 
 }

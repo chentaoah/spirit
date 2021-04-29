@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import com.sum.spirit.lib.Lists;
 import java.util.List;
+import static com.sum.spirit.lib.Empty.empty;
 
 public class Block {
 
@@ -21,7 +22,10 @@ public class Block {
 		if (!StringUtils.equals(s, "hello")) {
 			logger.info(s);
 		}
-		if (StringUtils.isNotEmpty(s)) {
+		if (empty(s)) {
+			logger.info(s);
+		}
+		if (!empty(s)) {
 			logger.info(s);
 		}
 		if (!StringUtils.isNotEmpty(s)) {
