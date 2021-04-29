@@ -30,7 +30,7 @@ contexts:
       scope: keyword
 
     # Block Keyword
-    - match: '\b(super|this|return|continue|break|throw|instanceof|print|debug|error)\b'
+    - match: '\b(super|this|return|continue|break|throw|instanceof|print|debug|error|empty)\b'
       scope: keyword
 
     # Basic Type 
