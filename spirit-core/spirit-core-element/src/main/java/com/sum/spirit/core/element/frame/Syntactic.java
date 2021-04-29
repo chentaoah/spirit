@@ -55,8 +55,8 @@ public abstract class Syntactic extends Statement {
 		return syntax == SyntaxEnum.ASSIGN;
 	}
 
-	public boolean isObjectAssign() {
-		return syntax == SyntaxEnum.OBJECT_ASSIGN;
+	public boolean isStructAssign() {
+		return syntax == SyntaxEnum.STRUCT_ASSIGN;
 	}
 
 	public boolean isDeclareFunc() {

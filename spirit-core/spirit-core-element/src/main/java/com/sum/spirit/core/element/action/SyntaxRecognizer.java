@@ -147,7 +147,7 @@ public class SyntaxRecognizer {
 			Token prevToken = firstNode.prev.token;
 			Token nextToken = firstNode.next.token;
 			if (nextToken.isSeparator() && SymbolEnum.LEFT_CURLY_BRACKET.value.equals(nextToken.toString())) {// var = {
-				return SyntaxEnum.OBJECT_ASSIGN;
+				return SyntaxEnum.STRUCT_ASSIGN;
 
 			} else if (prevToken.isType()) {// String text = "abc"
 				return SyntaxEnum.DECLARE_ASSIGN;

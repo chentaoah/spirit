@@ -74,7 +74,7 @@ public class DefaultDocumentReader implements DocumentReader {
 	}
 
 	public boolean mergeLinesIfPossible(Document document, List<String> lines, int startIndex, Element element) {
-		if (element.isObjectAssign()) {
+		if (element.isStructAssign()) {
 			StringBuilder builder = new StringBuilder(lines.get(startIndex));
 			for (int index = startIndex + 1; index < lines.size(); index++) {
 				builder.append(StrUtil.removeAny(lines.get(index), "\t").trim());
