@@ -1,6 +1,7 @@
 package com.sum.spirit.common.constants;
 
 public class Attribute {
+
 	public static final String SIMPLE_NAME = "SIMPLE_NAME"; // 类名
 	public static final String MEMBER_NAME = "MEMBER_NAME"; // 字段名或者方法名
 
@@ -12,4 +13,5 @@ public class Attribute {
 
 	public static final String TYPE = "TYPE"; // 类型
 	public static final String DERIVED = "DERIVED"; // 是否声明
+
 }
