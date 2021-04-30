@@ -37,9 +37,6 @@ public class BorderAction extends RegionAction {
 			char endChar = builder.charAt(region.endIndex - 1);
 			if (splitChars.contains(startChar) && splitChars.contains(endChar)) {
 				newRegions.add(new Region(region.startIndex, region.startIndex + 1));
-				if (region.endIndex - region.startIndex > 1) {
-					newRegions.add(new Region(region.startIndex + 1, region.endIndex - 1));
-				}
 				newRegions.add(new Region(region.endIndex - 1, region.endIndex));
 			}
 		}
