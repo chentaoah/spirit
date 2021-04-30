@@ -32,12 +32,10 @@ public abstract class AbstractRegionLexer extends AbstractCharsHandler implement
 
 	public void completeRegions(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
-		if (lexerContext.words == null) {
-			List<Region> regions = lexerContext.regions;
-			Set<Region> completedRegions = new HashSet<Region>();
-			regions = RegionUtils.completeRegions(builder, regions, region -> completedRegions.add(region));
-			lexerContext.words = RegionUtils.subRegions(builder, regions, (words, region, text) -> addToWords(words, completedRegions, region, text));
-		}
+		List<Region> regions = lexerContext.regions;
+		Set<Region> completedRegions = new HashSet<Region>();
+		regions = RegionUtils.completeRegions(builder, regions, region -> completedRegions.add(region));
+		lexerContext.words = RegionUtils.subRegions(builder, regions, (words, region, text) -> addToWords(words, completedRegions, region, text));
 	}
 
 	public void addToWords(List<String> words, Set<Region> completedRegions, Region region, String text) {

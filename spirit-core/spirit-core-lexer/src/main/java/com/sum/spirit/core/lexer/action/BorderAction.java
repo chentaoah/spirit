@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
+import com.sum.spirit.core.lexer.utils.RegionUtils;
 import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 @Component
@@ -31,17 +31,20 @@ public class BorderAction extends RegionAction {
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
 
-		List<Integer> indexs = new ArrayList<>();
+		List<Region> newRegions = new ArrayList<>();
 		for (Region region : regions) {
 			char startChar = builder.charAt(region.startIndex);
 			char endChar = builder.charAt(region.endIndex - 1);
 			if (splitChars.contains(startChar) && splitChars.contains(endChar)) {
-				indexs.add(region.startIndex);
-				indexs.add(region.endIndex - 1);
+				newRegions.add(new Region(region.startIndex, region.startIndex + 1));
+				if (region.endIndex - region.startIndex > 1) {
+					newRegions.add(new Region(region.startIndex + 1, region.endIndex - 1));
+				}
+				newRegions.add(new Region(region.endIndex - 1, region.endIndex));
 			}
 		}
 
-		context.words = Splitter.splitByIndexsTrimRemain(builder.toString(), indexs);
+		context.regions = RegionUtils.completeRegions(builder, newRegions);
 		context.index = builder.length();
 		return new LexerResult(State.BREAK, null);
 	}

@@ -36,7 +36,9 @@ public class RegionUtils {
 			if (region.startIndex > lastIndex) {
 				Region newRegion = new Region(lastIndex, region.startIndex);
 				newRegions.add(newRegion);
-				consumer.accept(newRegion);
+				if (consumer != null) {
+					consumer.accept(newRegion);
+				}
 			}
 			newRegions.add(region);
 			lastIndex = region.endIndex;
@@ -44,9 +46,15 @@ public class RegionUtils {
 		if (lastIndex < builder.length()) {
 			Region newRegion = new Region(lastIndex, builder.length());
 			newRegions.add(newRegion);
-			consumer.accept(newRegion);
+			if (consumer != null) {
+				consumer.accept(newRegion);
+			}
 		}
 		return newRegions;
+	}
+
+	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions) {
+		return completeRegions(builder, regions, null);
 	}
 
 	public static List<String> subRegions(StringBuilder builder, List<Region> regions, Consumer0<Region> consumer) {

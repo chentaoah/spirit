@@ -381,4 +381,22 @@ public class LexerTest {
 		assertEquals(words.get(count++), ".name");
 	}
 
+	@Test
+	@DisplayName("MY_TEST3")
+	public void test0025() {
+		String text = ".format(\"Clock moved backwards.Refusing to generate id for %d milliseconds\", lastTimestamp - timestamp)";
+		List<String> words = lexer.getSubWords(text, '(', ')', '[', ']', '{', '}');
+		log.info(words.toString());
+		assertTrue(words.size() == 8);
+		int count = 0;
+		assertEquals(words.get(count++), ".format");
+		assertEquals(words.get(count++), "(");
+		assertEquals(words.get(count++), "\"Clock moved backwards.Refusing to generate id for %d milliseconds\"");
+		assertEquals(words.get(count++), ",");
+		assertEquals(words.get(count++), "lastTimestamp");
+		assertEquals(words.get(count++), "-");
+		assertEquals(words.get(count++), "timestamp");
+		assertEquals(words.get(count++), ")");
+	}
+
 }
