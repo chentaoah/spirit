@@ -335,4 +335,50 @@ public class LexerTest {
 		assertEquals(words.get(count++), ")");
 	}
 
+	@Test
+	@DisplayName("MY_TEST")
+	public void test0022() {
+		String text = "xxxxG_Alias=\"Clock moved backwards.G_Alias to generate id for %d milliseconds\"";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 3);
+		int count = 0;
+		assertEquals(words.get(count++), "xxxxG_Alias");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "\"Clock moved backwards.G_Alias to generate id for %d milliseconds\"");
+	}
+
+	@Test
+	@DisplayName("MY_TEST1")
+	public void test0023() {
+		String text = "if s==\"hello\"{";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 5);
+		int count = 0;
+		assertEquals(words.get(count++), "if");
+		assertEquals(words.get(count++), "s");
+		assertEquals(words.get(count++), "==");
+		assertEquals(words.get(count++), "\"hello\"");
+		assertEquals(words.get(count++), "{");
+	}
+
+	@Test
+	@DisplayName("MY_TEST2")
+	public void test0024() {
+		String text = "b=father.child.father.child.father.name";
+		List<String> words = lexer.getWords(text);
+		log.info(words.toString());
+		assertTrue(words.size() == 8);
+		int count = 0;
+		assertEquals(words.get(count++), "b");
+		assertEquals(words.get(count++), "=");
+		assertEquals(words.get(count++), "father");
+		assertEquals(words.get(count++), ".child");
+		assertEquals(words.get(count++), ".father");
+		assertEquals(words.get(count++), ".child");
+		assertEquals(words.get(count++), ".father");
+		assertEquals(words.get(count++), ".name");
+	}
+
 }

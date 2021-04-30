@@ -63,7 +63,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			token.tokenType = getAccessTokenType(word);
 		}
 
-		Assert.notNull(token.tokenType, "Token type cannot be null!");
+		Assert.notNull(token.tokenType, "Token type cannot be null!word:[" + word + "]");
 	}
 
 	public void setTokenValue(String word, Token token) {

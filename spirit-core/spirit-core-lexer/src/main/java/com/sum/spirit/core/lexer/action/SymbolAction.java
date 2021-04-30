@@ -4,25 +4,24 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.SymbolEnum;
+import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
+import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
+import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 @Component
-@Order(-80)
-public class SymbolAction extends AbstractLexerAction {
+@Order(-60)
+public class SymbolAction implements LexerAction {
 
 	@Override
 	public boolean isTrigger(CharEvent event) {
 		return SymbolEnum.isSymbolChar(event.ch);
 	}
 
-	/**
-	 * -尝试拆分双字符和单字符符号
-	 */
 	@Override
-	public void handle(CharEvent event) {
-
+	public LexerResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 
@@ -30,16 +29,15 @@ public class SymbolAction extends AbstractLexerAction {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
-				replaceRegion(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
-				return;
+				context.index++;// 符合条件，则跳过一个单位
+				return new LexerResult(State.SKIP, region);
 			}
 		}
 
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			replaceRegion(builder, region, "@symbol" + context.nameCount++, context.replacedStrs);
-			return;
+			return new LexerResult(State.SKIP, region);
 		}
 
 		throw new RuntimeException("Unable to process symbol!");

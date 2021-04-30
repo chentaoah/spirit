@@ -8,18 +8,14 @@ import com.sum.spirit.core.lexer.entity.CharsContext;
 public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 
 	@Override
-	public void handle(CharsContext context, StringBuilder builder, CharAction action) {
+	public void handle(CharsContext context, StringBuilder builder) {
 		for (; context.index < builder.length(); context.index++) {
 			char ch = builder.charAt(context.index);
 			CharEvent event = new CharEvent(context, ch);
-			if (action.isTrigger(event)) {
-				action.handle(event);
+			if (this.isTrigger(event)) {
+				this.handle(event);
 			}
 		}
-	}
-
-	public void handle(CharsContext context, StringBuilder builder) {
-		handle(context, builder, this);
 	}
 
 }
