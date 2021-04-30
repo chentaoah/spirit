@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class LexerResult {
 
 	public enum State {
-		TRY, SKIP
+		CONTINUE, BREAK
 	}
 
 	public State state;

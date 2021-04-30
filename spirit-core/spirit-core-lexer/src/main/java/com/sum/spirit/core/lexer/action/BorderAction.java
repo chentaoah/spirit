@@ -43,7 +43,7 @@ public class BorderAction extends RegionAction {
 
 		context.words = Splitter.splitByIndexsTrimRemain(builder.toString(), indexs);
 		context.index = builder.length();
-		return new LexerResult(State.SKIP, null);
+		return new LexerResult(State.BREAK, null);
 	}
 
 }

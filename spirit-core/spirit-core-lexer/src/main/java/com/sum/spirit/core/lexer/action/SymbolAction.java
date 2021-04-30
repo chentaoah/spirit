@@ -30,14 +30,14 @@ public class SymbolAction implements LexerAction {
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
 				context.index++;// 符合条件，则跳过一个单位
-				return new LexerResult(State.SKIP, region);
+				return new LexerResult(State.BREAK, region);
 			}
 		}
 
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			return new LexerResult(State.SKIP, region);
+			return new LexerResult(State.BREAK, region);
 		}
 
 		throw new RuntimeException("Unable to process symbol!");

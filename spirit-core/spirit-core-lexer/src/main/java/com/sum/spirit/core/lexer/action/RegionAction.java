@@ -97,7 +97,7 @@ public class RegionAction implements LexerAction {
 		LexerContext context = (LexerContext) event.context;
 		Region mergedRegion = RegionUtils.mergeRegions(regions);
 		context.index = mergedRegion.endIndex - 1;
-		return new LexerResult(State.SKIP, mergedRegion);
+		return new LexerResult(State.BREAK, mergedRegion);
 	}
 
 	public boolean isCharAt(StringBuilder builder, int index, char ch) {

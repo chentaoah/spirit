@@ -22,7 +22,7 @@ public class SpaceAction implements LexerAction {
 	@Override
 	public LexerResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
-		return new LexerResult(State.SKIP, new Region(context.index, context.index + 1));
+		return new LexerResult(State.BREAK, new Region(context.index, context.index + 1));
 	}
 
 }

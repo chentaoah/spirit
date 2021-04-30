@@ -19,7 +19,7 @@ import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
 import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
-public abstract class AbstractLexer extends AbstractCharsHandler implements Lexer {
+public abstract class AbstractRegionLexer extends AbstractCharsHandler implements Lexer {
 
 	@Autowired
 	public List<LexerAction> actions;
@@ -67,9 +67,9 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 					LexerContext context = (LexerContext) event.context;
 					context.regions.add(result.region);
 				}
-				if (result.state == State.TRY) {
+				if (result.state == State.CONTINUE) {
 					continue;
-				} else if (result.state == State.SKIP) {
+				} else if (result.state == State.BREAK) {
 					break;
 				}
 			}
