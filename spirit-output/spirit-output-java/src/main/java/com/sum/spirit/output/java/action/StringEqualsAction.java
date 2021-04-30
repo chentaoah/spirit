@@ -19,7 +19,7 @@ import com.sum.spirit.output.java.utils.TypeUtils;
 
 @Native
 @Component
-@Order(-80)
+@Order(-60)
 public class StringEqualsAction extends AbstractTreeElementAction {
 
 	public static final String FORMAT = "StringUtils.equals(%s, %s)";

@@ -39,7 +39,7 @@ class Express {
 		b11=(x +1 >0 && y <100 ) && list.get(0)=="test" && s instanceof Object
 		print "{}",b11
 
-		b111=( s!="test" ) && s=="test" && list.get(0) && s && (!s)
+		b111=( s!="test" ) && s=="test" && !empty(list.get(0))
 		print "{}",b111
 
 		b222=list.get(1).toString()

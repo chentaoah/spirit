@@ -28,11 +28,6 @@ public class Block {
 		if (!empty(s)) {
 			logger.info(s);
 		}
-		if (!StringUtils.isNotEmpty(s)) {
-			logger.info(s);
-		} else {
-			logger.info(s);
-		}
 		if (StringUtils.isNotEmpty(s)) {
 			logger.info(s);
 		}

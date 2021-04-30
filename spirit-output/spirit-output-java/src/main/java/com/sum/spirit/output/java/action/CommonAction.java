@@ -16,7 +16,7 @@ import com.sum.spirit.lib.Maps;
 
 @Native
 @Component
-@Order(-100)
+@Order(-80)
 public class CommonAction extends AbstractElementAction {
 
 	@Override

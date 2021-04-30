@@ -17,11 +17,6 @@ class Block {
 		if !empty(s) {
 			print s
 		}
-		if !s {
-			print s
-		}else{
-			print s
-		}
 		
 		if s : print s
 		
