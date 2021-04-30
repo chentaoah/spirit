@@ -27,10 +27,6 @@ import com.sum.spirit.core.element.entity.Token;
 public class ElementExpressDeclarer extends AbstractScopeElementAction {
 
 	@Autowired
-	public ElementBuilder builder;
-	@Autowired
-	public DefaultElementVisiter elementVisiter;
-	@Autowired
 	public VariableTracker tracker;
 	@Autowired
 	public InvocationVisiter visiter;
@@ -38,6 +34,10 @@ public class ElementExpressDeclarer extends AbstractScopeElementAction {
 	public FragmentDeducer deducer;
 	@Autowired
 	public TypeDerivator derivator;
+	@Autowired
+	public ElementBuilder builder;
+	@Autowired
+	public DefaultElementVisiter elementVisiter;
 
 	@Override
 	public void handle(ElementEvent event) {
