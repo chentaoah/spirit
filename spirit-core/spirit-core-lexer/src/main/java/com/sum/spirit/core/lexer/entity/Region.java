@@ -16,4 +16,8 @@ public class Region {
 		return endIndex - startIndex;
 	}
 
+	public boolean contains(int index) {
+		return startIndex <= index && index < endIndex;
+	}
+
 }
