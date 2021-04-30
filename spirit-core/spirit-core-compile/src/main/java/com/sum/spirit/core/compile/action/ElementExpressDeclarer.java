@@ -24,7 +24,7 @@ import com.sum.spirit.core.element.entity.Token;
 @App
 @Component
 @Order(-80)
-public class ElementExpressDeclarer extends AbstractElementAction {
+public class ElementExpressDeclarer extends AbstractScopeElementAction {
 
 	@Autowired
 	public ElementBuilder builder;

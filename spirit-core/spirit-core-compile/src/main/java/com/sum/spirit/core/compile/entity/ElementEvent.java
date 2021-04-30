@@ -20,6 +20,10 @@ public class ElementEvent {
 		this.context = context;
 	}
 
+	public boolean isFieldScope() {
+		return context == null;
+	}
+
 	public boolean isMethodScope() {
 		return context != null;
 	}

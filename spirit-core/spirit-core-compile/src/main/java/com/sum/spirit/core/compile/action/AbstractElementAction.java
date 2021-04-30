@@ -10,21 +10,4 @@ public abstract class AbstractElementAction implements ElementAction {
 		return event.element != null;
 	}
 
-	@Override
-	public void handle(ElementEvent event) {
-		if (!event.isMethodScope()) {
-			visitFieldScope(event);
-		} else {
-			visitMethodScope(event);
-		}
-	}
-
-	public void visitFieldScope(ElementEvent event) {
-		// ignore
-	}
-
-	public void visitMethodScope(ElementEvent event) {
-		// ignore
-	}
-
 }
