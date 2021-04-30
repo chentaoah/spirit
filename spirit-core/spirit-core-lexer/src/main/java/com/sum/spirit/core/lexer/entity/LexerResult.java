@@ -12,7 +12,6 @@ public class LexerResult {
 	}
 
 	public State state;
-
 	public Region region;
 
 }
