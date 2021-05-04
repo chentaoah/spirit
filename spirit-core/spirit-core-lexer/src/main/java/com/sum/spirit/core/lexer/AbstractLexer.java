@@ -19,7 +19,7 @@ import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
 import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
-public abstract class AbstractRegionLexer extends AbstractCharsHandler implements Lexer {
+public abstract class AbstractLexer extends AbstractCharsHandler implements Lexer {
 
 	@Autowired
 	public List<LexerAction> actions;

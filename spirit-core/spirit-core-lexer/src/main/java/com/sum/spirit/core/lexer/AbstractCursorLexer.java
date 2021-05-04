@@ -4,7 +4,7 @@ import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 
-public abstract class AbstractCursorLexer extends AbstractRegionLexer {
+public abstract class AbstractCursorLexer extends AbstractLexer {
 
 	@Override
 	public void handle(CharEvent event) {
