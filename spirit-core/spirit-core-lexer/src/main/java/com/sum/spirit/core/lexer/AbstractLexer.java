@@ -1,9 +1,7 @@
 package com.sum.spirit.core.lexer;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +15,7 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
+import com.sum.spirit.core.lexer.utils.RegionUtils.completedRegion;
 import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 public abstract class AbstractLexer extends AbstractCharsHandler implements Lexer {
@@ -33,22 +32,19 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	public void completeRegions(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
 		List<Region> regions = lexerContext.regions;
-		Set<Region> completedRegions = new HashSet<>();
-		regions = RegionUtils.completeRegions(builder, regions, region -> completedRegions.add(region));
-		lexerContext.words = RegionUtils.subRegions(builder, regions, (words, region, text) -> addToWords(words, completedRegions, region, text));
+		regions = RegionUtils.completeRegions(builder, regions);
+		lexerContext.words = RegionUtils.subRegions(builder, regions, this::addToWords);
 	}
 
-	public void addToWords(List<String> words, Set<Region> completedRegions, Region region, String text) {
-		if (completedRegions.contains(region)) {
+	public void addToWords(List<String> words, Region region, String text) {
+		if (region instanceof completedRegion) {
 			if (text.indexOf(".") > 0 && !LiteralEnum.isDouble(text) && !TypeEnum.isTypeEnd(text)) {
 				List<String> subWords = Arrays.asList(text.replaceAll("\\.", " .").split(" "));
 				words.addAll(subWords);
-			} else {
-				words.add(text);
+				return;
 			}
-		} else {
-			words.add(text);
 		}
+		words.add(text);
 	}
 
 	@Override

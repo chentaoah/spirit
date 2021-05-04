@@ -41,7 +41,7 @@ public class BorderAction extends RegionAction {
 			}
 		}
 
-		context.regions = RegionUtils.completeRegions(builder, newRegions);
+		context.regions = RegionUtils.completeRegions(builder, newRegions, (startIndex, endIndex) -> new Region(startIndex, endIndex));
 		context.index = builder.length();
 		return new LexerResult(State.BREAK, null);
 	}

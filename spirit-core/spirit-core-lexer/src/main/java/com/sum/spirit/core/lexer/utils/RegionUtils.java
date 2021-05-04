@@ -29,35 +29,29 @@ public class RegionUtils {
 		return new Region(startRegion.startIndex, endRegion.endIndex);
 	}
 
-	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions, Consumer<Region> consumer) {
-		List<Region> newRegions = new ArrayList<>();
+	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions, Factory factory) {
+		List<Region> completedRegions = new ArrayList<>();
 		int lastIndex = 0;
 		for (Region region : regions) {
 			if (region.startIndex > lastIndex) {
-				Region newRegion = new Region(lastIndex, region.startIndex);
-				newRegions.add(newRegion);
-				if (consumer != null) {
-					consumer.accept(newRegion);
-				}
+				Region newRegion = factory.newRegion(lastIndex, region.startIndex);
+				completedRegions.add(newRegion);
 			}
-			newRegions.add(region);
+			completedRegions.add(region);
 			lastIndex = region.endIndex;
 		}
 		if (lastIndex < builder.length()) {
-			Region newRegion = new Region(lastIndex, builder.length());
-			newRegions.add(newRegion);
-			if (consumer != null) {
-				consumer.accept(newRegion);
-			}
+			Region newRegion = factory.newRegion(lastIndex, builder.length());
+			completedRegions.add(newRegion);
 		}
-		return newRegions;
+		return completedRegions;
 	}
 
 	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions) {
-		return completeRegions(builder, regions, null);
+		return completeRegions(builder, regions, (startIndex, endIndex) -> new completedRegion(startIndex, endIndex));
 	}
 
-	public static List<String> subRegions(StringBuilder builder, List<Region> regions, Consumer0<Region> consumer) {
+	public static List<String> subRegions(StringBuilder builder, List<Region> regions, Consumer consumer) {
 		List<String> words = new ArrayList<>();
 		for (Region region : regions) {
 			String text = subRegion(builder, region);
@@ -68,12 +62,18 @@ public class RegionUtils {
 		return words;
 	}
 
-	public static interface Consumer<T> {
-		void accept(T t);
+	public static interface Factory {
+		Region newRegion(int startIndex, int endIndex);
 	}
 
-	public static interface Consumer0<T> {
-		void accept(List<String> words, T t, String text);
+	public static interface Consumer {
+		void accept(List<String> words, Region region, String text);
+	}
+
+	public static class completedRegion extends Region {
+		public completedRegion(int startIndex, int endIndex) {
+			super(startIndex, endIndex);
+		}
 	}
 
 }
