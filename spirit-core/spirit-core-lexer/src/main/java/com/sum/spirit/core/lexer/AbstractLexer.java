@@ -31,8 +31,7 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 
 	public void completeRegions(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
-		List<Region> regions = lexerContext.regions;
-		regions = RegionUtils.completeRegions(builder, regions);
+		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);
 		lexerContext.words = RegionUtils.subRegions(builder, regions, this::addToWords);
 	}
 
