@@ -6,6 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.TypeEnum;
+import com.sum.spirit.common.exception.UnhandledException;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
@@ -90,7 +91,7 @@ public class RegionAction implements LexerAction {
 			return pushStack(event, ListUtils.toListNonNull(region0, region1, region2));
 		}
 
-		throw new RuntimeException("Can't handle the scene!");
+		throw new UnhandledException();
 	}
 
 	public LexerResult pushStack(CharEvent event, List<Region> regions) {
