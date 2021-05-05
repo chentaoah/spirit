@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.annotation.App;
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.ElementBuilder;
+import com.sum.spirit.core.api.ElementVisiter;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.DefaultElementVisiter;
 import com.sum.spirit.core.compile.deduce.FragmentDeducer;
 import com.sum.spirit.core.compile.deduce.InvocationVisiter;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
@@ -37,7 +37,7 @@ public class ElementExpressDeclarer extends AbstractScopeElementAction {
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public DefaultElementVisiter elementVisiter;
+	public ElementVisiter elementVisiter;
 
 	@Override
 	public void handle(ElementEvent event) {
