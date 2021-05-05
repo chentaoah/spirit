@@ -100,8 +100,8 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
 		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		List<Token> tokens = null;
-		String first = words.get(0);
 
+		String first = words.get(0);
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			List<String> subWords = words.subList(1, words.size());
