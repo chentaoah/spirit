@@ -99,7 +99,7 @@ public class NativeClassLinker implements ClassLinker {
 
 	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = toClass(type);
-		List<Method> methods = ListUtils.collectAll(Arrays.asList(clazz.getDeclaredMethods()), method -> methodName.equals(method.getName()));
+		List<Method> methods = ListUtils.findAll(Arrays.asList(clazz.getDeclaredMethods()), method -> methodName.equals(method.getName()));
 		return ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
 	}
 

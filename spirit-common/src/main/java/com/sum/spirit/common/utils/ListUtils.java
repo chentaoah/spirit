@@ -81,6 +81,10 @@ public class ListUtils {
 		return CollUtil.findOne(collection, item -> matcher.accept(item));
 	}
 
+	public static <T> List<T> findAll(List<T> list, Matcher<T> matcher) {
+		return CollUtil.filterNew(list, item -> matcher.accept(item));
+	}
+
 	public static <T> T findOneByScore(Iterable<T> collection, Selector<T> selector) {
 		Integer maxScore = null;
 		T finalItem = null;
@@ -156,10 +160,6 @@ public class ListUtils {
 			}
 		}
 		return list0;
-	}
-
-	public static <T> List<T> collectAll(List<T> list, Matcher<T> matcher) {
-		return CollUtil.filterNew(list, item -> matcher.accept(item));
 	}
 
 	public static interface Matcher<T> {
