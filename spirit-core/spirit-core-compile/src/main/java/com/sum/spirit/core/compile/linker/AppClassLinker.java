@@ -76,7 +76,7 @@ public class AppClassLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		IClass clazz = toClass(type);
 		List<IMethod> methods = clazz.getMethods(methodName);
-		IMethod method = ListUtils.findOne(methods, eachMethod -> matcher.matches(type, eachMethod, parameterTypes));
+		IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
 		if (method != null) {
 			return derivator.populate(type, visiter.visitMember(clazz, method));
 		}

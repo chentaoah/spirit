@@ -15,17 +15,22 @@ public class MethodMatcher {
 	@Autowired
 	public TypeDerivator derivator;
 
-	public boolean matches(IType type, IMethod method, List<IType> parameterTypes) {
-		if (method.parameters.size() == parameterTypes.size()) {
-			for (int index = 0; index < method.parameters.size(); index++) {
-				IParameter parameter = method.parameters.get(index);
-				IType parameterType = derivator.populate(type, parameter.getType());
-				if (!derivator.isMoreAbstract(parameterType, parameterTypes.get(index))) {
-					return false;
-				}
-			}
-			return true;
+	public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
+		if (method.parameters.size() != parameterTypes.size()) {
+			return null;
 		}
-		return false;
+		Integer finalScore = 0;
+		int index = 0;
+		for (IParameter parameter : method.parameters) {
+			IType parameterType = derivator.populate(type, parameter.getType());
+			Integer scope = derivator.getAbstractScore(parameterType, parameterTypes.get(index++));
+			if (scope != null) {
+				finalScore += scope;
+			} else {
+				finalScore = null;
+				break;
+			}
+		}
+		return finalScore;
 	}
 }

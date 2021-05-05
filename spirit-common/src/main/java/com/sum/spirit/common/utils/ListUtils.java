@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Assert;
 
 public class ListUtils {
 
@@ -85,13 +86,16 @@ public class ListUtils {
 	}
 
 	public static <T> T findOneByScore(List<T> list, Selector<T> selector) {
-		Integer finalScore = null;
+		Integer maxScore = null;
 		T finalItem = null;
 		for (T item : list) {
-			int score = selector.accept(item);
-			if (finalScore == null || score > finalScore) {
-				finalScore = score;
-				finalItem = item;
+			Integer score = selector.accept(item);
+			if (score != null) {
+				Assert.isFalse(maxScore != null && maxScore.intValue() == score.intValue(), "The score cannot be the same!");
+				if (maxScore == null || score > maxScore) {
+					maxScore = score;
+					finalItem = item;
+				}
 			}
 		}
 		return finalItem;
@@ -175,7 +179,7 @@ public class ListUtils {
 	}
 
 	public static interface Selector<T> {
-		int accept(T t);
+		Integer accept(T t);
 	}
 
 }
