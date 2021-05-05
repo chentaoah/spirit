@@ -97,12 +97,12 @@ public class ListUtils {
 		return finalItem;
 	}
 
-	public static <T> List<T> filterStoppable(List<T> list, Filter<T> filter) {
+	public static <T> List<T> filterStoppable(List<T> list, Matcher<T> matcher) {
 		List<T> items = new ArrayList<>();
 		Iterator<T> iterable = list.iterator();
 		while (iterable.hasNext()) {
 			T item = iterable.next();
-			if (filter.accept(item)) {
+			if (matcher.accept(item)) {
 				items.add(item);
 				iterable.remove();
 			} else {
@@ -113,8 +113,8 @@ public class ListUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <V, T> List<V> filterStoppable(List<T> list, Filter<T> filter, Factory<T> factory) {
-		List<T> items = filterStoppable(list, filter);
+	public static <V, T> List<V> filterStoppable(List<T> list, Matcher<T> matcher, Factory<T> factory) {
+		List<T> items = filterStoppable(list, matcher);
 		List<V> list0 = new ArrayList<>();
 		items.forEach(item -> list0.add((V) factory.accept(item)));
 		return list0;
@@ -163,10 +163,6 @@ public class ListUtils {
 	}
 
 	public static interface Matcher<T> {
-		boolean accept(T t);
-	}
-
-	public static interface Filter<T> {
 		boolean accept(T t);
 	}
 
