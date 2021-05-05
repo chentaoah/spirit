@@ -80,7 +80,7 @@ public class DefaultDocumentReader implements DocumentReader {
 				builder.append(StrUtil.removeAny(lines.get(index), "\t").trim());
 				int end = LineUtils.findEndIndex(builder, 0, '{', '}');
 				if (end != -1) {
-					ListUtils.remove(lines, startIndex, index + 1);
+					ListUtils.removeByIndex(lines, startIndex, index + 1);
 					lines.add(startIndex, builder.toString());
 					return true;
 				}

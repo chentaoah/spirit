@@ -48,7 +48,7 @@ public class ListUtils {
 		return lastIndex;
 	}
 
-	public static <T> void remove(List<T> list, int fromIndex, int toIndex) {
+	public static <T> void removeByIndex(List<T> list, int fromIndex, int toIndex) {
 		for (int index = toIndex - 1; index >= fromIndex; index--) {
 			list.remove(index);
 		}

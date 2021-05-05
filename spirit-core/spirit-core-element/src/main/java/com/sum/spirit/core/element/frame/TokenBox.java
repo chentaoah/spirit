@@ -38,7 +38,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public void replaceTokens(int fromIndex, int toIndex, Token token) {
-		ListUtils.remove(this, fromIndex, toIndex);
+		ListUtils.removeByIndex(this, fromIndex, toIndex);
 		add(fromIndex, token);
 	}
 
