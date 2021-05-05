@@ -54,17 +54,20 @@ public class AdaptiveClassLinker implements ClassLinker {
 		if (type.isPrimitive()) {
 			return null;
 		}
+
 		if (type.isArray()) {
 			return StaticTypes.OBJECT;
 		}
+
 		if (StaticTypes.OBJECT.equals(type)) {
 			return null;
 		}
-		// 如果不存在父类，则返回Object
-		IType superType = getLinker(type).getSuperType(type);
+
+		IType superType = getLinker(type).getSuperType(type);// 如果不存在父类，则返回Object
 		if (superType == null) {
 			return StaticTypes.OBJECT;
 		}
+
 		int modifiers = type.getModifiers();
 		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
 			superType.setModifiers(ModifierEnum.SUPER.value);
@@ -72,6 +75,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		} else if (modifiers == ModifierEnum.PUBLIC.value) {
 			superType.setModifiers(ModifierEnum.PUBLIC.value);
 		}
+
 		return superType;
 	}
 
@@ -90,29 +94,31 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
-		// xxx.class class是关键字
-		if (KeywordEnum.CLASS.value.equals(fieldName)) {
+
+		if (KeywordEnum.CLASS.value.equals(fieldName)) {// xxx.class class是关键字
 			return factory.create(StaticTypes.CLASS.getClassName(), derivator.toBox(type));
 		}
-		// 原始类型没有属性和方法
-		if (type.isPrimitive()) {
+
+		if (type.isPrimitive()) {// 原始类型没有属性和方法
 			throw new RuntimeException("The primitive type has no field!");
 		}
-		// 访问数组length直接返回int类型
-		if (type.isArray() && ARRAY_LENGTH.equals(fieldName)) {
+
+		if (type.isArray() && ARRAY_LENGTH.equals(fieldName)) {// 访问数组length直接返回int类型
 			return StaticTypes.INT;
 		}
-		// 向上遍历推导
-		IType returnType = getLinker(type).visitField(type, fieldName);
+
+		IType returnType = getLinker(type).visitField(type, fieldName);// 向上遍历推导
 		if (returnType == null) {
 			IType superType = getSuperType(type);
 			if (superType != null) {
 				return visitField(superType, fieldName);
 			}
 		}
+
 		if (returnType == null) {
 			throw new NoSuchFieldException(String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
 		}
+
 		return returnType;
 	}
 
@@ -120,33 +126,35 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
-		// super()和this()指代父类或者本身的构造函数，返回这个类本身
-		if (KeywordEnum.SUPER.value.equals(methodName) || KeywordEnum.THIS.value.equals(methodName)) {
+
+		if (KeywordEnum.SUPER.value.equals(methodName) || KeywordEnum.THIS.value.equals(methodName)) {// super()和this()指代父类或者本身的构造函数，返回这个类本身
 			return type;
 		}
-		// 原始类型没有属性和方法
-		if (type.isPrimitive()) {
+
+		if (type.isPrimitive()) {// 原始类型没有属性和方法
 			throw new RuntimeException("The primitive type has no method!");
 		}
-		// 原始类型没有属性和方法
-		if (type.isArray()) {
+
+		if (type.isArray()) {// 原始类型没有属性和方法
 			throw new RuntimeException("Array has no method!");
 		}
-		// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
-		if (StaticTypes.OBJECT.equals(type) && KeywordEnum.EMPTY.value.equals(methodName)) {
+
+		if (StaticTypes.OBJECT.equals(type) && KeywordEnum.EMPTY.value.equals(methodName)) {// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
 			return StaticTypes.BOOLEAN;
 		}
-		// 向上遍历推导
-		IType returnType = getLinker(type).visitMethod(type, methodName, parameterTypes);
+
+		IType returnType = getLinker(type).visitMethod(type, methodName, parameterTypes);// 向上遍历推导
 		if (returnType == null) {
 			IType superType = getSuperType(type);
 			if (superType != null) {
 				return visitMethod(superType, methodName, parameterTypes);
 			}
 		}
+
 		if (returnType == null) {
 			throw new NoSuchMethodException(String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
 		}
+
 		return returnType;
 	}
 

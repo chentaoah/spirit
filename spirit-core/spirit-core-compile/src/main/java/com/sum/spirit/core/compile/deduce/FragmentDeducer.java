@@ -1,9 +1,12 @@
 package com.sum.spirit.core.compile.deduce;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Attribute;
+import com.sum.spirit.common.exception.UnhandledException;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -19,18 +22,17 @@ public class FragmentDeducer {
 	public TreeBuilder builder;
 
 	public IType derive(IClass clazz, Statement statement) {
-		// 构建树形结构
-		for (Node node : builder.buildNodes(statement)) {
+		List<Node> nodes = builder.buildNodes(statement);
+		for (Node node : nodes) {
 			IType type = getTypeByNode(clazz, node);
 			if (type != null) {
 				return type;
 			}
 		}
-		throw new RuntimeException("Cannot derive the type!");
+		throw new UnhandledException();
 	}
 
 	public static IType getTypeByNode(IClass clazz, Node node) {
-
 		Token token = node.token;
 
 		// 如果有类型直接返回
@@ -46,6 +48,7 @@ public class FragmentDeducer {
 			// 先取左边的，再取右边的
 			if (node.prev != null) {
 				return getTypeByNode(clazz, node.prev);
+
 			} else if (node.next != null) {
 				return getTypeByNode(clazz, node.next);
 			}
