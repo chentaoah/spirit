@@ -34,8 +34,8 @@ public class SymbolAction implements LexerAction {
 			}
 		}
 
-		String text = builder.substring(context.index, context.index + 1);
-		if (SymbolEnum.isSingleSymbol(text)) {
+		String str = builder.substring(context.index, context.index + 1);
+		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
 			return new LexerResult(State.BREAK, region);
 		}
