@@ -1,4 +1,4 @@
-package com.sum.spirit.output.java.deduce;
+package com.sum.spirit.output.java.linker;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.output.java.deduce.NativeTypeDerivator;
+import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 import com.sum.spirit.output.java.utils.ReflectUtils;
 
 @Component

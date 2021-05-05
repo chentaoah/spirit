@@ -15,7 +15,6 @@ import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AppClassLoader;
-import com.sum.spirit.core.compile.deduce.MethodMatcher;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;

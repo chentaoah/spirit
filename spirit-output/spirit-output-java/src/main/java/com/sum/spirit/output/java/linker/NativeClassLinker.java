@@ -19,7 +19,6 @@ import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.output.java.ExtClassLoader;
-import com.sum.spirit.output.java.deduce.NativeMethodMatcher;
 import com.sum.spirit.output.java.deduce.NativeTypeDerivator;
 import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 import com.sum.spirit.output.java.utils.ReflectUtils;

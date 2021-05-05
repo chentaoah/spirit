@@ -1,4 +1,4 @@
-package com.sum.spirit.core.compile.deduce;
+package com.sum.spirit.core.compile.linker;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.core.clazz.entity.IMethod;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.core.compile.deduce.TypeDerivator;
 
 @Component
 public class MethodMatcher {
