@@ -64,10 +64,4 @@ public class TypePattern {
 						isType(word) || isTypeArray(word) || isGenericType(word));
 	}
 
-	public static boolean isAnyInit(String word) {
-		return isPrimitiveArraySizeInit(word) || isPrimitiveArrayLiteralInit(word) || //
-				isTypeArraySizeInit(word) || isTypeArrayLiteralInit(word) || //
-				isTypeInit(word);
-	}
-
 }
