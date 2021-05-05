@@ -44,7 +44,7 @@ public class LiteralPattern {
 	}
 
 	public static boolean isList(String word) {
-		return !VisitPattern.isVisitIndex(word) && LiteralPattern.LIST_PATTERN.matcher(word).matches();
+		return !AccessPattern.isVisitIndex(word) && LiteralPattern.LIST_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isMap(String word) {

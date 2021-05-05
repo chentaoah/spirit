@@ -8,7 +8,7 @@ import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.pattern.LiteralPattern;
 import com.sum.spirit.common.pattern.TypePattern;
-import com.sum.spirit.common.pattern.VisitPattern;
+import com.sum.spirit.common.pattern.AccessPattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.SemanticContext;
@@ -112,16 +112,16 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getAccessTokenType(String word) {
-		if (VisitPattern.isLocalMethod(word)) {
+		if (AccessPattern.isLocalMethod(word)) {
 			return TokenTypeEnum.LOCAL_METHOD;
 
-		} else if (VisitPattern.isVisitField(word)) {
+		} else if (AccessPattern.isVisitField(word)) {
 			return TokenTypeEnum.VISIT_FIELD;
 
-		} else if (VisitPattern.isVisitMethod(word)) {
+		} else if (AccessPattern.isVisitMethod(word)) {
 			return TokenTypeEnum.VISIT_METHOD;
 
-		} else if (VisitPattern.isVisitIndex(word)) {
+		} else if (AccessPattern.isVisitIndex(word)) {
 			return TokenTypeEnum.VISIT_INDEX;
 		}
 		return null;

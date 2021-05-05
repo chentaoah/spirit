@@ -2,7 +2,7 @@ package com.sum.spirit.common.pattern;
 
 import java.util.regex.Pattern;
 
-public class VisitPattern {
+public class AccessPattern {
 
 	public static final Pattern LOCAL_METHOD_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
 	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*$");
