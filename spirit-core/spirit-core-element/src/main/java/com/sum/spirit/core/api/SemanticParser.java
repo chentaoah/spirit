@@ -14,18 +14,6 @@ public interface SemanticParser {
 
 	Token getTokenInsideType(String word);
 
-	boolean isPath(String word);
-
-	boolean isAnnotation(String word);
-
-	boolean isKeyword(String word);
-
-	boolean isOperator(String word);
-
-	boolean isSeparator(String word);
-
 	boolean isType(String word);
-
-	boolean isVariable(String word);
 
 }

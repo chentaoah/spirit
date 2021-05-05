@@ -41,27 +41,22 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 		return getToken(word, true);
 	}
 
-	@Override
 	public boolean isPath(String word) {
 		return !LiteralPattern.isDouble(word) && PATH_PATTERN.matcher(word).matches();
 	}
 
-	@Override
 	public boolean isAnnotation(String word) {
 		return ANNOTATION_PATTERN.matcher(word).matches();
 	}
 
-	@Override
 	public boolean isKeyword(String word) {
 		return KeywordEnum.isKeyword(word);
 	}
 
-	@Override
 	public boolean isOperator(String word) {
 		return SymbolEnum.getOperator(word) != null;
 	}
 
-	@Override
 	public boolean isSeparator(String word) {
 		return SymbolEnum.getSeparator(word) != null;
 	}
@@ -71,7 +66,6 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 		return TypePattern.isAnyType(word);
 	}
 
-	@Override
 	public boolean isVariable(String word) {
 		return LiteralPattern.isConstVariable(word) || VAR_PATTERN.matcher(word).matches();
 	}
