@@ -72,30 +72,8 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	@Override
-	public boolean isInit(String word) {
-		return TypePattern.isAnyInit(word);
-	}
-
-	@Override
-	public boolean isLiteral(String word) {
-		return LiteralPattern.isNull(word) || LiteralPattern.isBoolean(word) || LiteralPattern.isChar(word) || //
-				LiteralPattern.isInt(word) || LiteralPattern.isLong(word) || LiteralPattern.isDouble(word) || //
-				LiteralPattern.isString(word) || LiteralPattern.isList(word) || LiteralPattern.isMap(word);
-	}
-
-	@Override
-	public boolean isSubexpress(String word) {
-		return SUBEXPRESS_PATTERN.matcher(word).matches();
-	}
-
-	@Override
 	public boolean isVariable(String word) {
 		return LiteralPattern.isConstVariable(word) || VAR_PATTERN.matcher(word).matches();
-	}
-
-	@Override
-	public boolean isAccess(String word) {
-		return VisitPattern.isLocalMethod(word) || VisitPattern.isVisitField(word) || VisitPattern.isVisitMethod(word) || VisitPattern.isVisitIndex(word);
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {
@@ -143,11 +121,14 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getSubexpressTokenType(String word) {
-		if (isType(getCastType(word))) {
-			return TokenTypeEnum.CAST;
-		} else {
-			return TokenTypeEnum.SUBEXPRESS;
+		if (SUBEXPRESS_PATTERN.matcher(word).matches()) {
+			if (isType(getCastType(word))) {
+				return TokenTypeEnum.CAST;
+			} else {
+				return TokenTypeEnum.SUBEXPRESS;
+			}
 		}
+		return null;
 	}
 
 	public TokenTypeEnum getAccessTokenType(String word) {

@@ -26,14 +26,6 @@ public interface SemanticParser {
 
 	boolean isType(String word);
 
-	boolean isInit(String word);
-
-	boolean isLiteral(String word);
-
-	boolean isSubexpress(String word);
-
 	boolean isVariable(String word);
-
-	boolean isAccess(String word);
 
 }

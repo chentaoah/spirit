@@ -22,60 +22,73 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	@Override
 	public Token getToken(String word, boolean insideType) {
 		Token token = new Token();
-		setTokenType(word, token, insideType);
-		setTokenValue(word, token);
-		setTokenAttributes(word, token);
+
+		token.tokenType = getTokenType(word, insideType);
+		Assert.notNull(token.tokenType, "Token type cannot be null!word:[" + word + "]");
+
+		token.value = getTokenValue(token, word);
+		Assert.notNull(token.value, "Token value cannot be null!word:[" + word + "]");
+
+		setTokenAttributes(token, word);
+
 		return token;
 	}
 
-	public void setTokenType(String word, Token token, boolean insideType) {
+	public TokenTypeEnum getTokenType(String word, boolean insideType) {
 		if (isPath(word)) {
-			token.tokenType = TokenTypeEnum.PATH;
+			return TokenTypeEnum.PATH;
 
 		} else if (isAnnotation(word)) {
-			token.tokenType = TokenTypeEnum.ANNOTATION;
+			return TokenTypeEnum.ANNOTATION;
 
 		} else if (isKeyword(word)) {
-			token.tokenType = TokenTypeEnum.KEYWORD;
+			return TokenTypeEnum.KEYWORD;
 
 		} else if (isOperator(word) && !insideType) {// 类型声明中，一般不包含操作符
-			token.tokenType = TokenTypeEnum.OPERATOR;
+			return TokenTypeEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
-			token.tokenType = TokenTypeEnum.SEPARATOR;
+			return TokenTypeEnum.SEPARATOR;
 
 		} else if (isType(word) || (insideType && "?".equals(word))) {
-			token.tokenType = TokenTypeEnum.TYPE;
-
-		} else if (isInit(word)) {
-			token.tokenType = getInitTokenType(word);
-
-		} else if (isLiteral(word)) {
-			token.tokenType = getLiteralTokenType(word);
-
-		} else if (isSubexpress(word)) {
-			token.tokenType = getSubexpressTokenType(word);
-
-		} else if (isVariable(word)) {
-			token.tokenType = TokenTypeEnum.VARIABLE;
-
-		} else if (isAccess(word)) {
-			token.tokenType = getAccessTokenType(word);
+			return TokenTypeEnum.TYPE;
 		}
 
-		Assert.notNull(token.tokenType, "Token type cannot be null!word:[" + word + "]");
+		TokenTypeEnum tokenType = getInitTokenType(word);
+		if (tokenType != null) {
+			return tokenType;
+		}
+
+		tokenType = getLiteralTokenType(word);
+		if (tokenType != null) {
+			return tokenType;
+		}
+
+		tokenType = getSubexpressTokenType(word);
+		if (tokenType != null) {
+			return tokenType;
+		}
+
+		if (isVariable(word)) {
+			return TokenTypeEnum.VARIABLE;
+		}
+
+		tokenType = getAccessTokenType(word);
+		if (tokenType != null) {
+			return tokenType;
+		}
+
+		return null;
 	}
 
-	public void setTokenValue(String word, Token token) {
+	public Object getTokenValue(Token token, String word) {
 		if (token.isType()) {
-			token.value = getStatement(word, true);
+			return getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			token.value = getStatement(word, false);// 拆分数组是为了更好的添加new这个关键字
-
-		} else {
-			token.value = word;
+			return getStatement(word, false);// 拆分数组是为了更好的添加new这个关键字
 		}
+		return word;
 	}
 
 	public Object getStatement(String word, boolean insideType) {
@@ -102,7 +115,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		return new Statement(tokens);
 	}
 
-	public void setTokenAttributes(String word, Token token) {
+	public void setTokenAttributes(Token token, String word) {
 		if (token.isAnnotation()) {
 			token.setAttr(Attribute.SIMPLE_NAME, getAnnotationName(word));
 
