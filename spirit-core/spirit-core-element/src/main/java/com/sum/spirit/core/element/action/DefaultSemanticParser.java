@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.api.Lexer;
+import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -20,10 +21,10 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	public Lexer lexer;
 
 	@Override
-	public Token getToken(String word, boolean insideType) {
+	public Token getToken(SemanticContext context, String word) {
 		Token token = new Token();
 
-		token.tokenType = getTokenType(word, insideType);
+		token.tokenType = getTokenType(word, context.insideType);
 		Assert.notNull(token.tokenType, "Token type cannot be null!word:[" + word + "]");
 
 		token.value = getTokenValue(token, word);
@@ -104,11 +105,11 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		// 如果第一个单词是一个前缀的话，则添加前缀
 		if (PREFIX_PATTERN.matcher(first).matches()) {
 			List<String> subWords = words.subList(1, words.size());
-			tokens = insideType ? getTokensInsideType(subWords) : getTokens(subWords);
+			tokens = getTokens(new SemanticContext(insideType), subWords);
 			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
 
 		} else {
-			tokens = insideType ? getTokensInsideType(words) : getTokens(words);
+			tokens = getTokens(new SemanticContext(insideType), words);
 		}
 
 		Assert.notNull(tokens, "Tokens cannot be null!");

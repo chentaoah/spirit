@@ -11,6 +11,7 @@ import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.pattern.VisitPattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
+import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
@@ -22,23 +23,8 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
 	@Override
-	public List<Token> getTokens(List<String> words) {
-		return ListUtils.collectAll(words, word -> true, word -> getToken(word));
-	}
-
-	@Override
-	public List<Token> getTokensInsideType(List<String> words) {
-		return ListUtils.collectAll(words, word -> true, word -> getTokenInsideType(word));
-	}
-
-	@Override
-	public Token getToken(String word) {
-		return getToken(word, false);
-	}
-
-	@Override
-	public Token getTokenInsideType(String word) {
-		return getToken(word, true);
+	public List<Token> getTokens(SemanticContext context, List<String> words) {
+		return ListUtils.collectAll(words, word -> true, word -> getToken(context, word));
 	}
 
 	public boolean isPath(String word) {
@@ -144,7 +130,5 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	public String getCastType(String word) {
 		return word.substring(1, word.length() - 1);
 	}
-
-	public abstract Token getToken(String word, boolean insideType);
 
 }

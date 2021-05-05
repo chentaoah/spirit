@@ -11,6 +11,7 @@ import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.element.entity.SemanticContext;
 
 import cn.hutool.core.lang.Assert;
 
@@ -41,7 +42,7 @@ public abstract class AbstractTypeFactory implements TypeFactory {
 	@Override
 	public IType create(IClass clazz, String text) {
 		Assert.isTrue(!text.contains("."), "Text cannot contains \".\". Please use the another create method!");
-		return create(clazz, parser.getToken(text));
+		return create(clazz, parser.getToken(new SemanticContext(), text));
 	}
 
 }

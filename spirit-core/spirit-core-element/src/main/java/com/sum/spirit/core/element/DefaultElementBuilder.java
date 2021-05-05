@@ -13,6 +13,7 @@ import com.sum.spirit.core.element.action.LineChecker;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;
 import com.sum.spirit.core.element.entity.Modifiers;
+import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxResult;
 import com.sum.spirit.core.element.entity.Token;
@@ -41,7 +42,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 		try {
 			checker.check(line); // 语法校验
 			List<String> words = lexer.getWords(line.text);// 1.词法分析
-			List<Token> tokens = parser.getTokens(words);// 2.语义分析
+			List<Token> tokens = parser.getTokens(new SemanticContext(), words);// 2.语义分析
 			Modifiers modifiers = new Modifiers(tokens);// 3.修饰词
 			Statement statement = new Statement(tokens);// 4.语句
 			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);// 5.分析语法

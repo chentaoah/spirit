@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.sum.spirit.core.api.SemanticParser;
+import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 
@@ -22,7 +23,7 @@ public class SemanticTest {
 	@DisplayName("PATH")
 	public void test0000() {
 		String text = "com.sum.spirit.example.Animal";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isPath());
 	}
 
@@ -30,7 +31,7 @@ public class SemanticTest {
 	@DisplayName("ANNOTATION")
 	public void test0001() {
 		String text = "@Animal";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isAnnotation());
 	}
 
@@ -38,7 +39,7 @@ public class SemanticTest {
 	@DisplayName("KEYWORD")
 	public void test0002() {
 		String text = "class";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isKeyword());
 	}
 
@@ -46,7 +47,7 @@ public class SemanticTest {
 	@DisplayName("OPERATOR")
 	public void test0003() {
 		String text = "=";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isOperator());
 	}
 
@@ -54,7 +55,7 @@ public class SemanticTest {
 	@DisplayName("SEPARATOR")
 	public void test0004() {
 		String text = "{";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isSeparator());
 	}
 
@@ -62,7 +63,7 @@ public class SemanticTest {
 	@DisplayName("TYPE")
 	public void test0005() {
 		String text = "Horse";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isType());
 	}
 
@@ -70,7 +71,7 @@ public class SemanticTest {
 	@DisplayName("ARRAY_INIT")
 	public void test0006() {
 		String text = "Horse[1]";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isArrayInit());
 	}
 
@@ -78,7 +79,7 @@ public class SemanticTest {
 	@DisplayName("TYPE_INIT")
 	public void test0007() {
 		String text = "Horse()";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isTypeInit());
 	}
 
@@ -86,7 +87,7 @@ public class SemanticTest {
 	@DisplayName("NULL")
 	public void test0008() {
 		String text = "null";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isNull());
 	}
 
@@ -94,7 +95,7 @@ public class SemanticTest {
 	@DisplayName("BOOLEAN")
 	public void test0009() {
 		String text = "true";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isBoolean());
 	}
 
@@ -102,7 +103,7 @@ public class SemanticTest {
 	@DisplayName("CHAR")
 	public void test0010() {
 		String text = "'c'";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isChar());
 	}
 
@@ -110,7 +111,7 @@ public class SemanticTest {
 	@DisplayName("INT")
 	public void test0011() {
 		String text = "0";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isInt());
 	}
 
@@ -118,7 +119,7 @@ public class SemanticTest {
 	@DisplayName("LONG")
 	public void test0012() {
 		String text = "0L";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isLong());
 	}
 
@@ -126,7 +127,7 @@ public class SemanticTest {
 	@DisplayName("DOUBLE")
 	public void test0013() {
 		String text = "0.0";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isDouble());
 	}
 
@@ -134,7 +135,7 @@ public class SemanticTest {
 	@DisplayName("STRING")
 	public void test0014() {
 		String text = "\"Jessie\"";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isString());
 	}
 
@@ -142,7 +143,7 @@ public class SemanticTest {
 	@DisplayName("LIST")
 	public void test0015() {
 		String text = "[\"Jessie\"]";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isList());
 	}
 
@@ -150,7 +151,7 @@ public class SemanticTest {
 	@DisplayName("MAP")
 	public void test0016() {
 		String text = "{\"Jessie\" : 0}";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isMap());
 	}
 
@@ -158,7 +159,7 @@ public class SemanticTest {
 	@DisplayName("SUBEXPRESS")
 	public void test0017() {
 		String text = "(x + y)";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isSubexpress());
 	}
 
@@ -166,7 +167,7 @@ public class SemanticTest {
 	@DisplayName("CAST")
 	public void test0018() {
 		String text = "(Horse)";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isCast());
 	}
 
@@ -174,7 +175,7 @@ public class SemanticTest {
 	@DisplayName("VARIABLE")
 	public void test0019() {
 		String text = "name";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isVariable());
 	}
 
@@ -182,7 +183,7 @@ public class SemanticTest {
 	@DisplayName("LOCAL_METHOD")
 	public void test0020() {
 		String text = "call()";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isLocalMethod());
 	}
 
@@ -190,7 +191,7 @@ public class SemanticTest {
 	@DisplayName("VISIT_FIELD")
 	public void test0021() {
 		String text = ".name";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isVisitField());
 	}
 
@@ -198,7 +199,7 @@ public class SemanticTest {
 	@DisplayName("VISIT_METHOD")
 	public void test0022() {
 		String text = ".call()";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isVisitMethod());
 	}
 
@@ -206,7 +207,7 @@ public class SemanticTest {
 	@DisplayName("VISIT_INDEX")
 	public void test0023() {
 		String text = "[0]";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		assertTrue(token.isVisitIndex());
 	}
 
@@ -214,7 +215,7 @@ public class SemanticTest {
 	@DisplayName("PREFIX")
 	public void test0024() {
 		String text = ".call()";
-		Token token = parser.getToken(text);
+		Token token = parser.getToken(new SemanticContext(), text);
 		Statement statement = token.getValue();
 		assertTrue(statement.get(0).isPrefix());
 	}
