@@ -1,10 +1,11 @@
-package com.sum.spirit.common.enums;
+package com.sum.spirit.common.pattern;
 
 import java.util.regex.Pattern;
 
-public enum TypeEnum {
-	;
-	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
+import com.sum.spirit.common.enums.PrimitiveEnum;
+
+public class TypePattern {
+
 	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+(\\.[a-z]+\\w*)?$");
 
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
@@ -26,7 +27,7 @@ public enum TypeEnum {
 	}
 
 	public static boolean isType(String word) {
-		return !CONST_VAR_PATTERN.matcher(word).matches() && TYPE_PATTERN.matcher(word).matches();
+		return !LiteralPattern.isConstVariable(word) && TYPE_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isTypeArray(String word) {
@@ -58,7 +59,7 @@ public enum TypeEnum {
 	}
 
 	public static boolean isAnyType(String word) {
-		return !CONST_VAR_PATTERN.matcher(word).matches() && //
+		return !LiteralPattern.isConstVariable(word) && //
 				(PrimitiveEnum.isPrimitiveBySimple(word) || PrimitiveEnum.isPrimitiveArrayBySimple(word) || //
 						isType(word) || isTypeArray(word) || isGenericType(word));
 	}

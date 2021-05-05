@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sum.spirit.common.enums.LiteralEnum;
-import com.sum.spirit.common.enums.TypeEnum;
+import com.sum.spirit.common.pattern.LiteralPattern;
+import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
@@ -34,7 +34,7 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 
 	public void addToWords(List<String> words, Region region, String text) {
 		if (region instanceof completedRegion) {
-			if (text.indexOf(".") > 0 && !LiteralEnum.isDouble(text) && !TypeEnum.isTypeEnd(text)) {
+			if (text.indexOf(".") > 0 && !LiteralPattern.isDouble(text) && !TypePattern.isTypeEnd(text)) {
 				List<String> subWords = Arrays.asList(text.replaceAll("\\.", " .").split(" "));
 				words.addAll(subWords);
 				return;

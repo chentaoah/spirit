@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.TypeEnum;
 import com.sum.spirit.common.exception.UnhandledException;
+import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
@@ -69,7 +69,7 @@ public class RegionAction implements LexerAction {
 
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
-			if (region0 != null && !TypeEnum.isTypePrefix(RegionUtils.subRegion(builder, region0))) {
+			if (region0 != null && !TypePattern.isTypePrefix(RegionUtils.subRegion(builder, region0))) {
 				region0 = null;
 			}
 			Region region1 = RegionUtils.findRegion(builder, context.index, '[', ']');

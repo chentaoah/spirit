@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.common.enums.LiteralEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.enums.TypeEnum;
+import com.sum.spirit.common.pattern.LiteralPattern;
+import com.sum.spirit.common.pattern.TypePattern;
+import com.sum.spirit.common.pattern.VisitPattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.Token;
@@ -16,15 +17,8 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-
 	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-	public static final Pattern CONST_VAR_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
 	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
-	public static final Pattern LOCAL_METHOD_PATTERN = Pattern.compile("^[a-z]+\\w*\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_FIELD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*$");
-	public static final Pattern VISIT_METHOD_PATTERN = Pattern.compile("^\\.[a-z]+\\w*\\([\\s\\S]*\\)$");
-	public static final Pattern VISIT_INDEX_PATTERN = Pattern.compile("^\\[\\d+\\]$");
-
 	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
 	@Override
@@ -49,7 +43,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isPath(String word) {
-		return !LiteralEnum.isDouble(word) && PATH_PATTERN.matcher(word).matches();
+		return !LiteralPattern.isDouble(word) && PATH_PATTERN.matcher(word).matches();
 	}
 
 	@Override
@@ -74,19 +68,19 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isType(String word) {
-		return TypeEnum.isAnyType(word);
+		return TypePattern.isAnyType(word);
 	}
 
 	@Override
 	public boolean isInit(String word) {
-		return TypeEnum.isAnyInit(word);
+		return TypePattern.isAnyInit(word);
 	}
 
 	@Override
 	public boolean isLiteral(String word) {
-		return LiteralEnum.isNull(word) || LiteralEnum.isBoolean(word) || LiteralEnum.isChar(word) || //
-				LiteralEnum.isInt(word) || LiteralEnum.isLong(word) || LiteralEnum.isDouble(word) || //
-				LiteralEnum.isString(word) || LiteralEnum.isList(word) || LiteralEnum.isMap(word);
+		return LiteralPattern.isNull(word) || LiteralPattern.isBoolean(word) || LiteralPattern.isChar(word) || //
+				LiteralPattern.isInt(word) || LiteralPattern.isLong(word) || LiteralPattern.isDouble(word) || //
+				LiteralPattern.isString(word) || LiteralPattern.isList(word) || LiteralPattern.isMap(word);
 	}
 
 	@Override
@@ -96,56 +90,53 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 
 	@Override
 	public boolean isVariable(String word) {
-		return CONST_VAR_PATTERN.matcher(word).matches() || VAR_PATTERN.matcher(word).matches();
+		return LiteralPattern.isConstVariable(word) || VAR_PATTERN.matcher(word).matches();
 	}
 
 	@Override
 	public boolean isAccess(String word) {
-		return LOCAL_METHOD_PATTERN.matcher(word).matches() || //
-				VISIT_FIELD_PATTERN.matcher(word).matches() || //
-				VISIT_METHOD_PATTERN.matcher(word).matches() || //
-				VISIT_INDEX_PATTERN.matcher(word).matches();
+		return VisitPattern.isLocalMethod(word) || VisitPattern.isVisitField(word) || VisitPattern.isVisitMethod(word) || VisitPattern.isVisitIndex(word);
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {
-		if (TypeEnum.isPrimitiveArraySizeInit(word) || TypeEnum.isPrimitiveArrayLiteralInit(word)) {
+		if (TypePattern.isPrimitiveArraySizeInit(word) || TypePattern.isPrimitiveArrayLiteralInit(word)) {
 			return TokenTypeEnum.ARRAY_INIT;
 
-		} else if (TypeEnum.isTypeArraySizeInit(word) || TypeEnum.isTypeArrayLiteralInit(word)) {
+		} else if (TypePattern.isTypeArraySizeInit(word) || TypePattern.isTypeArrayLiteralInit(word)) {
 			return TokenTypeEnum.ARRAY_INIT;
 
-		} else if (TypeEnum.isTypeInit(word)) {
+		} else if (TypePattern.isTypeInit(word)) {
 			return TokenTypeEnum.TYPE_INIT;
 		}
 		return null;
 	}
 
 	public TokenTypeEnum getLiteralTokenType(String word) {
-		if (LiteralEnum.isNull(word)) {
+		if (LiteralPattern.isNull(word)) {
 			return TokenTypeEnum.NULL;
 
-		} else if (LiteralEnum.isBoolean(word)) {
+		} else if (LiteralPattern.isBoolean(word)) {
 			return TokenTypeEnum.BOOLEAN;
 
-		} else if (LiteralEnum.isChar(word)) {
+		} else if (LiteralPattern.isChar(word)) {
 			return TokenTypeEnum.CHAR;
 
-		} else if (LiteralEnum.isInt(word)) {
+		} else if (LiteralPattern.isInt(word)) {
 			return TokenTypeEnum.INT;
 
-		} else if (LiteralEnum.isLong(word)) {
+		} else if (LiteralPattern.isLong(word)) {
 			return TokenTypeEnum.LONG;
 
-		} else if (LiteralEnum.isDouble(word)) {
+		} else if (LiteralPattern.isDouble(word)) {
 			return TokenTypeEnum.DOUBLE;
 
-		} else if (LiteralEnum.isString(word)) {
+		} else if (LiteralPattern.isString(word)) {
 			return TokenTypeEnum.STRING;
 
-		} else if (LiteralEnum.isList(word)) {
+		} else if (LiteralPattern.isList(word)) {
 			return TokenTypeEnum.LIST;
 
-		} else if (LiteralEnum.isMap(word)) {
+		} else if (LiteralPattern.isMap(word)) {
 			return TokenTypeEnum.MAP;
 		}
 		return null;
@@ -160,16 +151,16 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getAccessTokenType(String word) {
-		if (LOCAL_METHOD_PATTERN.matcher(word).matches()) {
+		if (VisitPattern.isLocalMethod(word)) {
 			return TokenTypeEnum.LOCAL_METHOD;
 
-		} else if (VISIT_FIELD_PATTERN.matcher(word).matches()) {
+		} else if (VisitPattern.isVisitField(word)) {
 			return TokenTypeEnum.VISIT_FIELD;
 
-		} else if (VISIT_METHOD_PATTERN.matcher(word).matches()) {
+		} else if (VisitPattern.isVisitMethod(word)) {
 			return TokenTypeEnum.VISIT_METHOD;
 
-		} else if (VISIT_INDEX_PATTERN.matcher(word).matches()) {
+		} else if (VisitPattern.isVisitIndex(word)) {
 			return TokenTypeEnum.VISIT_INDEX;
 		}
 		return null;
