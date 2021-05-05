@@ -66,7 +66,7 @@ public class ListUtils {
 		return null;
 	}
 
-	public static <T> T findOne(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
+	public static <T> T findOneByIndex(List<T> list, int fromIndex, int toIndex, Matcher<T> matcher) {
 		int step = toIndex >= fromIndex ? 1 : -1;
 		for (int index = fromIndex; index != toIndex; index += step) {
 			T item = list.get(index);
@@ -77,18 +77,14 @@ public class ListUtils {
 		return null;
 	}
 
-	public static <T> T findOne(List<T> list, Matcher<T> matcher) {
-		return CollUtil.findOne(list, item -> matcher.accept(item));
-	}
-
 	public static <T> T findOne(Iterable<T> collection, Matcher<T> matcher) {
 		return CollUtil.findOne(collection, item -> matcher.accept(item));
 	}
 
-	public static <T> T findOneByScore(List<T> list, Selector<T> selector) {
+	public static <T> T findOneByScore(Iterable<T> collection, Selector<T> selector) {
 		Integer maxScore = null;
 		T finalItem = null;
-		for (T item : list) {
+		for (T item : collection) {
 			Integer score = selector.accept(item);
 			if (score != null) {
 				Assert.isFalse(maxScore != null && maxScore.intValue() == score.intValue(), "The score cannot be the same!");
@@ -160,6 +156,10 @@ public class ListUtils {
 			}
 		}
 		return list0;
+	}
+
+	public static <T> List<T> collectAll(List<T> list, Matcher<T> matcher) {
+		return CollUtil.filterNew(list, item -> matcher.accept(item));
 	}
 
 	public static interface Matcher<T> {

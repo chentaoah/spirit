@@ -88,21 +88,21 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 
 			OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 			if (operandEnum == OperandEnum.LEFT) {
-				Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
+				Node lastNode = ListUtils.findOneByIndex(nodes, index - 1, -1, Objects::nonNull);
 				node.prev = lastNode;
 				nodes.set(lastNode.index, null);
 
 			} else if (operandEnum == OperandEnum.RIGHT) {
-				Node nextNode = ListUtils.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				Node nextNode = ListUtils.findOneByIndex(nodes, index + 1, nodes.size(), Objects::nonNull);
 				node.next = nextNode;
 				nodes.set(nextNode.index, null);
 
 			} else if (operandEnum == OperandEnum.BINARY) {
-				Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
+				Node lastNode = ListUtils.findOneByIndex(nodes, index - 1, -1, Objects::nonNull);
 				node.prev = lastNode;
 				nodes.set(lastNode.index, null);
 
-				Node nextNode = ListUtils.findOne(nodes, index + 1, nodes.size(), Objects::nonNull);
+				Node nextNode = ListUtils.findOneByIndex(nodes, index + 1, nodes.size(), Objects::nonNull);
 				node.next = nextNode;
 				nodes.set(nextNode.index, null);
 
@@ -116,7 +116,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 	public void resetOperandIfMultiple(List<Node> nodes, int index, Token currentToken) {
 		OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 		if (operandEnum == OperandEnum.MULTIPLE) {
-			Node lastNode = ListUtils.findOne(nodes, index - 1, -1, Objects::nonNull);
+			Node lastNode = ListUtils.findOneByIndex(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
 			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {

@@ -3,21 +3,78 @@ package com.sum.spirit.output.java.linker;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.utils.ListUtils;
+import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IType;
+import com.sum.spirit.output.java.ExtClassLoader;
+import com.sum.spirit.output.java.deduce.NativeMethodMatcher;
+import com.sum.spirit.output.java.deduce.NativeTypeDerivator;
+import com.sum.spirit.output.java.deduce.NativeTypeFactory;
 import com.sum.spirit.output.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-80)
-public class NativeClassLinker extends AbstractNativeClassLinker {
+public class NativeClassLinker implements ClassLinker {
+
+	@Autowired
+	public ExtClassLoader classLoader;
+	@Autowired
+	public NativeTypeFactory factory;
+	@Autowired
+	public NativeTypeDerivator derivator;
+	@Autowired
+	public NativeMethodMatcher matcher;
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> T toClass(IType type) {
+		return (T) classLoader.findClass(type.getClassName());// 可能是数组
+	}
+
+	@Override
+	public int getTypeVariableIndex(IType type, String genericName) {
+		Class<?> clazz = toClass(type);
+		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
+		for (int index = 0; index < typeVariables.length; index++) {
+			TypeVariable<?> typeVariable = typeVariables[index];
+			if (typeVariable.toString().equals(genericName)) {
+				return index;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public IType getSuperType(IType type) {
+		Class<?> clazz = toClass(type);
+		Type nativeSuperType = clazz.getGenericSuperclass();
+		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
+		return derivator.populate(type, superType);
+	}
+
+	@Override
+	public List<IType> getInterfaceTypes(IType type) {
+		Class<?> clazz = toClass(type);
+		List<IType> interfaceTypes = new ArrayList<>();
+		for (Type interfaceType : clazz.getGenericInterfaces()) {
+			interfaceTypes.add(derivator.populate(type, factory.create(interfaceType)));
+		}
+		return interfaceTypes;
+	}
 
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
@@ -43,45 +100,8 @@ public class NativeClassLinker extends AbstractNativeClassLinker {
 
 	public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
 		Class<?> clazz = toClass(type);
-		for (Method method : clazz.getDeclaredMethods()) {
-			// 方法名相同,并且参数个数相同或为不定项方法
-			boolean flag = false;
-			if (method.getName().equals(methodName)) {
-				if (!ReflectUtils.isIndefinite(method) && parameterTypes.size() == method.getParameterCount()) {
-					flag = true;
-				} else if (ReflectUtils.isIndefinite(method) && parameterTypes.size() >= method.getParameterCount() - 1) {
-					flag = true;
-				}
-			}
-			// 如果不满足上一条件，直接下一个方法
-			if (!flag) {
-				continue;
-			}
-			// 遍历传入的方法
-			for (int index = 0; index < parameterTypes.size(); index++) {
-				IType parameterType = parameterTypes.get(index);
-				// 保证索引不会溢出
-				int idx = index < method.getParameterCount() - 1 ? index : method.getParameterCount() - 1;
-				// 分为两种情况，一种是最后一个参数之前的，一种是最后一个参数
-				Parameter parameter = method.getParameters()[idx];
-				// 获取本地参数类型
-				IType nativeParameterType = factory.create(parameter.getParameterizedType());
-				// 如果最后一个参数，而且是不定项参数，则取数组里的类型
-				if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
-					nativeParameterType = derivator.toTarget(nativeParameterType);
-				}
-				// 填充类型里的泛型参数
-				nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);
-				if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				return method;
-			}
-		}
-		return null;
+		List<Method> methods = ListUtils.collectAll(Arrays.asList(clazz.getDeclaredMethods()), method -> methodName.equals(method.getName()));
+		return ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
 	}
 
 	public Map<String, IType> getQualifyingTypes(IType type, Method method, List<IType> parameterTypes) {
