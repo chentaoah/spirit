@@ -15,7 +15,6 @@ public class LexerContext extends CharsContext {
 	public List<Region> regions = new ArrayList<>();
 	public String profile;
 	public List<Character> splitChars;
-	public List<String> words;
 
 	public LexerContext(StringBuilder builder) {
 		this.builder = builder;

@@ -11,6 +11,7 @@ import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
+import com.sum.spirit.core.lexer.entity.CharsResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -24,15 +25,11 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	public List<LexerAction> actions;
 
 	@Override
-	public void handle(CharsContext context, StringBuilder builder) {
-		super.handle(context, builder);
-		completeRegions(context, builder);// 使用标记收集算法后，补全未标记的部分
-	}
-
-	public void completeRegions(CharsContext context, StringBuilder builder) {
+	public CharsResult buildResult(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
-		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);
-		lexerContext.words = RegionUtils.subRegions(builder, regions, this::addToWords);
+		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);// 使用标记收集算法后，补全未标记的部分
+		List<String> words = RegionUtils.subRegions(builder, regions, this::addToWords);
+		return new CharsResult(words);
 	}
 
 	public void addToWords(List<String> words, Region region, String text) {

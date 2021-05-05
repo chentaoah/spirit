@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
+import com.sum.spirit.core.lexer.entity.CharsResult;
 
 @Component
 public class AliasCharsHandler extends AbstractCharsHandler {
@@ -19,11 +20,13 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 	 */
 	public String replace(String code, String alias, String className) {
 		AliasCharsContext context = new AliasCharsContext();
-		context.builder = new StringBuilder(code);
+		StringBuilder builder = new StringBuilder(code);
+		context.builder = builder;
 		context.alias = alias;
 		context.className = className;
-		handle(context, context.builder);
-		return context.builder.toString();
+		CharsResult result = handle(context, builder);
+		builder = (StringBuilder) result.payload;
+		return builder.toString();
 	}
 
 	/**
@@ -44,8 +47,7 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 	}
 
 	/**
-	 * -根据alias的宽度，截取一段字符串，如果相等，则进行替换
-	 * -注意：这段字符串的前后，不能是连续的字符
+	 * -根据alias的宽度，截取一段字符串，如果相等，则进行替换 -注意：这段字符串的前后，不能是连续的字符
 	 */
 	@Override
 	public void handle(CharEvent event) {
