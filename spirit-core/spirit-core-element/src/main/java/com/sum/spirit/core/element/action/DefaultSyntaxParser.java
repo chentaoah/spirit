@@ -9,46 +9,44 @@ import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SyntaxEnum;
+import com.sum.spirit.core.api.SyntaxParser;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
+import com.sum.spirit.core.element.entity.SyntaxResult;
 import com.sum.spirit.core.element.entity.SyntaxTree;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
-public class SyntaxRecognizer {
+public class DefaultSyntaxParser implements SyntaxParser {
 
 	@Autowired
 	public TreeBuilder builder;
 
-	/**
-	 * 1.能够不通过语法树获取语法，且后续功能不需要语法树
-	 * 2.能够不通过语法树获取语法，但后续功能需要语法树
-	 * 3.必须通过语法树获取语法
-	 * 
-	 * @param tokens
-	 * @param statement
-	 * @return
-	 */
-	public Object[] parseSyntax(List<Token> tokens, Statement statement) {
+	@Override
+	public SyntaxResult parseSyntax(List<Token> tokens, Statement statement) {
 		Assert.notEmpty(tokens, "The tokens cannot be empty!");
-		SyntaxEnum syntax = getSyntaxWithoutTree(tokens);
-		SyntaxTree syntaxTree = null;
-		if (syntax == null) {
-			syntax = getSyntaxWithTree(tokens);
-			if (syntax != null) {
-				syntaxTree = builder.buildTree(statement);
-			} else {
-				syntaxTree = builder.buildTree(statement);
-				syntax = getSyntaxByTree(syntaxTree);
-			}
+
+		SyntaxEnum syntax = getSyntaxWithoutTree(tokens);// 1.能够不通过语法树获取语法，且后续功能不需要语法树
+		if (syntax != null) {
+			return new SyntaxResult(syntax, null);
 		}
+
+		syntax = getSyntaxWithTree(tokens);// 2.能够不通过语法树获取语法，但后续功能需要语法树
+		if (syntax != null) {
+			SyntaxTree syntaxTree = builder.buildTree(statement);
+			return new SyntaxResult(syntax, syntaxTree);
+		}
+
+		SyntaxTree syntaxTree = builder.buildTree(statement);// 3.必须通过语法树获取语法
+		syntax = getSyntaxByTree(syntaxTree);
 		Assert.notNull(syntax, "The syntax cannot be null!");
-		return new Object[] { syntax, syntaxTree };
+		return new SyntaxResult(syntax, syntaxTree);
 	}
 
+	@Override
 	public SyntaxEnum getSyntaxWithoutTree(List<Token> tokens) {
 		Token firstToken = tokens.get(0);
 		Token secondToken = tokens.size() >= 2 ? tokens.get(1) : null;
@@ -88,6 +86,7 @@ public class SyntaxRecognizer {
 		return null;
 	}
 
+	@Override
 	public SyntaxEnum getSyntaxWithTree(List<Token> tokens) {
 		Token firstToken = tokens.get(0);
 		Token secondToken = tokens.size() >= 2 ? tokens.get(1) : null;
@@ -128,6 +127,7 @@ public class SyntaxRecognizer {
 		return null;
 	}
 
+	@Override
 	public SyntaxEnum getSyntaxByTree(SyntaxTree syntaxTree) {
 		return syntaxTree.nodes.size() == 1 ? getSyntaxByOneNode(syntaxTree) : null;
 	}
