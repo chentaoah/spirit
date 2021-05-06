@@ -6,8 +6,6 @@ import com.sum.spirit.core.clazz.entity.IType;
 
 public interface ClassLinker {
 
-	boolean isHandle(IType type);
-
 	<T> T toClass(IType type);
 
 	int getTypeVariableIndex(IType type, String genericName);

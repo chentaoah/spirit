@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.element.entity.Token;
 
 import cn.hutool.core.lang.Assert;
@@ -16,7 +16,7 @@ public abstract class KeywordTokenBox extends TokenBox {
 	}
 
 	public int indexOfKeyword(String keyword) {
-		return Lists.indexOf(this, token -> token.isKeyword() && keyword.equals(token.toString()));
+		return ListUtils.indexOf(this, token -> token.isKeyword() && keyword.equals(token.toString()));
 	}
 
 	public boolean containsKeyword(String keyword) {
@@ -41,6 +41,10 @@ public abstract class KeywordTokenBox extends TokenBox {
 		add(0, new Token(TokenTypeEnum.KEYWORD, keyword));
 	}
 
+	public void addKeyword(String keyword) {
+		add(new Token(TokenTypeEnum.KEYWORD, keyword));
+	}
+
 	public void insertKeywordAfter(String keyword, String newKeyword) {
 		int index = indexOfKeyword(keyword);
 		if (index != -1) {
@@ -49,7 +53,7 @@ public abstract class KeywordTokenBox extends TokenBox {
 	}
 
 	public int findKeywordEnd(int index) {
-		int endIndex = Lists.indexOf(this, index + 1, token -> token.isKeyword() || (token.isSeparator() && !",".equals(token.toString())));
+		int endIndex = ListUtils.indexOf(this, index + 1, token -> token.isKeyword() || (token.isSeparator() && !",".equals(token.toString())));
 		if (endIndex == -1) {
 			return size();
 		}

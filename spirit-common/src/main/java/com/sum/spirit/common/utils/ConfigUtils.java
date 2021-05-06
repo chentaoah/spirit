@@ -4,7 +4,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.constants.Constants;
+import com.sum.spirit.common.constants.AppConfig;
 
 @Component
 public class ConfigUtils implements EnvironmentAware {
@@ -41,23 +41,19 @@ public class ConfigUtils implements EnvironmentAware {
 	}
 
 	public static String getInputPath() {
-		return ConfigUtils.getProperty(Constants.INPUT_ARG_KEY);
+		return ConfigUtils.getProperty(AppConfig.INPUT_ARG_KEY);
 	}
 
 	public static String getOutputPath() {
-		return ConfigUtils.getProperty(Constants.OUTPUT_ARG_KEY);
+		return ConfigUtils.getProperty(AppConfig.OUTPUT_ARG_KEY);
 	}
 
 	public static String getFileExtension() {
-		return ConfigUtils.getProperty(Constants.FILENAME_EXTENSION_KEY, Constants.DEFAULT_FILENAME_EXTENSION);
+		return ConfigUtils.getProperty(AppConfig.FILENAME_EXTENSION_KEY, AppConfig.DEFAULT_FILENAME_EXTENSION);
 	}
 
 	public static boolean isDebug() {
-		return ConfigUtils.getProperty(Constants.DEBUG_KEY, Constants.DEFAULT_DEBUG);
-	}
-
-	public static boolean isSyntaxCheck() {
-		return ConfigUtils.getProperty(Constants.SYNTAX_CHECK_KEY, Constants.DEFAULT_SYNTAX_CHECK);
+		return ConfigUtils.getProperty(AppConfig.DEBUG_KEY, AppConfig.DEFAULT_DEBUG);
 	}
 
 }

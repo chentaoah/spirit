@@ -3,11 +3,12 @@ package com.sum.test.block;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.common.utils.Maps;
+import com.sum.spirit.lib.Maps;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.google.common.collect.Lists;
+import com.sum.spirit.lib.Lists;
 import java.util.List;
+import static com.sum.spirit.lib.Empty.empty;
 
 public class Block {
 
@@ -21,12 +22,10 @@ public class Block {
 		if (!StringUtils.equals(s, "hello")) {
 			logger.info(s);
 		}
-		if (StringUtils.isNotEmpty(s)) {
+		if (empty(s)) {
 			logger.info(s);
 		}
-		if (!StringUtils.isNotEmpty(s)) {
-			logger.info(s);
-		} else {
+		if (!empty(s)) {
 			logger.info(s);
 		}
 		if (StringUtils.isNotEmpty(s)) {
@@ -49,7 +48,7 @@ public class Block {
 		for (Entry<String, Integer> entry : map.entrySet()) {
 			logger.info("test entry!", entry.getKey());
 		}
-		List<String> list = Lists.newArrayList("first", "second", "third");
+		List<String> list = Lists.of("first", "second", "third");
 		for (String str : list) {
 			logger.info(str);
 			break;

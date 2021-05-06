@@ -11,12 +11,10 @@ class Block {
 		if s!="hello"{
 			print s
 		}
-		if s {
+		if empty(s) {
 			print s
 		}
-		if !s {
-			print s
-		}else{
+		if !empty(s) {
 			print s
 		}
 		

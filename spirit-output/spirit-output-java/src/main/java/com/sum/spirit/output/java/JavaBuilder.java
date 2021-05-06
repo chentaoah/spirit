@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import com.sum.spirit.common.annotation.Native;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.utils.SpringUtils;
 import com.sum.spirit.core.api.CodeBuilder;
@@ -23,19 +24,17 @@ import com.sum.spirit.core.element.entity.Element;
 @DependsOn("springUtils")
 public class JavaBuilder implements CodeBuilder, InitializingBean {
 
-	public static final String JAVA_PACKAGE = "com.sum.spirit.output.java";
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
 	public static final String FINAL_KEYWORD = "final";
 
 	@Autowired
 	public AutoImporter importer;
-
 	public List<ElementAction> actions;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansAndSort(ElementAction.class, JAVA_PACKAGE);
+		actions = SpringUtils.getBeansByAnnotation(ElementAction.class, Native.class);
 	}
 
 	@Override
@@ -52,7 +51,10 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		// import
 		List<Import> imports = clazz.getImports();
 		imports.forEach((imp) -> builder.append(imp.element + ";\n"));
-		if (imports.size() > 0) {
+		// static import
+		List<Import> staticImports = clazz.getStaticImports();
+		staticImports.forEach((imp) -> builder.append(imp.element + ";\n"));
+		if (imports.size() > 0 || staticImports.size() > 0) {
 			builder.append("\n");
 		}
 		// annotation
@@ -105,7 +107,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			} else {// public User() // public static synchronized String methodName()
 				// 替换关键字
 				element.replaceModifier(KeywordEnum.SYNCH.value, JavaBuilder.SYNCHRONIZED_KEYWORD);
-				if (element.isFuncDeclare()) {
+				if (element.isDeclareFunc()) {
 					// 抽象类型的没有方法体的方法，需要加上abstract关键字
 					if (clazz.isAbstract() && !method.isStatic() && !element.hasChild()) {
 						element.insertModifier(KeywordEnum.PUBLIC.value, KeywordEnum.ABSTRACT.value);
@@ -148,7 +150,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 		for (ElementAction action : actions) {
 			ElementEvent event = new ElementEvent(clazz, element);
 			if (action.isTrigger(event)) {
-				action.visit(event);
+				action.handle(event);
 			}
 		}
 		return element;

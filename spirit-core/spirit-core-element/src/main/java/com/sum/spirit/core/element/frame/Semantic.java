@@ -2,18 +2,21 @@ package com.sum.spirit.core.element.frame;
 
 import java.util.Map;
 
-import com.sum.spirit.common.enums.AttributeEnum;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 
-public abstract class Semantic extends AttributeMap {
+public abstract class Semantic extends Attributes {
 
 	public TokenTypeEnum tokenType;
 
-	public Semantic(TokenTypeEnum tokenType, Map<AttributeEnum, Object> attributes) {
+	public Semantic(TokenTypeEnum tokenType, Map<String, Object> attributes) {
 		super(attributes);
 		this.tokenType = tokenType;
+	}
+
+	public boolean isPath() {
+		return tokenType == TokenTypeEnum.PATH;
 	}
 
 	public boolean isAnnotation() {
@@ -48,8 +51,8 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.NULL;
 	}
 
-	public boolean isBool() {
-		return tokenType == TokenTypeEnum.BOOL;
+	public boolean isBoolean() {
+		return tokenType == TokenTypeEnum.BOOLEAN;
 	}
 
 	public boolean isChar() {
@@ -68,7 +71,7 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.DOUBLE;
 	}
 
-	public boolean isStr() {
+	public boolean isString() {
 		return tokenType == TokenTypeEnum.STRING;
 	}
 
@@ -100,16 +103,12 @@ public abstract class Semantic extends AttributeMap {
 		return tokenType == TokenTypeEnum.VISIT_FIELD;
 	}
 
-	public boolean isInvokeMethod() {
-		return tokenType == TokenTypeEnum.INVOKE_METHOD;
+	public boolean isVisitMethod() {
+		return tokenType == TokenTypeEnum.VISIT_METHOD;
 	}
 
-	public boolean isVisitArrayIndex() {
-		return tokenType == TokenTypeEnum.VISIT_ARRAY_INDEX;
-	}
-
-	public boolean isArrayIndex() {
-		return tokenType == TokenTypeEnum.ARRAY_INDEX;
+	public boolean isVisitIndex() {
+		return tokenType == TokenTypeEnum.VISIT_INDEX;
 	}
 
 	public boolean isPrefix() {
@@ -132,8 +131,8 @@ public abstract class Semantic extends AttributeMap {
 		return isArrayInit() || isTypeInit();
 	}
 
-	public boolean isValue() {
-		return isNull() || isBool() || isChar() || isInt() || isLong() || isDouble() || isStr() || isList() || isMap();
+	public boolean isLiteral() {
+		return isNull() || isBoolean() || isChar() || isInt() || isLong() || isDouble() || isString() || isList() || isMap();
 	}
 
 	public boolean isNumber() {
@@ -141,15 +140,15 @@ public abstract class Semantic extends AttributeMap {
 	}
 
 	public boolean isAccess() {
-		return isLocalMethod() || isVisitField() || isInvokeMethod() || isVisitArrayIndex() || isArrayIndex();
+		return isLocalMethod() || isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 
 	public boolean isInvoke() {
-		return isTypeInit() || isLocalMethod() || isInvokeMethod();
+		return isTypeInit() || isLocalMethod() || isVisitMethod();
 	}
 
-	public boolean isFluent() {
-		return isVisitField() || isInvokeMethod() || isVisitArrayIndex();
+	public boolean isVisit() {
+		return isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 
 	public boolean canSplit() {

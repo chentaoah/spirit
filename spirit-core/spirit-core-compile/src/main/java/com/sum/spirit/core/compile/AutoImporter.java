@@ -16,7 +16,6 @@ import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
-import com.sum.spirit.core.compile.deduce.ImportManager;
 import com.sum.spirit.core.element.entity.Element;
 
 @Component
@@ -29,12 +28,10 @@ public class AutoImporter {
 	public ElementBuilder builder;
 	@Autowired
 	public SemanticParser parser;
-	@Autowired
-	public ImportManager manager;
 
 	public void autoImport(IClass clazz) {
 		Set<String> classNames = dependencies(clazz);
-		classNames.forEach(className -> manager.addImport(clazz, className));
+		classNames.forEach(className -> clazz.addImport(className));
 	}
 
 	/**
@@ -66,7 +63,7 @@ public class AutoImporter {
 			while (matcher.find() && matcher.groupCount() > 0) {
 				String targetName = matcher.group(matcher.groupCount() - 1);
 				if (parser.isType(targetName)) {
-					String className = manager.findClassName(clazz, targetName);
+					String className = clazz.findClassName(targetName);
 					classNames.add(className);
 				}
 			}
@@ -79,7 +76,7 @@ public class AutoImporter {
 
 	public String getFinalName(IClass clazz, IType type) {
 		return TypeVisiter.visitName(type, eachType -> {
-			if (!manager.addImport(clazz, eachType.getClassName())) {
+			if (!clazz.addImport(eachType.getClassName())) {
 				return eachType.getTypeName();
 			}
 			return eachType.toString();

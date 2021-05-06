@@ -1,23 +1,24 @@
 package com.sum.spirit.core.lexer;
 
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
+import com.sum.spirit.core.lexer.entity.CharsResult;
 
 @Component
-@DependsOn("springUtils")
 public class AliasCharsHandler extends AbstractCharsHandler {
 
 	public String replace(String code, String alias, String className) {
 		AliasCharsContext context = new AliasCharsContext();
-		context.builder = new StringBuilder(code);
+		StringBuilder builder = new StringBuilder(code);
+		context.builder = builder;
 		context.alias = alias;
 		context.className = className;
-		handle(context, context.builder);
-		return context.builder.toString();
+		CharsResult result = handle(context, builder);
+		builder = (StringBuilder) result.payload;
+		return builder.toString();
 	}
 
 	@Override
@@ -40,13 +41,12 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 		StringBuilder builder = context.builder;
 		String alias = context.alias;
 		String className = context.className;
-		// 获取结尾的索引
-		int idx = context.index + alias.length();
-		if (idx <= builder.length()) {
-			String text = builder.substring(context.index, idx);
+		int endIndex = context.index + alias.length();
+		if (endIndex <= builder.length()) {
+			String text = builder.substring(context.index, endIndex);
 			if (alias.equals(text)) {
-				if (!LineUtils.isLetter(builder.charAt(idx))) {
-					builder.replace(context.index, idx, className);
+				if (endIndex == builder.length() || !LineUtils.isLetter(builder.charAt(endIndex))) {
+					builder.replace(context.index, endIndex, className);
 				}
 			}
 		}

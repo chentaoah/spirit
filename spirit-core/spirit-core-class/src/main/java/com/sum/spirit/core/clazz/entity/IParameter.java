@@ -2,10 +2,10 @@ package com.sum.spirit.core.clazz.entity;
 
 import java.util.List;
 
-import com.sum.spirit.core.clazz.frame.AnnotationUnit;
+import com.sum.spirit.core.clazz.frame.AnnotationEntity;
 import com.sum.spirit.core.element.entity.Element;
 
-public class IParameter extends AnnotationUnit {
+public class IParameter extends AnnotationEntity {
 
 	public IParameter(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);

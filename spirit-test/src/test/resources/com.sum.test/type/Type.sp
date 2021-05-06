@@ -127,6 +127,17 @@ class Type {
 		strxxxx="hello"
 		print strxxxx
 
+		bbxxx=getArray()[0]
+		print "" + bbxxx
+
+		objvar = {
+			"name" : "chen",
+			"age" : 18,
+			"from" : "China",
+			"brother" : ["wanhao", "chenzhe"]
+		}
+		str0 = objvar.toString()
+		print str0
 	}
 
 	func testParam(@Deprecated String str, Object obj){
@@ -136,6 +147,10 @@ class Type {
 	String testReturnType(){
 		anumx=1111
 		return "I am a Str!" + anumx
+	}
+
+	func getArray(){
+		return bArray
 	}
 	
 }

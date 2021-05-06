@@ -6,6 +6,6 @@ public interface ElementAction {
 
 	boolean isTrigger(ElementEvent event);
 
-	void visit(ElementEvent event);
+	void handle(ElementEvent event);
 
 }

@@ -9,10 +9,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.api.StaticTypesCtor;
+import com.sum.spirit.core.clazz.AbstractClassLoader;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
-import com.sum.spirit.core.compile.AbstractClassLoader;
 import com.sum.spirit.output.java.utils.ReflectUtils;
 
 @Component
@@ -90,7 +90,7 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Sta
 	}
 
 	@Override
-	public boolean shouldImport(String selfClassName, String className) {
+	public boolean shouldImport(String selfName, String className) {
 		return false;
 	}
 

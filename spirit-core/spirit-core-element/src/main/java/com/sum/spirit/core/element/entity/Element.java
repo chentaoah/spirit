@@ -14,7 +14,7 @@ public class Element extends Syntactic {
 	public SyntaxTree syntaxTree;
 	public List<Element> children = new ArrayList<>();
 
-	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxTree syntaxTree, SyntaxEnum syntax) {
+	public Element(Line line, Modifiers modifiers, Statement statement, SyntaxEnum syntax, SyntaxTree syntaxTree) {
 		super(syntax, statement);
 		this.line = line;
 		this.modifiers = modifiers;
@@ -33,8 +33,10 @@ public class Element extends Syntactic {
 		return modifiers.containsKeyword(keyword);
 	}
 
-	public Element addModifier(String keyword) {
-		modifiers.addKeywordAtFirst(keyword);
+	public Element addModifiers(String... keywords) {
+		for (int i = keywords.length - 1; i >= 0; i--) {
+			modifiers.addKeywordAtFirst(keywords[i]);
+		}
 		return this;
 	}
 

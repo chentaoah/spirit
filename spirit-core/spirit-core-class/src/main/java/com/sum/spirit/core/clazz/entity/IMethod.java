@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.clazz.frame.MemberEntity;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Token;
 
-public class IMethod extends MemberUnit {
+public class IMethod extends MemberEntity {
 
 	public List<IParameter> parameters = new ArrayList<>();
 
@@ -21,10 +21,10 @@ public class IMethod extends MemberUnit {
 	public String getName() {
 		Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
 		if (methodToken.isTypeInit()) {
-			return methodToken.attr(AttributeEnum.SIMPLE_NAME);
+			return methodToken.attr(Attribute.SIMPLE_NAME);
 
 		} else if (methodToken.isLocalMethod()) {
-			return methodToken.attr(AttributeEnum.MEMBER_NAME);
+			return methodToken.attr(Attribute.MEMBER_NAME);
 		}
 		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
 	}

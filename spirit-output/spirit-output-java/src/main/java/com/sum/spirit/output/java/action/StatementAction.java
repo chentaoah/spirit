@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.annotation.Native;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -16,31 +17,29 @@ import com.sum.spirit.core.clazz.entity.IField;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.compile.AutoImporter;
 import com.sum.spirit.core.compile.action.AbstractElementAction;
-import com.sum.spirit.core.compile.deduce.SimpleDeducer;
-import com.sum.spirit.core.compile.deduce.ImportManager;
+import com.sum.spirit.core.compile.deduce.FragmentDeducer;
 import com.sum.spirit.core.compile.entity.ElementEvent;
-import com.sum.spirit.core.element.ElementBuilderImpl;
+import com.sum.spirit.core.element.DefaultElementBuilder;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.output.java.JavaBuilder;
 import com.sum.spirit.output.java.utils.TypeUtils;
 
+@Native
 @Component
 @Order(-40)
 public class StatementAction extends AbstractElementAction {
 
 	@Autowired
-	public ElementBuilderImpl builder;
+	public DefaultElementBuilder builder;
 	@Autowired
-	public SimpleDeducer deducer;
+	public FragmentDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
-	@Autowired
-	public ImportManager manager;
 
 	@Override
-	public void visit(ElementEvent event) {
+	public void handle(ElementEvent event) {
 		IClass clazz = event.clazz;
 		Element element = event.element;
 
@@ -57,9 +56,9 @@ public class StatementAction extends AbstractElementAction {
 				Statement statement = secondToken.getValue();
 				Token token = statement.get(1);
 				if (!token.isType() && token.isVariable()) {
-					boolean derived = token.attr(AttributeEnum.DERIVED, false);
+					boolean derived = token.attr(Attribute.DERIVED, false);
 					if (derived) {
-						IType type = token.attr(AttributeEnum.TYPE);
+						IType type = token.attr(Attribute.TYPE);
 						statement.add(1, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 					}
 				}
@@ -67,15 +66,15 @@ public class StatementAction extends AbstractElementAction {
 
 		} else if (element.isForIn()) {// for item in list {
 			Token item = element.get(1);
-			IType type = item.attr(AttributeEnum.TYPE);
+			IType type = item.attr(Attribute.TYPE);
 			Statement statement = element.subStmt(3, element.size() - 1);
 			String text = String.format("for (%s %s : %s) {", importer.getFinalName(clazz, type), item, statement);
 			element.replaceTokens(0, element.size(), new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
 
 		} else if (element.isAssign()) {// var = list.get(0)
 			Token token = element.get(0);
-			boolean derived = token.attr(AttributeEnum.DERIVED, false);
-			IType type = token.attr(AttributeEnum.TYPE);
+			boolean derived = token.attr(Attribute.DERIVED, false);
+			IType type = token.attr(Attribute.TYPE);
 			if (token.isVariable() && derived) {
 				element.add(0, new Token(TokenTypeEnum.TYPE, importer.getFinalName(clazz, type)));
 			}
@@ -97,14 +96,11 @@ public class StatementAction extends AbstractElementAction {
 				element.set(0, new Token(TokenTypeEnum.CUSTOM_PREFIX, "logger.error("));
 			}
 			element.add(new Token(TokenTypeEnum.CUSTOM_SUFFIX, ");"));
-
 			if (clazz.getField("logger") == null) {
-				manager.addImport(clazz, Logger.class.getName());
-				manager.addImport(clazz, LoggerFactory.class.getName());
+				clazz.addImport(Logger.class.getName());
+				clazz.addImport(LoggerFactory.class.getName());
 				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				loggerElement.addModifier(JavaBuilder.FINAL_KEYWORD);
-				loggerElement.addModifier(KeywordEnum.STATIC.value);
-				loggerElement.addModifier(KeywordEnum.PUBLIC.value);
+				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value, JavaBuilder.FINAL_KEYWORD);
 				IField field = new IField(new ArrayList<>(), loggerElement);
 				clazz.fields.add(0, field);
 			}

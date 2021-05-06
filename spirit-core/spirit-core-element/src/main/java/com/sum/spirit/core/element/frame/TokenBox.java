@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sum.spirit.common.enums.TokenTypeEnum;
-import com.sum.spirit.common.utils.Lists;
+import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.common.utils.Splitter;
 import com.sum.spirit.core.element.entity.Token;
 import com.sum.spirit.core.element.utils.MappableList;
@@ -38,12 +38,12 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public void replaceTokens(int fromIndex, int toIndex, Token token) {
-		Lists.remove(this, fromIndex, toIndex);
+		ListUtils.removeByIndex(this, fromIndex, toIndex);
 		add(fromIndex, token);
 	}
 
 	public Token findOneTokenOf(TokenTypeEnum... tokenTypes) {
-		return Lists.findOne(this, token -> ArrayUtil.contains(tokenTypes, token.tokenType));
+		return ListUtils.findOne(this, token -> ArrayUtil.contains(tokenTypes, token.tokenType));
 	}
 
 	public boolean isSymbol(Token token) {
@@ -55,11 +55,11 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public int indexOf(String str) {
-		return Lists.indexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
+		return ListUtils.indexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
 	}
 
 	public int lastIndexOf(String str) {
-		return Lists.lastIndexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
+		return ListUtils.lastIndexOf(this, token -> isSymbol(token) && str.equals(token.toString()));
 	}
 
 	public boolean contains(String str) {

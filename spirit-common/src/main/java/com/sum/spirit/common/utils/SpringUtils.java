@@ -1,5 +1,6 @@
 package com.sum.spirit.common.utils;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,14 +42,14 @@ public class SpringUtils implements ApplicationContextAware {
 		return beans;
 	}
 
-	public static <T> List<T> getBeansAndSort(Class<T> type, Class<?>... excludedTypes) {
+	public static <T> List<T> getBeansByExcludedTypes(Class<T> type, Class<?>... excludedTypes) {
 		List<T> beans = getBeansAndSort(type);
 		List<Class<?>> list = Arrays.asList(excludedTypes);
 		return beans.stream().filter((t) -> !list.contains(t.getClass())).collect(Collectors.toList());
 	}
 
-	public static <T> List<T> getBeansAndSort(Class<T> type, String scanPackage) {
+	public static <T> List<T> getBeansByAnnotation(Class<T> type, Class<? extends Annotation> annotationClass) {
 		List<T> beans = getBeansAndSort(type);
-		return beans.stream().filter((t) -> t.getClass().getName().startsWith(scanPackage)).collect(Collectors.toList());
+		return beans.stream().filter(bean -> bean.getClass().isAnnotationPresent(annotationClass)).collect(Collectors.toList());
 	}
 }

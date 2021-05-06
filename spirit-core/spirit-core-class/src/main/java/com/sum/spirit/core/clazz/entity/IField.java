@@ -2,10 +2,10 @@ package com.sum.spirit.core.clazz.entity;
 
 import java.util.List;
 
-import com.sum.spirit.core.clazz.frame.MemberUnit;
+import com.sum.spirit.core.clazz.frame.MemberEntity;
 import com.sum.spirit.core.element.entity.Element;
 
-public class IField extends MemberUnit {
+public class IField extends MemberEntity {
 
 	public IField(List<IAnnotation> annotations, Element element) {
 		super(annotations, element);

@@ -3,8 +3,9 @@ package com.sum.test.subexpress;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.Lists;
+import com.sum.spirit.lib.Lists;
 import java.util.List;
+import static com.sum.spirit.lib.Empty.empty;
 
 public class Express {
 
@@ -30,7 +31,7 @@ public class Express {
 	public String testTree() {
 		boolean b = (x + 1 > 0 && y < 100) && StringUtils.equals(s, "test") && s instanceof Object;
 		logger.info("test tree", b);
-		List<String> list = Lists.newArrayList("one", "two", "three");
+		List<String> list = Lists.of("one", "two", "three");
 		boolean b1 = ((Object) list.get(1)).toString().length() + 100 > 0;
 		logger.info("tree", b1);
 		String s1 = ((Object) list.get(1)).toString();
@@ -45,7 +46,7 @@ public class Express {
 		logger.info("{}", express1);
 		boolean b11 = (x + 1 > 0 && y < 100) && StringUtils.equals(list.get(0), "test") && s instanceof Object;
 		logger.info("{}", b11);
-		boolean b111 = (!StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && StringUtils.isNotEmpty(list.get(0)) && StringUtils.isNotEmpty(s) && (!StringUtils.isNotEmpty(s));
+		boolean b111 = (!StringUtils.equals(s, "test")) && StringUtils.equals(s, "test") && !empty(list.get(0));
 		logger.info("{}", b111);
 		String b222 = list.get(1).toString();
 		logger.info("{}", b222);

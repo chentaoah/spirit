@@ -2,15 +2,15 @@ package com.sum.test.syntax;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.collect.Lists;
+import com.sum.spirit.lib.Lists;
 import java.util.List;
-import com.sum.spirit.common.utils.Maps;
+import com.sum.spirit.lib.Maps;
 import java.util.Map;
 
 public class Syntax {
 
 	public static final Logger logger = LoggerFactory.getLogger(Syntax.class);
-	public List<String> list = Lists.newArrayList("first", "second");
+	public List<String> list = Lists.of("first", "second");
 	public Map<String, Integer> map = Maps.of("key", 100, "key", 100);
 
 	public void testJudge() {

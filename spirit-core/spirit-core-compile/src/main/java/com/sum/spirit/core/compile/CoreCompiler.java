@@ -14,8 +14,8 @@ import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.utils.TypeUtils;
 import com.sum.spirit.core.element.entity.Document;
 
-@Component
 @Primary
+@Component
 public class CoreCompiler implements Compiler {
 
 	@Autowired

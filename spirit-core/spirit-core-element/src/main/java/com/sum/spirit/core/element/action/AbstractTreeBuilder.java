@@ -2,7 +2,7 @@ package com.sum.spirit.core.element.action;
 
 import java.util.List;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
@@ -14,14 +14,10 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
 	@Override
 	public SyntaxTree buildTree(Statement statement) {
-		// 用语句构建节点树
-		List<Node> nodes = buildNodes(statement);
-		// 标记树节点id
-		markTreeId(nodes);
-		// 标记所有的位置
-		markPositionAndLength(0, statement);
-		// 返回抽象语法树
-		return new SyntaxTree(nodes);
+		List<Node> nodes = buildNodes(statement);// 用语句构建节点树
+		markTreeId(nodes);// 标记树节点id
+		markPositionAndLength(0, statement);// 标记所有的位置
+		return new SyntaxTree(nodes);// 返回抽象语法树
 	}
 
 	public void markTreeId(List<Node> nodes) {
@@ -32,7 +28,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 	}
 
 	public void markTreeId(String treeId, Node node) {
-		node.token.setAttr(AttributeEnum.TREE_ID, treeId);
+		node.token.setAttr(Attribute.TREE_ID, treeId);
 		if (node.prev != null) {
 			markTreeId(treeId + "-" + "0", node.prev);
 		}
@@ -46,16 +42,15 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 	}
 
 	public void markPositionAndLength(int position, Statement statement) {
-		// 获取到插入空格后
-		List<Token> tokens = StmtFormat.format(statement);
+		List<Token> tokens = StmtFormat.format(statement);// 获取到插入空格后
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
-			token.setAttr(AttributeEnum.POSITION, position);
+			token.setAttr(Attribute.POSITION, position);
 			if (token.canSplit()) {
 				markPositionAndLength(position, token.getValue());
 			}
 			int length = token.toString().length();
-			token.setAttr(AttributeEnum.LENGTH, length);
+			token.setAttr(Attribute.LENGTH, length);
 			position += length;
 		}
 	}

@@ -14,10 +14,14 @@ public class ElementEvent {
 		this.element = element;
 	}
 
-	public ElementEvent(IClass clazz, Element element, MethodContext context) {
+	public ElementEvent(IClass clazz, MethodContext context, Element element) {
 		this.clazz = clazz;
 		this.element = element;
 		this.context = context;
+	}
+
+	public boolean isFieldScope() {
+		return context == null;
 	}
 
 	public boolean isMethodScope() {

@@ -10,12 +10,12 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.utils.FileURLUtils;
+import com.sum.spirit.common.utils.URLFileUtils;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.compile.AppClassLoader;
 
-@Component
 @Primary
+@Component
 @DependsOn("configUtils")
 public class CustomClassLoader extends AppClassLoader {
 
@@ -35,7 +35,7 @@ public class CustomClassLoader extends AppClassLoader {
 			classNames.forEach(className -> {
 				if (contains(className) && findLoadedClass(className) == null) {
 					// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
-					Map<String, IClass> classes0 = compiler.compile(className, FileURLUtils.asStream(findResource(className)));
+					Map<String, IClass> classes0 = compiler.compile(className, URLFileUtils.asStream(findResource(className)));
 					this.classes.putAll(classes0);
 					resolveClasses(classes0);
 				}
@@ -44,7 +44,7 @@ public class CustomClassLoader extends AppClassLoader {
 	}
 
 	public String getName(String filePath) {
-		URL fileUrl = FileURLUtils.toURL(new File(filePath));
+		URL fileUrl = URLFileUtils.toURL(new File(filePath));
 		for (Map.Entry<String, URL> entry : nameUrlMapping.entrySet()) {
 			if (fileUrl.sameFile(entry.getValue())) {
 				return entry.getKey();

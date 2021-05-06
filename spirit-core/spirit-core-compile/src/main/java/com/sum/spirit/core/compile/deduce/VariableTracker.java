@@ -3,14 +3,13 @@ package com.sum.spirit.core.compile.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.enums.AttributeEnum;
+import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
-import com.sum.spirit.core.compile.ClassVisiter;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.utils.StmtVisiter;
@@ -21,35 +20,25 @@ import cn.hutool.core.lang.Assert;
 public class VariableTracker {
 
 	@Autowired
-	public ClassVisiter visiter;
+	public TypeDerivator derivator;
 	@Autowired
 	public ClassLinker linker;
-	@Autowired
-	public TypeFactory factory;
-	@Autowired
-	public TypeDerivator derivator;
 
 	public void visit(IClass clazz, MethodContext context, Statement statement) {
 		StmtVisiter.visit(statement, stmt -> {
 			stmt.forEach(token -> {
-				if (token.attr(AttributeEnum.TYPE) != null) {
+				if (token.attr(Attribute.TYPE) != null) {
 					return;
 				}
 				if (token.isVariable()) {// variable
 					String variableName = token.toString();
 					IType type = getVariableType(clazz, context, variableName);
-					token.setAttr(AttributeEnum.TYPE, type);
-
-				} else if (token.isArrayIndex()) {// .strs[0]
-					String memberName = token.attr(AttributeEnum.MEMBER_NAME);
-					IType type = getVariableType(clazz, context, memberName);
-					type = derivator.toTarget(type);// 转换数组类型为目标类型
-					token.setAttr(AttributeEnum.TYPE, type);
+					token.setAttr(Attribute.TYPE, type);
 
 				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
 					String variableName = token.toString();
 					IType type = findTypeByKeyword(clazz, variableName);
-					token.setAttr(AttributeEnum.TYPE, type);
+					token.setAttr(Attribute.TYPE, type);
 				}
 			});
 		});
@@ -57,7 +46,7 @@ public class VariableTracker {
 
 	public IType findTypeByKeyword(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
-			return derivator.withSuperModifiers(derivator.getSuperType(clazz));
+			return derivator.withSuperModifiers(clazz.getSuperType());
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
 			return derivator.withThisModifiers(clazz.getType());

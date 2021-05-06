@@ -36,11 +36,12 @@ public enum KeywordEnum {
 	CATCH("catch", KeywordTypeEnum.TOKEN), //
 	FINALLY("finally", KeywordTypeEnum.TOKEN), //
 	INSTANCEOF("instanceof", KeywordTypeEnum.TOKEN), //
+	EMPTY("empty", KeywordTypeEnum.TOKEN), //
 
-	STATIC("static", KeywordTypeEnum.MODIFIER), //
 	PUBLIC("public", KeywordTypeEnum.MODIFIER), //
-	PRIVATE("private", KeywordTypeEnum.MODIFIER), //
 	PROTECTED("protected", KeywordTypeEnum.MODIFIER), //
+	PRIVATE("private", KeywordTypeEnum.MODIFIER), //
+	STATIC("static", KeywordTypeEnum.MODIFIER), //
 	CONST("const", KeywordTypeEnum.MODIFIER), //
 	VOLATILE("volatile", KeywordTypeEnum.MODIFIER), //
 	SYNCH("synch", KeywordTypeEnum.MODIFIER); //

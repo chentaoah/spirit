@@ -35,18 +35,6 @@ public abstract class Syntactic extends Statement {
 		return syntax == SyntaxEnum.CLASS;
 	}
 
-	public boolean isFieldAssign() {
-		return syntax == SyntaxEnum.FIELD_ASSIGN;
-	}
-
-	public boolean isFuncDeclare() {
-		return syntax == SyntaxEnum.FUNC_DECLARE;
-	}
-
-	public boolean isFunc() {
-		return syntax == SyntaxEnum.FUNC;
-	}
-
 	public boolean isSuper() {
 		return syntax == SyntaxEnum.SUPER;
 	}
@@ -65,6 +53,22 @@ public abstract class Syntactic extends Statement {
 
 	public boolean isAssign() {
 		return syntax == SyntaxEnum.ASSIGN;
+	}
+
+	public boolean isStructAssign() {
+		return syntax == SyntaxEnum.STRUCT_ASSIGN;
+	}
+
+	public boolean isDeclareFunc() {
+		return syntax == SyntaxEnum.DECLARE_FUNC;
+	}
+
+	public boolean isFunc() {
+		return syntax == SyntaxEnum.FUNC;
+	}
+
+	public boolean isFieldAssign() {
+		return syntax == SyntaxEnum.FIELD_ASSIGN;
 	}
 
 	public boolean isInvoke() {
