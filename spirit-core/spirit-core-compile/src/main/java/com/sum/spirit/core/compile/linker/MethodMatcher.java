@@ -22,9 +22,10 @@ public class MethodMatcher {
 		}
 		Integer finalScore = 0;
 		int index = 0;
-		for (IParameter parameter : method.parameters) {
-			IType parameterType = derivator.populate(type, parameter.getType());
-			Integer scope = derivator.getAbstractScore(parameterType, parameterTypes.get(index++));
+		for (IType parameterType : parameterTypes) {
+			IParameter parameter = method.parameters.get(index++);
+			IType methodParameterType = derivator.populate(type, parameter.getType());
+			Integer scope = derivator.getAbstractScore(methodParameterType, parameterType);
 			if (scope != null) {
 				finalScore += scope;
 			} else {
