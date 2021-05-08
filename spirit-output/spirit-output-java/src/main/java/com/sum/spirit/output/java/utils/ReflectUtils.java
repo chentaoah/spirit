@@ -1,15 +1,34 @@
 package com.sum.spirit.output.java.utils;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.List;
 
 public class ReflectUtils {
+
+	@SuppressWarnings("deprecation")
+	public static ClassLoader getClassLoader(List<String> classpaths) {
+		try {
+			URL urls[] = new URL[classpaths.size()];
+			for (int i = 0; i < classpaths.size(); ++i) {
+				urls[i] = new File(classpaths.get(i)).toURL();
+			}
+			return new URLClassLoader(urls, ReflectUtils.class.getClassLoader());
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public static Class<?> getClass(String className) {
 		try {
 			return Class.forName(className);
+
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("The class was not found!className:[" + className + "]");
 		}

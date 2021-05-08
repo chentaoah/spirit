@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Splitter;
+import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.core.api.StaticTypesCtor;
 import com.sum.spirit.core.clazz.AbstractClassLoader;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -17,7 +22,21 @@ import com.sum.spirit.output.java.utils.ReflectUtils;
 
 @Component
 @Order(-80)
-public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements StaticTypesCtor {
+@DependsOn("configUtils")
+public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements InitializingBean, StaticTypesCtor {
+
+	public ClassLoader classLoader;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		String classpathsArg = ConfigUtils.getClasspaths();
+		if (StringUtils.isNotBlank(classpathsArg)) {
+			List<String> classpaths = Splitter.on(",").trimResults().splitToList(classpathsArg);
+			classLoader = ReflectUtils.getClassLoader(classpaths);
+		} else {
+			classLoader = this.getClass().getClassLoader();
+		}
+	}
 
 	@Override
 	public Map<String, IType> prepareStaticTypes() {
@@ -61,12 +80,17 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Sta
 
 	@Override
 	public Class<?> findClass(String name) {
-		return ReflectUtils.getClass(name);
+		try {
+			return classLoader.loadClass(name);
+
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public Class<?> findLoadedClass(String name) {
-		return ReflectUtils.getClass(name);
+		return findClass(name);
 	}
 
 	@Override
