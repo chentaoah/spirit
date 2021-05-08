@@ -16,22 +16,4 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.sum.spirit</groupId>
-				<artifactId>spirit-maven-plugin</artifactId>
-				<version>${project.version}</version>
-				<configuration>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

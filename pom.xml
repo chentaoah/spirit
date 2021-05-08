@@ -30,6 +30,7 @@
 		<module>spirit-starter</module>
 		<module>spirit-test</module>
 		<module>spirit-maven-plugin</module>
+		<module>spirit-example</module>
 	</modules>
 
 	<properties>
@@ -47,7 +48,7 @@
 
 	<build>
 		<plugins>
-			<!-- Skip the test when package -->
+			<!-- skip the test when package -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
