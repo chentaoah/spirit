@@ -52,7 +52,7 @@ public class Main {
 </build>
 ```
 
-2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。包名可以像com.sum.spirit.example这样。
+2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。例如：com.sum.spirit.example。
 
 3、在刚创建的包下，创建Main.sp文本文件。内容如下：
 
@@ -62,7 +62,7 @@ func main() {
 }
 ```
 
-4、执行Maven命令（mvn com.sum.spirit:spirit-maven-plugin:compile），在src/main/java目录下，可以看到生成java代码。
+4、执行Maven命令（mvn com.sum.spirit:spirit-maven-plugin:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
 
 ## 编辑器
 
@@ -71,7 +71,7 @@ func main() {
 
 ## Maven依赖
 
-自动生成的代码中，依赖的Jar包如下。
+请确保项目中有如下依赖：
 
 ```
 <!-- slf4j -->
