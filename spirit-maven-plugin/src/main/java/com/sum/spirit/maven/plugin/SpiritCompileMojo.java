@@ -1,4 +1,4 @@
-package org.spirit.maven.plugin;
+package com.sum.spirit.maven.plugin;
 
 import java.util.List;
 

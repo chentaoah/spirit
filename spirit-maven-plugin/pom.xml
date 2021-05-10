@@ -12,21 +12,25 @@
 	<artifactId>spirit-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<dependencies>
+		<!-- maven-plugin-api -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
 			<version>3.6.0</version>
 		</dependency>
+		<!-- maven-plugin-annotations -->
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
 			<version>3.5</version>
 		</dependency>
+		<!-- maven-core -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
