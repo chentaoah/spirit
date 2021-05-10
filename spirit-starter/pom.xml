@@ -11,6 +11,5 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>spirit-starter-java</module>
-		<module>spirit-starter-kit</module>
 	</modules>
 </project>

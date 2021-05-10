@@ -12,7 +12,7 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import com.google.common.base.Joiner;
-import com.sum.spirit.starter.JavaStarter;
+import com.sum.spirit.starter.java.JavaStarter;
 
 @Mojo(name = "compile", defaultPhase = LifecyclePhase.NONE, requiresDependencyResolution = ResolutionScope.COMPILE)
 public class SpiritCompileMojo extends AbstractMojo {

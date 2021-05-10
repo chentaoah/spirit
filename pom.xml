@@ -30,6 +30,7 @@
 		<module>spirit-starter</module>
 		<module>spirit-maven-plugin</module>
 		<module>spirit-example</module>
+		<module>spirit-code-tools</module>
 	</modules>
 
 	<properties>
