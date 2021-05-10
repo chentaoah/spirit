@@ -8,29 +8,20 @@
 		<version>2.1.30</version>
 	</parent>
 	<artifactId>spirit-starter-kit</artifactId>
-
 	<dependencies>
+		<!-- spring-boot-starter-web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
 		<!-- spirit-starter-java -->
 		<dependency>
 			<groupId>com.sum.spirit</groupId>
 			<artifactId>spirit-starter-java</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- spring boot web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${spring.boot.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -40,7 +31,7 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<outputDirectory>${project.build.directory}/../../../spirit/lib_web</outputDirectory>
+					<outputDirectory>${project.build.directory}/../../../spirit/lib</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -54,7 +45,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/../../../spirit/lib_web</outputDirectory>
+							<outputDirectory>${project.build.directory}/../../../spirit/lib</outputDirectory>
 							<includeScope>compile</includeScope>
 							<includeScope>runtime</includeScope>
 						</configuration>
@@ -63,5 +54,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -3,7 +3,7 @@ import sublime_plugin
 import urllib.parse
 import urllib.request
 
-class TipCommand(sublime_plugin.TextCommand):
+class SpiritCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		# 获取文件名
 		filePath = self.view.file_name()
