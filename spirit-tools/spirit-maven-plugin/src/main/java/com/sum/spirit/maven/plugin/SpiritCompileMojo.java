@@ -33,14 +33,20 @@ public class SpiritCompileMojo extends AbstractMojo {
 			if (outputPath == null) {
 				outputPath = project.getBuild().getSourceDirectory();
 			}
-			System.out.println(inputPath);
-			System.out.println(outputPath);
+			getLog().info("");
+			getLog().info("-----------------------[ inputPath, outputPath ]------------------------");
+			getLog().info(inputPath);
+			getLog().info(outputPath);
+			getLog().info("");
 
+			getLog().info("-----------------------------[ classpaths ]-----------------------------");
 			List<String> classpaths = project.getCompileClasspathElements();
 			classpaths.add(project.getBuild().getTestOutputDirectory());
-			System.out.println(classpaths);
+			classpaths.forEach(getLog()::info);
+			getLog().info("");
 
-			JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath, "--classpaths=" + Joiner.on(", ").join(classpaths) });
+			JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath,
+					"--classpaths=" + Joiner.on(", ").join(classpaths) });
 
 		} catch (Exception e) {
 			e.printStackTrace();

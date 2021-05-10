@@ -62,7 +62,7 @@ func main() {
 }
 ```
 
-4、执行Maven命令（mvn com.sum.spirit:spirit-maven-plugin:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
+4、执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
 
 ## 编辑器
 
