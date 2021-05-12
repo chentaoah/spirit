@@ -45,8 +45,7 @@ public class SpiritCompileMojo extends AbstractMojo {
 			classpaths.forEach(getLog()::info);
 			getLog().info("");
 
-			JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath,
-					"--classpaths=" + Joiner.on(", ").join(classpaths) });
+			JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath, "--classpaths=" + Joiner.on(", ").join(classpaths) });
 
 		} catch (Exception e) {
 			e.printStackTrace();
