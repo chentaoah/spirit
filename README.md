@@ -73,14 +73,20 @@ func main() {
 
 请确保项目中有如下依赖：
 
-```
-<!-- slf4j -->
+```xml
+<!-- spirit-stdlib -->
+<dependency>
+	<groupId>com.sum.spirit</groupId>
+	<artifactId>spirit-stdlib</artifactId>
+	<version>${project.version}</version>
+</dependency>
+<!-- slf4j-api -->
 <dependency>
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-api</artifactId>
 	<version>${slf4j.version}</version>
 </dependency>
-<!-- lang -->
+<!-- commons-lang3 -->
 <dependency>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-lang3</artifactId>
