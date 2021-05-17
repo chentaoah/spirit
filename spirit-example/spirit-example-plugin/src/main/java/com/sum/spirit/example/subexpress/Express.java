@@ -3,9 +3,9 @@ package com.sum.spirit.example.subexpress;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.lib.Lists;
+import com.sum.spirit.stdlib.Lists;
 import java.util.List;
-import static com.sum.spirit.lib.Empty.empty;
+import static com.sum.spirit.stdlib.Empty.empty;
 
 public class Express {
 

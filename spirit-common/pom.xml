@@ -9,6 +9,12 @@
 	</parent>
 	<artifactId>spirit-common</artifactId>
 	<dependencies>
+		<!-- spirit-stdlib -->
+		<dependency>
+			<groupId>com.sum.spirit</groupId>
+			<artifactId>spirit-stdlib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- spring-boot-starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -24,6 +24,7 @@
 	</repositories>
 
 	<modules>
+		<module>spirit-stdlib</module>
 		<module>spirit-common</module>
 		<module>spirit-core</module>
 		<module>spirit-output</module>

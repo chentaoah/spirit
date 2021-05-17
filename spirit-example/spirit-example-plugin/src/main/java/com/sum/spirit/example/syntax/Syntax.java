@@ -2,9 +2,9 @@ package com.sum.spirit.example.syntax;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.sum.spirit.lib.Lists;
+import com.sum.spirit.stdlib.Lists;
 import java.util.List;
-import com.sum.spirit.lib.Maps;
+import com.sum.spirit.stdlib.Maps;
 import java.util.Map;
 
 public class Syntax {

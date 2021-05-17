@@ -1,4 +1,4 @@
-package com.sum.spirit.lib;
+package com.sum.spirit.stdlib;
 
 public class Empty {
 

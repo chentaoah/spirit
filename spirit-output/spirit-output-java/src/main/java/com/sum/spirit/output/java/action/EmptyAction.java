@@ -11,7 +11,7 @@ import com.sum.spirit.core.compile.action.AbstractElementAction;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.utils.StmtVisiter;
-import com.sum.spirit.lib.Empty;
+import com.sum.spirit.stdlib.Empty;
 
 @Native
 @Component

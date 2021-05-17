@@ -9,6 +9,12 @@
 	</parent>
 	<artifactId>spirit-example-common</artifactId>
 	<dependencies>
+		<!-- spirit-stdlib -->
+		<dependency>
+			<groupId>com.sum.spirit</groupId>
+			<artifactId>spirit-stdlib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
