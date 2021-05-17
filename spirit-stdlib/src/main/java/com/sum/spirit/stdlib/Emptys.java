@@ -1,6 +1,6 @@
 package com.sum.spirit.stdlib;
 
-public class Empty {
+public class Emptys {
 
 	public static boolean empty(String str) {
 		return str == null || str.length() == 0;

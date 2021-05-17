@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.sum.spirit.stdlib.Lists;
 import java.util.List;
-import static com.sum.spirit.stdlib.Empty.empty;
+import static com.sum.spirit.stdlib.Emptys.empty;
 
 public class Express {
 
