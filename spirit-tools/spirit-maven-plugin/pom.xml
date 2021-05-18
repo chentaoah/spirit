@@ -5,7 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.gitee.spirit</groupId>
+		<groupId>com.gitee.chentaoah</groupId>
 		<artifactId>spirit-tools</artifactId>
 		<version>2.1.30</version>
 	</parent>
@@ -39,7 +39,7 @@
 		</dependency>
 		<!-- spirit-starter-java -->
 		<dependency>
-			<groupId>com.gitee.spirit</groupId>
+			<groupId>com.gitee.chentaoah</groupId>
 			<artifactId>spirit-starter-java</artifactId>
 			<version>${project.version}</version>
 		</dependency>

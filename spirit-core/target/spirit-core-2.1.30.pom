@@ -1,16 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.gitee.chentaoah</groupId>
 		<artifactId>spirit-parent</artifactId>
 		<version>2.1.30</version>
 	</parent>
-	<artifactId>spirit-example</artifactId>
+	<artifactId>spirit-core</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>spirit-example-common</module>
-		<module>spirit-example-plugin</module>
+		<module>spirit-core-lexer</module>
+		<module>spirit-core-element</module>
+		<module>spirit-core-class</module>
+		<module>spirit-core-compile</module>
 	</modules>
 </project>

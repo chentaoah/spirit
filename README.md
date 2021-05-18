@@ -37,7 +37,7 @@ public class Main {
 <build>
 	<plugins>
 		<plugin>
-			<groupId>com.gitee.spirit</groupId>
+			<groupId>com.gitee.chentaoah</groupId>
 			<artifactId>spirit-maven-plugin</artifactId>
 			<version>最新版（>= 2.1.30）</version>
 			<executions>
@@ -76,7 +76,7 @@ func main() {
 ```xml
 <!-- spirit-stdlib -->
 <dependency>
-	<groupId>com.gitee.spirit</groupId>
+	<groupId>com.gitee.chentaoah</groupId>
 	<artifactId>spirit-stdlib</artifactId>
 	<version>${project.version}</version>
 </dependency>
