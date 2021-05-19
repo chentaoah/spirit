@@ -23,13 +23,15 @@
 		<developer>
 			<name>chentaoah</name>
 			<email>609580885@qq.com</email>
+			<organization>gitee</organization>
+			<organizationUrl>https://gitee.com</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
 		<connection>scm:git:https://gitee.com/chentaoah/spirit.git</connection>
 		<developerConnection>scm:git:https://gitee.com/chentaoah/spirit.git</developerConnection>
-		<url>https://gitee.com/chentaoah/spirit.git</url>
+		<url>https://gitee.com/chentaoah/spirit/tree/master</url>
 	</scm>
 
 	<!-- <repositories> <repository> <id>nexus-aliyun</id> <name>Nexus aliyun</name> 
@@ -65,10 +67,12 @@
 		<plugins>
 			<!-- skip the test when package -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
+				<version>2.22.2</version>
 			</plugin>
 		</plugins>
 	</build>
