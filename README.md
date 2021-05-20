@@ -4,7 +4,7 @@
 
 ## 代码示例
 
-### Spirit
+### 原始代码
 
 ```
 func main() {
@@ -12,7 +12,7 @@ func main() {
 }
 ```
 
-### Java
+### 目标代码
 
 ```java
 package com.sum.test.main;
@@ -33,9 +33,9 @@ public class Main {
 
 ## 快速开始
 
-### Maven依赖
+### 依赖配置
 
-在pom.xml中引入jar包：
+在pom.xml中引入以下jar包：
 
 ```xml
 <!-- spirit-stdlib -->
@@ -58,45 +58,48 @@ public class Main {
 </dependency>
 ```
 
-### Sublime编辑器
+### 代码编辑
 
 1. 下载并安装sublime编辑器。
+
 2. 打开sublime，点击上方Preferences->Browse Packages按钮。
-3. 将项目sublime-plugs目录下的所有文件，拷贝到User文件夹中。
-4. 打开后缀名为sp的文件，即可看到代码样式。
 
-### Maven插件
+3. 将spirit项目中sublime-plugs目录下的所有文件，拷贝到User文件夹中。
 
-1、在pom.xml中引入插件。
+4. 在项目src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹。例如：com.sum.spirit.example。
 
-```xml
-<build>
-    <plugins>
-        <plugin>
-            <groupId>com.gitee.chentaoah</groupId>
-            <artifactId>spirit-maven-plugin</artifactId>
-            <version>最新版（>= 2.1.30）</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-```
+5. 在文件夹下，创建Main.sp文件，并在sublime中打开，输入如下内容：
 
-2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。例如：com.sum.spirit.example。
+   ```
+   func main() {
+       print "hello world!"
+   }
+   ```
 
-3、在刚创建的包下，创建Main.sp文本文件。内容如下：
+### 代码编译
 
-```
-func main() {
-    print "hello world!"
-}
-```
+1. 在pom.xml中引入插件。
 
-4、执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
+   ```xml
+   <build>
+       <plugins>
+           <plugin>
+               <groupId>com.gitee.chentaoah</groupId>
+               <artifactId>spirit-maven-plugin</artifactId>
+               <version>最新版（>= 2.1.30）</version>
+               <executions>
+                   <execution>
+                       <goals>
+                           <goal>compile</goal>
+                       </goals>
+                   </execution>
+               </executions>
+           </plugin>
+       </plugins>
+   </build>
+   ```
+
+2. 执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
+
+
 
