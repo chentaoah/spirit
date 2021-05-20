@@ -34,11 +34,6 @@
 		<url>https://gitee.com/chentaoah/spirit/tree/master</url>
 	</scm>
 
-	<!-- <repositories> <repository> <id>nexus-aliyun</id> <name>Nexus aliyun</name> 
-		<layout>default</layout> <url>http://maven.aliyun.com/nexus/content/groups/public</url> 
-		<snapshots> <enabled>false</enabled> </snapshots> <releases> <enabled>true</enabled> 
-		</releases> </repository> </repositories> -->
-
 	<modules>
 		<module>spirit-stdlib</module>
 		<module>spirit-common</module>
