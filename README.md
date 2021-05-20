@@ -4,7 +4,7 @@
 
 ## 代码示例
 
-### Spirit代码：
+### Spirit
 
 ```
 func main() {
@@ -12,7 +12,7 @@ func main() {
 }
 ```
 
-### Java代码：
+### Java
 
 ```java
 package com.sum.test.main;
