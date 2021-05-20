@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.gitee.chentaoah</groupId>
+		<artifactId>spirit-example</artifactId>
+		<version>2.1.30</version>
+	</parent>
+	<artifactId>spirit-example-plugin</artifactId>
+	<dependencies>
+		<!-- spirit-example-common -->
+		<dependency>
+			<groupId>com.gitee.chentaoah</groupId>
+			<artifactId>spirit-example-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.gitee.chentaoah</groupId>
+				<artifactId>spirit-maven-plugin</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

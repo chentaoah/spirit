@@ -48,6 +48,10 @@ public class ConfigUtils implements EnvironmentAware {
 		return ConfigUtils.getProperty(AppConfig.OUTPUT_ARG_KEY);
 	}
 
+	public static String getClasspaths() {
+		return ConfigUtils.getProperty(AppConfig.CLASSPATHS_ARG_KEY);
+	}
+
 	public static String getFileExtension() {
 		return ConfigUtils.getProperty(AppConfig.FILENAME_EXTENSION_KEY, AppConfig.DEFAULT_FILENAME_EXTENSION);
 	}

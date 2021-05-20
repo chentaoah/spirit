@@ -11,7 +11,7 @@ import com.sum.spirit.core.compile.action.AbstractElementAction;
 import com.sum.spirit.core.compile.entity.ElementEvent;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.utils.StmtVisiter;
-import com.sum.spirit.lib.Empty;
+import com.sum.spirit.stdlib.Emptys;
 
 @Native
 @Component
@@ -26,7 +26,7 @@ public class EmptyAction extends AbstractElementAction {
 			stmt.forEach(token -> {
 				if (token.isLocalMethod()) {// empty(str)
 					if (KeywordEnum.EMPTY.value.equals(token.attr(Attribute.MEMBER_NAME))) {
-						clazz.addStaticImport(Empty.class.getName() + ".empty");
+						clazz.addStaticImport(Emptys.class.getName() + ".empty");
 					}
 				}
 			});

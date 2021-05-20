@@ -1,18 +1,18 @@
 # Spirit
 
-一种轻量的语言，可生成Java代码。
+一种轻量的转译型语言，可生成Java代码。它致力于减少Java代码的冗余，并提供流畅的开发体验。它能够和Java代码无缝集成，并减少60%的代码量。
 
 ## 代码示例
 
 ```
-func main(){
+func main() {
     print "hello world!"
 }
 ```
 
 生成代码如下：
 
-```
+```java
 package com.sum.test.main;
 
 import org.slf4j.Logger;
@@ -31,23 +31,62 @@ public class Main {
 
 ## 快速开始
 
+1、在pom文件中，引入Maven插件。
+
+```xml
+<build>
+	<plugins>
+		<plugin>
+			<groupId>com.gitee.chentaoah</groupId>
+			<artifactId>spirit-maven-plugin</artifactId>
+			<version>最新版（>= 2.1.30）</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>compile</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
+```
+
+2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。例如：com.sum.spirit.example。
+
+3、在刚创建的包下，创建Main.sp文本文件。内容如下：
+
+```
+func main() {
+    print "hello world!"
+}
+```
+
+4、执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
+
+## 编辑器
+
 1. 下载安装sublime编辑器，并将项目中sublime-plugs目录下的所有文件，拷贝到sublime插件目录下的User文件夹中。
-2. 下载项目中的spirit文件夹，到任意目录下。（spirit文件夹内为打包产物）
-3. 在eclipse中，借助maven命令导出工程依赖项，并拷贝到spirit/lib_dep文件夹中。(Run As->Maven-build->dependency:copy-dependencies)
-4. 双击运行spirit/bin/compile.bat，并在target目录下查看生成的示例代码。
+2. 在sublime中打开后缀名为sp的文件，即可看到代码样式。
 
 ## Maven依赖
 
-生成的代码可以直接拷贝到maven项目中，但项目中必须包含以下依赖。
+请确保项目中有如下依赖：
 
-```
-<!-- slf4j -->
+```xml
+<!-- spirit-stdlib -->
+<dependency>
+	<groupId>com.gitee.chentaoah</groupId>
+	<artifactId>spirit-stdlib</artifactId>
+	<version>${project.version}</version>
+</dependency>
+<!-- slf4j-api -->
 <dependency>
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-api</artifactId>
 	<version>${slf4j.version}</version>
 </dependency>
-<!-- lang -->
+<!-- commons-lang3 -->
 <dependency>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-lang3</artifactId>
