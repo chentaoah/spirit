@@ -99,7 +99,7 @@ public class Main {
    </build>
    ```
 
-2. 执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
+2. 执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成的Java代码。
 
 
 
