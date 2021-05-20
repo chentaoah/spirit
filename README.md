@@ -4,13 +4,15 @@
 
 ## 代码示例
 
+### Spirit代码：
+
 ```
 func main() {
     print "hello world!"
 }
 ```
 
-生成代码如下：
+### Java代码：
 
 ```java
 package com.sum.test.main;
@@ -31,47 +33,9 @@ public class Main {
 
 ## 快速开始
 
-1、在pom文件中，引入Maven插件。
+### Maven依赖
 
-```xml
-<build>
-	<plugins>
-		<plugin>
-			<groupId>com.gitee.chentaoah</groupId>
-			<artifactId>spirit-maven-plugin</artifactId>
-			<version>最新版（>= 2.1.30）</version>
-			<executions>
-				<execution>
-					<goals>
-						<goal>compile</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-	</plugins>
-</build>
-```
-
-2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。例如：com.sum.spirit.example。
-
-3、在刚创建的包下，创建Main.sp文本文件。内容如下：
-
-```
-func main() {
-    print "hello world!"
-}
-```
-
-4、执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
-
-## 编辑器
-
-1. 下载安装sublime编辑器，并将项目中sublime-plugs目录下的所有文件，拷贝到sublime插件目录下的User文件夹中。
-2. 在sublime中打开后缀名为sp的文件，即可看到代码样式。
-
-## Maven依赖
-
-请确保项目中有如下依赖：
+在pom.xml中引入jar包：
 
 ```xml
 <!-- spirit-stdlib -->
@@ -93,4 +57,46 @@ func main() {
 	<version>${lang3.version}</version>
 </dependency>
 ```
+
+### Sublime编辑器
+
+1. 下载并安装sublime编辑器。
+2. 打开sublime，点击上方Preferences->Browse Packages按钮。
+3. 将项目sublime-plugs目录下的所有文件，拷贝到User文件夹中。
+4. 打开后缀名为sp的文件，即可看到代码样式。
+
+### Maven插件
+
+1、在pom.xml中引入插件。
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>com.gitee.chentaoah</groupId>
+            <artifactId>spirit-maven-plugin</artifactId>
+            <version>最新版（>= 2.1.30）</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
+
+2、在src/main/resources目录下，创建sources子目录。在sources目录下，创建一个文件夹，作为包。例如：com.sum.spirit.example。
+
+3、在刚创建的包下，创建Main.sp文本文件。内容如下：
+
+```
+func main() {
+    print "hello world!"
+}
+```
+
+4、执行Maven命令（mvn spirit:compile）并刷新，在src/main/java目录下，即可看到生成Java代码。
 
