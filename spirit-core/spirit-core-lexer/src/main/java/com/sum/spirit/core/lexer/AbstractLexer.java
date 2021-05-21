@@ -41,7 +41,9 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 					} else if (result.value instanceof List) {
 						context.regions.addAll(result.get());
 					}
-					if (result.state == CommonState.SKIP || result.state == CommonState.BREAK) {
+					if (result.state == CommonState.SKIP) {
+						break;
+					} else if (result.state == CommonState.BREAK) {
 						return result;
 					}
 				}
