@@ -56,7 +56,10 @@ public class SpiritCompileMojo extends AbstractMojo {
 		String inputPath = "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\src\\main\\resources\\sources";
 		String outputPath = "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\src\\main\\java";
 		String classpaths = "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\target\\classes, ";
-		classpaths += "C:\\Users\\tao.chen1\\.m2\\repository\\com\\sum\\spirit\\spirit-example-common\\2.1.30\\spirit-example-common-2.1.30.jar, ";
+		classpaths += "C:\\Users\\chenT\\.m2\\repository\\com\\gitee\\chentaoah\\spirit-example-common\\2.1.30\\spirit-example-common-2.1.30.jar, ";
+		classpaths += "C:\\Users\\chenT\\.m2\\repository\\com\\gitee\\chentaoah\\spirit-stdlib\\2.1.30\\spirit-stdlib-2.1.30.jar, ";
+		classpaths += "C:\\Users\\chenT\\.m2\\repository\\org\\slf4j\\slf4j-api\\1.7.25\\slf4j-api-1.7.25.jar, ";
+		classpaths += "C:\\Users\\chenT\\.m2\\repository\\org\\apache\\commons\\commons-lang3\\3.9\\commons-lang3-3.9.jar, ";
 		classpaths += "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\target\\test-classes";
 		JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath, "--classpaths=" + classpaths });
 	}
