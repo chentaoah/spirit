@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.action.BorderAction;
+import com.sum.spirit.core.lexer.entity.CharsContext;
 import com.sum.spirit.core.lexer.entity.CharsResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 
@@ -29,17 +30,26 @@ public class CoreLexer extends AbstractCursorLexer {
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder, BorderAction.PROFILE, splitChars);
 		CharsResult result = handle(context, builder);
-		List<String> words = result.get();
-		Assert.notNull(words, "Payload of result cannot be null!");
-		List<String> finalWords = new ArrayList<>();
-		for (String word : words) {
-			if (word.length() == 1) {
-				finalWords.add(word);
-			} else {
-				finalWords.addAll(getWords(word));
+		return result.get();
+	}
+
+	@Override
+	public CharsResult buildResult(CharsContext context, StringBuilder builder) {
+		LexerContext lexerContext = (LexerContext) context;
+		CharsResult result = super.buildResult(context, builder);
+		if (BorderAction.PROFILE.equals(lexerContext.profile)) {
+			List<String> finalWords = new ArrayList<>();
+			List<String> words = result.get();
+			for (String word : words) {
+				if (word.length() == 1) {
+					finalWords.add(word);
+				} else {
+					finalWords.addAll(getWords(word));
+				}
 			}
+			return new CharsResult(finalWords);
 		}
-		return finalWords;
+		return result;
 	}
 
 }
