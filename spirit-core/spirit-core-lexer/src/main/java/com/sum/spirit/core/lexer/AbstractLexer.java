@@ -25,25 +25,6 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	public List<LexerAction> actions;
 
 	@Override
-	public CommonResult buildResult(CharsContext context, StringBuilder builder) {
-		LexerContext lexerContext = (LexerContext) context;
-		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);// 使用标记收集算法后，补全未标记的部分
-		List<String> words = RegionUtils.subRegions(builder, regions, this::addToWords);
-		return new CommonResult(words);
-	}
-
-	public void addToWords(List<String> words, Region region, String text) {
-		if (region instanceof completedRegion) {
-			if (text.indexOf(".") > 0 && !LiteralPattern.isDouble(text) && !TypePattern.isTypeEnd(text)) {
-				List<String> subWords = Arrays.asList(text.replaceAll("\\.", " .").split(" "));
-				words.addAll(subWords);
-				return;
-			}
-		}
-		words.add(text);
-	}
-
-	@Override
 	public boolean isTrigger(CharEvent event) {
 		return true;
 	}
@@ -66,6 +47,25 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public CommonResult buildResult(CharsContext context, StringBuilder builder) {
+		LexerContext lexerContext = (LexerContext) context;
+		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);// 使用标记收集算法后，补全未标记的部分
+		List<String> words = RegionUtils.subRegions(builder, regions, this::addToWords);
+		return new CommonResult(words);
+	}
+
+	public void addToWords(List<String> words, Region region, String text) {
+		if (region instanceof completedRegion) {
+			if (text.indexOf(".") > 0 && !LiteralPattern.isDouble(text) && !TypePattern.isTypeEnd(text)) {
+				List<String> subWords = Arrays.asList(text.replaceAll("\\.", " .").split(" "));
+				words.addAll(subWords);
+				return;
+			}
+		}
+		words.add(text);
 	}
 
 }
