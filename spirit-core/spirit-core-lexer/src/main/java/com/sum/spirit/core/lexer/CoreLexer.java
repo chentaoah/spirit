@@ -15,32 +15,31 @@ import cn.hutool.core.lang.Assert;
 public class CoreLexer extends AbstractCursorLexer {
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<String> getWords(String text) {
 		Assert.notBlank(text, "Text cannot be blank!");
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder);
 		CharsResult result = handle(context, builder);
-		return (List<String>) result.payload;
+		return result.get();
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<String> getSubWords(String text, Character... splitChars) {
 		Assert.notBlank(text, "Text cannot be blank!");
 		StringBuilder builder = new StringBuilder(text.trim());
 		LexerContext context = new LexerContext(builder, BorderAction.PROFILE, splitChars);
 		CharsResult result = handle(context, builder);
-		Assert.notNull(result.payload, "Payload of result cannot be null!");
-		List<String> words = new ArrayList<>();
-		for (String word : (List<String>) result.payload) {
+		List<String> words = result.get();
+		Assert.notNull(words, "Payload of result cannot be null!");
+		List<String> finalWords = new ArrayList<>();
+		for (String word : words) {
 			if (word.length() == 1) {
-				words.add(word);
+				finalWords.add(word);
 			} else {
-				words.addAll(getWords(word));
+				finalWords.addAll(getWords(word));
 			}
 		}
-		return words;
+		return finalWords;
 	}
 
 }

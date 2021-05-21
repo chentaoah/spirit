@@ -8,5 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CharsResult {
+
 	public Object payload;
+
+	@SuppressWarnings("unchecked")
+	public <T> T get() {
+		return (T) payload;
+	}
+
 }
