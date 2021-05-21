@@ -2,12 +2,13 @@ package com.sum.spirit.core.lexer;
 
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 
 public abstract class AbstractCursorLexer extends AbstractLexer {
 
 	@Override
-	public Void handle(CharEvent event) {
+	public CommonResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		char ch = event.ch;
 		if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {

@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CharsResult {
+public class CommonResult {
 
-	public Object payload;
+	public Object value;
 
 	@SuppressWarnings("unchecked")
 	public <T> T get() {
-		return (T) payload;
+		return (T) value;
 	}
 
 }

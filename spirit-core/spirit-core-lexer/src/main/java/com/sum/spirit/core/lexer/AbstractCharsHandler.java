@@ -4,12 +4,12 @@ import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.CharsHandler;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
-import com.sum.spirit.core.lexer.entity.CharsResult;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 
-public abstract class AbstractCharsHandler implements CharsHandler, CharAction<Void> {
+public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 
 	@Override
-	public CharsResult handle(CharsContext context, StringBuilder builder) {
+	public CommonResult handle(CharsContext context, StringBuilder builder) {
 		for (context.index = 0; context.index < builder.length(); context.index++) {
 			char ch = builder.charAt(context.index);
 			CharEvent event = new CharEvent(context, ch);
@@ -20,8 +20,8 @@ public abstract class AbstractCharsHandler implements CharsHandler, CharAction<V
 		return buildResult(context, builder);
 	}
 
-	public CharsResult buildResult(CharsContext context, StringBuilder builder) {
-		return new CharsResult(builder);
+	public CommonResult buildResult(CharsContext context, StringBuilder builder) {
+		return new CommonResult(builder);
 	}
 
 }

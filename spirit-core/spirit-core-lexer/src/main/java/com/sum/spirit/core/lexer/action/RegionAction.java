@@ -9,6 +9,7 @@ import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.LexerResult.State;
@@ -44,7 +45,7 @@ public class RegionAction implements LexerAction {
 	}
 
 	@Override
-	public LexerResult handle(CharEvent event) {
+	public CommonResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		char ch = event.ch;

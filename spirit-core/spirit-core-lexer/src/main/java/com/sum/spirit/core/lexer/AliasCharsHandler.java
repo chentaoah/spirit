@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
-import com.sum.spirit.core.lexer.entity.CharsResult;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 
 @Component
 public class AliasCharsHandler extends AbstractCharsHandler {
@@ -16,8 +16,8 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 		context.builder = builder;
 		context.alias = alias;
 		context.className = className;
-		CharsResult result = handle(context, builder);
-		builder = (StringBuilder) result.payload;
+		CommonResult result = handle(context, builder);
+		builder = (StringBuilder) result.value;
 		return builder.toString();
 	}
 
@@ -36,7 +36,7 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 	}
 
 	@Override
-	public Void handle(CharEvent event) {
+	public CommonResult handle(CharEvent event) {
 		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;

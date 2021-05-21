@@ -1,19 +1,21 @@
 package com.sum.spirit.core.lexer.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LexerResult {
+public class LexerResult extends CommonResult {
 
 	public enum State {
 		CONTINUE, BREAK
 	}
 
 	public State state;
-	public Region region;
+
+	public LexerResult(State state, Object value) {
+		super(value);
+		this.state = state;
+	}
 
 }
