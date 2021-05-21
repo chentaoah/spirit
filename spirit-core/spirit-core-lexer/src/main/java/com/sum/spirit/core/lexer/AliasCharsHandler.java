@@ -36,7 +36,7 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 	}
 
 	@Override
-	public void handle(CharEvent event) {
+	public Void handle(CharEvent event) {
 		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;
@@ -50,6 +50,7 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 				}
 			}
 		}
+		return null;
 	}
 
 	public static class AliasCharsContext extends CharsContext {

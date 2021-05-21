@@ -49,7 +49,7 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	}
 
 	@Override
-	public void handle(CharEvent event) {
+	public Void handle(CharEvent event) {
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
 				LexerResult result = action.handle(event);
@@ -64,6 +64,7 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 				}
 			}
 		}
+		return null;
 	}
 
 }

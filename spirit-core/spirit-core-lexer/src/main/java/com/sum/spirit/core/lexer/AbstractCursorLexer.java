@@ -7,7 +7,7 @@ import com.sum.spirit.core.lexer.entity.LexerContext;
 public abstract class AbstractCursorLexer extends AbstractLexer {
 
 	@Override
-	public void handle(CharEvent event) {
+	public Void handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		char ch = event.ch;
 		if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {
@@ -17,6 +17,7 @@ public abstract class AbstractCursorLexer extends AbstractLexer {
 		if (!isContinuous(ch)) {
 			context.startIndex = -1;
 		}
+		return null;
 	}
 
 	public boolean isContinuous(char ch) {

@@ -2,10 +2,10 @@ package com.sum.spirit.core.api;
 
 import com.sum.spirit.core.lexer.entity.CharEvent;
 
-public interface CharAction {
+public interface CharAction<T> {
 
 	boolean isTrigger(CharEvent event);
 
-	void handle(CharEvent event);
+	T handle(CharEvent event);
 
 }
