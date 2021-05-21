@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
-import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -30,14 +30,14 @@ public class SymbolAction implements LexerAction {
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
 				context.index++;// 符合条件，则跳过一个单位
-				return new CommonResult(CharsState.BREAK, region);
+				return new CommonResult(CommonState.SKIP, region);
 			}
 		}
 
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			return new CommonResult(CharsState.BREAK, region);
+			return new CommonResult(CommonState.SKIP, region);
 		}
 
 		throw new RuntimeException("Unhandled branch!");

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommonResult {
 
-	public CharsState state;
+	public CommonState state;
 	public Object value;
 
 	public CommonResult(Object value) {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
-import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -22,7 +22,7 @@ public class SpaceAction implements LexerAction {
 	@Override
 	public CommonResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
-		return new CommonResult(CharsState.BREAK, new Region(context.index, context.index + 1));
+		return new CommonResult(CommonState.SKIP, new Region(context.index, context.index + 1));
 	}
 
 }

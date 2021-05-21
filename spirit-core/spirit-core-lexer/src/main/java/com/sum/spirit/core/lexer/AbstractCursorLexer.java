@@ -14,11 +14,11 @@ public abstract class AbstractCursorLexer extends AbstractLexer {
 		if ((context.startIndex < 0 && isContinuous(ch)) || isRefreshed(ch)) {
 			context.startIndex = context.index;
 		}
-		super.handle(event);
+		CommonResult result = super.handle(event);
 		if (!isContinuous(ch)) {
 			context.startIndex = -1;
 		}
-		return null;
+		return result;
 	}
 
 	public boolean isContinuous(char ch) {

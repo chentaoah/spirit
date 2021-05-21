@@ -4,6 +4,7 @@ import com.sum.spirit.core.api.CharAction;
 import com.sum.spirit.core.api.CharsHandler;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
+import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 
 public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
@@ -13,7 +14,10 @@ public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 		for (context.index = 0; context.index < builder.length(); context.index++) {
 			CharEvent event = new CharEvent(context, builder.charAt(context.index));
 			if (this.isTrigger(event)) {
-				this.handle(event);
+				CommonResult result = this.handle(event);
+				if (result != null && result.state == CommonState.BREAK) {
+					break;
+				}
 			}
 		}
 		return buildResult(context, builder);

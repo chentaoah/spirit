@@ -11,7 +11,7 @@ import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
-import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -34,14 +34,16 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
 				CommonResult result = action.handle(event);
-				Region region = result.get();
-				if (region != null) {
-					context.regions.add(region);
-				}
-				if (result.state == CharsState.CONTINUE) {
-					continue;
-				} else if (result.state == CharsState.BREAK) {
-					break;
+				if (result != null) {
+					if (result.value instanceof Region) {
+						context.regions.add(result.get());
+
+					} else if (result.value instanceof List) {
+						context.regions.addAll(result.get());
+					}
+					if (result.state == CommonState.SKIP || result.state == CommonState.BREAK) {
+						return result;
+					}
 				}
 			}
 		}

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.CoreLexer;
 import com.sum.spirit.core.lexer.entity.CharEvent;
-import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
@@ -40,10 +40,8 @@ public class BorderAction extends RegionAction {
 			}
 		}
 
-		context.regions = RegionUtils.completeRegions(builder, newRegions,
-				(startIndex, endIndex) -> new Region(startIndex, endIndex));
-		context.index = builder.length();
-		return new CommonResult(CharsState.BREAK, null);
+		List<Region> finalRegions = RegionUtils.completeRegions(builder, newRegions, (startIndex, endIndex) -> new Region(startIndex, endIndex));
+		return new CommonResult(CommonState.BREAK, finalRegions);
 	}
 
 }
