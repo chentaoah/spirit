@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Attribute;
-import com.sum.spirit.common.exception.UnhandledException;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
@@ -29,7 +28,7 @@ public class FragmentDeducer {
 				return type;
 			}
 		}
-		throw new UnhandledException();
+		throw new RuntimeException("Unhandled branch!");
 	}
 
 	public static IType getTypeByNode(IClass clazz, Node node) {

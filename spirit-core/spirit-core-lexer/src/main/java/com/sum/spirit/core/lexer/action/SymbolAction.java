@@ -4,7 +4,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.enums.SymbolEnum;
-import com.sum.spirit.common.exception.UnhandledException;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.LexerContext;
@@ -41,7 +40,7 @@ public class SymbolAction implements LexerAction {
 			return new LexerResult(State.BREAK, region);
 		}
 
-		throw new UnhandledException();
+		throw new RuntimeException("Unhandled branch!");
 	}
 
 }

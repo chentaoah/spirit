@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.exception.UnhandledException;
 import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.LexerAction;
@@ -91,7 +90,7 @@ public class RegionAction implements LexerAction {
 			return pushStack(event, ListUtils.toListNonNull(region0, region1, region2));
 		}
 
-		throw new UnhandledException();
+		throw new RuntimeException("Unhandled branch!");
 	}
 
 	public LexerResult pushStack(CharEvent event, List<Region> regions) {
