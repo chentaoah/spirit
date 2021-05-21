@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.lexer.CoreLexer;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
-import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 @Component
 @Order(-100)
@@ -25,7 +25,7 @@ public class BorderAction extends RegionAction {
 	}
 
 	@Override
-	public LexerResult pushStack(CharEvent event, List<Region> regions) {
+	public CommonResult pushStack(CharEvent event, List<Region> regions) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
@@ -43,7 +43,7 @@ public class BorderAction extends RegionAction {
 		context.regions = RegionUtils.completeRegions(builder, newRegions,
 				(startIndex, endIndex) -> new Region(startIndex, endIndex));
 		context.index = builder.length();
-		return new LexerResult(State.BREAK, null);
+		return new CommonResult(CharsState.BREAK, null);
 	}
 
 }

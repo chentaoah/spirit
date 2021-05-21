@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
-import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 @Component
 @Order(-40)
@@ -20,9 +20,9 @@ public class SpaceAction implements LexerAction {
 	}
 
 	@Override
-	public LexerResult handle(CharEvent event) {
+	public CommonResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
-		return new LexerResult(State.BREAK, new Region(context.index, context.index + 1));
+		return new CommonResult(CharsState.BREAK, new Region(context.index, context.index + 1));
 	}
 
 }

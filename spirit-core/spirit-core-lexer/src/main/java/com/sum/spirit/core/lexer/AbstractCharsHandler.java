@@ -11,8 +11,7 @@ public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 	@Override
 	public CommonResult handle(CharsContext context, StringBuilder builder) {
 		for (context.index = 0; context.index < builder.length(); context.index++) {
-			char ch = builder.charAt(context.index);
-			CharEvent event = new CharEvent(context, ch);
+			CharEvent event = new CharEvent(context, builder.charAt(context.index));
 			if (this.isTrigger(event)) {
 				this.handle(event);
 			}

@@ -9,7 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommonResult {
 
+	public CharsState state;
 	public Object value;
+
+	public CommonResult(Object value) {
+		this.value = value;
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T> T get() {

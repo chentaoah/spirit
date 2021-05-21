@@ -9,10 +9,9 @@ import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CharsState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerResult;
-import com.sum.spirit.core.lexer.entity.LexerResult.State;
 import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
 
@@ -94,11 +93,11 @@ public class RegionAction implements LexerAction {
 		throw new RuntimeException("Unhandled branch!");
 	}
 
-	public LexerResult pushStack(CharEvent event, List<Region> regions) {
+	public CommonResult pushStack(CharEvent event, List<Region> regions) {
 		LexerContext context = (LexerContext) event.context;
 		Region mergedRegion = RegionUtils.mergeRegions(regions);
 		context.index = mergedRegion.endIndex - 1;
-		return new LexerResult(State.BREAK, mergedRegion);
+		return new CommonResult(CharsState.BREAK, mergedRegion);
 	}
 
 	public boolean isCharAt(StringBuilder builder, int index, char ch) {

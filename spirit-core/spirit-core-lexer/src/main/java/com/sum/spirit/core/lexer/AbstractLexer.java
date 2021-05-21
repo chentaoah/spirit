@@ -11,13 +11,12 @@ import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CharsContext;
+import com.sum.spirit.core.lexer.entity.CharsState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
 import com.sum.spirit.core.lexer.utils.RegionUtils;
 import com.sum.spirit.core.lexer.utils.RegionUtils.completedRegion;
-import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 public abstract class AbstractLexer extends AbstractCharsHandler implements Lexer {
 
@@ -34,14 +33,14 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 		LexerContext context = (LexerContext) event.context;
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
-				LexerResult result = (LexerResult) action.handle(event);
+				CommonResult result = action.handle(event);
 				Region region = result.get();
 				if (region != null) {
 					context.regions.add(region);
 				}
-				if (result.state == State.CONTINUE) {
+				if (result.state == CharsState.CONTINUE) {
 					continue;
-				} else if (result.state == State.BREAK) {
+				} else if (result.state == CharsState.BREAK) {
 					break;
 				}
 			}

@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.core.api.LexerAction;
 import com.sum.spirit.core.lexer.entity.CharEvent;
+import com.sum.spirit.core.lexer.entity.CharsState;
+import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
-import com.sum.spirit.core.lexer.entity.LexerResult;
 import com.sum.spirit.core.lexer.entity.Region;
-import com.sum.spirit.core.lexer.entity.LexerResult.State;
 
 @Component
 @Order(-60)
@@ -21,7 +21,7 @@ public class SymbolAction implements LexerAction {
 	}
 
 	@Override
-	public LexerResult handle(CharEvent event) {
+	public CommonResult handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 
@@ -30,14 +30,14 @@ public class SymbolAction implements LexerAction {
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
 				context.index++;// 符合条件，则跳过一个单位
-				return new LexerResult(State.BREAK, region);
+				return new CommonResult(CharsState.BREAK, region);
 			}
 		}
 
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			return new LexerResult(State.BREAK, region);
+			return new CommonResult(CharsState.BREAK, region);
 		}
 
 		throw new RuntimeException("Unhandled branch!");
