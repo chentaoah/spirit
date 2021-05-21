@@ -1,17 +1,17 @@
 package com.sum.spirit.common.constants;
 
-public class AppConfig {
+public interface AppConfig {
 
-	public static final String DEFAULT_CHARSET = "UTF-8";
+	String DEFAULT_CHARSET = "UTF-8";
 
-	public static final String INPUT_ARG_KEY = "input";
-	public static final String OUTPUT_ARG_KEY = "output";
-	public static final String CLASSPATHS_ARG_KEY = "classpaths";
+	String INPUT_ARG_KEY = "input";
+	String OUTPUT_ARG_KEY = "output";
+	String CLASSPATHS_ARG_KEY = "classpaths";
 
-	public static final String FILENAME_EXTENSION_KEY = "spirit.compile.file.extension";
-	public static final String DEBUG_KEY = "spirit.compile.debug";
+	String FILENAME_EXTENSION_KEY = "spirit.compile.file.extension";
+	String DEBUG_KEY = "spirit.compile.debug";
 
-	public static final String DEFAULT_FILENAME_EXTENSION = "sp";
-	public static final boolean DEFAULT_DEBUG = true;
+	String DEFAULT_FILENAME_EXTENSION = "sp";
+	boolean DEFAULT_DEBUG = true;
 
 }
