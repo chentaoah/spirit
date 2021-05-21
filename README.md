@@ -6,7 +6,7 @@
 
 ### 原始代码
 
-```
+```go
 func main() {
     print "hello world!"
 }
@@ -42,19 +42,19 @@ public class Main {
 <dependency>
 	<groupId>com.gitee.chentaoah</groupId>
 	<artifactId>spirit-stdlib</artifactId>
-	<version>${project.version}</version>
+	<version>最新版（>= 2.1.30）</version>
 </dependency>
 <!-- slf4j-api -->
 <dependency>
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-api</artifactId>
-	<version>${slf4j.version}</version>
+	<version>1.7.25</version>
 </dependency>
 <!-- commons-lang3 -->
 <dependency>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-lang3</artifactId>
-	<version>${lang3.version}</version>
+	<version>3.9</version>
 </dependency>
 ```
 
@@ -70,7 +70,7 @@ public class Main {
 
 5. 在文件夹下，创建Main.sp文件，并在sublime中打开，输入如下内容：
 
-   ```
+   ```go
    func main() {
        print "hello world!"
    }
