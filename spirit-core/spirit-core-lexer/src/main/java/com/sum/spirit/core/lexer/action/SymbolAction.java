@@ -29,7 +29,6 @@ public class SymbolAction implements LexerAction {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
-				context.index++;// 符合条件，则跳过一个单位
 				return new CommonResult(CommonState.SKIP, region);
 			}
 		}

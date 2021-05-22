@@ -12,7 +12,6 @@ import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
 import com.sum.spirit.core.lexer.entity.LexerContext;
 import com.sum.spirit.core.lexer.entity.Region;
-import com.sum.spirit.core.lexer.utils.RegionUtils;
 
 @Component
 @Order(-100)
@@ -30,18 +29,19 @@ public class BorderAction extends RegionAction {
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
 
-		List<Region> newRegions = new ArrayList<>();
+		List<Region> borderRegions = new ArrayList<>();
 		for (Region region : regions) {
 			char startChar = builder.charAt(region.startIndex);
 			char endChar = builder.charAt(region.endIndex - 1);
 			if (splitChars.contains(startChar) && splitChars.contains(endChar)) {
-				newRegions.add(new Region(region.startIndex, region.startIndex + 1));
-				newRegions.add(new Region(region.endIndex - 1, region.endIndex));
+				borderRegions.add(new Region(region.startIndex, region.startIndex + 1));
+				borderRegions.add(new Region(region.endIndex - 1, region.endIndex));
 			}
 		}
 
-		List<Region> finalRegions = RegionUtils.completeRegions(builder, newRegions, (startIndex, endIndex) -> new Region(startIndex, endIndex));
-		return new CommonResult(CommonState.BREAK, finalRegions);
+		context.profile = null;
+		context.index = borderRegions.get(0).startIndex;
+		return new CommonResult(CommonState.SKIP, borderRegions);
 	}
 
 }

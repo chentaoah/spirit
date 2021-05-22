@@ -25,6 +25,18 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 
 	@Override
 	public boolean isTrigger(CharEvent event) {
+		LexerContext context = (LexerContext) event.context;
+		List<Region> regions = context.regions;
+		if (regions != null && !regions.isEmpty()) {
+			for (int index = regions.size() - 1; index >= 0; index--) {
+				Region existRegion = regions.get(index);
+				if (existRegion.contains(context.index)) {
+					return false;
+				} else if (context.index >= existRegion.endIndex) {
+					return true;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -35,21 +47,39 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 			if (action.isTrigger(event)) {
 				CommonResult result = action.handle(event);
 				if (result != null) {
-					if (result.value instanceof Region) {
-						context.regions.add(result.get());
+					if (result.value != null) {
+						if (result.value instanceof Region) {
+							appendRegion(context, result.get());
 
-					} else if (result.value instanceof List) {
-						context.regions.addAll(result.get());
+						} else if (result.value instanceof List) {
+							List<Region> regions = result.get();
+							regions.forEach(region -> appendRegion(context, region));
+						}
 					}
 					if (result.state == CommonState.SKIP) {
 						break;
-					} else if (result.state == CommonState.BREAK) {
+					} else if (result.state == CommonState.RESET || result.state == CommonState.BREAK) {
 						return result;
 					}
 				}
 			}
 		}
 		return null;
+	}
+
+	public void appendRegion(LexerContext context, Region region) {
+		List<Region> regions = context.regions;
+		if (regions.isEmpty()) {
+			regions.add(region);
+		} else {
+			for (int index = regions.size() - 1; index >= 0; index--) {
+				Region existRegion = regions.get(index);
+				if (region.after(existRegion)) {
+					regions.add(index + 1, region);
+					break;
+				}
+			}
+		}
 	}
 
 	@Override

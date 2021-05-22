@@ -15,8 +15,12 @@ public abstract class AbstractCharsHandler implements CharsHandler, CharAction {
 			CharEvent event = new CharEvent(context, builder.charAt(context.index));
 			if (this.isTrigger(event)) {
 				CommonResult result = this.handle(event);
-				if (result != null && result.state == CommonState.BREAK) {
-					break;
+				if (result != null) {
+					if (result.state == CommonState.RESET) {
+						context.index = 0;
+					} else if (result.state == CommonState.BREAK) {
+						break;
+					}
 				}
 			}
 		}

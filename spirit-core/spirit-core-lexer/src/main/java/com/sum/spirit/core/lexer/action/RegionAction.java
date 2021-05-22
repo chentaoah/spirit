@@ -94,9 +94,7 @@ public class RegionAction implements LexerAction {
 	}
 
 	public CommonResult pushStack(CharEvent event, List<Region> regions) {
-		LexerContext context = (LexerContext) event.context;
 		Region mergedRegion = RegionUtils.mergeRegions(regions);
-		context.index = mergedRegion.endIndex - 1;
 		return new CommonResult(CommonState.SKIP, mergedRegion);
 	}
 

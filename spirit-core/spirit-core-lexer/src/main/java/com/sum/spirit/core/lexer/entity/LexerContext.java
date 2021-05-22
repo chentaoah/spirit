@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LexerContext extends CharsContext {
 
-	public int startIndex = -1;
-	public List<Region> regions = new ArrayList<>();
 	public String profile;
 	public List<Character> splitChars;
+	public int startIndex = -1;
+	public List<Region> regions = new ArrayList<>();
 
 	public LexerContext(StringBuilder builder) {
 		this.builder = builder;

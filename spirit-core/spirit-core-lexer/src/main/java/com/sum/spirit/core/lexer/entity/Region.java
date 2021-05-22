@@ -20,4 +20,8 @@ public class Region {
 		return startIndex <= index && index < endIndex;
 	}
 
+	public boolean after(Region region) {
+		return startIndex >= region.endIndex;
+	}
+
 }

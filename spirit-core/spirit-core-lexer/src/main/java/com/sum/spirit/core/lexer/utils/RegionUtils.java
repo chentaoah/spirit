@@ -29,26 +29,22 @@ public class RegionUtils {
 		return new Region(startRegion.startIndex, endRegion.endIndex);
 	}
 
-	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions, Factory factory) {
+	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions) {
 		List<Region> completedRegions = new ArrayList<>();
 		int lastIndex = 0;
 		for (Region region : regions) {
 			if (region.startIndex > lastIndex) {
-				Region newRegion = factory.newRegion(lastIndex, region.startIndex);
+				Region newRegion = new completedRegion(lastIndex, region.startIndex);
 				completedRegions.add(newRegion);
 			}
 			completedRegions.add(region);
 			lastIndex = region.endIndex;
 		}
 		if (lastIndex < builder.length()) {
-			Region newRegion = factory.newRegion(lastIndex, builder.length());
+			Region newRegion = new completedRegion(lastIndex, builder.length());
 			completedRegions.add(newRegion);
 		}
 		return completedRegions;
-	}
-
-	public static List<Region> completeRegions(StringBuilder builder, List<Region> regions) {
-		return completeRegions(builder, regions, (startIndex, endIndex) -> new completedRegion(startIndex, endIndex));
 	}
 
 	public static List<String> subRegions(StringBuilder builder, List<Region> regions, Consumer consumer) {
@@ -60,10 +56,6 @@ public class RegionUtils {
 			}
 		}
 		return words;
-	}
-
-	public static interface Factory {
-		Region newRegion(int startIndex, int endIndex);
 	}
 
 	public static interface Consumer {
