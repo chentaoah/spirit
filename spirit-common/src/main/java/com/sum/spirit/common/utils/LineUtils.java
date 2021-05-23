@@ -6,14 +6,6 @@ public class LineUtils {
 		return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_';
 	}
 
-	public static String mergeSpaces(String line) {
-		line = line.trim();
-		while (line.contains("  ")) {
-			line = line.replaceAll("  ", " ");// 这里需要考虑一种情况，就是四个变两个，两个变一个
-		}
-		return line;
-	}
-
 	public static String getSpaces(int number) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < number; i++) {
