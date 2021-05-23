@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.core.lexer.CoreLexer;
 import com.sum.spirit.core.lexer.entity.CharEvent;
 import com.sum.spirit.core.lexer.entity.CommonState;
 import com.sum.spirit.core.lexer.entity.CommonResult;
@@ -17,10 +16,12 @@ import com.sum.spirit.core.lexer.entity.Region;
 @Order(-100)
 public class BorderAction extends RegionAction {
 
+	public static final String BORDER_PROFILE = "BORDER_PROFILE";
+
 	@Override
 	public boolean isTrigger(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
-		return CoreLexer.BORDER_PROFILE.equals(context.profile) && super.isTrigger(event);
+		return BORDER_PROFILE.equals(context.profile) && super.isTrigger(event);
 	}
 
 	@Override
