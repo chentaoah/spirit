@@ -74,7 +74,10 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 		} else {
 			for (int index = regions.size() - 1; index >= 0; index--) {
 				Region existRegion = regions.get(index);
-				if (region.after(existRegion)) {
+				if (region.isOverlap(existRegion)) {
+					throw new RuntimeException("There are overlapping regions!");
+				}
+				if (region.isAfter(existRegion)) {
 					regions.add(index + 1, region);
 					break;
 				}

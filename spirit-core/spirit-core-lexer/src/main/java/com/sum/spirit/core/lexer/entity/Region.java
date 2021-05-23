@@ -20,8 +20,12 @@ public class Region {
 		return startIndex <= index && index < endIndex;
 	}
 
-	public boolean after(Region region) {
+	public boolean isAfter(Region region) {
 		return startIndex >= region.endIndex;
+	}
+
+	public boolean isOverlap(Region region) {
+		return contains(region.startIndex) || contains(region.endIndex - 1);
 	}
 
 }
