@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.pattern.CommonPattern;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
@@ -103,7 +104,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 
 		String first = words.get(0);
 		// 如果第一个单词是一个前缀的话，则添加前缀
-		if (PREFIX_PATTERN.matcher(first).matches()) {
+		if (CommonPattern.isPrefix(first)) {
 			List<String> subWords = words.subList(1, words.size());
 			tokens = getTokens(new SemanticContext(insideType), subWords);
 			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));

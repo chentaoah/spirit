@@ -13,8 +13,8 @@ public class LiteralPattern {
 	public static final Pattern STRING_PATTERN = Pattern.compile("^\"[\\s\\S]*\"$");
 	public static final Pattern LIST_PATTERN = Pattern.compile("^\\[[\\s\\S]*\\]$");
 	public static final Pattern MAP_PATTERN = Pattern.compile("^\\{[\\s\\S]*\\}$");
-
-	public static final Pattern CONST_VARIABLE_PATTERN = Pattern.compile("^[A-Z_]{2,}$");// 常量也被认为是字面值的一种
+	// 常量也被认为是字面值的一种
+	public static final Pattern CONST_VARIABLE_PATTERN = Pattern.compile("^[A-Z_]{2,}$");
 
 	public static boolean isNull(String word) {
 		return NULL_PATTERN.matcher(word).matches();

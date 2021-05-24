@@ -88,7 +88,8 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	@Override
 	public CommonResult buildResult(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
-		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);// 使用标记收集算法后，补全未标记的部分
+		// 使用标记收集算法后，补全未标记的部分
+		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);
 		List<String> words = RegionUtils.subRegions(builder, regions, this::addToWords);
 		return new CommonResult(words);
 	}

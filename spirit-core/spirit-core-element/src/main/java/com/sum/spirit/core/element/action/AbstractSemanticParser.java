@@ -1,7 +1,6 @@
 package com.sum.spirit.core.element.action;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
@@ -9,6 +8,7 @@ import com.sum.spirit.common.enums.TokenTypeEnum;
 import com.sum.spirit.common.pattern.LiteralPattern;
 import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.pattern.AccessPattern;
+import com.sum.spirit.common.pattern.CommonPattern;
 import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.element.entity.SemanticContext;
@@ -16,23 +16,17 @@ import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
 
-	public static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
-	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-	public static final Pattern VAR_PATTERN = Pattern.compile("^[a-z]+\\w*$");
-	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
-
 	@Override
 	public List<Token> getTokens(SemanticContext context, List<String> words) {
 		return ListUtils.collectAll(words, word -> true, word -> getToken(context, word));
 	}
 
 	public boolean isPath(String word) {
-		return !LiteralPattern.isDouble(word) && PATH_PATTERN.matcher(word).matches();
+		return !LiteralPattern.isDouble(word) && CommonPattern.isPath(word);
 	}
 
 	public boolean isAnnotation(String word) {
-		return ANNOTATION_PATTERN.matcher(word).matches();
+		return CommonPattern.isAnnotation(word);
 	}
 
 	public boolean isKeyword(String word) {
@@ -53,7 +47,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public boolean isVariable(String word) {
-		return LiteralPattern.isConstVariable(word) || VAR_PATTERN.matcher(word).matches();
+		return LiteralPattern.isConstVariable(word) || CommonPattern.isVariable(word);
 	}
 
 	public TokenTypeEnum getInitTokenType(String word) {
@@ -101,7 +95,7 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public TokenTypeEnum getSubexpressTokenType(String word) {
-		if (SUBEXPRESS_PATTERN.matcher(word).matches()) {
+		if (CommonPattern.isSubexpress(word)) {
 			if (isType(getCastType(word))) {
 				return TokenTypeEnum.CAST;
 			} else {

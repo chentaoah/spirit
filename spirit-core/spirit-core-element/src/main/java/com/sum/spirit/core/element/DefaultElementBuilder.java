@@ -40,13 +40,13 @@ public class DefaultElementBuilder implements ElementBuilder {
 	@Override
 	public Element build(Line line) {
 		try {
-			checker.check(line); // 语法校验
-			List<String> words = lexer.getWords(line.text);// 1.词法分析
-			List<Token> tokens = parser.getTokens(new SemanticContext(), words);// 2.语义分析
-			Modifiers modifiers = new Modifiers(tokens);// 3.修饰词
-			Statement statement = new Statement(tokens);// 4.语句
-			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);// 5.分析语法
-			Element element = new Element(line, modifiers, statement, result.syntax, result.syntaxTree);// 6.创建元素
+			checker.check(line);
+			List<String> words = lexer.getWords(line.text);
+			List<Token> tokens = parser.getTokens(new SemanticContext(), words);
+			Modifiers modifiers = new Modifiers(tokens);
+			Statement statement = new Statement(tokens);
+			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);
+			Element element = new Element(line, modifiers, statement, result.syntax, result.syntaxTree);
 			return element;
 
 		} catch (Exception e) {
