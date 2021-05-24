@@ -41,7 +41,13 @@ public class BorderAction extends RegionAction {
 		}
 
 		context.profile = null;
-		context.index = borderRegions.get(0).startIndex;
+		if (!borderRegions.isEmpty()) {
+			int borderIndex = borderRegions.get(0).startIndex;
+			context.index = borderIndex;
+			if (borderIndex > 0) {
+				borderRegions.add(0, new Region(0, borderIndex));
+			}
+		}
 		return new CommonResult(CommonState.SKIP, borderRegions);
 	}
 
