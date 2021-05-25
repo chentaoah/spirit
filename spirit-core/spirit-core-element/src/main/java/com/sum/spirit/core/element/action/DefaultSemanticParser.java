@@ -118,16 +118,15 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 
 	public Object getTokenValue(Token token, String word) {
 		if (token.isType()) {
-			return word.contains("<") || word.contains(">") ? getStatement(word, true) : word;
+			return word.contains("<") || word.contains(">") ? getStatement(true, word) : word;
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			// 拆分数组是为了更好的添加new这个关键字
-			return getStatement(word, false);
+			return getStatement(false, word);// 拆分数组是为了更好的添加new这个关键字
 		}
 		return word;
 	}
 
-	public Statement getStatement(String word, boolean insideType) {
+	public Statement getStatement(boolean insideType, String word) {
 		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		List<Token> tokens = getTokens(new SemanticContext(true, insideType), words);
 		Assert.notNull(tokens, "Tokens cannot be null!");
@@ -145,7 +144,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setAttr(Attribute.SIMPLE_NAME, TypePattern.getCastType(word));
+			token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getSubexpressValue(word));
 
 		} else if (token.isAccess()) {
 			token.setAttr(Attribute.MEMBER_NAME, getPrefix(word));

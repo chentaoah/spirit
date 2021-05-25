@@ -71,8 +71,4 @@ public class TypePattern {
 		return null;
 	}
 
-	public static String getCastType(String word) {
-		return word.substring(1, word.length() - 1);
-	}
-
 }
