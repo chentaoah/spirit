@@ -2,6 +2,8 @@ package com.sum.spirit.common.pattern;
 
 import java.util.regex.Pattern;
 
+import com.sum.spirit.common.enums.TokenTypeEnum;
+
 public class LiteralPattern {
 
 	public static final Pattern NULL_PATTERN = Pattern.compile("^null$");
@@ -54,6 +56,37 @@ public class LiteralPattern {
 
 	public static boolean isConstVariable(String word) {
 		return CONST_VARIABLE_PATTERN.matcher(word).matches();
+	}
+
+	public static TokenTypeEnum getTokenType(String word) {
+		if (isNull(word)) {
+			return TokenTypeEnum.NULL;
+
+		} else if (isBoolean(word)) {
+			return TokenTypeEnum.BOOLEAN;
+
+		} else if (isChar(word)) {
+			return TokenTypeEnum.CHAR;
+
+		} else if (isInt(word)) {
+			return TokenTypeEnum.INT;
+
+		} else if (isLong(word)) {
+			return TokenTypeEnum.LONG;
+
+		} else if (isDouble(word)) {
+			return TokenTypeEnum.DOUBLE;
+
+		} else if (isString(word)) {
+			return TokenTypeEnum.STRING;
+
+		} else if (isList(word)) {
+			return TokenTypeEnum.LIST;
+
+		} else if (isMap(word)) {
+			return TokenTypeEnum.MAP;
+		}
+		return null;
 	}
 
 }

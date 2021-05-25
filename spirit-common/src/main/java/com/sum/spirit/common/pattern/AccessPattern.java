@@ -2,6 +2,8 @@ package com.sum.spirit.common.pattern;
 
 import java.util.regex.Pattern;
 
+import com.sum.spirit.common.enums.TokenTypeEnum;
+
 public class AccessPattern {
 
 	public static final Pattern ACCESS_PATH_PATTERN = Pattern.compile("^(\\w+\\.)+[A-Z]+\\w+(\\.[a-z]+\\w*)?$");
@@ -28,6 +30,22 @@ public class AccessPattern {
 
 	public static boolean isVisitIndex(String word) {
 		return VISIT_INDEX_PATTERN.matcher(word).matches();
+	}
+
+	public static TokenTypeEnum getTokenType(String word) {
+		if (isLocalMethod(word)) {
+			return TokenTypeEnum.LOCAL_METHOD;
+
+		} else if (isVisitField(word)) {
+			return TokenTypeEnum.VISIT_FIELD;
+
+		} else if (isVisitMethod(word)) {
+			return TokenTypeEnum.VISIT_METHOD;
+
+		} else if (isVisitIndex(word)) {
+			return TokenTypeEnum.VISIT_INDEX;
+		}
+		return null;
 	}
 
 }

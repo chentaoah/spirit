@@ -2,6 +2,8 @@ package com.sum.spirit.common.pattern;
 
 import java.util.regex.Pattern;
 
+import com.sum.spirit.common.enums.TokenTypeEnum;
+
 public class CommonPattern {
 
 	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
@@ -23,6 +25,17 @@ public class CommonPattern {
 
 	public static boolean isPrefix(String word) {
 		return PREFIX_PATTERN.matcher(word).matches();
+	}
+
+	public static TokenTypeEnum getSubexpressTokenType(String word) {
+		if (isSubexpress(word)) {
+			if (TypePattern.isAnyType(TypePattern.getCastType(word))) {
+				return TokenTypeEnum.CAST;
+			} else {
+				return TokenTypeEnum.SUBEXPRESS;
+			}
+		}
+		return null;
 	}
 
 }

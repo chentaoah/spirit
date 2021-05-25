@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.TokenTypeEnum;
+import com.sum.spirit.common.pattern.AccessPattern;
 import com.sum.spirit.common.pattern.CommonPattern;
+import com.sum.spirit.common.pattern.LiteralPattern;
+import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.core.api.Lexer;
 import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
@@ -86,17 +89,17 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			return TokenTypeEnum.TYPE;
 		}
 
-		TokenTypeEnum tokenType = getInitTokenType(word);
+		TokenTypeEnum tokenType = TypePattern.getTokenType(word);
 		if (tokenType != null) {
 			return tokenType;
 		}
 
-		tokenType = getLiteralTokenType(word);
+		tokenType = LiteralPattern.getTokenType(word);
 		if (tokenType != null) {
 			return tokenType;
 		}
 
-		tokenType = getSubexpressTokenType(word);
+		tokenType = CommonPattern.getSubexpressTokenType(word);
 		if (tokenType != null) {
 			return tokenType;
 		}
@@ -105,7 +108,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			return TokenTypeEnum.VARIABLE;
 		}
 
-		tokenType = getAccessTokenType(word);
+		tokenType = AccessPattern.getTokenType(word);
 		if (tokenType != null) {
 			return tokenType;
 		}
@@ -142,7 +145,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word));
 
 		} else if (token.isCast()) {
-			token.setAttr(Attribute.SIMPLE_NAME, getCastType(word));
+			token.setAttr(Attribute.SIMPLE_NAME, TypePattern.getCastType(word));
 
 		} else if (token.isAccess()) {
 			token.setAttr(Attribute.MEMBER_NAME, getPrefix(word));

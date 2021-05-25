@@ -3,6 +3,7 @@ package com.sum.spirit.common.pattern;
 import java.util.regex.Pattern;
 
 import com.sum.spirit.common.enums.PrimitiveEnum;
+import com.sum.spirit.common.enums.TokenTypeEnum;
 
 public class TypePattern {
 
@@ -55,6 +56,23 @@ public class TypePattern {
 	public static boolean isAnyType(String word) {
 		return !LiteralPattern.isConstVariable(word) && (PrimitiveEnum.isPrimitiveBySimple(word) || PrimitiveEnum.isPrimitiveArrayBySimple(word) || isType(word)
 				|| isTypeArray(word) || isGenericType(word));
+	}
+
+	public static TokenTypeEnum getTokenType(String word) {
+		if (isPrimitiveArraySizeInit(word) || isPrimitiveArrayLiteralInit(word)) {
+			return TokenTypeEnum.ARRAY_INIT;
+
+		} else if (isTypeArraySizeInit(word) || isTypeArrayLiteralInit(word)) {
+			return TokenTypeEnum.ARRAY_INIT;
+
+		} else if (isTypeInit(word)) {
+			return TokenTypeEnum.TYPE_INIT;
+		}
+		return null;
+	}
+
+	public static String getCastType(String word) {
+		return word.substring(1, word.length() - 1);
 	}
 
 }
