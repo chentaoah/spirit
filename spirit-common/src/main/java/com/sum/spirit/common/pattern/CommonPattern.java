@@ -29,11 +29,7 @@ public class CommonPattern {
 
 	public static TokenTypeEnum getSubexpressTokenType(String word) {
 		if (isSubexpress(word)) {
-			if (TypePattern.isAnyType(CommonPattern.getSubexpressValue(word))) {
-				return TokenTypeEnum.CAST;
-			} else {
-				return TokenTypeEnum.SUBEXPRESS;
-			}
+			return TypePattern.isAnyType(CommonPattern.getSubexpressValue(word)) ? TokenTypeEnum.CAST : TokenTypeEnum.SUBEXPRESS;
 		}
 		return null;
 	}
