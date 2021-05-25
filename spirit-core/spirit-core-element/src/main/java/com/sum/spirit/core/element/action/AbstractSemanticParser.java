@@ -11,7 +11,7 @@ import com.sum.spirit.core.api.SemanticParser;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
 
-	public boolean isPath(String word) {
+	public boolean isAccessPath(String word) {
 		return !LiteralPattern.isDouble(word) && CommonPattern.isAccessPath(word);
 	}
 

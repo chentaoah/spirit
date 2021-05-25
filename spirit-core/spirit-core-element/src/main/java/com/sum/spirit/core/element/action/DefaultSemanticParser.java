@@ -67,8 +67,8 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	}
 
 	public TokenTypeEnum getCommonTokenType(SemanticContext context, String word) {
-		if (isPath(word)) {
-			return TokenTypeEnum.PATH;
+		if (isAccessPath(word)) {
+			return TokenTypeEnum.ACCESS_PATH;
 
 		} else if (isAnnotation(word)) {
 			return TokenTypeEnum.ANNOTATION;

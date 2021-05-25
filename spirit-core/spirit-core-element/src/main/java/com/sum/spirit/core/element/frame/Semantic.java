@@ -15,8 +15,8 @@ public abstract class Semantic extends Attributes {
 		this.tokenType = tokenType;
 	}
 
-	public boolean isPath() {
-		return tokenType == TokenTypeEnum.PATH;
+	public boolean isAccessPath() {
+		return tokenType == TokenTypeEnum.ACCESS_PATH;
 	}
 
 	public boolean isAnnotation() {

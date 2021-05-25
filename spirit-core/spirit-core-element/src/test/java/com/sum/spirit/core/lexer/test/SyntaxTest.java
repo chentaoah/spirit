@@ -34,7 +34,7 @@ public class SyntaxTest {
 		assertTrue(element.size() == 2);
 		int count = 0;
 		assertTypeAndValue(element.get(count++), TokenTypeEnum.KEYWORD, "import");
-		assertTypeAndValue(element.get(count++), TokenTypeEnum.PATH, "com.sum.spirit.example.Animal");
+		assertTypeAndValue(element.get(count++), TokenTypeEnum.ACCESS_PATH, "com.sum.spirit.example.Animal");
 	}
 
 	@Test

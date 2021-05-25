@@ -1,7 +1,7 @@
 package com.sum.spirit.common.enums;
 
 public enum TokenTypeEnum {
-	PATH, // com.sum.spirit.example.Animal
+	ACCESS_PATH, // com.sum.spirit.example.Animal
 	ANNOTATION, // @Animal
 	KEYWORD, // class
 	OPERATOR, // =

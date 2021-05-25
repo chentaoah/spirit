@@ -24,7 +24,7 @@ public class SemanticTest {
 	public void test0000() {
 		String text = "com.sum.spirit.example.Animal";
 		Token token = parser.getToken(new SemanticContext(), text);
-		assertTrue(token.isPath());
+		assertTrue(token.isAccessPath());
 	}
 
 	@Test
