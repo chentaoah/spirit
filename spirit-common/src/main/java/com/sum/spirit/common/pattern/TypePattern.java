@@ -6,8 +6,6 @@ import com.sum.spirit.common.enums.PrimitiveEnum;
 
 public class TypePattern {
 
-	public static final Pattern TYPE_END_PATTERN = Pattern.compile("^[\\s\\S]+\\.[A-Z]+\\w+(\\.[a-z]+\\w*)?$");
-
 	public static final Pattern TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*$");
 	public static final Pattern TYPE_ARRAY_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]$");
 	public static final Pattern GENERIC_TYPE_PATTERN = Pattern.compile("^[A-Z]+\\w*<[\\s\\S]+>$");
@@ -20,10 +18,6 @@ public class TypePattern {
 
 	public static boolean isTypePrefix(String word) {
 		return PrimitiveEnum.isPrimitiveBySimple(word) || isType(word);
-	}
-
-	public static boolean isTypeEnd(String word) {
-		return TYPE_END_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isType(String word) {
@@ -59,9 +53,8 @@ public class TypePattern {
 	}
 
 	public static boolean isAnyType(String word) {
-		return !LiteralPattern.isConstVariable(word) && //
-				(PrimitiveEnum.isPrimitiveBySimple(word) || PrimitiveEnum.isPrimitiveArrayBySimple(word) || //
-						isType(word) || isTypeArray(word) || isGenericType(word));
+		return !LiteralPattern.isConstVariable(word) && (PrimitiveEnum.isPrimitiveBySimple(word) || PrimitiveEnum.isPrimitiveArrayBySimple(word) || isType(word)
+				|| isTypeArray(word) || isGenericType(word));
 	}
 
 }

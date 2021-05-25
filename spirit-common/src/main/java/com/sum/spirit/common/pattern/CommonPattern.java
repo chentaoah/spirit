@@ -4,14 +4,14 @@ import java.util.regex.Pattern;
 
 public class CommonPattern {
 
-	private static final Pattern PATH_PATTERN = Pattern.compile("^(\\w+\\.)+\\w+$");
-	private static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
-	private static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
-	private static final Pattern VARIABLE_PATTERN = Pattern.compile("^[a-z]+\\w*$");
-	private static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
+	public static final Pattern ACCESS_PATH_PATTERN = Pattern.compile("^(\\w+\\.)+[A-Z]+\\w+(\\.[a-z]+\\w*)?$");
+	public static final Pattern ANNOTATION_PATTERN = Pattern.compile("^@[A-Z]+\\w+(\\([\\s\\S]+\\))?$");
+	public static final Pattern SUBEXPRESS_PATTERN = Pattern.compile("^\\([\\s\\S]+\\)$");
+	public static final Pattern VARIABLE_PATTERN = Pattern.compile("^[a-z]+\\w*$");
+	public static final Pattern PREFIX_PATTERN = Pattern.compile("^(\\.)?\\w+$");
 
-	public static boolean isPath(String word) {
-		return PATH_PATTERN.matcher(word).matches();
+	public static boolean isAccessPath(String word) {
+		return ACCESS_PATH_PATTERN.matcher(word).matches();
 	}
 
 	public static boolean isAnnotation(String word) {
