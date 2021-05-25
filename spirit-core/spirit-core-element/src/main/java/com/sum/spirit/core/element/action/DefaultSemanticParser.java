@@ -115,7 +115,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 
 	public Object getTokenValue(Token token, String word) {
 		if (token.isType()) {
-			return getStatement(word, true);
+			return !word.contains("<") && !word.contains(">") ? word : getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
 			// 拆分数组是为了更好的添加new这个关键字
@@ -124,10 +124,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		return word;
 	}
 
-	public Object getStatement(String word, boolean insideType) {
-		if (insideType && (!word.contains("<") && !word.contains(">"))) {
-			return word;
-		}
+	public Statement getStatement(String word, boolean insideType) {
 		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
 		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		List<Token> tokens = getTokens(new SemanticContext(true, insideType), words);
