@@ -13,7 +13,6 @@ import com.sum.spirit.core.element.action.LineChecker;
 import com.sum.spirit.core.element.entity.Element;
 import com.sum.spirit.core.element.entity.Line;
 import com.sum.spirit.core.element.entity.Modifiers;
-import com.sum.spirit.core.element.entity.SemanticContext;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.SyntaxResult;
 import com.sum.spirit.core.element.entity.Token;
@@ -42,7 +41,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 		try {
 			checker.check(line);
 			List<String> words = lexer.getWords(line.text);
-			List<Token> tokens = parser.getTokens(new SemanticContext(), words);
+			List<Token> tokens = parser.getTokens(words);
 			Modifiers modifiers = new Modifiers(tokens);
 			Statement statement = new Statement(tokens);
 			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);

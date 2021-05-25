@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CharsContext {
 	public StringBuilder builder;
-	public int index;
+	public int index = -1;
 }

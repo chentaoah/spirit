@@ -1,7 +1,5 @@
 package com.sum.spirit.core.element.action;
 
-import java.util.List;
-
 import com.sum.spirit.common.enums.KeywordEnum;
 import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.TokenTypeEnum;
@@ -9,17 +7,9 @@ import com.sum.spirit.common.pattern.LiteralPattern;
 import com.sum.spirit.common.pattern.TypePattern;
 import com.sum.spirit.common.pattern.AccessPattern;
 import com.sum.spirit.common.pattern.CommonPattern;
-import com.sum.spirit.common.utils.ListUtils;
 import com.sum.spirit.core.api.SemanticParser;
-import com.sum.spirit.core.element.entity.SemanticContext;
-import com.sum.spirit.core.element.entity.Token;
 
 public abstract class AbstractSemanticParser implements SemanticParser {
-
-	@Override
-	public List<Token> getTokens(SemanticContext context, List<String> words) {
-		return ListUtils.collectAll(words, word -> true, word -> getToken(context, word));
-	}
 
 	public boolean isPath(String word) {
 		return !LiteralPattern.isDouble(word) && CommonPattern.isPath(word);

@@ -1,5 +1,6 @@
 package com.sum.spirit.core.element.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +23,50 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	public Lexer lexer;
 
 	@Override
+	public List<Token> getTokens(SemanticContext context, List<String> words) {
+		context.words = words;
+		List<Token> tokens = new ArrayList<>();
+		for (context.index = 0; context.index < words.size(); context.index++) {
+			Token token = getToken(context, words.get(context.index));
+			tokens.add(token);
+		}
+		return tokens;
+	}
+
+	@Override
 	public Token getToken(SemanticContext context, String word) {
 		Token token = new Token();
 
-		token.tokenType = getTokenType(word, context.insideType);
+		token.tokenType = getTokenType(context, word);
 		Assert.notNull(token.tokenType, "Token type cannot be null!word:[" + word + "]");
 
 		token.value = getTokenValue(token, word);
 		Assert.notNull(token.value, "Token value cannot be null!word:[" + word + "]");
 
 		setTokenAttributes(token, word);
-
 		return token;
 	}
 
-	public TokenTypeEnum getTokenType(String word, boolean insideType) {
+	public TokenTypeEnum getTokenType(SemanticContext context, String word) {
+		if (!context.substatement) {
+			return getCommonTokenType(context, word);
+		} else {
+			if (context.insideType) {
+				if ("<".equals(word) || ">".equals(word)) {
+					return TokenTypeEnum.SEPARATOR;
+
+				} else if ("?".equals(word)) {
+					return TokenTypeEnum.TYPE;
+				}
+			}
+			if (context.index == 0 && CommonPattern.isPrefix(word)) {
+				return TokenTypeEnum.PREFIX;
+			}
+			return getCommonTokenType(context, word);
+		}
+	}
+
+	public TokenTypeEnum getCommonTokenType(SemanticContext context, String word) {
 		if (isPath(word)) {
 			return TokenTypeEnum.PATH;
 
@@ -46,13 +76,13 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		} else if (isKeyword(word)) {
 			return TokenTypeEnum.KEYWORD;
 
-		} else if (isOperator(word) && !insideType) {// 类型声明中，一般不包含操作符
+		} else if (isOperator(word)) {
 			return TokenTypeEnum.OPERATOR;
 
 		} else if (isSeparator(word)) {
 			return TokenTypeEnum.SEPARATOR;
 
-		} else if (isType(word) || (insideType && "?".equals(word))) {
+		} else if (isType(word)) {
 			return TokenTypeEnum.TYPE;
 		}
 
@@ -88,7 +118,8 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			return getStatement(word, true);
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			return getStatement(word, false);// 拆分数组是为了更好的添加new这个关键字
+			// 拆分数组是为了更好的添加new这个关键字
+			return getStatement(word, false);
 		}
 		return word;
 	}
@@ -97,22 +128,9 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 		if (insideType && (!word.contains("<") && !word.contains(">"))) {
 			return word;
 		}
-
 		// 如果是类型，则直接用尖括号进行拆分，如果是其他，则不使用尖括号进行拆分
 		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
-		List<Token> tokens = null;
-
-		String first = words.get(0);
-		// 如果第一个单词是一个前缀的话，则添加前缀
-		if (CommonPattern.isPrefix(first)) {
-			List<String> subWords = words.subList(1, words.size());
-			tokens = getTokens(new SemanticContext(insideType), subWords);
-			tokens.add(0, new Token(TokenTypeEnum.PREFIX, first));
-
-		} else {
-			tokens = getTokens(new SemanticContext(insideType), words);
-		}
-
+		List<Token> tokens = getTokens(new SemanticContext(true, insideType), words);
 		Assert.notNull(tokens, "Tokens cannot be null!");
 		return new Statement(tokens);
 	}
