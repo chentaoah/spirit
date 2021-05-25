@@ -34,8 +34,29 @@ public class CommonPattern {
 		return null;
 	}
 
+	public static String getAnnotationName(String word) {
+		if (word.contains("(")) {
+			word = word.substring(0, word.indexOf('('));
+		}
+		return word.substring(word.indexOf('@') + 1);
+	}
+
 	public static String getSubexpressValue(String word) {
 		return word.substring(1, word.length() - 1);
+	}
+
+	public static String getPrefix(String word) {
+		int start = word.startsWith(".") ? 1 : 0;
+		int end = word.length();
+		if (word.contains("[")) {
+			int index = word.indexOf("[");
+			end = index < end ? index : end;
+		}
+		if (word.contains("(")) {
+			int index = word.indexOf("(");
+			end = index < end ? index : end;
+		}
+		return word.substring(start, end);
 	}
 
 }

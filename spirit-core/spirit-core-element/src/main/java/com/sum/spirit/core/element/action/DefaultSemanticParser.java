@@ -135,41 +135,20 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 
 	public void setTokenAttributes(Token token, String word) {
 		if (token.isAnnotation()) {
-			token.setAttr(Attribute.SIMPLE_NAME, getAnnotationName(word));
+			token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getAnnotationName(word));
 
 		} else if (token.isArrayInit()) {
-			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word) + "[]");
+			token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getPrefix(word) + "[]");
 
 		} else if (token.isTypeInit()) {
-			token.setAttr(Attribute.SIMPLE_NAME, getPrefix(word));
+			token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getPrefix(word));
 
 		} else if (token.isCast()) {
 			token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getSubexpressValue(word));
 
 		} else if (token.isAccess()) {
-			token.setAttr(Attribute.MEMBER_NAME, getPrefix(word));
+			token.setAttr(Attribute.MEMBER_NAME, CommonPattern.getPrefix(word));
 		}
-	}
-
-	public String getAnnotationName(String word) {
-		if (word.contains("(")) {
-			word = word.substring(0, word.indexOf('('));
-		}
-		return word.substring(word.indexOf('@') + 1);
-	}
-
-	public String getPrefix(String word) {
-		int start = word.startsWith(".") ? 1 : 0;
-		int end = word.length();
-		if (word.contains("[")) {
-			int index = word.indexOf("[");
-			end = index < end ? index : end;
-		}
-		if (word.contains("(")) {
-			int index = word.indexOf("(");
-			end = index < end ? index : end;
-		}
-		return word.substring(start, end);
 	}
 
 }
