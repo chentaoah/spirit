@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.common.enums.KeywordEnum;
-import com.sum.spirit.common.enums.SymbolEnum;
 import com.sum.spirit.common.enums.SyntaxEnum;
 import com.sum.spirit.core.api.SyntaxParser;
 import com.sum.spirit.core.api.TreeBuilder;
@@ -74,16 +73,16 @@ public class DefaultSyntaxParser implements SyntaxParser {
 			}
 		}
 		// ELSE / CATCH / FINALLY
-		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
-			if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {// } else {
-				if (SymbolEnum.LEFT_CURLY_BRACKET.value.equals(thirdToken.toString())) {
+		if ("}".equals(firstToken.toString())) {
+			if ("else".equals(secondToken.toString())) {// } else {
+				if ("{".equals(thirdToken.toString())) {
 					return SyntaxEnum.ELSE;
 				}
 
-			} else if (KeywordEnum.CATCH.value.equals(secondToken.toString())) {// } catch Exception x {
+			} else if ("catch".equals(secondToken.toString())) {// } catch Exception x {
 				return SyntaxEnum.CATCH;
 
-			} else if (KeywordEnum.FINALLY.value.equals(secondToken.toString())) {// } finally {
+			} else if ("finally".equals(secondToken.toString())) {// } finally {
 				return SyntaxEnum.FINALLY;
 			}
 		}
@@ -102,27 +101,27 @@ public class DefaultSyntaxParser implements SyntaxParser {
 		// SUPER / THIS
 		if (firstToken.isLocalMethod()) {
 			String memberName = firstToken.attr(Attribute.MEMBER_NAME);
-			if (KeywordEnum.SUPER.value.equals(memberName)) {
+			if ("super".equals(memberName)) {
 				return SyntaxEnum.SUPER;
 
-			} else if (KeywordEnum.THIS.value.equals(memberName)) {
+			} else if ("this".equals(memberName)) {
 				return SyntaxEnum.THIS;
 			}
 		}
 		// FOR / FOR_IN
-		if (KeywordEnum.FOR.value.equals(firstToken.toString())) {
+		if ("for".equals(firstToken.toString())) {
 			if (secondToken.isSubexpress()) {// for (i=0; i<10; i++) {
 				return SyntaxEnum.FOR;
 			}
-			if (KeywordEnum.IN.value.equals(thirdToken.toString())) {// for ? in ? {
+			if ("in".equals(thirdToken.toString())) {// for ? in ? {
 				return SyntaxEnum.FOR_IN;
 			}
 			throw new RuntimeException("Unknown syntax!");
 		}
 		// ELSE_IF
-		if (SymbolEnum.RIGHT_CURLY_BRACKET.value.equals(firstToken.toString())) {
-			if (KeywordEnum.ELSE.value.equals(secondToken.toString())) {
-				if (KeywordEnum.IF.value.equals(thirdToken.toString())) {// } else if ? {
+		if ("}".equals(firstToken.toString())) {
+			if ("else".equals(secondToken.toString())) {
+				if ("if".equals(thirdToken.toString())) {// } else if ? {
 					return SyntaxEnum.ELSE_IF;
 				}
 			}
@@ -150,7 +149,7 @@ public class DefaultSyntaxParser implements SyntaxParser {
 		} else if (firstToken.isAssign()) {
 			Token prevToken = firstNode.prev.token;
 			Token nextToken = firstNode.next.token;
-			if (nextToken.isSeparator() && SymbolEnum.LEFT_CURLY_BRACKET.value.equals(nextToken.toString())) {// var = {
+			if (nextToken.isSeparator() && "{".equals(nextToken.toString())) {// var = {
 				return SyntaxEnum.STRUCT_ASSIGN;
 
 			} else if (prevToken.isType()) {// String text = "abc"
