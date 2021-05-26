@@ -29,20 +29,24 @@ public class DefaultSyntaxParser implements SyntaxParser {
 	public SyntaxResult parseSyntax(List<Token> tokens, Statement statement) {
 		Assert.notEmpty(tokens, "The tokens cannot be empty!");
 
-		SyntaxEnum syntax = getSyntaxWithoutTree(tokens);// 1.能够不通过语法树获取语法，且后续功能不需要语法树
+		// 1.能够不通过语法树获取语法，且后续功能不需要语法树
+		SyntaxEnum syntax = getSyntaxWithoutTree(tokens);
 		if (syntax != null) {
 			return new SyntaxResult(syntax, null);
 		}
 
-		syntax = getSyntaxWithTree(tokens);// 2.能够不通过语法树获取语法，但后续功能需要语法树
+		// 2.能够不通过语法树获取语法，但后续功能需要语法树
+		syntax = getSyntaxWithTree(tokens);
 		if (syntax != null) {
 			SyntaxTree syntaxTree = builder.buildTree(statement);
 			return new SyntaxResult(syntax, syntaxTree);
 		}
 
-		SyntaxTree syntaxTree = builder.buildTree(statement);// 3.必须通过语法树获取语法
+		// 3.必须通过语法树获取语法
+		SyntaxTree syntaxTree = builder.buildTree(statement);
 		syntax = getSyntaxByTree(syntaxTree);
 		Assert.notNull(syntax, "The syntax cannot be null!");
+
 		return new SyntaxResult(syntax, syntaxTree);
 	}
 
