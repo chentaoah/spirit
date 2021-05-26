@@ -7,7 +7,7 @@ public class StmtVisiter {
 
 	public static void visit(Statement statement, Consumer<Statement> consumer) {
 		for (Token token : statement) {
-			if (token.canSplit()) {
+			if (token.hasSubStmt()) {
 				visit(token.getValue(), consumer);
 			}
 		}

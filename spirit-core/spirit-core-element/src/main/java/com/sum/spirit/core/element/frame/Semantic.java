@@ -151,7 +151,7 @@ public abstract class Semantic extends Attributes {
 		return isVisitField() || isVisitMethod() || isVisitIndex();
 	}
 
-	public boolean canSplit() {
+	public boolean hasSubStmt() {
 		return isList() || isMap() || isSubexpress() || isInvoke();
 	}
 

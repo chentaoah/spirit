@@ -46,7 +46,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 		for (int i = 0; i < tokens.size(); i++) {
 			Token token = tokens.get(i);
 			token.setAttr(Attribute.POSITION, position);
-			if (token.canSplit()) {
+			if (token.hasSubStmt()) {
 				markPositionAndLength(position, token.getValue());
 			}
 			int length = token.toString().length();
