@@ -16,7 +16,7 @@ public class Node {
 		return prev != null || next != null;
 	}
 
-	public boolean canSplit() {
+	public boolean hasSubTree() {
 		return token != null && token.value != null && token.value instanceof SyntaxTree;
 	}
 

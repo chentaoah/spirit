@@ -35,7 +35,7 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 		if (node.next != null) {
 			markTreeId(treeId + "-" + "1", node.next);
 		}
-		if (node.canSplit()) {
+		if (node.hasSubTree()) {
 			SyntaxTree syntaxTree = node.token.getValue();
 			markTreeId(syntaxTree.nodes);
 		}
