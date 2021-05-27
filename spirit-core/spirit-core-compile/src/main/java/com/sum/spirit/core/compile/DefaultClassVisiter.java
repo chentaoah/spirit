@@ -20,7 +20,7 @@ import com.sum.spirit.core.clazz.entity.IParameter;
 import com.sum.spirit.core.clazz.entity.IType;
 import com.sum.spirit.core.clazz.entity.IVariable;
 import com.sum.spirit.core.clazz.frame.MemberEntity;
-import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeTable;
 import com.sum.spirit.core.compile.deduce.TypeDerivator;
 import com.sum.spirit.core.compile.entity.MethodContext;
 import com.sum.spirit.core.element.entity.Element;
@@ -108,14 +108,14 @@ public class DefaultClassVisiter implements ClassVisiter {
 		visitChildElements(clazz, context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : StaticTypes.VOID;
+			return context.returnType != null ? context.returnType : TypeTable.VOID;
 
 		} else if (method.element.isDeclareFunc()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : StaticTypes.VOID;
+				IType returnType = context.returnType != null ? context.returnType : TypeTable.VOID;
 				// 进行类型校验
 				if (!derivator.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
@@ -159,7 +159,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 						if (derivator.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
-							context.returnType = StaticTypes.OBJECT;
+							context.returnType = TypeTable.OBJECT;
 						}
 					}
 				}

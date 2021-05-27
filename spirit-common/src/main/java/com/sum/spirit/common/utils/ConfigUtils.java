@@ -52,6 +52,14 @@ public class ConfigUtils implements EnvironmentAware {
 		return ConfigUtils.getProperty(AppConfig.CLASSPATHS_ARG_KEY);
 	}
 
+	public static String getLangPackage() {
+		return ConfigUtils.getProperty(AppConfig.LANG_PKG_ARG_KEY);
+	}
+
+	public static String getUtilPackage() {
+		return ConfigUtils.getProperty(AppConfig.UTIL_PKG_ARG_KEY);
+	}
+
 	public static String getFileExtension() {
 		return ConfigUtils.getProperty(AppConfig.FILENAME_EXTENSION_KEY, AppConfig.DEFAULT_FILENAME_EXTENSION);
 	}

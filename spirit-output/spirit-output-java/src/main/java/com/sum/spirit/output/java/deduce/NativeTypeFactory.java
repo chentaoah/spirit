@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeTable;
 import com.sum.spirit.core.compile.AppTypeFactory;
 
 @Component
@@ -36,7 +36,7 @@ public class NativeTypeFactory extends AppTypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return StaticTypes.WILDCARD;
+			return TypeTable.WILDCARD;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

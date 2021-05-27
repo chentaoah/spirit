@@ -23,6 +23,10 @@ public class SpiritCompileMojo extends AbstractMojo {
 	private String inputPath;
 	@Parameter
 	private String outputPath;
+	@Parameter
+	private String langPackage;
+	@Parameter
+	private String utilPackage;
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
@@ -30,9 +34,8 @@ public class SpiritCompileMojo extends AbstractMojo {
 				inputPath = project.getResources().get(0).getDirectory();
 				inputPath = inputPath.endsWith("\\resources") ? inputPath + "\\sources" : inputPath + "/sources";
 			}
-			if (outputPath == null) {
-				outputPath = project.getBuild().getSourceDirectory();
-			}
+			outputPath = outputPath == null ? project.getBuild().getSourceDirectory() : outputPath;
+
 			getLog().info("");
 			getLog().info("-----------------------[ inputPath, outputPath ]------------------------");
 			getLog().info(inputPath);
@@ -45,7 +48,16 @@ public class SpiritCompileMojo extends AbstractMojo {
 			classpaths.forEach(getLog()::info);
 			getLog().info("");
 
-			JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath, "--classpaths=" + Joiner.on(", ").join(classpaths) });
+			langPackage = langPackage == null ? "java.lang" : langPackage;
+			utilPackage = utilPackage == null ? "java.util" : utilPackage;
+
+			JavaStarter.main(new String[] { //
+					"--input=" + inputPath, //
+					"--output=" + outputPath, //
+					"--classpaths=" + Joiner.on(", ").join(classpaths), //
+					"--langPackage=" + langPackage, //
+					"--utilPackage=" + utilPackage //
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,6 +74,12 @@ public class SpiritCompileMojo extends AbstractMojo {
 		classpaths += userHome + "\\.m2\\repository\\org\\slf4j\\slf4j-api\\1.7.25\\slf4j-api-1.7.25.jar, ";
 		classpaths += userHome + "\\.m2\\repository\\org\\apache\\commons\\commons-lang3\\3.9\\commons-lang3-3.9.jar, ";
 		classpaths += "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\target\\test-classes";
-		JavaStarter.main(new String[] { "--input=" + inputPath, "--output=" + outputPath, "--classpaths=" + classpaths });
+		JavaStarter.main(new String[] { //
+				"--input=" + inputPath, //
+				"--output=" + outputPath, //
+				"--classpaths=" + classpaths, //
+				"--langPackage=" + "java.lang", //
+				"--utilPackage=" + "java.util" //
+		});
 	}
 }

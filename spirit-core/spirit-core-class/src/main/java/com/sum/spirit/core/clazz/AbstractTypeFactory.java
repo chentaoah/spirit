@@ -10,7 +10,7 @@ import com.sum.spirit.core.api.SemanticParser;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeTable;
 
 import cn.hutool.core.lang.Assert;
 
@@ -33,7 +33,7 @@ public abstract class AbstractTypeFactory implements TypeFactory {
 
 	@Override
 	public IType createTypeVariable(String genericName) {// T or K
-		IType type = create(StaticTypes.OBJECT.getClassName());
+		IType type = create(TypeTable.OBJECT.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

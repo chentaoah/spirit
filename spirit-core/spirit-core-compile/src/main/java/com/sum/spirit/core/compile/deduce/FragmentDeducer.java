@@ -9,7 +9,7 @@ import com.sum.spirit.common.constants.Attribute;
 import com.sum.spirit.core.api.TreeBuilder;
 import com.sum.spirit.core.clazz.entity.IClass;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeTable;
 import com.sum.spirit.core.element.entity.Node;
 import com.sum.spirit.core.element.entity.Statement;
 import com.sum.spirit.core.element.entity.Token;
@@ -41,7 +41,7 @@ public class FragmentDeducer {
 
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return StaticTypes.BOOLEAN;
+			return TypeTable.BOOLEAN;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的

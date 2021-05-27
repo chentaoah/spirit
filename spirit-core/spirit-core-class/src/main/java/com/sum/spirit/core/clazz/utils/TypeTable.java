@@ -1,15 +1,10 @@
 package com.sum.spirit.core.clazz.utils;
 
-import java.util.Map;
-
 import com.sum.spirit.common.enums.PrimitiveEnum;
-import com.sum.spirit.common.utils.SpringUtils;
-import com.sum.spirit.core.api.StaticTypesCtor;
+import com.sum.spirit.common.utils.ConfigUtils;
 import com.sum.spirit.core.clazz.entity.IType;
 
-import cn.hutool.core.lang.Assert;
-
-public class StaticTypes {
+public class TypeTable {
 
 	public static final IType VOID;
 	public static final IType BOOLEAN;
@@ -42,11 +37,11 @@ public class StaticTypes {
 
 	public static final IType OBJECT;
 	public static final IType STRING;
-	public static final IType OBJECT_ARRAY;
-	public static final IType STRING_ARRAY;
 	public static final IType CLASS;
 	public static final IType LIST;
 	public static final IType MAP;
+	public static final IType OBJECT_ARRAY;
+	public static final IType STRING_ARRAY;
 	public static final IType NULL;
 	public static final IType WILDCARD;
 
@@ -70,29 +65,27 @@ public class StaticTypes {
 		FLOAT_ARRAY = TypeBuilder.build(PrimitiveEnum.FLOAT_ARRAY);
 		DOUBLE_ARRAY = TypeBuilder.build(PrimitiveEnum.DOUBLE_ARRAY);
 
-		StaticTypesCtor ctor = SpringUtils.getBean(StaticTypesCtor.class);
-		Assert.notNull(ctor, "Static types ctor must be provided!");
-		Map<String, IType> typeMap = ctor.prepareStaticTypes();
+		String langPackage = ConfigUtils.getLangPackage() + ".";
+		String utilPackage = ConfigUtils.getUtilPackage() + ".";
+		VOID_BOX = TypeBuilder.build(langPackage + "Void", "Void", langPackage + "Void", false, false, false, false, true);
+		BOOLEAN_BOX = TypeBuilder.build(langPackage + "Boolean", "Boolean", langPackage + "Boolean", false, false, false, false, true);
+		CHAR_BOX = TypeBuilder.build(langPackage + "Character", "Character", langPackage + "Character", false, false, false, false, true);
+		BYTE_BOX = TypeBuilder.build(langPackage + "Byte", "Byte", langPackage + "Byte", false, false, false, false, true);
+		SHORT_BOX = TypeBuilder.build(langPackage + "Short", "Short", langPackage + "Short", false, false, false, false, true);
+		INT_BOX = TypeBuilder.build(langPackage + "Integer", "Integer", langPackage + "Integer", false, false, false, false, true);
+		LONG_BOX = TypeBuilder.build(langPackage + "Long", "Long", langPackage + "Long", false, false, false, false, true);
+		FLOAT_BOX = TypeBuilder.build(langPackage + "Float", "Float", langPackage + "Float", false, false, false, false, true);
+		DOUBLE_BOX = TypeBuilder.build(langPackage + "Double", "Double", langPackage + "Double", false, false, false, false, true);
+		OBJECT = TypeBuilder.build(langPackage + "Object", "Object", langPackage + "Object", false, false, false, false, true);
+		STRING = TypeBuilder.build(langPackage + "String", "String", langPackage + "String", false, false, false, false, true);
+		CLASS = TypeBuilder.build(langPackage + "Class", "Class", langPackage + "Class", false, false, false, false, true);
+		LIST = TypeBuilder.build(utilPackage + "List", "List", utilPackage + "List", false, false, false, false, true);
+		MAP = TypeBuilder.build(utilPackage + "Map", "Map", utilPackage + "Map", false, false, false, false, true);
 
-		VOID_BOX = typeMap.get("VOID_BOX");
-		BOOLEAN_BOX = typeMap.get("BOOLEAN_BOX");
-		CHAR_BOX = typeMap.get("CHAR_BOX");
-		BYTE_BOX = typeMap.get("BYTE_BOX");
-		SHORT_BOX = typeMap.get("SHORT_BOX");
-		INT_BOX = typeMap.get("INT_BOX");
-		LONG_BOX = typeMap.get("LONG_BOX");
-		FLOAT_BOX = typeMap.get("FLOAT_BOX");
-		DOUBLE_BOX = typeMap.get("DOUBLE_BOX");
-
-		OBJECT = typeMap.get("OBJECT");
-		STRING = typeMap.get("STRING");
-		OBJECT_ARRAY = typeMap.get("OBJECT_ARRAY");
-		STRING_ARRAY = typeMap.get("STRING_ARRAY");
-		CLASS = typeMap.get("CLASS");
-		LIST = typeMap.get("LIST");
-		MAP = typeMap.get("MAP");
-		NULL = typeMap.get("NULL");
-		WILDCARD = typeMap.get("WILDCARD");
+		OBJECT_ARRAY = TypeBuilder.build("[L" + langPackage + "Object;", "Object[]", langPackage + "Object[]", false, true/* array */, false, false, true);
+		STRING_ARRAY = TypeBuilder.build("[L" + langPackage + "String;", "String[]", langPackage + "String[]", false, true/* array */, false, false, true);
+		NULL = TypeBuilder.build(langPackage + "Object", "Object", langPackage + "Object", false, false, true/* null */, false, true);
+		WILDCARD = TypeBuilder.build(langPackage + "Object", "Object", langPackage + "Object", false, false, false, true/* wildcard */, true);
 	}
 
 	public static IType getBoxType(String className) {

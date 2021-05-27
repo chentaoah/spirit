@@ -8,7 +8,7 @@ import com.sum.spirit.common.enums.ModifierEnum;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.api.TypeFactory;
 import com.sum.spirit.core.clazz.entity.IType;
-import com.sum.spirit.core.clazz.utils.StaticTypes;
+import com.sum.spirit.core.clazz.utils.TypeTable;
 import com.sum.spirit.core.clazz.utils.TypeBuilder;
 import com.sum.spirit.core.clazz.utils.TypeVisiter;
 
@@ -24,7 +24,7 @@ public class TypeDerivator {
 	public ClassLinker linker;
 
 	public IType toBox(IType type) {
-		IType boxType = StaticTypes.getBoxType(type.getClassName());
+		IType boxType = TypeTable.getBoxType(type.getClassName());
 		return boxType != null ? boxType : type;
 	}
 
