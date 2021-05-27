@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.sum.spirit.code.tools.core.CustomClassLoader;
 import com.sum.spirit.code.tools.core.ElementSelector;
 import com.sum.spirit.code.tools.pojo.MethodInfo;
-import com.sum.spirit.common.constants.AppConfig;
+import com.sum.spirit.common.constants.AppConfig.DefaultValue;
 import com.sum.spirit.common.utils.LineUtils;
 import com.sum.spirit.core.api.ClassLinker;
 import com.sum.spirit.core.clazz.entity.IClass;
@@ -43,7 +43,7 @@ public class MethodService {
 		// 根据文件名，获取className
 		String className = loader.getName(filePath);
 		// 找到对应class,并找到印记，获取推导出的类型，并返回所有该类型的方法信息
-		IClass clazz = loader.loadClass(className, IoUtil.toStream(content, AppConfig.DEFAULT_CHARSET));
+		IClass clazz = loader.loadClass(className, IoUtil.toStream(content, DefaultValue.CHARSET));
 		IType type = selector.findElementAndGetType(clazz, lineNumber);
 		Object clazzObj = linker.toClass(type);
 

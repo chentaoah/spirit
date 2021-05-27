@@ -4,7 +4,8 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.sum.spirit.common.constants.AppConfig;
+import com.sum.spirit.common.constants.AppConfig.Argument;
+import com.sum.spirit.common.constants.AppConfig.DefaultValue;
 
 @Component
 public class ConfigUtils implements EnvironmentAware {
@@ -41,31 +42,31 @@ public class ConfigUtils implements EnvironmentAware {
 	}
 
 	public static String getInputPath() {
-		return ConfigUtils.getProperty(AppConfig.INPUT_ARG_KEY);
+		return ConfigUtils.getProperty(Argument.INPUT);
 	}
 
 	public static String getOutputPath() {
-		return ConfigUtils.getProperty(AppConfig.OUTPUT_ARG_KEY);
+		return ConfigUtils.getProperty(Argument.OUTPUT);
 	}
 
 	public static String getClasspaths() {
-		return ConfigUtils.getProperty(AppConfig.CLASSPATHS_ARG_KEY);
+		return ConfigUtils.getProperty(Argument.CLASSPATHS);
 	}
 
 	public static String getLangPackage() {
-		return ConfigUtils.getProperty(AppConfig.LANG_PKG_ARG_KEY);
+		return ConfigUtils.getProperty(Argument.LANG_PACKAGE);
 	}
 
 	public static String getUtilPackage() {
-		return ConfigUtils.getProperty(AppConfig.UTIL_PKG_ARG_KEY);
+		return ConfigUtils.getProperty(Argument.UTIL_PACKAGE);
 	}
 
 	public static String getFileExtension() {
-		return ConfigUtils.getProperty(AppConfig.FILENAME_EXTENSION_KEY, AppConfig.DEFAULT_FILENAME_EXTENSION);
+		return ConfigUtils.getProperty(Argument.FILE_EXTENSION, DefaultValue.FILE_EXTENSION);
 	}
 
 	public static boolean isDebug() {
-		return ConfigUtils.getProperty(AppConfig.DEBUG_KEY, AppConfig.DEFAULT_DEBUG);
+		return ConfigUtils.getProperty(Argument.DEBUG, DefaultValue.DEBUG);
 	}
 
 }
