@@ -1,0 +1,31 @@
+package com.gitee.spirit.core.compile.entity;
+
+import com.gitee.spirit.core.clazz.entity.IClass;
+import com.gitee.spirit.core.element.entity.Element;
+
+public class ElementEvent {
+
+	public IClass clazz;
+	public MethodContext context;
+	public Element element;
+
+	public ElementEvent(IClass clazz, Element element) {
+		this.clazz = clazz;
+		this.element = element;
+	}
+
+	public ElementEvent(IClass clazz, MethodContext context, Element element) {
+		this.clazz = clazz;
+		this.element = element;
+		this.context = context;
+	}
+
+	public boolean isFieldScope() {
+		return context == null;
+	}
+
+	public boolean isMethodScope() {
+		return context != null;
+	}
+
+}
