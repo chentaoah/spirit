@@ -25,6 +25,9 @@ public class ExtImportSelector extends AbstractImportSelector {
 
 	@Override
 	public boolean shouldImport(String selfClassName, String className) {
+		if (super.shouldImport(selfClassName, className)) {
+			return !className.startsWith("java.lang.");
+		}
 		return false;
 	}
 

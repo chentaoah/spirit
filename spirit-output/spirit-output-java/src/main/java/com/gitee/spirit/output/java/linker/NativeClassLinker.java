@@ -41,7 +41,7 @@ public class NativeClassLinker implements ClassLinker {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T toClass(IType type) {
-		return (T) classLoader.findClass(type.getClassName());// 可能是数组
+		return (T) classLoader.loadClass(type.getClassName());// 可能是数组
 	}
 
 	@Override

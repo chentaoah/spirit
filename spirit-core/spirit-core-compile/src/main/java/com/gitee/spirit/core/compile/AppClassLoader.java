@@ -31,7 +31,7 @@ public class AppClassLoader extends AbstractURLClassLoader {
 	public List<IClass> getAllClasses() {
 		if (super.getAllClasses().size() == 0) {
 			List<String> names = getNames();
-			names.forEach(name -> findClass(name));
+			names.forEach(name -> loadClass(name));
 			List<IClass> classes = super.getAllClasses();
 			visitClasses(classes);
 			return classes;

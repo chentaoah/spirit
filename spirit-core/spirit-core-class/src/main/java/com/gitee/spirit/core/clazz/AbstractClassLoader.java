@@ -8,11 +8,11 @@ public abstract class AbstractClassLoader<T> implements ClassLoader<T> {
 
 	@Override
 	public T loadClass(String name) {
-		URL resource = findResource(name);
+		URL resource = getResource(name);
 		return defineClass(name, resource);
 	}
 
-	public abstract URL findResource(String name);
+	public abstract URL getResource(String name);
 
 	public abstract T defineClass(String name, URL resource);
 

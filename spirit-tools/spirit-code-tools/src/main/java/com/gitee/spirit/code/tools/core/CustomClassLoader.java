@@ -26,16 +26,16 @@ public class CustomClassLoader extends AppClassLoader {
 		this.classes.putAll(classes);
 		resolveClasses(classes);
 		visitClasses(getAllClasses());
-		return findClass(name);
+		return loadClass(name);
 	}
 
 	public void resolveClasses(Map<String, IClass> classes) {
 		classes.values().forEach(clazz -> {
 			Set<String> classNames = importer.dependencies(clazz);
 			classNames.forEach(className -> {
-				if (contains(className) && findLoadedClass(className) == null) {
+				if (contains(className) && loadClass(className) == null) {
 					// 注意：这里间接要求，部分编译时，依赖项目不能是内部类
-					Map<String, IClass> classes0 = compiler.compile(className, URLFileUtils.asStream(findResource(className)));
+					Map<String, IClass> classes0 = compiler.compile(className, URLFileUtils.asStream(getResource(className)));
 					this.classes.putAll(classes0);
 					resolveClasses(classes0);
 				}
@@ -45,7 +45,7 @@ public class CustomClassLoader extends AppClassLoader {
 
 	public String getName(String filePath) {
 		URL fileUrl = URLFileUtils.toURL(new File(filePath));
-		for (Map.Entry<String, URL> entry : nameUrlMapping.entrySet()) {
+		for (Map.Entry<String, URL> entry : urls.entrySet()) {
 			if (fileUrl.sameFile(entry.getValue())) {
 				return entry.getKey();
 			}
