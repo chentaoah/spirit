@@ -15,7 +15,6 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.gitee.spirit.common.utils.ConfigUtils;
-import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.common.utils.URLFileUtils;
 import com.gitee.spirit.core.clazz.entity.IClass;
 
@@ -83,11 +82,6 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 	@Override
 	public URL findResource(String name) {
 		return nameUrlMapping.get(name);
-	}
-
-	@Override
-	public String findClassName(String simpleName) {
-		return ListUtils.findOne(classes.keySet(), className -> className.endsWith("." + simpleName));
 	}
 
 	public void clear() {

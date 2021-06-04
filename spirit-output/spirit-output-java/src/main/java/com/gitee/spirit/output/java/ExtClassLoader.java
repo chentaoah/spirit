@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.utils.ConfigUtils;
 import com.gitee.spirit.core.clazz.AbstractClassLoader;
-import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.output.java.utils.ReflectUtils;
 import com.google.common.base.Splitter;
 
@@ -76,16 +75,6 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Ini
 	@Override
 	public Class<?> defineClass(String name, URL resource) {
 		throw new RuntimeException("This method is not supported!");
-	}
-
-	@Override
-	public String findClassName(String simpleName) {
-		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
-	}
-
-	@Override
-	public boolean shouldImport(String selfName, String className) {
-		return false;
 	}
 
 }
