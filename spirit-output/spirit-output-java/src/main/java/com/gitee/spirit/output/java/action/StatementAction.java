@@ -8,40 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.Native;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
+import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.AutoImporter;
-import com.gitee.spirit.core.compile.action.AbstractElementAction;
 import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
-import com.gitee.spirit.core.element.DefaultElementBuilder;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.output.java.JavaBuilder;
 import com.gitee.spirit.output.java.utils.TypeUtils;
 
-@Native
 @Component
 @Order(-40)
-public class StatementAction extends AbstractElementAction {
+public class StatementAction extends ExtElementAction {
 
 	@Autowired
-	public DefaultElementBuilder builder;
+	public ElementBuilder builder;
 	@Autowired
 	public FragmentDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
 
 	@Override
-	public void handle(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Element element = event.element;
+	public void visitElement(VisitContext context, Element element) {
+		IClass clazz = context.clazz;
 
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign()) {
 			element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
@@ -99,8 +95,10 @@ public class StatementAction extends AbstractElementAction {
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value, JavaBuilder.FINAL_KEYWORD);
+				Element loggerElement = builder
+						.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value,
+						JavaBuilder.FINAL_KEYWORD);
 				IField field = new IField(new ArrayList<>(), loggerElement);
 				clazz.fields.add(0, field);
 			}

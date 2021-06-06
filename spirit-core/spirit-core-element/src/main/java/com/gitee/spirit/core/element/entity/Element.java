@@ -21,6 +21,10 @@ public class Element extends Syntactic {
 		this.syntaxTree = syntaxTree;
 	}
 
+	public Element(Statement statement) {
+		super(null, statement);
+	}
+
 	public String getIndent() {
 		return line.getIndent();
 	}
@@ -56,7 +60,8 @@ public class Element extends Syntactic {
 	}
 
 	public void debug() {
-		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " " + super.debugTokens());
+		System.out.println(line.text + LineUtils.getSpaces(100 - line.text.length()) + ">>> " + syntax + " "
+				+ super.debugTokens());
 		for (Element element : children) {
 			element.debug();
 		}

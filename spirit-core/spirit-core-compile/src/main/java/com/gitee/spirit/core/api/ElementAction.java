@@ -1,11 +1,10 @@
 package com.gitee.spirit.core.api;
 
-import com.gitee.spirit.core.compile.entity.ElementEvent;
+import com.gitee.spirit.core.compile.entity.VisitContext;
+import com.gitee.spirit.core.element.entity.Element;
 
 public interface ElementAction {
 
-	boolean isTrigger(ElementEvent event);
-
-	void handle(ElementEvent event);
+	void visitElement(VisitContext context, Element element);
 
 }

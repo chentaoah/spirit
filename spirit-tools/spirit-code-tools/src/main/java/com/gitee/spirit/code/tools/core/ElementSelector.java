@@ -1,6 +1,5 @@
 package com.gitee.spirit.code.tools.core;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.compile.CoreCompiler;
 import com.gitee.spirit.core.compile.DefaultElementVisiter;
 import com.gitee.spirit.core.element.entity.Element;
@@ -20,11 +18,12 @@ public class ElementSelector extends CoreCompiler {
 	public DefaultElementVisiter visiter;
 
 	public IType findElementAndGetType(IClass clazz, Integer lineNumber) {
-		Element element = findElement(Arrays.asList(clazz.element), lineNumber);
-		if (element != null) {
-			IVariable variable = visiter.getVariableIfPossible(clazz, element);
-			return variable.getType();
-		}
+		// TODO
+//		Element element = findElement(Arrays.asList(clazz.element), lineNumber);
+//		if (element != null) {
+//			IVariable variable = visiter.getVariableIfPossible(clazz, element);
+//			return variable.getType();
+//		}
 		return null;
 	}
 

@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.Native;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.clazz.entity.IClass;
@@ -17,7 +16,6 @@ import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.output.java.utils.TypeUtils;
 
-@Native
 @Component
 @Order(-60)
 public class StringEqualsAction extends AbstractTreeElementAction {

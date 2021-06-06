@@ -2,53 +2,35 @@ package com.gitee.spirit.core.compile;
 
 import java.util.List;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.App;
 import com.gitee.spirit.common.constants.Attribute;
-import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.ElementAction;
 import com.gitee.spirit.core.api.ElementVisiter;
-import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IVariable;
+import com.gitee.spirit.core.compile.action.AppElementAction;
 import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
-import com.gitee.spirit.core.compile.entity.MethodContext;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 
 @Component
-@DependsOn("springUtils")
-public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
+public class DefaultElementVisiter implements ElementVisiter {
 
 	@Autowired
+	public List<AppElementAction> actions;
+	@Autowired
 	public FragmentDeducer deducer;
-	public List<ElementAction> actions;
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansByAnnotation(ElementAction.class, App.class);
-	}
-
-	@Override
-	public IVariable visitElement(IClass clazz, Element element) {
-		return visitElement(clazz, null, element);
-	}
-
-	@Override
-	public IVariable visitElement(IClass clazz, MethodContext context, Element element) {
+	public IVariable visitElement(VisitContext context, Element element) {
 		try {
 			for (ElementAction action : actions) {
-				ElementEvent event = new ElementEvent(clazz, context, element);
-				if (action.isTrigger(event)) {
-					action.handle(event);
-				}
+				action.visitElement(context, element);
 			}
-			return getVariableIfPossible(clazz, element);
+			return getVariableIfPossible(context, element);
 
 		} catch (Exception e) {
 			element.debug();
@@ -56,7 +38,7 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 		}
 	}
 
-	public IVariable getVariableIfPossible(IClass clazz, Element element) {
+	public IVariable getVariableIfPossible(VisitContext context, Element element) {
 		if (element.isAssign()) {
 			return createVariable(element.get(0));
 
@@ -69,7 +51,7 @@ public class DefaultElementVisiter implements ElementVisiter, InitializingBean {
 		} else if (element.isReturn()) {
 			Statement statement = element.subStmt(1, element.size());
 			IVariable variable = new IVariable(null);
-			variable.setType(deducer.derive(clazz, statement));
+			variable.setType(deducer.derive(context.clazz, statement));
 			return variable;
 		}
 		return null;

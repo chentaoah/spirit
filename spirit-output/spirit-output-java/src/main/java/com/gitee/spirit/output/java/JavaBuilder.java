@@ -2,27 +2,24 @@ package com.gitee.spirit.output.java;
 
 import java.util.List;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.Native;
 import com.gitee.spirit.common.enums.KeywordEnum;
-import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.CodeBuilder;
 import com.gitee.spirit.core.api.ElementAction;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.Import;
+import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.compile.AutoImporter;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
+import com.gitee.spirit.output.java.action.ExtElementAction;
 
 @Component
-@DependsOn("springUtils")
-public class JavaBuilder implements CodeBuilder, InitializingBean {
+public class JavaBuilder implements CodeBuilder {
 
 	public static final String IMPLEMENTS_KEYWORD = "implements";
 	public static final String SYNCHRONIZED_KEYWORD = "synchronized";
@@ -30,12 +27,8 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 
 	@Autowired
 	public AutoImporter importer;
-	public List<ElementAction> actions;
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		actions = SpringUtils.getBeansByAnnotation(ElementAction.class, Native.class);
-	}
+	@Autowired
+	public List<ExtElementAction> actions;
 
 	@Override
 	public String build(IClass clazz) {
@@ -83,7 +76,7 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			// annotation
 			field.annotations.forEach((annotation) -> fieldsStr.append("\t" + annotation + "\n"));
 			field.element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
-			fieldsStr.append("\t" + convert(clazz, field.element) + "\n");
+			fieldsStr.append("\t" + convert(clazz, field, field.element) + "\n");
 		}
 		if (fieldsStr.length() > 0) {
 			fieldsStr.append("\n");
@@ -130,28 +123,26 @@ public class JavaBuilder implements CodeBuilder, InitializingBean {
 			}
 			// 方法体可能没有内容，但是这并不意味着这个方法没有被实现
 			if (element.hasChild()) {
-				convertMethodElement(methodsStr, "\t\t", clazz, method.element);
+				convertMethodElement(methodsStr, "\t\t", clazz, method, method.element);
 				methodsStr.append("\t}\n\n");
 			}
 		}
 		return methodsStr.toString();
 	}
 
-	public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, Element father) {
+	public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, IMethod method,
+			Element father) {
 		for (Element element : father.children) {
-			builder.append(indent + convert(clazz, element) + "\n");
+			builder.append(indent + convert(clazz, method, element) + "\n");
 			if (element.hasChild()) {
-				convertMethodElement(builder, indent + "\t", clazz, element);
+				convertMethodElement(builder, indent + "\t", clazz, method, element);
 			}
 		}
 	}
 
-	public Element convert(IClass clazz, Element element) {
+	public Element convert(IClass clazz, MemberEntity member, Element element) {
 		for (ElementAction action : actions) {
-			ElementEvent event = new ElementEvent(clazz, element);
-			if (action.isTrigger(event)) {
-				action.handle(event);
-			}
+			action.visitElement(new VisitContext(clazz, member), element);
 		}
 		return element;
 	}

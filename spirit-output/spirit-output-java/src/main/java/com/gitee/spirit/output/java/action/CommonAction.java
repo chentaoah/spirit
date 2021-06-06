@@ -3,27 +3,24 @@ package com.gitee.spirit.output.java.action;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.Native;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.clazz.entity.IClass;
-import com.gitee.spirit.core.compile.action.AbstractElementAction;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
+import com.gitee.spirit.core.compile.entity.VisitContext;
+import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.core.element.utils.StmtVisiter;
 import com.gitee.spirit.stdlib.Lists;
 import com.gitee.spirit.stdlib.Maps;
 
-@Native
 @Component
 @Order(-80)
-public class CommonAction extends AbstractElementAction {
+public class CommonAction extends ExtElementAction {
 
 	@Override
-	public void handle(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Statement statement = event.element;
-		StmtVisiter.visit(statement, stmt -> {
+	public void visitElement(VisitContext context, Element element) {
+		IClass clazz = context.clazz;
+		StmtVisiter.visit(element, stmt -> {
 			stmt.forEach(token -> {
 				if (token.isArrayInit()) {// String[10] => new String[10]
 					Statement subStatement = token.getValue();

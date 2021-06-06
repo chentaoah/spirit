@@ -3,29 +3,23 @@ package com.gitee.spirit.output.java.action;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.annotation.Native;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.clazz.entity.IClass;
-import com.gitee.spirit.core.compile.action.AbstractElementAction;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 
-@Native
 @Component
 @Order(-20)
-public class SeparatorAction extends AbstractElementAction {
+public class SeparatorAction extends ExtElementAction {
 
 	@Override
-	public void handle(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Element element = event.element;
-
+	public void visitElement(VisitContext context, Element element) {
+		IClass clazz = context.clazz;
 		if (element.isIf() || element.isElseIf() || element.isWhile() || element.isCatch() || element.isSync()) {
 			insertBrackets(clazz, element);
 		}
-
 		if (element.isDeclare() || element.isDeclareAssign() || element.isAssign() || //
 				element.isFieldAssign() || element.isInvoke() || element.isReturn() || //
 				element.isSuper() || element.isThis() || element.isThrow() || //

@@ -3,16 +3,14 @@ package com.gitee.spirit.core.compile.deduce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IClass;
+import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
-import com.gitee.spirit.core.compile.entity.MethodContext;
-import com.gitee.spirit.core.element.entity.Statement;
-import com.gitee.spirit.core.element.utils.StmtVisiter;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 
 import cn.hutool.core.lang.Assert;
 
@@ -24,26 +22,6 @@ public class VariableTracker {
 	@Autowired
 	public ClassLinker linker;
 
-	public void visit(IClass clazz, MethodContext context, Statement statement) {
-		StmtVisiter.visit(statement, stmt -> {
-			stmt.forEach(token -> {
-				if (token.attr(Attribute.TYPE) != null) {
-					return;
-				}
-				if (token.isVariable()) {// variable
-					String variableName = token.toString();
-					IType type = getVariableType(clazz, context, variableName);
-					token.setAttr(Attribute.TYPE, type);
-
-				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
-					String variableName = token.toString();
-					IType type = findTypeByKeyword(clazz, variableName);
-					token.setAttr(Attribute.TYPE, type);
-				}
-			});
-		});
-	}
-
 	public IType findTypeByKeyword(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
 			return derivator.withSuperModifiers(clazz.getSuperType());
@@ -54,14 +32,17 @@ public class VariableTracker {
 		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
 	}
 
-	public IType findTypeByContext(MethodContext context, String variableName) {
-		if (context != null) {
-			for (IVariable variable : context.variables) {// 变量
+	public IType findTypeByContext(VisitContext context, String variableName) {
+		if (context != null && context.isMethodScope()) {
+			// 变量
+			for (IVariable variable : context.variables) {
 				if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
 					return variable.getType();
 				}
 			}
-			for (IParameter parameter : context.method.parameters) {// 方法入参
+			// 方法入参
+			IMethod method = (IMethod) context.member;
+			for (IParameter parameter : method.parameters) {
 				if (parameter.getName().equals(variableName)) {
 					return parameter.getType();
 				}
@@ -80,7 +61,7 @@ public class VariableTracker {
 		}
 	}
 
-	public IType findVariableType(IClass clazz, MethodContext context, String variableName) {
+	public IType findVariableType(IClass clazz, VisitContext context, String variableName) {
 		IType type = findTypeByContext(context, variableName);
 		if (type == null) {
 			type = findTypeByInherit(clazz, variableName);
@@ -88,7 +69,7 @@ public class VariableTracker {
 		return type;
 	}
 
-	public IType getVariableType(IClass clazz, MethodContext context, String variableName) {
+	public IType getVariableType(IClass clazz, VisitContext context, String variableName) {
 		IType type = findVariableType(clazz, context, variableName);
 		Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
 		return type;

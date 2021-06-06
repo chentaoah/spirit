@@ -22,7 +22,7 @@ import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.compile.deduce.TypeDerivator;
-import com.gitee.spirit.core.compile.entity.MethodContext;
+import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
@@ -71,7 +71,8 @@ public class DefaultClassVisiter implements ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement parameterStmt : statements) {
-			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(),
+					token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.rebuild(parameterStmt));
 			parameter.setType(factory.create(clazz, parameterStmt.get(0)));
 			method.parameters.add(parameter);
@@ -97,15 +98,15 @@ public class DefaultClassVisiter implements ClassVisiter {
 	}
 
 	public IType visitField(IClass clazz, IField field) {
-		IVariable variable = visiter.visitElement(clazz, field.element);
+		IVariable variable = visiter.visitElement(new VisitContext(clazz, field), field.element);
 		return variable.getType();
 	}
 
 	public IType visitMethod(IClass clazz, IMethod method) {
 		// 方法上下文
-		MethodContext context = new MethodContext(method);
+		VisitContext context = new VisitContext(clazz, method);
 		// 访问方法体内容
-		visitChildElements(clazz, context, method.element);
+		visitChildElements(context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
 			return context.returnType != null ? context.returnType : TypeTable.VOID;
@@ -127,7 +128,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 		throw new RuntimeException("Unsupported syntax!");
 	}
 
-	public void visitChildElements(IClass clazz, MethodContext context, Element father) {
+	public void visitChildElements(VisitContext context, Element father) {
 
 		// 遍历所有子元素
 		List<Element> elements = father.children;
@@ -142,7 +143,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 				context.increaseDepth();
 			}
 			// 对该元素进行分析
-			IVariable variable = visiter.visitElement(clazz, context, element);
+			IVariable variable = visiter.visitElement(context, element);
 			// 如果该元素不是return语句，并且变量不为空，则将变量添加到上下文中
 			if (!element.isReturn() && variable != null) {
 				variable.blockId = context.getBlockId();
@@ -172,7 +173,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 
 			// 遍历子节点
 			if (element.children.size() > 0) {
-				visitChildElements(clazz, context, element);
+				visitChildElements(context, element);
 				context.increaseCount();
 				context.decreaseDepth();
 			}

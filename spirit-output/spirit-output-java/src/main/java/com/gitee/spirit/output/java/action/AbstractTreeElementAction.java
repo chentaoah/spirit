@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.action.AbstractElementAction;
 import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
-import com.gitee.spirit.core.compile.entity.ElementEvent;
+import com.gitee.spirit.core.compile.entity.VisitContext;
+import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.core.element.utils.StmtVisiter;
 import com.gitee.spirit.output.java.utils.TreeUtils;
 
-public abstract class AbstractTreeElementAction extends AbstractElementAction {
+public abstract class AbstractTreeElementAction extends ExtElementAction {
 
 	public static final String START = "START";
 	public static final String PREV_STATEMENT = "PREV_STATEMENT";
@@ -28,10 +28,9 @@ public abstract class AbstractTreeElementAction extends AbstractElementAction {
 	public FragmentDeducer deducer;
 
 	@Override
-	public void handle(ElementEvent event) {
-		IClass clazz = event.clazz;
-		Statement statement = event.element;
-		StmtVisiter.visit(statement, stmt -> {
+	public void visitElement(VisitContext context, Element element) {
+		IClass clazz = context.clazz;
+		StmtVisiter.visit(element, stmt -> {
 			for (int index = 0; index < stmt.size(); index++) {
 				Token token = stmt.get(index);
 				if (isTrigger(token)) {
