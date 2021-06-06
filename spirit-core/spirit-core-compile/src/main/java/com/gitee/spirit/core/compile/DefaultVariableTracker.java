@@ -23,46 +23,45 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	@Override
 	public IType findVariableType(VisitContext context, String variableName) {
-		IType type = findTypeByContext(context, variableName);
+		IType type = findTypeByKeyword(context, variableName);
 		if (type == null) {
-			type = findTypeByInherit(context.clazz, variableName);
+			type = context.isMethodScope() ? findTypeByContext(context, variableName) : null;
+		}
+		if (type == null) {
+			type = findTypeByInherit(context, variableName);
 		}
 		return type;
 	}
 
-	public IType findTypeByKeyword(IClass clazz, String variableName) {
+	public IType findTypeByKeyword(VisitContext context, String variableName) {
+		IClass clazz = context.clazz;
 		if (KeywordEnum.isSuper(variableName)) {// super
 			return derivator.withSuperModifiers(clazz.getSuperType());
 
 		} else if (KeywordEnum.isThis(variableName)) {// this
 			return derivator.withThisModifiers(clazz.getType());
 		}
-		throw new RuntimeException("Variable must be declared!variableName:" + variableName);
+		return null;
 	}
 
 	public IType findTypeByContext(VisitContext context, String variableName) {
-		if (context != null && context.isMethodScope()) {
-			// 变量
-			for (IVariable variable : context.variables) {
-				if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
-					return variable.getType();
-				}
+		for (IVariable variable : context.variables) {
+			if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
+				return variable.getType();
 			}
-			// 方法入参
-			IMethod method = (IMethod) context.member;
-			for (IParameter parameter : method.parameters) {
-				if (parameter.getName().equals(variableName)) {
-					return parameter.getType();
-				}
+		}
+		IMethod method = (IMethod) context.member;
+		for (IParameter parameter : method.parameters) {
+			if (parameter.getName().equals(variableName)) {
+				return parameter.getType();
 			}
 		}
 		return null;
 	}
 
-	public IType findTypeByInherit(IClass clazz, String variableName) {
+	public IType findTypeByInherit(VisitContext context, String variableName) {
 		try {
-			// 从本身和父类里面寻找，父类可能是native的
-			return linker.visitField(derivator.withThisModifiers(clazz.getType()), variableName);
+			return linker.visitField(derivator.withThisModifiers(context.clazz.getType()), variableName);// 从本身和父类里面寻找，父类可能是native的
 		} catch (NoSuchFieldException e) {
 			return null;
 		}
