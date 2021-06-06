@@ -10,10 +10,10 @@ import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeBuilder;
 import com.gitee.spirit.core.clazz.utils.TypeVisiter;
-import com.gitee.spirit.core.compile.TypeDerivator;
+import com.gitee.spirit.core.compile.AppTypeDerivator;
 
 @Component
-public class ExtTypeDerivator extends TypeDerivator {
+public class ExtTypeDerivator extends AppTypeDerivator {
 
 	@Autowired
 	public ClassLinker linker;

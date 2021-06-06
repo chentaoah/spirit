@@ -16,7 +16,7 @@ import cn.hutool.core.lang.Assert;
 
 @Primary
 @Component
-public class TypeDerivator {
+public class AppTypeDerivator {
 
 	@Autowired
 	public TypeFactory factory;

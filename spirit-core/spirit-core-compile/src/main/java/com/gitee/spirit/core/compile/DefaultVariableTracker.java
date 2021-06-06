@@ -17,7 +17,7 @@ import com.gitee.spirit.core.compile.entity.VisitContext;
 public class DefaultVariableTracker implements VariableTracker {
 
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 	@Autowired
 	public ClassLinker linker;
 

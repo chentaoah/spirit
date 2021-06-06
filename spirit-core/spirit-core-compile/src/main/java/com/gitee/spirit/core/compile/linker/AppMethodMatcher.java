@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.TypeDerivator;
+import com.gitee.spirit.core.compile.AppTypeDerivator;
 
 @Component
 public class AppMethodMatcher {
 
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 
 	public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
 		if (method.parameters.size() != parameterTypes.size()) {

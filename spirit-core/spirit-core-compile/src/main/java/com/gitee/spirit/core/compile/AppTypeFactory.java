@@ -29,7 +29,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 	@Autowired
 	public FragmentDeducer deducer;
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性

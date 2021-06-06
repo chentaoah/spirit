@@ -15,7 +15,7 @@ import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.AppClassLoader;
-import com.gitee.spirit.core.compile.TypeDerivator;
+import com.gitee.spirit.core.compile.AppTypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
@@ -28,7 +28,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public ClassVisiter visiter;
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 	@Autowired
 	public AppMethodMatcher matcher;
 

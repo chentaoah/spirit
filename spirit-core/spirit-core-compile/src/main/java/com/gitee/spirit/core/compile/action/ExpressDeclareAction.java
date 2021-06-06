@@ -12,7 +12,7 @@ import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.compile.FragmentDeducer;
-import com.gitee.spirit.core.compile.TypeDerivator;
+import com.gitee.spirit.core.compile.AppTypeDerivator;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -31,7 +31,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 	@Autowired
 	public FragmentDeducer deducer;
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired

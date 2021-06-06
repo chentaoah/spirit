@@ -38,7 +38,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 	@Autowired
 	public ElementVisiter visiter;
 	@Autowired
-	public TypeDerivator derivator;
+	public AppTypeDerivator derivator;
 
 	@Override
 	public void prepareForVisit(IClass clazz) {
