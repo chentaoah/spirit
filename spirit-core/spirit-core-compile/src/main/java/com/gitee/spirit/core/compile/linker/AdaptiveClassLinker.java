@@ -14,7 +14,7 @@ import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
-import com.gitee.spirit.core.compile.deduce.TypeDerivator;
+import com.gitee.spirit.core.compile.TypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 

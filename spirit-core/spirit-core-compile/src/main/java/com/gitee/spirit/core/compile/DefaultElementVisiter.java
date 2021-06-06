@@ -10,7 +10,6 @@ import com.gitee.spirit.core.api.ElementAction;
 import com.gitee.spirit.core.api.ElementVisiter;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.compile.action.AbstractAppElementAction;
-import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;

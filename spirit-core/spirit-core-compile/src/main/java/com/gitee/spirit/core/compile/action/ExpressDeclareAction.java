@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.api.ElementVisiter;
+import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
-import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
-import com.gitee.spirit.core.compile.deduce.TypeDerivator;
-import com.gitee.spirit.core.compile.deduce.VariableTracker;
+import com.gitee.spirit.core.compile.FragmentDeducer;
+import com.gitee.spirit.core.compile.TypeDerivator;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -43,7 +43,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.get(0);
 			// 如果是字段声明，则不用进行上下文推导
-			IType type = context.isMethodScope() ? tracker.findVariableType(clazz, context, varToken.toString()) : null;
+			IType type = context.isMethodScope() ? tracker.findVariableType(context, varToken.toString()) : null;
 			// 如果找不到，则必须通过推导获取类型
 			if (type == null) {
 				Statement statement = element.subStmt(2, element.size());

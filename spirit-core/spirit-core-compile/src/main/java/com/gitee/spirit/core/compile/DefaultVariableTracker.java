@@ -1,10 +1,11 @@
-package com.gitee.spirit.core.compile.deduce;
+package com.gitee.spirit.core.compile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.api.ClassLinker;
+import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
@@ -12,15 +13,22 @@ import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 
-import cn.hutool.core.lang.Assert;
-
 @Component
-public class VariableTracker {
+public class DefaultVariableTracker implements VariableTracker {
 
 	@Autowired
 	public TypeDerivator derivator;
 	@Autowired
 	public ClassLinker linker;
+
+	@Override
+	public IType findVariableType(VisitContext context, String variableName) {
+		IType type = findTypeByContext(context, variableName);
+		if (type == null) {
+			type = findTypeByInherit(context.clazz, variableName);
+		}
+		return type;
+	}
 
 	public IType findTypeByKeyword(IClass clazz, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {// super
@@ -55,24 +63,9 @@ public class VariableTracker {
 		try {
 			// 从本身和父类里面寻找，父类可能是native的
 			return linker.visitField(derivator.withThisModifiers(clazz.getType()), variableName);
-
 		} catch (NoSuchFieldException e) {
 			return null;
 		}
-	}
-
-	public IType findVariableType(IClass clazz, VisitContext context, String variableName) {
-		IType type = findTypeByContext(context, variableName);
-		if (type == null) {
-			type = findTypeByInherit(clazz, variableName);
-		}
-		return type;
-	}
-
-	public IType getVariableType(IClass clazz, VisitContext context, String variableName) {
-		IType type = findVariableType(clazz, context, variableName);
-		Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
-		return type;
 	}
 
 }

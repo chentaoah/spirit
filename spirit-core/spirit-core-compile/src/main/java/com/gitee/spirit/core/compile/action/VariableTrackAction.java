@@ -7,17 +7,19 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.deduce.VariableTracker;
+import com.gitee.spirit.core.compile.DefaultVariableTracker;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.utils.StmtVisiter;
+
+import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-60)
 public class VariableTrackAction extends AbstractAppElementAction {
 
 	@Autowired
-	public VariableTracker tracker;
+	public DefaultVariableTracker tracker;
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
@@ -26,9 +28,10 @@ public class VariableTrackAction extends AbstractAppElementAction {
 				if (token.attr(Attribute.TYPE) != null) {
 					return;
 				}
-				if (token.isVariable()) {// variable
+				if (token.isVariable()) {
 					String variableName = token.toString();
-					IType type = tracker.getVariableType(context.clazz, context, variableName);
+					IType type = tracker.findVariableType(context, variableName);
+					Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
 					token.setAttr(Attribute.TYPE, type);
 
 				} else if (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue())) {
