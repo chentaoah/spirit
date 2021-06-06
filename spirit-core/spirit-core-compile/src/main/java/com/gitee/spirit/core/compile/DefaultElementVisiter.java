@@ -9,7 +9,7 @@ import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ElementAction;
 import com.gitee.spirit.core.api.ElementVisiter;
 import com.gitee.spirit.core.clazz.entity.IVariable;
-import com.gitee.spirit.core.compile.action.AppElementAction;
+import com.gitee.spirit.core.compile.action.AbstractAppElementAction;
 import com.gitee.spirit.core.compile.deduce.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
@@ -20,7 +20,7 @@ import com.gitee.spirit.core.element.entity.Token;
 public class DefaultElementVisiter implements ElementVisiter {
 
 	@Autowired
-	public List<AppElementAction> actions;
+	public List<AbstractAppElementAction> actions;
 	@Autowired
 	public FragmentDeducer deducer;
 

@@ -20,7 +20,7 @@ import com.gitee.spirit.core.element.entity.Token;
 
 @Component
 @Order(-80)
-public class ExpressDeclareAction extends AppElementAction {
+public class ExpressDeclareAction extends AbstractAppElementAction {
 
 	@Autowired
 	public VariableTracker tracker;

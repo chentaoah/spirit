@@ -15,7 +15,7 @@ import com.gitee.spirit.stdlib.Maps;
 
 @Component
 @Order(-80)
-public class CommonAction extends ExtElementAction {
+public class CommonAction extends AbstractExtElementAction {
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {

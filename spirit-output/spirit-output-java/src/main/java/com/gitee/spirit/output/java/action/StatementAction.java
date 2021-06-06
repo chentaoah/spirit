@@ -26,7 +26,7 @@ import com.gitee.spirit.output.java.utils.TypeUtils;
 
 @Component
 @Order(-40)
-public class StatementAction extends ExtElementAction {
+public class StatementAction extends AbstractExtElementAction {
 
 	@Autowired
 	public ElementBuilder builder;

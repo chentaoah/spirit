@@ -12,7 +12,7 @@ import com.gitee.spirit.core.element.entity.Token;
 
 @Component
 @Order(-20)
-public class SeparatorAction extends ExtElementAction {
+public class SeparatorAction extends AbstractExtElementAction {
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {

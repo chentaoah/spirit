@@ -16,7 +16,7 @@ import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.compile.AutoImporter;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
-import com.gitee.spirit.output.java.action.ExtElementAction;
+import com.gitee.spirit.output.java.action.AbstractExtElementAction;
 
 @Component
 public class JavaBuilder implements CodeBuilder {
@@ -28,7 +28,7 @@ public class JavaBuilder implements CodeBuilder {
 	@Autowired
 	public AutoImporter importer;
 	@Autowired
-	public List<ExtElementAction> actions;
+	public List<AbstractExtElementAction> actions;
 
 	@Override
 	public String build(IClass clazz) {

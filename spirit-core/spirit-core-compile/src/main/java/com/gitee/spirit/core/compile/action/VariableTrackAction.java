@@ -14,7 +14,7 @@ import com.gitee.spirit.core.element.utils.StmtVisiter;
 
 @Component
 @Order(-60)
-public class VariableTrackAction extends AppElementAction {
+public class VariableTrackAction extends AbstractAppElementAction {
 
 	@Autowired
 	public VariableTracker tracker;

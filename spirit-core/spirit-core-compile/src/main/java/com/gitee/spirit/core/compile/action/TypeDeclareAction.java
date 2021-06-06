@@ -13,7 +13,7 @@ import com.gitee.spirit.core.element.entity.Token;
 
 @Component
 @Order(-100)
-public class TypeDeclareAction extends AppElementAction {
+public class TypeDeclareAction extends AbstractAppElementAction {
 
 	@Autowired
 	public TypeFactory factory;

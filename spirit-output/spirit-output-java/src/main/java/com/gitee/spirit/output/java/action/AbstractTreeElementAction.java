@@ -15,7 +15,7 @@ import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.core.element.utils.StmtVisiter;
 import com.gitee.spirit.output.java.utils.TreeUtils;
 
-public abstract class AbstractTreeElementAction extends ExtElementAction {
+public abstract class AbstractTreeElementAction extends AbstractExtElementAction {
 
 	public static final String START = "START";
 	public static final String PREV_STATEMENT = "PREV_STATEMENT";

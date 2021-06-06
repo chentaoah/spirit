@@ -22,7 +22,7 @@ import com.gitee.spirit.core.element.utils.StmtVisiter;
 
 @Component
 @Order(-40)
-public class InvokeVisitAction extends AppElementAction {
+public class InvokeVisitAction extends AbstractAppElementAction {
 
 	@Autowired
 	public TypeFactory factory;

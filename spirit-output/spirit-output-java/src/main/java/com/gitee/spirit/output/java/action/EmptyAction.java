@@ -13,7 +13,7 @@ import com.gitee.spirit.stdlib.Emptys;
 
 @Component
 @Order(-100)
-public class EmptyAction extends ExtElementAction {
+public class EmptyAction extends AbstractExtElementAction {
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
