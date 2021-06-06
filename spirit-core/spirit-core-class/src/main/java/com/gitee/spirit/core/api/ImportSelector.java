@@ -2,7 +2,7 @@ package com.gitee.spirit.core.api;
 
 public interface ImportSelector {
 
-	boolean isHandle(String className);
+	boolean canHandle(String className);
 
 	String findClassName(String simpleName);
 

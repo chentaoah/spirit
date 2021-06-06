@@ -127,7 +127,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 	}
 
 	public boolean shouldImport(String selfClassName, String className) {
-		Boolean flag = ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.isHandle(className),
+		Boolean flag = ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.canHandle(className),
 				importSelector -> importSelector.shouldImport(selfClassName, className));
 		return flag == null ? true : flag;
 	}

@@ -14,7 +14,7 @@ public class ExtImportSelector extends AbstractImportSelector {
 	public ExtClassLoader loader;
 
 	@Override
-	public boolean isHandle(String className) {
+	public boolean canHandle(String className) {
 		return loader.contains(className);
 	}
 

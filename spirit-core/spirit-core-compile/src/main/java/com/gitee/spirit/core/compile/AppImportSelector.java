@@ -13,7 +13,7 @@ public class AppImportSelector extends AbstractImportSelector {
 	public AppClassLoader loader;
 
 	@Override
-	public boolean isHandle(String className) {
+	public boolean canHandle(String className) {
 		return loader.contains(className);
 	}
 
