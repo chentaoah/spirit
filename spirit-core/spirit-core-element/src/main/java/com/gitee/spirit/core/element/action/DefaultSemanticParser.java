@@ -127,7 +127,8 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	}
 
 	public Statement getStatement(boolean insideType, String word) {
-		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
+		List<String> words = insideType ? lexer.getSubWords(word, '<', '>')
+				: lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		List<Token> tokens = getTokens(new SemanticContext(true, insideType), words);
 		Assert.notNull(tokens, "Tokens cannot be null!");
 		return new Statement(tokens);

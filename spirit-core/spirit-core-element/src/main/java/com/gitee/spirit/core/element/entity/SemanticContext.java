@@ -16,8 +16,8 @@ public class SemanticContext {
 	public boolean subStatement = false;
 	public boolean insideType = false;
 
-	public SemanticContext(boolean substatement, boolean insideType) {
-		this.subStatement = substatement;
+	public SemanticContext(boolean subStatement, boolean insideType) {
+		this.subStatement = subStatement;
 		this.insideType = insideType;
 	}
 
