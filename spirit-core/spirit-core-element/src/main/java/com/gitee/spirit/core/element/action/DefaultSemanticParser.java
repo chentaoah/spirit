@@ -51,7 +51,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 	}
 
 	public TokenTypeEnum getTokenType(SemanticContext context, String word) {
-		if (!context.substatement) {
+		if (!context.subStatement) {
 			return getCommonTokenType(context, word);
 		} else {
 			if (context.insideType) {

@@ -13,11 +13,11 @@ public class SemanticContext {
 
 	public List<String> words;
 	public int index = -1;
-	public boolean substatement = false;
+	public boolean subStatement = false;
 	public boolean insideType = false;
 
 	public SemanticContext(boolean substatement, boolean insideType) {
-		this.substatement = substatement;
+		this.subStatement = substatement;
 		this.insideType = insideType;
 	}
 
