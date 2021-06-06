@@ -11,7 +11,7 @@ import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.TypeDerivator;
 
 @Component
-public class MethodMatcher {
+public class AppMethodMatcher {
 
 	@Autowired
 	public TypeDerivator derivator;

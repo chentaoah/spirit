@@ -35,7 +35,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		if (!type.isNative()) {
 			return linkers.get("appClassLinker");
 		} else {
-			return linkers.get("nativeClassLinker");
+			return linkers.get("extClassLinker");
 		}
 	}
 
@@ -116,7 +116,8 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (returnType == null) {
-			throw new NoSuchFieldException(String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
+			throw new NoSuchFieldException(
+					String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
 		}
 
 		return returnType;
@@ -152,7 +153,8 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (returnType == null) {
-			throw new NoSuchMethodException(String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
+			throw new NoSuchMethodException(
+					String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
 		}
 
 		return returnType;

@@ -1,4 +1,4 @@
-package com.gitee.spirit.output.java.deduce;
+package com.gitee.spirit.output.java;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -15,7 +15,7 @@ import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.compile.AppTypeFactory;
 
 @Component
-public class NativeTypeFactory extends AppTypeFactory {
+public class ExtTypeFactory extends AppTypeFactory {
 
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());

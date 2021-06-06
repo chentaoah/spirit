@@ -30,7 +30,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public TypeDerivator derivator;
 	@Autowired
-	public MethodMatcher matcher;
+	public AppMethodMatcher matcher;
 
 	@Override
 	@SuppressWarnings("unchecked")

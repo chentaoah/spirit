@@ -19,24 +19,24 @@ import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.output.java.ExtClassLoader;
-import com.gitee.spirit.output.java.deduce.NativeTypeDerivator;
-import com.gitee.spirit.output.java.deduce.NativeTypeFactory;
+import com.gitee.spirit.output.java.ExtTypeDerivator;
+import com.gitee.spirit.output.java.ExtTypeFactory;
 import com.gitee.spirit.output.java.utils.ReflectUtils;
 
 import cn.hutool.core.lang.Assert;
 
 @Component
 @Order(-80)
-public class NativeClassLinker implements ClassLinker {
+public class ExtClassLinker implements ClassLinker {
 
 	@Autowired
 	public ExtClassLoader classLoader;
 	@Autowired
-	public NativeTypeFactory factory;
+	public ExtTypeFactory factory;
 	@Autowired
-	public NativeTypeDerivator derivator;
+	public ExtTypeDerivator derivator;
 	@Autowired
-	public NativeMethodMatcher matcher;
+	public ExtMethodMatcher matcher;
 
 	@Override
 	@SuppressWarnings("unchecked")

@@ -1,4 +1,4 @@
-package com.gitee.spirit.output.java.deduce;
+package com.gitee.spirit.output.java;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import com.gitee.spirit.core.clazz.utils.TypeVisiter;
 import com.gitee.spirit.core.compile.TypeDerivator;
 
 @Component
-public class NativeTypeDerivator extends TypeDerivator {
+public class ExtTypeDerivator extends TypeDerivator {
 
 	@Autowired
 	public ClassLinker linker;
