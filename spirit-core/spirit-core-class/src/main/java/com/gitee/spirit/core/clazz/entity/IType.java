@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.gitee.spirit.common.enums.ModifierEnum;
 import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.TypeFactory;
-import com.gitee.spirit.core.clazz.utils.TypeTable;
+import com.gitee.spirit.core.clazz.utils.TypeRegistry;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 
 import lombok.Getter;
@@ -49,7 +49,7 @@ public class IType {
 	}
 
 	public IType toBox() {
-		IType boxType = TypeTable.getBoxType(getClassName());
+		IType boxType = TypeRegistry.getBoxType(getClassName());
 		return boxType != null ? boxType : this;
 	}
 

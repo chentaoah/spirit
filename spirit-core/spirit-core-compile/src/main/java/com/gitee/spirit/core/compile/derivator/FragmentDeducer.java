@@ -9,7 +9,7 @@ import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.TreeBuilder;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeTable;
+import com.gitee.spirit.core.clazz.utils.TypeRegistry;
 import com.gitee.spirit.core.element.entity.Node;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
@@ -41,7 +41,7 @@ public class FragmentDeducer {
 
 		// 如果是逻辑判断，或者类型判断关键字
 		if (token.isLogical() || token.isRelation() || token.isInstanceof()) {
-			return TypeTable.BOOLEAN;
+			return TypeRegistry.BOOLEAN;
 
 		} else if (token.isArithmetic() || token.isBitwise()) {
 			// 先取左边的，再取右边的

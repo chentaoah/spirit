@@ -13,7 +13,7 @@ import com.gitee.spirit.common.enums.ModifierEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeTable;
+import com.gitee.spirit.core.clazz.utils.TypeRegistry;
 
 import cn.hutool.core.lang.Assert;
 
@@ -53,16 +53,16 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (type.isArray()) {
-			return TypeTable.OBJECT;
+			return TypeRegistry.OBJECT;
 		}
 
-		if (TypeTable.OBJECT.equals(type)) {
+		if (TypeRegistry.OBJECT.equals(type)) {
 			return null;
 		}
 
 		IType superType = getLinker(type).getSuperType(type);// 如果不存在父类，则返回Object
 		if (superType == null) {
-			return TypeTable.OBJECT;
+			return TypeRegistry.OBJECT;
 		}
 
 		int modifiers = type.getModifiers();
@@ -93,7 +93,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		if (KeywordEnum.CLASS.value.equals(fieldName)) {// xxx.class class是关键字
-			return factory.create(TypeTable.CLASS.getClassName(), type.toBox());
+			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
 		}
 
 		if (type.isPrimitive()) {// 原始类型没有属性和方法
@@ -101,7 +101,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (type.isArray() && ARRAY_LENGTH.equals(fieldName)) {// 访问数组length直接返回int类型
-			return TypeTable.INT;
+			return TypeRegistry.INT;
 		}
 
 		IType returnType = getLinker(type).visitField(type, fieldName);// 向上遍历推导
@@ -136,8 +136,8 @@ public class AdaptiveClassLinker implements ClassLinker {
 			throw new RuntimeException("Array has no method!");
 		}
 
-		if (TypeTable.OBJECT.equals(type) && KeywordEnum.EMPTY.value.equals(methodName)) {// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
-			return TypeTable.BOOLEAN;
+		if (TypeRegistry.OBJECT.equals(type) && KeywordEnum.EMPTY.value.equals(methodName)) {// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
+			return TypeRegistry.BOOLEAN;
 		}
 
 		IType returnType = getLinker(type).visitMethod(type, methodName, parameterTypes);// 向上遍历推导

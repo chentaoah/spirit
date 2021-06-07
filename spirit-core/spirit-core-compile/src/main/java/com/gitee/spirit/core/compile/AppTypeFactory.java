@@ -14,7 +14,7 @@ import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.AbstractTypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeTable;
+import com.gitee.spirit.core.clazz.utils.TypeRegistry;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -66,7 +66,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 		if (token.value instanceof String) {// String // String[] //? //T,K
 			String simpleName = token.getValue();
 			if ("?".equals(simpleName)) {
-				return TypeTable.WILDCARD;// ?
+				return TypeRegistry.WILDCARD;// ?
 			}
 			if (clazz.getTypeVariableIndex(simpleName) >= 0) {
 				return createTypeVariable(simpleName);// T or K
@@ -96,19 +96,19 @@ public class AppTypeFactory extends AbstractTypeFactory {
 
 	public IType getValueType(IClass clazz, Token token) {
 		if (token.isBoolean()) {
-			return TypeTable.BOOLEAN;
+			return TypeRegistry.BOOLEAN;
 		} else if (token.isChar()) {
-			return TypeTable.CHAR;
+			return TypeRegistry.CHAR;
 		} else if (token.isInt()) {
-			return TypeTable.INT;
+			return TypeRegistry.INT;
 		} else if (token.isLong()) {
-			return TypeTable.LONG;
+			return TypeRegistry.LONG;
 		} else if (token.isDouble()) {
-			return TypeTable.DOUBLE;
+			return TypeRegistry.DOUBLE;
 		} else if (token.isNull()) {
-			return TypeTable.NULL;
+			return TypeRegistry.NULL;
 		} else if (token.isString()) {
-			return TypeTable.STRING;
+			return TypeRegistry.STRING;
 		} else if (token.isList()) {
 			return getListType(clazz, token);
 		} else if (token.isMap()) {
@@ -120,7 +120,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 	public IType getListType(IClass clazz, Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).splitStmt(",");
-		return create(TypeTable.LIST.getClassName(), getGenericType(clazz, statements));
+		return create(TypeRegistry.LIST.getClassName(), getGenericType(clazz, statements));
 	}
 
 	public IType getMapType(IClass clazz, Token token) {
@@ -132,13 +132,13 @@ public class AppTypeFactory extends AbstractTypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(TypeTable.MAP.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(TypeRegistry.MAP.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
 	}
 
 	public IType getGenericType(IClass clazz, List<Statement> statements) {
 		// 如果没有元素，则返回Object类型
 		if (statements.size() == 0) {
-			return TypeTable.OBJECT;
+			return TypeRegistry.OBJECT;
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
@@ -151,7 +151,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 				genericType = boxType;
 
 			} else if (!derivator.isMoreAbstract(genericType, boxType)) {// 不同则使用Object
-				genericType = TypeTable.OBJECT;
+				genericType = TypeRegistry.OBJECT;
 				break;
 			}
 		}
