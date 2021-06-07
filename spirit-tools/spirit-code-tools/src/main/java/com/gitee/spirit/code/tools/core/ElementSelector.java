@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.core.api.ElementVisiter;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.CoreCompiler;
-import com.gitee.spirit.core.compile.DefaultElementVisiter;
 import com.gitee.spirit.core.element.entity.Element;
 
 @Component
 public class ElementSelector extends CoreCompiler {
 
 	@Autowired
-	public DefaultElementVisiter visiter;
+	public ElementVisiter visiter;
 
 	public IType findElementAndGetType(IClass clazz, Integer lineNumber) {
 		// TODO
