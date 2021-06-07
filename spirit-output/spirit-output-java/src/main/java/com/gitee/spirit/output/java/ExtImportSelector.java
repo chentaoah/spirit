@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.core.clazz.AbstractImportSelector;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
-import com.gitee.spirit.output.java.utils.ReflectUtils;
 
 @Component
 @Order(-80)
@@ -22,15 +21,18 @@ public class ExtImportSelector extends AbstractImportSelector {
 
 	@Override
 	public String findClassName(String simpleName) {
-		return ReflectUtils.getClassName(TypeUtils.getTargetName(simpleName), TypeUtils.isArray(simpleName));
+		String targetName = TypeUtils.getTargetName(simpleName);
+		boolean isArray = TypeUtils.isArray(simpleName);
+		Class<?> clazz = loader.loadClass("java.lang." + targetName);
+		if (clazz != null) {
+			return isArray ? "[L" + clazz.getName() + ";" : clazz.getName();
+		}
+		return null;
 	}
 
 	@Override
 	public boolean shouldImport(String selfClassName, String className) {
-		if (super.shouldImport(selfClassName, className)) {
-			return !className.startsWith("java.lang.");
-		}
-		return false;
+		return super.shouldImport(selfClassName, className) && !className.startsWith("java.lang.");
 	}
 
 }
