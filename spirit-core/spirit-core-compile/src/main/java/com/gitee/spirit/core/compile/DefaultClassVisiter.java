@@ -11,6 +11,7 @@ import com.gitee.spirit.common.utils.ObjectUtils;
 import com.gitee.spirit.core.api.ClassVisiter;
 import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.api.ElementVisiter;
+import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
 import com.gitee.spirit.core.clazz.entity.IClass;
@@ -21,7 +22,6 @@ import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -39,7 +39,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 	@Autowired
 	public ElementVisiter visiter;
 	@Autowired
-	public AppTypeDerivator derivator;
+	public TypeDerivator derivator;
 
 	@Override
 	public void prepareForVisit(IClass clazz) {

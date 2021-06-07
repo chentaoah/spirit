@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 @Component
 public class AppMethodMatcher {
 
 	@Autowired
-	public AppTypeDerivator derivator;
+	public TypeDerivator derivator;
 
 	public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
 		if (method.parameters.size() != parameterTypes.size()) {

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.ClassVisiter;
+import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.AppClassLoader;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
@@ -28,7 +28,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public ClassVisiter visiter;
 	@Autowired
-	public AppTypeDerivator derivator;
+	public TypeDerivator derivator;
 	@Autowired
 	public AppMethodMatcher matcher;
 

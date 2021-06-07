@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.ModifierEnum;
 import com.gitee.spirit.common.enums.PrimitiveEnum;
+import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.AbstractTypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
@@ -31,7 +31,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 	@Autowired
 	public FragmentDeducer deducer;
 	@Autowired
-	public AppTypeDerivator derivator;
+	public TypeDerivator derivator;
 
 	@Override
 	public IType create(String className) {// 一般来说，className可以直接反应出大部分属性
