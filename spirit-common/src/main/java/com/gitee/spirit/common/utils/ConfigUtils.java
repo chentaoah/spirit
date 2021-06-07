@@ -4,8 +4,8 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.constants.AppConfig.Argument;
-import com.gitee.spirit.common.constants.AppConfig.DefaultValue;
+import com.gitee.spirit.common.constants.Argument;
+import com.gitee.spirit.common.constants.DefaultValue;
 
 @Component
 public class ConfigUtils implements EnvironmentAware {

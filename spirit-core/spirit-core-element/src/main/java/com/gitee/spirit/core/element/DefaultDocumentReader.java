@@ -8,7 +8,7 @@ import java.util.Stack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.constants.AppConfig.DefaultValue;
+import com.gitee.spirit.common.constants.DefaultValue;
 import com.gitee.spirit.common.utils.ConfigUtils;
 import com.gitee.spirit.common.utils.LineUtils;
 import com.gitee.spirit.common.utils.ListUtils;
