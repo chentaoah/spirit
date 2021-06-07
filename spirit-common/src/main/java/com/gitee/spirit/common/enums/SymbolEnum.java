@@ -31,8 +31,8 @@ public enum SymbolEnum {
 		}
 	}
 
-	public static boolean isSymbolChar(char c) {
-		return ArrayUtil.contains(SYMBOL_CHARS, c);
+	public static boolean isSymbolChar(char ch) {
+		return ArrayUtil.contains(SYMBOL_CHARS, ch);
 	}
 
 	public static boolean isSingleSymbol(String value) {
