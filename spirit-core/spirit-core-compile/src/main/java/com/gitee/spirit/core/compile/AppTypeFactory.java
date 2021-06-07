@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
-import com.gitee.spirit.common.enums.ModifierEnum;
+import com.gitee.spirit.common.enums.AccessLevelEnum;
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.AbstractTypeFactory;
@@ -44,7 +44,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(!classLoader.contains(TypeUtils.getTargetName(className)));
-		type.setModifiers(ModifierEnum.PUBLIC.value);
+		type.setModifiers(AccessLevelEnum.PUBLIC.value);
 		return type;
 	}
 

@@ -3,7 +3,7 @@ package com.gitee.spirit.core.clazz.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.gitee.spirit.common.enums.ModifierEnum;
+import com.gitee.spirit.common.enums.AccessLevelEnum;
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.core.clazz.entity.IType;
 
@@ -21,7 +21,7 @@ public class TypeBuilder {
 		type.setNull(isNull);
 		type.setWildcard(isWildcard);
 		type.setNative(isNative);
-		type.setModifiers(ModifierEnum.PUBLIC.value);
+		type.setModifiers(AccessLevelEnum.PUBLIC.value);
 		type.setGenericTypes(new ArrayList<>());
 		return type;
 	}
@@ -37,7 +37,7 @@ public class TypeBuilder {
 		type.setNull(false);
 		type.setWildcard(false);
 		type.setNative(false);
-		type.setModifiers(ModifierEnum.PUBLIC.value);
+		type.setModifiers(AccessLevelEnum.PUBLIC.value);
 		type.setGenericTypes(new ArrayList<>());
 		return type;
 	}

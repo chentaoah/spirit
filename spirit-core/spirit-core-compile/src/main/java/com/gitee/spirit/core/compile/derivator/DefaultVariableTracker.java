@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.VariableTracker;
+import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
@@ -27,10 +28,11 @@ public class DefaultVariableTracker implements VariableTracker {
 	}
 
 	public IType findTypeByKeyword(VisitContext context, String variableName) {
+		IClass clazz = context.clazz;
 		if (KeywordEnum.isSuper(variableName)) {
-			return context.clazz.getSuperType().withSuperModifiers();
+			return clazz.getSuperType().withProtected();
 		} else if (KeywordEnum.isThis(variableName)) {
-			return context.clazz.getType().withThisModifiers();
+			return clazz.getType().withPrivate();
 		}
 		return null;
 	}
@@ -55,7 +57,7 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	public IType findTypeByInherit(VisitContext context, String variableName) {
 		try {
-			return linker.visitField(context.clazz.getType().withThisModifiers(), variableName);// 从本身和父类里面寻找，父类可能是native的
+			return linker.visitField(context.clazz.getType().withPrivate(), variableName);// 从本身和父类里面寻找，父类可能是native的
 		} catch (NoSuchFieldException e) {
 			return null;
 		}

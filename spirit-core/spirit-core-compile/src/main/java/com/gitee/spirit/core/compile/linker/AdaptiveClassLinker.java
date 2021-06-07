@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
-import com.gitee.spirit.common.enums.ModifierEnum;
+import com.gitee.spirit.common.enums.AccessLevelEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
@@ -66,11 +66,11 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		int modifiers = type.getModifiers();
-		if (modifiers == ModifierEnum.THIS.value || modifiers == ModifierEnum.SUPER.value) {
-			superType.setModifiers(ModifierEnum.SUPER.value);
+		if (modifiers == AccessLevelEnum.PRIVATE.value || modifiers == AccessLevelEnum.PROTECTED.value) {
+			superType.setModifiers(AccessLevelEnum.PROTECTED.value);
 
-		} else if (modifiers == ModifierEnum.PUBLIC.value) {
-			superType.setModifiers(ModifierEnum.PUBLIC.value);
+		} else if (modifiers == AccessLevelEnum.PUBLIC.value) {
+			superType.setModifiers(AccessLevelEnum.PUBLIC.value);
 		}
 
 		return superType;

@@ -50,7 +50,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
 					} else if (token.isLocalMethod()) {
 						String memberName = token.attr(Attribute.MEMBER_NAME);
-						IType returnType = linker.visitMethod(clazz.getType().withThisModifiers(), memberName, parameterTypes);
+						IType returnType = linker.visitMethod(clazz.getType().withPrivate(), memberName, parameterTypes);
 						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitField()) {

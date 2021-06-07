@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.gitee.spirit.common.enums.ModifierEnum;
+import com.gitee.spirit.common.enums.AccessLevelEnum;
 import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.utils.TypeRegistry;
@@ -62,13 +62,13 @@ public class IType {
 		return factory.create(getTargetName());
 	}
 
-	public IType withSuperModifiers() {
-		this.setModifiers(ModifierEnum.SUPER.value);
+	public IType withProtected() {
+		this.setModifiers(AccessLevelEnum.PROTECTED.value);
 		return this;
 	}
 
-	public IType withThisModifiers() {
-		this.setModifiers(ModifierEnum.THIS.value);
+	public IType withPrivate() {
+		this.setModifiers(AccessLevelEnum.PRIVATE.value);
 		return this;
 	}
 
