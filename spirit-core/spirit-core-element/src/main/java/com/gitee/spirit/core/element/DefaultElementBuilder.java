@@ -27,7 +27,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 	@Autowired
 	public Lexer lexer;
 	@Autowired
-	public SemanticParser parser;
+	public SemanticParser semanticParser;
 	@Autowired
 	public SyntaxParser syntaxParser;
 
@@ -41,7 +41,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 		try {
 			checker.check(line);
 			List<String> words = lexer.getWords(line.text);
-			List<Token> tokens = parser.getTokens(words);
+			List<Token> tokens = semanticParser.getTokens(words);
 			Modifiers modifiers = new Modifiers(tokens);
 			Statement statement = new Statement(tokens);
 			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);
