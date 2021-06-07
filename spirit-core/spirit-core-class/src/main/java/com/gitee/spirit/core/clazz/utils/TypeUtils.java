@@ -85,6 +85,10 @@ public class TypeUtils {
 		return "[L" + className + ";";
 	}
 
+	public static String getClassName(boolean isArray, String className) {
+		return isArray ? getArrayName(className) : className;
+	}
+
 	public static String getLastName(String className) {
 		className = getTargetName(className);
 		return className.substring(className.lastIndexOf(".") + 1);
@@ -96,10 +100,6 @@ public class TypeUtils {
 
 	public static String getTypeName(String className) {
 		return getTargetName(className) + (isArray(className) ? "[]" : "");
-	}
-
-	public static String getClassName(boolean isArray, String className) {
-		return !isArray ? className : "[L" + className + ";";
 	}
 
 }
