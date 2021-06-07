@@ -40,21 +40,21 @@ public class Main {
 ```xml
 <!-- spirit-stdlib -->
 <dependency>
-	<groupId>com.gitee.chentaoah</groupId>
-	<artifactId>spirit-stdlib</artifactId>
-	<version>最新版（>= 2.1.30）</version>
+    <groupId>com.gitee.chentaoah</groupId>
+    <artifactId>spirit-stdlib</artifactId>
+    <version>最新版（>= 2.1.30）</version>
 </dependency>
 <!-- slf4j-api -->
 <dependency>
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-api</artifactId>
-	<version>1.7.25</version>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.25</version>
 </dependency>
 <!-- commons-lang3 -->
 <dependency>
-	<groupId>org.apache.commons</groupId>
-	<artifactId>commons-lang3</artifactId>
-	<version>3.9</version>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
 </dependency>
 ```
 
