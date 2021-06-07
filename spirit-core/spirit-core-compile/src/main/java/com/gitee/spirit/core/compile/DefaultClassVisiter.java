@@ -72,7 +72,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 		for (Statement parameterStmt : statements) {
 			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(),
 					token -> new IAnnotation(token));
-			IParameter parameter = new IParameter(annotations, builder.rebuild(parameterStmt));
+			IParameter parameter = new IParameter(annotations, builder.build(parameterStmt));
 			parameter.setType(factory.create(clazz, parameterStmt.get(0)));
 			method.parameters.add(parameter);
 		}

@@ -55,10 +55,10 @@ public class DefaultElementBuilder implements ElementBuilder {
 	}
 
 	@Override
-	public Element rebuild(Statement statement) {
-		Assert.notEmpty(statement, "statement cannot be empty!");
-		Element element = build(statement.toString());
-		element.list = statement;// 注意：新建一个element是为了得到分析的语法，赋值是为了复用token
+	public Element build(Statement statement) {
+		Assert.notEmpty(statement, "Statement cannot be empty!");
+		SyntaxResult result = syntaxParser.parseSyntax(statement.list, statement);
+		Element element = new Element(null, null, statement, result.syntax, result.syntaxTree);
 		return element;
 	}
 

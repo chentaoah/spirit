@@ -10,6 +10,6 @@ public interface ElementBuilder {
 
 	Element build(Line line);
 
-	Element rebuild(Statement statement);
+	Element build(Statement statement);
 
 }

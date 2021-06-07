@@ -79,7 +79,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 				Statement statement = secondToken.getValue();
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
 				if (subStatement.size() > 0) {
-					Element subElement = builder.rebuild(subStatement);
+					Element subElement = builder.build(subStatement);
 					IVariable variable = visiter.visitElement(context, subElement);
 					if (variable != null) {
 						variable.blockId = context.getBlockId();
