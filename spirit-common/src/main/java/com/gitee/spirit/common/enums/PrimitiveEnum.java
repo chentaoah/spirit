@@ -26,16 +26,28 @@ public enum PrimitiveEnum {
 	FLOAT_ARRAY("[F", "float[]", "float[]", false, true/* array */), //
 	DOUBLE_ARRAY("[D", "double[]", "double[]", false, true/* array */); //
 
-	public static final String PRIMITIVE_ENUM = "void|boolean|char|byte|short|int|long|float|double";
-
 	public static final Map<String, PrimitiveEnum> CLASS_NAME_MAPPING = new ConcurrentHashMap<>();
 	public static final Map<String, PrimitiveEnum> SIMPLE_NAME_MAPPING = new ConcurrentHashMap<>();
+	public static final String PRIMITIVE_ENUM = "void|boolean|char|byte|short|int|long|float|double";
 
 	static {
 		for (PrimitiveEnum primitiveEnum : values()) {
 			CLASS_NAME_MAPPING.put(primitiveEnum.className, primitiveEnum);
 			SIMPLE_NAME_MAPPING.put(primitiveEnum.simpleName, primitiveEnum);
 		}
+		bindPrimitive(BOOLEAN, BOOLEAN_ARRAY);
+		bindPrimitive(CHAR, CHAR_ARRAY);
+		bindPrimitive(BYTE, BYTE_ARRAY);
+		bindPrimitive(SHORT, SHORT_ARRAY);
+		bindPrimitive(INT, INT_ARRAY);
+		bindPrimitive(LONG, LONG_ARRAY);
+		bindPrimitive(FLOAT, FLOAT_ARRAY);
+		bindPrimitive(DOUBLE, DOUBLE_ARRAY);
+	}
+
+	public static void bindPrimitive(PrimitiveEnum primitive, PrimitiveEnum primitiveArray) {
+		primitive.pointer = primitiveArray;
+		primitiveArray.pointer = primitive;
 	}
 
 	public static boolean isPrimitive(String className) {
@@ -54,13 +66,17 @@ public enum PrimitiveEnum {
 		return SIMPLE_NAME_MAPPING.containsKey(simpleName) && SIMPLE_NAME_MAPPING.get(simpleName).isArray;
 	}
 
-	public static String getPrimitiveArrayTargetName(String className) {
+	public static String getTargetName(String className) {
 		Assert.isTrue(isPrimitiveArray(className), "Class name must be a primitive array!");
-		String simpleName = CLASS_NAME_MAPPING.get(className).simpleName;
-		return simpleName.substring(0, simpleName.length() - 2);
+		return CLASS_NAME_MAPPING.get(className).pointer.className;
 	}
 
-	public static String tryGetClassName(String simpleName) {
+	public static String getArrayName(String className) {
+		Assert.isTrue(isPrimitive(className), "Class name must be a primitive!");
+		return CLASS_NAME_MAPPING.get(className).pointer.className;
+	}
+
+	public static String findClassName(String simpleName) {
 		return SIMPLE_NAME_MAPPING.containsKey(simpleName) ? SIMPLE_NAME_MAPPING.get(simpleName).className : null;
 	}
 
@@ -69,6 +85,7 @@ public enum PrimitiveEnum {
 	public String typeName;
 	public boolean isPrimitive;
 	public boolean isArray;
+	public PrimitiveEnum pointer;
 
 	private PrimitiveEnum(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray) {
 		this.className = className;

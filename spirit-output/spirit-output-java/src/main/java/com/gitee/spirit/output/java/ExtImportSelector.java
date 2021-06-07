@@ -23,9 +23,12 @@ public class ExtImportSelector extends AbstractImportSelector {
 	public String findClassName(String simpleName) {
 		String targetName = TypeUtils.getTargetName(simpleName);
 		boolean isArray = TypeUtils.isArray(simpleName);
-		Class<?> clazz = loader.loadClass("java.lang." + targetName);
-		if (clazz != null) {
-			return isArray ? "[L" + clazz.getName() + ";" : clazz.getName();
+		String className = "java.lang." + targetName;
+		if (loader.contains(className)) {
+			Class<?> clazz = loader.loadClass(className);
+			if (clazz != null) {
+				return isArray ? TypeUtils.getArrayName(className) : clazz.getName();
+			}
 		}
 		return null;
 	}

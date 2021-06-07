@@ -67,12 +67,22 @@ public class TypeUtils {
 
 		} else if (name.startsWith("[")) {
 			// [Z 转换成 boolean
-			String targetName = PrimitiveEnum.getPrimitiveArrayTargetName(name);
+			String targetName = PrimitiveEnum.getTargetName(name);
 			Assert.notEmpty(targetName, "Target name cannot be empty!");
 			return targetName;
 		}
 
 		throw new RuntimeException("Failed to get target name!");
+	}
+
+	public static String getArrayName(String className) {
+		if (isArray(className)) {
+			return className;
+		}
+		if (PrimitiveEnum.isPrimitive(className)) {
+			return PrimitiveEnum.getArrayName(className);
+		}
+		return "[L" + className + ";";
 	}
 
 	public static String getLastName(String className) {

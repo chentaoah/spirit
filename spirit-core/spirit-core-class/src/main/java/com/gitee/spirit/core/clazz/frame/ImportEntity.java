@@ -60,7 +60,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 		boolean isArray = TypeUtils.isArray(simpleName);
 
 		// 1.如果是基本类型，基本类型数组
-		String className = PrimitiveEnum.tryGetClassName(simpleName);
+		String className = PrimitiveEnum.findClassName(simpleName);
 
 		// 2.首先先去引入里面找
 		if (className == null) {
