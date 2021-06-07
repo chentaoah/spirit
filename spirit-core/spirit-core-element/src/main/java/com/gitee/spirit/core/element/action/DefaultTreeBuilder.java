@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
-import com.gitee.spirit.common.enums.SymbolEnum;
-import com.gitee.spirit.common.enums.SymbolEnum.OperandEnum;
+import com.gitee.spirit.common.enums.OperatorEnum;
+import com.gitee.spirit.common.enums.OperatorEnum.OperandEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.element.entity.Node;
 import com.gitee.spirit.core.element.entity.SyntaxTree;
@@ -57,9 +57,9 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 
 			} else if (currentToken.isOperator()) {
 				String value = currentToken.toString();
-				SymbolEnum symbol = SymbolEnum.getOperator(value);
-				priority = symbol.priority;
-				operand = symbol.operand;
+				OperatorEnum operator = OperatorEnum.getOperator(value);
+				priority = operator.priority;
+				operand = operator.operand;
 
 			} else if (currentToken.isCast()) {
 				priority = 35;
@@ -118,7 +118,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 		if (operandEnum == OperandEnum.MULTIPLE) {
 			Node lastNode = ListUtils.findOneByIndex(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
-			if (SymbolEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
+			if (OperatorEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
 					if (lastNode.isMounted() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
 						currentToken.setAttr(Attribute.OPERAND, OperandEnum.BINARY);

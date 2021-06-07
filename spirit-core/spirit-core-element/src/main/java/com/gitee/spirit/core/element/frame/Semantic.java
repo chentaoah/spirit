@@ -3,7 +3,7 @@ package com.gitee.spirit.core.element.frame;
 import java.util.Map;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
-import com.gitee.spirit.common.enums.SymbolEnum;
+import com.gitee.spirit.common.enums.OperatorEnum;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 
 public abstract class Semantic extends Attributes {
@@ -164,47 +164,47 @@ public abstract class Semantic extends Attributes {
 	}
 
 	public boolean isArithmetic() {
-		return isOperator() && SymbolEnum.isArithmetic(getValue().toString());
+		return isOperator() && OperatorEnum.isArithmetic(getValue().toString());
 	}
 
 	public boolean isBitwise() {
-		return isOperator() && SymbolEnum.isBitwise(getValue().toString());
+		return isOperator() && OperatorEnum.isBitwise(getValue().toString());
 	}
 
 	public boolean isRelation() {
-		return isOperator() && SymbolEnum.isRelation(getValue().toString());
+		return isOperator() && OperatorEnum.isRelation(getValue().toString());
 	}
 
 	public boolean isLogical() {
-		return isOperator() && SymbolEnum.isLogical(getValue().toString());
+		return isOperator() && OperatorEnum.isLogical(getValue().toString());
 	}
 
 	public boolean isAssign() {
-		return isOperator() && SymbolEnum.isAssign(getValue().toString());
+		return isOperator() && OperatorEnum.isAssign(getValue().toString());
 	}
 
 	public boolean isEquals() {
-		return isOperator() && SymbolEnum.EQUAL.value.equals(getValue());
+		return isOperator() && OperatorEnum.EQUAL.value.equals(getValue());
 	}
 
 	public boolean isUnequals() {
-		return isOperator() && SymbolEnum.UNEQUAL.value.equals(getValue());
+		return isOperator() && OperatorEnum.UNEQUAL.value.equals(getValue());
 	}
 
 	public boolean isShift() {
-		return isOperator() && (SymbolEnum.LEFT_SHIFT.value.equals(getValue()) || SymbolEnum.RIGHT_SHIFT.value.equals(getValue()));
+		return isOperator() && (OperatorEnum.LEFT_SHIFT.value.equals(getValue()) || OperatorEnum.RIGHT_SHIFT.value.equals(getValue()));
 	}
 
 	public boolean isNegate() {
-		return isOperator() && SymbolEnum.NEGATE.value.equals(getValue());
+		return isOperator() && OperatorEnum.NEGATE.value.equals(getValue());
 	}
 
 	public boolean isLogicAnd() {
-		return isOperator() && SymbolEnum.AND.value.equals(getValue());
+		return isOperator() && OperatorEnum.AND.value.equals(getValue());
 	}
 
 	public boolean isLogicOr() {
-		return isOperator() && SymbolEnum.OR.value.equals(getValue());
+		return isOperator() && OperatorEnum.OR.value.equals(getValue());
 	}
 
 	public abstract <T> T getValue();
