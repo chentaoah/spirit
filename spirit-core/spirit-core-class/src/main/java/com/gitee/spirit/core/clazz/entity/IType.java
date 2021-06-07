@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.gitee.spirit.common.enums.ModifierEnum;
+import com.gitee.spirit.common.utils.SpringUtils;
+import com.gitee.spirit.core.api.TypeFactory;
+import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 
 import lombok.Getter;
@@ -44,8 +48,28 @@ public class IType {
 		return genericTypes != null && genericTypes.size() > 0;
 	}
 
+	public IType toBox() {
+		IType boxType = TypeTable.getBoxType(getClassName());
+		return boxType != null ? boxType : this;
+	}
+
 	public String getTargetName() {// 返回真正的className,包括数组中的
 		return TypeUtils.getTargetName(getClassName());
+	}
+
+	public IType toTarget() {
+		TypeFactory factory = SpringUtils.getBean(TypeFactory.class);
+		return factory.create(getTargetName());
+	}
+
+	public IType withSuperModifiers() {
+		this.setModifiers(ModifierEnum.SUPER.value);
+		return this;
+	}
+
+	public IType withThisModifiers() {
+		this.setModifiers(ModifierEnum.THIS.value);
+		return this;
 	}
 
 	@Override

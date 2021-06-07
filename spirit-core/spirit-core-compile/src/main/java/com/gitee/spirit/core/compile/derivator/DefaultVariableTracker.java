@@ -30,9 +30,9 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	public IType findTypeByKeyword(VisitContext context, String variableName) {
 		if (KeywordEnum.isSuper(variableName)) {
-			return derivator.withSuperModifiers(context.clazz.getSuperType());
+			return context.clazz.getSuperType().withSuperModifiers();
 		} else if (KeywordEnum.isThis(variableName)) {
-			return derivator.withThisModifiers(context.clazz.getType());
+			return context.clazz.getType().withThisModifiers();
 		}
 		return null;
 	}
@@ -57,7 +57,7 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	public IType findTypeByInherit(VisitContext context, String variableName) {
 		try {
-			return linker.visitField(derivator.withThisModifiers(context.clazz.getType()), variableName);// 从本身和父类里面寻找，父类可能是native的
+			return linker.visitField(context.clazz.getType().withThisModifiers(), variableName);// 从本身和父类里面寻找，父类可能是native的
 		} catch (NoSuchFieldException e) {
 			return null;
 		}

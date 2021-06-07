@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.api.ImportSelector;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
@@ -106,7 +107,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 		}
 
 		// 构建一个行元素
-		ElementBuilder builder = context.getBean(ElementBuilder.class);
+		ElementBuilder builder = SpringUtils.getBean(ElementBuilder.class);
 		imports.add(new Import(builder.build("import " + targetName)));
 		return true;
 	}
@@ -118,18 +119,18 @@ public abstract class ImportEntity extends AnnotationEntity {
 			return true;
 		}
 		// 构建一个行元素
-		ElementBuilder builder = context.getBean(ElementBuilder.class);
+		ElementBuilder builder = SpringUtils.getBean(ElementBuilder.class);
 		staticImports.add(new Import(builder.build("import static " + staticSourceName)));
 		return true;
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		List<ImportSelector> selectors = context.getBeans(ImportSelector.class);
+		List<ImportSelector> selectors = SpringUtils.getBeans(ImportSelector.class);
 		return ListUtils.collectOne(selectors, selector -> selector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfClassName, String className) {
-		List<ImportSelector> selectors = context.getBeans(ImportSelector.class);
+		List<ImportSelector> selectors = SpringUtils.getBeans(ImportSelector.class);
 		Boolean flag = ListUtils.collectOne(selectors, selector -> selector.canHandle(className), selector -> selector.shouldImport(selfClassName, className));
 		return flag == null ? true : flag;
 	}

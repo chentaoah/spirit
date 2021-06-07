@@ -41,7 +41,7 @@ public class ExtMethodMatcher {
 			Parameter parameter = method.getParameters()[idx];// 分为两种情况，一种是最后一个参数之前的，一种是最后一个参数
 			IType nativeParameterType = factory.create(parameter.getParameterizedType());// 获取本地参数类型
 			if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {// 如果最后一个参数，而且是不定项参数，则取数组里的类型
-				nativeParameterType = derivator.toTarget(nativeParameterType);
+				nativeParameterType = nativeParameterType.toTarget();
 			}
 			nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);// 填充类型里的泛型参数
 			Integer scope = derivator.getAbstractScore(nativeParameterType, parameterType);

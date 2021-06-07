@@ -69,7 +69,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 			invokeAction.visitElement(context, subElement);
 			IType type = deducer.derive(clazz, statement);
 			// 获取数组内部类型和泛型类型
-			type = type.isArray() ? derivator.toTarget(type) : type.getGenericTypes().get(0);
+			type = type.isArray() ? type.toTarget() : type.getGenericTypes().get(0);
 			Token varToken = element.get(1);
 			varToken.setAttr(Attribute.TYPE, type);
 

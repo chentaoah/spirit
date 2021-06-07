@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
-import com.gitee.spirit.common.utils.GlobalContext;
 import com.gitee.spirit.core.api.ClassResolver;
 import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
@@ -26,8 +25,6 @@ public class DefaultClassResolver implements ClassResolver {
 
 	@Autowired
 	public ElementBuilder builder;
-	@Autowired
-	public GlobalContext context;
 
 	@Override
 	public Map<String, IClass> resolve(String packageStr, Document document) {
@@ -103,7 +100,6 @@ public class DefaultClassResolver implements ClassResolver {
 		clazz.packageStr = packageStr;
 		clazz.fields = fields;
 		clazz.methods = methods;
-		clazz.context = context;
 	}
 
 	public void readRootElement(IClass clazz) {

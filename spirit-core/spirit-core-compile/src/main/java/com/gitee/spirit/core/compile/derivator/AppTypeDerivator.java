@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.enums.ModifierEnum;
 import com.gitee.spirit.core.api.ClassLinker;
-import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeBuilder;
-import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.clazz.utils.TypeVisiter;
 
 import cn.hutool.core.lang.Assert;
@@ -19,28 +16,7 @@ import cn.hutool.core.lang.Assert;
 public class AppTypeDerivator {
 
 	@Autowired
-	public TypeFactory factory;
-	@Autowired
 	public ClassLinker linker;
-
-	public IType toBox(IType type) {
-		IType boxType = TypeTable.getBoxType(type.getClassName());
-		return boxType != null ? boxType : type;
-	}
-
-	public IType toTarget(IType type) {
-		return factory.create(type.getTargetName());
-	}
-
-	public IType withSuperModifiers(IType type) {
-		type.setModifiers(ModifierEnum.SUPER.value);
-		return type;
-	}
-
-	public IType withThisModifiers(IType type) {
-		type.setModifiers(ModifierEnum.THIS.value);
-		return type;
-	}
 
 	public IType populate(IType instanceType, IType targetType) {// 根据全局类型，进行填充
 		return TypeVisiter.visit(targetType, eachType -> {
@@ -67,7 +43,7 @@ public class AppTypeDerivator {
 		if (type.equals(abstractType)) {// 这个方法还要判断泛型
 			return 0;
 		}
-		Integer score = getAbstractScore(abstractType, linker.getSuperType(toBox(type)));// 这个方法中，还要考虑到自动拆组包
+		Integer score = getAbstractScore(abstractType, linker.getSuperType(type.toBox()));// 这个方法中，还要考虑到自动拆组包
 		if (score != null) {
 			return score - 1;
 		}

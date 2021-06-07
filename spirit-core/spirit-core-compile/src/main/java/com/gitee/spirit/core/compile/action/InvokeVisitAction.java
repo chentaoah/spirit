@@ -44,8 +44,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 						continue;
 					}
 					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
-					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast()
-							|| token.isLiteral()) {
+					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isLiteral()) {
 						token.setAttr(Attribute.TYPE, factory.create(clazz, token));
 
 					} else if (token.isSubexpress()) {
@@ -54,8 +53,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
 					} else if (token.isLocalMethod()) {
 						String memberName = token.attr(Attribute.MEMBER_NAME);
-						IType returnType = linker.visitMethod(derivator.withThisModifiers(clazz.getType()), memberName,
-								parameterTypes);
+						IType returnType = linker.visitMethod(clazz.getType().withThisModifiers(), memberName, parameterTypes);
 						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitField()) {
@@ -72,7 +70,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
 					} else if (token.isVisitIndex()) {// what like "[0]"
 						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
-						type = derivator.toTarget(type);// 转换数组类型为目标类型
+						type = type.toTarget();// 转换数组类型为目标类型
 						token.setAttr(Attribute.TYPE, type);
 					}
 

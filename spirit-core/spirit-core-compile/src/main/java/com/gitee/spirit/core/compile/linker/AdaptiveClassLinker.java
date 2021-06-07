@@ -96,7 +96,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 
 		if (KeywordEnum.CLASS.value.equals(fieldName)) {// xxx.class class是关键字
-			return factory.create(TypeTable.CLASS.getClassName(), derivator.toBox(type));
+			return factory.create(TypeTable.CLASS.getClassName(), type.toBox());
 		}
 
 		if (type.isPrimitive()) {// 原始类型没有属性和方法
@@ -116,8 +116,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (returnType == null) {
-			throw new NoSuchFieldException(
-					String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
+			throw new NoSuchFieldException(String.format("No such field!className:%s, fieldName:%s", type.getClassName(), fieldName));
 		}
 
 		return returnType;
@@ -153,8 +152,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		}
 
 		if (returnType == null) {
-			throw new NoSuchMethodException(
-					String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
+			throw new NoSuchMethodException(String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
 		}
 
 		return returnType;

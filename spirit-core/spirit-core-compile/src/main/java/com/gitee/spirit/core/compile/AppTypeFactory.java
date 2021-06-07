@@ -142,7 +142,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
-			IType boxType = derivator.toBox(deducer.derive(clazz, statement));
+			IType boxType = deducer.derive(clazz, statement).toBox();
 			if (genericType == null) {
 				genericType = boxType;
 				continue;
