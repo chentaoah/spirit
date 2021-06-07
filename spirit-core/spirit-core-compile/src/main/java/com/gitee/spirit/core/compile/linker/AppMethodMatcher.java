@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.AppTypeDerivator;
+import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 @Component
 public class AppMethodMatcher {

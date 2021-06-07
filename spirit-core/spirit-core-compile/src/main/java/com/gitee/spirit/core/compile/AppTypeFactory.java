@@ -15,6 +15,8 @@ import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
+import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
+import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 

@@ -21,6 +21,7 @@ import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
+import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;

@@ -1,4 +1,4 @@
-package com.gitee.spirit.core.compile;
+package com.gitee.spirit.core.compile.derivator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

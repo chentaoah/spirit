@@ -15,7 +15,7 @@ import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.AppClassLoader;
-import com.gitee.spirit.core.compile.AppTypeDerivator;
+import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
