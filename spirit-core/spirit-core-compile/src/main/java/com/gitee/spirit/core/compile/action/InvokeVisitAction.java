@@ -12,7 +12,6 @@ import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
@@ -30,8 +29,6 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 	public FragmentDeducer deducer;
 	@Autowired
 	public ClassLinker linker;
-	@Autowired
-	public AppTypeDerivator derivator;
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {

@@ -71,8 +71,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 		Statement statement = methodToken.getValue();
 		List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
 		for (Statement parameterStmt : statements) {
-			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(),
-					token -> new IAnnotation(token));
+			List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
 			IParameter parameter = new IParameter(annotations, builder.build(parameterStmt));
 			parameter.setType(factory.create(clazz, parameterStmt.get(0)));
 			method.parameters.add(parameter);

@@ -11,7 +11,6 @@ import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
@@ -30,8 +29,6 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 	public InvokeVisitAction invokeAction;
 	@Autowired
 	public FragmentDeducer deducer;
-	@Autowired
-	public AppTypeDerivator derivator;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired

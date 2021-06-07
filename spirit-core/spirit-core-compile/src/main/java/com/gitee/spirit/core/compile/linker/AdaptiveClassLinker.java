@@ -14,7 +14,6 @@ import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeTable;
-import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 import cn.hutool.core.lang.Assert;
 
@@ -26,8 +25,6 @@ public class AdaptiveClassLinker implements ClassLinker {
 
 	@Autowired
 	public TypeFactory factory;
-	@Autowired
-	public AppTypeDerivator derivator;
 	@Autowired
 	public Map<String, ClassLinker> linkers;
 
