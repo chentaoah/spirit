@@ -1,12 +1,14 @@
 package com.gitee.spirit.core.compile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.clazz.AbstractImportSelector;
 
 @Component
+@Order(-100)
 public class AppImportSelector extends AbstractImportSelector {
 
 	@Autowired

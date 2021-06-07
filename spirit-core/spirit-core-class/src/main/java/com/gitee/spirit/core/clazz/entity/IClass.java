@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.frame.ImportEntity;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.core.element.entity.Element;
@@ -72,15 +73,17 @@ public class IClass extends ImportEntity {
 	public IType getSuperType() {// 注意:这里返回的是Super<T,K>
 		Token token = element.getKeywordParam(KeywordEnum.EXTENDS.value);// 这里返回的,可以是泛型格式，而不是className
 		if (token != null) {
-			return context.getTypeFactory().create(this, token);
+			TypeFactory factory = context.getBean(TypeFactory.class);
+			return factory.create(this, token);
 		}
 		return null;
 	}
 
 	public List<IType> getInterfaceTypes() {
 		List<IType> interfaces = new ArrayList<>();
+		TypeFactory factory = context.getBean(TypeFactory.class);
 		for (Token token : element.getKeywordParams(KeywordEnum.IMPLS.value)) {
-			interfaces.add(context.getTypeFactory().create(this, token));
+			interfaces.add(factory.create(this, token));
 		}
 		return interfaces;
 	}

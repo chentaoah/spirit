@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.api.ElementBuilder;
+import com.gitee.spirit.core.api.ImportSelector;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
 import com.gitee.spirit.core.clazz.entity.Import;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
@@ -105,7 +106,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 		}
 
 		// 构建一个行元素
-		ElementBuilder builder = context.getElementBuilder();
+		ElementBuilder builder = context.getBean(ElementBuilder.class);
 		imports.add(new Import(builder.build("import " + targetName)));
 		return true;
 	}
@@ -117,18 +118,19 @@ public abstract class ImportEntity extends AnnotationEntity {
 			return true;
 		}
 		// 构建一个行元素
-		ElementBuilder builder = context.getElementBuilder();
+		ElementBuilder builder = context.getBean(ElementBuilder.class);
 		staticImports.add(new Import(builder.build("import static " + staticSourceName)));
 		return true;
 	}
 
 	public String findClassNameByLoader(String simpleName) {
-		return ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.findClassName(simpleName));
+		List<ImportSelector> selectors = context.getBeans(ImportSelector.class);
+		return ListUtils.collectOne(selectors, selector -> selector.findClassName(simpleName));
 	}
 
 	public boolean shouldImport(String selfClassName, String className) {
-		Boolean flag = ListUtils.collectOne(context.getImportSelectors(), importSelector -> importSelector.canHandle(className),
-				importSelector -> importSelector.shouldImport(selfClassName, className));
+		List<ImportSelector> selectors = context.getBeans(ImportSelector.class);
+		Boolean flag = ListUtils.collectOne(selectors, selector -> selector.canHandle(className), selector -> selector.shouldImport(selfClassName, className));
 		return flag == null ? true : flag;
 	}
 

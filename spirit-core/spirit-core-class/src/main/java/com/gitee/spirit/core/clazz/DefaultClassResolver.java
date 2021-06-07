@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
+import com.gitee.spirit.common.utils.GlobalContext;
 import com.gitee.spirit.core.api.ClassResolver;
 import com.gitee.spirit.core.api.ElementBuilder;
-import com.gitee.spirit.core.api.ImportSelector;
-import com.gitee.spirit.core.api.ResolverContext;
-import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
@@ -24,14 +22,12 @@ import com.gitee.spirit.core.element.entity.Document;
 import com.gitee.spirit.core.element.entity.Element;
 
 @Component
-public class DefaultClassResolver implements ClassResolver, ResolverContext {
+public class DefaultClassResolver implements ClassResolver {
 
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public TypeFactory factory;
-	@Autowired
-	public List<ImportSelector> selectors;
+	public GlobalContext context;
 
 	@Override
 	public Map<String, IClass> resolve(String packageStr, Document document) {
@@ -107,7 +103,7 @@ public class DefaultClassResolver implements ClassResolver, ResolverContext {
 		clazz.packageStr = packageStr;
 		clazz.fields = fields;
 		clazz.methods = methods;
-		clazz.context = this;
+		clazz.context = context;
 	}
 
 	public void readRootElement(IClass clazz) {
@@ -123,21 +119,6 @@ public class DefaultClassResolver implements ClassResolver, ResolverContext {
 				clazz.methods.add(new IMethod(copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value)));
 			}
 		}
-	}
-
-	@Override
-	public ElementBuilder getElementBuilder() {
-		return builder;
-	}
-
-	@Override
-	public TypeFactory getTypeFactory() {
-		return factory;
-	}
-
-	@Override
-	public List<ImportSelector> getImportSelectors() {
-		return selectors;
 	}
 
 }

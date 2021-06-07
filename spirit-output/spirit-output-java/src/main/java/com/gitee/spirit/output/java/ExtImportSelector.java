@@ -1,6 +1,7 @@
 package com.gitee.spirit.output.java;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.core.clazz.AbstractImportSelector;
@@ -8,6 +9,7 @@ import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.output.java.utils.ReflectUtils;
 
 @Component
+@Order(-80)
 public class ExtImportSelector extends AbstractImportSelector {
 
 	@Autowired
