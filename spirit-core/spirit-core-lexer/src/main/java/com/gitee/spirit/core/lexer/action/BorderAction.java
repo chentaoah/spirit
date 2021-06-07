@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.common.entity.Result;
+import com.gitee.spirit.common.enums.StateEnum;
 import com.gitee.spirit.core.lexer.entity.CharEvent;
-import com.gitee.spirit.core.lexer.entity.CommonResult;
-import com.gitee.spirit.core.lexer.entity.CommonState;
 import com.gitee.spirit.core.lexer.entity.LexerContext;
 import com.gitee.spirit.core.lexer.entity.Region;
 
@@ -25,7 +25,7 @@ public class BorderAction extends RegionAction {
 	}
 
 	@Override
-	public CommonResult pushStack(CharEvent event, List<Region> regions) {
+	public Result pushStack(CharEvent event, List<Region> regions) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		List<Character> splitChars = context.splitChars;
@@ -48,7 +48,8 @@ public class BorderAction extends RegionAction {
 				borderRegions.add(0, new Region(0, borderIndex));
 			}
 		}
-		return new CommonResult(CommonState.SKIP, borderRegions);
+
+		return new Result(StateEnum.SKIP.ordinal(), borderRegions);
 	}
 
 }

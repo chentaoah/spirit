@@ -3,11 +3,11 @@ package com.gitee.spirit.core.lexer.action;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.common.entity.Result;
+import com.gitee.spirit.common.enums.StateEnum;
 import com.gitee.spirit.common.enums.SymbolEnum;
 import com.gitee.spirit.core.api.LexerAction;
 import com.gitee.spirit.core.lexer.entity.CharEvent;
-import com.gitee.spirit.core.lexer.entity.CommonResult;
-import com.gitee.spirit.core.lexer.entity.CommonState;
 import com.gitee.spirit.core.lexer.entity.LexerContext;
 import com.gitee.spirit.core.lexer.entity.Region;
 
@@ -21,7 +21,7 @@ public class SymbolAction implements LexerAction {
 	}
 
 	@Override
-	public CommonResult handle(CharEvent event) {
+	public Result handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 
@@ -29,14 +29,14 @@ public class SymbolAction implements LexerAction {
 			String str = builder.substring(context.index, context.index + 2);
 			if (SymbolEnum.isDoubleSymbol(str)) {
 				Region region = new Region(context.index, context.index + 2);
-				return new CommonResult(CommonState.SKIP, region);
+				return new Result(StateEnum.SKIP.ordinal(), region);
 			}
 		}
 
 		String str = builder.substring(context.index, context.index + 1);
 		if (SymbolEnum.isSingleSymbol(str)) {
 			Region region = new Region(context.index, context.index + 1);
-			return new CommonResult(CommonState.SKIP, region);
+			return new Result(StateEnum.SKIP.ordinal(), region);
 		}
 
 		throw new RuntimeException("Unhandled branch!");

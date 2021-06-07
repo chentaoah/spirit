@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.gitee.spirit.common.entity.Result;
+import com.gitee.spirit.common.enums.StateEnum;
 import com.gitee.spirit.common.pattern.AccessPattern;
 import com.gitee.spirit.common.pattern.LiteralPattern;
 import com.gitee.spirit.core.api.Lexer;
 import com.gitee.spirit.core.api.LexerAction;
 import com.gitee.spirit.core.lexer.entity.CharEvent;
 import com.gitee.spirit.core.lexer.entity.CharsContext;
-import com.gitee.spirit.core.lexer.entity.CommonResult;
-import com.gitee.spirit.core.lexer.entity.CommonState;
 import com.gitee.spirit.core.lexer.entity.LexerContext;
 import com.gitee.spirit.core.lexer.entity.Region;
 import com.gitee.spirit.core.lexer.utils.RegionUtils;
@@ -41,24 +41,24 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	}
 
 	@Override
-	public CommonResult handle(CharEvent event) {
+	public Result handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		for (LexerAction action : actions) {
 			if (action.isTrigger(event)) {
-				CommonResult result = action.handle(event);
+				Result result = action.handle(event);
 				if (result != null) {
-					if (result.value != null) {
-						if (result.value instanceof Region) {
+					if (result.data != null) {
+						if (result.data instanceof Region) {
 							appendRegion(context, result.get());
 
-						} else if (result.value instanceof List) {
+						} else if (result.data instanceof List) {
 							List<Region> regions = result.get();
 							regions.forEach(region -> appendRegion(context, region));
 						}
 					}
-					if (result.state == CommonState.SKIP) {
+					if (result.code == StateEnum.SKIP.ordinal()) {
 						break;
-					} else if (result.state == CommonState.RESET || result.state == CommonState.BREAK) {
+					} else if (result.code == StateEnum.RESET.ordinal() || result.code == StateEnum.BREAK.ordinal()) {
 						return result;
 					}
 				}
@@ -86,12 +86,12 @@ public abstract class AbstractLexer extends AbstractCharsHandler implements Lexe
 	}
 
 	@Override
-	public CommonResult buildResult(CharsContext context, StringBuilder builder) {
+	public Result buildResult(CharsContext context, StringBuilder builder) {
 		LexerContext lexerContext = (LexerContext) context;
 		// 使用标记收集算法后，补全未标记的部分
 		List<Region> regions = RegionUtils.completeRegions(builder, lexerContext.regions);
 		List<String> words = RegionUtils.subRegions(builder, regions, this::addToWords);
-		return new CommonResult(words);
+		return new Result(words);
 	}
 
 	public void addToWords(List<String> words, Region region, String text) {

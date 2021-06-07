@@ -2,10 +2,10 @@ package com.gitee.spirit.core.lexer;
 
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.common.entity.Result;
 import com.gitee.spirit.common.utils.LineUtils;
 import com.gitee.spirit.core.lexer.entity.CharEvent;
 import com.gitee.spirit.core.lexer.entity.CharsContext;
-import com.gitee.spirit.core.lexer.entity.CommonResult;
 
 @Component
 public class AliasCharsHandler extends AbstractCharsHandler {
@@ -16,8 +16,8 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 		context.builder = builder;
 		context.alias = alias;
 		context.className = className;
-		CommonResult result = handle(context, builder);
-		builder = (StringBuilder) result.value;
+		Result result = handle(context, builder);
+		builder = (StringBuilder) result.data;
 		return builder.toString();
 	}
 
@@ -36,7 +36,7 @@ public class AliasCharsHandler extends AbstractCharsHandler {
 	}
 
 	@Override
-	public CommonResult handle(CharEvent event) {
+	public Result handle(CharEvent event) {
 		AliasCharsContext context = (AliasCharsContext) event.context;
 		StringBuilder builder = context.builder;
 		String alias = context.alias;

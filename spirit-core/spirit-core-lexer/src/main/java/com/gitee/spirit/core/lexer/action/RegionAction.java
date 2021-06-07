@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.gitee.spirit.common.entity.Result;
+import com.gitee.spirit.common.enums.StateEnum;
 import com.gitee.spirit.common.pattern.TypePattern;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.api.LexerAction;
 import com.gitee.spirit.core.lexer.entity.CharEvent;
-import com.gitee.spirit.core.lexer.entity.CommonResult;
-import com.gitee.spirit.core.lexer.entity.CommonState;
 import com.gitee.spirit.core.lexer.entity.LexerContext;
 import com.gitee.spirit.core.lexer.entity.Region;
 import com.gitee.spirit.core.lexer.utils.RegionUtils;
@@ -44,7 +44,7 @@ public class RegionAction implements LexerAction {
 	}
 
 	@Override
-	public CommonResult handle(CharEvent event) {
+	public Result handle(CharEvent event) {
 		LexerContext context = (LexerContext) event.context;
 		StringBuilder builder = context.builder;
 		char ch = event.ch;
@@ -93,9 +93,9 @@ public class RegionAction implements LexerAction {
 		throw new RuntimeException("Unhandled branch!");
 	}
 
-	public CommonResult pushStack(CharEvent event, List<Region> regions) {
+	public Result pushStack(CharEvent event, List<Region> regions) {
 		Region mergedRegion = RegionUtils.mergeRegions(regions);
-		return new CommonResult(CommonState.SKIP, mergedRegion);
+		return new Result(StateEnum.SKIP.ordinal(), mergedRegion);
 	}
 
 	public boolean isCharAt(StringBuilder builder, int index, char ch) {
