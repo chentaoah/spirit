@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.VariableTracker;
-import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IMethod;
 import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
@@ -24,27 +23,24 @@ public class DefaultVariableTracker implements VariableTracker {
 	@Override
 	public IType findVariableType(VisitContext context, String variableName) {
 		IType type = findTypeByKeyword(context, variableName);
-		if (type == null) {
-			type = context.isMethodScope() ? findTypeByContext(context, variableName) : null;
-		}
-		if (type == null) {
-			type = findTypeByInherit(context, variableName);
-		}
+		type = type == null ? findTypeByContext(context, variableName) : type;
+		type = type == null ? findTypeByInherit(context, variableName) : type;
 		return type;
 	}
 
 	public IType findTypeByKeyword(VisitContext context, String variableName) {
-		IClass clazz = context.clazz;
-		if (KeywordEnum.isSuper(variableName)) {// super
-			return derivator.withSuperModifiers(clazz.getSuperType());
-
-		} else if (KeywordEnum.isThis(variableName)) {// this
-			return derivator.withThisModifiers(clazz.getType());
+		if (KeywordEnum.isSuper(variableName)) {
+			return derivator.withSuperModifiers(context.clazz.getSuperType());
+		} else if (KeywordEnum.isThis(variableName)) {
+			return derivator.withThisModifiers(context.clazz.getType());
 		}
 		return null;
 	}
 
 	public IType findTypeByContext(VisitContext context, String variableName) {
+		if (!context.isMethodScope()) {
+			return null;
+		}
 		for (IVariable variable : context.variables) {
 			if (variable.getName().equals(variableName) && context.getBlockId().startsWith(variable.blockId)) {
 				return variable.getType();
