@@ -20,7 +20,45 @@ public class AppTypeDerivator implements TypeDerivator {
 	public ClassLinker linker;
 
 	@Override
-	public IType populate(IType instanceType, IType targetType) {// 根据全局类型，进行填充
+	public Integer getAbstractDegree(IType abstractType, IType targetType) {
+		if (abstractType == null || targetType == null) {
+			return null;
+		}
+		// null类型不能比任何类型抽象
+		if (abstractType.isNull()) {
+			return null;
+		}
+		// 任何类型都能比null抽象
+		if (targetType.isNull()) {
+			return 0;
+		}
+		// 这个方法还要判断泛型
+		if (targetType.equals(abstractType)) {
+			return 0;
+		}
+		// 这个方法中，还要考虑到自动拆组包
+		Integer degree = getAbstractDegree(abstractType, linker.getSuperType(targetType.toBox()));
+		if (degree != null) {
+			return degree - 1;
+		}
+		// 接口
+		for (IType interfaceType : linker.getInterfaceTypes(targetType)) {
+			Integer degree1 = getAbstractDegree(abstractType, interfaceType);
+			if (degree1 != null) {
+				return degree1 - 1;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isMoreAbstract(IType abstractType, IType targetType) {
+		return getAbstractDegree(abstractType, targetType) != null;
+	}
+
+	@Override
+	public IType populate(IType instanceType, IType targetType) {
+		// 根据全局类型，进行填充
 		return TypeVisiter.visit(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
@@ -30,38 +68,6 @@ public class AppTypeDerivator implements TypeDerivator {
 			}
 			return eachType;
 		});
-	}
-
-	@Override
-	public Integer getAbstractScore(IType abstractType, IType targetType) {
-		if (abstractType == null || targetType == null) {
-			return null;
-		}
-		if (abstractType.isNull()) {// null类型不能比任何类型抽象
-			return null;
-		}
-		if (targetType.isNull()) {// 任何类型都能比null抽象
-			return 0;
-		}
-		if (targetType.equals(abstractType)) {// 这个方法还要判断泛型
-			return 0;
-		}
-		Integer score = getAbstractScore(abstractType, linker.getSuperType(targetType.toBox()));// 这个方法中，还要考虑到自动拆组包
-		if (score != null) {
-			return score - 1;
-		}
-		for (IType interfaceType : linker.getInterfaceTypes(targetType)) {// 接口
-			Integer score1 = getAbstractScore(abstractType, interfaceType);
-			if (score1 != null) {
-				return score1 - 1;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean isMoreAbstract(IType abstractType, IType targetType) {
-		return getAbstractScore(abstractType, targetType) != null;
 	}
 
 }

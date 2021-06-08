@@ -25,7 +25,7 @@ public class AppMethodMatcher {
 		for (IType parameterType : parameterTypes) {
 			IParameter parameter = method.parameters.get(index++);
 			IType methodParameterType = derivator.populate(type, parameter.getType());
-			Integer scope = derivator.getAbstractScore(methodParameterType, parameterType);
+			Integer scope = derivator.getAbstractDegree(methodParameterType, parameterType);
 			if (scope != null) {
 				finalScore += scope;
 			} else {

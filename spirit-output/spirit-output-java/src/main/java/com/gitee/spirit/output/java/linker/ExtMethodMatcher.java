@@ -44,7 +44,7 @@ public class ExtMethodMatcher {
 				nativeParameterType = nativeParameterType.toTarget();
 			}
 			nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);// 填充类型里的泛型参数
-			Integer scope = derivator.getAbstractScore(nativeParameterType, parameterType);
+			Integer scope = derivator.getAbstractDegree(nativeParameterType, parameterType);
 			if (scope != null) {
 				finalScore += scope;
 			} else {
