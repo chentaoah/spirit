@@ -3,7 +3,7 @@ package com.gitee.spirit.core.compile.derivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.common.enums.KeywordEnum;
+import com.gitee.spirit.common.constants.Dictionary;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IClass;
@@ -29,9 +29,10 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	public IType findTypeByKeyword(VisitContext context, String variableName) {
 		IClass clazz = context.clazz;
-		if (KeywordEnum.isSuper(variableName)) {
+		if (Dictionary.SUPER.equals(variableName)) {
 			return clazz.getSuperType().withProtected();
-		} else if (KeywordEnum.isThis(variableName)) {
+
+		} else if (Dictionary.THIS.equals(variableName)) {
 			return clazz.getType().withPrivate();
 		}
 		return null;

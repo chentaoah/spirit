@@ -1,7 +1,6 @@
 package com.gitee.spirit.common.constants;
 
 public interface Argument {
-
 	String INPUT = "input";
 	String OUTPUT = "output";
 	String CLASSPATHS = "classpaths";
@@ -9,5 +8,4 @@ public interface Argument {
 	String UTIL_PACKAGE = "utilPackage";
 	String FILE_EXTENSION = "fileExtension";
 	String DEBUG = "debug";
-
 }

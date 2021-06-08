@@ -72,6 +72,19 @@ public class IType {
 		return this;
 	}
 
+	public IType lowerAccessLevel() {
+		if (modifiers == AccessLevelEnum.PRIVATE.value) {
+			modifiers = AccessLevelEnum.PROTECTED.value;
+
+		} else if (modifiers == AccessLevelEnum.PROTECTED.value) {
+			modifiers = AccessLevelEnum.PROTECTED.value;
+
+		} else if (modifiers == AccessLevelEnum.PUBLIC.value) {
+			modifiers = AccessLevelEnum.PUBLIC.value;
+		}
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof IType)) {
