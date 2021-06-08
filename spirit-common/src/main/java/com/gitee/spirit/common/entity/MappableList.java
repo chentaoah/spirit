@@ -1,4 +1,4 @@
-package com.gitee.spirit.core.element.utils;
+package com.gitee.spirit.common.entity;
 
 import java.util.Collection;
 import java.util.Iterator;

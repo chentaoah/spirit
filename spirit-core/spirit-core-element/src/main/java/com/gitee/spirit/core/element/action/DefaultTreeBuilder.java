@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
+import com.gitee.spirit.common.entity.PriorityNode;
+import com.gitee.spirit.common.entity.PriorityNode.PriorityComparator;
 import com.gitee.spirit.common.enums.OperatorEnum;
 import com.gitee.spirit.common.enums.OperatorEnum.OperandEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.element.entity.Node;
 import com.gitee.spirit.core.element.entity.SyntaxTree;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.PriorityNode;
-import com.gitee.spirit.core.element.utils.PriorityNode.PriorityComparator;
 
 @Component
 public class DefaultTreeBuilder extends AbstractTreeBuilder {

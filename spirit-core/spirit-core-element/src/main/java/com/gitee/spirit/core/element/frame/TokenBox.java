@@ -3,11 +3,11 @@ package com.gitee.spirit.core.element.frame;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.common.entity.MappableList;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.common.utils.Splitter;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.MappableList;
 
 import cn.hutool.core.util.ArrayUtil;
 
