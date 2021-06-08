@@ -20,14 +20,11 @@ import cn.hutool.core.lang.Assert;
 public class AdaptiveClassLinker implements ClassLinker {
 
 	@Autowired
-	@Qualifier("primitiveClassLinker")
-	public ClassLinker primitiveClassLinker;
+	public PrimitiveClassLinker primitiveClassLinker;
 	@Autowired
-	@Qualifier("arrayClassLinker")
-	public ClassLinker arrayClassLinker;
+	public ArrayClassLinker arrayClassLinker;
 	@Autowired
-	@Qualifier("appClassLinker")
-	public ClassLinker appClassLinker;
+	public AppClassLinker appClassLinker;
 	@Autowired
 	@Qualifier("extClassLinker")
 	public ClassLinker extClassLinker;
