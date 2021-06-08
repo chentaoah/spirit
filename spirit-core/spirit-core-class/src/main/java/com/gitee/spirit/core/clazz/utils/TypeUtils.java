@@ -1,13 +1,6 @@
 package com.gitee.spirit.core.clazz.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.gitee.spirit.common.enums.PrimitiveEnum;
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
 
 import cn.hutool.core.lang.Assert;
 
@@ -21,25 +14,6 @@ public class TypeUtils {
 		String packageStr1 = className1.substring(0, className1.lastIndexOf('.'));
 		String packageStr2 = className2.substring(0, className2.lastIndexOf('.'));
 		return packageStr1.equals(packageStr2);
-	}
-
-	public static boolean matchPackages(String className, String... scanPackages) {
-		if (scanPackages == null || scanPackages.length == 0) {
-			return true;
-		}
-		for (String scanPackage : scanPackages) {
-			if (StringUtils.isNotBlank(scanPackage)) {
-				if (className.startsWith(scanPackage + ".") || className.equals(scanPackage)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public static List<String> splitName(String simpleName) {
-		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(simpleName);
-		return new ArrayList<>(names);
 	}
 
 	public static boolean isArray(String name) {// className or simpleName or typeName

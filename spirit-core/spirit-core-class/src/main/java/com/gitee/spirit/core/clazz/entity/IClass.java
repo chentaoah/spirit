@@ -12,6 +12,8 @@ import com.gitee.spirit.core.clazz.frame.ImportEntity;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Token;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 
 import cn.hutool.core.lang.Assert;
 
@@ -59,7 +61,7 @@ public class IClass extends ImportEntity {
 	public int getTypeVariableIndex(String genericName) {
 		String simpleName = getTypeToken().toString();
 		// 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
-		List<String> names = TypeUtils.splitName(simpleName);
+		List<String> names = new ArrayList<>(Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(simpleName));
 		names.remove(0);
 		int index = 0;
 		for (String name : names) {
