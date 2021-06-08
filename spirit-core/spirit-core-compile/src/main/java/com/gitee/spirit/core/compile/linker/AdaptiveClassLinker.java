@@ -79,17 +79,25 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
+		// 原始类型没有属性和方法
+		if (type.isPrimitive()) {
+			if (Dictionary.CLASS.equals(fieldName)) {
+				return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
+			} else {
+				throw new RuntimeException("The primitive type has no other fields!");
+			}
+		}
+		// 访问数组length直接返回int类型
+		if (type.isArray()) {
+			if (Dictionary.LENGTH.equals(fieldName)) {
+				return TypeRegistry.INT;
+			} else {
+				throw new RuntimeException("The array type has no other fields");
+			}
+		}
 		// obj.class class是关键字
 		if (Dictionary.CLASS.equals(fieldName)) {
 			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
-		}
-		// 原始类型没有属性和方法
-		if (type.isPrimitive()) {
-			throw new RuntimeException("The primitive type has no other field!");
-		}
-		// 访问数组length直接返回int类型
-		if (type.isArray() && Dictionary.LENGTH.equals(fieldName)) {
-			return TypeRegistry.INT;
 		}
 		// 向上遍历推导
 		IType returnType = chooseLinker(type).visitField(type, fieldName);
