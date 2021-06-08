@@ -37,15 +37,15 @@ public class AppTypeDerivator implements TypeDerivator {
 			return 0;
 		}
 		// 这个方法中，还要考虑到自动拆组包
-		Integer degree = getAbstractDegree(abstractType, linker.getSuperType(targetType.toBox()));
-		if (degree != null) {
-			return degree - 1;
+		Integer superTypeDegree = getAbstractDegree(abstractType, linker.getSuperType(targetType.toBox()));
+		if (superTypeDegree != null) {
+			return superTypeDegree - 1;
 		}
 		// 接口
 		for (IType interfaceType : linker.getInterfaceTypes(targetType)) {
-			Integer degree1 = getAbstractDegree(abstractType, interfaceType);
-			if (degree1 != null) {
-				return degree1 - 1;
+			Integer interfaceTypeDegree = getAbstractDegree(abstractType, interfaceType);
+			if (interfaceTypeDegree != null) {
+				return interfaceTypeDegree - 1;
 			}
 		}
 		return null;
