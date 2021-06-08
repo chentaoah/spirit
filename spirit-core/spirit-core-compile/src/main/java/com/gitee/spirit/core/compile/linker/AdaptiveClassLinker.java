@@ -1,6 +1,5 @@
 package com.gitee.spirit.core.compile.linker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,12 @@ import cn.hutool.core.lang.Assert;
 public class AdaptiveClassLinker implements ClassLinker {
 
 	@Autowired
+	@Qualifier("primitiveClassLinker")
+	public ClassLinker primitiveClassLinker;
+	@Autowired
+	@Qualifier("arrayClassLinker")
+	public ClassLinker arrayClassLinker;
+	@Autowired
 	@Qualifier("appClassLinker")
 	public ClassLinker appClassLinker;
 	@Autowired
@@ -30,7 +35,15 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public TypeFactory factory;
 
 	public ClassLinker chooseLinker(IType type) {
-		return !type.isNative() ? appClassLinker : extClassLinker;
+		if (type.isPrimitive()) {
+			return primitiveClassLinker;
+		} else if (type.isArray()) {
+			return arrayClassLinker;
+		} else if (!type.isNative()) {
+			return appClassLinker;
+		} else {
+			return extClassLinker;
+		}
 	}
 
 	@Override
@@ -45,14 +58,6 @@ public class AdaptiveClassLinker implements ClassLinker {
 
 	@Override
 	public IType getSuperType(IType type) {
-		// 原始类型没有父类
-		if (type.isPrimitive()) {
-			return null;
-		}
-		// 数组的父类是Object
-		if (type.isArray()) {
-			return TypeRegistry.OBJECT;
-		}
 		// Object已经没有父类了
 		if (TypeRegistry.OBJECT.equals(type)) {
 			return null;
@@ -60,7 +65,7 @@ public class AdaptiveClassLinker implements ClassLinker {
 		// 如果不存在显示的父类，则返回Object
 		IType superType = chooseLinker(type).getSuperType(type);
 		if (superType == null) {
-			return TypeRegistry.OBJECT;
+			return type.isPrimitive() ? null : TypeRegistry.OBJECT;
 		}
 		// 降低访问权限
 		return superType.lowerAccessLevel();
@@ -68,10 +73,6 @@ public class AdaptiveClassLinker implements ClassLinker {
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
-		// 原始类型和数组类型没有接口
-		if (type.isPrimitive() || type.isArray()) {
-			return new ArrayList<>();
-		}
 		return chooseLinker(type).getInterfaceTypes(type);
 	}
 
@@ -79,22 +80,6 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
-		// 原始类型没有属性和方法
-		if (type.isPrimitive()) {
-			if (Dictionary.CLASS.equals(fieldName)) {
-				return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
-			} else {
-				throw new RuntimeException("The primitive type has no other fields!");
-			}
-		}
-		// 访问数组length直接返回int类型
-		if (type.isArray()) {
-			if (Dictionary.LENGTH.equals(fieldName)) {
-				return TypeRegistry.INT;
-			} else {
-				throw new RuntimeException("The array type has no other fields");
-			}
-		}
 		// obj.class class是关键字
 		if (Dictionary.CLASS.equals(fieldName)) {
 			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
@@ -117,10 +102,6 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
-		// 原始类型和数组类型没有方法
-		if (type.isPrimitive() || type.isArray()) {
-			throw new RuntimeException("This type has no method!");
-		}
 		// super()和this()指代父类或者本身的构造函数，返回这个类本身
 		if (Dictionary.SUPER.equals(methodName) || Dictionary.THIS.equals(methodName)) {
 			return type;
