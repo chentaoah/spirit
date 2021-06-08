@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Dictionary;
-import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
@@ -69,12 +68,8 @@ public class AdaptiveClassLinker implements ClassLinker {
 
 	@Override
 	public List<IType> getInterfaceTypes(IType type) {
-		// 原始类型没有接口
-		if (type.isPrimitive()) {
-			return new ArrayList<>();
-		}
-		// 数组类型没有接口
-		if (type.isArray()) {
+		// 原始类型和数组类型没有接口
+		if (type.isPrimitive() || type.isArray()) {
 			return new ArrayList<>();
 		}
 		return chooseLinker(type).getInterfaceTypes(type);
@@ -84,13 +79,13 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
-		// xxx.class class是关键字
-		if (KeywordEnum.CLASS.value.equals(fieldName)) {
+		// obj.class class是关键字
+		if (Dictionary.CLASS.equals(fieldName)) {
 			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
 		}
 		// 原始类型没有属性和方法
 		if (type.isPrimitive()) {
-			throw new RuntimeException("The primitive type has no field!");
+			throw new RuntimeException("The primitive type has no other field!");
 		}
 		// 访问数组length直接返回int类型
 		if (type.isArray() && Dictionary.LENGTH.equals(fieldName)) {
@@ -114,17 +109,13 @@ public class AdaptiveClassLinker implements ClassLinker {
 	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
 		Assert.notNull(type, "Type cannot be null!");
 		Assert.notEmpty(methodName, "Method name cannot be empty!");
+		// 原始类型和数组类型没有方法
+		if (type.isPrimitive() || type.isArray()) {
+			throw new RuntimeException("This type has no method!");
+		}
 		// super()和this()指代父类或者本身的构造函数，返回这个类本身
 		if (Dictionary.SUPER.equals(methodName) || Dictionary.THIS.equals(methodName)) {
 			return type;
-		}
-		// 原始类型没有属性和方法
-		if (type.isPrimitive()) {
-			throw new RuntimeException("The primitive type has no method!");
-		}
-		// 原始类型没有属性和方法
-		if (type.isArray()) {
-			throw new RuntimeException("Array has no method!");
 		}
 		// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
 		if (TypeRegistry.OBJECT.equals(type) && Dictionary.EMPTY.equals(methodName)) {
