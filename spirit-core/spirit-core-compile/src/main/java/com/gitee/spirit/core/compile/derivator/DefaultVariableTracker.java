@@ -57,7 +57,8 @@ public class DefaultVariableTracker implements VariableTracker {
 
 	public IType findTypeByInherit(VisitContext context, String variableName) {
 		try {
-			return linker.visitField(context.clazz.getType().withPrivate(), variableName);// 从本身和父类里面寻找，父类可能是native的
+			// 从本身和父类里面寻找，父类可能是native的
+			return linker.visitField(context.clazz.getType().withPrivate(), variableName);
 		} catch (NoSuchFieldException e) {
 			return null;
 		}
