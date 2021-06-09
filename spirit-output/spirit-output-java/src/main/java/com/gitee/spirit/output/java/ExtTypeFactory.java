@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.compile.AppTypeFactory;
 
 @Component
@@ -36,7 +36,7 @@ public class ExtTypeFactory extends AppTypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeRegistry.WILDCARD;
+			return CommonTypes.WILDCARD;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

@@ -18,14 +18,12 @@ public class EmptyAction extends AbstractExtElementAction {
 	@Override
 	public void visitElement(VisitContext context, Element element) {
 		IClass clazz = context.clazz;
-		StmtVisiter.visit(element, stmt -> {
-			stmt.forEach(token -> {
-				if (token.isLocalMethod()) {// empty(str)
-					if (KeywordEnum.EMPTY.value.equals(token.attr(Attribute.MEMBER_NAME))) {
-						clazz.addStaticImport(Emptys.class.getName() + ".empty");
-					}
+		StmtVisiter.forEachToken(element, token -> {
+			if (token.isLocalMethod()) {// empty(str)
+				if (KeywordEnum.EMPTY.value.equals(token.attr(Attribute.MEMBER_NAME))) {
+					clazz.addStaticImport(Emptys.class.getName() + ".empty");
 				}
-			});
+			}
 		});
 	}
 

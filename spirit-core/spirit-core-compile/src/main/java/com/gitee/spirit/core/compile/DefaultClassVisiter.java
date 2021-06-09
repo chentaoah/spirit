@@ -21,7 +21,7 @@ import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -108,14 +108,14 @@ public class DefaultClassVisiter implements ClassVisiter {
 		visitChildElements(context, method.element);
 		// 判断方法的语法
 		if (method.element.isFunc()) {
-			return context.returnType != null ? context.returnType : TypeRegistry.VOID;
+			return context.returnType != null ? context.returnType : CommonTypes.VOID;
 
 		} else if (method.element.isDeclareFunc()) {
 			// 获取声明的类型
 			IType declaredType = factory.create(clazz, method.element.get(0));
 			// 如果这个方法有方法体
 			if (method.element.hasChild()) {
-				IType returnType = context.returnType != null ? context.returnType : TypeRegistry.VOID;
+				IType returnType = context.returnType != null ? context.returnType : CommonTypes.VOID;
 				// 进行类型校验
 				if (!derivator.isMoreAbstract(declaredType, returnType)) {
 					throw new RuntimeException("The derived type does not match the declared type!");
@@ -159,7 +159,7 @@ public class DefaultClassVisiter implements ClassVisiter {
 						if (derivator.isMoreAbstract(variable.getType(), context.returnType)) {
 							context.returnType = variable.getType();
 						} else {
-							context.returnType = TypeRegistry.OBJECT;
+							context.returnType = CommonTypes.OBJECT;
 						}
 					}
 				}

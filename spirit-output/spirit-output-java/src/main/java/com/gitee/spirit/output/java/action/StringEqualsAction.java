@@ -11,7 +11,7 @@ import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 import com.gitee.spirit.output.java.utils.TypeUtils;
@@ -45,7 +45,7 @@ public class StringEqualsAction extends AbstractTreeElementAction {
 			String format = currentToken.isEquals() ? FORMAT : "!" + FORMAT;
 			String text = String.format(format, prevStatement, nextStatement);
 			Token expressToken = new Token(TokenTypeEnum.CUSTOM_EXPRESS, text);
-			expressToken.setAttr(Attribute.TYPE, TypeRegistry.BOOLEAN);
+			expressToken.setAttr(Attribute.TYPE, CommonTypes.BOOLEAN);
 			expressToken.setAttr(Attribute.TREE_ID, currentToken.attr(Attribute.TREE_ID));
 			statement.replaceTokens(start, end, expressToken);
 			clazz.addImport(StringUtils.class.getName());

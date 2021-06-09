@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Dictionary;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 
 @Component
 public class ArrayClassLinker implements ClassLinker {
@@ -25,7 +25,7 @@ public class ArrayClassLinker implements ClassLinker {
 
 	@Override
 	public IType getSuperType(IType type) {
-		return TypeRegistry.OBJECT;
+		return CommonTypes.OBJECT;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ArrayClassLinker implements ClassLinker {
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		if (Dictionary.LENGTH.equals(fieldName)) {
-			return TypeRegistry.INT;
+			return CommonTypes.INT;
 		} else {
 			throw new RuntimeException("The array type has no other fields");
 		}

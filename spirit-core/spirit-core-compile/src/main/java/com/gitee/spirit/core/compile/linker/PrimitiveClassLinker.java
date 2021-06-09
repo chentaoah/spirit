@@ -10,7 +10,7 @@ import com.gitee.spirit.common.constants.Dictionary;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 
 @Component
 public class PrimitiveClassLinker implements ClassLinker {
@@ -41,7 +41,7 @@ public class PrimitiveClassLinker implements ClassLinker {
 	@Override
 	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
 		if (Dictionary.CLASS.equals(fieldName)) {
-			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
+			return factory.create(CommonTypes.CLASS.getClassName(), type.toBox());
 		} else {
 			throw new RuntimeException("The primitive type has no other fields!");
 		}

@@ -23,18 +23,16 @@ public class VariableTrackAction extends AbstractAppElementAction {
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
-		StmtVisiter.visit(element, stmt -> {
-			stmt.forEach(token -> {
-				if (token.attr(Attribute.TYPE) != null) {
-					return;
-				}
-				if (token.isVariable() || (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue()))) {
-					String variableName = token.toString();
-					IType type = tracker.findVariableType(context, variableName);
-					Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
-					token.setAttr(Attribute.TYPE, type);
-				}
-			});
+		StmtVisiter.forEachToken(element, token -> {
+			if (token.attr(Attribute.TYPE) != null) {
+				return;
+			}
+			if (token.isVariable() || (token.isKeyword() && KeywordEnum.isKeywordVariable(token.getValue()))) {
+				String variableName = token.toString();
+				IType type = tracker.findVariableType(context, variableName);
+				Assert.notNull(type, "Variable must be declared!variableName:" + variableName);
+				token.setAttr(Attribute.TYPE, type);
+			}
 		});
 	}
 

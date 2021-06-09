@@ -29,12 +29,11 @@ public abstract class AbstractTreeElementAction extends AbstractExtElementAction
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
-		IClass clazz = context.clazz;
-		StmtVisiter.visit(element, stmt -> {
-			for (int index = 0; index < stmt.size(); index++) {
-				Token token = stmt.get(index);
+		StmtVisiter.forEachStmt(element, statement -> {
+			for (int index = 0; index < statement.size(); index++) {
+				Token token = statement.get(index);
 				if (isTrigger(token)) {
-					visit(clazz, stmt, index, token);
+					visit(context.clazz, statement, index, token);
 				}
 			}
 		});

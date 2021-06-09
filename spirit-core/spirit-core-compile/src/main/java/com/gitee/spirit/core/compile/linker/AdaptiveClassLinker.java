@@ -11,7 +11,7 @@ import com.gitee.spirit.common.constants.Dictionary;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 
 import cn.hutool.core.lang.Assert;
 
@@ -56,13 +56,13 @@ public class AdaptiveClassLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		// Object已经没有父类了
-		if (TypeRegistry.OBJECT.equals(type)) {
+		if (CommonTypes.OBJECT.equals(type)) {
 			return null;
 		}
 		// 如果不存在显示的父类，则返回Object
 		IType superType = chooseLinker(type).getSuperType(type);
 		if (superType == null) {
-			return type.isPrimitive() ? null : TypeRegistry.OBJECT;
+			return type.isPrimitive() ? null : CommonTypes.OBJECT;
 		}
 		// 降低访问权限
 		return superType.lowerAccessLevel();
@@ -79,9 +79,8 @@ public class AdaptiveClassLinker implements ClassLinker {
 		Assert.notEmpty(fieldName, "Field name cannot be empty!");
 		// obj.class class是关键字
 		if (Dictionary.CLASS.equals(fieldName)) {
-			return factory.create(TypeRegistry.CLASS.getClassName(), type.toBox());
+			return factory.create(CommonTypes.CLASS.getClassName(), type.toBox());
 		}
-		// 向上遍历推导
 		IType returnType = chooseLinker(type).visitField(type, fieldName);
 		if (returnType == null) {
 			IType superType = getSuperType(type);
@@ -104,10 +103,9 @@ public class AdaptiveClassLinker implements ClassLinker {
 			return type;
 		}
 		// 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
-		if (TypeRegistry.OBJECT.equals(type) && Dictionary.EMPTY.equals(methodName)) {
-			return TypeRegistry.BOOLEAN;
+		if (CommonTypes.OBJECT.equals(type) && Dictionary.EMPTY.equals(methodName)) {
+			return CommonTypes.BOOLEAN;
 		}
-		// 向上遍历推导
 		IType returnType = chooseLinker(type).visitMethod(type, methodName, parameterTypes);
 		if (returnType == null) {
 			IType superType = getSuperType(type);

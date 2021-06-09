@@ -7,7 +7,7 @@ import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.common.utils.ConfigUtils;
 import com.gitee.spirit.core.clazz.entity.IType;
 
-public class TypeRegistry {
+public class CommonTypes {
 
 	public static final IType VOID;
 	public static final IType BOOLEAN;

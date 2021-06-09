@@ -33,10 +33,10 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 	@Override
 	public void visitElement(VisitContext context, Element element) {
 		IClass clazz = context.clazz;
-		StmtVisiter.visit(element, stmt -> {
-			for (int index = 0; index < stmt.size(); index++) {
+		StmtVisiter.forEachStmt(element, statement -> {
+			for (int index = 0; index < statement.size(); index++) {
 				try {
-					Token token = stmt.get(index);
+					Token token = statement.get(index);
 					if (token.attr(Attribute.TYPE) != null) {
 						continue;
 					}
@@ -48,25 +48,25 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 						Statement subStatement = token.getValue();
 						token.setAttr(Attribute.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
 
+					} else if (token.isVisitField()) {
+						IType type = statement.get(index - 1).attr(Attribute.TYPE);
+						String memberName = token.attr(Attribute.MEMBER_NAME);
+						IType returnType = linker.visitField(type, memberName);
+						token.setAttr(Attribute.TYPE, returnType);
+
 					} else if (token.isLocalMethod()) {
 						String memberName = token.attr(Attribute.MEMBER_NAME);
 						IType returnType = linker.visitMethod(clazz.getType().withPrivate(), memberName, parameterTypes);
 						token.setAttr(Attribute.TYPE, returnType);
 
-					} else if (token.isVisitField()) {
-						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
-						String memberName = token.attr(Attribute.MEMBER_NAME);
-						IType returnType = linker.visitField(type, memberName);
-						token.setAttr(Attribute.TYPE, returnType);
-
 					} else if (token.isVisitMethod()) {
-						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
+						IType type = statement.get(index - 1).attr(Attribute.TYPE);
 						String memberName = token.attr(Attribute.MEMBER_NAME);
 						IType returnType = linker.visitMethod(type, memberName, parameterTypes);
 						token.setAttr(Attribute.TYPE, returnType);
 
 					} else if (token.isVisitIndex()) {// what like "[0]"
-						IType type = stmt.get(index - 1).attr(Attribute.TYPE);
+						IType type = statement.get(index - 1).attr(Attribute.TYPE);
 						type = type.toTarget();// 转换数组类型为目标类型
 						token.setAttr(Attribute.TYPE, type);
 					}
