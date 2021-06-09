@@ -75,7 +75,7 @@ public class AutoImporter {
 	}
 
 	public String getFinalName(IClass clazz, IType type) {
-		return TypeVisiter.visitName(type, eachType -> {
+		return TypeVisiter.forEachTypeName(type, eachType -> {
 			if (!clazz.addImport(eachType.getClassName())) {
 				return eachType.getTypeName();
 			}

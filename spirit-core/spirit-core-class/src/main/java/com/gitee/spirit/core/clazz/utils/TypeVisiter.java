@@ -45,17 +45,15 @@ public class TypeVisiter {
 		return newType;
 	}
 
-	public static String visitName(IType targetType, Consumer<IType> consumer) {
-		if (targetType == null) {
-			return null;
-		}
+	public static String forEachTypeName(IType targetType, Consumer<IType> consumer) {
+		Assert.notNull(targetType, "Target Type cannot be null!");
 		String finalName = (String) consumer.accept(targetType);
 		if (targetType.isGenericType()) {
-			List<String> strs = new ArrayList<>();
+			List<String> typeNames = new ArrayList<>();
 			for (IType genericType : targetType.getGenericTypes()) {
-				strs.add(visitName(genericType, consumer));
+				typeNames.add(forEachTypeName(genericType, consumer));
 			}
-			finalName = finalName + "<" + Joiner.on(", ").join(strs) + ">";
+			finalName = finalName + "<" + Joiner.on(", ").join(typeNames) + ">";
 		}
 		return finalName;
 	}
