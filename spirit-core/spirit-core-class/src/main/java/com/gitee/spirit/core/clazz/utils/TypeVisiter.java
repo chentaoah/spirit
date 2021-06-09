@@ -13,10 +13,9 @@ public class TypeVisiter {
 
 	public static IType forEachType(IType targetType, Consumer<IType> consumer) {
 		Assert.notNull(targetType, "Target Type cannot be null!");
-
-		IType newType = TypeBuilder.copy(targetType);
-		newType = (IType) consumer.accept(newType);
-
+		// 拷贝一份
+		IType newType = (IType) consumer.accept(TypeBuilder.copy(targetType));
+		// 拷贝一份，注意不可修改集合
 		List<IType> newGenericTypes = new ArrayList<>(newType.getGenericTypes());
 		for (int index = 0; index < newGenericTypes.size(); index++) {
 			IType genericType = forEachType(newGenericTypes.get(index), consumer);
@@ -25,30 +24,25 @@ public class TypeVisiter {
 			}
 		}
 		newType.setGenericTypes(Collections.unmodifiableList(newGenericTypes));
-
 		return newType;
 	}
 
-	public static IType visit(IType referType, IType targetType, Consumer0<IType> consumer) {
-		// 如果为空，不进行遍历
-		if (targetType == null) {
-			return targetType;
-		}
+	public static IType forEachType(IType referType, IType targetType, Consumer0<IType> consumer) {
+		Assert.notNull(targetType, "Target Type cannot be null!");
 		// 拷贝一份
-		targetType = TypeBuilder.copy(targetType);
-		targetType = (IType) consumer.accept(referType, targetType);
+		IType newType = (IType) consumer.accept(referType, TypeBuilder.copy(targetType));
+		// 参考的泛型参数
+		List<IType> referGenericTypes = referType.getGenericTypes();
 		// 拷贝一份，注意不可修改集合
-		List<IType> genericTypes = new ArrayList<>(targetType.getGenericTypes());
-		for (int index = 0; index < genericTypes.size(); index++) {
-			IType genericType = genericTypes.get(index);
-			genericType = visit(referType.getGenericTypes().get(index), genericType, consumer);
+		List<IType> newGenericTypes = new ArrayList<>(newType.getGenericTypes());
+		for (int index = 0; index < newGenericTypes.size(); index++) {
+			IType genericType = forEachType(referGenericTypes.get(index), newGenericTypes.get(index), consumer);
 			if (genericType != null) {
-				genericTypes.set(index, genericType);
+				newGenericTypes.set(index, genericType);
 			}
 		}
-		// 重置
-		targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		return targetType;
+		newType.setGenericTypes(Collections.unmodifiableList(newGenericTypes));
+		return newType;
 	}
 
 	public static String visitName(IType targetType, Consumer<IType> consumer) {

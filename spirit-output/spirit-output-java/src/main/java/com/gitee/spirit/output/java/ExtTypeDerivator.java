@@ -45,7 +45,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 	}
 
 	public IType populateQualifying(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-		return TypeVisiter.visit(parameterType, targetType, (referType, eachType) -> {
+		return TypeVisiter.forEachType(parameterType, targetType, (referType, eachType) -> {
 			if (eachType.isTypeVariable()) {
 				String genericName = eachType.getGenericName();
 				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
