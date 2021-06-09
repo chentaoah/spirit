@@ -20,9 +20,8 @@ public class StmtVisiter {
 		for (Token token : statement) {
 			if (token.hasSubStmt()) {
 				forEachToken(token.getValue(), consumer);
-			} else {
-				consumer.accept(token);
 			}
+			consumer.accept(token);
 		}
 	}
 
