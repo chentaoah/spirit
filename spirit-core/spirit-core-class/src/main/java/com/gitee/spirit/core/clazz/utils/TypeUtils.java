@@ -2,8 +2,6 @@ package com.gitee.spirit.core.clazz.utils;
 
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 
-import cn.hutool.core.lang.Assert;
-
 public class TypeUtils {
 
 	public static String getPackage(String className) {
@@ -16,11 +14,23 @@ public class TypeUtils {
 		return packageStr1.equals(packageStr2);
 	}
 
-	public static boolean isArray(String name) {// className or simpleName or typeName
+	/**
+	 * 通过名称判断是否数组
+	 * 
+	 * @param name className or simpleName or typeName
+	 * @return
+	 */
+	public static boolean isArray(String name) {
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
-	public static String getTargetName(String name) {// className or simpleName or typeName
+	/**
+	 * 获取目标名称。如果是数组，能够获取数组内类型的名称。
+	 * 
+	 * @param name className or simpleName or typeName
+	 * @return
+	 */
+	public static String getTargetName(String name) {
 		// 泛型
 		if (name.contains("<") && name.endsWith(">")) {
 			return name.substring(0, name.indexOf('<'));
@@ -30,23 +40,21 @@ public class TypeUtils {
 			name = name.replaceAll("\\$", ".");
 		}
 		// 数组
-		if (!isArray(name)) {
-			return name;
+		if (isArray(name)) {
+			if (name.startsWith("[L") && name.endsWith(";")) {
+				return name.substring(2, name.length() - 1);
 
-		} else if (name.startsWith("[L") && name.endsWith(";")) {
-			return name.substring(2, name.length() - 1);
+			} else if (name.endsWith("[]")) {
+				return name.replace("[]", "");
 
-		} else if (name.endsWith("[]")) {
-			return name.replace("[]", "");
+			} else if (PrimitiveEnum.isPrimitiveArray(name)) {
+				return PrimitiveEnum.getTargetName(name);
 
-		} else if (name.startsWith("[")) {
-			// [Z 转换成 boolean
-			String targetName = PrimitiveEnum.getTargetName(name);
-			Assert.notEmpty(targetName, "Target name cannot be empty!");
-			return targetName;
+			} else {
+				throw new RuntimeException("Unhandled branch!");
+			}
 		}
-
-		throw new RuntimeException("Failed to get target name!");
+		return name;
 	}
 
 	public static String getArrayName(String className) {
