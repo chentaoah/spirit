@@ -59,7 +59,7 @@ public class AppTypeDerivator implements TypeDerivator {
 	@Override
 	public IType populate(IType instanceType, IType targetType) {
 		// 根据全局类型，进行填充
-		return TypeVisiter.visit(targetType, eachType -> {
+		return TypeVisiter.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
 				Assert.isTrue(index >= 0, "Index of type variable less than 0!");

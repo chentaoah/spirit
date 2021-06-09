@@ -20,7 +20,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 
 	@Override
 	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
-		return TypeVisiter.visit(targetType, eachType -> {
+		return TypeVisiter.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
 				if (index >= 0) {
@@ -75,7 +75,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 	}
 
 	public IType populateReturnType(Map<String, IType> qualifyingTypes, IType targetType) {
-		return TypeVisiter.visit(targetType, eachType -> {
+		return TypeVisiter.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());
 			}

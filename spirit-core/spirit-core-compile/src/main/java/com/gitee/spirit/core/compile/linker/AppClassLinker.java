@@ -48,7 +48,8 @@ public class AppClassLinker implements ClassLinker {
 	@Override
 	public IType getSuperType(IType type) {
 		IClass clazz = toClass(type);
-		return derivator.populate(type, clazz.getSuperType());
+		IType superType = clazz.getSuperType();
+		return superType != null ? derivator.populate(type, superType) : null;
 	}
 
 	@Override

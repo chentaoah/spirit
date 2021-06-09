@@ -9,8 +9,7 @@ import com.gitee.spirit.core.clazz.entity.IType;
 
 public class TypeBuilder {
 
-	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull, boolean isWildcard,
-			boolean isNative) {
+	public static IType build(String className, String simpleName, String typeName, boolean isPrimitive, boolean isArray, boolean isNull, boolean isWildcard, boolean isNative) {
 		IType type = new IType();
 		type.setClassName(className);
 		type.setSimpleName(simpleName);

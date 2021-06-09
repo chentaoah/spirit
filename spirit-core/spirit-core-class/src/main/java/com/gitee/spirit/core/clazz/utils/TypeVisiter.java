@@ -7,28 +7,26 @@ import java.util.List;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.google.common.base.Joiner;
 
+import cn.hutool.core.lang.Assert;
+
 public class TypeVisiter {
 
-	public static IType visit(IType targetType, Consumer<IType> consumer) {
-		// 如果为空，不进行遍历
-		if (targetType == null) {
-			return targetType;
-		}
-		// 拷贝一份
-		targetType = TypeBuilder.copy(targetType);
-		targetType = (IType) consumer.accept(targetType);
-		// 拷贝一份，注意不可修改集合
-		List<IType> genericTypes = new ArrayList<>(targetType.getGenericTypes());
-		for (int index = 0; index < genericTypes.size(); index++) {
-			IType genericType = genericTypes.get(index);
-			genericType = visit(genericType, consumer);
+	public static IType forEachType(IType targetType, Consumer<IType> consumer) {
+		Assert.notNull(targetType, "Target Type cannot be null!");
+
+		IType newType = TypeBuilder.copy(targetType);
+		newType = (IType) consumer.accept(newType);
+
+		List<IType> newGenericTypes = new ArrayList<>(newType.getGenericTypes());
+		for (int index = 0; index < newGenericTypes.size(); index++) {
+			IType genericType = forEachType(newGenericTypes.get(index), consumer);
 			if (genericType != null) {
-				genericTypes.set(index, genericType);
+				newGenericTypes.set(index, genericType);
 			}
 		}
-		// 重置
-		targetType.setGenericTypes(Collections.unmodifiableList(genericTypes));
-		return targetType;
+		newType.setGenericTypes(Collections.unmodifiableList(newGenericTypes));
+
+		return newType;
 	}
 
 	public static IType visit(IType referType, IType targetType, Consumer0<IType> consumer) {

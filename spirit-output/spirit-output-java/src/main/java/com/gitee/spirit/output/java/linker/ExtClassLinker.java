@@ -62,7 +62,7 @@ public class ExtClassLinker implements ClassLinker {
 		Class<?> clazz = toClass(type);
 		Type nativeSuperType = clazz.getGenericSuperclass();
 		IType superType = nativeSuperType != null ? factory.create(nativeSuperType) : null;
-		return derivator.populate(type, superType);
+		return superType != null ? derivator.populate(type, superType) : null;
 	}
 
 	@Override
