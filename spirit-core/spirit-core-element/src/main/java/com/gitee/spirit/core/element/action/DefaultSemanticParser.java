@@ -121,14 +121,14 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
 			return word.contains("<") || word.contains(">") ? getStatement(true, word) : word;
 
 		} else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
-			return getStatement(false, word);// 拆分数组是为了更好的添加new这个关键字
+			// 拆分数组是为了更好的添加new这个关键字
+			return getStatement(false, word);
 		}
 		return word;
 	}
 
 	public Statement getStatement(boolean insideType, String word) {
-		List<String> words = insideType ? lexer.getSubWords(word, '<', '>')
-				: lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
+		List<String> words = insideType ? lexer.getSubWords(word, '<', '>') : lexer.getSubWords(word, '(', ')', '[', ']', '{', '}');
 		List<Token> tokens = getTokens(new SemanticContext(true, insideType), words);
 		Assert.notNull(tokens, "Tokens cannot be null!");
 		return new Statement(tokens);
