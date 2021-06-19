@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ClassLinker;
+import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -26,7 +26,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 	@Autowired
 	public TypeFactory factory;
 	@Autowired
-	public FragmentDeducer deducer;
+	public StatementDeducer deducer;
 	@Autowired
 	public ClassLinker linker;
 
@@ -40,13 +40,13 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 					if (token.attr(Attribute.TYPE) != null) {
 						continue;
 					}
-					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(clazz, token) : null;
+					List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(token) : null;
 					if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isCast() || token.isLiteral()) {
 						token.setAttr(Attribute.TYPE, factory.create(clazz, token));
 
 					} else if (token.isSubexpress()) {
 						Statement subStatement = token.getValue();
-						token.setAttr(Attribute.TYPE, deducer.derive(clazz, subStatement.subStmt("(", ")")));
+						token.setAttr(Attribute.TYPE, deducer.derive(subStatement.subStmt("(", ")")));
 
 					} else if (token.isVisitField()) {
 						IType type = statement.get(index - 1).attr(Attribute.TYPE);
@@ -78,13 +78,13 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 		});
 	}
 
-	public List<IType> getParameterTypes(IClass clazz, Token token) {
+	public List<IType> getParameterTypes(Token token) {
 		List<IType> parameterTypes = new ArrayList<>();
 		Statement statement = token.getValue();
 		if (statement.size() > 3) {
 			List<Statement> subStatements = statement.subStmt(2, statement.size() - 1).splitStmt(",");
 			for (Statement subStatement : subStatements) {
-				IType parameterType = deducer.derive(clazz, subStatement);
+				IType parameterType = deducer.derive(subStatement);
 				parameterTypes.add(parameterType);
 			}
 		}

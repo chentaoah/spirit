@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ElementAction;
 import com.gitee.spirit.core.api.ElementVisiter;
+import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.clazz.entity.IVariable;
 import com.gitee.spirit.core.compile.action.AbstractAppElementAction;
-import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -22,7 +22,7 @@ public class DefaultElementVisiter implements ElementVisiter {
 	@Autowired
 	public List<AbstractAppElementAction> actions;
 	@Autowired
-	public FragmentDeducer deducer;
+	public StatementDeducer deducer;
 
 	@Override
 	public IVariable visitElement(VisitContext context, Element element) {
@@ -51,7 +51,7 @@ public class DefaultElementVisiter implements ElementVisiter {
 		} else if (element.isReturn()) {
 			Statement statement = element.subStmt(1, element.size());
 			IVariable variable = new IVariable(null);
-			variable.setType(deducer.derive(context.clazz, statement));
+			variable.setType(deducer.derive(statement));
 			return variable;
 		}
 		return null;

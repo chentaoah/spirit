@@ -26,7 +26,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 	public List<Node> buildNodes(List<Token> tokens) {
 		final List<Node> nodes = new ArrayList<>();
 		ListUtils.visit(tokens, (index, token) -> {
-			if (token.hasSubStmt()) {// 嵌套语法树
+			if (token.hasSubStmt()) {
 				SyntaxTree syntaxTree = buildTree(token.getValue());
 				token = new Token(token.tokenType, syntaxTree, token.attributes);
 			}
@@ -56,8 +56,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 				}
 
 			} else if (currentToken.isOperator()) {
-				String value = currentToken.toString();
-				OperatorEnum operator = OperatorEnum.getOperator(value);
+				OperatorEnum operator = OperatorEnum.getOperator(currentToken.toString());
 				priority = operator.priority;
 				operand = operator.operand;
 
@@ -84,7 +83,8 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 			int index = priorityNode.item;
 			Node node = nodes.get(index);
 			Token currentToken = node.token;
-			resetOperandIfMultiple(nodes, index, currentToken);// 如果是多义的操作符，则进行判断后，确定真正的操作数
+			// 如果是多义的操作符，则进行判断后，确定真正的操作数
+			resetOperandIfMultiple(nodes, index, currentToken);
 
 			OperandEnum operandEnum = currentToken.attr(Attribute.OPERAND);
 			if (operandEnum == OperandEnum.LEFT) {
@@ -118,7 +118,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
 		if (operandEnum == OperandEnum.MULTIPLE) {
 			Node lastNode = ListUtils.findOneByIndex(nodes, index - 1, -1, Objects::nonNull);
 			String value = currentToken.toString();
-			if (OperatorEnum.SUBTRACT.value.equals(value)) {// 100 + (-10) // var = -1
+			if ("-".equals(value)) {// 100 + (-10) // var = -1
 				if (lastNode != null) {
 					if (lastNode.isMounted() || (lastNode.token.isNumber() || lastNode.token.isVariable())) {
 						currentToken.setAttr(Attribute.OPERAND, OperandEnum.BINARY);

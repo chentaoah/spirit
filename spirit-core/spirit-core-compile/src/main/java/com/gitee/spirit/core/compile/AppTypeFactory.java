@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.AccessLevelEnum;
 import com.gitee.spirit.common.enums.PrimitiveEnum;
+import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.AbstractTypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
-import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 
@@ -29,7 +29,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public FragmentDeducer deducer;
+	public StatementDeducer deducer;
 	@Autowired
 	public TypeDerivator derivator;
 
@@ -57,7 +57,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 			return create(clazz, (String) token.attr(Attribute.SIMPLE_NAME));
 
 		} else if (token.isLiteral()) {// 1, 1.1, "xxxx"
-			return getValueType(clazz, token);
+			return getValueType(token);
 		}
 		return null;
 	}
@@ -94,7 +94,7 @@ public class AppTypeFactory extends AbstractTypeFactory {
 		return genericTypes;
 	}
 
-	public IType getValueType(IClass clazz, Token token) {
+	public IType getValueType(Token token) {
 		if (token.isBoolean()) {
 			return CommonTypes.BOOLEAN;
 		} else if (token.isChar()) {
@@ -110,20 +110,20 @@ public class AppTypeFactory extends AbstractTypeFactory {
 		} else if (token.isString()) {
 			return CommonTypes.STRING;
 		} else if (token.isList()) {
-			return getListType(clazz, token);
+			return getListType(token);
 		} else if (token.isMap()) {
-			return getMapType(clazz, token);
+			return getMapType(token);
 		}
 		return null;
 	}
 
-	public IType getListType(IClass clazz, Token token) {
+	public IType getListType(Token token) {
 		Statement statement = token.getValue();
 		List<Statement> statements = statement.subStmt(1, statement.size() - 1).splitStmt(",");
-		return create(CommonTypes.LIST.getClassName(), getGenericType(clazz, statements));
+		return create(CommonTypes.LIST.getClassName(), getGenericType(statements));
 	}
 
-	public IType getMapType(IClass clazz, Token token) {
+	public IType getMapType(Token token) {
 		Statement statement = token.getValue();
 		List<Statement> keyStatements = new ArrayList<>();
 		List<Statement> valueStatements = new ArrayList<>();
@@ -132,17 +132,17 @@ public class AppTypeFactory extends AbstractTypeFactory {
 			keyStatements.add(subStatements.get(0));
 			valueStatements.add(subStatements.get(1));
 		}
-		return create(CommonTypes.MAP.getClassName(), getGenericType(clazz, keyStatements), getGenericType(clazz, valueStatements));
+		return create(CommonTypes.MAP.getClassName(), getGenericType(keyStatements), getGenericType(valueStatements));
 	}
 
-	public IType getGenericType(IClass clazz, List<Statement> statements) {
+	public IType getGenericType(List<Statement> statements) {
 		// 如果没有元素，则返回Object类型
 		if (statements.size() == 0) {
 			return CommonTypes.OBJECT;
 		}
 		IType genericType = null;
 		for (Statement statement : statements) {
-			IType boxType = deducer.derive(clazz, statement).toBox();
+			IType boxType = deducer.derive(statement).toBox();
 			if (genericType == null) {
 				genericType = boxType;
 				continue;
