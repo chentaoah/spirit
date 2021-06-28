@@ -51,20 +51,20 @@ public class RegionAction implements LexerAction {
 
 		if (ch == '"') {
 			Region region = RegionUtils.findRegion(builder, context.index, '"', '"');
-			return pushStack(event, ListUtils.toListNonNull(region));
+			return pushStack(event, ListUtils.asListNonNull(region));
 
 		} else if (ch == '\'') {
 			Region region = RegionUtils.findRegion(builder, context.index, '\'', '\'');
-			return pushStack(event, ListUtils.toListNonNull(region));
+			return pushStack(event, ListUtils.asListNonNull(region));
 
 		} else if (ch == '{') {
 			Region region = RegionUtils.findRegion(builder, context.index, '{', '}');
-			return pushStack(event, ListUtils.toListNonNull(region));
+			return pushStack(event, ListUtils.asListNonNull(region));
 
 		} else if (ch == '(') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = RegionUtils.findRegion(builder, context.index, '(', ')');
-			return pushStack(event, ListUtils.toListNonNull(region0, region1));
+			return pushStack(event, ListUtils.asListNonNull(region0, region1));
 
 		} else if (ch == '[') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
@@ -81,13 +81,13 @@ public class RegionAction implements LexerAction {
 					region2 = RegionUtils.findRegion(builder, region1.endIndex + 1, '{', '}');
 				}
 			}
-			return pushStack(event, ListUtils.toListNonNull(region0, region1, region2));
+			return pushStack(event, ListUtils.asListNonNull(region0, region1, region2));
 
 		} else if (ch == '<') {
 			Region region0 = context.startIndex >= 0 ? new Region(context.startIndex, context.index) : null;
 			Region region1 = RegionUtils.findRegion(builder, context.index, '<', '>');
 			Region region2 = isCharAt(builder, region1.endIndex, '(') ? RegionUtils.findRegion(builder, region1.endIndex, '(', ')') : null;
-			return pushStack(event, ListUtils.toListNonNull(region0, region1, region2));
+			return pushStack(event, ListUtils.asListNonNull(region0, region1, region2));
 		}
 
 		throw new RuntimeException("Unhandled branch!");

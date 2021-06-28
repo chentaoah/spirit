@@ -10,7 +10,7 @@ import cn.hutool.core.lang.Assert;
 public class ListUtils {
 
 	@SafeVarargs
-	public static <T> List<T> toListNonNull(T... items) {
+	public static <T> List<T> asListNonNull(T... items) {
 		if (items == null || items.length == 0) {
 			return new ArrayList<T>();
 		}

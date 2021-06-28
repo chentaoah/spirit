@@ -36,7 +36,7 @@ public class DefaultStatementDeducer implements StatementDeducer {
 				return CommonTypes.BOOLEAN;
 
 			} else if (token.isArithmetic() || token.isBitwise()) {
-				return ListUtils.toListNonNull(node.prev, node.next);
+				return ListUtils.asListNonNull(node.prev, node.next);
 			}
 			return null;
 		});
