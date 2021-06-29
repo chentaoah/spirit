@@ -26,7 +26,7 @@ public class AppClassLinker implements ClassLinker {
 	@Autowired
 	public AppClassLoader classLoader;
 	@Autowired
-	public ClassVisiter visiter;
+	public ClassVisiter visitor;
 	@Autowired
 	public TypeDerivator derivator;
 	@Autowired
@@ -67,7 +67,7 @@ public class AppClassLinker implements ClassLinker {
 		IClass clazz = toClass(type);
 		IField field = clazz.getField(fieldName);
 		if (field != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, field));
+			return derivator.populate(type, visitor.visitMember(clazz, field));
 		}
 		return null;
 	}
@@ -78,7 +78,7 @@ public class AppClassLinker implements ClassLinker {
 		List<IMethod> methods = clazz.getMethods(methodName);
 		IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
 		if (method != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, method));
+			return derivator.populate(type, visitor.visitMember(clazz, method));
 		}
 		return null;
 	}
