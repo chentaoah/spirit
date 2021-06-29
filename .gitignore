@@ -129,3 +129,12 @@
 /spirit-stdlib/spirit-stdlib.iml
 /spirit-tools/spirit-tools.iml
 /.idea/vcs.xml
+/spirit-common/target/classes/com/gitee/spirit/common/
+/spirit-core/spirit-core-class/target/classes/com/gitee/spirit/core/
+/spirit-core/spirit-core-compile/target/classes/com/gitee/spirit/core/
+/spirit-core/spirit-core-element/target/
+/spirit-core/spirit-core-lexer/target/
+/spirit-tools/spirit-maven-plugin/target/classes/com/gitee/spirit/maven/plugin/
+/spirit-output/spirit-output-java/target/classes/com/gitee/spirit/output/java/
+/spirit-starter/spirit-starter-java/target/classes/
+/spirit-stdlib/target/classes/com/gitee/spirit/stdlib/
