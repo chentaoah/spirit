@@ -11,17 +11,17 @@ import com.gitee.spirit.core.clazz.AbstractImportSelector;
 @Order(-100)
 public class AppImportSelector extends AbstractImportSelector {
 
-	@Autowired
-	public AppClassLoader loader;
+    @Autowired
+    public AppClassLoader loader;
 
-	@Override
-	public boolean canHandle(String className) {
-		return loader.contains(className);
-	}
+    @Override
+    public boolean canHandle(String className) {
+        return loader.contains(className);
+    }
 
-	@Override
-	public String findClassName(String simpleName) {
-		return ListUtils.findOne(loader.getNames(), className -> className.endsWith("." + simpleName));
-	}
+    @Override
+    public String findClassName(String simpleName) {
+        return ListUtils.findOne(loader.getNames(), className -> className.endsWith("." + simpleName));
+    }
 
 }
