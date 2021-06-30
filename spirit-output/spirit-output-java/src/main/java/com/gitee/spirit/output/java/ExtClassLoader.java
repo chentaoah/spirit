@@ -26,7 +26,7 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Ini
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		String classpathsStr = ConfigUtils.getClasspaths();
+		String classpathsStr = ConfigUtils.getClassPaths();
 		if (StringUtils.isNotBlank(classpathsStr)) {
 			List<String> classpaths = Splitter.on(",").trimResults().splitToList(classpathsStr);
 			loader = ReflectUtils.getClassLoader(classpaths);
