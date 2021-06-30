@@ -28,7 +28,7 @@ public class SpiritCompileMojo extends AbstractMojo {
     @Parameter
     private String utilPackage;
 
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() {
         try {
             if (inputPath == null) {
                 inputPath = project.getResources().get(0).getDirectory();
@@ -52,8 +52,8 @@ public class SpiritCompileMojo extends AbstractMojo {
             utilPackage = utilPackage == null ? "java.util" : utilPackage;
 
             JavaStarter.main(new String[]{ //
-                    "--input=" + inputPath, //
-                    "--output=" + outputPath, //
+                    "--inputPath=" + inputPath, //
+                    "--outputPath=" + outputPath, //
                     "--classPaths=" + Joiner.on(", ").join(classPaths), //
                     "--langPackage=" + langPackage, //
                     "--utilPackage=" + utilPackage //
@@ -75,8 +75,8 @@ public class SpiritCompileMojo extends AbstractMojo {
         classPaths += userHome + "\\.m2\\repository\\org\\apache\\commons\\commons-lang3\\3.9\\commons-lang3-3.9.jar, ";
         classPaths += "D:\\Work\\CloudSpace\\spirit\\spirit-example\\spirit-example-plugin\\target\\test-classes";
         JavaStarter.main(new String[]{ //
-                "--input=" + inputPath, //
-                "--output=" + outputPath, //
+                "--inputPath=" + inputPath, //
+                "--outputPath=" + outputPath, //
                 "--classPaths=" + classPaths, //
                 "--langPackage=" + "java.lang", //
                 "--utilPackage=" + "java.util" //
