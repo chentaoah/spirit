@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.utils.URLFileUtils;
-import com.gitee.spirit.core.api.ClassVisiter;
+import com.gitee.spirit.core.api.ClassVisitor;
 import com.gitee.spirit.core.api.Compiler;
 import com.gitee.spirit.core.clazz.AbstractURLClassLoader;
 import com.gitee.spirit.core.clazz.entity.IClass;
@@ -25,7 +25,7 @@ public class AppClassLoader extends AbstractURLClassLoader {
     @Autowired
     public AutoImporter importer;
     @Autowired
-    public ClassVisiter visitor;
+    public ClassVisitor visitor;
 
     @Override
     public List<IClass> getAllClasses() {

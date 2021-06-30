@@ -12,7 +12,7 @@ import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.StmtVisiter;
+import com.gitee.spirit.core.element.utils.StmtVisitor;
 import com.gitee.spirit.output.java.utils.TreeUtils;
 
 public abstract class AbstractTreeElementAction extends AbstractExtElementAction {
@@ -29,7 +29,7 @@ public abstract class AbstractTreeElementAction extends AbstractExtElementAction
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
-		StmtVisiter.forEachStmt(element, statement -> {
+		StmtVisitor.forEachStmt(element, statement -> {
 			for (int index = 0; index < statement.size(); index++) {
 				Token token = statement.get(index);
 				if (isTrigger(token)) {

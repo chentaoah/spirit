@@ -15,7 +15,7 @@ import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.api.SemanticParser;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeVisiter;
+import com.gitee.spirit.core.clazz.utils.TypeVisitor;
 import com.gitee.spirit.core.element.entity.Element;
 
 @Component
@@ -75,7 +75,7 @@ public class AutoImporter {
 	}
 
 	public String getFinalName(IClass clazz, IType type) {
-		return TypeVisiter.forEachTypeName(type, eachType -> {
+		return TypeVisitor.forEachTypeName(type, eachType -> {
 			if (!clazz.addImport(eachType.getClassName())) {
 				return eachType.getTypeName();
 			}

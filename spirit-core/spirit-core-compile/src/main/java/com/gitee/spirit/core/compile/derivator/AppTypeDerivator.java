@@ -8,7 +8,7 @@ import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeBuilder;
-import com.gitee.spirit.core.clazz.utils.TypeVisiter;
+import com.gitee.spirit.core.clazz.utils.TypeVisitor;
 
 import cn.hutool.core.lang.Assert;
 
@@ -59,7 +59,7 @@ public class AppTypeDerivator implements TypeDerivator {
 	@Override
 	public IType populate(IType instanceType, IType targetType) {
 		// 根据全局类型，进行填充
-		return TypeVisiter.forEachType(targetType, eachType -> {
+		return TypeVisitor.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
 				Assert.isTrue(index >= 0, "Index of type variable less than 0!");

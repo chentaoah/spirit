@@ -17,7 +17,7 @@ import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.StmtVisiter;
+import com.gitee.spirit.core.element.utils.StmtVisitor;
 
 @Component
 @Order(-40)
@@ -33,7 +33,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 	@Override
 	public void visitElement(VisitContext context, Element element) {
 		IClass clazz = context.clazz;
-		StmtVisiter.forEachStmt(element, statement -> {
+		StmtVisitor.forEachStmt(element, statement -> {
 			for (int index = 0; index < statement.size(); index++) {
 				try {
 					Token token = statement.get(index);

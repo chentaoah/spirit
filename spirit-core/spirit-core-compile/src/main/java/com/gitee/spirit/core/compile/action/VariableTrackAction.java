@@ -10,7 +10,7 @@ import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
-import com.gitee.spirit.core.element.utils.StmtVisiter;
+import com.gitee.spirit.core.element.utils.StmtVisitor;
 
 import cn.hutool.core.lang.Assert;
 
@@ -23,7 +23,7 @@ public class VariableTrackAction extends AbstractAppElementAction {
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
-		StmtVisiter.forEachToken(element, token -> {
+		StmtVisitor.forEachToken(element, token -> {
 			if (token.attr(Attribute.TYPE) != null) {
 				return;
 			}

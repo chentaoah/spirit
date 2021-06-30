@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.utils.TypeBuilder;
-import com.gitee.spirit.core.clazz.utils.TypeVisiter;
+import com.gitee.spirit.core.clazz.utils.TypeVisitor;
 import com.gitee.spirit.core.compile.derivator.AppTypeDerivator;
 
 @Component
@@ -20,7 +20,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 
 	@Override
 	public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
-		return TypeVisiter.forEachType(targetType, eachType -> {
+		return TypeVisitor.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
 				if (index >= 0) {
@@ -45,7 +45,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 	}
 
 	public IType populateQualifying(IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-		return TypeVisiter.forEachType(parameterType, targetType, (referType, eachType) -> {
+		return TypeVisitor.forEachType(parameterType, targetType, (referType, eachType) -> {
 			if (eachType.isTypeVariable()) {
 				String genericName = eachType.getGenericName();
 				if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
@@ -75,7 +75,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 	}
 
 	public IType populateReturnType(Map<String, IType> qualifyingTypes, IType targetType) {
-		return TypeVisiter.forEachType(targetType, eachType -> {
+		return TypeVisitor.forEachType(targetType, eachType -> {
 			if (eachType.isTypeVariable()) {
 				return qualifyingTypes.get(targetType.getGenericName());
 			}

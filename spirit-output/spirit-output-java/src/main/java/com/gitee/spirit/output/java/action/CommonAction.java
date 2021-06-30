@@ -9,7 +9,7 @@ import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.StmtVisiter;
+import com.gitee.spirit.core.element.utils.StmtVisitor;
 import com.gitee.spirit.stdlib.Lists;
 import com.gitee.spirit.stdlib.Maps;
 
@@ -20,7 +20,7 @@ public class CommonAction extends AbstractExtElementAction {
 	@Override
 	public void visitElement(VisitContext context, Element element) {
 		IClass clazz = context.clazz;
-		StmtVisiter.forEachToken(element, token -> {
+		StmtVisitor.forEachToken(element, token -> {
 			if (token.isArrayInit()) {// String[10] => new String[10]
 				Statement subStatement = token.getValue();
 				subStatement.add(0, new Token(TokenTypeEnum.KEYWORD, "new"));

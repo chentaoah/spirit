@@ -14,7 +14,7 @@ import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.element.entity.Node;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.NodeVisiter;
+import com.gitee.spirit.core.element.utils.NodeVisitor;
 
 import cn.hutool.core.lang.Assert;
 
@@ -27,7 +27,7 @@ public class DefaultStatementDeducer implements StatementDeducer {
     @Override
     public IType derive(Statement statement) {
         List<Node> nodes = builder.buildNodes(statement);
-        IType type = (IType) NodeVisiter.forEachNode(nodes, node -> {
+        IType type = (IType) NodeVisitor.forEachNode(nodes, node -> {
             Token token = node.token;
             if (token.attr(Attribute.TYPE) != null) {
                 return token.attr(Attribute.TYPE);

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ElementBuilder;
-import com.gitee.spirit.core.api.ElementVisiter;
+import com.gitee.spirit.core.api.ElementVisitor;
 import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.api.VariableTracker;
 import com.gitee.spirit.core.clazz.entity.IType;
@@ -31,7 +31,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public ElementVisiter visiter;
+	public ElementVisitor visitor;
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
@@ -74,7 +74,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
 				if (subStatement.size() > 0) {
 					Element subElement = builder.build(subStatement);
-					IVariable variable = visiter.visitElement(context, subElement);
+					IVariable variable = visitor.visitElement(context, subElement);
 					if (variable != null) {
 						variable.blockId = context.getBlockId();
 						context.variables.add(variable);
