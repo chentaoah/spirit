@@ -19,9 +19,7 @@ public class TypeVisitor {
         List<IType> newGenericTypes = new ArrayList<>(newType.getGenericTypes());
         for (int index = 0; index < newGenericTypes.size(); index++) {
             IType genericType = forEachType(newGenericTypes.get(index), consumer);
-            if (genericType != null) {
-                newGenericTypes.set(index, genericType);
-            }
+            newGenericTypes.set(index, genericType);
         }
         newType.setGenericTypes(Collections.unmodifiableList(newGenericTypes));
         return newType;
@@ -37,9 +35,7 @@ public class TypeVisitor {
         List<IType> newGenericTypes = new ArrayList<>(newType.getGenericTypes());
         for (int index = 0; index < newGenericTypes.size(); index++) {
             IType genericType = forEachType(referGenericTypes.get(index), newGenericTypes.get(index), consumer);
-            if (genericType != null) {
-                newGenericTypes.set(index, genericType);
-            }
+            newGenericTypes.set(index, genericType);
         }
         newType.setGenericTypes(Collections.unmodifiableList(newGenericTypes));
         return newType;

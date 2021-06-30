@@ -28,8 +28,7 @@ public class ElementSelector extends CoreCompiler {
 	}
 
 	public Element findElement(List<Element> elements, Integer lineNumber) {
-		for (int index = 0; index < elements.size(); index++) {
-			Element element = elements.get(index);
+		for (Element element : elements) {
 			if (element.line.number == lineNumber) {
 				return element;
 			}

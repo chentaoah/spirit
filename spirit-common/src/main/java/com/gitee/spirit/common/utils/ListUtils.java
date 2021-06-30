@@ -42,16 +42,14 @@ public class ListUtils {
         for (int index = 0; index < list.size(); index++) {
             T item = list.get(index);
             if (matcher.accept(item)) {
-                lastIndex = index > lastIndex ? index : lastIndex;
+                lastIndex = Math.max(index, lastIndex);
             }
         }
         return lastIndex;
     }
 
     public static <T> void removeByIndex(List<T> list, int fromIndex, int toIndex) {
-        for (int index = toIndex - 1; index >= fromIndex; index--) {
-            list.remove(index);
-        }
+        list.subList(fromIndex, toIndex).clear();
     }
 
     public static <T> T remove(List<T> list, Matcher<T> matcher) {
@@ -78,11 +76,11 @@ public class ListUtils {
     }
 
     public static <T> T findOne(Iterable<T> collection, Matcher<T> matcher) {
-        return CollUtil.findOne(collection, item -> matcher.accept(item));
+        return CollUtil.findOne(collection, matcher::accept);
     }
 
     public static <T> List<T> findAll(List<T> list, Matcher<T> matcher) {
-        return CollUtil.filterNew(list, item -> matcher.accept(item));
+        return CollUtil.filterNew(list, matcher::accept);
     }
 
     public static <T> T findOneByScore(Iterable<T> collection, Selector<T> selector) {

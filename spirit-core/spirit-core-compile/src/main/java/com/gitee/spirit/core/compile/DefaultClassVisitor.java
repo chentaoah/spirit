@@ -2,6 +2,7 @@ package com.gitee.spirit.core.compile;
 
 import java.util.List;
 
+import com.gitee.spirit.core.element.frame.Semantic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -71,7 +72,7 @@ public class DefaultClassVisitor implements ClassVisitor {
         Statement statement = methodToken.getValue();
         List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
         for (Statement parameterStmt : statements) {
-            List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, token -> token.isAnnotation(), token -> new IAnnotation(token));
+            List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, Semantic::isAnnotation, IAnnotation::new);
             IParameter parameter = new IParameter(annotations, builder.build(parameterStmt));
             parameter.setType(factory.create(clazz, parameterStmt.get(0)));
             method.parameters.add(parameter);
