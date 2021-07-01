@@ -9,6 +9,6 @@ public interface ClassResolver {
 
     Map<String, IClass> resolve(String packageStr, Document document);
 
-    Document getDocument(IClass clazz);
+    Document findDocument(IClass clazz);
 
 }

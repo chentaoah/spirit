@@ -87,6 +87,9 @@ public class DefaultClassResolver implements ClassResolver {
             mainClass = new IClass(imports, copyAnnotations(annotations), element.addModifiers(KeywordEnum.PUBLIC.value));
             initClass(mainClass, packageStr, fields, methods);
             classes.put(mainClass.getClassName(), mainClass);
+            //追加到文档中
+            document.add(element);
+            document.add(builder.build("}"));
         }
 
         //进行关系绑定
@@ -96,7 +99,7 @@ public class DefaultClassResolver implements ClassResolver {
     }
 
     @Override
-    public Document getDocument(IClass clazz) {
+    public Document findDocument(IClass clazz) {
         return classDocumentMap.get(clazz);
     }
 
