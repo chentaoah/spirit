@@ -51,7 +51,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public List<TokenBox> splitTokens(String separator) {
-		return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), TokenBox::new);
+		return Splitter.split(this, token -> isSymbol(token) && separator.equals(token.toString()), TokenBox::new);
 	}
 
 	public int indexOf(String str) {

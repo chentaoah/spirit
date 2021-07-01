@@ -25,7 +25,7 @@ public class DefaultTreeBuilder extends AbstractTreeBuilder {
     @Override
     public List<Node> buildNodes(List<Token> tokens) {
         final List<Node> nodes = new ArrayList<>();
-        ListUtils.visit(tokens, (index, token) -> {
+        ListUtils.visitAll(tokens, (index, token) -> {
             if (token.hasSubStmt()) {
                 SyntaxTree syntaxTree = buildTree(token.getValue());
                 token = new Token(token.tokenType, syntaxTree, token.attributes);

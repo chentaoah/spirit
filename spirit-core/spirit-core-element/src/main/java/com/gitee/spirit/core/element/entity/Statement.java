@@ -22,7 +22,7 @@ public class Statement extends KeywordTokenBox {
     }
 
     public List<Statement> splitStmt(String separator) {
-        return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), Statement::new);
+        return Splitter.split(this, token -> isSymbol(token) && separator.equals(token.toString()), Statement::new);
     }
 
     @Override
