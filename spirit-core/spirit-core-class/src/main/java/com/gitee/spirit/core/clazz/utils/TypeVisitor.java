@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.gitee.spirit.common.function.Function;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.google.common.base.Joiner;
 
@@ -11,7 +12,7 @@ import cn.hutool.core.lang.Assert;
 
 public class TypeVisitor {
 
-    public static IType forEachType(IType targetType, Consumer<IType> consumer) {
+    public static IType forEachType(IType targetType, Function.Consumer<IType> consumer) {
         Assert.notNull(targetType, "Target Type cannot be null!");
         // 拷贝一份
         IType newType = (IType) consumer.accept(TypeBuilder.copy(targetType));
@@ -25,7 +26,7 @@ public class TypeVisitor {
         return newType;
     }
 
-    public static IType forEachType(IType referType, IType targetType, Consumer0<IType> consumer) {
+    public static IType forEachType(IType referType, IType targetType, Consumer<IType> consumer) {
         Assert.notNull(targetType, "Target Type cannot be null!");
         // 拷贝一份
         IType newType = (IType) consumer.accept(referType, TypeBuilder.copy(targetType));
@@ -41,7 +42,7 @@ public class TypeVisitor {
         return newType;
     }
 
-    public static String forEachTypeName(IType targetType, Consumer<IType> consumer) {
+    public static String forEachTypeName(IType targetType, Function.Consumer<IType> consumer) {
         Assert.notNull(targetType, "Target Type cannot be null!");
         String typeName = (String) consumer.accept(targetType);
         if (targetType.isGenericType()) {
@@ -55,10 +56,6 @@ public class TypeVisitor {
     }
 
     public interface Consumer<T> {
-        Object accept(T t);
-    }
-
-    public interface Consumer0<T> {
         Object accept(T t, T t1);
     }
 
