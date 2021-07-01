@@ -38,7 +38,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public void replaceTokens(int fromIndex, int toIndex, Token token) {
-		ListUtils.removeByIndex(this, fromIndex, toIndex);
+		ListUtils.removeAllByIndex(this, fromIndex, toIndex);
 		add(fromIndex, token);
 	}
 
@@ -51,7 +51,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public List<TokenBox> splitTokens(String separator) {
-		return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), list -> new TokenBox(list));
+		return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), TokenBox::new);
 	}
 
 	public int indexOf(String str) {

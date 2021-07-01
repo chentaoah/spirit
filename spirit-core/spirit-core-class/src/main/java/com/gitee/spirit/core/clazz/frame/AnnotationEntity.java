@@ -21,7 +21,7 @@ public abstract class AnnotationEntity extends ElementEntity {
 	}
 
 	public IAnnotation removeAnnotation(String className) {
-		return ListUtils.remove(annotations, annotation -> annotation.getType().getClassName().equals(className));
+		return ListUtils.removeOne(annotations, annotation -> annotation.getType().getClassName().equals(className));
 	}
 
 }

@@ -72,7 +72,7 @@ public class DefaultClassVisitor implements ClassVisitor {
         Statement statement = methodToken.getValue();
         List<Statement> statements = statement.subStmt("(", ")").splitStmt(",");
         for (Statement parameterStmt : statements) {
-            List<IAnnotation> annotations = ListUtils.filterStoppable(parameterStmt, Semantic::isAnnotation, IAnnotation::new);
+            List<IAnnotation> annotations = ListUtils.seekAll(parameterStmt, Semantic::isAnnotation, IAnnotation::new);
             IParameter parameter = new IParameter(annotations, builder.build(parameterStmt));
             parameter.setType(factory.create(clazz, parameterStmt.get(0)));
             method.parameters.add(parameter);
