@@ -26,6 +26,7 @@ public class DefaultClassResolver implements ClassResolver {
 
     @Autowired
     public ElementBuilder builder;
+
     public Map<IClass, Document> classDocumentMap = new ConcurrentHashMap<>();
 
     @Override

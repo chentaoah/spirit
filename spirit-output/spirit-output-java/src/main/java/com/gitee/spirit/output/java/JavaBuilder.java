@@ -1,7 +1,10 @@
 package com.gitee.spirit.output.java;
 
 import java.util.List;
+import java.util.Map;
 
+import com.gitee.spirit.output.api.ImportManager;
+import com.gitee.spirit.output.java.entity.StaticImport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +29,8 @@ public class JavaBuilder implements CodeBuilder {
     public static final String FINAL_KEYWORD = "final";
 
     @Autowired
+    public ImportManager manager;
+    @Autowired
     public AutoImporter importer;
     @Autowired
     public List<AbstractExtElementAction> actions;
@@ -34,7 +39,7 @@ public class JavaBuilder implements CodeBuilder {
     public String build(IClass clazz) {
         String body = buildBody(clazz);
         String head = buildHead(clazz);
-        return new StringBuilder().append(head).append(body).toString();
+        return head + body;
     }
 
     public String buildHead(IClass clazz) {
@@ -43,15 +48,15 @@ public class JavaBuilder implements CodeBuilder {
         builder.append(String.format("package %s;\n\n", clazz.packageStr));
         // import
         List<Import> imports = clazz.getImports();
-        imports.forEach((imp) -> builder.append(imp.element + ";\n"));
+        imports.forEach((imp) -> builder.append(imp.element).append(";\n"));
         // static import
-        List<Import> staticImports = clazz.getStaticImports();
-        staticImports.forEach((imp) -> builder.append(imp.element + ";\n"));
+        List<StaticImport> staticImports = manager.getStaticImports(clazz);
+        staticImports.forEach((imp) -> builder.append(imp.element).append(";\n"));
         if (imports.size() > 0 || staticImports.size() > 0) {
             builder.append("\n");
         }
         // annotation
-        clazz.annotations.forEach((annotation) -> builder.append(annotation + "\n"));
+        clazz.annotations.forEach((annotation) -> builder.append(annotation).append("\n"));
         return builder.toString();
     }
 
@@ -60,7 +65,7 @@ public class JavaBuilder implements CodeBuilder {
         // 处理一部分关键字
         clazz.element.insertKeywordAfter(KeywordEnum.ABSTRACT.value, KeywordEnum.CLASS.value);
         clazz.element.replaceKeyword(KeywordEnum.IMPLS.value, JavaBuilder.IMPLEMENTS_KEYWORD);
-        classStr.append(clazz.element + "\n\n");
+        classStr.append(clazz.element).append("\n\n");
         // 当构建方法体时，需要动态引入一些类型和字段，所以先构建方法体
         String methodsStr = buildMethods(clazz);
         String fieldsStr = buildFields(clazz);
@@ -74,9 +79,9 @@ public class JavaBuilder implements CodeBuilder {
         // public static type + element
         for (IField field : clazz.fields) {
             // annotation
-            field.annotations.forEach((annotation) -> fieldsStr.append("\t" + annotation + "\n"));
+            field.annotations.forEach((annotation) -> fieldsStr.append("\t").append(annotation).append("\n"));
             field.element.replaceModifier(KeywordEnum.CONST.value, JavaBuilder.FINAL_KEYWORD);
-            fieldsStr.append("\t" + convert(clazz, field, field.element) + "\n");
+            fieldsStr.append("\t").append(convert(clazz, field, field.element)).append("\n");
         }
         if (fieldsStr.length() > 0) {
             fieldsStr.append("\n");
@@ -90,7 +95,7 @@ public class JavaBuilder implements CodeBuilder {
         // public static type + element
         for (IMethod method : clazz.methods) {
             // annotation
-            method.annotations.forEach((annotation) -> methodsStr.append("\t" + annotation + "\n"));
+            method.annotations.forEach((annotation) -> methodsStr.append("\t").append(annotation).append("\n"));
 
             Element element = method.element;
             // 静态主方法
@@ -107,9 +112,9 @@ public class JavaBuilder implements CodeBuilder {
                     }
 
                     if (element.hasChild()) {
-                        methodsStr.append("\t" + element + "\n");
+                        methodsStr.append("\t").append(element).append("\n");
                     } else {
-                        methodsStr.append("\t" + element + ";\n\n");
+                        methodsStr.append("\t").append(element).append(";\n\n");
                     }
 
                 } else if (element.isFunc()) {
@@ -118,7 +123,7 @@ public class JavaBuilder implements CodeBuilder {
                     } else {
                         element.replaceKeyword(KeywordEnum.FUNC.value, importer.getFinalName(clazz, method.getType()));
                     }
-                    methodsStr.append("\t" + element + "\n");
+                    methodsStr.append("\t").append(element).append("\n");
                 }
             }
             // 方法体可能没有内容，但是这并不意味着这个方法没有被实现
@@ -130,10 +135,9 @@ public class JavaBuilder implements CodeBuilder {
         return methodsStr.toString();
     }
 
-    public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, IMethod method,
-                                     Element father) {
+    public void convertMethodElement(StringBuilder builder, String indent, IClass clazz, IMethod method, Element father) {
         for (Element element : father.children) {
-            builder.append(indent + convert(clazz, method, element) + "\n");
+            builder.append(indent).append(convert(clazz, method, element)).append("\n");
             if (element.hasChild()) {
                 convertMethodElement(builder, indent + "\t", clazz, method, element);
             }

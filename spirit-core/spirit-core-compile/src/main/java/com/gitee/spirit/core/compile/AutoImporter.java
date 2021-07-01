@@ -9,7 +9,6 @@ import com.gitee.spirit.core.element.entity.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gitee.spirit.core.api.ElementBuilder;
 import com.gitee.spirit.core.api.SemanticParser;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
