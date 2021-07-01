@@ -22,70 +22,70 @@ import com.google.common.base.Splitter;
 @DependsOn("configUtils")
 public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements InitializingBean {
 
-	public ClassLoader loader;
+    public ClassLoader loader;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		String classpathsStr = ConfigUtils.getClassPaths();
-		if (StringUtils.isNotBlank(classpathsStr)) {
-			List<String> classpaths = Splitter.on(",").trimResults().splitToList(classpathsStr);
-			loader = ReflectUtils.getClassLoader(classpaths);
-		} else {
-			loader = this.getClass().getClassLoader();
-		}
-	}
+    @Override
+    public void afterPropertiesSet() {
+        String classPathsStr = ConfigUtils.getClassPaths();
+        if (StringUtils.isNotBlank(classPathsStr)) {
+            List<String> classPaths = Splitter.on(",").trimResults().splitToList(classPathsStr);
+            loader = ReflectUtils.getClassLoader(classPaths);
+        } else {
+            loader = this.getClass().getClassLoader();
+        }
+    }
 
-	@Override
-	public List<URL> getResources(String name) {
-		try {
-			List<URL> urls = new ArrayList<>();
-			Enumeration<URL> enumeration = loader.getResources(name);
-			while (enumeration.hasMoreElements()) {
-				URL url = (URL) enumeration.nextElement();
-				urls.add(url);
-			}
-			return urls;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public List<URL> getResources(String name) {
+        try {
+            List<URL> urls = new ArrayList<>();
+            Enumeration<URL> enumeration = loader.getResources(name);
+            while (enumeration.hasMoreElements()) {
+                URL url = enumeration.nextElement();
+                urls.add(url);
+            }
+            return urls;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public List<String> getNames() {
-		throw new RuntimeException("This method is not supported!");
-	}
+    @Override
+    public List<String> getNames() {
+        throw new RuntimeException("This method is not supported!");
+    }
 
-	@Override
-	public boolean contains(String name) {
-		try {
-			return loadClass(name) != null;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+    @Override
+    public boolean contains(String name) {
+        try {
+            return loadClass(name) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
-	@Override
-	public Class<?> loadClass(String name) {
-		try {
-			return loader.loadClass(name);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public Class<?> loadClass(String name) {
+        try {
+            return loader.loadClass(name);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public List<Class<?>> getAllClasses() {
-		throw new RuntimeException("This method is not supported!");
-	}
+    @Override
+    public List<Class<?>> getAllClasses() {
+        throw new RuntimeException("This method is not supported!");
+    }
 
-	@Override
-	public URL getResource(String name) {
-		return loader.getResource(name);
-	}
+    @Override
+    public URL getResource(String name) {
+        return loader.getResource(name);
+    }
 
-	@Override
-	public Class<?> defineClass(String name, URL resource) {
-		throw new RuntimeException("This method is not supported!");
-	}
+    @Override
+    public Class<?> defineClass(String name, URL resource) {
+        throw new RuntimeException("This method is not supported!");
+    }
 
 }
