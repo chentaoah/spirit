@@ -32,7 +32,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 	}
 
 	public List<Import> getAliasImports() {
-		return imports.stream().filter(import0 -> import0.hasAlias()).collect(Collectors.toList());
+		return imports.stream().filter(Import::hasAlias).collect(Collectors.toList());
 	}
 
 	public List<Import> getStaticImports() {
@@ -92,7 +92,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 		// 2.如果引入了，则不必引入了
 		Import import0 = findImport(targetName);
 		if (import0 != null) {
-			return !import0.hasAlias() ? true : false;
+			return !import0.hasAlias();
 		}
 
 		// 3.如果存在简称相同的，则也不能引入
@@ -132,7 +132,7 @@ public abstract class ImportEntity extends AnnotationEntity {
 	public boolean shouldImport(String selfClassName, String className) {
 		List<ImportSelector> selectors = SpringUtils.getBeans(ImportSelector.class);
 		Boolean flag = ListUtils.collectOne(selectors, selector -> selector.canHandle(className), selector -> selector.shouldImport(selfClassName, className));
-		return flag == null ? true : flag;
+		return flag == null || flag;
 	}
 
 	public abstract String getClassName();
