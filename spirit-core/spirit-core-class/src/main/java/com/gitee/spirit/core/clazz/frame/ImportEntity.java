@@ -1,8 +1,8 @@
 package com.gitee.spirit.core.clazz.frame;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.common.utils.ListUtils;
@@ -26,7 +26,9 @@ public abstract class ImportEntity extends AnnotationEntity {
     }
 
     public List<Import> getImports() {
-        return ListUtils.findAll(imports, import0 -> !import0.hasAlias());
+        List<Import> importsToSort = ListUtils.findAll(imports, import0 -> !import0.hasAlias());
+        importsToSort.sort(Comparator.comparing(Import::getClassName));
+        return importsToSort;
     }
 
     public List<Import> getAliasImports() {

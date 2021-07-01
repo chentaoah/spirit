@@ -1,17 +1,17 @@
 package com.gitee.spirit.example.type;
 
-import java.util.HashMap;
 import com.gitee.spirit.example.ClassGenericTest;
-import com.gitee.spirit.example.MyTest;
 import com.gitee.spirit.example.GenericType;
+import com.gitee.spirit.example.MyTest;
 import com.gitee.spirit.example.clazz.ServiceImpl;
 import com.gitee.spirit.example.process.Main;
+import com.gitee.spirit.stdlib.Lists;
+import com.gitee.spirit.stdlib.Maps;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.gitee.spirit.stdlib.Lists;
-import java.util.List;
-import com.gitee.spirit.stdlib.Maps;
-import java.util.Map;
 
 @Deprecated
 public class Type {
