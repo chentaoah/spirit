@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultImportManager implements ImportManager {
 
     public Map<IClass, List<StaticImport>> classStaticImportsMap = new ConcurrentHashMap<>();
-
     @Autowired
     public ElementBuilder builder;
 
