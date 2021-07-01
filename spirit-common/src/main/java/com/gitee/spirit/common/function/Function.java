@@ -1,24 +1,24 @@
 package com.gitee.spirit.common.function;
 
-public class Function {
+public interface Function {
 
-    public interface Matcher<T> {
+    interface Matcher<T> {
         boolean accept(T t);
     }
 
-    public interface Consumer<T> {
+    interface Consumer<T> {
         Object accept(T t);
     }
 
-    public interface Factory<T> {
+    interface Factory<T> {
         Object accept(T t);
     }
 
-    public interface Visitor<T> {
+    interface Visitor<T> {
         void accept(int index, T t);
     }
 
-    public interface Scorer<T> {
+    interface Scorer<T> {
         Integer accept(T t);
     }
 
