@@ -2,13 +2,12 @@ package com.gitee.spirit.core.clazz.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.common.utils.SpringUtils;
 import com.gitee.spirit.core.api.TypeFactory;
-import com.gitee.spirit.core.clazz.frame.ImportEntity;
+import com.gitee.spirit.core.clazz.frame.ImportableEntity;
 import com.gitee.spirit.core.clazz.utils.TypeUtils;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Token;
@@ -17,7 +16,7 @@ import com.google.common.base.Splitter;
 
 import cn.hutool.core.lang.Assert;
 
-public class IClass extends ImportEntity {
+public class IClass extends ImportableEntity {
 
     public String packageStr;
     public List<IField> fields;

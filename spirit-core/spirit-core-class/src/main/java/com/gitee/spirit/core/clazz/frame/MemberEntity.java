@@ -6,14 +6,14 @@ import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
 import com.gitee.spirit.core.element.entity.Element;
 
-public abstract class MemberEntity extends AnnotationEntity {
+public abstract class MemberEntity extends AnnotatedEntity implements NamedEntity {
 
-	public MemberEntity(List<IAnnotation> annotations, Element element) {
-		super(annotations, element);
-	}
+    public MemberEntity(List<IAnnotation> annotations, Element element) {
+        super(annotations, element);
+    }
 
-	public boolean isStatic() {
-		return element.isModified(KeywordEnum.STATIC.value);
-	}
+    public boolean isStatic() {
+        return element.isModified(KeywordEnum.STATIC.value);
+    }
 
 }

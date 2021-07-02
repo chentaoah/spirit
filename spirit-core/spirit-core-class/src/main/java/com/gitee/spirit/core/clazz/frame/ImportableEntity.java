@@ -16,11 +16,11 @@ import com.gitee.spirit.core.element.entity.Element;
 
 import cn.hutool.core.lang.Assert;
 
-public abstract class ImportEntity extends AnnotationEntity {
+public abstract class ImportableEntity extends AnnotatedEntity {
 
     public List<Import> imports;
 
-    public ImportEntity(List<Import> imports, List<IAnnotation> annotations, Element element) {
+    public ImportableEntity(List<Import> imports, List<IAnnotation> annotations, Element element) {
         super(annotations, element);
         this.imports = imports != null ? new ArrayList<>(imports) : new ArrayList<>();
     }

@@ -7,11 +7,11 @@ import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.clazz.entity.IAnnotation;
 import com.gitee.spirit.core.element.entity.Element;
 
-public abstract class AnnotationEntity extends ElementEntity {
+public abstract class AnnotatedEntity extends ElementEntity {
 
 	public List<IAnnotation> annotations;
 
-	public AnnotationEntity(List<IAnnotation> annotations, Element element) {
+	public AnnotatedEntity(List<IAnnotation> annotations, Element element) {
 		super(element);
 		this.annotations = annotations != null ? new ArrayList<>(annotations) : new ArrayList<>();
 	}

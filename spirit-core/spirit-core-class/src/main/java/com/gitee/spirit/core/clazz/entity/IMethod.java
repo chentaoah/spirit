@@ -18,6 +18,7 @@ public class IMethod extends MemberEntity {
         super(annotations, element);
     }
 
+    @Override
     public String getName() {
         Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
         if (methodToken.isTypeInit()) {
