@@ -17,6 +17,10 @@ public class ListUtils {
     }
 
     public static <T> int indexOf(List<T> list, int fromIndex, int toIndex, Function.Matcher<T> matcher) {
+        if (fromIndex < 0 || fromIndex >= list.size()) {
+            return -1;
+        }
+        Assert.isTrue(toIndex >= -1 && toIndex <= list.size(), "The toIndex must be in range!");
         int step = toIndex >= fromIndex ? 1 : -1;
         for (int index = fromIndex; index != toIndex; index += step) {
             if (matcher.accept(list.get(index))) {
@@ -26,7 +30,7 @@ public class ListUtils {
         return -1;
     }
 
-    public static <T> int seekIndexOf(List<T> list, int fromIndex, int toIndex, Function.Matcher<T> matcher) {
+    public static <T> int indexOfUnmatched(List<T> list, int fromIndex, int toIndex, Function.Matcher<T> matcher) {
         int index = indexOf(list, fromIndex, toIndex, item -> !matcher.accept(item));
         return index == -1 ? toIndex : index;
     }
@@ -66,7 +70,7 @@ public class ListUtils {
     }
 
     public static <T> List<T> seekAll(List<T> list, Function.Matcher<T> matcher) {
-        int index = seekIndexOf(list, 0, list.size(), matcher);
+        int index = indexOfUnmatched(list, 0, list.size(), matcher);
         List<T> view = list.subList(0, index);
         List<T> items = new ArrayList<>(view);
         view.clear();

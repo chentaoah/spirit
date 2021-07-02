@@ -18,7 +18,7 @@ public class Document extends ArrayList<Element> {
     public List<Element> findElements(Element element) {
         int index = ListUtils.indexOf(this, element::equals);
         if (index >= 0) {
-            int startIndex = ListUtils.seekIndexOf(this, index - 1, -1, Syntactic::isAnnotation);
+            int startIndex = ListUtils.indexOfUnmatched(this, index - 1, -1, Syntactic::isAnnotation);
             int endIndex = ListUtils.indexOf(this, index + 1, size(), Syntactic::isEnd);
             return new ArrayList<>(subList(startIndex + 1, endIndex + 1));
         }

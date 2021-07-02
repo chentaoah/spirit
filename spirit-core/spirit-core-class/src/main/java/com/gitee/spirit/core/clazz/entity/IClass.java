@@ -39,14 +39,10 @@ public class IClass extends ImportableEntity {
     }
 
     public Token getTypeToken() {
-        Token token = null;
-        if (isInterface()) {
-            token = element.getKeywordParam(KeywordEnum.INTERFACE.value);
-        } else if (isAbstract() || isClass()) {
-            token = element.getKeywordParam(KeywordEnum.CLASS.value, KeywordEnum.ABSTRACT.value);
-        }
-        Assert.isTrue(token != null && token.isType(), "Cannot get type token of class!");
-        return token;
+        Assert.isTrue(isInterface() || isAbstract() || isClass(), "The class type is wrong!");
+        Token typeToken = element.getKeywordParam(KeywordEnum.INTERFACE.value, KeywordEnum.CLASS.value, KeywordEnum.ABSTRACT.value);
+        Assert.isTrue(typeToken != null && typeToken.isType(), "Cannot get type token of class!");
+        return typeToken;
     }
 
     public String getSimpleName() {
@@ -57,19 +53,10 @@ public class IClass extends ImportableEntity {
         return packageStr + "." + getSimpleName();
     }
 
-    public int getTypeVariableIndex(String genericName) {
-        String simpleName = getTypeToken().toString();
-        // 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
-        List<String> names = new ArrayList<>(Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(simpleName));
-        names.remove(0);
-        int index = 0;
-        for (String name : names) {
-            if (name.equals(genericName)) {
-                return index;
-            }
-            index++;
-        }
-        return -1;
+    public int getTypeVariableIndex(String genericName) {// 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
+        List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(getTypeToken().toString());
+        int index = ListUtils.indexOf(names, 1, names.size(), name -> name.equals(genericName));
+        return index >= 1 ? index - 1 : -1;
     }
 
     public IType getSuperType() {// 注意:这里返回的是Super<T,K>
