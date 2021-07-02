@@ -3,6 +3,7 @@ package com.gitee.spirit.core.clazz.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.hutool.core.lang.Assert;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
@@ -18,27 +19,21 @@ public class IMethod extends MemberEntity {
         super(annotations, element);
     }
 
+    public Token getMethodToken() {
+        Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
+        Assert.notNull(methodToken, "The method token cannot be null!");
+        return methodToken;
+    }
+
     @Override
     public String getName() {
-        Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
-        if (methodToken.isTypeInit()) {
-            return methodToken.attr(Attribute.SIMPLE_NAME);
-
-        } else if (methodToken.isLocalMethod()) {
-            return methodToken.attr(Attribute.MEMBER_NAME);
-        }
-        throw new RuntimeException("The token is not a method!");
+        Token methodToken = getMethodToken();
+        return methodToken.attr(Attribute.SIMPLE_NAME, Attribute.MEMBER_NAME);
     }
 
     public boolean isInit() {
-        Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
-        if (methodToken.isTypeInit()) {
-            return true;
-
-        } else if (methodToken.isLocalMethod()) {
-            return false;
-        }
-        throw new RuntimeException("The token is not a method!");
+        Token methodToken = getMethodToken();
+        return methodToken.isTypeInit();
     }
 
     @Override
