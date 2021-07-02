@@ -5,18 +5,20 @@ import com.gitee.spirit.core.element.entity.Token;
 
 public class IVariable extends TokenEntity {
 
-	public String blockId;
+    public String blockId;
 
-	public IVariable(Token token) {
-		super(token);
-	}
+    public IVariable(Token token) {
+        super(token);
+    }
 
-	@Override
-	public String getName() {
-		if (token == null) {
-			return "NO_NAME";
-		}
-		return super.getName();
-	}
+    public String getName() {
+        if (token == null) {
+            return "NO_NAME";
+        }
+        if (token.isVariable()) {
+            return token.toString();
+        }
+        throw new RuntimeException("The token is not a variable!");
+    }
 
 }
