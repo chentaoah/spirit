@@ -1,6 +1,7 @@
 package com.gitee.spirit.core.clazz.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
@@ -55,8 +56,8 @@ public class IClass extends ImportableEntity {
 
     public int getTypeVariableIndex(String genericName) {// 这样分割，是有风险的，不过一般来说，类型说明里面不会再有嵌套
         List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(getTypeToken().toString());
-        int index = ListUtils.indexOf(names, 1, names.size(), name -> name.equals(genericName));
-        return index >= 1 ? index - 1 : -1;
+        names = names.size() > 1 ? names.subList(1, names.size()) : Collections.emptyList();
+        return ListUtils.indexOf(names, 0, names.size(), name -> name.equals(genericName));
     }
 
     public IType getSuperType() {// 注意:这里返回的是Super<T,K>
