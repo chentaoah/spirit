@@ -1,9 +1,7 @@
 package com.gitee.spirit.common.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.collection.CollUtil;
@@ -12,6 +10,7 @@ import com.gitee.spirit.common.function.Function;
 
 public class ListUtils {
 
+    @SafeVarargs
     public static <T> List<T> asListNonNull(T... items) {
         Assert.notNull(items, "The parameter items cannot be null!");
         return Arrays.stream(items).filter(Objects::nonNull).collect(Collectors.toList());
@@ -88,10 +87,10 @@ public class ListUtils {
         }
     }
 
-    public static <T> T findOneByScore(Iterable<T> collection, Function.Scorer<T> scorer) {
+    public static <T> T findOneByScore(Iterable<T> iterable, Function.Scorer<T> scorer) {
         Integer maxScore = null;
         T finalItem = null;
-        for (T item : collection) {
+        for (T item : iterable) {
             Integer score = scorer.accept(item);
             if (score != null) {
                 Assert.isFalse(maxScore != null && maxScore.intValue() == score.intValue(), "The score cannot be the same!");
@@ -123,6 +122,11 @@ public class ListUtils {
             }
         }
         return null;
+    }
+
+    public static <T> void reverse(List<T> list, Consumer<T> consumer) {
+        Collections.reverse(list);
+        list.forEach(consumer);
     }
 
 }

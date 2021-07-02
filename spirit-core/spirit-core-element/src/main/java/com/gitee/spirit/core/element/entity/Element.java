@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gitee.spirit.common.enums.SyntaxEnum;
 import com.gitee.spirit.common.utils.LineUtils;
+import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.element.frame.Syntactic;
 
 public class Element extends Syntactic {
@@ -38,9 +39,7 @@ public class Element extends Syntactic {
     }
 
     public Element addModifiers(String... keywords) {
-        for (int i = keywords.length - 1; i >= 0; i--) {
-            modifiers.addKeywordAtFirst(keywords[i]);
-        }
+        ListUtils.reverse(ListUtils.asListNonNull(keywords), keyword -> modifiers.addKeywordAtFirst(keyword));
         return this;
     }
 
