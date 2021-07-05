@@ -2,6 +2,7 @@ package com.gitee.spirit.core.clazz.entity;
 
 import java.util.List;
 
+import cn.hutool.core.lang.Assert;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
 import com.gitee.spirit.core.element.entity.Element;
 

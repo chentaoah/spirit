@@ -32,9 +32,7 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
         URL inputUrl = URLFileUtils.toURL(directory);
         urlList.forEach(url -> {
             String name = url.toString().replace(inputUrl.toString(), "").replaceAll("/", ".");
-            if (name.endsWith("." + extension)) {
-                name = name.substring(0, name.lastIndexOf('.'));
-            }
+            name = name.endsWith("." + extension) ? name.substring(0, name.lastIndexOf('.')) : name;
             urls.put(name, url);
             classes.put(name, null);
         });
@@ -57,15 +55,8 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
 
     @Override
     public IClass loadClass(String name) {
-        if (contains(name)) {
-            IClass clazz = classes.get(name);
-            if (clazz == null) {
-                clazz = classes.put(name, super.loadClass(name));
-            }
-            return clazz;
-        } else {
-            throw new RuntimeException("The class was not found!name:" + name);
-        }
+        Assert.isTrue(contains(name), "The class was not found!name:" + name);
+        return classes.computeIfAbsent(name, super::loadClass);
     }
 
     @Override

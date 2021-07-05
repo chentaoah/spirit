@@ -2,6 +2,7 @@ package com.gitee.spirit.core.clazz.entity;
 
 import java.util.List;
 
+import cn.hutool.core.lang.Assert;
 import com.gitee.spirit.core.clazz.frame.AnnotatedEntity;
 import com.gitee.spirit.core.clazz.frame.NamedEntity;
 import com.gitee.spirit.core.element.entity.Element;
@@ -14,10 +15,8 @@ public class IParameter extends AnnotatedEntity implements NamedEntity {
 
     @Override
     public String getName() {
-        if (element.isDeclare()) {
-            return element.getStr(1);
-        }
-        throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
+        Assert.isTrue(element.isDeclare(), "Unsupported syntax!syntax:" + element.syntax);
+        return element.getStr(1);
     }
 
     @Override
