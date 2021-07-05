@@ -12,8 +12,6 @@ public abstract class AbstractClassLoader<T> implements ClassLoader<T> {
 		return defineClass(name, resource);
 	}
 
-	public abstract URL getResource(String name);
-
 	public abstract T defineClass(String name, URL resource);
 
 }

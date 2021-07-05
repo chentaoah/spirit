@@ -41,8 +41,8 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
     }
 
     @Override
-    public List<URL> getResources(String name) {
-        return Collections.singletonList(urls.get(name));
+    public URL getResource(String name) {
+        return urls.get(name);
     }
 
     @Override
@@ -71,11 +71,6 @@ public abstract class AbstractURLClassLoader extends AbstractClassLoader<IClass>
     @Override
     public List<IClass> getAllClasses() {
         return classes.values().stream().filter(Objects::nonNull).collect(Collectors.toList());
-    }
-
-    @Override
-    public URL getResource(String name) {
-        return urls.get(name);
     }
 
     public void clear() {

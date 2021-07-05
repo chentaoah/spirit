@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ClassLoader<T> {
 
-	List<URL> getResources(String name);
+	URL getResource(String name);
 
 	List<String> getNames();
 

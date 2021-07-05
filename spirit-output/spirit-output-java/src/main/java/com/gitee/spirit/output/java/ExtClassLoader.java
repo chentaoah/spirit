@@ -36,18 +36,8 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Ini
     }
 
     @Override
-    public List<URL> getResources(String name) {
-        try {
-            List<URL> urls = new ArrayList<>();
-            Enumeration<URL> enumeration = loader.getResources(name);
-            while (enumeration.hasMoreElements()) {
-                URL url = enumeration.nextElement();
-                urls.add(url);
-            }
-            return urls;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public URL getResource(String name) {
+        return loader.getResource(name);
     }
 
     @Override
@@ -76,11 +66,6 @@ public class ExtClassLoader extends AbstractClassLoader<Class<?>> implements Ini
     @Override
     public List<Class<?>> getAllClasses() {
         throw new RuntimeException("This method is not supported!");
-    }
-
-    @Override
-    public URL getResource(String name) {
-        return loader.getResource(name);
     }
 
     @Override
