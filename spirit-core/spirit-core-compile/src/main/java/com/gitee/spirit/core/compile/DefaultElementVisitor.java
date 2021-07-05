@@ -2,6 +2,7 @@ package com.gitee.spirit.core.compile;
 
 import java.util.List;
 
+import com.gitee.spirit.core.compile.entity.NullVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,48 +20,48 @@ import com.gitee.spirit.core.element.entity.Token;
 @Component
 public class DefaultElementVisitor implements ElementVisitor {
 
-	@Autowired
-	public List<AbstractAppElementAction> actions;
-	@Autowired
-	public StatementDeducer deducer;
+    @Autowired
+    public List<AbstractAppElementAction> actions;
+    @Autowired
+    public StatementDeducer deducer;
 
-	@Override
-	public IVariable visitElement(VisitContext context, Element element) {
-		try {
-			for (ElementAction action : actions) {
-				action.visitElement(context, element);
-			}
-			return getVariableIfPossible(context, element);
+    @Override
+    public IVariable visitElement(VisitContext context, Element element) {
+        try {
+            for (ElementAction action : actions) {
+                action.visitElement(context, element);
+            }
+            return getVariableIfPossible(context, element);
 
-		} catch (Exception e) {
-			element.debug();
-			throw new RuntimeException("Failed to derive element!", e);
-		}
-	}
+        } catch (Exception e) {
+            element.debug();
+            throw new RuntimeException("Failed to derive element!", e);
+        }
+    }
 
-	public IVariable getVariableIfPossible(VisitContext context, Element element) {
-		if (element.isAssign()) {
-			return createVariable(element.get(0));
+    public IVariable getVariableIfPossible(VisitContext context, Element element) {
+        if (element.isAssign()) {
+            return createVariable(element.get(0));
 
-		} else if (element.isDeclare() || element.isDeclareAssign() || element.isForIn()) {
-			return createVariable(element.get(1));
+        } else if (element.isDeclare() || element.isDeclareAssign() || element.isForIn()) {
+            return createVariable(element.get(1));
 
-		} else if (element.isCatch()) {
-			return createVariable(element.get(3));
+        } else if (element.isCatch()) {
+            return createVariable(element.get(3));
 
-		} else if (element.isReturn()) {
-			Statement statement = element.subStmt(1, element.size());
-			IVariable variable = new IVariable(null);
-			variable.setType(deducer.derive(statement));
-			return variable;
-		}
-		return null;
-	}
+        } else if (element.isReturn()) {
+            Statement statement = element.subStmt(1, element.size());
+            IVariable variable = new NullVariable();
+            variable.setType(deducer.derive(statement));
+            return variable;
+        }
+        return null;
+    }
 
-	public IVariable createVariable(Token varToken) {
-		IVariable variable = new IVariable(varToken);
-		variable.setType(varToken.attr(Attribute.TYPE));
-		return variable;
-	}
+    public IVariable createVariable(Token varToken) {
+        IVariable variable = new IVariable(varToken);
+        variable.setType(varToken.attr(Attribute.TYPE));
+        return variable;
+    }
 
 }
