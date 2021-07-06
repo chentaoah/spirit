@@ -9,6 +9,7 @@ public enum TokenTypeEnum {
 	TYPE, // Horse
 	ARRAY_INIT, // Horse[1]
 	TYPE_INIT, // Horse()
+	TYPE_BUILDER_INIT, // Horse{}
 	NULL, // null
 	BOOLEAN, // true
 	CHAR, // 'c'
