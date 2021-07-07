@@ -47,8 +47,12 @@ public abstract class Semantic extends Attributes {
         return tokenType == TokenTypeEnum.TYPE_INIT;
     }
 
-    public boolean isTypeBuilderInit() {
-        return tokenType == TokenTypeEnum.TYPE_BUILDER_INIT;
+    public boolean isTypeBuilder() {
+        return tokenType == TokenTypeEnum.TYPE_BUILDER;
+    }
+
+    public boolean isTypeSmartBuilder() {
+        return tokenType == TokenTypeEnum.TYPE_SMART_BUILDER;
     }
 
     public boolean isNull() {

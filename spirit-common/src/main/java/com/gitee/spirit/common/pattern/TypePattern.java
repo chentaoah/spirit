@@ -16,7 +16,8 @@ public class TypePattern {
     public static final Pattern TYPE_ARRAY_SIZE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\d+\\]$");
     public static final Pattern TYPE_ARRAY_LITERAL_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*\\[\\]\\{[\\s\\S]*\\}$");
     public static final Pattern TYPE_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\([\\s\\S]*\\)$");
-    public static final Pattern TYPE_BUILDER_INIT_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\{[\\s\\S]*\\}$");
+    public static final Pattern TYPE_BUILDER_PATTERN = Pattern.compile("^[A-Z]+\\w*(<[\\s\\S]+>)?\\{[\\s\\S]*\\}$");
+    public static final Pattern TYPE_SMART_BUILDER_PATTERN = Pattern.compile("\\$\\{[\\s\\S]*\\}$");
 
     public static boolean isTypePrefix(String word) {
         return PrimitiveEnum.isPrimitiveBySimple(word) || isType(word);
@@ -54,8 +55,12 @@ public class TypePattern {
         return TYPE_INIT_PATTERN.matcher(word).matches();
     }
 
-    private static boolean isTypeBuilderInit(String word) {
-        return TYPE_BUILDER_INIT_PATTERN.matcher(word).matches();
+    public static boolean isTypeBuilder(String word) {
+        return TYPE_BUILDER_PATTERN.matcher(word).matches();
+    }
+
+    public static boolean isTypeSmartBuilder(String word) {
+        return TYPE_SMART_BUILDER_PATTERN.matcher(word).matches();
     }
 
     public static boolean isAnyType(String word) {
@@ -73,8 +78,11 @@ public class TypePattern {
         } else if (isTypeInit(word)) {
             return TokenTypeEnum.TYPE_INIT;
 
-        } else if (isTypeBuilderInit(word)) {
-            return TokenTypeEnum.TYPE_BUILDER_INIT;
+        } else if (isTypeBuilder(word)) {
+            return TokenTypeEnum.TYPE_BUILDER;
+
+        }else if (isTypeSmartBuilder(word)) {
+            return TokenTypeEnum.TYPE_SMART_BUILDER;
         }
         return null;
     }

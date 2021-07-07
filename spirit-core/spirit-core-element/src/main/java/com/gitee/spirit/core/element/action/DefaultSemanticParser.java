@@ -141,7 +141,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
         } else if (token.isArrayInit()) {
             token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getPrefix(word) + "[]");
 
-        } else if (token.isTypeInit() || token.isTypeBuilderInit()) {
+        } else if (token.isTypeInit() || token.isTypeBuilder()) {
             token.setAttr(Attribute.SIMPLE_NAME, CommonPattern.getPrefix(word));
 
         } else if (token.isCast()) {

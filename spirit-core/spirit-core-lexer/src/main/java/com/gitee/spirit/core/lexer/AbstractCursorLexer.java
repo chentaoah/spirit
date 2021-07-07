@@ -22,7 +22,7 @@ public abstract class AbstractCursorLexer extends AbstractLexer {
     }
 
     public boolean isContinuous(char ch) {
-        return LineUtils.isLetter(ch) || ch == '@' || ch == '.' || ch == '$';
+        return LineUtils.isLetter(ch) || ch == '@' || ch == '$' || ch == '.';
     }
 
     public boolean isRefreshed(char ch) {
