@@ -3,6 +3,7 @@ import java.util.HashMap
 import com.gitee.spirit.example.ClassGenericTest
 import com.gitee.spirit.example.MyTest
 import com.gitee.spirit.example.GenericType
+import com.gitee.spirit.example.User
 
 const NUMBER = 100.0
 const NAME = "chentao"
@@ -138,6 +139,9 @@ class Type {
 		}
 		str0 = objvar.toString()
 		print str0
+
+		user = User{name="chen",age=18}
+		print user.getName()
 	}
 
 	func testParam(@Deprecated String str, Object obj){

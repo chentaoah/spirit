@@ -53,7 +53,8 @@ public class AppTypeFactory extends AbstractTypeFactory {
         if (token.isType()) {
             return doCreate(clazz, token);
 
-        } else if (token.isAnnotation() || token.isArrayInit() || token.isTypeInit() || token.isCast()) {
+        } else if (token.isAnnotation() || token.isArrayInit() ||
+                token.isTypeInit() || token.isTypeBuilder() || token.isCast()) {
             return create(clazz, (String) token.attr(Attribute.SIMPLE_NAME));
 
         } else if (token.isLiteral()) {// 1, 1.1, "xxxx"

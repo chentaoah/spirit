@@ -51,9 +51,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
     }
 
     public TokenTypeEnum getTokenType(SemanticContext context, String word) {
-        if (!context.subStatement) {
-            return getCommonTokenType(context, word);
-        } else {
+        if (context.subStatement) {
             if (context.insideType) {
                 if ("<".equals(word) || ">".equals(word)) {
                     return TokenTypeEnum.SEPARATOR;
@@ -65,8 +63,8 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
             if (context.index == 0 && CommonPattern.isPrefix(word)) {
                 return TokenTypeEnum.PREFIX;
             }
-            return getCommonTokenType(context, word);
         }
+        return getCommonTokenType(context, word);
     }
 
     public TokenTypeEnum getCommonTokenType(SemanticContext context, String word) {
@@ -120,7 +118,7 @@ public class DefaultSemanticParser extends AbstractSemanticParser {
         if (token.isType()) {
             return word.contains("<") || word.contains(">") ? getStatement(true, word) : word;
 
-        } else if (token.isArrayInit() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
+        } else if (token.isArrayInit() || token.isTypeBuilder() || token.isList() || token.isMap() || token.isSubexpress() || token.isInvoke()) {
             // 拆分数组是为了更好的添加new这个关键字
             return getStatement(false, word);
         }
