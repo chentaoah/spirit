@@ -32,7 +32,6 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
     @Override
     public void visitElement(VisitContext context, Element element) {
-        IClass clazz = context.clazz;
         StmtVisitor.forEachStmt(element, statement -> {
             for (int index = 0; index < statement.size(); index++) {
                 try {
@@ -42,7 +41,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
                     }
                     List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(token) : null;
                     if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isTypeBuilder() || token.isCast() || token.isLiteral()) {
-                        token.setAttr(Attribute.TYPE, factory.create(clazz, token));
+                        token.setAttr(Attribute.TYPE, factory.create(context.clazz, token));
 
                     } else if (token.isSubexpress()) {
                         Statement subStatement = token.getValue();
@@ -56,7 +55,7 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
                     } else if (token.isLocalMethod()) {
                         String memberName = token.attr(Attribute.MEMBER_NAME);
-                        IType returnType = linker.visitMethod(clazz.getType().withPrivate(), memberName, parameterTypes);
+                        IType returnType = linker.visitMethod(context.clazz.getType().withPrivate(), memberName, parameterTypes);
                         token.setAttr(Attribute.TYPE, returnType);
 
                     } else if (token.isVisitMethod()) {
