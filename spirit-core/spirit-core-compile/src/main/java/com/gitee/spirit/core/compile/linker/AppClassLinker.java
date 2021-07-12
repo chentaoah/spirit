@@ -83,4 +83,12 @@ public class AppClassLinker implements ClassLinker {
         return null;
     }
 
+    @Override
+    public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
+        IClass clazz = toClass(type);
+        List<IMethod> methods = clazz.getMethods(methodName);
+        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
+        return method.getParameterTypes();
+    }
+
 }

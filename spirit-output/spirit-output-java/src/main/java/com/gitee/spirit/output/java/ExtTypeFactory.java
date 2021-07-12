@@ -20,7 +20,7 @@ public class ExtTypeFactory extends AppTypeFactory {
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
-		if (typeVariables != null && typeVariables.length > 0) {
+		if (typeVariables.length > 0) {
 			List<IType> genericTypes = new ArrayList<>();
 			for (TypeVariable<?> typeVariable : typeVariables) {
 				genericTypes.add(createTypeVariable(typeVariable.toString()));

@@ -6,16 +6,18 @@ import com.gitee.spirit.core.clazz.entity.IType;
 
 public interface ClassLinker {
 
-	<T> T toClass(IType type);
+    <T> T toClass(IType type);
 
-	int getTypeVariableIndex(IType type, String genericName);
+    int getTypeVariableIndex(IType type, String genericName);
 
-	IType getSuperType(IType type);
+    IType getSuperType(IType type);
 
-	List<IType> getInterfaceTypes(IType type);
+    List<IType> getInterfaceTypes(IType type);
 
-	IType visitField(IType type, String fieldName) throws NoSuchFieldException;
+    IType visitField(IType type, String fieldName) throws NoSuchFieldException;
 
-	IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException;
+    IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException;
+
+    List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException;
 
 }

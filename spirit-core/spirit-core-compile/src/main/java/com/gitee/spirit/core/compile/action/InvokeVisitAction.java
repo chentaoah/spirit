@@ -3,6 +3,8 @@ package com.gitee.spirit.core.compile.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,6 @@ import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.api.TypeFactory;
-import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
@@ -39,8 +40,14 @@ public class InvokeVisitAction extends AbstractAppElementAction {
                     if (token.attr(Attribute.TYPE) != null) {
                         continue;
                     }
+
                     List<IType> parameterTypes = token.isInvoke() ? getParameterTypes(token) : null;
-                    if (token.isType() || token.isArrayInit() || token.isTypeInit() || token.isTypeBuilder() || token.isCast() || token.isLiteral()) {
+
+                    if (token.isTypeSmartBuilder()) {
+                        token.setAttr(Attribute.TYPE, CommonTypes.NULL);
+
+                    } else if (token.isType() || token.isArrayInit() || token.isTypeInit()
+                            || token.isTypeBuilder() || token.isCast() || token.isLiteral()) {
                         token.setAttr(Attribute.TYPE, factory.create(context.clazz, token));
 
                     } else if (token.isSubexpress()) {
@@ -55,14 +62,21 @@ public class InvokeVisitAction extends AbstractAppElementAction {
 
                     } else if (token.isLocalMethod()) {
                         String memberName = token.attr(Attribute.MEMBER_NAME);
-                        IType returnType = linker.visitMethod(context.clazz.getType().withPrivate(), memberName, parameterTypes);
+                        IType type = context.clazz.getType().withPrivate();
+                        IType returnType = linker.visitMethod(type, memberName, parameterTypes);
                         token.setAttr(Attribute.TYPE, returnType);
+                        //for smart builder
+                        parameterTypes = linker.getParameterTypes(type, memberName, parameterTypes);
+                        setTypeForSmartBuilder(token, parameterTypes);
 
                     } else if (token.isVisitMethod()) {
                         IType type = statement.get(index - 1).attr(Attribute.TYPE);
                         String memberName = token.attr(Attribute.MEMBER_NAME);
                         IType returnType = linker.visitMethod(type, memberName, parameterTypes);
                         token.setAttr(Attribute.TYPE, returnType);
+                        //for smart builder
+                        parameterTypes = linker.getParameterTypes(type, memberName, parameterTypes);
+                        setTypeForSmartBuilder(token, parameterTypes);
 
                     } else if (token.isVisitIndex()) {// what like "[0]"
                         IType type = statement.get(index - 1).attr(Attribute.TYPE);
@@ -88,6 +102,16 @@ public class InvokeVisitAction extends AbstractAppElementAction {
             }
         }
         return parameterTypes;
+    }
+
+    public void setTypeForSmartBuilder(Token token, List<IType> parameterTypes) {
+        if (!parameterTypes.isEmpty()) {
+            if (ListUtils.findOne(parameterTypes, parameterType -> parameterType == CommonTypes.NULL) != null) {
+                Statement statement = token.getValue();
+                List<Statement> subStatements = statement.subStmt(2, statement.size() - 1).splitStmt(",");
+                //TODO 这里添加逻辑
+            }
+        }
     }
 
 }

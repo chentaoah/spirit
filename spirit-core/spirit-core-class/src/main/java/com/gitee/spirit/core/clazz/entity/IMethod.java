@@ -6,7 +6,9 @@ import java.util.List;
 import cn.hutool.core.lang.Assert;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
+import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
+import com.gitee.spirit.core.clazz.frame.TypeEntity;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Token;
 import com.google.common.base.Joiner;
@@ -34,6 +36,10 @@ public class IMethod extends MemberEntity {
     public boolean isInit() {
         Token methodToken = getMethodToken();
         return methodToken.isTypeInit();
+    }
+
+    public List<IType> getParameterTypes() {
+        return ListUtils.collectAll(parameters, TypeEntity::getType);
     }
 
     @Override

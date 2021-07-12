@@ -13,38 +13,43 @@ import com.gitee.spirit.core.clazz.utils.CommonTypes;
 @Component
 public class ArrayClassLinker implements ClassLinker {
 
-	@Override
-	public <T> T toClass(IType type) {
-		throw new RuntimeException("This method is not supported!");
-	}
+    @Override
+    public <T> T toClass(IType type) {
+        throw new RuntimeException("This method is not supported!");
+    }
 
-	@Override
-	public int getTypeVariableIndex(IType type, String genericName) {
-		throw new RuntimeException("This method is not supported!");
-	}
+    @Override
+    public int getTypeVariableIndex(IType type, String genericName) {
+        throw new RuntimeException("This method is not supported!");
+    }
 
-	@Override
-	public IType getSuperType(IType type) {
-		return CommonTypes.OBJECT;
-	}
+    @Override
+    public IType getSuperType(IType type) {
+        return CommonTypes.OBJECT;
+    }
 
-	@Override
-	public List<IType> getInterfaceTypes(IType type) {
-		return new ArrayList<>();
-	}
+    @Override
+    public List<IType> getInterfaceTypes(IType type) {
+        return new ArrayList<>();
+    }
 
-	@Override
-	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
-		if (Dictionary.LENGTH.equals(fieldName)) {
-			return CommonTypes.INT;
-		} else {
-			throw new RuntimeException("The array type has no other fields");
-		}
-	}
+    @Override
+    public IType visitField(IType type, String fieldName) {
+        if (Dictionary.LENGTH.equals(fieldName)) {
+            return CommonTypes.INT;
+        } else {
+            throw new RuntimeException("The array type has no other fields");
+        }
+    }
 
-	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
-		throw new RuntimeException("The array type has no method!");
-	}
+    @Override
+    public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+        throw new RuntimeException("The array type has no method!");
+    }
+
+    @Override
+    public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
+        throw new RuntimeException("The array type has no method!");
+    }
 
 }

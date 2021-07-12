@@ -128,6 +128,15 @@ public class ListUtils {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <V, T> List<V> collectAll(List<T> list, Function.Consumer<T> consumer) {
+        List<V> list0 = new ArrayList<>();
+        for (T item : list) {
+            list0.add((V) consumer.accept(item));
+        }
+        return list0;
+    }
+
     public static <T> void reverse(List<T> list, Consumer<T> consumer) {
         Collections.reverse(list);
         list.forEach(consumer);
