@@ -25,7 +25,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 	@Autowired
 	public VariableTrackAction variableAction;
 	@Autowired
-	public InvokeVisitAction invokeAction;
+	public InvocationVisitAction invokeAction;
 	@Autowired
 	public StatementDeducer deducer;
 	@Autowired

@@ -31,10 +31,6 @@ public class ExtTypeDerivator extends AppTypeDerivator {
 		});
 	}
 
-	public IType populateParameter(IType type, IType parameterType, IType targetType) {
-		return populateQualifying(type, parameterType, targetType, new HashMap<>());
-	}
-
 	public IType populateQualifying(IType type, IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
 		// 先使用类型填充
 		targetType = populate(type, targetType);

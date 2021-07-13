@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ import cn.hutool.core.lang.Assert;
 public class ExtClassLinker implements ClassLinker {
 
     @Autowired
-    public ExtClassLoader classLoader;
+    public ExtClassLoader loader;
     @Autowired
     public ExtTypeFactory factory;
     @Autowired
@@ -41,7 +42,7 @@ public class ExtClassLinker implements ClassLinker {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T toClass(IType type) {
-        return (T) classLoader.loadClass(type.getClassName());// 可能是数组
+        return (T) loader.loadClass(type.getClassName());// 可能是数组
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ExtClassLinker implements ClassLinker {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
         Method method = findMethod(type, methodName, parameterTypes);
         if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
-            Map<String, IType> qualifyingTypes = getQualifyingTypes(type, method, parameterTypes);
+            Map<String, IType> qualifyingTypes = matcher.getParameterTypes(type, method, parameterTypes).qualifyingTypes;
             return derivator.populateReturnType(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
         }
         return null;
@@ -101,24 +102,16 @@ public class ExtClassLinker implements ClassLinker {
     public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
         Method method = findMethod(type, methodName, parameterTypes);
-        return ListUtils.collectAll(Arrays.asList(method.getParameterTypes()), clazz -> factory.create(clazz));
+        if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
+            return matcher.getParameterTypes(type, method, parameterTypes).parameterTypes;
+        }
+        return null;
     }
 
     public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
         Class<?> clazz = toClass(type);
         List<Method> methods = ListUtils.findAll(Arrays.asList(clazz.getDeclaredMethods()), method -> methodName.equals(method.getName()));
         return ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
-    }
-
-    public Map<String, IType> getQualifyingTypes(IType type, Method method, List<IType> parameterTypes) {
-        Map<String, IType> qualifyingTypes = new HashMap<>();
-        int size = !ReflectUtils.isIndefinite(method) ? method.getParameterCount() : method.getParameterCount() - 1;
-        Parameter[] parameters = method.getParameters();
-        for (int i = 0; i < size; i++) {
-            // 根据本地类型创建统一的类型
-            derivator.populateQualifying(type, parameterTypes.get(i), factory.create(parameters[i].getParameterizedType()), qualifyingTypes);
-        }
-        return qualifyingTypes;
     }
 
 }

@@ -79,6 +79,13 @@ public class IType {
         return this;
     }
 
+    public boolean similar(IType targetType) {
+        if (isGenericType()) {
+            //TODO
+        }
+        return false;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof IType)) {
