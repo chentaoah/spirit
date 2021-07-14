@@ -2,11 +2,9 @@ package com.gitee.spirit.output.java.linker;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.output.java.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,8 +49,10 @@ public class ExtMethodMatcher {
             if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
                 nativeParameterType = nativeParameterType.toTarget();
             }
+            //这里选择强制填充
+            nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);
             //如果结构不同，则直接返回不匹配
-            if (!parameterType.similar(nativeParameterType)) {
+            if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
                 return null;
             }
             //填充类型里的泛型参数
@@ -62,14 +62,10 @@ public class ExtMethodMatcher {
             //添加到待返回的集合中
             nativeParameterTypes.add(nativeParameterType);
         }
-        return new MatchResult(nativeParameterTypes, qualifyingTypes);
+        return new MatchResult(method, nativeParameterTypes, qualifyingTypes);
     }
 
-    public Integer getMethodScore(IType type, Method method, List<IType> parameterTypes) {
-        List<IType> nativeParameterTypes = getParameterTypes(type, method, parameterTypes).parameterTypes;
-        if (nativeParameterTypes == null) {
-            return null;
-        }
+    public Integer getMethodScore(List<IType> parameterTypes, List<IType> nativeParameterTypes) {
         Integer finalScore = 0;
         for (int index = 0; index < parameterTypes.size(); index++) {
             Integer scope = derivator.getAbstractDegree(nativeParameterTypes.get(index), parameterTypes.get(index));
@@ -79,6 +75,19 @@ public class ExtMethodMatcher {
             }
         }
         return finalScore;
+    }
+
+    public MatchResult findMethod(IType type, List<Method> methods, List<IType> parameterTypes) {
+        Map<Method, MatchResult> matchResultMap = new HashMap<>();
+        Method method = ListUtils.findOneByScore(methods, eachMethod -> {
+            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+            if (matchResult != null) {
+                matchResultMap.put(eachMethod, matchResult);
+                return getMethodScore(parameterTypes, matchResult.parameterTypes);
+            }
+            return -1;
+        });
+        return matchResultMap.get(method);
     }
 
 }

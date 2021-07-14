@@ -3,6 +3,7 @@ package com.gitee.spirit.core.clazz.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.core.clazz.utils.TypeVisitor;
 import org.apache.commons.lang3.StringUtils;
 
 import com.gitee.spirit.common.enums.AccessLevelEnum;
@@ -79,30 +80,14 @@ public class IType {
         return this;
     }
 
-    public boolean similar(IType targetType) {
-        if (isGenericType()) {
-            //TODO
-        }
-        return false;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof IType)) {
             return false;
         }
-        IType typeToMatch = (IType) obj;
-        boolean flag = getClassName().equals(typeToMatch.getClassName());
-        if (flag) {
-            int count = 0;
-            for (IType genericType : getGenericTypes()) {
-                if (!genericType.equals(typeToMatch.getGenericTypes().get(count++))) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
+        String finalName = TypeVisitor.forEachTypeName(this, IType::getTypeName);
+        String targetFinalName = TypeVisitor.forEachTypeName((IType) obj, IType::getTypeName);
+        return finalName.equals(targetFinalName);
     }
 
     @Override

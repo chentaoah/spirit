@@ -1,7 +1,12 @@
 package com.gitee.spirit.core.compile.linker;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.compile.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,26 +18,51 @@ import com.gitee.spirit.core.clazz.entity.IType;
 @Component
 public class AppMethodMatcher {
 
-	@Autowired
-	public TypeDerivator derivator;
+    @Autowired
+    public TypeDerivator derivator;
 
-	public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
-		if (method.parameters.size() != parameterTypes.size()) {
-			return null;
-		}
-		Integer finalScore = 0;
-		int index = 0;
-		for (IType parameterType : parameterTypes) {
-			IParameter parameter = method.parameters.get(index++);
-			IType methodParameterType = derivator.populate(type, parameter.getType());
-			Integer scope = derivator.getAbstractDegree(methodParameterType, parameterType);
-			if (scope != null) {
-				finalScore += scope;
-			} else {
-				finalScore = null;
-				break;
-			}
-		}
-		return finalScore;
-	}
+    public boolean checkParameterCount(IMethod method, List<IType> parameterTypes) {
+        return method.parameters.size() == parameterTypes.size();
+    }
+
+    public MatchResult getParameterTypes(IType type, IMethod method, List<IType> parameterTypes) {
+        if (!checkParameterCount(method, parameterTypes)) {
+            return null;
+        }
+        List<IType> methodParameterTypes = method.getParameterTypes();
+        for (int index = 0; index < parameterTypes.size(); index++) {
+            IType methodParameterType = derivator.populate(type, methodParameterTypes.get(index));
+            methodParameterTypes.set(index, methodParameterType);
+        }
+        return new MatchResult(method, methodParameterTypes);
+    }
+
+    public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
+        Integer finalScore = 0;
+        int index = 0;
+        for (IType parameterType : parameterTypes) {
+            IParameter parameter = method.parameters.get(index++);
+            IType methodParameterType = derivator.populate(type, parameter.getType());
+            Integer scope = derivator.getAbstractDegree(methodParameterType, parameterType);
+            if (scope != null) {
+                finalScore += scope;
+            } else {
+                finalScore = null;
+                break;
+            }
+        }
+        return finalScore;
+    }
+
+    public MatchResult findMethod(IType type, List<IMethod> methods, List<IType> parameterTypes) {
+//        Map<IMethod, MatchResult> matchResultMap = new HashMap<>();
+//        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> {
+//            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+//            matchResultMap.put(eachMethod, matchResult);
+//            return getMethodScore(parameterTypes, matchResult.parameterTypes);
+//        });
+//        return matchResultMap.get(method);
+        return null;
+    }
+
 }

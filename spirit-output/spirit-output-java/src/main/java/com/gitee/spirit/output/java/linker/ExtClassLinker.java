@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gitee.spirit.core.clazz.utils.CommonTypes;
+import com.gitee.spirit.output.java.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -90,10 +91,9 @@ public class ExtClassLinker implements ClassLinker {
     @Override
     public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
-        Method method = findMethod(type, methodName, parameterTypes);
-        if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
-            Map<String, IType> qualifyingTypes = matcher.getParameterTypes(type, method, parameterTypes).qualifyingTypes;
-            return derivator.populateReturnType(type, qualifyingTypes, factory.create(method.getGenericReturnType()));
+        MatchResult matchResult = findMethod(type, methodName, parameterTypes);
+        if (matchResult.method != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
+            return derivator.populateReturnType(type, matchResult.qualifyingTypes, factory.create(matchResult.method.getGenericReturnType()));
         }
         return null;
     }
@@ -101,17 +101,17 @@ public class ExtClassLinker implements ClassLinker {
     @Override
     public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
-        Method method = findMethod(type, methodName, parameterTypes);
-        if (method != null && ReflectUtils.isAccessible(method, type.getModifiers())) {
-            return matcher.getParameterTypes(type, method, parameterTypes).parameterTypes;
+        MatchResult matchResult = findMethod(type, methodName, parameterTypes);
+        if (matchResult.method != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
+            return matchResult.parameterTypes;
         }
         return null;
     }
 
-    public Method findMethod(IType type, String methodName, List<IType> parameterTypes) {
+    public MatchResult findMethod(IType type, String methodName, List<IType> parameterTypes) {
         Class<?> clazz = toClass(type);
         List<Method> methods = ListUtils.findAll(Arrays.asList(clazz.getDeclaredMethods()), method -> methodName.equals(method.getName()));
-        return ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
+        return matcher.findMethod(type, methods, parameterTypes);
     }
 
 }

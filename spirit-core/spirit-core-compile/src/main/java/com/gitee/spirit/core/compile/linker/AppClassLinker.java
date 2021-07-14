@@ -24,7 +24,7 @@ import cn.hutool.core.lang.Assert;
 public class AppClassLinker implements ClassLinker {
 
     @Autowired
-    public AppClassLoader classLoader;
+    public AppClassLoader loader;
     @Autowired
     public ClassVisitor visitor;
     @Autowired
@@ -36,7 +36,7 @@ public class AppClassLinker implements ClassLinker {
     @SuppressWarnings("unchecked")
     public <T> T toClass(IType type) {
         Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-        return (T) classLoader.loadClass(type.getClassName());
+        return (T) loader.loadClass(type.getClassName());
     }
 
     @Override
