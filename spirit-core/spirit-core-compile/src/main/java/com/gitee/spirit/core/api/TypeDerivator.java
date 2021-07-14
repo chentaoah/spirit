@@ -4,10 +4,14 @@ import com.gitee.spirit.core.clazz.entity.IType;
 
 public interface TypeDerivator {
 
-	Integer getAbstractDegree(IType abstractType, IType targetType);
+    IType populate(IType instanceType, IType targetType);
 
-	boolean isMoreAbstract(IType abstractType, IType targetType);
+    boolean similar(IType targetType1, IType targetType2);
 
-	IType populate(IType instanceType, IType targetType);
+    IType findReferenceType(IType targetType, IType referenceType);
+
+    Integer getAbstractDegree(IType abstractType, IType targetType);
+
+    boolean isMoreAbstract(IType abstractType, IType targetType);
 
 }

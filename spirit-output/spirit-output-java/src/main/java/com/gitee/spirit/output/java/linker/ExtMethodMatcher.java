@@ -49,15 +49,17 @@ public class ExtMethodMatcher {
             if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
                 nativeParameterType = nativeParameterType.toTarget();
             }
-            //这里选择强制填充
-            nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);
-            //如果结构不同，则直接返回不匹配
-            if (!derivator.isMoreAbstract(nativeParameterType, parameterType)) {
+            //从继承关系中，找出适当的类型
+            parameterType = derivator.findReferenceType(parameterType, nativeParameterType);
+            //没有找到对应的，则直接返回
+            if (parameterType == null) {
                 return null;
             }
-            //填充类型里的泛型参数
-            if (!parameterType.isNull()) {
+            //如果因为限定冲突，则直接返回null
+            try {
                 nativeParameterType = derivator.populateQualifying(type, parameterType, nativeParameterType, qualifyingTypes);
+            } catch (IllegalArgumentException e) {
+                return null;
             }
             //添加到待返回的集合中
             nativeParameterTypes.add(nativeParameterType);
@@ -65,10 +67,10 @@ public class ExtMethodMatcher {
         return new MatchResult(method, nativeParameterTypes, qualifyingTypes);
     }
 
-    public Integer getMethodScore(List<IType> parameterTypes, List<IType> nativeParameterTypes) {
+    public Integer getMethodScore(List<IType> parameterTypes, List<IType> methodParameterTypes) {
         Integer finalScore = 0;
         for (int index = 0; index < parameterTypes.size(); index++) {
-            Integer scope = derivator.getAbstractDegree(nativeParameterTypes.get(index), parameterTypes.get(index));
+            Integer scope = derivator.getAbstractDegree(methodParameterTypes.get(index), parameterTypes.get(index));
             finalScore = scope != null ? finalScore + scope : null;
             if (finalScore == null) {
                 return null;
@@ -85,7 +87,7 @@ public class ExtMethodMatcher {
                 matchResultMap.put(eachMethod, matchResult);
                 return getMethodScore(parameterTypes, matchResult.parameterTypes);
             }
-            return -1;
+            return null;
         });
         return matchResultMap.get(method);
     }

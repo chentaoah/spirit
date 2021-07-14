@@ -3,6 +3,7 @@ package com.gitee.spirit.core.compile.linker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.core.compile.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -76,9 +77,9 @@ public class AppClassLinker implements ClassLinker {
     public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
         IClass clazz = toClass(type);
         List<IMethod> methods = clazz.getMethods(methodName);
-        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
-        if (method != null) {
-            return derivator.populate(type, visitor.visitMember(clazz, method));
+        MatchResult matchResult = matcher.findMethod(type, methods, parameterTypes);
+        if (matchResult != null) {
+            return derivator.populate(type, visitor.visitMember(clazz, matchResult.method));
         }
         return null;
     }
@@ -87,8 +88,11 @@ public class AppClassLinker implements ClassLinker {
     public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
         IClass clazz = toClass(type);
         List<IMethod> methods = clazz.getMethods(methodName);
-        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
-        return method.getParameterTypes();
+        MatchResult matchResult = matcher.findMethod(type, methods, parameterTypes);
+        if (matchResult != null) {
+            return matchResult.parameterTypes;
+        }
+        return null;
     }
 
 }

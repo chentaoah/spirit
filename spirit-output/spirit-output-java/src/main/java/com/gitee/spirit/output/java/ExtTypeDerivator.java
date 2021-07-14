@@ -19,20 +19,16 @@ public class ExtTypeDerivator extends AppTypeDerivator {
     public ClassLinker linker;
 
     @Override
-    public IType populate(IType type, IType targetType) {// 根据全局类型，进行填充
+    public IType populate(IType instanceType, IType targetType) {
         return TypeVisitor.forEachType(targetType, eachType -> {
             if (eachType.isTypeVariable()) {
-                int index = linker.getTypeVariableIndex(type, eachType.getGenericName());
+                int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
                 if (index >= 0) {
-                    return TypeBuilder.copy(type.getGenericTypes().get(index));
+                    return TypeBuilder.copy(instanceType.getGenericTypes().get(index));
                 }
             }
             return eachType;
         });
-    }
-
-    public IType populateParameter(IType type, IType parameterType, IType targetType) {
-        return populateQualifying(type, parameterType, targetType, new HashMap<>());
     }
 
     public IType populateQualifying(IType type, IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
@@ -51,7 +47,7 @@ public class ExtTypeDerivator extends AppTypeDerivator {
                 if (qualifyingTypes.containsKey(genericName)) {// 如果已经存在了，则必须统一
                     IType existType = qualifyingTypes.get(genericName);
                     if (!existType.equals(referType)) {
-                        throw new RuntimeException("Parameter qualification types are not uniform!");
+                        throw new IllegalArgumentException("Parameter qualification types are not uniform!");
                     }
                     return TypeBuilder.copy(referType);
 

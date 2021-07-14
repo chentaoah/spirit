@@ -3,7 +3,10 @@ package com.gitee.spirit.core.clazz.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.clazz.utils.TypeVisitor;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
 
 import com.gitee.spirit.common.enums.AccessLevelEnum;

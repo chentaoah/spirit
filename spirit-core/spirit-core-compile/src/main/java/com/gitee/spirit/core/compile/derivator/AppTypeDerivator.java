@@ -20,6 +20,51 @@ public class AppTypeDerivator implements TypeDerivator {
     public ClassLinker linker;
 
     @Override
+    public IType populate(IType instanceType, IType targetType) {
+        // 根据全局类型，进行填充
+        return TypeVisitor.forEachType(targetType, eachType -> {
+            if (eachType.isTypeVariable()) {
+                int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
+                Assert.isTrue(index >= 0, "Index of type variable less than 0!");
+                Assert.isTrue(instanceType.isGenericType(), "Type must be a generic type!");
+                return TypeBuilder.copy(instanceType.getGenericTypes().get(index));
+            }
+            return eachType;
+        });
+    }
+
+    @Override
+    public boolean similar(IType targetType1, IType targetType2) {
+        String finalName1 = TypeVisitor.forEachTypeName(targetType1, eachType -> "");
+        String finalName2 = TypeVisitor.forEachTypeName(targetType2, eachType -> "");
+        return finalName1.equals(finalName2);
+    }
+
+    @Override
+    public IType findReferenceType(IType targetType, IType referenceType) {
+        Assert.notNull(targetType, "The target type cannot be null!");
+        Assert.notNull(referenceType, "The reference type cannot be null!");
+        if (targetType.isNull()) {
+            return referenceType;
+        }
+        if (targetType.getClassName().equals(referenceType.getClassName())) {
+            Assert.isTrue(similar(targetType, referenceType), "The two types must be structurally similar!");
+            return targetType;
+        }
+        IType superType = findReferenceType(linker.getSuperType(targetType.toBox()), referenceType);
+        if (superType != null) {
+            return superType;
+        }
+        for (IType interfaceType : linker.getInterfaceTypes(targetType)) {
+            interfaceType = findReferenceType(interfaceType, referenceType);
+            if (interfaceType != null) {
+                return interfaceType;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Integer getAbstractDegree(IType abstractType, IType targetType) {
         if (abstractType == null || targetType == null) {
             return null;
@@ -56,18 +101,5 @@ public class AppTypeDerivator implements TypeDerivator {
         return getAbstractDegree(abstractType, targetType) != null;
     }
 
-    @Override
-    public IType populate(IType instanceType, IType targetType) {
-        // 根据全局类型，进行填充
-        return TypeVisitor.forEachType(targetType, eachType -> {
-            if (eachType.isTypeVariable()) {
-                int index = linker.getTypeVariableIndex(instanceType, eachType.getGenericName());
-                Assert.isTrue(index >= 0, "Index of type variable less than 0!");
-                Assert.isTrue(instanceType.isGenericType(), "Type must be a generic type!");
-                return TypeBuilder.copy(instanceType.getGenericTypes().get(index));
-            }
-            return eachType;
-        });
-    }
 
 }

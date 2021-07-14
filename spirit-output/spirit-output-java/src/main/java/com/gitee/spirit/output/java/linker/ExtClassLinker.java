@@ -92,7 +92,7 @@ public class ExtClassLinker implements ClassLinker {
     public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
         MatchResult matchResult = findMethod(type, methodName, parameterTypes);
-        if (matchResult.method != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
+        if (matchResult != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
             return derivator.populateReturnType(type, matchResult.qualifyingTypes, factory.create(matchResult.method.getGenericReturnType()));
         }
         return null;
@@ -102,7 +102,7 @@ public class ExtClassLinker implements ClassLinker {
     public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
         Assert.isTrue(type.getModifiers() != 0, "Modifiers for accessible members must be set!methodName:" + methodName);
         MatchResult matchResult = findMethod(type, methodName, parameterTypes);
-        if (matchResult.method != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
+        if (matchResult != null && ReflectUtils.isAccessible(matchResult.method, type.getModifiers())) {
             return matchResult.parameterTypes;
         }
         return null;

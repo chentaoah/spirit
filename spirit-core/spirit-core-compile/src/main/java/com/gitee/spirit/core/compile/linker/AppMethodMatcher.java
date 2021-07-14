@@ -37,32 +37,26 @@ public class AppMethodMatcher {
         return new MatchResult(method, methodParameterTypes);
     }
 
-    public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
+    public Integer getMethodScore(List<IType> parameterTypes, List<IType> methodParameterTypes) {
         Integer finalScore = 0;
-        int index = 0;
-        for (IType parameterType : parameterTypes) {
-            IParameter parameter = method.parameters.get(index++);
-            IType methodParameterType = derivator.populate(type, parameter.getType());
-            Integer scope = derivator.getAbstractDegree(methodParameterType, parameterType);
-            if (scope != null) {
-                finalScore += scope;
-            } else {
-                finalScore = null;
-                break;
+        for (int index = 0; index < parameterTypes.size(); index++) {
+            Integer scope = derivator.getAbstractDegree(methodParameterTypes.get(index), parameterTypes.get(index));
+            finalScore = scope != null ? finalScore + scope : null;
+            if (finalScore == null) {
+                return null;
             }
         }
         return finalScore;
     }
 
     public MatchResult findMethod(IType type, List<IMethod> methods, List<IType> parameterTypes) {
-//        Map<IMethod, MatchResult> matchResultMap = new HashMap<>();
-//        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> {
-//            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
-//            matchResultMap.put(eachMethod, matchResult);
-//            return getMethodScore(parameterTypes, matchResult.parameterTypes);
-//        });
-//        return matchResultMap.get(method);
-        return null;
+        Map<IMethod, MatchResult> matchResultMap = new HashMap<>();
+        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> {
+            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+            matchResultMap.put(eachMethod, matchResult);
+            return getMethodScore(parameterTypes, matchResult.parameterTypes);
+        });
+        return matchResultMap.get(method);
     }
 
 }
