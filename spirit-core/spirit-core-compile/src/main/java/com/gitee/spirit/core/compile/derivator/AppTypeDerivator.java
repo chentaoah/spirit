@@ -42,8 +42,9 @@ public class AppTypeDerivator implements TypeDerivator {
 
     @Override
     public IType findReferenceType(IType targetType, IType referenceType) {
-        Assert.notNull(targetType, "The target type cannot be null!");
-        Assert.notNull(referenceType, "The reference type cannot be null!");
+        if (targetType == null || referenceType == null) {
+            return null;
+        }
         if (targetType.isNull()) {
             return referenceType;
         }

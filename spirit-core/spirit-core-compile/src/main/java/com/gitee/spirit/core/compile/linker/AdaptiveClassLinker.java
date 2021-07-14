@@ -121,7 +121,27 @@ public class AdaptiveClassLinker implements ClassLinker {
 
     @Override
     public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
-        return chooseLinker(type).getParameterTypes(type, methodName, parameterTypes);
+        Assert.notNull(type, "Type cannot be null!");
+        Assert.notEmpty(methodName, "Method name cannot be empty!");
+        // super()和this()指代父类或者本身的构造函数，返回这个类本身
+        if (Dictionary.SUPER.equals(methodName) || Dictionary.THIS.equals(methodName)) {
+            return parameterTypes;
+        }
+        // 如果已经推导到Object，并且方法名是empty的话，则直接返回布尔类型
+        if (CommonTypes.OBJECT.equals(type) && Dictionary.EMPTY.equals(methodName)) {
+            return parameterTypes;
+        }
+        List<IType> methodParameterTypes = chooseLinker(type).getParameterTypes(type, methodName, parameterTypes);
+        if (methodParameterTypes == null) {
+            IType superType = getSuperType(type);
+            if (superType != null) {
+                return getParameterTypes(superType, methodName, parameterTypes);
+            }
+        }
+        if (methodParameterTypes == null) {
+            throw new NoSuchMethodException(String.format("No such method!className:%s, methodName:%s", type.getClassName(), methodName));
+        }
+        return methodParameterTypes;
     }
 
 }
