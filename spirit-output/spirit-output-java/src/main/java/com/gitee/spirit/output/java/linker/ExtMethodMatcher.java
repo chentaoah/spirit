@@ -5,6 +5,7 @@ import java.lang.reflect.Parameter;
 import java.util.*;
 
 import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.api.MethodMatcher;
 import com.gitee.spirit.output.java.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,13 +16,14 @@ import com.gitee.spirit.output.java.ExtTypeFactory;
 import com.gitee.spirit.output.java.utils.ReflectUtils;
 
 @Component
-public class ExtMethodMatcher {
+public class ExtMethodMatcher implements MethodMatcher<Method, MatchResult> {
 
     @Autowired
     public ExtTypeFactory factory;
     @Autowired
     public ExtTypeDerivator derivator;
 
+    @Override
     public boolean checkParameterCount(Method method, List<IType> parameterTypes) {
         if (!ReflectUtils.isIndefinite(method) && parameterTypes.size() == method.getParameterCount()) {// 不是不定项，那么参数个数相等
             return true;
@@ -31,6 +33,7 @@ public class ExtMethodMatcher {
         return false;
     }
 
+    @Override
     public MatchResult getParameterTypes(IType type, Method method, List<IType> parameterTypes) {
         if (!checkParameterCount(method, parameterTypes)) {
             return null;
@@ -67,6 +70,7 @@ public class ExtMethodMatcher {
         return new MatchResult(method, nativeParameterTypes, qualifyingTypes);
     }
 
+    @Override
     public MatchResult findMethod(IType type, List<Method> methods, List<IType> parameterTypes) {
         Map<Method, MatchResult> matchResultMap = new HashMap<>();
         Method method = ListUtils.findOneByScore(methods, eachMethod -> {
