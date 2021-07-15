@@ -12,6 +12,8 @@ import com.gitee.spirit.core.clazz.utils.TypeVisitor;
 
 import cn.hutool.core.lang.Assert;
 
+import java.util.List;
+
 @Primary
 @Component
 public class AppTypeDerivator implements TypeDerivator {
@@ -34,30 +36,30 @@ public class AppTypeDerivator implements TypeDerivator {
     }
 
     @Override
-    public boolean similar(IType targetType1, IType targetType2) {
+    public boolean isSimilar(IType targetType1, IType targetType2) {
         String finalName1 = TypeVisitor.forEachTypeName(targetType1, eachType -> "");
         String finalName2 = TypeVisitor.forEachTypeName(targetType2, eachType -> "");
         return finalName1.equals(finalName2);
     }
 
     @Override
-    public IType findReferenceType(IType targetType, IType referenceType) {
-        if (targetType == null || referenceType == null) {
+    public IType findTypeByInherit(IType instanceType, IType targetType) {
+        if (instanceType == null || targetType == null) {
             return null;
         }
-        if (targetType.isNull()) {
-            return referenceType;
-        }
-        if (targetType.getClassName().equals(referenceType.getClassName())) {
-            Assert.isTrue(similar(targetType, referenceType), "The two types must be structurally similar!");
+        if (instanceType.isNull()) {
             return targetType;
         }
-        IType superType = findReferenceType(linker.getSuperType(targetType.toBox()), referenceType);
+        if (instanceType.getClassName().equals(targetType.getClassName())) {
+            Assert.isTrue(isSimilar(instanceType, targetType), "The two types must be structurally similar!");
+            return instanceType;
+        }
+        IType superType = findTypeByInherit(linker.getSuperType(instanceType.toBox()), targetType);
         if (superType != null) {
             return superType;
         }
-        for (IType interfaceType : linker.getInterfaceTypes(targetType)) {
-            interfaceType = findReferenceType(interfaceType, referenceType);
+        for (IType interfaceType : linker.getInterfaceTypes(instanceType)) {
+            interfaceType = findTypeByInherit(interfaceType, targetType);
             if (interfaceType != null) {
                 return interfaceType;
             }
@@ -95,6 +97,19 @@ public class AppTypeDerivator implements TypeDerivator {
             }
         }
         return null;
+    }
+
+    @Override
+    public Integer getMatchingDegree(List<IType> parameterTypes, List<IType> methodParameterTypes) {
+        Integer finalDegree = 0;
+        for (int index = 0; index < parameterTypes.size(); index++) {
+            Integer degree = getAbstractDegree(methodParameterTypes.get(index), parameterTypes.get(index));
+            finalDegree = degree != null ? finalDegree + degree : null;
+            if (finalDegree == null) {
+                return null;
+            }
+        }
+        return finalDegree;
     }
 
     @Override

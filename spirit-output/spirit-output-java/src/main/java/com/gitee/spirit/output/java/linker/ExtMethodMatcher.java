@@ -50,14 +50,14 @@ public class ExtMethodMatcher {
                 nativeParameterType = nativeParameterType.toTarget();
             }
             //从继承关系中，找出适当的类型
-            parameterType = derivator.findReferenceType(parameterType, nativeParameterType);
+            parameterType = derivator.findTypeByInherit(parameterType, nativeParameterType);
             //没有找到对应的，则直接返回
             if (parameterType == null) {
                 return null;
             }
             //如果因为限定冲突，则直接返回null
             try {
-                nativeParameterType = derivator.populateQualifying(type, parameterType, nativeParameterType, qualifyingTypes);
+                nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType, qualifyingTypes);
             } catch (IllegalArgumentException e) {
                 return null;
             }
@@ -67,27 +67,15 @@ public class ExtMethodMatcher {
         return new MatchResult(method, nativeParameterTypes, qualifyingTypes);
     }
 
-    public Integer getMethodScore(List<IType> parameterTypes, List<IType> methodParameterTypes) {
-        Integer finalScore = 0;
-        for (int index = 0; index < parameterTypes.size(); index++) {
-            Integer scope = derivator.getAbstractDegree(methodParameterTypes.get(index), parameterTypes.get(index));
-            finalScore = scope != null ? finalScore + scope : null;
-            if (finalScore == null) {
-                return null;
-            }
-        }
-        return finalScore;
-    }
-
     public MatchResult findMethod(IType type, List<Method> methods, List<IType> parameterTypes) {
         Map<Method, MatchResult> matchResultMap = new HashMap<>();
         Method method = ListUtils.findOneByScore(methods, eachMethod -> {
             MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
-            if (matchResult != null) {
-                matchResultMap.put(eachMethod, matchResult);
-                return getMethodScore(parameterTypes, matchResult.parameterTypes);
+            if (matchResult == null) {
+                return null;
             }
-            return null;
+            matchResultMap.put(eachMethod, matchResult);
+            return derivator.getMatchingDegree(parameterTypes, matchResult.parameterTypes);
         });
         return matchResultMap.get(method);
     }

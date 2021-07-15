@@ -36,25 +36,16 @@ public class AppMethodMatcher {
         }
         return new MatchResult(method, methodParameterTypes);
     }
-
-    public Integer getMethodScore(List<IType> parameterTypes, List<IType> methodParameterTypes) {
-        Integer finalScore = 0;
-        for (int index = 0; index < parameterTypes.size(); index++) {
-            Integer scope = derivator.getAbstractDegree(methodParameterTypes.get(index), parameterTypes.get(index));
-            finalScore = scope != null ? finalScore + scope : null;
-            if (finalScore == null) {
-                return null;
-            }
-        }
-        return finalScore;
-    }
-
+    
     public MatchResult findMethod(IType type, List<IMethod> methods, List<IType> parameterTypes) {
         Map<IMethod, MatchResult> matchResultMap = new HashMap<>();
         IMethod method = ListUtils.findOneByScore(methods, eachMethod -> {
             MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+            if (matchResult == null) {
+                return null;
+            }
             matchResultMap.put(eachMethod, matchResult);
-            return getMethodScore(parameterTypes, matchResult.parameterTypes);
+            return derivator.getMatchingDegree(parameterTypes, matchResult.parameterTypes);
         });
         return matchResultMap.get(method);
     }

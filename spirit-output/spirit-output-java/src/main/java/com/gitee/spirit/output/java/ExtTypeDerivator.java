@@ -1,6 +1,5 @@
 package com.gitee.spirit.output.java;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +30,9 @@ public class ExtTypeDerivator extends AppTypeDerivator {
         });
     }
 
-    public IType populateQualifying(IType type, IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
-        // 先使用类型填充
+    public IType populateParameter(IType type, IType parameterType, IType targetType, Map<String, IType> qualifyingTypes) {
         targetType = populate(type, targetType);
-        // 然后使用参数类型填充
         targetType = populateQualifying(parameterType, targetType, qualifyingTypes);
-        // 返回类型
         return targetType;
     }
 
@@ -62,15 +58,12 @@ public class ExtTypeDerivator extends AppTypeDerivator {
     }
 
     public IType populateReturnType(IType type, Map<String, IType> qualifyingTypes, IType targetType) {
-        // 先使用类型填充
         targetType = populate(type, targetType);
-        // 再用限定类型填充
-        targetType = populateReturnType(qualifyingTypes, targetType);
-        // 返回类型
+        targetType = populateByQualifying(qualifyingTypes, targetType);
         return targetType;
     }
 
-    public IType populateReturnType(Map<String, IType> qualifyingTypes, IType targetType) {
+    public IType populateByQualifying(Map<String, IType> qualifyingTypes, IType targetType) {
         return TypeVisitor.forEachType(targetType, eachType -> {
             if (eachType.isTypeVariable()) {
                 return qualifyingTypes.get(targetType.getGenericName());
