@@ -10,7 +10,7 @@ public interface TypeDerivator {
 
     boolean isSimilar(IType targetType1, IType targetType2);
 
-    IType findTypeByInherit(IType instanceType, IType targetType);
+    IType upcastTo(IType instanceType, IType targetType);
 
     Integer getAbstractDegree(IType abstractType, IType targetType);
 

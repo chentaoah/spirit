@@ -43,7 +43,7 @@ public class AppTypeDerivator implements TypeDerivator {
     }
 
     @Override
-    public IType findTypeByInherit(IType instanceType, IType targetType) {
+    public IType upcastTo(IType instanceType, IType targetType) {
         if (instanceType == null || targetType == null) {
             return null;
         }
@@ -54,12 +54,12 @@ public class AppTypeDerivator implements TypeDerivator {
             Assert.isTrue(isSimilar(instanceType, targetType), "The two types must be structurally similar!");
             return instanceType;
         }
-        IType superType = findTypeByInherit(linker.getSuperType(instanceType.toBox()), targetType);
+        IType superType = upcastTo(linker.getSuperType(instanceType.toBox()), targetType);
         if (superType != null) {
             return superType;
         }
         for (IType interfaceType : linker.getInterfaceTypes(instanceType)) {
-            interfaceType = findTypeByInherit(interfaceType, targetType);
+            interfaceType = upcastTo(interfaceType, targetType);
             if (interfaceType != null) {
                 return interfaceType;
             }

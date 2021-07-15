@@ -53,7 +53,7 @@ public class ExtMethodMatcher implements MethodMatcher<Method, MatchResult> {
                 nativeParameterType = nativeParameterType.toTarget();
             }
             //从继承关系中，找出适当的类型
-            parameterType = derivator.findTypeByInherit(parameterType, nativeParameterType);
+            parameterType = derivator.upcastTo(parameterType, nativeParameterType);
             //没有找到对应的，则直接返回
             if (parameterType == null) {
                 return null;
