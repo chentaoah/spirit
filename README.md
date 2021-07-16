@@ -235,7 +235,7 @@ jsonMap = {
 print JSON.toJSONString(jsonMap)
 ```
 
-## 未来
+## 即将到来
 
 ### 智能builder模式
 
@@ -244,4 +244,16 @@ print JSON.toJSONString(jsonMap)
 ```go
 list = mapper.selectByExample(${name = "xiaoma", age >= 18})
 ```
+
+## 未来
+
+1. 支持Lambda表达式
+2. 提供更多sublime插件，增强代码提示。
+3. 考虑支持转译成其他语言（Java以外）
+
+## 加入我（们）
+
+如果你对编程，也充满了热忱，想要参与进来，请发送邮件到以下邮箱。
+
+邮箱：609580885@qq.com
 
