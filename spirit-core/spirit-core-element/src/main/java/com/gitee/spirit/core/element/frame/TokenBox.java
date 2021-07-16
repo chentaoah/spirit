@@ -3,11 +3,11 @@ package com.gitee.spirit.core.element.frame;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.common.entity.MappableList;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.common.utils.Splitter;
 import com.gitee.spirit.core.element.entity.Token;
-import com.gitee.spirit.core.element.utils.MappableList;
 
 import cn.hutool.core.util.ArrayUtil;
 
@@ -38,7 +38,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public void replaceTokens(int fromIndex, int toIndex, Token token) {
-		ListUtils.removeByIndex(this, fromIndex, toIndex);
+		ListUtils.removeAllByIndex(this, fromIndex, toIndex);
 		add(fromIndex, token);
 	}
 
@@ -51,7 +51,7 @@ public class TokenBox extends MappableList<Token> {
 	}
 
 	public List<TokenBox> splitTokens(String separator) {
-		return Splitter.splitByMatcherTrim(this, token -> isSymbol(token) && separator.equals(token.toString()), list -> new TokenBox(list));
+		return Splitter.split(this, token -> isSymbol(token) && separator.equals(token.toString()), TokenBox::new);
 	}
 
 	public int indexOf(String str) {

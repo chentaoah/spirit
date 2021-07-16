@@ -4,7 +4,7 @@ import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
 
-public interface ClassVisiter {
+public interface ClassVisitor {
 
 	void prepareForVisit(IClass clazz);
 

@@ -11,72 +11,51 @@ import java.util.List;
 
 public class ReflectUtils {
 
-	@SuppressWarnings("deprecation")
-	public static ClassLoader getClassLoader(List<String> classpaths) {
-		try {
-			URL urls[] = new URL[classpaths.size()];
-			for (int i = 0; i < classpaths.size(); ++i) {
-				urls[i] = new File(classpaths.get(i)).toURL();
-			}
-			return new URLClassLoader(urls, ReflectUtils.class.getClassLoader());
+    @SuppressWarnings("deprecation")
+    public static ClassLoader getClassLoader(List<String> classPaths) {
+        try {
+            URL[] urls = new URL[classPaths.size()];
+            for (int i = 0; i < classPaths.size(); ++i) {
+                urls[i] = new File(classPaths.get(i)).toURL();
+            }
+            return new URLClassLoader(urls, ReflectUtils.class.getClassLoader());
 
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	public static Class<?> getClass(String className) {
-		try {
-			return Class.forName(className);
+    public static Field getDeclaredField(Class<?> clazz, String fieldName) {
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("The class was not found!className:[" + className + "]");
-		}
-	}
+    public static boolean isIndefinite(Method method) {
+        Parameter[] parameters = method.getParameters();
+        if (parameters != null && parameters.length > 0) {
+            Parameter lastParameter = parameters[parameters.length - 1];
+            return lastParameter.toString().contains("...");
+        }
+        return false;
+    }
 
-	public static String getClassName(String targetName, boolean isArray) {
-		try {
-			Class<?> clazz = ReflectUtils.getClass("java.lang." + targetName);
-			if (clazz != null) {
-				return isArray ? "[L" + clazz.getName() + ";" : clazz.getName();
-			}
-		} catch (Exception e) {
-			// ignore
-		}
-		return null;
-	}
+    public static boolean isIndefinite(Parameter lastParameter) {
+        return lastParameter.toString().contains("...");
+    }
 
-	public static Field getDeclaredField(Class<?> clazz, String fieldName) {
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			if (field.getName().equals(fieldName)) {
-				return field;
-			}
-		}
-		return null;
-	}
-
-	public static boolean isIndefinite(Method method) {
-		Parameter[] parameters = method.getParameters();
-		if (parameters != null && parameters.length > 0) {
-			Parameter lastParameter = parameters[parameters.length - 1];
-			return lastParameter.toString().contains("...");
-		}
-		return false;
-	}
-
-	public static boolean isIndefinite(Parameter lastParameter) {
-		return lastParameter.toString().contains("...");
-	}
-
-	public static boolean isAccessible(Member member, int... modifiers) {
-		int mod = member.getModifiers();
-		for (int modifier : modifiers) {
-			if ((mod & modifier) != 0) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public static boolean isAccessible(Member member, int... modifiers) {
+        int mod = member.getModifiers();
+        for (int modifier : modifiers) {
+            if ((mod & modifier) != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

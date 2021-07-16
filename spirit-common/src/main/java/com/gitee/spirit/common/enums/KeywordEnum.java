@@ -75,19 +75,10 @@ public enum KeywordEnum {
 	}
 
 	public static boolean isKeywordVariable(String value) {
-		return KeywordEnum.SUPER.value.equals(value) || KeywordEnum.THIS.value.equals(value);
-	}
-
-	public static boolean isSuper(String value) {
-		return KeywordEnum.SUPER.value.equals(value);
-	}
-
-	public static boolean isThis(String value) {
-		return KeywordEnum.THIS.value.equals(value);
+		return SUPER.value.equals(value) || THIS.value.equals(value);
 	}
 
 	public String value;
-
 	public KeywordTypeEnum type;
 
 	private KeywordEnum(String value, KeywordTypeEnum type) {

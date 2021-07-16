@@ -12,11 +12,11 @@ import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.KeywordEnum;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
 import com.gitee.spirit.core.api.ElementBuilder;
+import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.compile.AutoImporter;
-import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -31,7 +31,7 @@ public class StatementAction extends AbstractExtElementAction {
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public FragmentDeducer deducer;
+	public StatementDeducer deducer;
 	@Autowired
 	public AutoImporter importer;
 
@@ -77,7 +77,7 @@ public class StatementAction extends AbstractExtElementAction {
 
 		} else if (element.isIf() || element.isWhile()) {// if s { // while s {
 			Statement statement = element.subStmt(1, element.size() - 1);
-			IType type = deducer.derive(clazz, statement);
+			IType type = deducer.derive(statement);
 			if (TypeUtils.isString(type)) {
 				String text = String.format("StringUtils.isNotEmpty(%s)", statement);
 				element.replaceTokens(1, element.size() - 1, new Token(TokenTypeEnum.CUSTOM_EXPRESS, text));
@@ -95,10 +95,8 @@ public class StatementAction extends AbstractExtElementAction {
 			if (clazz.getField("logger") == null) {
 				clazz.addImport(Logger.class.getName());
 				clazz.addImport(LoggerFactory.class.getName());
-				Element loggerElement = builder
-						.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
-				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value,
-						JavaBuilder.FINAL_KEYWORD);
+				Element loggerElement = builder.build("Logger logger = LoggerFactory.getLogger(" + clazz.getSimpleName() + ".class)");
+				loggerElement.addModifiers(KeywordEnum.PUBLIC.value, KeywordEnum.STATIC.value, JavaBuilder.FINAL_KEYWORD);
 				IField field = new IField(new ArrayList<>(), loggerElement);
 				clazz.fields.add(0, field);
 			}

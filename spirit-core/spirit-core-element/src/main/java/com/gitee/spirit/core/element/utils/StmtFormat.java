@@ -3,8 +3,8 @@ package com.gitee.spirit.core.element.utils;
 import java.util.List;
 
 import com.gitee.spirit.common.constants.Attribute;
+import com.gitee.spirit.common.enums.OperatorEnum.OperandEnum;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
-import com.gitee.spirit.common.enums.SymbolEnum.OperandEnum;
 import com.gitee.spirit.core.element.entity.Statement;
 import com.gitee.spirit.core.element.entity.Token;
 

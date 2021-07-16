@@ -220,4 +220,20 @@ public class SemanticTest {
 		assertTrue(statement.get(0).isPrefix());
 	}
 
+	@Test
+	@DisplayName("builder模式")
+	public void test0025() {
+		String text = "User{name = \"chen\", age = \"30\"}";
+		Token token = parser.getToken(new SemanticContext(), text);
+		assertTrue(token.isTypeBuilder());
+	}
+
+	@Test
+	@DisplayName("builder模式")
+	public void test0026() {
+		String text = "${name = \"chen\", age = \"30\"}";
+		Token token = parser.getToken(new SemanticContext(), text);
+		assertTrue(token.isTypeSmartBuilder());
+	}
+
 }

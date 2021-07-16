@@ -1,17 +1,18 @@
 package com.gitee.spirit.example.type;
 
-import java.util.HashMap;
 import com.gitee.spirit.example.ClassGenericTest;
-import com.gitee.spirit.example.MyTest;
 import com.gitee.spirit.example.GenericType;
+import com.gitee.spirit.example.MyTest;
+import com.gitee.spirit.example.User;
 import com.gitee.spirit.example.clazz.ServiceImpl;
 import com.gitee.spirit.example.process.Main;
+import com.gitee.spirit.stdlib.Lists;
+import com.gitee.spirit.stdlib.Maps;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.gitee.spirit.stdlib.Lists;
-import java.util.List;
-import com.gitee.spirit.stdlib.Maps;
-import java.util.Map;
 
 @Deprecated
 public class Type {
@@ -107,6 +108,8 @@ public class Type {
 		Map<String, Object> objvar = Maps.of("name", "chen", "age", 18, "from", "China", "brother", Lists.of("wanhao", "chenzhe"));
 		String str0 = objvar.toString();
 		logger.info(str0);
+		User user = User.builder().name("chen").age(18).build();
+		logger.info(user.getName());
 	}
 
 	public String testParam(@Deprecated String str, Object obj) {

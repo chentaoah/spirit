@@ -1,7 +1,13 @@
 package com.gitee.spirit.core.compile.linker;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.api.MethodMatcher;
+import com.gitee.spirit.core.compile.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,28 +17,41 @@ import com.gitee.spirit.core.clazz.entity.IParameter;
 import com.gitee.spirit.core.clazz.entity.IType;
 
 @Component
-public class AppMethodMatcher {
+public class AppMethodMatcher implements MethodMatcher<IMethod, MatchResult> {
 
-	@Autowired
-	public TypeDerivator derivator;
+    @Autowired
+    public TypeDerivator derivator;
 
-	public Integer getMethodScore(IType type, IMethod method, List<IType> parameterTypes) {
-		if (method.parameters.size() != parameterTypes.size()) {
-			return null;
-		}
-		Integer finalScore = 0;
-		int index = 0;
-		for (IType parameterType : parameterTypes) {
-			IParameter parameter = method.parameters.get(index++);
-			IType methodParameterType = derivator.populate(type, parameter.getType());
-			Integer scope = derivator.getAbstractScore(methodParameterType, parameterType);
-			if (scope != null) {
-				finalScore += scope;
-			} else {
-				finalScore = null;
-				break;
-			}
-		}
-		return finalScore;
-	}
+    @Override
+    public boolean checkParameterCount(IMethod method, List<IType> parameterTypes) {
+        return method.parameters.size() == parameterTypes.size();
+    }
+
+    @Override
+    public MatchResult getParameterTypes(IType type, IMethod method, List<IType> parameterTypes) {
+        if (!checkParameterCount(method, parameterTypes)) {
+            return null;
+        }
+        List<IType> methodParameterTypes = method.getParameterTypes();
+        for (int index = 0; index < parameterTypes.size(); index++) {
+            IType methodParameterType = derivator.populate(type, methodParameterTypes.get(index));
+            methodParameterTypes.set(index, methodParameterType);
+        }
+        return new MatchResult(method, methodParameterTypes);
+    }
+
+    @Override
+    public MatchResult findMethod(IType type, List<IMethod> methods, List<IType> parameterTypes) {
+        Map<IMethod, MatchResult> matchResultMap = new HashMap<>();
+        IMethod method = ListUtils.findOneByScore(methods, eachMethod -> {
+            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+            if (matchResult == null) {
+                return null;
+            }
+            matchResultMap.put(eachMethod, matchResult);
+            return derivator.getMatchingDegree(parameterTypes, matchResult.parameterTypes);
+        });
+        return matchResultMap.get(method);
+    }
+
 }

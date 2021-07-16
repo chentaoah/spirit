@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 import com.gitee.spirit.core.compile.AppTypeFactory;
 
 @Component
@@ -20,7 +20,7 @@ public class ExtTypeFactory extends AppTypeFactory {
 	public IType create(Class<?> clazz) {
 		IType type = create(clazz.getName());
 		TypeVariable<?>[] typeVariables = clazz.getTypeParameters();
-		if (typeVariables != null && typeVariables.length > 0) {
+		if (typeVariables.length > 0) {
 			List<IType> genericTypes = new ArrayList<>();
 			for (TypeVariable<?> typeVariable : typeVariables) {
 				genericTypes.add(createTypeVariable(typeVariable.toString()));
@@ -36,7 +36,7 @@ public class ExtTypeFactory extends AppTypeFactory {
 			return create((Class<?>) nativeType);
 
 		} else if (nativeType instanceof WildcardType) {// ?
-			return TypeRegistry.WILDCARD;
+			return CommonTypes.WILDCARD;
 
 		} else if (nativeType instanceof TypeVariable) {// T or K
 			return createTypeVariable(nativeType.toString());

@@ -3,13 +3,14 @@ package com.gitee.spirit.core.compile.linker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gitee.spirit.core.compile.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.api.ClassLinker;
-import com.gitee.spirit.core.api.ClassVisiter;
+import com.gitee.spirit.core.api.ClassVisitor;
 import com.gitee.spirit.core.api.TypeDerivator;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IField;
@@ -23,63 +24,75 @@ import cn.hutool.core.lang.Assert;
 @Order(-100)
 public class AppClassLinker implements ClassLinker {
 
-	@Autowired
-	public AppClassLoader classLoader;
-	@Autowired
-	public ClassVisiter visiter;
-	@Autowired
-	public TypeDerivator derivator;
-	@Autowired
-	public AppMethodMatcher matcher;
+    @Autowired
+    public AppClassLoader loader;
+    @Autowired
+    public ClassVisitor visitor;
+    @Autowired
+    public TypeDerivator derivator;
+    @Autowired
+    public AppMethodMatcher matcher;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T toClass(IType type) {
-		Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
-		return (T) classLoader.loadClass(type.getClassName());
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T toClass(IType type) {
+        Assert.isTrue(!type.isArray(), "Array has no class!");// 这里认为数组没有class,也不应该有
+        return (T) loader.loadClass(type.getClassName());
+    }
 
-	@Override
-	public int getTypeVariableIndex(IType type, String genericName) {
-		IClass clazz = toClass(type);
-		return clazz.getTypeVariableIndex(genericName);
-	}
+    @Override
+    public int getTypeVariableIndex(IType type, String genericName) {
+        IClass clazz = toClass(type);
+        return clazz.getTypeVariableIndex(genericName);
+    }
 
-	@Override
-	public IType getSuperType(IType type) {
-		IClass clazz = toClass(type);
-		return derivator.populate(type, clazz.getSuperType());
-	}
+    @Override
+    public IType getSuperType(IType type) {
+        IClass clazz = toClass(type);
+        IType superType = clazz.getSuperType();
+        return superType != null ? derivator.populate(type, superType) : null;
+    }
 
-	@Override
-	public List<IType> getInterfaceTypes(IType type) {
-		IClass clazz = toClass(type);
-		List<IType> interfaceTypes = new ArrayList<>();
-		for (IType interfaceType : clazz.getInterfaceTypes()) {
-			interfaceTypes.add(derivator.populate(type, interfaceType));
-		}
-		return interfaceTypes;
-	}
+    @Override
+    public List<IType> getInterfaceTypes(IType type) {
+        IClass clazz = toClass(type);
+        List<IType> interfaceTypes = new ArrayList<>();
+        for (IType interfaceType : clazz.getInterfaceTypes()) {
+            interfaceTypes.add(derivator.populate(type, interfaceType));
+        }
+        return interfaceTypes;
+    }
 
-	@Override
-	public IType visitField(IType type, String fieldName) throws NoSuchFieldException {
-		IClass clazz = toClass(type);
-		IField field = clazz.getField(fieldName);
-		if (field != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, field));
-		}
-		return null;
-	}
+    @Override
+    public IType visitField(IType type, String fieldName) {
+        IClass clazz = toClass(type);
+        IField field = clazz.getField(fieldName);
+        if (field != null) {
+            return derivator.populate(type, visitor.visitMember(clazz, field));
+        }
+        return null;
+    }
 
-	@Override
-	public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) throws NoSuchMethodException {
-		IClass clazz = toClass(type);
-		List<IMethod> methods = clazz.getMethods(methodName);
-		IMethod method = ListUtils.findOneByScore(methods, eachMethod -> matcher.getMethodScore(type, eachMethod, parameterTypes));
-		if (method != null) {
-			return derivator.populate(type, visiter.visitMember(clazz, method));
-		}
-		return null;
-	}
+    @Override
+    public IType visitMethod(IType type, String methodName, List<IType> parameterTypes) {
+        IClass clazz = toClass(type);
+        List<IMethod> methods = clazz.getMethods(methodName);
+        MatchResult matchResult = matcher.findMethod(type, methods, parameterTypes);
+        if (matchResult != null) {
+            return derivator.populate(type, visitor.visitMember(clazz, matchResult.method));
+        }
+        return null;
+    }
+
+    @Override
+    public List<IType> getParameterTypes(IType type, String methodName, List<IType> parameterTypes) {
+        IClass clazz = toClass(type);
+        List<IMethod> methods = clazz.getMethods(methodName);
+        MatchResult matchResult = matcher.findMethod(type, methods, parameterTypes);
+        if (matchResult != null) {
+            return matchResult.parameterTypes;
+        }
+        return null;
+    }
 
 }

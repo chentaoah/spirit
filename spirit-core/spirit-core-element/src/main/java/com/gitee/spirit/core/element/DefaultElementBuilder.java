@@ -45,8 +45,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 			Modifiers modifiers = new Modifiers(tokens);
 			Statement statement = new Statement(tokens);
 			SyntaxResult result = syntaxParser.parseSyntax(tokens, statement);
-			Element element = new Element(line, modifiers, statement, result.syntax, result.syntaxTree);
-			return element;
+			return new Element(line, modifiers, statement, result.syntax, result.syntaxTree);
 
 		} catch (Exception e) {
 			line.debug();
@@ -58,8 +57,7 @@ public class DefaultElementBuilder implements ElementBuilder {
 	public Element build(Statement statement) {
 		Assert.notEmpty(statement, "Statement cannot be empty!");
 		SyntaxResult result = syntaxParser.parseSyntax(statement.list, statement);
-		Element element = new Element(null, null, statement, result.syntax, result.syntaxTree);
-		return element;
+		return new Element(null, null, statement, result.syntax, result.syntaxTree);
 	}
 
 }

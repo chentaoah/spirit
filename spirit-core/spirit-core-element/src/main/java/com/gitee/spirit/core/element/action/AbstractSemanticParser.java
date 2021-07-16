@@ -1,7 +1,8 @@
 package com.gitee.spirit.core.element.action;
 
 import com.gitee.spirit.common.enums.KeywordEnum;
-import com.gitee.spirit.common.enums.SymbolEnum;
+import com.gitee.spirit.common.enums.OperatorEnum;
+import com.gitee.spirit.common.enums.SeparatorEnum;
 import com.gitee.spirit.common.pattern.AccessPattern;
 import com.gitee.spirit.common.pattern.CommonPattern;
 import com.gitee.spirit.common.pattern.LiteralPattern;
@@ -23,11 +24,11 @@ public abstract class AbstractSemanticParser implements SemanticParser {
 	}
 
 	public boolean isOperator(String word) {
-		return SymbolEnum.isOperator(word);
+		return OperatorEnum.isOperator(word);
 	}
 
 	public boolean isSeparator(String word) {
-		return SymbolEnum.isSeparator(word);
+		return SeparatorEnum.isSeparator(word);
 	}
 
 	@Override

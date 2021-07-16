@@ -1,10 +1,13 @@
 package com.gitee.spirit.core.clazz.utils;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.gitee.spirit.common.enums.PrimitiveEnum;
 import com.gitee.spirit.common.utils.ConfigUtils;
 import com.gitee.spirit.core.clazz.entity.IType;
 
-public class TypeRegistry {
+public class CommonTypes {
 
 	public static final IType VOID;
 	public static final IType BOOLEAN;
@@ -44,6 +47,8 @@ public class TypeRegistry {
 	public static final IType STRING_ARRAY;
 	public static final IType NULL;
 	public static final IType WILDCARD;
+
+	public static final Map<String, IType> BOX_TYPE_MAPPING = new ConcurrentHashMap<>();
 
 	static {
 		VOID = TypeBuilder.build(PrimitiveEnum.VOID);
@@ -86,37 +91,20 @@ public class TypeRegistry {
 		STRING_ARRAY = TypeBuilder.build("[L" + langPackage + "String;", "String[]", langPackage + "String[]", false, true/* array */, false, false, true);
 		NULL = TypeBuilder.build(langPackage + "Object", "Object", langPackage + "Object", false, false, true/* null */, false, true);
 		WILDCARD = TypeBuilder.build(langPackage + "Object", "Object", langPackage + "Object", false, false, false, true/* wildcard */, true);
+
+		BOX_TYPE_MAPPING.put(VOID.getClassName(), VOID_BOX);
+		BOX_TYPE_MAPPING.put(BOOLEAN.getClassName(), BOOLEAN_BOX);
+		BOX_TYPE_MAPPING.put(CHAR.getClassName(), CHAR_BOX);
+		BOX_TYPE_MAPPING.put(BYTE.getClassName(), BYTE_BOX);
+		BOX_TYPE_MAPPING.put(SHORT.getClassName(), SHORT_BOX);
+		BOX_TYPE_MAPPING.put(INT.getClassName(), INT_BOX);
+		BOX_TYPE_MAPPING.put(LONG.getClassName(), LONG_BOX);
+		BOX_TYPE_MAPPING.put(FLOAT.getClassName(), FLOAT_BOX);
+		BOX_TYPE_MAPPING.put(DOUBLE.getClassName(), DOUBLE_BOX);
 	}
 
 	public static IType getBoxType(String className) {
-		if (VOID.getClassName().equals(className)) {
-			return VOID_BOX;
-
-		} else if (BOOLEAN.getClassName().equals(className)) {
-			return BOOLEAN_BOX;
-
-		} else if (CHAR.getClassName().equals(className)) {
-			return CHAR_BOX;
-
-		} else if (BYTE.getClassName().equals(className)) {
-			return BYTE_BOX;
-
-		} else if (SHORT.getClassName().equals(className)) {
-			return SHORT_BOX;
-
-		} else if (INT.getClassName().equals(className)) {
-			return INT_BOX;
-
-		} else if (LONG.getClassName().equals(className)) {
-			return LONG_BOX;
-
-		} else if (FLOAT.getClassName().equals(className)) {
-			return FLOAT_BOX;
-
-		} else if (DOUBLE.getClassName().equals(className)) {
-			return DOUBLE_BOX;
-		}
-		return null;
+		return BOX_TYPE_MAPPING.get(className);
 	}
 
 }

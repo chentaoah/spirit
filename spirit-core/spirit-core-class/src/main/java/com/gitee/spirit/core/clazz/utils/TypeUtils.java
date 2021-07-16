@@ -1,15 +1,6 @@
 package com.gitee.spirit.core.clazz.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.gitee.spirit.common.enums.PrimitiveEnum;
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-
-import cn.hutool.core.lang.Assert;
 
 public class TypeUtils {
 
@@ -23,30 +14,23 @@ public class TypeUtils {
 		return packageStr1.equals(packageStr2);
 	}
 
-	public static boolean matchPackages(String className, String... scanPackages) {
-		if (scanPackages == null || scanPackages.length == 0) {
-			return true;
-		}
-		for (String scanPackage : scanPackages) {
-			if (StringUtils.isNotBlank(scanPackage)) {
-				if (className.startsWith(scanPackage + ".") || className.equals(scanPackage)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public static List<String> splitName(String simpleName) {
-		List<String> names = Splitter.on(CharMatcher.anyOf("<,>")).trimResults().splitToList(simpleName);
-		return new ArrayList<>(names);
-	}
-
-	public static boolean isArray(String name) {// className or simpleName or typeName
+	/**
+	 * 通过名称判断是否数组
+	 * 
+	 * @param name className or simpleName or typeName
+	 * @return
+	 */
+	public static boolean isArray(String name) {
 		return name.startsWith("[") || name.endsWith("[]");
 	}
 
-	public static String getTargetName(String name) {// className or simpleName or typeName
+	/**
+	 * 获取目标名称。如果是数组，能够获取数组内类型的名称。
+	 * 
+	 * @param name className or simpleName or typeName
+	 * @return
+	 */
+	public static String getTargetName(String name) {
 		// 泛型
 		if (name.contains("<") && name.endsWith(">")) {
 			return name.substring(0, name.indexOf('<'));
@@ -56,23 +40,35 @@ public class TypeUtils {
 			name = name.replaceAll("\\$", ".");
 		}
 		// 数组
-		if (!isArray(name)) {
-			return name;
+		if (isArray(name)) {
+			if (name.startsWith("[L") && name.endsWith(";")) {
+				return name.substring(2, name.length() - 1);
 
-		} else if (name.startsWith("[L") && name.endsWith(";")) {
-			return name.substring(2, name.length() - 1);
+			} else if (name.endsWith("[]")) {
+				return name.replace("[]", "");
 
-		} else if (name.endsWith("[]")) {
-			return name.replace("[]", "");
+			} else if (PrimitiveEnum.isPrimitiveArray(name)) {
+				return PrimitiveEnum.getTargetName(name);
 
-		} else if (name.startsWith("[")) {
-			// [Z 转换成 boolean
-			String targetName = PrimitiveEnum.getPrimitiveArrayTargetName(name);
-			Assert.notEmpty(targetName, "Target name cannot be empty!");
-			return targetName;
+			} else {
+				throw new RuntimeException("Unhandled branch!");
+			}
 		}
+		return name;
+	}
 
-		throw new RuntimeException("Failed to get target name!");
+	public static String getArrayName(String className) {
+		if (isArray(className)) {
+			return className;
+		}
+		if (PrimitiveEnum.isPrimitive(className)) {
+			return PrimitiveEnum.getArrayName(className);
+		}
+		return "[L" + className + ";";
+	}
+
+	public static String getClassName(boolean isArray, String className) {
+		return isArray ? getArrayName(className) : className;
 	}
 
 	public static String getLastName(String className) {
@@ -86,10 +82,6 @@ public class TypeUtils {
 
 	public static String getTypeName(String className) {
 		return getTargetName(className) + (isArray(className) ? "[]" : "");
-	}
-
-	public static String getClassName(boolean isArray, String className) {
-		return !isArray ? className : "[L" + className + ";";
 	}
 
 }

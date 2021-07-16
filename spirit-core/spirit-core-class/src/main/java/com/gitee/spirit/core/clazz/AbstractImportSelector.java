@@ -5,15 +5,9 @@ import com.gitee.spirit.core.clazz.utils.TypeUtils;
 
 public abstract class AbstractImportSelector implements ImportSelector {
 
-	@Override
-	public boolean shouldImport(String selfClassName, String className) {
-		if (selfClassName.equals(className)) {
-			return false;
-		}
-		if (TypeUtils.isSamePackage(selfClassName, className)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean shouldImport(String selfClassName, String className) {
+        return !(selfClassName.equals(className) || TypeUtils.isSamePackage(selfClassName, className));
+    }
 
 }

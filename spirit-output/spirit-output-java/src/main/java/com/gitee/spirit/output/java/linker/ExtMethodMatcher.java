@@ -2,8 +2,11 @@ package com.gitee.spirit.output.java.linker;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.List;
+import java.util.*;
 
+import com.gitee.spirit.common.utils.ListUtils;
+import com.gitee.spirit.core.api.MethodMatcher;
+import com.gitee.spirit.output.java.entity.MatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,47 +16,72 @@ import com.gitee.spirit.output.java.ExtTypeFactory;
 import com.gitee.spirit.output.java.utils.ReflectUtils;
 
 @Component
-public class ExtMethodMatcher {
+public class ExtMethodMatcher implements MethodMatcher<Method, MatchResult> {
 
-	@Autowired
-	public ExtTypeFactory factory;
-	@Autowired
-	public ExtTypeDerivator derivator;
+    @Autowired
+    public ExtTypeFactory factory;
+    @Autowired
+    public ExtTypeDerivator derivator;
 
-	public boolean checkParameterCount(Method method, List<IType> parameterTypes) {
-		if (!ReflectUtils.isIndefinite(method) && parameterTypes.size() == method.getParameterCount()) {// 不是不定项，那么参数个数相等
-			return true;
+    @Override
+    public boolean checkParameterCount(Method method, List<IType> parameterTypes) {
+        if (!ReflectUtils.isIndefinite(method) && parameterTypes.size() == method.getParameterCount()) {// 不是不定项，那么参数个数相等
+            return true;
+        } else if (ReflectUtils.isIndefinite(method) && parameterTypes.size() >= method.getParameterCount() - 1) {// 不定项，则参数大于等于不定项-1
+            return true;
+        }
+        return false;
+    }
 
-		} else if (ReflectUtils.isIndefinite(method) && parameterTypes.size() >= method.getParameterCount() - 1) {// 不定项，则参数大于等于不定项-1
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public MatchResult getParameterTypes(IType type, Method method, List<IType> parameterTypes) {
+        if (!checkParameterCount(method, parameterTypes)) {
+            return null;
+        }
+        List<IType> nativeParameterTypes = new ArrayList<>();
+        Map<String, IType> qualifyingTypes = new HashMap<>();
+        for (int index = 0; index < parameterTypes.size(); index++) {
+            IType parameterType = parameterTypes.get(index);
+            //保证索引不会溢出
+            int idx = Math.min(index, method.getParameterCount() - 1);
+            //分为两种情况，一种是最后一个参数之前的，一种是最后一个参数
+            Parameter parameter = method.getParameters()[idx];
+            //获取本地参数类型
+            IType nativeParameterType = factory.create(parameter.getParameterizedType());
+            //如果最后一个参数，而且是不定项参数，则取数组里的类型
+            if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {
+                nativeParameterType = nativeParameterType.toTarget();
+            }
+            //从继承关系中，找出适当的类型
+            parameterType = derivator.upcastTo(parameterType, nativeParameterType);
+            //没有找到对应的，则直接返回
+            if (parameterType == null) {
+                return null;
+            }
+            //如果因为限定冲突，则直接返回null
+            try {
+                nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType, qualifyingTypes);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+            //添加到待返回的集合中
+            nativeParameterTypes.add(nativeParameterType);
+        }
+        return new MatchResult(method, nativeParameterTypes, qualifyingTypes);
+    }
 
-	public Integer getMethodScore(IType type, Method method, List<IType> parameterTypes) {
-		if (!checkParameterCount(method, parameterTypes)) {
-			return null;
-		}
-		Integer finalScore = 0;
-		int index = 0;
-		for (IType parameterType : parameterTypes) {
-			int idx = index < method.getParameterCount() - 1 ? index : method.getParameterCount() - 1;// 保证索引不会溢出
-			Parameter parameter = method.getParameters()[idx];// 分为两种情况，一种是最后一个参数之前的，一种是最后一个参数
-			IType nativeParameterType = factory.create(parameter.getParameterizedType());// 获取本地参数类型
-			if (idx == method.getParameterCount() - 1 && ReflectUtils.isIndefinite(parameter)) {// 如果最后一个参数，而且是不定项参数，则取数组里的类型
-				nativeParameterType = nativeParameterType.toTarget();
-			}
-			nativeParameterType = derivator.populateParameter(type, parameterType, nativeParameterType);// 填充类型里的泛型参数
-			Integer scope = derivator.getAbstractScore(nativeParameterType, parameterType);
-			if (scope != null) {
-				finalScore += scope;
-			} else {
-				finalScore = null;
-				break;
-			}
-			index++;
-		}
-		return finalScore;
-	}
+    @Override
+    public MatchResult findMethod(IType type, List<Method> methods, List<IType> parameterTypes) {
+        Map<Method, MatchResult> matchResultMap = new HashMap<>();
+        Method method = ListUtils.findOneByScore(methods, eachMethod -> {
+            MatchResult matchResult = getParameterTypes(type, eachMethod, parameterTypes);
+            if (matchResult == null) {
+                return null;
+            }
+            matchResultMap.put(eachMethod, matchResult);
+            return derivator.getMatchingDegree(parameterTypes, matchResult.parameterTypes);
+        });
+        return matchResultMap.get(method);
+    }
 
 }

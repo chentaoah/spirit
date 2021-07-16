@@ -6,12 +6,11 @@ import org.springframework.stereotype.Component;
 
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.core.api.ElementBuilder;
-import com.gitee.spirit.core.api.ElementVisiter;
+import com.gitee.spirit.core.api.ElementVisitor;
+import com.gitee.spirit.core.api.StatementDeducer;
 import com.gitee.spirit.core.api.VariableTracker;
-import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
 import com.gitee.spirit.core.clazz.entity.IVariable;
-import com.gitee.spirit.core.compile.derivator.FragmentDeducer;
 import com.gitee.spirit.core.compile.entity.VisitContext;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Statement;
@@ -26,17 +25,16 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 	@Autowired
 	public VariableTrackAction variableAction;
 	@Autowired
-	public InvokeVisitAction invokeAction;
+	public InvocationVisitAction invokeAction;
 	@Autowired
-	public FragmentDeducer deducer;
+	public StatementDeducer deducer;
 	@Autowired
 	public ElementBuilder builder;
 	@Autowired
-	public ElementVisiter visiter;
+	public ElementVisitor visitor;
 
 	@Override
 	public void visitElement(VisitContext context, Element element) {
-		IClass clazz = context.clazz;
 		if (element.isAssign()) {// text = "abc"
 			Token varToken = element.get(0);
 			// 如果是字段声明，则不用进行上下文推导
@@ -47,7 +45,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 				Element subElement = new Element(statement);
 				variableAction.visitElement(context, subElement);
 				invokeAction.visitElement(context, subElement);
-				type = deducer.derive(clazz, statement);
+				type = deducer.derive(statement);
 				// 标记类型是否经过推导而来
 				varToken.setAttr(Attribute.DERIVED, true);
 			}
@@ -58,13 +56,12 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 
 	@Override
 	public void visitMethodScope(VisitContext context, Element element) {
-		IClass clazz = context.clazz;
 		if (element.isForIn()) {// for item in list {
 			Statement statement = element.subStmt(3, element.size() - 1);
 			Element subElement = new Element(statement);
 			variableAction.visitElement(context, subElement);
 			invokeAction.visitElement(context, subElement);
-			IType type = deducer.derive(clazz, statement);
+			IType type = deducer.derive(statement);
 			// 获取数组内部类型和泛型类型
 			type = type.isArray() ? type.toTarget() : type.getGenericTypes().get(0);
 			Token varToken = element.get(1);
@@ -77,7 +74,7 @@ public class ExpressDeclareAction extends AbstractAppElementAction {
 				Statement subStatement = statement.subStmt(1, statement.indexOf(";"));
 				if (subStatement.size() > 0) {
 					Element subElement = builder.build(subStatement);
-					IVariable variable = visiter.visitElement(context, subElement);
+					IVariable variable = visitor.visitElement(context, subElement);
 					if (variable != null) {
 						variable.blockId = context.getBlockId();
 						context.variables.add(variable);

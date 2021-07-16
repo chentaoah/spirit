@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.gitee.spirit.code.tools.core.CustomClassLoader;
 import com.gitee.spirit.code.tools.core.ElementSelector;
 import com.gitee.spirit.code.tools.pojo.MethodInfo;
-import com.gitee.spirit.common.constants.AppConfig.DefaultValue;
+import com.gitee.spirit.common.constants.DefaultValue;
 import com.gitee.spirit.common.utils.LineUtils;
 import com.gitee.spirit.core.api.ClassLinker;
 import com.gitee.spirit.core.clazz.entity.IClass;

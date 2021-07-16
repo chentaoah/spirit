@@ -1,11 +1,11 @@
 package com.gitee.spirit.example.syntax;
 
+import com.gitee.spirit.stdlib.Lists;
+import com.gitee.spirit.stdlib.Maps;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.gitee.spirit.stdlib.Lists;
-import java.util.List;
-import com.gitee.spirit.stdlib.Maps;
-import java.util.Map;
 
 public class Syntax {
 

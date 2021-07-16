@@ -10,7 +10,7 @@ import com.gitee.spirit.core.api.SemanticParser;
 import com.gitee.spirit.core.api.TypeFactory;
 import com.gitee.spirit.core.clazz.entity.IClass;
 import com.gitee.spirit.core.clazz.entity.IType;
-import com.gitee.spirit.core.clazz.utils.TypeRegistry;
+import com.gitee.spirit.core.clazz.utils.CommonTypes;
 
 import cn.hutool.core.lang.Assert;
 
@@ -33,7 +33,7 @@ public abstract class AbstractTypeFactory implements TypeFactory {
 
 	@Override
 	public IType createTypeVariable(String genericName) {// T or K
-		IType type = create(TypeRegistry.OBJECT.getClassName());
+		IType type = create(CommonTypes.OBJECT.getClassName());
 		type.setGenericName(genericName);
 		return type;
 	}

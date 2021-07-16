@@ -6,36 +6,32 @@ import com.gitee.spirit.core.element.entity.Element;
 
 public class Import extends ElementEntity {
 
-	public Import(Element element) {
-		super(element);
-	}
+    public Import(Element element) {
+        super(element);
+    }
 
-	public String getClassName() {
-		return element.getStr(1);
-	}
+    public String getClassName() {
+        return element.getStr(1);
+    }
 
-	public String getLastName() {
-		return TypeUtils.getLastName(getClassName());
-	}
+    public String getLastName() {
+        return TypeUtils.getLastName(getClassName());
+    }
 
-	public boolean hasAlias() {
-		return element.contains(2);
-	}
+    public boolean hasAlias() {
+        return element.contains(2);
+    }
 
-	public String getAlias() {
-		return hasAlias() ? element.getStr(2) : null;
-	}
+    public String getAlias() {
+        return hasAlias() ? element.getStr(2) : null;
+    }
 
-	public boolean matchSimpleName(String simpleName) {
-		return !hasAlias() ? getLastName().equals(simpleName) : getAlias().equals(simpleName);
-	}
+    public boolean matchSourceName(String sourceName) {
+        return getClassName().equals(sourceName);
+    }
 
-	public boolean matchClassName(String className) {
-		return getClassName().equals(className);
-	}
-
-	public boolean matchStaticSourceName(String staticSourceName) {
-		return element.getStr(2).equals(staticSourceName);
-	}
+    public boolean matchLastName(String lastName) {
+        return !hasAlias() ? getLastName().equals(lastName) : getAlias().equals(lastName);
+    }
 
 }

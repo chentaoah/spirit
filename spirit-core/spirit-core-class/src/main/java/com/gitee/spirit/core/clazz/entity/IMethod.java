@@ -3,52 +3,54 @@ package com.gitee.spirit.core.clazz.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.hutool.core.lang.Assert;
 import com.gitee.spirit.common.constants.Attribute;
 import com.gitee.spirit.common.enums.TokenTypeEnum;
+import com.gitee.spirit.common.utils.ListUtils;
 import com.gitee.spirit.core.clazz.frame.MemberEntity;
+import com.gitee.spirit.core.clazz.frame.TypeEntity;
 import com.gitee.spirit.core.element.entity.Element;
 import com.gitee.spirit.core.element.entity.Token;
 import com.google.common.base.Joiner;
 
 public class IMethod extends MemberEntity {
 
-	public List<IParameter> parameters = new ArrayList<>();
+    public List<IParameter> parameters = new ArrayList<>();
 
-	public IMethod(List<IAnnotation> annotations, Element element) {
-		super(annotations, element);
-	}
+    public IMethod(List<IAnnotation> annotations, Element element) {
+        super(annotations, element);
+    }
 
-	public String getName() {
-		Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
-		if (methodToken.isTypeInit()) {
-			return methodToken.attr(Attribute.SIMPLE_NAME);
+    public Token getMethodToken() {
+        Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
+        Assert.notNull(methodToken, "The method token cannot be null!");
+        return methodToken;
+    }
 
-		} else if (methodToken.isLocalMethod()) {
-			return methodToken.attr(Attribute.MEMBER_NAME);
-		}
-		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
-	}
+    @Override
+    public String getName() {
+        Token methodToken = getMethodToken();
+        return methodToken.attr(Attribute.SIMPLE_NAME, Attribute.MEMBER_NAME);
+    }
 
-	public boolean isInit() {
-		Token methodToken = element.findOneTokenOf(TokenTypeEnum.TYPE_INIT, TokenTypeEnum.LOCAL_METHOD);
-		if (methodToken.isTypeInit()) {
-			return true;
+    public boolean isInit() {
+        Token methodToken = getMethodToken();
+        return methodToken.isTypeInit();
+    }
 
-		} else if (methodToken.isLocalMethod()) {
-			return false;
-		}
-		throw new RuntimeException("Unsupported syntax!syntax:" + element.syntax);
-	}
+    public List<IType> getParameterTypes() {
+        return ListUtils.collectAll(parameters, TypeEntity::getType);
+    }
 
-	@Override
-	public String toString() {
-		return getName() + "(" + Joiner.on(", ").join(parameters) + ")";
-	}
+    @Override
+    public String toString() {
+        return getName() + "(" + Joiner.on(", ").join(parameters) + ")";
+    }
 
-	public String toSimpleString() {
-		List<String> names = new ArrayList<>();
-		parameters.forEach(parameter -> names.add(parameter.getName()));
-		return getName() + "(" + Joiner.on(", ").join(names) + ")";
-	}
+    public String toSimpleString() {
+        List<String> names = new ArrayList<>();
+        parameters.forEach(parameter -> names.add(parameter.getName()));
+        return getName() + "(" + Joiner.on(", ").join(names) + ")";
+    }
 
 }
