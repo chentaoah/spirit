@@ -239,7 +239,9 @@ print JSON.toJSONString(jsonMap)
 
 ### 智能builder模式
 
+能够根据上下文，分析出类型，并解析“{}”内的表达式，智能构造实例。
+
 ```go
-list = mapper.selectOneByExample(${name = "xiaoma", age >= 18})
+list = mapper.selectByExample(${name = "xiaoma", age >= 18})
 ```
 
