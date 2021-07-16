@@ -162,7 +162,7 @@ horse1 = Horse("xiaoma", 18)
 builder模式（只要有默认构造方法，可以初始化任意属性，请配合lombok使用）
 
 ```
-horse2 = Horse(name = "laoma", age = 38)
+horse2 = Horse{name = "laoma", age = 38}
 ```
 
 ### 集合声明
